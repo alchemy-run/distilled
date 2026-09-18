@@ -405,7 +405,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The generated 64-bit token required to access the Neon API",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "name": {
@@ -12531,7 +12532,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The generated 64-bit token required to access the Neon API",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "name": {

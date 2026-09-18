@@ -511,7 +511,7 @@ export interface ApiKeyCreateResponse {
   /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
   id: number;
   /** The generated 64-bit token required to access the Neon API */
-  key: string;
+  key: string | Redacted.Redacted<string>;
   /** The user-specified API key name */
   name: string;
   /** A timestamp indicating when the API key was created */
@@ -522,7 +522,10 @@ export interface ApiKeyCreateResponse {
 export const ApiKeyCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number,
-    key: S.String,
+    key: S.Union([
+      S.String,
+      S.Redacted(S.String, { disallowJsonEncode: true }),
+    ]).pipe(T.SensitiveValue({})),
     name: S.String,
     created_at: S.String,
     created_by: S.String,
@@ -868,7 +871,7 @@ export interface CreateOrgApiKeyResponse {
   /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
   id: number;
   /** The generated 64-bit token required to access the Neon API */
-  key: string;
+  key: string | Redacted.Redacted<string>;
   /** The user-specified API key name */
   name: string;
   /** A timestamp indicating when the API key was created */
@@ -881,7 +884,10 @@ export interface CreateOrgApiKeyResponse {
 export const CreateOrgApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number,
-    key: S.String,
+    key: S.Union([
+      S.String,
+      S.Redacted(S.String, { disallowJsonEncode: true }),
+    ]).pipe(T.SensitiveValue({})),
     name: S.String,
     created_at: S.String,
     created_by: S.String,
