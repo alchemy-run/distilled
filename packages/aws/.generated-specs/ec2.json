@@ -113578,6 +113578,9 @@
         },
         {
           "target": "aws.patched#UnauthorizedOperation"
+        },
+        {
+          "target": "aws.patched#InvalidSecurityGroupRuleIdNotFound"
         }
       ]
     },

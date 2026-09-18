@@ -1804,7 +1804,8 @@
         "RequestLimitExceeded",
         "InvalidParameterValue",
         "MissingParameter",
-        "UnauthorizedOperation"
+        "UnauthorizedOperation",
+        "InvalidSecurityGroupRuleId.NotFound"
       ]
     },
     "allocateAddress": {
