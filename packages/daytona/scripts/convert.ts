@@ -34,7 +34,6 @@ import * as path from "node:path";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
-import { TOOLBOX_ROOTS } from "../src/endpoints.ts";
 
 const rootDir = path.resolve(import.meta.dir, "..");
 const outDir = path.join(rootDir, ".generated-specs");
@@ -80,6 +79,26 @@ const toPascal = (slug: string): string =>
 
 const firstSegment = (pathTemplate: string): string =>
   pathTemplate.split("/").filter(Boolean)[0] ?? "";
+
+/**
+ * Toolbox path roots the protocol routes by (keep in sync with
+ * `src/endpoints.ts`). Convert fails if the live spec grows a new root
+ * that would otherwise hit the platform host.
+ */
+const TOOLBOX_ROOTS: readonly string[] = [
+  "computeruse",
+  "env",
+  "files",
+  "git",
+  "init",
+  "lsp",
+  "port",
+  "process",
+  "system",
+  "user-home-dir",
+  "version",
+  "work-dir",
+];
 
 type PathBucket = Record<string, Record<string, unknown>>;
 
