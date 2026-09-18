@@ -46,16 +46,10 @@ export const ResponseValidation = Context.Reference<Mode>(
 );
 
 /** Decode every 2xx response against its output schema; fail on mismatch. */
-export const strict: Layer.Layer<never> = Layer.succeed(
-  ResponseValidation,
-  "strict",
-);
+export const strict: Layer.Layer<never> = Layer.succeed(ResponseValidation, "strict");
 
 /** Return 2xx responses as read, without checking them against the schema. */
-export const lenient: Layer.Layer<never> = Layer.succeed(
-  ResponseValidation,
-  "lenient",
-);
+export const lenient: Layer.Layer<never> = Layer.succeed(ResponseValidation, "lenient");
 
 /** Whether the calling fiber is in strict mode. */
 export const isStrict: Effect.Effect<boolean> = Effect.map(
@@ -109,8 +103,5 @@ export const validateResponse = <E>(
   Effect.flatMap(ResponseValidation, (mode) =>
     mode === "lenient"
       ? Effect.succeed(value)
-      : decoderFor(outputAst)(value).pipe(
-          Effect.mapError(onError),
-          Effect.as(value),
-        ),
+      : decoderFor(outputAst)(value).pipe(Effect.mapError(onError), Effect.as(value)),
   );

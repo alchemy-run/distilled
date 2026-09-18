@@ -12,17 +12,14 @@ export type { GcpOpError, GcpOpContext };
 /** BeyondCorp app connectors, connections, and gateways are not available to this project (HTTP 501 UNIMPLEMENTED: 'This function is not implemented'). Not retryable. */
 export class AppConnectorsNotImplemented
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<AppConnectorsNotImplemented>()(
-      "AppConnectorsNotImplemented",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ),
+    /*@__PURE__*/ S.TaggedError<AppConnectorsNotImplemented>()("AppConnectorsNotImplemented", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }),
     [{ status: 501 }],
   ) {}
 
@@ -2732,14 +2729,7 @@ export const createProjectsLocationsAppConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppConnectionsRequest,
   output: GoogleLongrunningOperation,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    AppConnectorsNotImplemented,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, AppConnectorsNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2760,14 +2750,7 @@ export const createProjectsLocationsAppConnectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppConnectorsRequest,
   output: GoogleLongrunningOperation,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    AppConnectorsNotImplemented,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, AppConnectorsNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2788,14 +2771,7 @@ export const createProjectsLocationsAppGateways: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppGatewaysRequest,
   output: GoogleLongrunningOperation,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    AppConnectorsNotImplemented,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, AppConnectorsNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

@@ -1,9 +1,9 @@
 import { expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Result from "effect/Result";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
+import * as Layer from "effect/Layer";
+import * as Result from "effect/Result";
 import { fromApiKey } from "./credentials.ts";
 import { Retry } from "./retry.ts";
 import * as Neon from "./services/neon.ts";

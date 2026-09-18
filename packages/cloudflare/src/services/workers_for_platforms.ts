@@ -10187,16 +10187,15 @@ export interface PutDispatchNamespaceScriptMetadataAnnotations {
   /** Alias to point at this version (e.g. for gradual deployments). */
   workersAlias?: string;
 }
-export const PutDispatchNamespaceScriptMetadataAnnotations =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      workersMessage: S.optional(S.String.pipe(T.Body("workers/message"))),
-      workersTag: S.optional(S.String.pipe(T.Body("workers/tag"))),
-      workersAlias: S.optional(S.String.pipe(T.Body("workers/alias"))),
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptMetadataAnnotations",
-  }) as any as S.Schema<PutDispatchNamespaceScriptMetadataAnnotations>;
+export const PutDispatchNamespaceScriptMetadataAnnotations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workersMessage: S.optional(S.String.pipe(T.Body("workers/message"))),
+    workersTag: S.optional(S.String.pipe(T.Body("workers/tag"))),
+    workersAlias: S.optional(S.String.pipe(T.Body("workers/alias"))),
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptMetadataAnnotations",
+}) as any as S.Schema<PutDispatchNamespaceScriptMetadataAnnotations>;
 
 export type PutDispatchNamespaceScriptAssetsConfigHtmlHandling =
   | "auto-trailing-slash"
@@ -10219,43 +10218,33 @@ export const PutDispatchNamespaceScriptMetadataStringList = /*@__PURE__*/ S.Arra
 export type PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst =
   | PutDispatchNamespaceScriptMetadataStringList
   | boolean;
-export const PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst =
-  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
+export const PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([[], []]),
+);
 
 export interface PutDispatchNamespaceScriptAssetsConfig {
-  htmlHandling?:
-    | PutDispatchNamespaceScriptAssetsConfigHtmlHandling
-    | (string & {});
-  notFoundHandling?:
-    | PutDispatchNamespaceScriptAssetsConfigNotFoundHandling
-    | (string & {});
+  htmlHandling?: PutDispatchNamespaceScriptAssetsConfigHtmlHandling | (string & {});
+  notFoundHandling?: PutDispatchNamespaceScriptAssetsConfigNotFoundHandling | (string & {});
   runWorkerFirst?: PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst;
   serveDirectly?: boolean;
   headers?: string;
   redirects?: string;
 }
-export const PutDispatchNamespaceScriptAssetsConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      htmlHandling: S.optional(
-        PutDispatchNamespaceScriptAssetsConfigHtmlHandling.pipe(
-          T.Body("html_handling"),
-        ),
-      ),
-      notFoundHandling: S.optional(
-        PutDispatchNamespaceScriptAssetsConfigNotFoundHandling.pipe(
-          T.Body("not_found_handling"),
-        ),
-      ),
-      runWorkerFirst: S.optional(
-        PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst.pipe(
-          T.Body("run_worker_first"),
-        ),
-      ),
-      serveDirectly: S.optional(S.Boolean.pipe(T.Body("serve_directly"))),
-      headers: S.optional(S.String.pipe(T.Body("_headers"))),
-      redirects: S.optional(S.String.pipe(T.Body("_redirects"))),
-    }),
+export const PutDispatchNamespaceScriptAssetsConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    htmlHandling: S.optional(
+      PutDispatchNamespaceScriptAssetsConfigHtmlHandling.pipe(T.Body("html_handling")),
+    ),
+    notFoundHandling: S.optional(
+      PutDispatchNamespaceScriptAssetsConfigNotFoundHandling.pipe(T.Body("not_found_handling")),
+    ),
+    runWorkerFirst: S.optional(
+      PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst.pipe(T.Body("run_worker_first")),
+    ),
+    serveDirectly: S.optional(S.Boolean.pipe(T.Body("serve_directly"))),
+    headers: S.optional(S.String.pipe(T.Body("_headers"))),
+    redirects: S.optional(S.String.pipe(T.Body("_redirects"))),
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptAssetsConfig",
 }) as any as S.Schema<PutDispatchNamespaceScriptAssetsConfig>;
@@ -10264,12 +10253,11 @@ export interface PutDispatchNamespaceScriptMetadataAssets {
   config?: PutDispatchNamespaceScriptAssetsConfig;
   jwt?: string;
 }
-export const PutDispatchNamespaceScriptMetadataAssets = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      config: S.optional(PutDispatchNamespaceScriptAssetsConfig),
-      jwt: S.optional(S.String),
-    }),
+export const PutDispatchNamespaceScriptMetadataAssets = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    config: S.optional(PutDispatchNamespaceScriptAssetsConfig),
+    jwt: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptMetadataAssets",
 }) as any as S.Schema<PutDispatchNamespaceScriptMetadataAssets>;
@@ -10299,20 +10287,18 @@ export interface PutDispatchNamespaceScriptBindingAiSearch {
   namespace?: string;
   type: PutDispatchNamespaceScriptBindingAiSearchType;
 }
-export const PutDispatchNamespaceScriptBindingAiSearch =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      instanceName: S.String.pipe(T.Body("instance_name")),
-      name: S.String,
-      namespace: S.optional(S.String),
-      type: PutDispatchNamespaceScriptBindingAiSearchType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingAiSearch",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingAiSearch>;
+export const PutDispatchNamespaceScriptBindingAiSearch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instanceName: S.String.pipe(T.Body("instance_name")),
+    name: S.String,
+    namespace: S.optional(S.String),
+    type: PutDispatchNamespaceScriptBindingAiSearchType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingAiSearch",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingAiSearch>;
 
-export type PutDispatchNamespaceScriptBindingAiSearchNamespaceType =
-  "ai_search_namespace";
+export type PutDispatchNamespaceScriptBindingAiSearchNamespaceType = "ai_search_namespace";
 export const PutDispatchNamespaceScriptBindingAiSearchNamespaceType = S.String;
 
 export interface PutDispatchNamespaceScriptBindingAiSearchNamespace {
@@ -10320,19 +10306,17 @@ export interface PutDispatchNamespaceScriptBindingAiSearchNamespace {
   namespace: string;
   type: PutDispatchNamespaceScriptBindingAiSearchNamespaceType;
 }
-export const PutDispatchNamespaceScriptBindingAiSearchNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespace: S.String,
-      type: PutDispatchNamespaceScriptBindingAiSearchNamespaceType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingAiSearchNamespace",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingAiSearchNamespace>;
+export const PutDispatchNamespaceScriptBindingAiSearchNamespace = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    namespace: S.String,
+    type: PutDispatchNamespaceScriptBindingAiSearchNamespaceType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingAiSearchNamespace",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingAiSearchNamespace>;
 
-export type PutDispatchNamespaceScriptBindingAnalyticsEngineType =
-  "analytics_engine";
+export type PutDispatchNamespaceScriptBindingAnalyticsEngineType = "analytics_engine";
 export const PutDispatchNamespaceScriptBindingAnalyticsEngineType = S.String;
 
 export interface PutDispatchNamespaceScriptBindingAnalyticsEngine {
@@ -10340,16 +10324,15 @@ export interface PutDispatchNamespaceScriptBindingAnalyticsEngine {
   name: string;
   type: PutDispatchNamespaceScriptBindingAnalyticsEngineType;
 }
-export const PutDispatchNamespaceScriptBindingAnalyticsEngine =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dataset: S.String,
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingAnalyticsEngineType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingAnalyticsEngine",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingAnalyticsEngine>;
+export const PutDispatchNamespaceScriptBindingAnalyticsEngine = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dataset: S.String,
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingAnalyticsEngineType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingAnalyticsEngine",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingAnalyticsEngine>;
 
 export type PutDispatchNamespaceScriptBindingAssetsType = "assets";
 export const PutDispatchNamespaceScriptBindingAssetsType = S.String;
@@ -10358,12 +10341,11 @@ export interface PutDispatchNamespaceScriptBindingAssets {
   name: string;
   type: PutDispatchNamespaceScriptBindingAssetsType;
 }
-export const PutDispatchNamespaceScriptBindingAssets = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingAssetsType,
-    }),
+export const PutDispatchNamespaceScriptBindingAssets = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingAssetsType,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptBindingAssets",
 }) as any as S.Schema<PutDispatchNamespaceScriptBindingAssets>;
@@ -10375,12 +10357,11 @@ export interface PutDispatchNamespaceScriptBindingBrowser {
   name: string;
   type: PutDispatchNamespaceScriptBindingBrowserType;
 }
-export const PutDispatchNamespaceScriptBindingBrowser = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingBrowserType,
-    }),
+export const PutDispatchNamespaceScriptBindingBrowser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingBrowserType,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptBindingBrowser",
 }) as any as S.Schema<PutDispatchNamespaceScriptBindingBrowser>;
@@ -10413,16 +10394,15 @@ export interface PutDispatchNamespaceScriptBindingDataBlob {
   part: string;
   type: PutDispatchNamespaceScriptBindingDataBlobType;
 }
-export const PutDispatchNamespaceScriptBindingDataBlob =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      part: S.String,
-      type: PutDispatchNamespaceScriptBindingDataBlobType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingDataBlob",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingDataBlob>;
+export const PutDispatchNamespaceScriptBindingDataBlob = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    part: S.String,
+    type: PutDispatchNamespaceScriptBindingDataBlobType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingDataBlob",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingDataBlob>;
 
 export interface PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam {
   name: string;
@@ -10433,8 +10413,7 @@ export const PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam =
       name: S.String,
     }),
   ).annotate({
-    identifier:
-      "PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam",
+    identifier: "PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam",
   }) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam>;
 
 export type PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList =
@@ -10457,30 +10436,24 @@ export const PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker =
       service: S.optional(S.String),
     }),
   ).annotate({
-    identifier:
-      "PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker",
+    identifier: "PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker",
   }) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker>;
 
 export interface PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound {
   params?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList;
   worker?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker;
 }
-export const PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound =
-  /*@__PURE__*/ S.suspend(() =>
+export const PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      params: S.optional(
-        PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList,
-      ),
-      worker: S.optional(
-        PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker,
-      ),
+      params: S.optional(PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList),
+      worker: S.optional(PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker),
     }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound>;
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound>;
 
-export type PutDispatchNamespaceScriptBindingDispatchNamespaceType =
-  "dispatch_namespace";
+export type PutDispatchNamespaceScriptBindingDispatchNamespaceType = "dispatch_namespace";
 export const PutDispatchNamespaceScriptBindingDispatchNamespaceType = S.String;
 
 export interface PutDispatchNamespaceScriptBindingDispatchNamespace {
@@ -10489,24 +10462,20 @@ export interface PutDispatchNamespaceScriptBindingDispatchNamespace {
   outbound?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound;
   type: PutDispatchNamespaceScriptBindingDispatchNamespaceType;
 }
-export const PutDispatchNamespaceScriptBindingDispatchNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespace: S.String,
-      outbound: S.optional(
-        PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound,
-      ),
-      type: PutDispatchNamespaceScriptBindingDispatchNamespaceType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingDispatchNamespace",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespace>;
+export const PutDispatchNamespaceScriptBindingDispatchNamespace = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    namespace: S.String,
+    outbound: S.optional(PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound),
+    type: PutDispatchNamespaceScriptBindingDispatchNamespaceType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingDispatchNamespace",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespace>;
 
 export type PutDispatchNamespaceScriptBindingDurableObjectNamespaceType =
   "durable_object_namespace";
-export const PutDispatchNamespaceScriptBindingDurableObjectNamespaceType =
-  S.String;
+export const PutDispatchNamespaceScriptBindingDurableObjectNamespaceType = S.String;
 
 export interface PutDispatchNamespaceScriptBindingDurableObjectNamespace {
   name: string;
@@ -10517,22 +10486,19 @@ export interface PutDispatchNamespaceScriptBindingDurableObjectNamespace {
   scriptName?: string;
   type: PutDispatchNamespaceScriptBindingDurableObjectNamespaceType;
 }
-export const PutDispatchNamespaceScriptBindingDurableObjectNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      className: S.String.pipe(T.Body("class_name")),
-      dispatchNamespace: S.optional(
-        S.String.pipe(T.Body("dispatch_namespace")),
-      ),
-      environment: S.optional(S.String),
-      namespaceId: S.optional(S.String.pipe(T.Body("namespace_id"))),
-      scriptName: S.optional(S.String.pipe(T.Body("script_name"))),
-      type: PutDispatchNamespaceScriptBindingDurableObjectNamespaceType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingDurableObjectNamespace",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingDurableObjectNamespace>;
+export const PutDispatchNamespaceScriptBindingDurableObjectNamespace = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    className: S.String.pipe(T.Body("class_name")),
+    dispatchNamespace: S.optional(S.String.pipe(T.Body("dispatch_namespace"))),
+    environment: S.optional(S.String),
+    namespaceId: S.optional(S.String.pipe(T.Body("namespace_id"))),
+    scriptName: S.optional(S.String.pipe(T.Body("script_name"))),
+    type: PutDispatchNamespaceScriptBindingDurableObjectNamespaceType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingDurableObjectNamespace",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingDurableObjectNamespace>;
 
 export type PutDispatchNamespaceScriptBindingHyperdriveType = "hyperdrive";
 export const PutDispatchNamespaceScriptBindingHyperdriveType = S.String;
@@ -10542,16 +10508,15 @@ export interface PutDispatchNamespaceScriptBindingHyperdrive {
   name: string;
   type: PutDispatchNamespaceScriptBindingHyperdriveType;
 }
-export const PutDispatchNamespaceScriptBindingHyperdrive =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.String,
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingHyperdriveType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingHyperdrive",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingHyperdrive>;
+export const PutDispatchNamespaceScriptBindingHyperdrive = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingHyperdriveType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingHyperdrive",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingHyperdrive>;
 
 export type PutDispatchNamespaceScriptBindingInheritType = "inherit";
 export const PutDispatchNamespaceScriptBindingInheritType = S.String;
@@ -10562,14 +10527,13 @@ export interface PutDispatchNamespaceScriptBindingInherit {
   versionId?: string;
   type: PutDispatchNamespaceScriptBindingInheritType;
 }
-export const PutDispatchNamespaceScriptBindingInherit = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      oldName: S.optional(S.String.pipe(T.Body("old_name"))),
-      versionId: S.optional(S.String.pipe(T.Body("version_id"))),
-      type: PutDispatchNamespaceScriptBindingInheritType,
-    }),
+export const PutDispatchNamespaceScriptBindingInherit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    oldName: S.optional(S.String.pipe(T.Body("old_name"))),
+    versionId: S.optional(S.String.pipe(T.Body("version_id"))),
+    type: PutDispatchNamespaceScriptBindingInheritType,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptBindingInherit",
 }) as any as S.Schema<PutDispatchNamespaceScriptBindingInherit>;
@@ -10581,12 +10545,11 @@ export interface PutDispatchNamespaceScriptBindingImages {
   name: string;
   type: PutDispatchNamespaceScriptBindingImagesType;
 }
-export const PutDispatchNamespaceScriptBindingImages = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingImagesType,
-    }),
+export const PutDispatchNamespaceScriptBindingImages = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingImagesType,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptBindingImages",
 }) as any as S.Schema<PutDispatchNamespaceScriptBindingImages>;
@@ -10599,13 +10562,12 @@ export interface PutDispatchNamespaceScriptBindingJson {
   name: string;
   type: PutDispatchNamespaceScriptBindingJsonType;
 }
-export const PutDispatchNamespaceScriptBindingJson = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      json: S.Unknown,
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingJsonType,
-    }),
+export const PutDispatchNamespaceScriptBindingJson = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    json: S.Unknown,
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingJsonType,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptBindingJson",
 }) as any as S.Schema<PutDispatchNamespaceScriptBindingJson>;
@@ -10618,16 +10580,15 @@ export interface PutDispatchNamespaceScriptBindingKvNamespace {
   namespaceId: string;
   type: PutDispatchNamespaceScriptBindingKvNamespaceType;
 }
-export const PutDispatchNamespaceScriptBindingKvNamespace =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespaceId: S.String.pipe(T.Body("namespace_id")),
-      type: PutDispatchNamespaceScriptBindingKvNamespaceType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingKvNamespace",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingKvNamespace>;
+export const PutDispatchNamespaceScriptBindingKvNamespace = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    namespaceId: S.String.pipe(T.Body("namespace_id")),
+    type: PutDispatchNamespaceScriptBindingKvNamespaceType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingKvNamespace",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingKvNamespace>;
 
 export type PutDispatchNamespaceScriptBindingMediaType = "media";
 export const PutDispatchNamespaceScriptBindingMediaType = S.String;
@@ -10636,18 +10597,16 @@ export interface PutDispatchNamespaceScriptBindingMedia {
   name: string;
   type: PutDispatchNamespaceScriptBindingMediaType;
 }
-export const PutDispatchNamespaceScriptBindingMedia = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingMediaType,
-    }),
+export const PutDispatchNamespaceScriptBindingMedia = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingMediaType,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptBindingMedia",
 }) as any as S.Schema<PutDispatchNamespaceScriptBindingMedia>;
 
-export type PutDispatchNamespaceScriptBindingMtlsCertificateType =
-  "mtls_certificate";
+export type PutDispatchNamespaceScriptBindingMtlsCertificateType = "mtls_certificate";
 export const PutDispatchNamespaceScriptBindingMtlsCertificateType = S.String;
 
 export interface PutDispatchNamespaceScriptBindingMtlsCertificate {
@@ -10655,16 +10614,15 @@ export interface PutDispatchNamespaceScriptBindingMtlsCertificate {
   name: string;
   type: PutDispatchNamespaceScriptBindingMtlsCertificateType;
 }
-export const PutDispatchNamespaceScriptBindingMtlsCertificate =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      certificateId: S.String.pipe(T.Body("certificate_id")),
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingMtlsCertificateType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingMtlsCertificate",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingMtlsCertificate>;
+export const PutDispatchNamespaceScriptBindingMtlsCertificate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    certificateId: S.String.pipe(T.Body("certificate_id")),
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingMtlsCertificateType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingMtlsCertificate",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingMtlsCertificate>;
 
 export type PutDispatchNamespaceScriptBindingPlainTextType = "plain_text";
 export const PutDispatchNamespaceScriptBindingPlainTextType = S.String;
@@ -10674,16 +10632,15 @@ export interface PutDispatchNamespaceScriptBindingPlainText {
   text: string;
   type: PutDispatchNamespaceScriptBindingPlainTextType;
 }
-export const PutDispatchNamespaceScriptBindingPlainText =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      text: S.String,
-      type: PutDispatchNamespaceScriptBindingPlainTextType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingPlainText",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingPlainText>;
+export const PutDispatchNamespaceScriptBindingPlainText = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    text: S.String,
+    type: PutDispatchNamespaceScriptBindingPlainTextType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingPlainText",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingPlainText>;
 
 export type PutDispatchNamespaceScriptBindingPipelinesType = "pipelines";
 export const PutDispatchNamespaceScriptBindingPipelinesType = S.String;
@@ -10693,16 +10650,15 @@ export interface PutDispatchNamespaceScriptBindingPipelines {
   pipeline: string;
   type: PutDispatchNamespaceScriptBindingPipelinesType;
 }
-export const PutDispatchNamespaceScriptBindingPipelines =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      pipeline: S.String,
-      type: PutDispatchNamespaceScriptBindingPipelinesType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingPipelines",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingPipelines>;
+export const PutDispatchNamespaceScriptBindingPipelines = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    pipeline: S.String,
+    type: PutDispatchNamespaceScriptBindingPipelinesType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingPipelines",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingPipelines>;
 
 export type PutDispatchNamespaceScriptBindingQueueType = "queue";
 export const PutDispatchNamespaceScriptBindingQueueType = S.String;
@@ -10712,13 +10668,12 @@ export interface PutDispatchNamespaceScriptBindingQueue {
   queueName: string;
   type: PutDispatchNamespaceScriptBindingQueueType;
 }
-export const PutDispatchNamespaceScriptBindingQueue = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      queueName: S.String.pipe(T.Body("queue_name")),
-      type: PutDispatchNamespaceScriptBindingQueueType,
-    }),
+export const PutDispatchNamespaceScriptBindingQueue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    queueName: S.String.pipe(T.Body("queue_name")),
+    type: PutDispatchNamespaceScriptBindingQueueType,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptBindingQueue",
 }) as any as S.Schema<PutDispatchNamespaceScriptBindingQueue>;
@@ -10728,18 +10683,15 @@ export interface PutDispatchNamespaceScriptBindingRatelimitSimple {
   period: number;
   mitigationTimeout?: number;
 }
-export const PutDispatchNamespaceScriptBindingRatelimitSimple =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      limit: S.Number,
-      period: S.Number,
-      mitigationTimeout: S.optional(
-        S.Number.pipe(T.Body("mitigation_timeout")),
-      ),
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingRatelimitSimple",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingRatelimitSimple>;
+export const PutDispatchNamespaceScriptBindingRatelimitSimple = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    limit: S.Number,
+    period: S.Number,
+    mitigationTimeout: S.optional(S.Number.pipe(T.Body("mitigation_timeout"))),
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingRatelimitSimple",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingRatelimitSimple>;
 
 export type PutDispatchNamespaceScriptBindingRatelimitType = "ratelimit";
 export const PutDispatchNamespaceScriptBindingRatelimitType = S.String;
@@ -10750,17 +10702,16 @@ export interface PutDispatchNamespaceScriptBindingRatelimit {
   simple: PutDispatchNamespaceScriptBindingRatelimitSimple;
   type: PutDispatchNamespaceScriptBindingRatelimitType;
 }
-export const PutDispatchNamespaceScriptBindingRatelimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespaceId: S.String.pipe(T.Body("namespace_id")),
-      simple: PutDispatchNamespaceScriptBindingRatelimitSimple,
-      type: PutDispatchNamespaceScriptBindingRatelimitType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingRatelimit",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingRatelimit>;
+export const PutDispatchNamespaceScriptBindingRatelimit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    namespaceId: S.String.pipe(T.Body("namespace_id")),
+    simple: PutDispatchNamespaceScriptBindingRatelimitSimple,
+    type: PutDispatchNamespaceScriptBindingRatelimitType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingRatelimit",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingRatelimit>;
 
 export type PutDispatchNamespaceScriptBindingR2BucketJurisdiction =
   | "eu"
@@ -10774,24 +10725,19 @@ export const PutDispatchNamespaceScriptBindingR2BucketType = S.String;
 export interface PutDispatchNamespaceScriptBindingR2Bucket {
   bucketName: string;
   name: string;
-  jurisdiction?:
-    | PutDispatchNamespaceScriptBindingR2BucketJurisdiction
-    | (string & {});
+  jurisdiction?: PutDispatchNamespaceScriptBindingR2BucketJurisdiction | (string & {});
   type: PutDispatchNamespaceScriptBindingR2BucketType;
 }
-export const PutDispatchNamespaceScriptBindingR2Bucket =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      bucketName: S.String.pipe(T.Body("bucket_name")),
-      name: S.String,
-      jurisdiction: S.optional(
-        PutDispatchNamespaceScriptBindingR2BucketJurisdiction,
-      ),
-      type: PutDispatchNamespaceScriptBindingR2BucketType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingR2Bucket",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingR2Bucket>;
+export const PutDispatchNamespaceScriptBindingR2Bucket = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bucketName: S.String.pipe(T.Body("bucket_name")),
+    name: S.String,
+    jurisdiction: S.optional(PutDispatchNamespaceScriptBindingR2BucketJurisdiction),
+    type: PutDispatchNamespaceScriptBindingR2BucketType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingR2Bucket",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingR2Bucket>;
 
 export type PutDispatchNamespaceScriptBindingSecretTextType = "secret_text";
 export const PutDispatchNamespaceScriptBindingSecretTextType = S.String;
@@ -10801,16 +10747,15 @@ export interface PutDispatchNamespaceScriptBindingSecretText {
   text: string;
   type: PutDispatchNamespaceScriptBindingSecretTextType;
 }
-export const PutDispatchNamespaceScriptBindingSecretText =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      text: S.String,
-      type: PutDispatchNamespaceScriptBindingSecretTextType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingSecretText",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretText>;
+export const PutDispatchNamespaceScriptBindingSecretText = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    text: S.String,
+    type: PutDispatchNamespaceScriptBindingSecretTextType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingSecretText",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretText>;
 
 export type PutDispatchNamespaceScriptBindingSendEmailType = "send_email";
 export const PutDispatchNamespaceScriptBindingSendEmailType = S.String;
@@ -10822,28 +10767,21 @@ export interface PutDispatchNamespaceScriptBindingSendEmail {
   destinationAddress?: string;
   type: PutDispatchNamespaceScriptBindingSendEmailType;
 }
-export const PutDispatchNamespaceScriptBindingSendEmail =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      allowedDestinationAddresses: S.optional(
-        PutDispatchNamespaceScriptMetadataStringList.pipe(
-          T.Body("allowed_destination_addresses"),
-        ),
-      ),
-      allowedSenderAddresses: S.optional(
-        PutDispatchNamespaceScriptMetadataStringList.pipe(
-          T.Body("allowed_sender_addresses"),
-        ),
-      ),
-      destinationAddress: S.optional(
-        S.String.pipe(T.Body("destination_address")),
-      ),
-      type: PutDispatchNamespaceScriptBindingSendEmailType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingSendEmail",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingSendEmail>;
+export const PutDispatchNamespaceScriptBindingSendEmail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    allowedDestinationAddresses: S.optional(
+      PutDispatchNamespaceScriptMetadataStringList.pipe(T.Body("allowed_destination_addresses")),
+    ),
+    allowedSenderAddresses: S.optional(
+      PutDispatchNamespaceScriptMetadataStringList.pipe(T.Body("allowed_sender_addresses")),
+    ),
+    destinationAddress: S.optional(S.String.pipe(T.Body("destination_address"))),
+    type: PutDispatchNamespaceScriptBindingSendEmailType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingSendEmail",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingSendEmail>;
 
 export type PutDispatchNamespaceScriptBindingServiceType = "service";
 export const PutDispatchNamespaceScriptBindingServiceType = S.String;
@@ -10855,15 +10793,14 @@ export interface PutDispatchNamespaceScriptBindingService {
   environment?: string;
   type: PutDispatchNamespaceScriptBindingServiceType;
 }
-export const PutDispatchNamespaceScriptBindingService = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      service: S.String,
-      entrypoint: S.optional(S.String),
-      environment: S.optional(S.String),
-      type: PutDispatchNamespaceScriptBindingServiceType,
-    }),
+export const PutDispatchNamespaceScriptBindingService = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    service: S.String,
+    entrypoint: S.optional(S.String),
+    environment: S.optional(S.String),
+    type: PutDispatchNamespaceScriptBindingServiceType,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptBindingService",
 }) as any as S.Schema<PutDispatchNamespaceScriptBindingService>;
@@ -10876,16 +10813,15 @@ export interface PutDispatchNamespaceScriptBindingTextBlob {
   part: string;
   type: PutDispatchNamespaceScriptBindingTextBlobType;
 }
-export const PutDispatchNamespaceScriptBindingTextBlob =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      part: S.String,
-      type: PutDispatchNamespaceScriptBindingTextBlobType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingTextBlob",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingTextBlob>;
+export const PutDispatchNamespaceScriptBindingTextBlob = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    part: S.String,
+    type: PutDispatchNamespaceScriptBindingTextBlobType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingTextBlob",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingTextBlob>;
 
 export type PutDispatchNamespaceScriptBindingVectorizeType = "vectorize";
 export const PutDispatchNamespaceScriptBindingVectorizeType = S.String;
@@ -10895,37 +10831,33 @@ export interface PutDispatchNamespaceScriptBindingVectorize {
   name: string;
   type: PutDispatchNamespaceScriptBindingVectorizeType;
 }
-export const PutDispatchNamespaceScriptBindingVectorize =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      indexName: S.String.pipe(T.Body("index_name")),
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingVectorizeType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingVectorize",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingVectorize>;
+export const PutDispatchNamespaceScriptBindingVectorize = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    indexName: S.String.pipe(T.Body("index_name")),
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingVectorizeType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingVectorize",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingVectorize>;
 
-export type PutDispatchNamespaceScriptBindingVersionMetadataType =
-  "version_metadata";
+export type PutDispatchNamespaceScriptBindingVersionMetadataType = "version_metadata";
 export const PutDispatchNamespaceScriptBindingVersionMetadataType = S.String;
 
 export interface PutDispatchNamespaceScriptBindingVersionMetadata {
   name: string;
   type: PutDispatchNamespaceScriptBindingVersionMetadataType;
 }
-export const PutDispatchNamespaceScriptBindingVersionMetadata =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingVersionMetadataType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingVersionMetadata",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingVersionMetadata>;
+export const PutDispatchNamespaceScriptBindingVersionMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingVersionMetadataType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingVersionMetadata",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingVersionMetadata>;
 
-export type PutDispatchNamespaceScriptBindingSecretsStoreSecretType =
-  "secrets_store_secret";
+export type PutDispatchNamespaceScriptBindingSecretsStoreSecretType = "secrets_store_secret";
 export const PutDispatchNamespaceScriptBindingSecretsStoreSecretType = S.String;
 
 export interface PutDispatchNamespaceScriptBindingSecretsStoreSecret {
@@ -10934,17 +10866,16 @@ export interface PutDispatchNamespaceScriptBindingSecretsStoreSecret {
   storeId: string;
   type: PutDispatchNamespaceScriptBindingSecretsStoreSecretType;
 }
-export const PutDispatchNamespaceScriptBindingSecretsStoreSecret =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      secretName: S.String.pipe(T.Body("secret_name")),
-      storeId: S.String.pipe(T.Body("store_id")),
-      type: PutDispatchNamespaceScriptBindingSecretsStoreSecretType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingSecretsStoreSecret",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretsStoreSecret>;
+export const PutDispatchNamespaceScriptBindingSecretsStoreSecret = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    secretName: S.String.pipe(T.Body("secret_name")),
+    storeId: S.String.pipe(T.Body("store_id")),
+    type: PutDispatchNamespaceScriptBindingSecretsStoreSecretType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingSecretsStoreSecret",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretsStoreSecret>;
 
 export type PutDispatchNamespaceScriptBindingFlagshipType = "flagship";
 export const PutDispatchNamespaceScriptBindingFlagshipType = S.String;
@@ -10954,22 +10885,17 @@ export interface PutDispatchNamespaceScriptBindingFlagship {
   name: string;
   type: PutDispatchNamespaceScriptBindingFlagshipType;
 }
-export const PutDispatchNamespaceScriptBindingFlagship =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appId: S.String.pipe(T.Body("app_id")),
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingFlagshipType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingFlagship",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingFlagship>;
+export const PutDispatchNamespaceScriptBindingFlagship = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appId: S.String.pipe(T.Body("app_id")),
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingFlagshipType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingFlagship",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingFlagship>;
 
-export type PutDispatchNamespaceScriptBindingSecretKeyFormat =
-  | "raw"
-  | "pkcs8"
-  | "spki"
-  | "jwk";
+export type PutDispatchNamespaceScriptBindingSecretKeyFormat = "raw" | "pkcs8" | "spki" | "jwk";
 export const PutDispatchNamespaceScriptBindingSecretKeyFormat = S.String;
 
 export type PutDispatchNamespaceScriptBindingSecretKeyUsage =
@@ -10986,10 +10912,9 @@ export const PutDispatchNamespaceScriptBindingSecretKeyUsage = S.String;
 export type PutDispatchNamespaceScriptBindingSecretKeyUsagesList = Array<
   PutDispatchNamespaceScriptBindingSecretKeyUsage | (string & {})
 >;
-export const PutDispatchNamespaceScriptBindingSecretKeyUsagesList =
-  /*@__PURE__*/ S.Array(
-    PutDispatchNamespaceScriptBindingSecretKeyUsage,
-  ) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretKeyUsagesList>;
+export const PutDispatchNamespaceScriptBindingSecretKeyUsagesList = /*@__PURE__*/ S.Array(
+  PutDispatchNamespaceScriptBindingSecretKeyUsage,
+) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretKeyUsagesList>;
 
 export type PutDispatchNamespaceScriptBindingSecretKeyType = "secret_key";
 export const PutDispatchNamespaceScriptBindingSecretKeyType = S.String;
@@ -11003,20 +10928,19 @@ export interface PutDispatchNamespaceScriptBindingSecretKey {
   keyJwk?: unknown;
   type: PutDispatchNamespaceScriptBindingSecretKeyType;
 }
-export const PutDispatchNamespaceScriptBindingSecretKey =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algorithm: S.Unknown,
-      format: PutDispatchNamespaceScriptBindingSecretKeyFormat,
-      name: S.String,
-      usages: PutDispatchNamespaceScriptBindingSecretKeyUsagesList,
-      keyBase64: S.optional(S.String.pipe(T.Body("key_base64"))),
-      keyJwk: S.optional(S.Unknown.pipe(T.Body("key_jwk"))),
-      type: PutDispatchNamespaceScriptBindingSecretKeyType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingSecretKey",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretKey>;
+export const PutDispatchNamespaceScriptBindingSecretKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    algorithm: S.Unknown,
+    format: PutDispatchNamespaceScriptBindingSecretKeyFormat,
+    name: S.String,
+    usages: PutDispatchNamespaceScriptBindingSecretKeyUsagesList,
+    keyBase64: S.optional(S.String.pipe(T.Body("key_base64"))),
+    keyJwk: S.optional(S.Unknown.pipe(T.Body("key_jwk"))),
+    type: PutDispatchNamespaceScriptBindingSecretKeyType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingSecretKey",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretKey>;
 
 export type PutDispatchNamespaceScriptBindingWorkflowType = "workflow";
 export const PutDispatchNamespaceScriptBindingWorkflowType = S.String;
@@ -11028,18 +10952,17 @@ export interface PutDispatchNamespaceScriptBindingWorkflow {
   scriptName?: string;
   type: PutDispatchNamespaceScriptBindingWorkflowType;
 }
-export const PutDispatchNamespaceScriptBindingWorkflow =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      workflowName: S.String.pipe(T.Body("workflow_name")),
-      className: S.String.pipe(T.Body("class_name")),
-      scriptName: S.optional(S.String.pipe(T.Body("script_name"))),
-      type: PutDispatchNamespaceScriptBindingWorkflowType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingWorkflow",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingWorkflow>;
+export const PutDispatchNamespaceScriptBindingWorkflow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    workflowName: S.String.pipe(T.Body("workflow_name")),
+    className: S.String.pipe(T.Body("class_name")),
+    scriptName: S.optional(S.String.pipe(T.Body("script_name"))),
+    type: PutDispatchNamespaceScriptBindingWorkflowType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingWorkflow",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingWorkflow>;
 
 export type PutDispatchNamespaceScriptBindingWasmModuleType = "wasm_module";
 export const PutDispatchNamespaceScriptBindingWasmModuleType = S.String;
@@ -11049,16 +10972,15 @@ export interface PutDispatchNamespaceScriptBindingWasmModule {
   part: string;
   type: PutDispatchNamespaceScriptBindingWasmModuleType;
 }
-export const PutDispatchNamespaceScriptBindingWasmModule =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      part: S.String,
-      type: PutDispatchNamespaceScriptBindingWasmModuleType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingWasmModule",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingWasmModule>;
+export const PutDispatchNamespaceScriptBindingWasmModule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    part: S.String,
+    type: PutDispatchNamespaceScriptBindingWasmModuleType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingWasmModule",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingWasmModule>;
 
 export type PutDispatchNamespaceScriptBindingVpcServiceType = "vpc_service";
 export const PutDispatchNamespaceScriptBindingVpcServiceType = S.String;
@@ -11068,16 +10990,15 @@ export interface PutDispatchNamespaceScriptBindingVpcService {
   serviceId: string;
   type: PutDispatchNamespaceScriptBindingVpcServiceType;
 }
-export const PutDispatchNamespaceScriptBindingVpcService =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      serviceId: S.String.pipe(T.Body("service_id")),
-      type: PutDispatchNamespaceScriptBindingVpcServiceType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingVpcService",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingVpcService>;
+export const PutDispatchNamespaceScriptBindingVpcService = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    serviceId: S.String.pipe(T.Body("service_id")),
+    type: PutDispatchNamespaceScriptBindingVpcServiceType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingVpcService",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingVpcService>;
 
 export type PutDispatchNamespaceScriptBindingVpcNetworkType = "vpc_network";
 export const PutDispatchNamespaceScriptBindingVpcNetworkType = S.String;
@@ -11088,17 +11009,16 @@ export interface PutDispatchNamespaceScriptBindingVpcNetwork {
   tunnelId?: string;
   type: PutDispatchNamespaceScriptBindingVpcNetworkType;
 }
-export const PutDispatchNamespaceScriptBindingVpcNetwork =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      networkId: S.optional(S.String.pipe(T.Body("network_id"))),
-      tunnelId: S.optional(S.String.pipe(T.Body("tunnel_id"))),
-      type: PutDispatchNamespaceScriptBindingVpcNetworkType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingVpcNetwork",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingVpcNetwork>;
+export const PutDispatchNamespaceScriptBindingVpcNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    networkId: S.optional(S.String.pipe(T.Body("network_id"))),
+    tunnelId: S.optional(S.String.pipe(T.Body("tunnel_id"))),
+    type: PutDispatchNamespaceScriptBindingVpcNetworkType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingVpcNetwork",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingVpcNetwork>;
 
 export type PutDispatchNamespaceScriptBindingWorkerLoaderType = "worker_loader";
 export const PutDispatchNamespaceScriptBindingWorkerLoaderType = S.String;
@@ -11107,15 +11027,14 @@ export interface PutDispatchNamespaceScriptBindingWorkerLoader {
   name: string;
   type: PutDispatchNamespaceScriptBindingWorkerLoaderType;
 }
-export const PutDispatchNamespaceScriptBindingWorkerLoader =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingWorkerLoaderType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingWorkerLoader",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingWorkerLoader>;
+export const PutDispatchNamespaceScriptBindingWorkerLoader = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingWorkerLoaderType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingWorkerLoader",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingWorkerLoader>;
 
 export type PutDispatchNamespaceScriptBindingArtifactsType = "artifacts";
 export const PutDispatchNamespaceScriptBindingArtifactsType = S.String;
@@ -11125,16 +11044,15 @@ export interface PutDispatchNamespaceScriptBindingArtifacts {
   namespace: string;
   type: PutDispatchNamespaceScriptBindingArtifactsType;
 }
-export const PutDispatchNamespaceScriptBindingArtifacts =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      namespace: S.String,
-      type: PutDispatchNamespaceScriptBindingArtifactsType,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptBindingArtifacts",
-  }) as any as S.Schema<PutDispatchNamespaceScriptBindingArtifacts>;
+export const PutDispatchNamespaceScriptBindingArtifacts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    namespace: S.String,
+    type: PutDispatchNamespaceScriptBindingArtifactsType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingArtifacts",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingArtifacts>;
 
 export type PutDispatchNamespaceScriptBindingStreamType = "stream";
 export const PutDispatchNamespaceScriptBindingStreamType = S.String;
@@ -11143,12 +11061,11 @@ export interface PutDispatchNamespaceScriptBindingStream {
   name: string;
   type: PutDispatchNamespaceScriptBindingStreamType;
 }
-export const PutDispatchNamespaceScriptBindingStream = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      type: PutDispatchNamespaceScriptBindingStreamType,
-    }),
+export const PutDispatchNamespaceScriptBindingStream = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingStreamType,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptBindingStream",
 }) as any as S.Schema<PutDispatchNamespaceScriptBindingStream>;
@@ -11296,10 +11213,9 @@ export const PutDispatchNamespaceScriptBinding = /*@__PURE__*/ S.Unknown.pipe(
 
 export type PutDispatchNamespaceScriptMetadataBindingsList =
   Array<PutDispatchNamespaceScriptBinding>;
-export const PutDispatchNamespaceScriptMetadataBindingsList =
-  /*@__PURE__*/ S.Array(
-    PutDispatchNamespaceScriptBinding,
-  ) as any as S.Schema<PutDispatchNamespaceScriptMetadataBindingsList>;
+export const PutDispatchNamespaceScriptMetadataBindingsList = /*@__PURE__*/ S.Array(
+  PutDispatchNamespaceScriptBinding,
+) as any as S.Schema<PutDispatchNamespaceScriptMetadataBindingsList>;
 
 export interface PutDispatchNamespaceScriptContainer {
   className: string;
@@ -11314,21 +11230,19 @@ export const PutDispatchNamespaceScriptContainer = /*@__PURE__*/ S.suspend(() =>
 
 export type PutDispatchNamespaceScriptMetadataContainersList =
   Array<PutDispatchNamespaceScriptContainer>;
-export const PutDispatchNamespaceScriptMetadataContainersList =
-  /*@__PURE__*/ S.Array(
-    PutDispatchNamespaceScriptContainer,
-  ) as any as S.Schema<PutDispatchNamespaceScriptMetadataContainersList>;
+export const PutDispatchNamespaceScriptMetadataContainersList = /*@__PURE__*/ S.Array(
+  PutDispatchNamespaceScriptContainer,
+) as any as S.Schema<PutDispatchNamespaceScriptMetadataContainersList>;
 
 export interface PutDispatchNamespaceScriptMetadataLimits {
   cpuMs?: number;
   subrequests?: number;
 }
-export const PutDispatchNamespaceScriptMetadataLimits = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      cpuMs: S.optional(S.Number.pipe(T.Body("cpu_ms"))),
-      subrequests: S.optional(S.Number),
-    }),
+export const PutDispatchNamespaceScriptMetadataLimits = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cpuMs: S.optional(S.Number.pipe(T.Body("cpu_ms"))),
+    subrequests: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptMetadataLimits",
 }) as any as S.Schema<PutDispatchNamespaceScriptMetadataLimits>;
@@ -11340,10 +11254,9 @@ export const PutDispatchNamespaceScriptMigrationRenamedClass =
 
 export type PutDispatchNamespaceScriptMigrationRenamedClassesList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesItem>;
-export const PutDispatchNamespaceScriptMigrationRenamedClassesList =
-  /*@__PURE__*/ S.Array(
-    DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesItem,
-  ) as any as S.Schema<PutDispatchNamespaceScriptMigrationRenamedClassesList>;
+export const PutDispatchNamespaceScriptMigrationRenamedClassesList = /*@__PURE__*/ S.Array(
+  DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesItem,
+) as any as S.Schema<PutDispatchNamespaceScriptMigrationRenamedClassesList>;
 
 export type PutDispatchNamespaceScriptMigrationTransferredClass =
   DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem;
@@ -11352,10 +11265,9 @@ export const PutDispatchNamespaceScriptMigrationTransferredClass =
 
 export type PutDispatchNamespaceScriptMigrationTransferredClassesList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem>;
-export const PutDispatchNamespaceScriptMigrationTransferredClassesList =
-  /*@__PURE__*/ S.Array(
-    DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem,
-  ) as any as S.Schema<PutDispatchNamespaceScriptMigrationTransferredClassesList>;
+export const PutDispatchNamespaceScriptMigrationTransferredClassesList = /*@__PURE__*/ S.Array(
+  DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem,
+) as any as S.Schema<PutDispatchNamespaceScriptMigrationTransferredClassesList>;
 
 export interface PutDispatchNamespaceScriptSingleStepMigration {
   deletedClasses?: PutDispatchNamespaceScriptMetadataStringList;
@@ -11366,40 +11278,29 @@ export interface PutDispatchNamespaceScriptSingleStepMigration {
   renamedClasses?: PutDispatchNamespaceScriptMigrationRenamedClassesList;
   transferredClasses?: PutDispatchNamespaceScriptMigrationTransferredClassesList;
 }
-export const PutDispatchNamespaceScriptSingleStepMigration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      deletedClasses: S.optional(
-        PutDispatchNamespaceScriptMetadataStringList.pipe(
-          T.Body("deleted_classes"),
-        ),
-      ),
-      newClasses: S.optional(
-        PutDispatchNamespaceScriptMetadataStringList.pipe(
-          T.Body("new_classes"),
-        ),
-      ),
-      newSqliteClasses: S.optional(
-        PutDispatchNamespaceScriptMetadataStringList.pipe(
-          T.Body("new_sqlite_classes"),
-        ),
-      ),
-      newTag: S.optional(S.String.pipe(T.Body("new_tag"))),
-      oldTag: S.optional(S.String.pipe(T.Body("old_tag"))),
-      renamedClasses: S.optional(
-        PutDispatchNamespaceScriptMigrationRenamedClassesList.pipe(
-          T.Body("renamed_classes"),
-        ),
-      ),
-      transferredClasses: S.optional(
-        PutDispatchNamespaceScriptMigrationTransferredClassesList.pipe(
-          T.Body("transferred_classes"),
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptSingleStepMigration",
-  }) as any as S.Schema<PutDispatchNamespaceScriptSingleStepMigration>;
+export const PutDispatchNamespaceScriptSingleStepMigration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deletedClasses: S.optional(
+      PutDispatchNamespaceScriptMetadataStringList.pipe(T.Body("deleted_classes")),
+    ),
+    newClasses: S.optional(
+      PutDispatchNamespaceScriptMetadataStringList.pipe(T.Body("new_classes")),
+    ),
+    newSqliteClasses: S.optional(
+      PutDispatchNamespaceScriptMetadataStringList.pipe(T.Body("new_sqlite_classes")),
+    ),
+    newTag: S.optional(S.String.pipe(T.Body("new_tag"))),
+    oldTag: S.optional(S.String.pipe(T.Body("old_tag"))),
+    renamedClasses: S.optional(
+      PutDispatchNamespaceScriptMigrationRenamedClassesList.pipe(T.Body("renamed_classes")),
+    ),
+    transferredClasses: S.optional(
+      PutDispatchNamespaceScriptMigrationTransferredClassesList.pipe(T.Body("transferred_classes")),
+    ),
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptSingleStepMigration",
+}) as any as S.Schema<PutDispatchNamespaceScriptSingleStepMigration>;
 
 export interface PutDispatchNamespaceScriptMigrationStep {
   deletedClasses?: PutDispatchNamespaceScriptMetadataStringList;
@@ -11408,80 +11309,66 @@ export interface PutDispatchNamespaceScriptMigrationStep {
   renamedClasses?: PutDispatchNamespaceScriptMigrationRenamedClassesList;
   transferredClasses?: PutDispatchNamespaceScriptMigrationTransferredClassesList;
 }
-export const PutDispatchNamespaceScriptMigrationStep = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      deletedClasses: S.optional(
-        PutDispatchNamespaceScriptMetadataStringList.pipe(
-          T.Body("deleted_classes"),
-        ),
-      ),
-      newClasses: S.optional(
-        PutDispatchNamespaceScriptMetadataStringList.pipe(
-          T.Body("new_classes"),
-        ),
-      ),
-      newSqliteClasses: S.optional(
-        PutDispatchNamespaceScriptMetadataStringList.pipe(
-          T.Body("new_sqlite_classes"),
-        ),
-      ),
-      renamedClasses: S.optional(
-        PutDispatchNamespaceScriptMigrationRenamedClassesList.pipe(
-          T.Body("renamed_classes"),
-        ),
-      ),
-      transferredClasses: S.optional(
-        PutDispatchNamespaceScriptMigrationTransferredClassesList.pipe(
-          T.Body("transferred_classes"),
-        ),
-      ),
-    }),
+export const PutDispatchNamespaceScriptMigrationStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deletedClasses: S.optional(
+      PutDispatchNamespaceScriptMetadataStringList.pipe(T.Body("deleted_classes")),
+    ),
+    newClasses: S.optional(
+      PutDispatchNamespaceScriptMetadataStringList.pipe(T.Body("new_classes")),
+    ),
+    newSqliteClasses: S.optional(
+      PutDispatchNamespaceScriptMetadataStringList.pipe(T.Body("new_sqlite_classes")),
+    ),
+    renamedClasses: S.optional(
+      PutDispatchNamespaceScriptMigrationRenamedClassesList.pipe(T.Body("renamed_classes")),
+    ),
+    transferredClasses: S.optional(
+      PutDispatchNamespaceScriptMigrationTransferredClassesList.pipe(T.Body("transferred_classes")),
+    ),
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptMigrationStep",
 }) as any as S.Schema<PutDispatchNamespaceScriptMigrationStep>;
 
 export type PutDispatchNamespaceScriptMigrationStepsList =
   Array<PutDispatchNamespaceScriptMigrationStep>;
-export const PutDispatchNamespaceScriptMigrationStepsList =
-  /*@__PURE__*/ S.Array(
-    PutDispatchNamespaceScriptMigrationStep,
-  ) as any as S.Schema<PutDispatchNamespaceScriptMigrationStepsList>;
+export const PutDispatchNamespaceScriptMigrationStepsList = /*@__PURE__*/ S.Array(
+  PutDispatchNamespaceScriptMigrationStep,
+) as any as S.Schema<PutDispatchNamespaceScriptMigrationStepsList>;
 
 export interface PutDispatchNamespaceScriptMultipleStepMigrations {
   newTag?: string;
   oldTag?: string;
   steps?: PutDispatchNamespaceScriptMigrationStepsList;
 }
-export const PutDispatchNamespaceScriptMultipleStepMigrations =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      newTag: S.optional(S.String.pipe(T.Body("new_tag"))),
-      oldTag: S.optional(S.String.pipe(T.Body("old_tag"))),
-      steps: S.optional(PutDispatchNamespaceScriptMigrationStepsList),
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptMultipleStepMigrations",
-  }) as any as S.Schema<PutDispatchNamespaceScriptMultipleStepMigrations>;
+export const PutDispatchNamespaceScriptMultipleStepMigrations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    newTag: S.optional(S.String.pipe(T.Body("new_tag"))),
+    oldTag: S.optional(S.String.pipe(T.Body("old_tag"))),
+    steps: S.optional(PutDispatchNamespaceScriptMigrationStepsList),
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptMultipleStepMigrations",
+}) as any as S.Schema<PutDispatchNamespaceScriptMultipleStepMigrations>;
 
 export type PutDispatchNamespaceScriptMetadataMigrations =
   | PutDispatchNamespaceScriptSingleStepMigration
   | PutDispatchNamespaceScriptMultipleStepMigrations;
-export const PutDispatchNamespaceScriptMetadataMigrations =
-  /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      [
-        "deletedClasses",
-        "newClasses",
-        "newSqliteClasses",
-        "newTag",
-        "oldTag",
-        "renamedClasses",
-        "transferredClasses",
-      ],
-      ["newTag", "oldTag", "steps"],
-    ]),
-  );
+export const PutDispatchNamespaceScriptMetadataMigrations = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    [
+      "deletedClasses",
+      "newClasses",
+      "newSqliteClasses",
+      "newTag",
+      "oldTag",
+      "renamedClasses",
+      "transferredClasses",
+    ],
+    ["newTag", "oldTag", "steps"],
+  ]),
+);
 
 export interface PutDispatchNamespaceScriptObservabilityLogs {
   enabled: boolean;
@@ -11490,26 +11377,22 @@ export interface PutDispatchNamespaceScriptObservabilityLogs {
   headSamplingRate?: number | null;
   persist?: boolean;
 }
-export const PutDispatchNamespaceScriptObservabilityLogs =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      enabled: S.Boolean,
-      invocationLogs: S.Boolean.pipe(T.Body("invocation_logs")),
-      destinations: S.optional(PutDispatchNamespaceScriptMetadataStringList),
-      headSamplingRate: S.optional(
-        S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
-      ),
-      persist: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptObservabilityLogs",
-  }) as any as S.Schema<PutDispatchNamespaceScriptObservabilityLogs>;
+export const PutDispatchNamespaceScriptObservabilityLogs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    invocationLogs: S.Boolean.pipe(T.Body("invocation_logs")),
+    destinations: S.optional(PutDispatchNamespaceScriptMetadataStringList),
+    headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
+    persist: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptObservabilityLogs",
+}) as any as S.Schema<PutDispatchNamespaceScriptObservabilityLogs>;
 
 export type PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy =
   | "authenticated"
   | "accept";
-export const PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy =
-  S.String;
+export const PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy = S.String;
 
 export interface PutDispatchNamespaceScriptObservabilityTraces {
   destinations?: PutDispatchNamespaceScriptMetadataStringList;
@@ -11520,24 +11403,21 @@ export interface PutDispatchNamespaceScriptObservabilityTraces {
     | PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy
     | (string & {});
 }
-export const PutDispatchNamespaceScriptObservabilityTraces =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      destinations: S.optional(PutDispatchNamespaceScriptMetadataStringList),
-      enabled: S.optional(S.Boolean),
-      headSamplingRate: S.optional(
-        S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
+export const PutDispatchNamespaceScriptObservabilityTraces = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    destinations: S.optional(PutDispatchNamespaceScriptMetadataStringList),
+    enabled: S.optional(S.Boolean),
+    headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
+    persist: S.optional(S.Boolean),
+    propagationPolicy: S.optional(
+      PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy.pipe(
+        T.Body("propagation_policy"),
       ),
-      persist: S.optional(S.Boolean),
-      propagationPolicy: S.optional(
-        PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy.pipe(
-          T.Body("propagation_policy"),
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptObservabilityTraces",
-  }) as any as S.Schema<PutDispatchNamespaceScriptObservabilityTraces>;
+    ),
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptObservabilityTraces",
+}) as any as S.Schema<PutDispatchNamespaceScriptObservabilityTraces>;
 
 export interface PutDispatchNamespaceScriptMetadataObservability {
   enabled: boolean;
@@ -11545,21 +11425,16 @@ export interface PutDispatchNamespaceScriptMetadataObservability {
   logs?: PutDispatchNamespaceScriptObservabilityLogs | null;
   traces?: PutDispatchNamespaceScriptObservabilityTraces | null;
 }
-export const PutDispatchNamespaceScriptMetadataObservability =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      enabled: S.Boolean,
-      headSamplingRate: S.optional(
-        S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
-      ),
-      logs: S.optional(S.NullOr(PutDispatchNamespaceScriptObservabilityLogs)),
-      traces: S.optional(
-        S.NullOr(PutDispatchNamespaceScriptObservabilityTraces),
-      ),
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptMetadataObservability",
-  }) as any as S.Schema<PutDispatchNamespaceScriptMetadataObservability>;
+export const PutDispatchNamespaceScriptMetadataObservability = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
+    logs: S.optional(S.NullOr(PutDispatchNamespaceScriptObservabilityLogs)),
+    traces: S.optional(S.NullOr(PutDispatchNamespaceScriptObservabilityTraces)),
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptMetadataObservability",
+}) as any as S.Schema<PutDispatchNamespaceScriptMetadataObservability>;
 
 export type PutDispatchNamespaceScriptPlacementSmartMode = "smart";
 export const PutDispatchNamespaceScriptPlacementSmartMode = S.String;
@@ -11567,11 +11442,10 @@ export const PutDispatchNamespaceScriptPlacementSmartMode = S.String;
 export interface PutDispatchNamespaceScriptPlacementSmart {
   mode: PutDispatchNamespaceScriptPlacementSmartMode;
 }
-export const PutDispatchNamespaceScriptPlacementSmart = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      mode: PutDispatchNamespaceScriptPlacementSmartMode,
-    }),
+export const PutDispatchNamespaceScriptPlacementSmart = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: PutDispatchNamespaceScriptPlacementSmartMode,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptPlacementSmart",
 }) as any as S.Schema<PutDispatchNamespaceScriptPlacementSmart>;
@@ -11579,35 +11453,32 @@ export const PutDispatchNamespaceScriptPlacementSmart = /*@__PURE__*/ S.suspend(
 export interface PutDispatchNamespaceScriptPlacementRegion {
   region: string;
 }
-export const PutDispatchNamespaceScriptPlacementRegion =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      region: S.String,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptPlacementRegion",
-  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementRegion>;
+export const PutDispatchNamespaceScriptPlacementRegion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    region: S.String,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptPlacementRegion",
+}) as any as S.Schema<PutDispatchNamespaceScriptPlacementRegion>;
 
 export interface PutDispatchNamespaceScriptPlacementHostname {
   hostname: string;
 }
-export const PutDispatchNamespaceScriptPlacementHostname =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      hostname: S.String,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptPlacementHostname",
-  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementHostname>;
+export const PutDispatchNamespaceScriptPlacementHostname = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hostname: S.String,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptPlacementHostname",
+}) as any as S.Schema<PutDispatchNamespaceScriptPlacementHostname>;
 
 export interface PutDispatchNamespaceScriptPlacementHost {
   host: string;
 }
-export const PutDispatchNamespaceScriptPlacementHost = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      host: S.String,
-    }),
+export const PutDispatchNamespaceScriptPlacementHost = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    host: S.String,
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptPlacementHost",
 }) as any as S.Schema<PutDispatchNamespaceScriptPlacementHost>;
@@ -11619,43 +11490,40 @@ export interface PutDispatchNamespaceScriptPlacementTargetedRegion {
   mode: PutDispatchNamespaceScriptPlacementTargetedMode;
   region: string;
 }
-export const PutDispatchNamespaceScriptPlacementTargetedRegion =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      mode: PutDispatchNamespaceScriptPlacementTargetedMode,
-      region: S.String,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptPlacementTargetedRegion",
-  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedRegion>;
+export const PutDispatchNamespaceScriptPlacementTargetedRegion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: PutDispatchNamespaceScriptPlacementTargetedMode,
+    region: S.String,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptPlacementTargetedRegion",
+}) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedRegion>;
 
 export interface PutDispatchNamespaceScriptPlacementTargetedHostname {
   hostname: string;
   mode: PutDispatchNamespaceScriptPlacementTargetedMode;
 }
-export const PutDispatchNamespaceScriptPlacementTargetedHostname =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      hostname: S.String,
-      mode: PutDispatchNamespaceScriptPlacementTargetedMode,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptPlacementTargetedHostname",
-  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedHostname>;
+export const PutDispatchNamespaceScriptPlacementTargetedHostname = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hostname: S.String,
+    mode: PutDispatchNamespaceScriptPlacementTargetedMode,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptPlacementTargetedHostname",
+}) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedHostname>;
 
 export interface PutDispatchNamespaceScriptPlacementTargetedHost {
   host: string;
   mode: PutDispatchNamespaceScriptPlacementTargetedMode;
 }
-export const PutDispatchNamespaceScriptPlacementTargetedHost =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      host: S.String,
-      mode: PutDispatchNamespaceScriptPlacementTargetedMode,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptPlacementTargetedHost",
-  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedHost>;
+export const PutDispatchNamespaceScriptPlacementTargetedHost = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    host: S.String,
+    mode: PutDispatchNamespaceScriptPlacementTargetedMode,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptPlacementTargetedHost",
+}) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedHost>;
 
 export type PutDispatchNamespaceScriptPlacementTargetRegion =
   PutDispatchNamespaceScriptPlacementRegion;
@@ -11667,8 +11535,7 @@ export type PutDispatchNamespaceScriptPlacementTargetHostname =
 export const PutDispatchNamespaceScriptPlacementTargetHostname =
   PutDispatchNamespaceScriptPlacementHostname;
 
-export type PutDispatchNamespaceScriptPlacementTargetHost =
-  PutDispatchNamespaceScriptPlacementHost;
+export type PutDispatchNamespaceScriptPlacementTargetHost = PutDispatchNamespaceScriptPlacementHost;
 export const PutDispatchNamespaceScriptPlacementTargetHost =
   PutDispatchNamespaceScriptPlacementHost;
 
@@ -11676,31 +11543,28 @@ export type PutDispatchNamespaceScriptPlacementTarget =
   | PutDispatchNamespaceScriptPlacementRegion
   | PutDispatchNamespaceScriptPlacementHostname
   | PutDispatchNamespaceScriptPlacementHost;
-export const PutDispatchNamespaceScriptPlacementTarget =
-  /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([["region"], ["hostname"], ["host"]]),
-  );
+export const PutDispatchNamespaceScriptPlacementTarget = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([["region"], ["hostname"], ["host"]]),
+);
 
 export type PutDispatchNamespaceScriptPlacementTargetsList =
   Array<PutDispatchNamespaceScriptPlacementTarget>;
-export const PutDispatchNamespaceScriptPlacementTargetsList =
-  /*@__PURE__*/ S.Array(
-    PutDispatchNamespaceScriptPlacementTarget,
-  ) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetsList>;
+export const PutDispatchNamespaceScriptPlacementTargetsList = /*@__PURE__*/ S.Array(
+  PutDispatchNamespaceScriptPlacementTarget,
+) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetsList>;
 
 export interface PutDispatchNamespaceScriptPlacementTargetedList {
   mode: PutDispatchNamespaceScriptPlacementTargetedMode;
   target: PutDispatchNamespaceScriptPlacementTargetsList;
 }
-export const PutDispatchNamespaceScriptPlacementTargetedList =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      mode: PutDispatchNamespaceScriptPlacementTargetedMode,
-      target: PutDispatchNamespaceScriptPlacementTargetsList,
-    }),
-  ).annotate({
-    identifier: "PutDispatchNamespaceScriptPlacementTargetedList",
-  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedList>;
+export const PutDispatchNamespaceScriptPlacementTargetedList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: PutDispatchNamespaceScriptPlacementTargetedMode,
+    target: PutDispatchNamespaceScriptPlacementTargetsList,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptPlacementTargetedList",
+}) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedList>;
 
 export type PutDispatchNamespaceScriptMetadataPlacement =
   | PutDispatchNamespaceScriptPlacementSmart
@@ -11711,71 +11575,61 @@ export type PutDispatchNamespaceScriptMetadataPlacement =
   | PutDispatchNamespaceScriptPlacementTargetedHostname
   | PutDispatchNamespaceScriptPlacementTargetedHost
   | PutDispatchNamespaceScriptPlacementTargetedList;
-export const PutDispatchNamespaceScriptMetadataPlacement =
-  /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["mode"],
-      ["region"],
-      ["hostname"],
-      ["host"],
-      ["mode", "region"],
-      ["hostname", "mode"],
-      ["host", "mode"],
-      ["mode", "target"],
-    ]),
-  );
+export const PutDispatchNamespaceScriptMetadataPlacement = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["mode"],
+    ["region"],
+    ["hostname"],
+    ["host"],
+    ["mode", "region"],
+    ["hostname", "mode"],
+    ["host", "mode"],
+    ["mode", "target"],
+  ]),
+);
 
 export interface PutDispatchNamespaceScriptTailConsumer {
   service: string;
   environment?: string;
   namespace?: string;
 }
-export const PutDispatchNamespaceScriptTailConsumer = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      service: S.String,
-      environment: S.optional(S.String),
-      namespace: S.optional(S.String),
-    }),
+export const PutDispatchNamespaceScriptTailConsumer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    service: S.String,
+    environment: S.optional(S.String),
+    namespace: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptTailConsumer",
 }) as any as S.Schema<PutDispatchNamespaceScriptTailConsumer>;
 
 export type PutDispatchNamespaceScriptMetadataTailConsumersList =
   Array<PutDispatchNamespaceScriptTailConsumer>;
-export const PutDispatchNamespaceScriptMetadataTailConsumersList =
-  /*@__PURE__*/ S.Array(
-    PutDispatchNamespaceScriptTailConsumer,
-  ) as any as S.Schema<PutDispatchNamespaceScriptMetadataTailConsumersList>;
+export const PutDispatchNamespaceScriptMetadataTailConsumersList = /*@__PURE__*/ S.Array(
+  PutDispatchNamespaceScriptTailConsumer,
+) as any as S.Schema<PutDispatchNamespaceScriptMetadataTailConsumersList>;
 
-export type PutDispatchNamespaceScriptMetadataUsageModel =
-  | "standard"
-  | "bundled"
-  | "unbound";
+export type PutDispatchNamespaceScriptMetadataUsageModel = "standard" | "bundled" | "unbound";
 export const PutDispatchNamespaceScriptMetadataUsageModel = S.String;
 
 export interface PutDispatchNamespaceScriptMetadataCache {
   enabled?: boolean;
   crossVersionCache?: boolean;
 }
-export const PutDispatchNamespaceScriptMetadataCache = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      enabled: S.optional(S.Boolean),
-      crossVersionCache: S.optional(
-        S.Boolean.pipe(T.Body("cross_version_cache")),
-      ),
-    }),
+export const PutDispatchNamespaceScriptMetadataCache = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    crossVersionCache: S.optional(S.Boolean.pipe(T.Body("cross_version_cache"))),
+  }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptMetadataCache",
 }) as any as S.Schema<PutDispatchNamespaceScriptMetadataCache>;
 
 export type PutDispatchNamespaceScriptMetadataStreamingTailConsumersList =
   Array<PutDispatchNamespaceScriptTailConsumer>;
-export const PutDispatchNamespaceScriptMetadataStreamingTailConsumersList =
-  /*@__PURE__*/ S.Array(
-    PutDispatchNamespaceScriptTailConsumer,
-  ) as any as S.Schema<PutDispatchNamespaceScriptMetadataStreamingTailConsumersList>;
+export const PutDispatchNamespaceScriptMetadataStreamingTailConsumersList = /*@__PURE__*/ S.Array(
+  PutDispatchNamespaceScriptTailConsumer,
+) as any as S.Schema<PutDispatchNamespaceScriptMetadataStreamingTailConsumersList>;
 
 export interface PutDispatchNamespaceScriptMetadata {
   annotations?: PutDispatchNamespaceScriptMetadataAnnotations;
@@ -11822,20 +11676,16 @@ export const PutDispatchNamespaceScriptMetadata = /*@__PURE__*/ S.suspend(() =>
     placement: S.optional(PutDispatchNamespaceScriptMetadataPlacement),
     tags: S.optional(PutDispatchNamespaceScriptMetadataStringList),
     tailConsumers: S.optional(
-      S.NullOr(PutDispatchNamespaceScriptMetadataTailConsumersList).pipe(
-        T.Body("tail_consumers"),
-      ),
+      S.NullOr(PutDispatchNamespaceScriptMetadataTailConsumersList).pipe(T.Body("tail_consumers")),
     ),
     usageModel: S.optional(
       PutDispatchNamespaceScriptMetadataUsageModel.pipe(T.Body("usage_model")),
     ),
-    cacheOptions: S.optional(
-      PutDispatchNamespaceScriptMetadataCache.pipe(T.Body("cache_options")),
-    ),
+    cacheOptions: S.optional(PutDispatchNamespaceScriptMetadataCache.pipe(T.Body("cache_options"))),
     streamingTailConsumers: S.optional(
-      S.NullOr(
-        PutDispatchNamespaceScriptMetadataStreamingTailConsumersList,
-      ).pipe(T.Body("streaming_tail_consumers")),
+      S.NullOr(PutDispatchNamespaceScriptMetadataStreamingTailConsumersList).pipe(
+        T.Body("streaming_tail_consumers"),
+      ),
     ),
   }),
 ).annotate({

@@ -246,10 +246,6 @@ interface MethodPage {
   readonly errors?: Record<string, { readonly desc?: string }>;
 }
 
-/** `analytics.getFile` → `analyticsGetFile` (the family prefix already stripped). */
-const camelJoin = (segments: readonly string[]): string =>
-  segments.map((s, i) => (i === 0 ? s : s.charAt(0).toUpperCase() + s.slice(1))).join("");
-
 /** `lists` → `Lists` — model/service naming. */
 const toPascal = (slug: string): string =>
   slug

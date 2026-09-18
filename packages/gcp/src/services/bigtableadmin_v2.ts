@@ -4235,14 +4235,7 @@ export const createProjectsInstancesMaterializedViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsInstancesMaterializedViewsRequest,
   output: Operation,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    SourceTableNotReady,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, SourceTableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4363,14 +4356,7 @@ export const deleteProjectsInstancesClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsInstancesClustersRequest,
   output: Empty,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    LastClusterDeletion,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, LastClusterDeletion, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

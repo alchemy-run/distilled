@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { ModalParseError } from "./errors.ts";
+import type { ModalOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listEnvironment } from "./services/environment.ts";
-import type { ModalOpError } from "./protocol.ts";
 
 // listEnvironment declares `{ items?: EnvironmentListItem[] }`; every member is
 // optional, so the mismatch is a wrong primitive (`items` must be an array).
@@ -13,9 +13,7 @@ const run = (body: string) =>
   runValidationModes(
     listEnvironment({}).pipe(
       Retry.none,
-      Effect.provide(
-        credentials({ tokenId: "ak-test", tokenSecret: "as-test" }),
-      ),
+      Effect.provide(credentials({ tokenId: "ak-test", tokenSecret: "as-test" })),
     ),
     { body },
   );
@@ -45,6 +43,4 @@ describe("Modal response validation", () => {
 });
 
 // ModalParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ModalParseError] extends [ModalOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [ModalParseError] extends [ModalOpError] ? true : false = true;

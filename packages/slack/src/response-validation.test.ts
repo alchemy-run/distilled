@@ -3,18 +3,15 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { SlackParseError } from "./errors.ts";
+import type { SlackOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { billingInfo } from "./services/team.ts";
-import type { SlackOpError } from "./protocol.ts";
 
 // team.billing.info declares `{ ok: boolean; plan: string }`; the payload
 // shares the level of Slack's `{ ok: true, ... }` envelope.
 const run = (body: string, headers?: Record<string, string>) =>
   runValidationModes(
-    billingInfo({}).pipe(
-      Retry.none,
-      Effect.provide(credentials({ token: "xoxb-test" })),
-    ),
+    billingInfo({}).pipe(Retry.none, Effect.provide(credentials({ token: "xoxb-test" }))),
     { body, headers },
   );
 
@@ -49,6 +46,4 @@ describe("Slack response validation", () => {
 });
 
 // SlackParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [SlackParseError] extends [SlackOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [SlackParseError] extends [SlackOpError] ? true : false = true;

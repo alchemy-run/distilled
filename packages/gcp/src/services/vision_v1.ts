@@ -64,17 +64,14 @@ export class NotFound
 /** The project was not onboarded to Product Search before it closed to new projects (HTTP 400 INVALID_ARGUMENT: "Product Search doesn't onboard new projects."). Not retryable; use Vision Warehouse or an onboarded project. */
 export class ProductSearchNotOnboarded
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<ProductSearchNotOnboarded>()(
-      "ProductSearchNotOnboarded",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<ProductSearchNotOnboarded>()("ProductSearchNotOnboarded", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [
       {
         status: 400,
@@ -2919,14 +2916,7 @@ export const createProjectsLocationsProducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsProductsRequest,
   output: Product,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    ProductSearchNotOnboarded,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, ProductSearchNotOnboarded, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2947,14 +2937,7 @@ export const createProjectsLocationsProductSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsProductSetsRequest,
   output: ProductSet,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    ProductSearchNotOnboarded,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, ProductSearchNotOnboarded, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2975,14 +2958,7 @@ export const createProjectsLocationsProductsReferenceImages: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsProductsReferenceImagesRequest,
   output: ReferenceImage,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    ProductSearchNotOnboarded,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, ProductSearchNotOnboarded, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

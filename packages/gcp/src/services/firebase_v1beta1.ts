@@ -1937,11 +1937,7 @@ export const getProjects: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetProjectsAndroidAppsError =
-  | NotFound
-  | Forbidden
-  | AndroidAppNotFound
-  | GcpOpError;
+export type GetProjectsAndroidAppsError = NotFound | Forbidden | AndroidAppNotFound | GcpOpError;
 /** Gets the specified AndroidApp. */
 export const getProjectsAndroidApps: API.OperationMethod<
   GetProjectsAndroidAppsRequest,
@@ -2152,14 +2148,7 @@ export const patchProjectsAndroidApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsAndroidAppsRequest,
   output: AndroidApp,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    AndroidAppNotFound,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, AndroidAppNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2230,14 +2219,7 @@ export const removeProjectsAndroidApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveProjectsAndroidAppsRequest,
   output: Operation,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    AndroidAppNotFound,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, AndroidAppNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

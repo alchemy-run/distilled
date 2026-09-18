@@ -64,17 +64,14 @@ export class NotFound
 /** The revision is the scorecard's only revision and cannot be deleted on its own (HTTP 400 FAILED_PRECONDITION); it goes away with the scorecard. Not retryable. */
 export class QaScorecardOnlyRevision
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<QaScorecardOnlyRevision>()(
-      "QaScorecardOnlyRevision",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<QaScorecardOnlyRevision>()("QaScorecardOnlyRevision", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [
       {
         status: 400,
@@ -86,17 +83,14 @@ export class QaScorecardOnlyRevision
 /** The scorecard revision is not in a state that allows this change (HTTP 400 FAILED_PRECONDITION 'Precondition check failed.'), e.g. a new revision while the current one is still being created. Retryable briefly. */
 export class QaScorecardPreconditionFailed
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<QaScorecardPreconditionFailed>()(
-      "QaScorecardPreconditionFailed",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<QaScorecardPreconditionFailed>()("QaScorecardPreconditionFailed", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "Precondition check failed" } }],
   ) {}
 
@@ -11985,14 +11979,7 @@ export const deleteProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsQaScorecardsRevisionsRequest,
   output: GoogleProtobufEmpty,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    QaScorecardOnlyRevision,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, QaScorecardOnlyRevision, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

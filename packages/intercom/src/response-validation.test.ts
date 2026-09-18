@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { IntercomParseError } from "./errors.ts";
+import type { IntercomOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { jobsStatus2 } from "./services/intercom.ts";
-import type { IntercomOpError } from "./protocol.ts";
 
 // jobsStatus2 declares `Jobs`, whose `id: string` is required.
 const run = (body: string) =>
@@ -41,8 +41,5 @@ describe("Intercom response validation", () => {
 });
 
 // IntercomParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [IntercomParseError] extends [
-  IntercomOpError,
-]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [IntercomParseError] extends [IntercomOpError] ? true : false =
+  true;

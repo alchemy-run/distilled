@@ -35,7 +35,7 @@
  * — and `specs:check` fails the build if one is ever written by hand.
  */
 import { spawnSync } from "node:child_process";
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 const ROOT = join(import.meta.dir, "..");

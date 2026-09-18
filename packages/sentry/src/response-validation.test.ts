@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { SentryParseError } from "./errors.ts";
+import type { SentryOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listSeerModels } from "./services/sentry.ts";
-import type { SentryOpError } from "./protocol.ts";
 
 // listSeerModels declares `{ models: string[] }`.
 const run = (body: string) =>
   runValidationModes(
-    listSeerModels({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    listSeerModels({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -41,6 +38,4 @@ describe("Sentry response validation", () => {
 });
 
 // SentryParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [SentryParseError] extends [SentryOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [SentryParseError] extends [SentryOpError] ? true : false = true;

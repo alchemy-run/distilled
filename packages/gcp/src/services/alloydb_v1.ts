@@ -25,17 +25,14 @@ export class BadRequest
 /** The cluster has no instance yet, or its instance was created too recently, to take a backup (HTTP 400 FAILED_PRECONDITION). Retrying after a few minutes succeeds. */
 export class ClusterNotReadyForBackup
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<ClusterNotReadyForBackup>()(
-      "ClusterNotReadyForBackup",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<ClusterNotReadyForBackup>()("ClusterNotReadyForBackup", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "isn't ready for backups yet" } }],
   ) {}
 
@@ -3214,14 +3211,7 @@ export const createProjectsLocationsBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsBackupsRequest,
   output: Operation,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    ClusterNotReadyForBackup,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, ClusterNotReadyForBackup, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

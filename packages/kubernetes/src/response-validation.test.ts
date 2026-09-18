@@ -3,18 +3,16 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromToken } from "./credentials.ts";
 import { KubernetesParseError } from "./errors.ts";
+import type { KubernetesOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getAppsAPIGroup } from "./services/apps.ts";
-import type { KubernetesOpError } from "./protocol.ts";
 
 // getAppsAPIGroup declares an APIGroup: `{ name: string; versions: [...] }`.
 const run = (body: string) =>
   runValidationModes(
     getAppsAPIGroup({}).pipe(
       Retry.none,
-      Effect.provide(
-        fromToken({ token: "test", apiBaseUrl: "https://k8s.test" }),
-      ),
+      Effect.provide(fromToken({ token: "test", apiBaseUrl: "https://k8s.test" })),
     ),
     { body },
   );
@@ -47,8 +45,6 @@ describe("Kubernetes response validation", () => {
 });
 
 // KubernetesParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [KubernetesParseError] extends [
-  KubernetesOpError,
-]
+export const parseErrorIsDeclared: [KubernetesParseError] extends [KubernetesOpError]
   ? true
   : false = true;

@@ -164,7 +164,7 @@ const mapPool = async <T, R>(
   concurrency: number,
   fn: (item: T) => Promise<R>,
 ): Promise<R[]> => {
-  const out: R[] = new Array(items.length);
+  const out: R[] = [];
   let next = 0;
   const workers = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
     while (true) {

@@ -19,8 +19,8 @@
  * ```
  */
 import * as Effect from "effect/Effect";
-import * as Predicate from "effect/Predicate";
 import * as HttpClientError from "effect/http/HttpClientError";
+import * as Predicate from "effect/Predicate";
 
 // ============================================================================
 // Error Category Constants

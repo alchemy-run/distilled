@@ -4,11 +4,7 @@
 import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import {
-  Credentials,
-  fromAwsCredentialIdentity,
-  regionFromEnv,
-} from "../credentials-service.ts";
+import { Credentials, fromAwsCredentialIdentity, regionFromEnv } from "../credentials-service.ts";
 import type { RegionName } from "../region.ts";
 
 /**
@@ -22,8 +18,7 @@ export const fromCredentials = (
 ): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
-    Effect.map(
-      region === undefined ? regionFromEnv : Effect.succeed(region),
-      (resolved) => fromAwsCredentialIdentity(credentials, resolved),
+    Effect.map(region === undefined ? regionFromEnv : Effect.succeed(region), (resolved) =>
+      fromAwsCredentialIdentity(credentials, resolved),
     ),
   );

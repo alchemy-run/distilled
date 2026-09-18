@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromToken } from "./credentials.ts";
 import { Auth0ParseError } from "./errors.ts";
+import type { Auth0OpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getActions } from "./services/auth0.ts";
-import type { Auth0OpError } from "./protocol.ts";
 
 // getActions declares only optional members (`total?: number`, `actions?: Action[]`, …),
 // so the mismatch is a wrong primitive type.
@@ -43,6 +43,4 @@ describe("Auth0 response validation", () => {
 });
 
 // Auth0ParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [Auth0ParseError] extends [Auth0OpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [Auth0ParseError] extends [Auth0OpError] ? true : false = true;

@@ -20,16 +20,10 @@ export interface FromCognitoIdentityOptions {
   readonly region?: string;
 }
 
-export const cognitoIdentitySource = (
-  options: FromCognitoIdentityOptions,
-): CredentialSource =>
+export const cognitoIdentitySource = (options: FromCognitoIdentityOptions): CredentialSource =>
   Effect.gen(function* () {
     const region = yield* cognitoRegion(options.region, options.identityId);
-    return yield* getCredentialsForIdentity(
-      options.identityId,
-      region,
-      options,
-    );
+    return yield* getCredentialsForIdentity(options.identityId, region, options);
   });
 
 const hints = [

@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromAccessToken } from "./credentials.ts";
 import { GoogleWorkspaceParseError } from "./errors.ts";
+import type { GoogleWorkspaceOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getStartPageTokenChanges } from "./services/drive_v3.ts";
-import type { GoogleWorkspaceOpError } from "./protocol.ts";
 
 // Discovery schemas mark every member optional; getStartPageTokenChanges
 // declares `{ startPageToken?: string; kind?: string }`, so the mismatch is a
@@ -43,8 +43,6 @@ describe("Google Workspace response validation", () => {
 });
 
 // GoogleWorkspaceParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [GoogleWorkspaceParseError] extends [
-  GoogleWorkspaceOpError,
-]
+export const parseErrorIsDeclared: [GoogleWorkspaceParseError] extends [GoogleWorkspaceOpError]
   ? true
   : false = true;

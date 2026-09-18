@@ -98,14 +98,9 @@ const skipList = (): SkipList | undefined => {
 };
 
 const skipsFile = (list: SkipList | undefined, file: string): boolean =>
-  list !== undefined &&
-  (list.all || list.files.some((entry) => skipMatches(file, entry)));
+  list !== undefined && (list.all || list.files.some((entry) => skipMatches(file, entry)));
 
-const skipsOp = (
-  list: SkipList | undefined,
-  file: string,
-  index: number,
-): boolean => {
+const skipsOp = (list: SkipList | undefined, file: string, index: number): boolean => {
   if (list === undefined) return false;
   for (const [entry, indices] of list.ops) {
     if (indices.has(index) && skipMatches(file, entry)) return true;

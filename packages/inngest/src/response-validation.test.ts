@@ -3,18 +3,15 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { InngestParseError } from "./errors.ts";
+import type { InngestOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { fetchV2Account } from "./services/inngest.ts";
-import type { InngestOpError } from "./protocol.ts";
 
 // fetchV2Account declares `{ data?: V2Account; metadata?: … }`; every member is
 // optional, so the mismatch is a wrong primitive (`data.email` must be a string).
 const run = (body: string) =>
   runValidationModes(
-    fetchV2Account({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    fetchV2Account({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -43,6 +40,5 @@ describe("Inngest response validation", () => {
 });
 
 // InngestParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [InngestParseError] extends [InngestOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [InngestParseError] extends [InngestOpError] ? true : false =
+  true;

@@ -33,8 +33,6 @@ const USER_AGENT = "distilled.cloud-mercury-spec-mirror";
 
 const HTTP_METHODS = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
 
-type HttpMethod = (typeof HTTP_METHODS)[number];
-
 class FetchError extends Error {
   constructor(
     readonly url: string,
@@ -232,10 +230,6 @@ async function main() {
   await mkdir(DOCS_DIR, { recursive: true });
 
   console.log(`\nDownloading ${pages.length} markdown pages (concurrency ${CONCURRENCY})...`);
-
-  type Result =
-    | { path: string; ok: true; body: string; localPath: string }
-    | { path: string; ok: false; error: string };
 
   const results = await mapConcurrent(pages, CONCURRENCY, async (page) => {
     const markdownUrl = `${ORIGIN}/${page}.md`;

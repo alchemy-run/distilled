@@ -14,9 +14,7 @@ type Options = Omit<FromInstanceMetadataOptions, "profileConfig"> & {
   profile?: string;
 };
 
-export const instanceMetadataSource = (
-  options: Options = {},
-): CredentialSource =>
+export const instanceMetadataSource = (options: Options = {}): CredentialSource =>
   browserInstanceMetadataSource({
     ...options,
     profileConfig: loadConfigProfile(options.profile),
@@ -31,8 +29,4 @@ const hints = [
  * profile's IMDS settings.
  */
 export const fromInstanceMetadata = (options: Options = {}) =>
-  createLazyProvider(
-    instanceMetadataSource(options),
-    "instance-metadata",
-    hints,
-  );
+  createLazyProvider(instanceMetadataSource(options), "instance-metadata", hints);

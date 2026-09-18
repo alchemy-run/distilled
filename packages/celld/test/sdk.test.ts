@@ -1,17 +1,17 @@
 import { describe, expect, test } from "bun:test";
+import { buildRequest } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Result from "effect/Result";
-import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
-import { buildRequest } from "@distilled.cloud/core/protocol-http";
+import * as Layer from "effect/Layer";
+import * as Result from "effect/Result";
+import * as Schema from "effect/Schema";
+import nodeSpec from "../specs/node.json";
+import runtimeSpec from "../specs/runtime.json";
 import * as Endpoint from "../src/endpoint.ts";
 import * as Node from "../src/services/node.ts";
 import * as Runtime from "../src/services/runtime.ts";
-import nodeSpec from "../specs/node.json";
-import runtimeSpec from "../specs/runtime.json";
 
 const peer = {
   scope: "__KvNamespace:0123456789abcdef",
@@ -25,14 +25,11 @@ const peer = {
 };
 
 const bodyOf = (request: HttpClientRequest.HttpClientRequest) => {
-  if (request.body._tag !== "Uint8Array")
-    throw new Error("Expected a JSON body");
+  if (request.body._tag !== "Uint8Array") throw new Error("Expected a JSON body");
   return JSON.parse(new TextDecoder().decode(request.body.body));
 };
 
-const mock = (
-  respond: (request: HttpClientRequest.HttpClientRequest) => Response,
-) =>
+const mock = (respond: (request: HttpClientRequest.HttpClientRequest) => Response) =>
   HttpClient.make((request) =>
     Effect.sync(() => HttpClientResponse.fromWeb(request, respond(request))),
   );
@@ -111,14 +108,10 @@ describe("generated Celld SDK", () => {
         isolates,
       },
     };
-    expect(
-      Schema.decodeUnknownSync(Schema.toType(Node.NodeState))(state),
-    ).toEqual(state);
+    expect(Schema.decodeUnknownSync(Schema.toType(Node.NodeState))(state)).toEqual(state);
     return run(
       Node.getNodeState({}).pipe(
-        Effect.tap((response) =>
-          Effect.sync(() => expect(response).toEqual(state)),
-        ),
+        Effect.tap((response) => Effect.sync(() => expect(response).toEqual(state))),
       ),
       mock(() => Response.json(state)),
     );
@@ -143,13 +136,8 @@ describe("generated Celld SDK", () => {
     return run(
       Effect.gen(function* () {
         yield* Node.getNodeState({});
-        yield* Node.getNodeState({}).pipe(
-          Effect.provide(Endpoint.of("https://other.test")),
-        );
-        expect(urls).toEqual([
-          "https://celld.test/state",
-          "https://other.test/state",
-        ]);
+        yield* Node.getNodeState({}).pipe(Effect.provide(Endpoint.of("https://other.test")));
+        expect(urls).toEqual(["https://celld.test/state", "https://other.test/state"]);
       }),
       mock((request) => {
         urls.push(request.url);
@@ -162,15 +150,9 @@ describe("generated Celld SDK", () => {
     run(
       Runtime.putKv({ ...peer, op: "put", key: "test", value: [104, 105] }),
       mock((request) => {
-        expect(request.url).toBe(
-          "https://celld.test/runtime/__KvNamespace:0123456789abcdef",
-        );
-        expect(request.headers["x-cells-peer-signature"]).toBe(
-          peer.peer_signature,
-        );
-        expect(request.headers["x-cells-peer-body-sha256"]).toBe(
-          peer.peer_body_sha256,
-        );
+        expect(request.url).toBe("https://celld.test/runtime/__KvNamespace:0123456789abcdef");
+        expect(request.headers["x-cells-peer-signature"]).toBe(peer.peer_signature);
+        expect(request.headers["x-cells-peer-body-sha256"]).toBe(peer.peer_body_sha256);
         expect(request.headers["x-cells-peer-target"]).toBe("node-test");
         expect(request.headers["x-cells-peer-version"]).toBe("5");
         expect(bodyOf(request)).toEqual({
@@ -223,9 +205,7 @@ describe("generated Celld SDK", () => {
         statements: [{ sql: "SELECT ?, ?", params: [42, "42"] }],
       }).pipe(
         Effect.tap((response) =>
-          Effect.sync(() =>
-            expect(response.result[0]?.rows).toEqual([[42, "42"]]),
-          ),
+          Effect.sync(() => expect(response.result[0]?.rows).toEqual([[42, "42"]])),
         ),
       ),
       mock((request) => {
@@ -241,9 +221,7 @@ describe("generated Celld SDK", () => {
   for (const [name, operation, message] of [
     [
       "execD1",
-      Runtime.execD1({ ...peer, exec: { sql: "SELECT missing" } }).pipe(
-        Effect.asVoid,
-      ),
+      Runtime.execD1({ ...peer, exec: { sql: "SELECT missing" } }).pipe(Effect.asVoid),
       "D1_EXEC_ERROR: no such table: missing",
     ],
     [
@@ -270,8 +248,7 @@ describe("generated Celld SDK", () => {
           Effect.tap((result) =>
             Effect.sync(() => {
               expect(Result.isFailure(result)).toBe(true);
-              if (Result.isFailure(result))
-                expect(result.failure._tag).toBe("D1ExecutionError");
+              if (Result.isFailure(result)) expect(result.failure._tag).toBe("D1ExecutionError");
             }),
           ),
         ),
@@ -329,8 +306,7 @@ describe("generated Celld SDK", () => {
         Effect.tap((result) =>
           Effect.sync(() => {
             expect(Result.isFailure(result)).toBe(true);
-            if (Result.isFailure(result))
-              expect(result.failure._tag).toBe("NodeHasNoLease");
+            if (Result.isFailure(result)) expect(result.failure._tag).toBe("NodeHasNoLease");
           }),
         ),
       ),
@@ -371,10 +347,7 @@ describe("generated Celld SDK", () => {
         ),
         mock(() => {
           calls++;
-          return Response.json(
-            { ok: false, error: { kind, reason } },
-            { status },
-          );
+          return Response.json({ ok: false, error: { kind, reason } }, { status });
         }),
       );
     });
@@ -387,8 +360,7 @@ describe("generated Celld SDK", () => {
         Effect.tap((result) =>
           Effect.sync(() => {
             expect(Result.isFailure(result)).toBe(true);
-            if (Result.isFailure(result))
-              expect(result.failure._tag).toBe("ServiceUnavailable");
+            if (Result.isFailure(result)) expect(result.failure._tag).toBe("ServiceUnavailable");
           }),
         ),
       ),
@@ -398,9 +370,7 @@ describe("generated Celld SDK", () => {
   test("accepts completed and already-absent evictions", () =>
     run(
       Node.evictCell({ scope: "Example:abc" }).pipe(
-        Effect.tap((response) =>
-          Effect.sync(() => expect(response.ok).toBe(true)),
-        ),
+        Effect.tap((response) => Effect.sync(() => expect(response.ok).toBe(true))),
       ),
       mock((request) => {
         expect(request.method).toBe("POST");
@@ -476,12 +446,8 @@ describe("generated Celld SDK", () => {
       modules: [],
       raw_metadata: { bindings: [] },
     };
-    expect(
-      Schema.decodeUnknownSync(Schema.toType(Node.Manifest))(manifest),
-    ).toEqual(manifest);
-    const operations = Object.values(nodeSpec.shapes).filter(
-      (shape) => shape.type === "operation",
-    );
+    expect(Schema.decodeUnknownSync(Schema.toType(Node.Manifest))(manifest)).toEqual(manifest);
+    const operations = Object.values(nodeSpec.shapes).filter((shape) => shape.type === "operation");
     expect(operations).toHaveLength(7);
     expect(JSON.stringify(operations)).not.toContain('"uri":"/deploy');
     expect(Node.AssetIndex).toBeDefined();
@@ -491,22 +457,12 @@ describe("generated Celld SDK", () => {
   test("retains v0.6.0 provenance and all fifteen operator body variants", () => {
     expect(nodeSpec.metadata.celld.version).toBe("0.6.0");
     expect(nodeSpec.shapes["com.celld.node#Celld"].version).toBe("0.6.0");
-    expect(runtimeSpec.shapes["com.celld.runtime#Runtime"].version).toBe(
-      "0.6.0",
-    );
-    expect(runtimeSpec.metadata.source.paths).toContain(
-      "crates/celld/js/services/kv.js",
-    );
-    expect(nodeSpec.metadata.celld.revision).toBe(
-      "bad4649d01f0db84cdc9093527e72e64ca7a14bf",
-    );
-    expect(runtimeSpec.metadata.source.revision).toBe(
-      nodeSpec.metadata.celld.revision,
-    );
+    expect(runtimeSpec.shapes["com.celld.runtime#Runtime"].version).toBe("0.6.0");
+    expect(runtimeSpec.metadata.source.paths).toContain("crates/celld/js/services/kv.js");
+    expect(nodeSpec.metadata.celld.revision).toBe("bad4649d01f0db84cdc9093527e72e64ca7a14bf");
+    expect(runtimeSpec.metadata.source.revision).toBe(nodeSpec.metadata.celld.revision);
     expect(
-      Object.values(runtimeSpec.shapes).filter(
-        (shape) => shape.type === "operation",
-      ),
+      Object.values(runtimeSpec.shapes).filter((shape) => shape.type === "operation"),
     ).toHaveLength(15);
   });
 });

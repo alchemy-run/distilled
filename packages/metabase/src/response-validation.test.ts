@@ -2,10 +2,10 @@ import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
-import * as Retry from "./retry.ts";
-import { getAction } from "./services/metabase.ts";
 import type { MetabaseParseError } from "./errors.ts";
 import type { MetabaseOpError } from "./protocol.ts";
+import * as Retry from "./retry.ts";
+import { getAction } from "./services/metabase.ts";
 
 // Metabase's OpenAPI declares no response bodies, so every generated output
 // schema is `S.Struct({})`. That schema accepts any non-nullish value (a JSON
@@ -13,10 +13,7 @@ import type { MetabaseOpError } from "./protocol.ts";
 // tests pin that both modes return every 2xx body unchanged.
 const run = (body: string) =>
   runValidationModes(
-    getAction({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getAction({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -43,8 +40,5 @@ describe("Metabase response validation", () => {
 });
 
 // MetabaseParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [MetabaseParseError] extends [
-  MetabaseOpError,
-]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [MetabaseParseError] extends [MetabaseOpError] ? true : false =
+  true;

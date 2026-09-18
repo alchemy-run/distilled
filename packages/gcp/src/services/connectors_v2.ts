@@ -38,17 +38,14 @@ export class Conflict
 /** Entity operations are not available for this connection (HTTP 501 UNIMPLEMENTED: 'Operation is not implemented, or supported, or enabled.'), e.g. because the connection does not exist. Not retryable. */
 export class EntitiesNotImplemented
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<EntitiesNotImplemented>()(
-      "EntitiesNotImplemented",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ),
+    /*@__PURE__*/ S.TaggedError<EntitiesNotImplemented>()("EntitiesNotImplemented", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }),
     [{ status: 501 }],
   ) {}
 
@@ -2126,14 +2123,7 @@ export const createProjectsLocationsConnectionsEntityTypesEntities: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest,
   output: Entity,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    EntitiesNotImplemented,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, EntitiesNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2174,14 +2164,7 @@ export const deleteProjectsLocationsConnectionsEntityTypesEntities: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest,
   output: Empty,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    EntitiesNotImplemented,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, EntitiesNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2528,14 +2511,7 @@ export const patchProjectsLocationsConnectionsEntityTypesEntities: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest,
   output: Entity,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    EntitiesNotImplemented,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, EntitiesNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

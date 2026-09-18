@@ -316,13 +316,10 @@ export class ObservabilityDestinationPreflightFailed
 
 export class PreviewAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<PreviewAlreadyExists>()(
-      "PreviewAlreadyExists",
-      {
-        code: S.Number,
-        message: S.String,
-      },
-    ),
+    /*@__PURE__*/ S.TaggedError<PreviewAlreadyExists>()("PreviewAlreadyExists", {
+      code: S.Number,
+      message: S.String,
+    }),
     [{ status: 409, message: { includes: "already exists" } }],
   ) {}
 
@@ -33401,10 +33398,7 @@ export const createObservabilitySharedQuery: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreatePreviewError =
-  | WorkerNotFound
-  | PreviewAlreadyExists
-  | CloudflareOpError;
+export type CreatePreviewError = WorkerNotFound | PreviewAlreadyExists | CloudflareOpError;
 /** Create a Worker Preview. Does not deploy code; follow with createPreviewDeployment. */
 export const createPreview: API.OperationMethod<
   CreatePreviewRequest,
@@ -33414,12 +33408,7 @@ export const createPreview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePreviewRequest,
   output: PreviewResource,
-  errors: [
-    WorkerNotFound,
-    PreviewAlreadyExists,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [WorkerNotFound, PreviewAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

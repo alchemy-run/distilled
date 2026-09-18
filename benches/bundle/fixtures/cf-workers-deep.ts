@@ -2,9 +2,9 @@
 import * as Credentials from "@distilled.cloud/cloudflare/Credentials";
 import * as workers from "@distilled.cloud/cloudflare/workers";
 import * as Effect from "effect/Effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
-import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
 const layer = Layer.mergeAll(
   Credentials.fromApiToken({ apiToken: "bench-token" }),

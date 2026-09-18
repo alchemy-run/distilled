@@ -3,16 +3,15 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { LaunchDarklyParseError } from "./errors.ts";
+import type { LaunchDarklyOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getIps } from "./services/launchdarkly.ts";
-import type { LaunchDarklyOpError } from "./protocol.ts";
 
 // getIps declares `{ addresses: string[]; outboundAddresses: string[] }`.
 const run = (body: string) =>
-  runValidationModes(
-    getIps({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
-    { body },
-  );
+  runValidationModes(getIps({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))), {
+    body,
+  });
 
 describe("LaunchDarkly response validation", () => {
   test("a matching body succeeds unchanged in both modes", async () => {
@@ -39,8 +38,6 @@ describe("LaunchDarkly response validation", () => {
 });
 
 // LaunchDarklyParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [LaunchDarklyParseError] extends [
-  LaunchDarklyOpError,
-]
+export const parseErrorIsDeclared: [LaunchDarklyParseError] extends [LaunchDarklyOpError]
   ? true
   : false = true;

@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { PaypalParseError } from "./errors.ts";
+import type { PaypalOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getWebProfile } from "./services/payment_experience_web_experience_profiles_v1.ts";
-import type { PaypalOpError } from "./protocol.ts";
 
 // getWebProfile declares `WebProfile`, whose `name: string` is required.
 const run = (body: string) =>
   runValidationModes(
-    getWebProfile({ id: "XP-1" }).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getWebProfile({ id: "XP-1" }).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -41,6 +38,4 @@ describe("PayPal response validation", () => {
 });
 
 // PaypalParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [PaypalParseError] extends [PaypalOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [PaypalParseError] extends [PaypalOpError] ? true : false = true;

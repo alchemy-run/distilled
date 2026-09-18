@@ -5,9 +5,9 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, DEFAULT_API_BASE_URL } from "./credentials.ts";
 import { CoinbaseParseError } from "./errors.ts";
+import type { CoinbaseOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listEvmAccounts } from "./services/cdp.ts";
-import type { CoinbaseOpError } from "./protocol.ts";
 
 // A dummy Ed25519 key (32-byte seed + 32 bytes) — only used to sign the JWT.
 const TestCredentials = Layer.succeed(
@@ -21,10 +21,9 @@ const TestCredentials = Layer.succeed(
 
 // listEvmAccounts declares `{ accounts: { address: string; … }[]; nextPageToken?: string }`.
 const run = (body: string) =>
-  runValidationModes(
-    listEvmAccounts({}).pipe(Retry.none, Effect.provide(TestCredentials)),
-    { body },
-  );
+  runValidationModes(listEvmAccounts({}).pipe(Retry.none, Effect.provide(TestCredentials)), {
+    body,
+  });
 
 describe("Coinbase response validation", () => {
   test("a matching body succeeds unchanged in both modes", async () => {
@@ -52,8 +51,5 @@ describe("Coinbase response validation", () => {
 });
 
 // CoinbaseParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [CoinbaseParseError] extends [
-  CoinbaseOpError,
-]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [CoinbaseParseError] extends [CoinbaseOpError] ? true : false =
+  true;

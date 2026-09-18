@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { DockerParseError } from "./errors.ts";
+import type { DockerOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { systemVersion2 } from "./services/docker.ts";
-import type { DockerOpError } from "./protocol.ts";
 
 // systemVersion2 declares `{ Platform?: { Name: string }; Version?: string; … }`.
 const run = (body: string) =>
   runValidationModes(
-    systemVersion2({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    systemVersion2({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -41,6 +38,4 @@ describe("Docker response validation", () => {
 });
 
 // DockerParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [DockerParseError] extends [DockerOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [DockerParseError] extends [DockerOpError] ? true : false = true;

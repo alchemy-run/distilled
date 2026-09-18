@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { ResendParseError } from "./errors.ts";
+import type { ResendOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listApiKeys } from "./services/resend.ts";
-import type { ResendOpError } from "./protocol.ts";
 
 // listApiKeys declares `{ object?: string; has_more?: boolean; data: ApiKey[] }`.
 const run = (body: string) =>
   runValidationModes(
-    listApiKeys({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    listApiKeys({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -52,6 +49,4 @@ describe("Resend response validation", () => {
 });
 
 // ResendParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ResendParseError] extends [ResendOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [ResendParseError] extends [ResendOpError] ? true : false = true;

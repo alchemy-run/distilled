@@ -944,14 +944,11 @@ export class McpServerNotFound
 /** Upstream MCP discovery failed. The response body preserves the upstream error and error_details. */
 export class McpServerSyncFailure
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<McpServerSyncFailure>()(
-      "McpServerSyncFailure",
-      {
-        code: S.Number,
-        message: S.String,
-        body: S.Unknown,
-      },
-    ),
+    /*@__PURE__*/ S.TaggedError<McpServerSyncFailure>()("McpServerSyncFailure", {
+      code: S.Number,
+      message: S.String,
+      body: S.Unknown,
+    }),
     [{ status: 200, body: { "/success": false, "/result/status": "error" } }],
   ) {}
 
@@ -218814,10 +218811,7 @@ export const deleteAccessAiControlMcpPortal: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteAccessAiControlMcpServerError =
-  | McpServerNotFound
-  | Forbidden
-  | CloudflareOpError;
+export type DeleteAccessAiControlMcpServerError = McpServerNotFound | Forbidden | CloudflareOpError;
 /** Deletes an MCP server from the account. */
 export const deleteAccessAiControlMcpServer: API.OperationMethod<
   DeleteAccessAiControlMcpServerRequest,
@@ -218827,12 +218821,7 @@ export const deleteAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccessAiControlMcpServerRequest,
   output: DeleteAccessAiControlMcpServerResponse,
-  errors: [
-    McpServerNotFound,
-    Forbidden,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [McpServerNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -225200,10 +225189,7 @@ export const updateAccessAiControlMcpPortal: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateAccessAiControlMcpServerError =
-  | McpServerNotFound
-  | Forbidden
-  | CloudflareOpError;
+export type UpdateAccessAiControlMcpServerError = McpServerNotFound | Forbidden | CloudflareOpError;
 /** Updates an MCP server's configuration and credentials. */
 export const updateAccessAiControlMcpServer: API.OperationMethod<
   UpdateAccessAiControlMcpServerRequest,
@@ -225213,12 +225199,7 @@ export const updateAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccessAiControlMcpServerRequest,
   output: UpdateAccessAiControlMcpServerResponse,
-  errors: [
-    McpServerNotFound,
-    Forbidden,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
+  errors: [McpServerNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

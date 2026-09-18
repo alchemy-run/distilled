@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { DatadogParseError } from "./errors.ts";
+import type { DatadogOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getAllAuthMethods } from "./services/v2.ts";
-import type { DatadogOpError } from "./protocol.ts";
 
 // getAllAuthMethods declares `{ data: WebhooksAuthMethodResponseData[]; included?: ... }`.
 const run = (body: string) =>
@@ -40,6 +40,5 @@ describe("Datadog response validation", () => {
 });
 
 // DatadogParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [DatadogParseError] extends [DatadogOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [DatadogParseError] extends [DatadogOpError] ? true : false =
+  true;

@@ -4,8 +4,8 @@
 import * as AWS from "@distilled.cloud/aws";
 import * as s3 from "@distilled.cloud/aws/s3";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import * as Layer from "effect/Layer";
 
 const layer = Layer.mergeAll(
   AWS.Credentials.fromCredentials(

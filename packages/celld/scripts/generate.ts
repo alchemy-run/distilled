@@ -6,8 +6,7 @@ runGeneratorCli({
   root: `${import.meta.dir}/..`,
   patchesDir: false,
   spec: (model) => ({
-    sourceNote:
-      "the Celld v0.6.0 source-derived Smithy specifications in specs/",
+    sourceNote: "the Celld v0.6.0 source-derived Smithy specifications in specs/",
     nullableTrait: "com.distilled.openapi#nullable",
     errorMatchersTrait: "com.distilled.openapi#errorMatchers",
     memberTraitPipes: { "com.distilled.http#labelEncoding": "T.LabelEncoding" },

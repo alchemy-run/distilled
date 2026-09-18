@@ -25,13 +25,7 @@
  * plain `convert` would leave it.
  */
 import { spawnSync } from "node:child_process";
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  writeFileSync,
-} from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 
 const ROOT = join(import.meta.dir, "..");
@@ -66,9 +60,7 @@ interface PatchFile {
 }
 
 /** RFC-6902 files under `patchesDir`; anything without a `patches` array is returned separately. */
-const listPatchFiles = (
-  patchesDir: string,
-): { files: PatchFile[]; other: string[] } => {
+const listPatchFiles = (patchesDir: string): { files: PatchFile[]; other: string[] } => {
   const files: PatchFile[] = [];
   const other: string[] = [];
   for (const file of walkJson(patchesDir)) {
@@ -93,9 +85,7 @@ const listPatchFiles = (
 type Models = Map<string, string>; // path relative to .generated-specs → text
 
 const snapshot = (outDir: string): Models =>
-  new Map(
-    walkJson(outDir).map((f) => [relative(outDir, f), readFileSync(f, "utf8")]),
-  );
+  new Map(walkJson(outDir).map((f) => [relative(outDir, f), readFileSync(f, "utf8")]));
 
 const restore = (outDir: string, models: Models): void => {
   for (const [rel, text] of models) {
@@ -143,12 +133,7 @@ const show = (v: unknown): string => {
 };
 
 /** JSON pointers at which `a` (with the patch) and `b` (without) differ. */
-const diffPointers = (
-  a: unknown,
-  b: unknown,
-  pointer: string,
-  out: string[],
-): void => {
+const diffPointers = (a: unknown, b: unknown, pointer: string, out: string[]): void => {
   if (out.length > MAX_DIFF_LINES) return;
   if (isObject(a) && isObject(b)) {
     for (const key of new Set([...Object.keys(a), ...Object.keys(b)])) {
@@ -205,12 +190,7 @@ type Verdict =
   | { kind: "needed"; diff: string[] }
   | { kind: "depended"; error: string };
 
-const judge = (
-  pkgDir: string,
-  outDir: string,
-  baseline: Models,
-  skip: string,
-): Verdict => {
+const judge = (pkgDir: string, outDir: string, baseline: Models, skip: string): Verdict => {
   const run = convert(pkgDir, outDir, skip);
   if (!run.ok) return { kind: "depended", error: run.error };
   const diff = diffModels(baseline, run.models);
@@ -239,9 +219,7 @@ const audit = (pkg: string, opts: { ops: boolean; only?: string }): void => {
 
   const listed = listPatchFiles(patchesDir);
   const files =
-    opts.only === undefined
-      ? listed.files
-      : listed.files.filter((f) => f.key.includes(opts.only!));
+    opts.only === undefined ? listed.files : listed.files.filter((f) => f.key.includes(opts.only!));
   if (listed.other.length > 0) {
     console.log(
       `ℹ  ${listed.other.length} file(s) under patches/ have no \`patches\` array and are not RFC-6902 — not audited:`,
@@ -329,8 +307,7 @@ const positional = args.filter(
 switch (command) {
   case "audit": {
     const pkg = positional[0];
-    if (!pkg)
-      die("usage: patches.ts audit <package> [--ops] [--only <substring>]");
+    if (!pkg) die("usage: patches.ts audit <package> [--ops] [--only <substring>]");
     audit(pkg, { ops: flags.has("--ops"), only });
     break;
   }

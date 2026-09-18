@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { GrafanaParseError } from "./errors.ts";
+import type { GrafanaOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getTeam } from "./services/grafana.ts";
-import type { GrafanaOpError } from "./protocol.ts";
 
 // getTeam declares TeamDTO: `{ id, isProvisioned, memberCount, name, orgId, uid, … }`.
 const run = (body: string) =>
   runValidationModes(
-    getTeam({ team_id: "1" }).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getTeam({ team_id: "1" }).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -49,6 +46,5 @@ describe("Grafana response validation", () => {
 });
 
 // GrafanaParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [GrafanaParseError] extends [GrafanaOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [GrafanaParseError] extends [GrafanaOpError] ? true : false =
+  true;

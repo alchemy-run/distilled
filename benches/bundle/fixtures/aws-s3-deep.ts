@@ -2,8 +2,8 @@
 import * as Credentials from "@distilled.cloud/aws/Credentials";
 import * as s3 from "@distilled.cloud/aws/s3";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import * as Layer from "effect/Layer";
 
 const layer = Layer.mergeAll(
   Credentials.fromCredentials({ accessKeyId: "AKIA_BENCH", secretAccessKey: "bench" }, "us-east-1"),

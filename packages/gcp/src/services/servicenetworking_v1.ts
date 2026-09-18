@@ -38,17 +38,14 @@ export class Conflict
 /** A private services connection already exists for this network and service, so its allocated ranges cannot be changed through CreateConnection (HTTP 400 FAILED_PRECONDITION: 'Cannot modify allocated ranges in CreateConnection. Please use UpdateConnection.'), or the peering is already established. Not retryable; update the existing connection instead. */
 export class ConnectionAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<ConnectionAlreadyExists>()(
-      "ConnectionAlreadyExists",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<ConnectionAlreadyExists>()("ConnectionAlreadyExists", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [
       { status: 400, message: { includes: "Cannot modify allocated ranges" } },
       { status: 400, message: { includes: "already exists" } },
@@ -1600,14 +1597,7 @@ export const createServicesConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateServicesConnectionsRequest,
   output: Operation,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    ConnectionAlreadyExists,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, ConnectionAlreadyExists, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1904,14 +1894,7 @@ export const patchServicesConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchServicesConnectionsRequest,
   output: Operation,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    ConnectionAlreadyExists,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, ConnectionAlreadyExists, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

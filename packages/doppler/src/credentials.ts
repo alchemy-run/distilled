@@ -31,9 +31,7 @@ export const fromApiKey = (config: {
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.isRedacted(config.apiKey)
-        ? config.apiKey
-        : Redacted.make(config.apiKey),
+      apiKey: Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey),
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

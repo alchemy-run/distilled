@@ -67,17 +67,11 @@ describe("operation protocol overrides", () => {
             protocol: "ExampleProtocol",
             retry,
             overrides: () =>
-              overridden
-                ? { contextType: "PublicContext", protocol: "PublicProtocol" }
-                : undefined,
+              overridden ? { contextType: "PublicContext", protocol: "PublicProtocol" } : undefined,
           },
         });
-        expect(code).toContain(
-          `  protocol: ${overridden ? "PublicProtocol" : "ExampleProtocol"},`,
-        );
-        expect(code).toContain(
-          `  ${overridden ? "PublicContext" : "ExampleContext"}\n>`,
-        );
+        expect(code).toContain(`  protocol: ${overridden ? "PublicProtocol" : "ExampleProtocol"},`);
+        expect(code).toContain(`  ${overridden ? "PublicContext" : "ExampleContext"}\n>`);
         if (retry) expect(code).toContain(`  retry: ${retry},`);
         else expect(code).not.toContain("  retry:");
       });

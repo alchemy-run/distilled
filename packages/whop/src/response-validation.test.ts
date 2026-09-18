@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { WhopParseError } from "./errors.ts";
+import type { WhopOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getDisputeSummary } from "./services/disputes.ts";
-import type { WhopOpError } from "./protocol.ts";
 
 // getDisputeSummary declares `{ groups: { … }; total: number }`.
 const run = (body: string) =>
   runValidationModes(
-    getDisputeSummary({}).pipe(
-      Retry.none,
-      Effect.provide(credentials({ apiKey: "test" })),
-    ),
+    getDisputeSummary({}).pipe(Retry.none, Effect.provide(credentials({ apiKey: "test" }))),
     { body },
   );
 
@@ -42,6 +39,4 @@ describe("Whop response validation", () => {
 });
 
 // WhopParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [WhopParseError] extends [WhopOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [WhopParseError] extends [WhopOpError] ? true : false = true;

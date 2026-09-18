@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromAccessToken } from "./credentials.ts";
 import { GCPParseError } from "./errors.ts";
+import type { GcpOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getProjects } from "./services/cloudresourcemanager_v3.ts";
-import type { GcpOpError } from "./protocol.ts";
 
 // getProjects declares `Project`, whose members are all optional (as in most
 // discovery documents), so the mismatch is a wrong primitive.
@@ -47,6 +47,4 @@ describe("GCP response validation", () => {
 });
 
 // GCPParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [GCPParseError] extends [GcpOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [GCPParseError] extends [GcpOpError] ? true : false = true;

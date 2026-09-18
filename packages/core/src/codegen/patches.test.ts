@@ -162,13 +162,9 @@ describe(SKIP_PATCHES_ENV, () => {
   test("a basename or a path suffix drops that file", async () => {
     const dir = patchDir();
     process.env[SKIP_PATCHES_ENV] = "a.json";
-    expect(
-      (await listRfc6902PatchFiles(dir)).map((f) => f.split("/").pop()),
-    ).toEqual(["b.json"]);
+    expect((await listRfc6902PatchFiles(dir)).map((f) => f.split("/").pop())).toEqual(["b.json"]);
     process.env[SKIP_PATCHES_ENV] = "svc/b.json";
-    expect(
-      (await listRfc6902PatchFiles(dir)).map((f) => f.split("/").pop()),
-    ).toEqual(["a.json"]);
+    expect((await listRfc6902PatchFiles(dir)).map((f) => f.split("/").pop())).toEqual(["a.json"]);
     process.env[SKIP_PATCHES_ENV] = "other/b.json";
     expect((await listRfc6902PatchFiles(dir)).length).toBe(2);
   });

@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { AdyenParseError } from "./errors.ts";
+import type { AdyenOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getPaymentLink } from "./services/adyen.ts";
-import type { AdyenOpError } from "./protocol.ts";
 
 // getPaymentLink declares required `amount`, `id`, `merchantAccount`,
 // `reference`, `status`, and `url`.
@@ -49,6 +49,4 @@ describe("Adyen response validation", () => {
 });
 
 // AdyenParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [AdyenParseError] extends [AdyenOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [AdyenParseError] extends [AdyenOpError] ? true : false = true;

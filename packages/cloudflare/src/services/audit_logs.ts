@@ -4,7 +4,6 @@ import * as S from "@distilled.cloud/core/schema";
 import { CloudflareError, CloudflareRateLimited } from "../errors.ts";
 import { cloudflarePaginate, ResultInfo } from "../pagination.ts";
 import {
-  CloudflareProtocol,
   CloudflarePaginatedProtocol,
   type CloudflareOpError,
   type CloudflareOpContext,
@@ -29,9 +28,7 @@ export const ListRequestAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRequestAction",
-}) as any as S.Schema<ListRequestAction>;
+).annotate({ identifier: "ListRequestAction" }) as any as S.Schema<ListRequestAction>;
 
 export interface ListRequestActor {
   /** Filters by the email address of the actor that made the change. */
@@ -44,9 +41,7 @@ export const ListRequestActor = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.String),
     ip: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRequestActor",
-}) as any as S.Schema<ListRequestActor>;
+).annotate({ identifier: "ListRequestActor" }) as any as S.Schema<ListRequestActor>;
 
 export type ListRequestDirection = "desc" | "asc";
 export const ListRequestDirection = S.String;
@@ -59,9 +54,7 @@ export const ListRequestZone = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRequestZone",
-}) as any as S.Schema<ListRequestZone>;
+).annotate({ identifier: "ListRequestZone" }) as any as S.Schema<ListRequestZone>;
 
 export interface ListAuditLogsRequest {
   /** Identifier */
@@ -101,17 +94,9 @@ export const ListAuditLogsRequest = /*@__PURE__*/ S.suspend(() =>
     since: S.optional(S.String.pipe(T.Query())),
     zone: S.optional(ListRequestZone.pipe(T.DeepQuery("zone"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/audit_logs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/audit_logs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAuditLogsRequest",
-}) as any as S.Schema<ListAuditLogsRequest>;
+).annotate({ identifier: "ListAuditLogsRequest" }) as any as S.Schema<ListAuditLogsRequest>;
 
 export interface ListResultItemAction {
   /** A boolean that indicates if the action attempted was successful. */
@@ -124,9 +109,7 @@ export const ListResultItemAction = /*@__PURE__*/ S.suspend(() =>
     result: S.optional(S.NullOr(S.Boolean)),
     type: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ListResultItemAction",
-}) as any as S.Schema<ListResultItemAction>;
+).annotate({ identifier: "ListResultItemAction" }) as any as S.Schema<ListResultItemAction>;
 
 export type ListResultItemActorType = "user" | "admin" | "Cloudflare";
 export const ListResultItemActorType = S.String;
@@ -148,9 +131,7 @@ export const ListResultItemActor = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(S.NullOr(S.String)),
     type: S.optional(S.NullOr(ListResultItemActorType)),
   }),
-).annotate({
-  identifier: "ListResultItemActor",
-}) as any as S.Schema<ListResultItemActor>;
+).annotate({ identifier: "ListResultItemActor" }) as any as S.Schema<ListResultItemActor>;
 
 export interface ListResultItemOwner {
   /** Identifier */
@@ -160,9 +141,7 @@ export const ListResultItemOwner = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ListResultItemOwner",
-}) as any as S.Schema<ListResultItemOwner>;
+).annotate({ identifier: "ListResultItemOwner" }) as any as S.Schema<ListResultItemOwner>;
 
 export interface ListResultItemResource {
   /** An identifier for the resource that was affected by the action. */
@@ -175,9 +154,7 @@ export const ListResultItemResource = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.NullOr(S.String)),
     type: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ListResultItemResource",
-}) as any as S.Schema<ListResultItemResource>;
+).annotate({ identifier: "ListResultItemResource" }) as any as S.Schema<ListResultItemResource>;
 
 export interface ListResultItem {
   /** A string that uniquely identifies the audit log. */
@@ -228,9 +205,7 @@ export const ListAuditLogsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAuditLogsResponse",
-}) as any as S.Schema<ListAuditLogsResponse>;
+).annotate({ identifier: "ListAuditLogsResponse" }) as any as S.Schema<ListAuditLogsResponse>;
 
 export type ListAuditLogsError = CloudflareOpError;
 /** Gets a list of audit logs for an account. Can be filtered by who made the change, on which zone, and the timeframe of the change. */

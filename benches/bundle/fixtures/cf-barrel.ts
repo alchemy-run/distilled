@@ -3,9 +3,9 @@
 // namespaces). Same listScripts call as `cf-workers-deep.ts`.
 import * as CF from "@distilled.cloud/cloudflare";
 import * as Effect from "effect/Effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
-import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
 const layer = Layer.mergeAll(CF.fromApiToken({ apiToken: "bench-token" }), FetchHttpClient.layer);
 

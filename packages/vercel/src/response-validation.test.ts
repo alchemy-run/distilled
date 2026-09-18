@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { VercelParseError } from "./errors.ts";
+import type { VercelOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listAiGatewayRules } from "./services/ai_gateway.ts";
-import type { VercelOpError } from "./protocol.ts";
 
 // listAiGatewayRules declares `{ rules: AiGatewayRule[] }`.
 const run = (body: string) =>
   runValidationModes(
-    listAiGatewayRules({}).pipe(
-      Retry.none,
-      Effect.provide(credentials({ token: "test" })),
-    ),
+    listAiGatewayRules({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
     { body },
   );
 
@@ -40,6 +37,4 @@ describe("Vercel response validation", () => {
 });
 
 // VercelParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [VercelParseError] extends [VercelOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [VercelParseError] extends [VercelOpError] ? true : false = true;

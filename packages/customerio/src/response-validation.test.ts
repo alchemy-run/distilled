@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { CustomerioParseError } from "./errors.ts";
+import type { CustomerioOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getWebhook } from "./services/customerio.ts";
-import type { CustomerioOpError } from "./protocol.ts";
 
 // getWebhook declares `{ name: string; endpoint: string; events: [...]; … }`.
 const run = (body: string) =>
   runValidationModes(
-    getWebhook({ webhook_id: 1 }).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getWebhook({ webhook_id: 1 }).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -47,8 +44,6 @@ describe("Customer.io response validation", () => {
 });
 
 // CustomerioParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [CustomerioParseError] extends [
-  CustomerioOpError,
-]
+export const parseErrorIsDeclared: [CustomerioParseError] extends [CustomerioOpError]
   ? true
   : false = true;

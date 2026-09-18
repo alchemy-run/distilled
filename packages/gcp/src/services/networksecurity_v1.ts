@@ -7959,14 +7959,7 @@ export const createProjectsLocationsSacAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsSacAttachmentsRequest,
   output: Operation,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    SacRealmNotPaired,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, SacRealmNotPaired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

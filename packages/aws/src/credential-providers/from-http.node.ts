@@ -9,8 +9,7 @@ import { readFileString } from "./node-file-system.ts";
 
 export const httpSource = (
   options: { timeout?: number; maxRetries?: number } = {},
-): CredentialSource =>
-  browserHttpSource({ ...options, readFile: readFileString });
+): CredentialSource => browserHttpSource({ ...options, readFile: readFileString });
 
 const hints = ["Ensure the configured credential endpoint is reachable."];
 
@@ -18,6 +17,5 @@ const hints = ["Ensure the configured credential endpoint is reachable."];
  * The endpoint named by `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` or
  * `AWS_CONTAINER_CREDENTIALS_FULL_URI`, plus the token file on disk.
  */
-export const fromHttp = (
-  options: { timeout?: number; maxRetries?: number } = {},
-) => createLazyProvider(httpSource(options), "http", hints);
+export const fromHttp = (options: { timeout?: number; maxRetries?: number } = {}) =>
+  createLazyProvider(httpSource(options), "http", hints);

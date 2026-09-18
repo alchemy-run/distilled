@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { PolarParseError } from "./errors.ts";
+import type { PolarOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { eventsListNames } from "./services/polar.ts";
-import type { PolarOpError } from "./protocol.ts";
 
 // eventsListNames declares `{ items: EventName[]; pagination: { total_count: number; max_page: number } }`.
 const run = (body: string) =>
   runValidationModes(
-    eventsListNames({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    eventsListNames({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -53,6 +50,4 @@ describe("Polar response validation", () => {
 });
 
 // PolarParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [PolarParseError] extends [PolarOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [PolarParseError] extends [PolarOpError] ? true : false = true;

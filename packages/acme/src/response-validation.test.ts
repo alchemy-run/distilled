@@ -5,9 +5,9 @@ import * as Redacted from "effect/Redacted";
 import { layer } from "./credentials.ts";
 import { AcmeParseError } from "./errors.ts";
 import { resetProtocolCaches } from "./protocol.ts";
+import type { AcmeOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getDirectory } from "./services/acme.ts";
-import type { AcmeOpError } from "./protocol.ts";
 
 const DIRECTORY_URL = "https://acme.test/directory";
 
@@ -60,6 +60,4 @@ describe("ACME response validation", () => {
 });
 
 // AcmeParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [AcmeParseError] extends [AcmeOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [AcmeParseError] extends [AcmeOpError] ? true : false = true;

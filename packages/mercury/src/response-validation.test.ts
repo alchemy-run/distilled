@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { MercuryParseError } from "./errors.ts";
+import type { MercuryOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getOrganization } from "./services/mercury.ts";
-import type { MercuryOpError } from "./protocol.ts";
 
 // getOrganization declares `{ organization: { dbas: OrganizationDBA[]; legalBusinessName: string; … } }`.
 const run = (body: string) =>
   runValidationModes(
-    getOrganization({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getOrganization({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -50,6 +47,5 @@ describe("Mercury response validation", () => {
 });
 
 // MercuryParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [MercuryParseError] extends [MercuryOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [MercuryParseError] extends [MercuryOpError] ? true : false =
+  true;

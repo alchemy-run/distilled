@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { S2ParseError } from "./errors.ts";
+import type { S2OpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listBasins } from "./services/basins.ts";
-import type { S2OpError } from "./protocol.ts";
 
 // listBasins declares `{ basins: BasinInfo[]; has_more: boolean }`.
 const run = (body: string) =>
   runValidationModes(
-    listBasins({}).pipe(
-      Retry.none,
-      Effect.provide(credentials({ token: "test" })),
-    ),
+    listBasins({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
     { body },
   );
 
@@ -40,6 +37,4 @@ describe("S2 response validation", () => {
 });
 
 // S2ParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [S2ParseError] extends [S2OpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [S2ParseError] extends [S2OpError] ? true : false = true;

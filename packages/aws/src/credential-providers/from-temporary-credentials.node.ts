@@ -19,17 +19,13 @@ export const temporaryCredentialsSource = (
     masterCredentials: options.masterCredentials ?? nodeProviderChainSource(),
   });
 
-const hints = [
-  "Check that the source credentials are allowed to sts:AssumeRole the role.",
-];
+const hints = ["Check that the source credentials are allowed to sts:AssumeRole the role."];
 
 /**
  * A role assumed with another set of credentials, using the full Node
  * chain as the credentials that call `sts:AssumeRole`.
  */
-export const fromTemporaryCredentials = (
-  options: FromTemporaryCredentialsOptions,
-) =>
+export const fromTemporaryCredentials = (options: FromTemporaryCredentialsOptions) =>
   createLazyProvider(
     temporaryCredentialsSource(options),
     "temporary",

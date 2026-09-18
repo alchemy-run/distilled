@@ -137,8 +137,6 @@ interface ParsedOp {
   returns: FieldNode[];
 }
 
-const HTTP_METHODS = ["get", "post", "put", "patch", "delete"];
-
 /** Split `optional <type>` into its parts. */
 const stripOptional = (typeStr: string): { optional: boolean; core: string } => {
   const t = typeStr.trim();
@@ -905,7 +903,7 @@ const NUM_LIT = /^-?\d+(?:\.\d+)?$/;
 const structFrom = (bag: Bag, fields: FieldNode[], hint: string): string =>
   addShape(bag, hint, {
     type: "structure",
-    members: buildMembers(bag, fields, hint, "nested"),
+    members: buildMembers(bag, fields, hint),
   });
 
 const listOf = (bag: Bag, item: string, hint: string): string =>
@@ -1393,15 +1391,8 @@ const boundTarget = (
   }
 };
 
-type Role = "input" | "output" | "nested";
-
 /** Build a structure's `members` map from a list of field nodes. */
-const buildMembers = (
-  bag: Bag,
-  rawFields: FieldNode[],
-  hint: string,
-  role: Role,
-): Record<string, any> => {
+const buildMembers = (bag: Bag, rawFields: FieldNode[], hint: string): Record<string, any> => {
   const members: Record<string, any> = {};
   const used = new Set<string>();
   // Union-arm bullets are consumed by their parent's type resolution; only
@@ -1715,7 +1706,7 @@ const buildOperation = (bag: Bag, opName: string, parsed: ParsedOp): string => {
 
   let inputTarget: string = PRELUDE.Unit;
   if (inputFields.length) {
-    const members = buildMembers(bag, inputFields, `${opName}Request`, "input");
+    const members = buildMembers(bag, inputFields, `${opName}Request`);
     // Docs convention for raw (non-object) request bodies: a single body
     // param literally named `body` (e.g. alerting silences POST an array,
     // KV bulk delete POSTs an array of keys). Mark it httpPayload so the
@@ -1767,7 +1758,7 @@ const buildOperation = (bag: Bag, opName: string, parsed: ParsedOp): string => {
           !core.startsWith('"') &&
           !/^(string|boolean|true|false|number|integer|int|unknown|any)$/.test(core.trim())));
     if (objectLike && fieldChildren.length) {
-      const members = buildMembers(bag, fieldChildren, `${opName}Response`, "output");
+      const members = buildMembers(bag, fieldChildren, `${opName}Response`);
       outputTarget = addShape(bag, `${opName}Response`, {
         type: "structure",
         members,
@@ -1800,7 +1791,7 @@ const buildOperation = (bag: Bag, opName: string, parsed: ParsedOp): string => {
     // Non-standard envelope: keep any non-envelope top-level fields as output.
     const rest = returns.filter((n) => !ENVELOPE_KEYS.has(n.name));
     if (rest.length) {
-      const members = buildMembers(bag, rest, `${opName}Response`, "output");
+      const members = buildMembers(bag, rest, `${opName}Response`);
       outputTarget = addShape(bag, `${opName}Response`, {
         type: "structure",
         members,

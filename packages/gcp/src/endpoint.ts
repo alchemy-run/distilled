@@ -9,10 +9,9 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-export class Endpoint extends Context.Service<
-  Endpoint,
-  Effect.Effect<string | undefined>
->()("GCP::Endpoint") {}
+export class Endpoint extends Context.Service<Endpoint, Effect.Effect<string | undefined>>()(
+  "GCP::Endpoint",
+) {}
 
 /** `GOOGLE_API_ENDPOINT`; resolves `undefined` when unset. */
 export const fromEnvironment = Config.String("GOOGLE_API_ENDPOINT").pipe(
@@ -21,12 +20,10 @@ export const fromEnvironment = Config.String("GOOGLE_API_ENDPOINT").pipe(
 );
 
 /** Override the endpoint with whatever the environment names, if anything. */
-export const fromEnv = () =>
-  Layer.succeed(Endpoint, fromEnvironment.pipe(Effect.orDie));
+export const fromEnv = () => Layer.succeed(Endpoint, fromEnvironment.pipe(Effect.orDie));
 
 /** Override the endpoint for a scope, e.g. `Endpoint.of("http://localhost:8085")`. */
-export const of = (endpoint: string) =>
-  Layer.succeed(Endpoint, Effect.succeed(endpoint));
+export const of = (endpoint: string) => Layer.succeed(Endpoint, Effect.succeed(endpoint));
 
 /** Replace the origin of `baseUrl` with `endpoint`, keeping its path. */
 export const withEndpoint = (baseUrl: string, endpoint: string): string => {

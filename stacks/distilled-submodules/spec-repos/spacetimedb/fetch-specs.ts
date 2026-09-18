@@ -159,7 +159,7 @@ function htmlToMarkdown(html: string): string {
 
 function normalizePath(pathTemplate: string): string {
   return pathTemplate
-    .replace(/[\u200b\u200c\u200d\ufeff]/g, "")
+    .replace(/(?:\u200b|\u200c|\u200d|\ufeff)/g, "")
     .replace(/\{([^}/]+)\}/g, (_, name) => `{${String(name).replace(/^\*/, "")}}`)
     .replace(/:([A-Za-z_][A-Za-z0-9_]*)/g, "{$1}")
     .replace(/\/+$/, "");

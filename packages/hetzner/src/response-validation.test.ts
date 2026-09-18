@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { HetznerParseError } from "./errors.ts";
+import type { HetznerOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listLocations } from "./services/locations.ts";
-import type { HetznerOpError } from "./protocol.ts";
 
 // listLocations declares `{ locations: Location[]; meta: { pagination } }`.
 const run = (body: string) =>
   runValidationModes(
-    listLocations({}).pipe(
-      Retry.none,
-      Effect.provide(credentials({ token: "test" })),
-    ),
+    listLocations({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
     { body },
   );
 
@@ -54,6 +51,5 @@ describe("Hetzner response validation", () => {
 });
 
 // HetznerParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [HetznerParseError] extends [HetznerOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [HetznerParseError] extends [HetznerOpError] ? true : false =
+  true;

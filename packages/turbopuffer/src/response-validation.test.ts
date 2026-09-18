@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { TurbopufferParseError } from "./errors.ts";
+import type { TurbopufferOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listNamespaces } from "./services/turbopuffer.ts";
-import type { TurbopufferOpError } from "./protocol.ts";
 
 // listNamespaces declares `{ namespaces?: { id: string }[]; next_cursor?: string }`.
 const run = (body: string) =>
   runValidationModes(
-    listNamespaces({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    listNamespaces({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -41,8 +38,6 @@ describe("Turbopuffer response validation", () => {
 });
 
 // TurbopufferParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [TurbopufferParseError] extends [
-  TurbopufferOpError,
-]
+export const parseErrorIsDeclared: [TurbopufferParseError] extends [TurbopufferOpError]
   ? true
   : false = true;

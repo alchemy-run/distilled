@@ -12,51 +12,42 @@ export type { GcpOpError, GcpOpContext };
 /** The association references a backup plan that does not exist (HTTP 400: 'The request was invalid: backup plan … not found'). Not retryable. */
 export class BackupPlanReferenceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<BackupPlanReferenceNotFound>()(
-      "BackupPlanReferenceNotFound",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<BackupPlanReferenceNotFound>()("BackupPlanReferenceNotFound", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [{ status: 400, message: { matches: "backup plan .* not found" } }],
   ) {}
 
 /** The association targets a workload resource that does not exist (HTTP 400: 'The request was invalid: resource … is not found'). Not retryable. */
 export class BackupResourceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<BackupResourceNotFound>()(
-      "BackupResourceNotFound",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<BackupResourceNotFound>()("BackupResourceNotFound", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [{ status: 400, message: { matches: "resource .* is not found" } }],
   ) {}
 
 /** The backup plan references a backup vault that does not exist (HTTP 400: 'The request was invalid: backup vault "…" not found'). Not retryable. */
 export class BackupVaultReferenceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<BackupVaultReferenceNotFound>()(
-      "BackupVaultReferenceNotFound",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<BackupVaultReferenceNotFound>()("BackupVaultReferenceNotFound", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [{ status: 400, message: { matches: "backup vault .* not found" } }],
   ) {}
 

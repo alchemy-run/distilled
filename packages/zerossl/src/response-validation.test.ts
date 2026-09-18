@@ -4,9 +4,9 @@ import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { DEFAULT_API_BASE_URL, layer } from "./credentials.ts";
 import { ZeroSslParseError } from "./errors.ts";
+import type { ZeroSslOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { generateEabCredentials } from "./services/zerossl.ts";
-import type { ZeroSslOpError } from "./protocol.ts";
 
 // generateEabCredentials declares `{ success: boolean; eab_kid: string; eab_hmac_key: Redacted<string> }`.
 const run = (body: string) =>
@@ -53,6 +53,5 @@ describe("ZeroSSL response validation", () => {
 });
 
 // ZeroSslParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ZeroSslParseError] extends [ZeroSslOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [ZeroSslParseError] extends [ZeroSslOpError] ? true : false =
+  true;

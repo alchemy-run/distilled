@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import * as Effect from "effect/Effect";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
+import * as Effect from "effect/Effect";
 import { isTransientError } from "../category.ts";
 import { InternalError, ParseError } from "../errors.ts";
 import {
@@ -154,10 +154,7 @@ describe("2xx response validation", () => {
 
   test("strict fails a mismatch with ParseError", async () => {
     const error = await Effect.runPromise(
-      parseCreateFunction(mismatched).pipe(
-        Effect.provide(ResponseValidation.strict),
-        Effect.flip,
-      ),
+      parseCreateFunction(mismatched).pipe(Effect.provide(ResponseValidation.strict), Effect.flip),
     );
     expect(error).toBeInstanceOf(ParseError);
     expect(isTransientError(error)).toBe(false);

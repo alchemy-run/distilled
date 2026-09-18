@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { VantaParseError } from "./errors.ts";
+import type { VantaOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listConnectedIntegrations } from "./services/manage_vanta.ts";
-import type { VantaOpError } from "./protocol.ts";
 
 // listConnectedIntegrations declares `{ results: { data: Integration[]; pageInfo: PageInfo } }`.
 const run = (body: string) =>
   runValidationModes(
-    listConnectedIntegrations({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    listConnectedIntegrations({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -51,6 +48,4 @@ describe("Vanta response validation", () => {
 });
 
 // VantaParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [VantaParseError] extends [VantaOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [VantaParseError] extends [VantaOpError] ? true : false = true;

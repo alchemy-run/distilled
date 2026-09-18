@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { RemoteParseError } from "./errors.ts";
+import type { RemoteOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getPayItems } from "./services/remote.ts";
-import type { RemoteOpError } from "./protocol.ts";
 
 // getPayItems declares `{ data: { current_page, data, total_count, total_pages } }`.
 const run = (body: string) =>
   runValidationModes(
-    getPayItems({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getPayItems({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -42,6 +39,4 @@ describe("Remote response validation", () => {
 });
 
 // RemoteParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [RemoteParseError] extends [RemoteOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [RemoteParseError] extends [RemoteOpError] ? true : false = true;

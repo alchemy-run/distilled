@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { BoatParseError } from "./errors.ts";
+import type { BoatOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getCurrentUser } from "./services/boat.ts";
-import type { BoatOpError } from "./protocol.ts";
 
 // getCurrentUser declares `{ ok: boolean; type: string; user: { … } }`.
 const run = (body: string) =>
   runValidationModes(
-    getCurrentUser({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getCurrentUser({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -42,6 +39,4 @@ describe("Boat response validation", () => {
 });
 
 // BoatParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [BoatParseError] extends [BoatOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [BoatParseError] extends [BoatOpError] ? true : false = true;

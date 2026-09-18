@@ -482,23 +482,12 @@ export const deleteBillingAccountsBudgets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBillingAccountsBudgetsRequest,
   output: GoogleProtobufEmpty,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    BudgetNotFound,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, BudgetNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBillingAccountsBudgetsError =
-  | NotFound
-  | Forbidden
-  | BudgetNotFound
-  | GcpOpError;
+export type GetBillingAccountsBudgetsError = NotFound | Forbidden | BudgetNotFound | GcpOpError;
 /** Returns a budget. WARNING: There are some fields exposed on the Google Cloud Console that aren't available on this API. When reading from the API, you will not see these fields in the return value, though they may have been set in the Cloud Console. */
 export const getBillingAccountsBudgets: API.OperationMethod<
   GetBillingAccountsBudgetsRequest,
@@ -549,14 +538,7 @@ export const patchBillingAccountsBudgets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchBillingAccountsBudgetsRequest,
   output: GoogleCloudBillingBudgetsV1Budget,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    BudgetNotFound,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, BudgetNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

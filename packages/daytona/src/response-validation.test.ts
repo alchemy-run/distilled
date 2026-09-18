@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { DaytonaParseError } from "./errors.ts";
+import type { DaytonaOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getSnapshotBuildLogsUrl } from "./services/snapshots.ts";
-import type { DaytonaOpError } from "./protocol.ts";
 
 // getSnapshotBuildLogsUrl declares `{ url: string }`.
 const run = (body: string) =>
@@ -40,6 +40,5 @@ describe("Daytona response validation", () => {
 });
 
 // DaytonaParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [DaytonaParseError] extends [DaytonaOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [DaytonaParseError] extends [DaytonaOpError] ? true : false =
+  true;

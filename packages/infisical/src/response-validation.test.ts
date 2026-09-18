@@ -3,18 +3,15 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { InfisicalParseError } from "./errors.ts";
+import type { InfisicalOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getPkiDiscoveryConfig } from "./services/infisical.ts";
-import type { InfisicalOpError } from "./protocol.ts";
 
 // getPkiDiscoveryConfig declares required `defaultPorts`, `maxPorts`,
 // `maxIps`, `maxDomains`, and `minCidrPrefix`.
 const run = (body: string) =>
   runValidationModes(
-    getPkiDiscoveryConfig({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getPkiDiscoveryConfig({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -48,8 +45,5 @@ describe("Infisical response validation", () => {
 });
 
 // InfisicalParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [InfisicalParseError] extends [
-  InfisicalOpError,
-]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [InfisicalParseError] extends [InfisicalOpError] ? true : false =
+  true;

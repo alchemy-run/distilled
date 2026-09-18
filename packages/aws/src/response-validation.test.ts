@@ -13,10 +13,7 @@ const run = (body: string) =>
     describeEndpoints({}).pipe(
       Retry.none,
       Effect.provide(
-        fromCredentials(
-          { accessKeyId: "AKIDTEST", secretAccessKey: "secret" },
-          "us-east-1",
-        ),
+        fromCredentials({ accessKeyId: "AKIDTEST", secretAccessKey: "secret" }, "us-east-1"),
       ),
     ),
     { body, headers: { "content-type": "application/x-amz-json-1.0" } },
@@ -55,6 +52,4 @@ describe("AWS response validation", () => {
 });
 
 // ParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ParseError] extends [CommonErrors]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [ParseError] extends [CommonErrors] ? true : false = true;

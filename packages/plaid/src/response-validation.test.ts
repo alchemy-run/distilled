@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { PlaidParseError } from "./errors.ts";
+import type { PlaidOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getRecipients } from "./services/plaid.ts";
-import type { PlaidOpError } from "./protocol.ts";
 
 // getRecipients declares `{ recipients: Recipient[] }`.
 const run = (body: string) =>
@@ -40,6 +40,4 @@ describe("Plaid response validation", () => {
 });
 
 // PlaidParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [PlaidParseError] extends [PlaidOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [PlaidParseError] extends [PlaidOpError] ? true : false = true;

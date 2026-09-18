@@ -1,25 +1,15 @@
+import { exec } from "node:child_process";
 /**
  * Credentials from the profile's `credential_process` command.
  */
 import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
 import { createLazyProvider } from "../credentials-service.ts";
-import { exec } from "node:child_process";
-import {
-  type CredentialSource,
-  CredentialSourceError,
-} from "./credential-source.ts";
-import {
-  getProfileName,
-  loadProfiles,
-  type Profiles,
-  profileRegion,
-} from "./profile.ts";
+import { type CredentialSource, CredentialSourceError } from "./credential-source.ts";
+import { getProfileName, loadProfiles, type Profiles, profileRegion } from "./profile.ts";
 
 /** Run a shell command and return its stdout; interrupt kills the child. */
-const execCommand = (
-  command: string,
-): Effect.Effect<string, CredentialSourceError> =>
+const execCommand = (command: string): Effect.Effect<string, CredentialSourceError> =>
   Effect.callback<string, CredentialSourceError>((resume, signal) => {
     exec(command, { signal }, (error, stdout) => {
       resume(
@@ -82,10 +72,7 @@ export const resolveProcessCredentials = (
       if (data.Version !== 1) {
         return Effect.fail(invalid("did not return Version 1"));
       }
-      if (
-        data.AccessKeyId === undefined ||
-        data.SecretAccessKey === undefined
-      ) {
+      if (data.AccessKeyId === undefined || data.SecretAccessKey === undefined) {
         return Effect.fail(invalid("returned invalid credentials"));
       }
       if (data.Expiration && new Date(data.Expiration) < new Date()) {
@@ -104,16 +91,12 @@ export const resolveProcessCredentials = (
   );
 };
 
-export const processSource = (
-  options: { profile?: string } = {},
-): CredentialSource =>
+export const processSource = (options: { profile?: string } = {}): CredentialSource =>
   Effect.flatMap(loadProfiles(), (profiles) =>
     resolveProcessCredentials(getProfileName(options.profile), profiles),
   );
 
-const hints = [
-  "Set AWS_CREDENTIAL_PROCESS to a valid command and ensure it exits successfully.",
-];
+const hints = ["Set AWS_CREDENTIAL_PROCESS to a valid command and ensure it exits successfully."];
 
 /** The profile's `credential_process` command. */
 export const fromProcess = (options: { profile?: string } = {}) =>

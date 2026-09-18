@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { ElasticsearchParseError } from "./errors.ts";
+import type { ElasticsearchOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { licenseGetBasicStatus } from "./services/elasticsearch.ts";
-import type { ElasticsearchOpError } from "./protocol.ts";
 
 // licenseGetBasicStatus declares `{ eligible_to_start_basic: boolean }`.
 const run = (body: string) =>
   runValidationModes(
-    licenseGetBasicStatus({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    licenseGetBasicStatus({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -42,8 +39,6 @@ describe("Elasticsearch response validation", () => {
 });
 
 // ElasticsearchParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ElasticsearchParseError] extends [
-  ElasticsearchOpError,
-]
+export const parseErrorIsDeclared: [ElasticsearchParseError] extends [ElasticsearchOpError]
   ? true
   : false = true;

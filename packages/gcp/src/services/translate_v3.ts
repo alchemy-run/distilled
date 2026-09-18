@@ -12,17 +12,14 @@ export type { GcpOpError, GcpOpContext };
 /** The Adaptive MT dataset has fewer than 5 sentence pairs (HTTP 400 INVALID_ARGUMENT: "Dataset has less than 5 sentences."). Import more sentence pairs before translating. */
 export class AdaptiveMtDatasetTooSmall
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<AdaptiveMtDatasetTooSmall>()(
-      "AdaptiveMtDatasetTooSmall",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<AdaptiveMtDatasetTooSmall>()("AdaptiveMtDatasetTooSmall", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [
       {
         status: 400,
@@ -2679,14 +2676,7 @@ export const adaptiveMtTranslateProjectsLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AdaptiveMtTranslateProjectsLocationsRequest,
   output: AdaptiveMtTranslateResponse,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    AdaptiveMtDatasetTooSmall,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, AdaptiveMtDatasetTooSmall, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

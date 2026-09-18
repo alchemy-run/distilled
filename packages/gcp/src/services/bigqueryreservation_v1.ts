@@ -25,17 +25,14 @@ export class BadRequest
 /** The capacity commitment is still inside its committed period and cannot be deleted yet (HTTP 400 FAILED_PRECONDITION). Retry after `commitmentEndTime`. */
 export class CapacityCommitmentNotExpired
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<CapacityCommitmentNotExpired>()(
-      "CapacityCommitmentNotExpired",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<CapacityCommitmentNotExpired>()("CapacityCommitmentNotExpired", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [
       {
         status: 400,
@@ -50,17 +47,14 @@ export class CapacityCommitmentNotExpired
 /** The commitment plan is not sold for the requested edition (e.g. FLEX_FLAT_RATE is end of sale for editions) (HTTP 400). Not retryable. */
 export class CommitmentPlanNotSupported
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<CommitmentPlanNotSupported>()(
-      "CommitmentPlanNotSupported",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ).pipe(C.withBadRequestError),
+    /*@__PURE__*/ S.TaggedError<CommitmentPlanNotSupported>()("CommitmentPlanNotSupported", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
     [
       {
         status: 400,
@@ -1576,14 +1570,7 @@ export const createProjectsLocationsCapacityCommitments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCapacityCommitmentsRequest,
   output: CapacityCommitment,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    CommitmentPlanNotSupported,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, CommitmentPlanNotSupported, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

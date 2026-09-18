@@ -64,17 +64,14 @@ export class NotFound
 /** The project's per-region Filestore storage quota for the requested tier is exhausted (HTTP 429: "Quota limit '<Tier>StorageGibPerRegion' has been exceeded. Limit: N in region R."). A capacity limit, not rate limiting — deliberately carries no httpError so it is not classified as throttling and retried; it clears only when quota is raised or storage is freed. */
 export class StorageQuotaExceeded
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<StorageQuotaExceeded>()(
-      "StorageQuotaExceeded",
-      {
-        code: S.optional(S.Number),
-        message: S.String,
-        status: S.optional(S.String),
-        reason: S.optional(S.String),
-        domain: S.optional(S.String),
-        details: S.optional(S.Array(S.Unknown)),
-      },
-    ),
+    /*@__PURE__*/ S.TaggedError<StorageQuotaExceeded>()("StorageQuotaExceeded", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }),
     [
       {
         status: 429,
@@ -1516,14 +1513,7 @@ export const createProjectsLocationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [
-    NotFound,
-    Forbidden,
-    BadRequest,
-    Conflict,
-    StorageQuotaExceeded,
-    UnknownGCPError,
-  ],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, StorageQuotaExceeded, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
