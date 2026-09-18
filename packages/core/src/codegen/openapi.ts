@@ -1554,7 +1554,7 @@ export const convertOpenApiToSmithy = (
       ? {
           ...base,
           ...override,
-          traits: { ...base.traits, ...(override.traits ?? {}) },
+          traits: { ...base.traits, ...override.traits },
         }
       : base;
   }

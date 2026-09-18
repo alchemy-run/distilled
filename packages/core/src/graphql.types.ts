@@ -154,11 +154,11 @@ declare const inferredClient: ReturnType<typeof G.makeClient<FixtureSchema, neve
 // @ts-expect-error An object-returning operation always requires a projection.
 inferredClient.operation("query", "project")({ id: "p1" });
 // @ts-expect-error Non-connection object queries do not expose pages.
-inferredClient.operation("query", "project").pages;
+void inferredClient.operation("query", "project").pages;
 // @ts-expect-error Scalar queries do not expose connection pagination.
-inferredClient.operation("query", "ping").items;
+void inferredClient.operation("query", "ping").items;
 // @ts-expect-error Mutations cannot be paginated.
-inferredClient.operation("mutation", "editProject").pages;
+void inferredClient.operation("mutation", "editProject").pages;
 
 const selectivePages = inferredClient
   .operation("query", "services")

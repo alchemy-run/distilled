@@ -143,7 +143,7 @@ export const convertGraphQLClient = (
 /** Reject dangling schema/error references after patches, before generating code. */
 export const validateGraphQLModel = (model: GraphQLModel): void => {
   const checkType = (ref: string, coordinate: string) => {
-    const name = ref.replace(/[\[\]!]/g, "");
+    const name = ref.replace(/[[\]!]/g, "");
     if (!model.types[name]) throw new Error(`${coordinate}: unknown GraphQL type ${name}`);
   };
   const checkError = (error: string, coordinate: string) => {

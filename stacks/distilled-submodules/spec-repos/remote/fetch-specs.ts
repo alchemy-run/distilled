@@ -34,8 +34,6 @@ const MAX_FAILURE_RATE_FOR_PRUNE = 0.05;
 
 const HTTP_METHODS = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
 
-type HttpMethod = (typeof HTTP_METHODS)[number];
-
 class FetchError extends Error {
   constructor(
     readonly url: string,

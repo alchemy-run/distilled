@@ -726,7 +726,6 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   // pipes. References are already resolved to names at this point, so a
   // difference anywhere in the tree shows up as different text.
   const structBodies = new Map<string, { id: string; name: string }>();
-  let aliased = 0;
   // Set when any error carries CATEGORY_TRAIT, so the header only imports
   // the category module when something actually uses it.
   let usesCategories = false;
@@ -885,7 +884,6 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         // Later shapes referencing this one now render the canonical name,
         // which is what lets their bodies collapse too.
         canonicalId.set(id, canonical.id);
-        aliased++;
       } else {
         if (!structCtx.isOpIo) {
           structBodies.set(bodyKey, { id, name });
@@ -1004,6 +1002,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     return fannedOut ? tsRef(id) : undefined;
   };
 
+  const usedProtocols = new Set<string>();
   const emitOperation =
     spec.operation ??
     ((ctx: OperationEmit): string => {
@@ -1024,12 +1023,14 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         `  ${decl.contextType}` +
         (itemTsType ? `,\n  ${itemTsType}\n` : `\n`) +
         `>`;
+      const protocol = (paginated && opProfile.get(ctx.op.id)?.protocol) || decl.protocol;
+      usedProtocols.add(protocol);
       const config =
         `{\n` +
         `  input: ${ctx.inputName},\n` +
         `  output: ${ctx.outputSchema},\n` +
         `  errors: [${errList.join(", ")}],\n` +
-        `  protocol: ${(paginated && opProfile.get(ctx.op.id)?.protocol) || decl.protocol},\n` +
+        `  protocol: ${protocol},\n` +
         `  retry: ${decl.retry},\n` +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
         (paginated ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n` : "") +
@@ -1128,7 +1129,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       (usesCategories ? `import * as C from "@distilled.cloud/core/category";\n` : "") +
       `import * as T from "../traits.ts";\n` +
       `import {\n` +
-      `  ${decl.protocol},\n` +
+      (spec.operation || usedProtocols.has(decl.protocol) ? `  ${decl.protocol},\n` : "") +
       profileProtocols.map((p) => `  ${p},\n`).join("") +
       `  type ${decl.commonErrorType},\n` +
       `  type ${decl.contextType},\n` +

@@ -8,14 +8,11 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://sdb.amazonaws.com/doc/2009-04-15/");
-const svc = T.AwsApiService({
-  sdkId: "SimpleDB",
-  serviceShapeName: "AmazonSimpleDB",
-});
+const svc = T.AwsApiService({ sdkId: "SimpleDB", serviceShapeName: "AmazonSimpleDB" });
 const auth = T.AwsAuthSigv2({ name: "sdb" });
 const ver = T.ServiceVersion("2009-04-15");
 const proto = T.AwsProtocolsAwsQuery();
-const rules = T.EndpointResolver((p, _) => {
+const rules = T.EndpointResolver((p) => {
   const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -51,82 +48,55 @@ export class AttributeDoesNotExist
 export class DuplicateItemName
   extends /*@__PURE__*/ S.TaggedError<DuplicateItemName>()(
     "DuplicateItemName",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidNextToken
   extends /*@__PURE__*/ S.TaggedError<InvalidNextToken>()(
     "InvalidNextToken",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidNumberPredicates
   extends /*@__PURE__*/ S.TaggedError<InvalidNumberPredicates>()(
     "InvalidNumberPredicates",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidNumberValueTests
   extends /*@__PURE__*/ S.TaggedError<InvalidNumberValueTests>()(
     "InvalidNumberValueTests",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidParameterValue
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterValue>()(
     "InvalidParameterValue",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidQueryExpression
   extends /*@__PURE__*/ S.TaggedError<InvalidQueryExpression>()(
     "InvalidQueryExpression",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class MissingParameter
   extends /*@__PURE__*/ S.TaggedError<MissingParameter>()(
     "MissingParameter",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class NoSuchDomain
   extends /*@__PURE__*/ S.TaggedError<NoSuchDomain>()(
     "NoSuchDomain",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError, C.withNotFoundError) {}
 export class NumberDomainAttributesExceeded
   extends /*@__PURE__*/ S.TaggedError<NumberDomainAttributesExceeded>()(
     "NumberDomainAttributesExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
   ).pipe(C.withQuotaError) {}
 export class NumberDomainBytesExceeded
   extends /*@__PURE__*/ S.TaggedError<NumberDomainBytesExceeded>()("NumberDomainBytesExceeded", {
@@ -141,43 +111,28 @@ export class NumberDomainsExceeded
 export class NumberItemAttributesExceeded
   extends /*@__PURE__*/ S.TaggedError<NumberItemAttributesExceeded>()(
     "NumberItemAttributesExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
   ).pipe(C.withQuotaError) {}
 export class NumberSubmittedAttributesExceeded
   extends /*@__PURE__*/ S.TaggedError<NumberSubmittedAttributesExceeded>()(
     "NumberSubmittedAttributesExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
   ).pipe(C.withQuotaError) {}
 export class NumberSubmittedItemsExceeded
   extends /*@__PURE__*/ S.TaggedError<NumberSubmittedItemsExceeded>()(
     "NumberSubmittedItemsExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
   ).pipe(C.withQuotaError) {}
 export class RequestTimeout
   extends /*@__PURE__*/ S.TaggedError<RequestTimeout>()(
     "RequestTimeout",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
     T.HttpError(408),
   ).pipe(C.withTimeoutError) {}
 export class TooManyRequestedAttributes
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestedAttributes>()(
     "TooManyRequestedAttributes",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), BoxUsage: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type DomainName = string;
@@ -187,9 +142,7 @@ export interface DeletableAttribute {
 }
 export const DeletableAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Value: S.optional(S.String) }),
-).annotate({
-  identifier: "DeletableAttribute",
-}) as any as S.Schema<DeletableAttribute>;
+).annotate({ identifier: "DeletableAttribute" }) as any as S.Schema<DeletableAttribute>;
 export type DeletableAttributeList = DeletableAttribute[];
 export const DeletableAttributeList = /*@__PURE__*/ S.Array(DeletableAttribute);
 export interface DeletableItem {
@@ -229,9 +182,7 @@ export interface ReplaceableAttribute {
 }
 export const ReplaceableAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Value: S.String, Replace: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "ReplaceableAttribute",
-}) as any as S.Schema<ReplaceableAttribute>;
+).annotate({ identifier: "ReplaceableAttribute" }) as any as S.Schema<ReplaceableAttribute>;
 export type ReplaceableAttributeList = ReplaceableAttribute[];
 export const ReplaceableAttributeList = /*@__PURE__*/ S.Array(ReplaceableAttribute);
 export interface ReplaceableItem {
@@ -243,9 +194,7 @@ export const ReplaceableItem = /*@__PURE__*/ S.suspend(() =>
     ItemName: S.String,
     Attributes: ReplaceableAttributeList.pipe(T.XmlName("Attribute"), T.XmlFlattened()),
   }),
-).annotate({
-  identifier: "ReplaceableItem",
-}) as any as S.Schema<ReplaceableItem>;
+).annotate({ identifier: "ReplaceableItem" }) as any as S.Schema<ReplaceableItem>;
 export type ReplaceableItemList = ReplaceableItem[];
 export const ReplaceableItemList = /*@__PURE__*/ S.Array(ReplaceableItem);
 export interface BatchPutAttributesRequest {
@@ -273,9 +222,7 @@ export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateDomainRequest",
-}) as any as S.Schema<CreateDomainRequest>;
+).annotate({ identifier: "CreateDomainRequest" }) as any as S.Schema<CreateDomainRequest>;
 export interface CreateDomainResponse {}
 export const CreateDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "CreateDomainResponse",
@@ -291,9 +238,7 @@ export const UpdateCondition = /*@__PURE__*/ S.suspend(() =>
     Value: S.optional(S.String),
     Exists: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UpdateCondition",
-}) as any as S.Schema<UpdateCondition>;
+).annotate({ identifier: "UpdateCondition" }) as any as S.Schema<UpdateCondition>;
 export interface DeleteAttributesRequest {
   DomainName: string;
   ItemName: string;
@@ -307,15 +252,11 @@ export const DeleteAttributesRequest = /*@__PURE__*/ S.suspend(() =>
     Attributes: S.optional(DeletableAttributeList).pipe(T.XmlName("Attribute"), T.XmlFlattened()),
     Expected: S.optional(UpdateCondition),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteAttributesRequest",
-}) as any as S.Schema<DeleteAttributesRequest>;
+).annotate({ identifier: "DeleteAttributesRequest" }) as any as S.Schema<DeleteAttributesRequest>;
 export interface DeleteAttributesResponse {}
 export const DeleteAttributesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteAttributesResponse",
-}) as any as S.Schema<DeleteAttributesResponse>;
+).annotate({ identifier: "DeleteAttributesResponse" }) as any as S.Schema<DeleteAttributesResponse>;
 export interface DeleteDomainRequest {
   DomainName: string;
 }
@@ -323,9 +264,7 @@ export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDomainRequest",
-}) as any as S.Schema<DeleteDomainRequest>;
+).annotate({ identifier: "DeleteDomainRequest" }) as any as S.Schema<DeleteDomainRequest>;
 export interface DeleteDomainResponse {}
 export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteDomainResponse",
@@ -337,9 +276,7 @@ export const DomainMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DomainMetadataRequest",
-}) as any as S.Schema<DomainMetadataRequest>;
+).annotate({ identifier: "DomainMetadataRequest" }) as any as S.Schema<DomainMetadataRequest>;
 export interface DomainMetadataResponse {
   ItemCount?: number;
   ItemNamesSizeBytes?: number;
@@ -359,9 +296,7 @@ export const DomainMetadataResponse = /*@__PURE__*/ S.suspend(() =>
     AttributeValuesSizeBytes: S.optional(S.Number),
     Timestamp: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "DomainMetadataResponse",
-}) as any as S.Schema<DomainMetadataResponse>;
+).annotate({ identifier: "DomainMetadataResponse" }) as any as S.Schema<DomainMetadataResponse>;
 export type AttributeNameList = string[];
 export const AttributeNameList = /*@__PURE__*/ S.Array(S.String);
 export interface GetAttributesRequest {
@@ -380,9 +315,7 @@ export const GetAttributesRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     ConsistentRead: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetAttributesRequest",
-}) as any as S.Schema<GetAttributesRequest>;
+).annotate({ identifier: "GetAttributesRequest" }) as any as S.Schema<GetAttributesRequest>;
 export interface Attribute {
   Name: string;
   AlternateNameEncoding?: string;
@@ -406,21 +339,16 @@ export const GetAttributesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Attributes: S.optional(AttributeList).pipe(T.XmlName("Attribute"), T.XmlFlattened()),
   }).pipe(ns),
-).annotate({
-  identifier: "GetAttributesResponse",
-}) as any as S.Schema<GetAttributesResponse>;
+).annotate({ identifier: "GetAttributesResponse" }) as any as S.Schema<GetAttributesResponse>;
 export interface ListDomainsRequest {
   MaxNumberOfDomains?: number;
   NextToken?: string;
 }
 export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxNumberOfDomains: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
+  S.Struct({ MaxNumberOfDomains: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListDomainsRequest" }) as any as S.Schema<ListDomainsRequest>;
 export type DomainNameList = string[];
 export const DomainNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ListDomainsResponse {
@@ -432,9 +360,7 @@ export const ListDomainsResponse = /*@__PURE__*/ S.suspend(() =>
     DomainNames: S.optional(DomainNameList).pipe(T.XmlName("DomainName"), T.XmlFlattened()),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "ListDomainsResponse",
-}) as any as S.Schema<ListDomainsResponse>;
+).annotate({ identifier: "ListDomainsResponse" }) as any as S.Schema<ListDomainsResponse>;
 export interface PutAttributesRequest {
   DomainName: string;
   ItemName: string;
@@ -448,9 +374,7 @@ export const PutAttributesRequest = /*@__PURE__*/ S.suspend(() =>
     Attributes: ReplaceableAttributeList.pipe(T.XmlName("Attribute"), T.XmlFlattened()),
     Expected: S.optional(UpdateCondition),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutAttributesRequest",
-}) as any as S.Schema<PutAttributesRequest>;
+).annotate({ identifier: "PutAttributesRequest" }) as any as S.Schema<PutAttributesRequest>;
 export interface PutAttributesResponse {}
 export const PutAttributesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "PutAttributesResponse",
@@ -746,9 +670,5 @@ export const select: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Select",
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Items",
-  } as const,
+  pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Items" } as const,
 })) as any;
