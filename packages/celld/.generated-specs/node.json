@@ -1,0 +1,1006 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "celld": {
+      "version": "0.5.0",
+      "repository": "https://github.com/denoland/celld",
+      "revision": "12d5b6333fe52717325addcfe1e99e9fd4f77bcd",
+      "sourceDerived": true,
+      "sources": {
+        "crates/celld/main.rs": "d7fa87db3b6213dc7fb1ad86b81f124c8e786d8e17d2555a4760d59766c91123",
+        "crates/celld/actor.rs": "d3850b358fd9965124a02aca127bd2c134a5f91129a0f867aec7b6db8365af14",
+        "crates/celld/protocol.rs": "cbcb469eeedda0bf932d2c8523910d6b72f4d58c3b5c15ab894f8fe5d9263704",
+        "crates/celld/container.rs": "f901db47ff4de3dbae348bac49faa6d7b220cfd235319092f89911bf7f92935e"
+      }
+    },
+    "extraRoots": [
+      "com.celld.node#Manifest",
+      "com.celld.node#DeployPointer",
+      "com.celld.node#AssetIndex",
+      "com.celld.node#QueueConsumerAttachment"
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.celld.node#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.celld.node#LongMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Long"
+      }
+    },
+    "com.celld.node#DocumentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.celld.node#DocumentList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.celld.node#OkResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#RebalanceResponse": {
+      "type": "structure",
+      "members": {
+        "rebalance_paused": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#DeploymentGeneration": {
+      "type": "structure",
+      "members": {
+        "generation": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#DeploymentGenerations": {
+      "type": "list",
+      "member": {
+        "target": "com.celld.node#DeploymentGeneration"
+      }
+    },
+    "com.celld.node#DeploymentState": {
+      "type": "structure",
+      "members": {
+        "generation": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "draining": {
+          "target": "com.celld.node#DeploymentGenerations",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "swapping": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cells": {
+          "target": "com.celld.node#LongMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#NodeState": {
+      "type": "structure",
+      "members": {
+        "activating": {
+          "target": "smithy.api#Long"
+        },
+        "activation_waiting": {
+          "target": "smithy.api#Long"
+        },
+        "adopting": {
+          "target": "smithy.api#Long"
+        },
+        "capacity_waiting": {
+          "target": "smithy.api#Long"
+        },
+        "evicting": {
+          "target": "smithy.api#Long"
+        },
+        "handed_off": {
+          "target": "smithy.api#Long"
+        },
+        "handoff_failed": {
+          "target": "smithy.api#Long"
+        },
+        "occupied": {
+          "target": "smithy.api#Long"
+        },
+        "owned_cells": {
+          "target": "smithy.api#Long"
+        },
+        "publishes": {
+          "target": "smithy.api#Long"
+        },
+        "quiescing": {
+          "target": "smithy.api#Long"
+        },
+        "rebalance_failed": {
+          "target": "smithy.api#Long"
+        },
+        "rebalanced": {
+          "target": "smithy.api#Long"
+        },
+        "releasing": {
+          "target": "smithy.api#Long"
+        },
+        "remote_route_refreshes": {
+          "target": "smithy.api#Long"
+        },
+        "restoring": {
+          "target": "smithy.api#Long"
+        },
+        "stops": {
+          "target": "smithy.api#Long"
+        },
+        "cgroup_current_bytes": {
+          "target": "smithy.api#Long"
+        },
+        "cgroup_working_set_bytes": {
+          "target": "smithy.api#Long"
+        },
+        "in_use_bytes": {
+          "target": "smithy.api#Long"
+        },
+        "rss_bytes": {
+          "target": "smithy.api#Long"
+        },
+        "ownership": {
+          "target": "smithy.api#String"
+        },
+        "phases": {
+          "target": "com.celld.node#DocumentMap"
+        },
+        "published": {
+          "target": "com.celld.node#DocumentList"
+        },
+        "residents": {
+          "target": "com.celld.node#DocumentList"
+        },
+        "node_load": {
+          "target": "smithy.api#Document"
+        },
+        "shedding": {
+          "target": "smithy.api#Document"
+        },
+        "drainPins": {
+          "target": "com.celld.node#DocumentList"
+        },
+        "deployment": {
+          "target": "com.celld.node#DeploymentState"
+        },
+        "error": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Node snapshot. Census detail is implementation-defined JSON. If the actor has stopped, the server instead returns only error=\"actor_stopped\"."
+      }
+    },
+    "com.celld.node#ReloadResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "outcome": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "generation": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.celld.node#RouteCellResponse": {
+      "type": "structure",
+      "members": {
+        "route": {
+          "target": "smithy.api#String"
+        },
+        "cell": {
+          "target": "smithy.api#String"
+        },
+        "node": {
+          "target": "smithy.api#String"
+        },
+        "addr": {
+          "target": "smithy.api#String"
+        },
+        "epoch": {
+          "target": "smithy.api#Long"
+        },
+        "peer_protocol": {
+          "target": "smithy.api#Integer"
+        }
+      }
+    },
+    "com.celld.node#NodeHasNoLease": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409,
+            "message": "this node publishes no lease"
+          }
+        ]
+      }
+    },
+    "com.celld.node#ReloadFailed": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.celld.node#MalformedScope": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.celld.node#NodeUnavailable": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "server",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 503
+          }
+        ]
+      }
+    },
+    "com.celld.node#GetNodeStateRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "com.celld.node#GetNodeState": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.node#GetNodeStateRequest"
+      },
+      "output": {
+        "target": "com.celld.node#NodeState"
+      },
+      "errors": [],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/state",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read the snapshot from the trusted internal listener. This endpoint is unauthenticated."
+      }
+    },
+    "com.celld.node#ReloadDeploymentRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "com.celld.node#ReloadDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.node#ReloadDeploymentRequest"
+      },
+      "output": {
+        "target": "com.celld.node#ReloadResponse"
+      },
+      "errors": [
+        {
+          "target": "com.celld.node#ReloadFailed"
+        },
+        {
+          "target": "com.celld.node#NodeUnavailable"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/reload",
+          "code": 200
+        },
+        "smithy.api#documentation": "Force adoption of the existing object-store deployment pointer. This does not upload a deployment. A standalone node without a deployment watcher may wait indefinitely; set a request timeout."
+      }
+    },
+    "com.celld.node#PauseRebalancingRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "com.celld.node#PauseRebalancing": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.node#PauseRebalancingRequest"
+      },
+      "output": {
+        "target": "com.celld.node#RebalanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.celld.node#NodeHasNoLease"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/rebalance/pause",
+          "code": 200
+        }
+      }
+    },
+    "com.celld.node#ResumeRebalancingRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "com.celld.node#ResumeRebalancing": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.node#ResumeRebalancingRequest"
+      },
+      "output": {
+        "target": "com.celld.node#RebalanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.celld.node#NodeHasNoLease"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/rebalance/resume",
+          "code": 200
+        }
+      }
+    },
+    "com.celld.node#ShutdownHandoff": {
+      "type": "enum",
+      "members": {
+        "PRESERVE": {
+          "traits": {
+            "smithy.api#enumValue": "preserve"
+          }
+        }
+      }
+    },
+    "com.celld.node#ShutdownNodeRequest": {
+      "type": "structure",
+      "members": {
+        "handoff": {
+          "target": "com.celld.node#ShutdownHandoff",
+          "traits": {
+            "smithy.api#httpQuery": "handoff"
+          }
+        }
+      }
+    },
+    "com.celld.node#ShutdownNode": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.node#ShutdownNodeRequest"
+      },
+      "output": {
+        "target": "com.celld.node#OkResponse"
+      },
+      "errors": [],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/shutdown",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gracefully stop this node. handoff=preserve retains ownership for a same-node reload. Only call on a trusted internal listener."
+      }
+    },
+    "com.celld.node#RouteCellRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#RouteCell": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.node#RouteCellRequest"
+      },
+      "output": {
+        "target": "com.celld.node#RouteCellResponse"
+      },
+      "errors": [
+        {
+          "target": "com.celld.node#MalformedScope"
+        },
+        {
+          "target": "com.celld.node#NodeUnavailable"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/cell/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resolve or activate a cell. A remote owner returns status 307 with routing information, not an HTTP Location redirect."
+      }
+    },
+    "com.celld.node#EvictCellRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#EvictCell": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.node#EvictCellRequest"
+      },
+      "output": {
+        "target": "com.celld.node#OkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.celld.node#MalformedScope"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/evict/{scope}",
+          "code": 200
+        }
+      }
+    },
+    "com.celld.node#ModuleKind": {
+      "type": "enum",
+      "members": {
+        "WASM": {
+          "traits": {
+            "smithy.api#enumValue": "wasm"
+          }
+        }
+      }
+    },
+    "com.celld.node#ModuleRef": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.celld.node#ModuleKind"
+        }
+      }
+    },
+    "com.celld.node#ModuleRefs": {
+      "type": "list",
+      "member": {
+        "target": "com.celld.node#ModuleRef"
+      }
+    },
+    "com.celld.node#AssetManifestRef": {
+      "type": "structure",
+      "members": {
+        "index": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "file_count": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#AssetEntry": {
+      "type": "structure",
+      "members": {
+        "sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "content_type": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.celld.node#AssetEntries": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.celld.node#AssetEntry"
+      }
+    },
+    "com.celld.node#RunWorkerFirst": {
+      "type": "union",
+      "members": {
+        "boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "routes": {
+          "target": "com.celld.node#StringList"
+        }
+      }
+    },
+    "com.celld.node#AssetConfig": {
+      "type": "structure",
+      "members": {
+        "binding": {
+          "target": "smithy.api#String"
+        },
+        "html_handling": {
+          "target": "smithy.api#String"
+        },
+        "not_found_handling": {
+          "target": "smithy.api#String"
+        },
+        "run_worker_first": {
+          "target": "com.celld.node#RunWorkerFirst"
+        },
+        "headers": {
+          "target": "smithy.api#String"
+        },
+        "redirects": {
+          "target": "smithy.api#String"
+        },
+        "compatibility_date": {
+          "target": "smithy.api#String"
+        },
+        "compatibility_flags": {
+          "target": "com.celld.node#StringList"
+        }
+      }
+    },
+    "com.celld.node#AssetIndex": {
+      "type": "structure",
+      "members": {
+        "schema_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "entries": {
+          "target": "com.celld.node#AssetEntries",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "com.celld.node#AssetConfig",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#ContainerSpec": {
+      "type": "structure",
+      "members": {
+        "class_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "instance_type": {
+          "target": "smithy.api#String"
+        },
+        "max_instances": {
+          "target": "smithy.api#Long"
+        },
+        "runtime": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.celld.node#ContainerSpecs": {
+      "type": "list",
+      "member": {
+        "target": "com.celld.node#ContainerSpec"
+      }
+    },
+    "com.celld.node#QueueConsumerConfig": {
+      "type": "structure",
+      "members": {
+        "queue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "max_batch_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "max_batch_timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "max_retries": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dead_letter_queue": {
+          "target": "smithy.api#String"
+        },
+        "max_concurrency": {
+          "target": "smithy.api#Integer"
+        },
+        "retry_delay": {
+          "target": "smithy.api#Long"
+        }
+      }
+    },
+    "com.celld.node#QueueConsumerConfigs": {
+      "type": "list",
+      "member": {
+        "target": "com.celld.node#QueueConsumerConfig"
+      }
+    },
+    "com.celld.node#QueueConsumerDeployment": {
+      "type": "structure",
+      "members": {
+        "script_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#QueueConsumerAttachment": {
+      "type": "structure",
+      "members": {
+        "schema_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "queue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "consumer": {
+          "target": "com.celld.node#QueueConsumerDeployment"
+        }
+      }
+    },
+    "com.celld.node#Rollout": {
+      "type": "structure",
+      "members": {
+        "percent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#DeployPointer": {
+      "type": "structure",
+      "members": {
+        "script_name": {
+          "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rollout": {
+          "target": "com.celld.node#Rollout",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.node#Manifest": {
+      "type": "structure",
+      "members": {
+        "schema_version": {
+          "target": "smithy.api#Integer"
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "script_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "do_classes": {
+          "target": "com.celld.node#StringList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sqlite_classes": {
+          "target": "com.celld.node#StringList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modules": {
+          "target": "com.celld.node#ModuleRefs",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "assets": {
+          "target": "com.celld.node#AssetManifestRef"
+        },
+        "crons": {
+          "target": "com.celld.node#StringList"
+        },
+        "queue_consumers": {
+          "target": "com.celld.node#QueueConsumerConfigs"
+        },
+        "containers": {
+          "target": "com.celld.node#ContainerSpecs"
+        },
+        "fence_image": {
+          "target": "smithy.api#String"
+        },
+        "required_features": {
+          "target": "com.celld.node#StringList"
+        },
+        "raw_metadata": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "main_module": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": true
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Deployment manifest stored at deploy/<script>/<version>/manifest.json. This is an object-storage contract, not an HTTP operation. main_module is null for asset-only deployments."
+      }
+    },
+    "com.celld.node#Celld": {
+      "type": "service",
+      "version": "0.5.0",
+      "operations": [
+        {
+          "target": "com.celld.node#GetNodeState"
+        },
+        {
+          "target": "com.celld.node#ReloadDeployment"
+        },
+        {
+          "target": "com.celld.node#PauseRebalancing"
+        },
+        {
+          "target": "com.celld.node#ResumeRebalancing"
+        },
+        {
+          "target": "com.celld.node#ShutdownNode"
+        },
+        {
+          "target": "com.celld.node#RouteCell"
+        },
+        {
+          "target": "com.celld.node#EvictCell"
+        }
+      ]
+    }
+  }
+}

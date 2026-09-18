@@ -5,6 +5,12 @@
       "path": "./packages/core/tsconfig.json"
     },
     {
+      "path": "./packages/celld/tsconfig.json"
+    },
+    {
+      "path": "./packages/celld/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/cloudflare/tsconfig.json"
     },
     {

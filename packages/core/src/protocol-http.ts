@@ -21,6 +21,7 @@ import {
   httpSymbol,
   keyDictionarySymbol,
   labelSymbol,
+  labelEncodingSymbol,
   querySymbol,
   stringEncodedSymbol,
   unionCasesSymbol,
@@ -479,7 +480,18 @@ export const buildRequest = ({
 
     if (hasPropAnn(prop, labelSymbol)) {
       const token = nameOf(prop, labelSymbol);
-      uri = uri.replace(`{${token}}`, encodeURIComponent(String(value)));
+      const preserve = getPropAnn(prop, labelEncodingSymbol);
+      const encoded = encodeURIComponent(String(value));
+      const label =
+        typeof preserve === "string"
+          ? encoded.replace(/%[0-9A-F]{2}/g, (escape) => {
+              const character = String.fromCharCode(
+                Number.parseInt(escape.slice(1), 16),
+              );
+              return preserve.includes(character) ? character : escape;
+            })
+          : encoded;
+      uri = uri.replace(`{${token}}`, () => label);
     } else if (hasPropAnn(prop, headerSymbol)) {
       const hName = nameOf(prop, headerSymbol).toLowerCase();
       const hVal = String(value);
