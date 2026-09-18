@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Inspector",
   serviceShapeName: "InspectorService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,13 +52,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://inspector-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://inspector-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +62,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://inspector.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://inspector.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://inspector.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -112,18 +100,18 @@ export class AssessmentRunInProgressException
     "AssessmentRunInProgressException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      assessmentRunArns: S.suspend(
-        () => AssessmentRunInProgressArnList,
-      ).annotate({ identifier: "AssessmentRunInProgressArnList" }),
+      assessmentRunArns: S.suspend(() => AssessmentRunInProgressArnList).annotate({
+        identifier: "AssessmentRunInProgressArnList",
+      }),
       assessmentRunArnsTruncated: S.Boolean,
       canRetry: S.Boolean,
     },
   ) {}
 export class InternalException
-  extends /*@__PURE__*/ S.TaggedError<InternalException>()(
-    "InternalException",
-    { message: S.String.pipe(T.ErrorMessage()), canRetry: S.Boolean },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalException>()("InternalException", {
+    message: S.String.pipe(T.ErrorMessage()),
+    canRetry: S.Boolean,
+  }) {}
 export class InvalidCrossAccountRoleException
   extends /*@__PURE__*/ S.TaggedError<InvalidCrossAccountRoleException>()(
     "InvalidCrossAccountRoleException",
@@ -136,38 +124,29 @@ export class InvalidCrossAccountRoleException
     },
   ) {}
 export class InvalidInputException
-  extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
-    "InvalidInputException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      errorCode: S.suspend(() => InvalidInputErrorCode).annotate({
-        identifier: "InvalidInputErrorCode",
-      }),
-      canRetry: S.Boolean,
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()("InvalidInputException", {
+    message: S.String.pipe(T.ErrorMessage()),
+    errorCode: S.suspend(() => InvalidInputErrorCode).annotate({
+      identifier: "InvalidInputErrorCode",
+    }),
+    canRetry: S.Boolean,
+  }) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      errorCode: S.suspend(() => LimitExceededErrorCode).annotate({
-        identifier: "LimitExceededErrorCode",
-      }),
-      canRetry: S.Boolean,
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: S.String.pipe(T.ErrorMessage()),
+    errorCode: S.suspend(() => LimitExceededErrorCode).annotate({
+      identifier: "LimitExceededErrorCode",
+    }),
+    canRetry: S.Boolean,
+  }) {}
 export class NoSuchEntityException
-  extends /*@__PURE__*/ S.TaggedError<NoSuchEntityException>()(
-    "NoSuchEntityException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      errorCode: S.suspend(() => NoSuchEntityErrorCode).annotate({
-        identifier: "NoSuchEntityErrorCode",
-      }),
-      canRetry: S.Boolean,
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<NoSuchEntityException>()("NoSuchEntityException", {
+    message: S.String.pipe(T.ErrorMessage()),
+    errorCode: S.suspend(() => NoSuchEntityErrorCode).annotate({
+      identifier: "NoSuchEntityErrorCode",
+    }),
+    canRetry: S.Boolean,
+  }) {}
 export class PreviewGenerationInProgressException
   extends /*@__PURE__*/ S.TaggedError<PreviewGenerationInProgressException>()(
     "PreviewGenerationInProgressException",
@@ -186,9 +165,7 @@ export class UnsupportedFeatureException
   ) {}
 export type Arn = string;
 export type AddRemoveAttributesFindingArnList = string[];
-export const AddRemoveAttributesFindingArnList = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const AddRemoveAttributesFindingArnList = /*@__PURE__*/ S.Array(S.String);
 export type AttributeKey = string;
 export type AttributeValue = string;
 export interface Attribute {
@@ -208,9 +185,7 @@ export const AddAttributesToFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     findingArns: AddRemoveAttributesFindingArnList,
     attributes: UserAttributeList,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddAttributesToFindingsRequest",
 }) as any as S.Schema<AddAttributesToFindingsRequest>;
@@ -234,10 +209,7 @@ export const FailedItemDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "FailedItemDetails",
 }) as any as S.Schema<FailedItemDetails>;
 export type FailedItems = { [key: string]: FailedItemDetails | undefined };
-export const FailedItems = /*@__PURE__*/ S.Record(
-  S.String,
-  FailedItemDetails.pipe(S.optional),
-);
+export const FailedItems = /*@__PURE__*/ S.Record(S.String, FailedItemDetails.pipe(S.optional));
 export interface AddAttributesToFindingsResponse {
   failedItems: { [key: string]: FailedItemDetails | undefined };
 }
@@ -255,9 +227,7 @@ export const CreateAssessmentTargetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assessmentTargetName: S.String,
     resourceGroupArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAssessmentTargetRequest",
 }) as any as S.Schema<CreateAssessmentTargetRequest>;
@@ -272,9 +242,7 @@ export const CreateAssessmentTargetResponse = /*@__PURE__*/ S.suspend(() =>
 export type AssessmentTemplateName = string;
 export type AssessmentRunDuration = number;
 export type AssessmentTemplateRulesPackageArnList = string[];
-export const AssessmentTemplateRulesPackageArnList = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const AssessmentTemplateRulesPackageArnList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateAssessmentTemplateRequest {
   assessmentTargetArn: string;
   assessmentTemplateName: string;
@@ -289,9 +257,7 @@ export const CreateAssessmentTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     durationInSeconds: S.Number,
     rulesPackageArns: AssessmentTemplateRulesPackageArnList,
     userAttributesForFindings: S.optional(UserAttributeList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAssessmentTemplateRequest",
 }) as any as S.Schema<CreateAssessmentTemplateRequest>;
@@ -364,9 +330,7 @@ export const DeleteAssessmentRunRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAssessmentRunRequest",
 }) as any as S.Schema<DeleteAssessmentRunRequest>;
 export interface DeleteAssessmentRunResponse {}
-export const DeleteAssessmentRunResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAssessmentRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAssessmentRunResponse",
 }) as any as S.Schema<DeleteAssessmentRunResponse>;
 export interface DeleteAssessmentTargetRequest {
@@ -380,9 +344,7 @@ export const DeleteAssessmentTargetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAssessmentTargetRequest",
 }) as any as S.Schema<DeleteAssessmentTargetRequest>;
 export interface DeleteAssessmentTargetResponse {}
-export const DeleteAssessmentTargetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAssessmentTargetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAssessmentTargetResponse",
 }) as any as S.Schema<DeleteAssessmentTargetResponse>;
 export interface DeleteAssessmentTemplateRequest {
@@ -446,9 +408,7 @@ export const AssessmentRunStateChange = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssessmentRunStateChange",
 }) as any as S.Schema<AssessmentRunStateChange>;
 export type AssessmentRunStateChangeList = AssessmentRunStateChange[];
-export const AssessmentRunStateChangeList = /*@__PURE__*/ S.Array(
-  AssessmentRunStateChange,
-);
+export const AssessmentRunStateChangeList = /*@__PURE__*/ S.Array(AssessmentRunStateChange);
 export type InspectorEvent =
   | "ASSESSMENT_RUN_STARTED"
   | "ASSESSMENT_RUN_COMPLETED"
@@ -488,16 +448,8 @@ export const AssessmentRunNotification = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssessmentRunNotification",
 }) as any as S.Schema<AssessmentRunNotification>;
 export type AssessmentRunNotificationList = AssessmentRunNotification[];
-export const AssessmentRunNotificationList = /*@__PURE__*/ S.Array(
-  AssessmentRunNotification,
-);
-export type Severity =
-  | "Low"
-  | "Medium"
-  | "High"
-  | "Informational"
-  | "Undefined"
-  | (string & {});
+export const AssessmentRunNotificationList = /*@__PURE__*/ S.Array(AssessmentRunNotification);
+export type Severity = "Low" | "Medium" | "High" | "Informational" | "Undefined" | (string & {});
 export const Severity = S.String;
 
 export type FindingCount = number;
@@ -647,11 +599,8 @@ export const DescribeAssessmentTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeAssessmentTemplatesResponse",
 }) as any as S.Schema<DescribeAssessmentTemplatesResponse>;
 export interface DescribeCrossAccountAccessRoleRequest {}
-export const DescribeCrossAccountAccessRoleRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeCrossAccountAccessRoleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeCrossAccountAccessRoleRequest",
 }) as any as S.Schema<DescribeCrossAccountAccessRoleRequest>;
@@ -660,13 +609,12 @@ export interface DescribeCrossAccountAccessRoleResponse {
   valid: boolean;
   registeredAt: Date;
 }
-export const DescribeCrossAccountAccessRoleResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      roleArn: S.String,
-      valid: S.Boolean,
-      registeredAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
+export const DescribeCrossAccountAccessRoleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    roleArn: S.String,
+    valid: S.Boolean,
+    registeredAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
 ).annotate({
   identifier: "DescribeCrossAccountAccessRoleResponse",
 }) as any as S.Schema<DescribeCrossAccountAccessRoleResponse>;
@@ -683,9 +631,7 @@ export const DescribeExclusionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     exclusionArns: BatchDescribeExclusionsArnList,
     locale: S.optional(Locale),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeExclusionsRequest",
 }) as any as S.Schema<DescribeExclusionsRequest>;
@@ -724,10 +670,7 @@ export const Exclusion = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Exclusion" }) as any as S.Schema<Exclusion>;
 export type ExclusionMap = { [key: string]: Exclusion | undefined };
-export const ExclusionMap = /*@__PURE__*/ S.Record(
-  S.String,
-  Exclusion.pipe(S.optional),
-);
+export const ExclusionMap = /*@__PURE__*/ S.Record(S.String, Exclusion.pipe(S.optional));
 export interface DescribeExclusionsResponse {
   exclusions: { [key: string]: Exclusion | undefined };
   failedItems: { [key: string]: FailedItemDetails | undefined };
@@ -745,9 +688,7 @@ export const DescribeFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     findingArns: BatchDescribeArnList,
     locale: S.optional(Locale),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeFindingsRequest",
 }) as any as S.Schema<DescribeFindingsRequest>;
@@ -960,9 +901,7 @@ export const DescribeRulesPackagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rulesPackageArns: BatchDescribeArnList,
     locale: S.optional(Locale),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeRulesPackagesRequest",
 }) as any as S.Schema<DescribeRulesPackagesRequest>;
@@ -1012,17 +951,11 @@ export const GetAssessmentReportRequest = /*@__PURE__*/ S.suspend(() =>
     assessmentRunArn: S.String,
     reportFileFormat: ReportFileFormat,
     reportType: ReportType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetAssessmentReportRequest",
 }) as any as S.Schema<GetAssessmentReportRequest>;
-export type ReportStatus =
-  | "WORK_IN_PROGRESS"
-  | "FAILED"
-  | "COMPLETED"
-  | (string & {});
+export type ReportStatus = "WORK_IN_PROGRESS" | "FAILED" | "COMPLETED" | (string & {});
 export const ReportStatus = S.String;
 
 export type Url = string;
@@ -1051,9 +984,7 @@ export const GetExclusionsPreviewRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     locale: S.optional(Locale),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetExclusionsPreviewRequest",
 }) as any as S.Schema<GetExclusionsPreviewRequest>;
@@ -1168,9 +1099,7 @@ export const ListAssessmentRunAgentsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(AgentFilter),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAssessmentRunAgentsRequest",
 }) as any as S.Schema<ListAssessmentRunAgentsRequest>;
@@ -1271,9 +1200,7 @@ export const ListAssessmentRunsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(AssessmentRunFilter),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAssessmentRunsRequest",
 }) as any as S.Schema<ListAssessmentRunsRequest>;
@@ -1309,9 +1236,7 @@ export const ListAssessmentTargetsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(AssessmentTargetFilter),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAssessmentTargetsRequest",
 }) as any as S.Schema<ListAssessmentTargetsRequest>;
@@ -1353,9 +1278,7 @@ export const ListAssessmentTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(AssessmentTemplateFilter),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAssessmentTemplatesRequest",
 }) as any as S.Schema<ListAssessmentTemplatesRequest>;
@@ -1382,9 +1305,7 @@ export const ListEventSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEventSubscriptionsRequest",
 }) as any as S.Schema<ListEventSubscriptionsRequest>;
@@ -1438,9 +1359,7 @@ export const ListExclusionsRequest = /*@__PURE__*/ S.suspend(() =>
     assessmentRunArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListExclusionsRequest",
 }) as any as S.Schema<ListExclusionsRequest>;
@@ -1499,9 +1418,7 @@ export const ListFindingsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(FindingFilter),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFindingsRequest",
 }) as any as S.Schema<ListFindingsRequest>;
@@ -1525,9 +1442,7 @@ export const ListRulesPackagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRulesPackagesRequest",
 }) as any as S.Schema<ListRulesPackagesRequest>;
@@ -1574,9 +1489,7 @@ export const PreviewAgentsRequest = /*@__PURE__*/ S.suspend(() =>
     previewAgentsArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PreviewAgentsRequest",
 }) as any as S.Schema<PreviewAgentsRequest>;
@@ -1622,17 +1535,16 @@ export const PreviewAgentsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface RegisterCrossAccountAccessRoleRequest {
   roleArn: string;
 }
-export const RegisterCrossAccountAccessRoleRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ roleArn: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const RegisterCrossAccountAccessRoleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ roleArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "RegisterCrossAccountAccessRoleRequest",
 }) as any as S.Schema<RegisterCrossAccountAccessRoleRequest>;
 export interface RegisterCrossAccountAccessRoleResponse {}
-export const RegisterCrossAccountAccessRoleResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const RegisterCrossAccountAccessRoleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "RegisterCrossAccountAccessRoleResponse",
 }) as any as S.Schema<RegisterCrossAccountAccessRoleResponse>;
@@ -1646,17 +1558,15 @@ export const RemoveAttributesFromFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     findingArns: AddRemoveAttributesFindingArnList,
     attributeKeys: UserAttributeKeyList,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RemoveAttributesFromFindingsRequest",
 }) as any as S.Schema<RemoveAttributesFromFindingsRequest>;
 export interface RemoveAttributesFromFindingsResponse {
   failedItems: { [key: string]: FailedItemDetails | undefined };
 }
-export const RemoveAttributesFromFindingsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ failedItems: FailedItems }),
+export const RemoveAttributesFromFindingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ failedItems: FailedItems }),
 ).annotate({
   identifier: "RemoveAttributesFromFindingsResponse",
 }) as any as S.Schema<RemoveAttributesFromFindingsResponse>;
@@ -1672,9 +1582,7 @@ export const SetTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SetTagsForResourceRequest",
 }) as any as S.Schema<SetTagsForResourceRequest>;
 export interface SetTagsForResourceResponse {}
-export const SetTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const SetTagsForResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SetTagsForResourceResponse",
 }) as any as S.Schema<SetTagsForResourceResponse>;
 export interface StartAssessmentRunRequest {
@@ -1685,9 +1593,7 @@ export const StartAssessmentRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assessmentTemplateArn: S.String,
     assessmentRunName: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartAssessmentRunRequest",
 }) as any as S.Schema<StartAssessmentRunRequest>;
@@ -1710,16 +1616,12 @@ export const StopAssessmentRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assessmentRunArn: S.String,
     stopAction: S.optional(StopAction),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StopAssessmentRunRequest",
 }) as any as S.Schema<StopAssessmentRunRequest>;
 export interface StopAssessmentRunResponse {}
-export const StopAssessmentRunResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopAssessmentRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopAssessmentRunResponse",
 }) as any as S.Schema<StopAssessmentRunResponse>;
 export interface SubscribeToEventRequest {
@@ -1732,16 +1634,12 @@ export const SubscribeToEventRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String,
     event: InspectorEvent,
     topicArn: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SubscribeToEventRequest",
 }) as any as S.Schema<SubscribeToEventRequest>;
 export interface SubscribeToEventResponse {}
-export const SubscribeToEventResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const SubscribeToEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SubscribeToEventResponse",
 }) as any as S.Schema<SubscribeToEventResponse>;
 export interface UnsubscribeFromEventRequest {
@@ -1754,16 +1652,12 @@ export const UnsubscribeFromEventRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String,
     event: InspectorEvent,
     topicArn: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UnsubscribeFromEventRequest",
 }) as any as S.Schema<UnsubscribeFromEventRequest>;
 export interface UnsubscribeFromEventResponse {}
-export const UnsubscribeFromEventResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UnsubscribeFromEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UnsubscribeFromEventResponse",
 }) as any as S.Schema<UnsubscribeFromEventResponse>;
 export interface UpdateAssessmentTargetRequest {
@@ -1776,16 +1670,12 @@ export const UpdateAssessmentTargetRequest = /*@__PURE__*/ S.suspend(() =>
     assessmentTargetArn: S.String,
     assessmentTargetName: S.String,
     resourceGroupArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateAssessmentTargetRequest",
 }) as any as S.Schema<UpdateAssessmentTargetRequest>;
 export interface UpdateAssessmentTargetResponse {}
-export const UpdateAssessmentTargetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateAssessmentTargetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateAssessmentTargetResponse",
 }) as any as S.Schema<UpdateAssessmentTargetResponse>;
 export type ErrorMessage = string;
@@ -2174,10 +2064,7 @@ export const deleteAssessmentTemplate: API.OperationMethod<
   operationName: "DeleteAssessmentTemplate",
 }));
 
-export type DescribeAssessmentRunsError =
-  | InternalException
-  | InvalidInputException
-  | CommonErrors;
+export type DescribeAssessmentRunsError = InternalException | InvalidInputException | CommonErrors;
 /**
  * Describes the assessment runs that are specified by the ARNs of the assessment
  * runs.
@@ -2240,9 +2127,7 @@ export const describeAssessmentTemplates: API.OperationMethod<
   operationName: "DescribeAssessmentTemplates",
 }));
 
-export type DescribeCrossAccountAccessRoleError =
-  | InternalException
-  | CommonErrors;
+export type DescribeCrossAccountAccessRoleError = InternalException | CommonErrors;
 /**
  * Describes the IAM role that enables Amazon Inspector to access your AWS
  * account.
@@ -2261,10 +2146,7 @@ export const describeCrossAccountAccessRole: API.OperationMethod<
   operationName: "DescribeCrossAccountAccessRole",
 }));
 
-export type DescribeExclusionsError =
-  | InternalException
-  | InvalidInputException
-  | CommonErrors;
+export type DescribeExclusionsError = InternalException | InvalidInputException | CommonErrors;
 /**
  * Describes the exclusions that are specified by the exclusions' ARNs.
  */
@@ -2282,10 +2164,7 @@ export const describeExclusions: API.OperationMethod<
   operationName: "DescribeExclusions",
 }));
 
-export type DescribeFindingsError =
-  | InternalException
-  | InvalidInputException
-  | CommonErrors;
+export type DescribeFindingsError = InternalException | InvalidInputException | CommonErrors;
 /**
  * Describes the findings that are specified by the ARNs of the findings.
  */
@@ -2303,10 +2182,7 @@ export const describeFindings: API.OperationMethod<
   operationName: "DescribeFindings",
 }));
 
-export type DescribeResourceGroupsError =
-  | InternalException
-  | InvalidInputException
-  | CommonErrors;
+export type DescribeResourceGroupsError = InternalException | InvalidInputException | CommonErrors;
 /**
  * Describes the resource groups that are specified by the ARNs of the resource
  * groups.
@@ -2325,10 +2201,7 @@ export const describeResourceGroups: API.OperationMethod<
   operationName: "DescribeResourceGroups",
 }));
 
-export type DescribeRulesPackagesError =
-  | InternalException
-  | InvalidInputException
-  | CommonErrors;
+export type DescribeRulesPackagesError = InternalException | InvalidInputException | CommonErrors;
 /**
  * Describes the rules packages that are specified by the ARNs of the rules
  * packages.
@@ -2402,12 +2275,7 @@ export const getExclusionsPreview: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetExclusionsPreviewRequest,
   output: GetExclusionsPreviewResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
+  errors: [AccessDeniedException, InternalException, InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExclusionsPreview",
@@ -2436,12 +2304,7 @@ export const getTelemetryMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTelemetryMetadataRequest,
   output: GetTelemetryMetadataResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
+  errors: [AccessDeniedException, InternalException, InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryMetadata",
@@ -2466,12 +2329,7 @@ export const listAssessmentRunAgents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAssessmentRunAgentsRequest,
   output: ListAssessmentRunAgentsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
+  errors: [AccessDeniedException, InternalException, InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssessmentRunAgents",
@@ -2501,12 +2359,7 @@ export const listAssessmentRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAssessmentRunsRequest,
   output: ListAssessmentRunsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
+  errors: [AccessDeniedException, InternalException, InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssessmentRuns",
@@ -2566,12 +2419,7 @@ export const listAssessmentTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAssessmentTemplatesRequest,
   output: ListAssessmentTemplatesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
+  errors: [AccessDeniedException, InternalException, InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssessmentTemplates",
@@ -2601,12 +2449,7 @@ export const listEventSubscriptions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEventSubscriptionsRequest,
   output: ListEventSubscriptionsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
+  errors: [AccessDeniedException, InternalException, InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventSubscriptions",
@@ -2635,12 +2478,7 @@ export const listExclusions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListExclusionsRequest,
   output: ListExclusionsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
+  errors: [AccessDeniedException, InternalException, InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExclusions",
@@ -2670,12 +2508,7 @@ export const listFindings: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFindingsRequest,
   output: ListFindingsResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
+  errors: [AccessDeniedException, InternalException, InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFindings",
@@ -2731,12 +2564,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    InternalException,
-    InvalidInputException,
-    NoSuchEntityException,
-  ],
+  errors: [AccessDeniedException, InternalException, InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",

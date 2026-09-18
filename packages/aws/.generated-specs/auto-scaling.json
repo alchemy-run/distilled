@@ -4495,11 +4495,7 @@
                   "MaxSize": 5,
                   "DesiredCapacity": 2,
                   "DefaultCooldown": 300,
-                  "AvailabilityZones": [
-                    "us-west-2a",
-                    "us-west-2b",
-                    "us-west-2c"
-                  ],
+                  "AvailabilityZones": ["us-west-2a", "us-west-2b", "us-west-2c"],
                   "AvailabilityZoneIds": ["usw2-az1", "usw2-az2", "usw2-az3"],
                   "LoadBalancerNames": [],
                   "TargetGroupARNs": [],

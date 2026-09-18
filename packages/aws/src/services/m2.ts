@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "m2",
   serviceShapeName: "AwsSupernovaControlPlaneService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,27 +52,17 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://m2-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://m2-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://m2.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://m2.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://m2.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://m2.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -196,11 +182,11 @@ export const CancelBatchJobExecutionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelBatchJobExecutionRequest",
 }) as any as S.Schema<CancelBatchJobExecutionRequest>;
 export interface CancelBatchJobExecutionResponse {}
-export const CancelBatchJobExecutionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CancelBatchJobExecutionResponse",
-}) as any as S.Schema<CancelBatchJobExecutionResponse>;
+export const CancelBatchJobExecutionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "CancelBatchJobExecutionResponse",
+  },
+) as any as S.Schema<CancelBatchJobExecutionResponse>;
 export type EntityName = string;
 export type EntityDescription = string;
 export type EngineType = string;
@@ -216,10 +202,7 @@ export const Definition = /*@__PURE__*/ S.Union([
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ClientToken = string;
 export type Arn = string;
 export interface CreateApplicationRequest {
@@ -242,16 +225,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     kmsKeyId: S.optional(S.String),
     roleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateApplicationRequest",
 }) as any as S.Schema<CreateApplicationRequest>;
@@ -272,9 +246,7 @@ export const CreateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateApplicationResponse>;
 export type String200 = string;
 export type ExternalLocation = { s3Location: string };
-export const ExternalLocation = /*@__PURE__*/ S.Union([
-  S.Struct({ s3Location: S.String }),
-]);
+export const ExternalLocation = /*@__PURE__*/ S.Union([S.Struct({ s3Location: S.String })]);
 export interface DataSetExportItem {
   datasetName: string;
   externalLocation: ExternalLocation;
@@ -558,8 +530,7 @@ export const StorageConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ fsx: FsxStorageConfiguration }),
 ]);
 export type StorageConfigurationList = StorageConfiguration[];
-export const StorageConfigurationList =
-  /*@__PURE__*/ S.Array(StorageConfiguration);
+export const StorageConfigurationList = /*@__PURE__*/ S.Array(StorageConfiguration);
 export type CapacityValue = number;
 export interface HighAvailabilityConfig {
   desiredCapacity: number;
@@ -604,16 +575,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     networkType: S.optional(S.String),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     kmsKeyId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/environments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/environments" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEnvironmentRequest",
 }) as any as S.Schema<CreateEnvironmentRequest>;
@@ -643,39 +605,36 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationRequest",
 }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApplicationResponse",
 }) as any as S.Schema<DeleteApplicationResponse>;
 export interface DeleteApplicationFromEnvironmentRequest {
   applicationId: string;
   environmentId: string;
 }
-export const DeleteApplicationFromEnvironmentRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-      environmentId: S.String.pipe(T.HttpLabel("environmentId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/applications/{applicationId}/environment/{environmentId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteApplicationFromEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{applicationId}/environment/{environmentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteApplicationFromEnvironmentRequest",
 }) as any as S.Schema<DeleteApplicationFromEnvironmentRequest>;
 export interface DeleteApplicationFromEnvironmentResponse {}
-export const DeleteApplicationFromEnvironmentResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteApplicationFromEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteApplicationFromEnvironmentResponse",
 }) as any as S.Schema<DeleteApplicationFromEnvironmentResponse>;
@@ -697,9 +656,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEnvironmentRequest",
 }) as any as S.Schema<DeleteEnvironmentRequest>;
 export interface DeleteEnvironmentResponse {}
-export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEnvironmentResponse",
 }) as any as S.Schema<DeleteEnvironmentResponse>;
 export interface GetApplicationRequest {
@@ -1128,12 +1085,8 @@ export const GetDataSetDetailsResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     blocksize: S.optional(S.Number),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastReferencedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastReferencedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     fileSize: S.optional(S.Number),
   }),
 ).annotate({
@@ -1401,14 +1354,7 @@ export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetSignedBluinsightsUrlRequest {}
 export const GetSignedBluinsightsUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/signed-bi-url" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/signed-bi-url" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetSignedBluinsightsUrlRequest",
@@ -1437,16 +1383,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     names: S.optional(EntityNameList).pipe(T.HttpQuery("names")),
     environmentId: S.optional(S.String).pipe(T.HttpQuery("environmentId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/applications" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListApplicationsRequest",
 }) as any as S.Schema<ListApplicationsRequest>;
@@ -1523,9 +1460,7 @@ export const ListApplicationVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListApplicationVersionsRequest",
 }) as any as S.Schema<ListApplicationVersionsRequest>;
 export type ApplicationVersionSummaryList = ApplicationVersionSummary[];
-export const ApplicationVersionSummaryList = /*@__PURE__*/ S.Array(
-  ApplicationVersionSummary,
-);
+export const ApplicationVersionSummaryList = /*@__PURE__*/ S.Array(ApplicationVersionSummary);
 export interface ListApplicationVersionsResponse {
   applicationVersions: ApplicationVersionSummary[];
   nextToken?: string;
@@ -1630,12 +1565,12 @@ export const ListBatchJobExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
     executionIds: S.optional(IdentifierList).pipe(T.HttpQuery("executionIds")),
     jobName: S.optional(S.String).pipe(T.HttpQuery("jobName")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
-    startedAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("startedAfter")),
-    startedBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("startedBefore")),
+    startedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("startedAfter"),
+    ),
+    startedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("startedBefore"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -1681,9 +1616,7 @@ export const BatchJobExecutionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchJobExecutionSummary",
 }) as any as S.Schema<BatchJobExecutionSummary>;
 export type BatchJobExecutionSummaryList = BatchJobExecutionSummary[];
-export const BatchJobExecutionSummaryList = /*@__PURE__*/ S.Array(
-  BatchJobExecutionSummary,
-);
+export const BatchJobExecutionSummaryList = /*@__PURE__*/ S.Array(BatchJobExecutionSummary);
 export interface ListBatchJobExecutionsResponse {
   batchJobExecutions: BatchJobExecutionSummary[];
   nextToken?: string;
@@ -1705,9 +1638,7 @@ export const ListBatchJobRestartPointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     executionId: S.String.pipe(T.HttpLabel("executionId")),
-    authSecretsManagerArn: S.optional(S.String).pipe(
-      T.HttpQuery("authSecretsManagerArn"),
-    ),
+    authSecretsManagerArn: S.optional(S.String).pipe(T.HttpQuery("authSecretsManagerArn")),
   }).pipe(
     T.all(
       T.Http({
@@ -1745,9 +1676,7 @@ export const JobStep = /*@__PURE__*/ S.suspend(() =>
     stepRestartable: S.optional(S.Boolean),
     stepCheckpoint: S.optional(S.Number),
     stepCheckpointStatus: S.optional(S.String),
-    stepCheckpointTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    stepCheckpointTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "JobStep" }) as any as S.Schema<JobStep>;
 export type BatchJobStepList = JobStep[];
@@ -1913,12 +1842,8 @@ export const DataSetSummary = /*@__PURE__*/ S.suspend(() =>
     dataSetOrg: S.optional(S.String),
     format: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastReferencedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastReferencedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "DataSetSummary" }) as any as S.Schema<DataSetSummary>;
 export type DataSetsSummaryList = DataSetSummary[];
@@ -2001,16 +1926,7 @@ export const ListEngineVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     engineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/engine-versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/engine-versions" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEngineVersionsRequest",
 }) as any as S.Schema<ListEngineVersionsRequest>;
@@ -2024,9 +1940,7 @@ export const EngineVersionsSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "EngineVersionsSummary",
 }) as any as S.Schema<EngineVersionsSummary>;
 export type EngineVersionsSummaryList = EngineVersionsSummary[];
-export const EngineVersionsSummaryList = /*@__PURE__*/ S.Array(
-  EngineVersionsSummary,
-);
+export const EngineVersionsSummaryList = /*@__PURE__*/ S.Array(EngineVersionsSummary);
 export interface ListEngineVersionsResponse {
   engineVersions: EngineVersionsSummary[];
   nextToken?: string;
@@ -2051,16 +1965,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     names: S.optional(EntityNameList).pipe(T.HttpQuery("names")),
     engineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/environments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/environments" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEnvironmentsRequest",
 }) as any as S.Schema<ListEnvironmentsRequest>;
@@ -2109,14 +2014,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2147,18 +2045,13 @@ export const StartApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartApplicationRequest",
 }) as any as S.Schema<StartApplicationRequest>;
 export interface StartApplicationResponse {}
-export const StartApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartApplicationResponse",
 }) as any as S.Schema<StartApplicationResponse>;
 export type BatchParamKey = string;
 export type BatchParamValue = string;
 export type BatchJobParametersMap = { [key: string]: string | undefined };
-export const BatchJobParametersMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const BatchJobParametersMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface StartBatchJobRequest {
   applicationId: string;
   batchJobIdentifier: BatchJobIdentifier;
@@ -2217,9 +2110,7 @@ export const StopApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopApplicationRequest",
 }) as any as S.Schema<StopApplicationRequest>;
 export interface StopApplicationResponse {}
-export const StopApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopApplicationResponse",
 }) as any as S.Schema<StopApplicationResponse>;
 export interface TagResourceRequest {
@@ -2231,22 +2122,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2260,22 +2142,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateApplicationRequest {
@@ -2361,9 +2234,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CancelBatchJobExecutionError =
   | AccessDeniedException
   | ConflictException

@@ -1,11 +1,11 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import type { Credentials } from "../credentials.ts";
+import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-import type { Credentials } from "../credentials.ts";
-import type { CommonErrors } from "../errors.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Commerce Analytics",
   serviceShapeName: "MarketplaceCommerceAnalytics20150701",
@@ -25,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,9 +55,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://marketplacecommerceanalytics-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,9 +63,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://marketplacecommerceanalytics.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://marketplacecommerceanalytics.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -124,10 +116,7 @@ export type SnsTopicArn = string;
 export type OptionalKey = string;
 export type OptionalValue = string;
 export type CustomerDefinedValues = { [key: string]: string | undefined };
-export const CustomerDefinedValues = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const CustomerDefinedValues = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GenerateDataSetRequest {
   dataSetType: DataSetType;
   dataSetPublicationDate: Date;
@@ -146,9 +135,7 @@ export const GenerateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
     destinationS3Prefix: S.optional(S.String),
     snsTopicArn: S.String,
     customerDefinedValues: S.optional(CustomerDefinedValues),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GenerateDataSetRequest",
 }) as any as S.Schema<GenerateDataSetRequest>;
@@ -186,9 +173,7 @@ export const StartSupportDataExportRequest = /*@__PURE__*/ S.suspend(() =>
     destinationS3Prefix: S.optional(S.String),
     snsTopicArn: S.String,
     customerDefinedValues: S.optional(CustomerDefinedValues),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartSupportDataExportRequest",
 }) as any as S.Schema<StartSupportDataExportRequest>;
@@ -201,9 +186,7 @@ export const StartSupportDataExportResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartSupportDataExportResult",
 }) as any as S.Schema<StartSupportDataExportResult>;
 export type ExceptionMessage = string;
-export type GenerateDataSetError =
-  | MarketplaceCommerceAnalyticsException
-  | CommonErrors;
+export type GenerateDataSetError = MarketplaceCommerceAnalyticsException | CommonErrors;
 /**
  * Given a data set type and data set publication date, asynchronously publishes the requested data set to the specified
  * S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request identifier that
@@ -228,9 +211,7 @@ export const generateDataSet: API.OperationMethod<
   operationName: "GenerateDataSet",
 }));
 
-export type StartSupportDataExportError =
-  | MarketplaceCommerceAnalyticsException
-  | CommonErrors;
+export type StartSupportDataExportError = MarketplaceCommerceAnalyticsException | CommonErrors;
 /**
  * *This target has been deprecated.* Given a data set type and a from date, asynchronously publishes the requested customer support data
  * to the specified S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request

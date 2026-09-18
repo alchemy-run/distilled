@@ -53,9 +53,7 @@ async function fetchOpenApi(): Promise<void> {
 
   const response = await fetch(url, { headers });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = (await response.json()) as Record<string, unknown>;
@@ -63,9 +61,7 @@ async function fetchOpenApi(): Promise<void> {
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid JSON, but it is not an OpenAPI document.
   if (typeof spec.openapi !== "string" || spec.paths === undefined) {
-    throw new Error(
-      `${url} returned JSON without \`openapi\`/\`paths\` — not an OpenAPI document`,
-    );
+    throw new Error(`${url} returned JSON without \`openapi\`/\`paths\` — not an OpenAPI document`);
   }
 
   console.log(`Writing spec to ${OPENAPI_OUTPUT}...`);
@@ -73,9 +69,7 @@ async function fetchOpenApi(): Promise<void> {
   // produces no diff.
   await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 async function fetchDocs(): Promise<void> {
@@ -88,9 +82,7 @@ async function fetchDocs(): Promise<void> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch vendor docs: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch vendor docs: ${response.status} ${response.statusText}`);
   }
 
   const text = await response.text();

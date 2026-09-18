@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Azure credentials — hand-written.
  *
@@ -13,7 +14,6 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
  * Default base URL for the Azure Resource Manager (ARM) API.
@@ -31,10 +31,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("AzureCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "AzureCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   bearerToken: EffectConfig.String("AZURE_BEARER_TOKEN"),

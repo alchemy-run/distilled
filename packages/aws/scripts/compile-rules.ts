@@ -130,10 +130,7 @@ export type CompiledResolver = (params: EndpointParams) => CompiledResult;
 export interface RuntimeHelpers {
   partition: (region: RulesValue) => RulesValue;
   parseArn: (value: RulesValue) => RulesValue;
-  isVirtualHostableS3Bucket: (
-    value: RulesValue,
-    allowSubDomains?: RulesValue,
-  ) => boolean;
+  isVirtualHostableS3Bucket: (value: RulesValue, allowSubDomains?: RulesValue) => boolean;
   parseURL: (url: RulesValue) => RulesValue;
   substring: (
     input: RulesValue,
@@ -185,9 +182,7 @@ interface HoistingContext {
  * Handles both simple references like `${Region}` and complex expressions like
  * `${_.getAttr(bucketArn, "region")}` by extracting all variable references.
  */
-const normalizeForHashing = (
-  code: string,
-): { normalized: string; templateVars: string[] } => {
+const normalizeForHashing = (code: string): { normalized: string; templateVars: string[] } => {
   const templateVars: string[] = [];
   let varIndex = 0;
 
@@ -202,48 +197,35 @@ const normalizeForHashing = (
   };
 
   // Replace all template expressions, handling both simple and complex cases
-  const normalized = code.replace(
-    /\$\{([^}]+)\}/g,
-    (fullMatch, exprContent: string) => {
-      // Check if it's a simple variable reference
-      if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(exprContent)) {
-        return `\${${getPlaceholder(exprContent)}}`;
-      }
+  const normalized = code.replace(/\$\{([^}]+)\}/g, (fullMatch, exprContent: string) => {
+    // Check if it's a simple variable reference
+    if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(exprContent)) {
+      return `\${${getPlaceholder(exprContent)}}`;
+    }
 
-      // Handle _.getAttr(varName, "path") - extract the variable reference
-      const getAttrMatch = exprContent.match(
-        /^_\.getAttr\(([a-zA-Z_][a-zA-Z0-9_]*),\s*"([^"]+)"\)$/,
-      );
-      if (getAttrMatch) {
-        const [, varName, path] = getAttrMatch;
-        return `\${_.getAttr(${getPlaceholder(varName)}, "${path}")}`;
-      }
+    // Handle _.getAttr(varName, "path") - extract the variable reference
+    const getAttrMatch = exprContent.match(/^_\.getAttr\(([a-zA-Z_][a-zA-Z0-9_]*),\s*"([^"]+)"\)$/);
+    if (getAttrMatch) {
+      const [, varName, path] = getAttrMatch;
+      return `\${_.getAttr(${getPlaceholder(varName)}, "${path}")}`;
+    }
 
-      // For other complex expressions, extract all identifiers that look like variables
-      // and aren't known keywords/helpers
-      let modifiedExpr = exprContent;
-      const varMatches = exprContent.matchAll(/\b([a-zA-Z_][a-zA-Z0-9_]*)\b/g);
-      for (const match of varMatches) {
-        const name = match[0];
-        // Skip known non-variables (helpers, keywords, etc.)
-        if (
-          name === "_" ||
-          name === "getAttr" ||
-          name === "true" ||
-          name === "false"
-        ) {
-          continue;
-        }
-        // Replace this variable with its placeholder
-        const placeholder = getPlaceholder(name);
-        modifiedExpr = modifiedExpr.replace(
-          new RegExp(`\\b${name}\\b`, "g"),
-          placeholder,
-        );
+    // For other complex expressions, extract all identifiers that look like variables
+    // and aren't known keywords/helpers
+    let modifiedExpr = exprContent;
+    const varMatches = exprContent.matchAll(/\b([a-zA-Z_][a-zA-Z0-9_]*)\b/g);
+    for (const match of varMatches) {
+      const name = match[0];
+      // Skip known non-variables (helpers, keywords, etc.)
+      if (name === "_" || name === "getAttr" || name === "true" || name === "false") {
+        continue;
       }
-      return `\${${modifiedExpr}}`;
-    },
-  );
+      // Replace this variable with its placeholder
+      const placeholder = getPlaceholder(name);
+      modifiedExpr = modifiedExpr.replace(new RegExp(`\\b${name}\\b`, "g"), placeholder);
+    }
+    return `\${${modifiedExpr}}`;
+  });
 
   return { normalized, templateVars };
 };
@@ -252,11 +234,7 @@ const normalizeForHashing = (
  * Compute whether hoisting a pattern saves characters.
  * Returns true if factory + N calls is smaller than N inline occurrences.
  */
-const shouldHoist = (
-  inlineSize: number,
-  count: number,
-  numArgs: number,
-): boolean => {
+const shouldHoist = (inlineSize: number, count: number, numArgs: number): boolean => {
   // Factory overhead: "const _pN = " + args + " => " + body
   // For 0 args: "const _pN = () => {...}" ~= 18 chars overhead
   // For 1 arg: "const _pN = (a) => {...}" ~= 20 chars overhead
@@ -311,9 +289,7 @@ const buildHoistingContext = (rules: RuleObject[]): HoistingContext => {
     // Compile properties to get the original code
     const entries = Object.entries(endpoint.properties)
       .map(([key, value]) => {
-        const compiled = compileExpressionWithTemplateResolve(
-          value as Expression,
-        );
+        const compiled = compileExpressionWithTemplateResolve(value as Expression);
         return `${JSON.stringify(key)}: ${compiled}`;
       })
       .join(", ");
@@ -354,10 +330,7 @@ const buildHoistingContext = (rules: RuleObject[]): HoistingContext => {
 /**
  * Generate factory function declarations for hoisted patterns.
  */
-const emitHoistedFactories = (
-  context: HoistingContext,
-  typed: boolean,
-): string[] => {
+const emitHoistedFactories = (context: HoistingContext, typed: boolean): string[] => {
   const lines: string[] = [];
 
   for (const [normalized, { factoryName, args }] of context.hoistedFactories) {
@@ -381,9 +354,7 @@ const emitHoistedFactories = (
       if (args.length === 0) {
         lines.push(`  const ${factoryName} = () => (${body});`);
       } else {
-        lines.push(
-          `  const ${factoryName} = (${params}: unknown) => (${body});`,
-        );
+        lines.push(`  const ${factoryName} = (${params}: unknown) => (${body});`);
       }
     } else {
       if (args.length === 0) {
@@ -405,8 +376,7 @@ const emitHoistedFactories = (
  * Generate a valid JavaScript identifier from a variable name.
  * Some rule sets use names with dots or other invalid characters.
  */
-const sanitizeVarName = (name: string): string =>
-  name.replace(/[^a-zA-Z0-9_$]/g, "_");
+const sanitizeVarName = (name: string): string => name.replace(/[^a-zA-Z0-9_$]/g, "_");
 
 /**
  * Compile an expression to JavaScript code.
@@ -445,10 +415,7 @@ const compileExpression = (expr: Expression): string => {
   // Object literal
   if (typeof expr === "object") {
     const entries = Object.entries(expr)
-      .map(
-        ([key, value]) =>
-          `${JSON.stringify(key)}: ${compileExpression(value as Expression)}`,
-      )
+      .map(([key, value]) => `${JSON.stringify(key)}: ${compileExpression(value as Expression)}`)
       .join(", ");
     return `{${entries}}`;
   }
@@ -560,9 +527,7 @@ const compileFunctionCall = (fn: string, argv: Expression[]): string => {
  * Compile a condition to JavaScript code.
  * Returns { code: string, varName?: string } where varName is set if assign is used.
  */
-const compileCondition = (
-  condition: ConditionObject,
-): { code: string; varName?: string } => {
+const compileCondition = (condition: ConditionObject): { code: string; varName?: string } => {
   const fnCall = compileFunctionCall(condition.fn, condition.argv);
 
   if (condition.assign) {
@@ -589,10 +554,8 @@ const compileEndpoint = (
 ): string => {
   const url = compileExpression(endpoint.url);
 
-  const hasProperties =
-    endpoint.properties && Object.keys(endpoint.properties).length > 0;
-  const hasHeaders =
-    endpoint.headers && Object.keys(endpoint.headers).length > 0;
+  const hasProperties = endpoint.properties && Object.keys(endpoint.properties).length > 0;
+  const hasHeaders = endpoint.headers && Object.keys(endpoint.headers).length > 0;
 
   if (!hasProperties && !hasHeaders) {
     return `${indent}return e(${url});`;
@@ -603,9 +566,7 @@ const compileEndpoint = (
   if (hasProperties) {
     const entries = Object.entries(endpoint.properties!)
       .map(([key, value]) => {
-        const compiled = compileExpressionWithTemplateResolve(
-          value as Expression,
-        );
+        const compiled = compileExpressionWithTemplateResolve(value as Expression);
         return `${JSON.stringify(key)}: ${compiled}`;
       })
       .join(`, `);
@@ -618,9 +579,7 @@ const compileEndpoint = (
       if (factory) {
         // Use the hoisted factory function
         const args = templateVars.join(", ");
-        propertiesCode = args
-          ? `${factory.factoryName}(${args})`
-          : `${factory.factoryName}()`;
+        propertiesCode = args ? `${factory.factoryName}(${args})` : `${factory.factoryName}()`;
       } else {
         propertiesCode = originalCode;
       }
@@ -708,9 +667,7 @@ const compileRule = (
     if (compiled.varName) {
       assignments.push({ varName: compiled.varName, code: compiled.code });
       // After assignment, check truthy (rules engine semantics: null/undefined/false = falsy)
-      conditionChecks.push(
-        `${compiled.varName} != null && ${compiled.varName} !== false`,
-      );
+      conditionChecks.push(`${compiled.varName} != null && ${compiled.varName} !== false`);
     } else {
       conditionChecks.push(compiled.code);
     }
@@ -757,9 +714,7 @@ const compileRuleBody = (
 ): string => {
   if (rule.type === "tree") {
     // Tree rule - compile child rules
-    return rule.rules
-      .map((child) => compileRule(child, indent, hoistingContext))
-      .join("\n");
+    return rule.rules.map((child) => compileRule(child, indent, hoistingContext)).join("\n");
   }
 
   if (rule.type === "endpoint") {

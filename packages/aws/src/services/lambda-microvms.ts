@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Lambda Microvms",
   serviceShapeName: "LambdaMicrovms",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,13 +54,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://lambda-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://lambda-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://lambda.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://lambda.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://lambda.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -243,10 +231,7 @@ export type AuthTokenValue = string | redacted.Redacted<string>;
 export type TokenParts = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
-export const TokenParts = /*@__PURE__*/ S.Record(
-  S.String,
-  SensitiveString.pipe(S.optional),
-);
+export const TokenParts = /*@__PURE__*/ S.Record(S.String, SensitiveString.pipe(S.optional));
 export interface CreateMicrovmAuthTokenResponse {
   authToken: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
@@ -259,13 +244,9 @@ export type NonBlankString = string;
 export type Version = string;
 export type RoleArn = string;
 export type CodeArtifact = { uri: string };
-export const CodeArtifact = /*@__PURE__*/ S.Union([
-  S.Struct({ uri: S.String }),
-]);
+export const CodeArtifact = /*@__PURE__*/ S.Union([S.Struct({ uri: S.String })]);
 export interface LoggingDisabled {}
-export const LoggingDisabled = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const LoggingDisabled = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "LoggingDisabled",
 }) as any as S.Schema<LoggingDisabled>;
 export interface CloudWatchLogging {
@@ -758,12 +739,7 @@ export const GetMicrovmImageBuildInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetMicrovmImageBuildInput",
 }) as any as S.Schema<GetMicrovmImageBuildInput>;
-export type BuildState =
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "SUCCESSFUL"
-  | "FAILED"
-  | (string & {});
+export type BuildState = "PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | (string & {});
 export const BuildState = S.String;
 
 export type Chipset = "GRAVITON" | (string & {});
@@ -922,9 +898,7 @@ export const ManagedMicrovmImageSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ManagedMicrovmImageSummary",
 }) as any as S.Schema<ManagedMicrovmImageSummary>;
 export type ManagedMicrovmImageSummaryList = ManagedMicrovmImageSummary[];
-export const ManagedMicrovmImageSummaryList = /*@__PURE__*/ S.Array(
-  ManagedMicrovmImageSummary,
-);
+export const ManagedMicrovmImageSummaryList = /*@__PURE__*/ S.Array(ManagedMicrovmImageSummary);
 export interface ListManagedMicrovmImagesOutput {
   nextToken?: string;
   items: ManagedMicrovmImageSummary[];
@@ -942,32 +916,28 @@ export interface ListManagedMicrovmImageVersionsInput {
   nextToken?: string;
   imageIdentifier: string;
 }
-export const ListManagedMicrovmImageVersionsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      imageIdentifier: S.String.pipe(T.HttpLabel("imageIdentifier")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/2025-09-09/managed-microvm-images/{imageIdentifier}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListManagedMicrovmImageVersionsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    imageIdentifier: S.String.pipe(T.HttpLabel("imageIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/2025-09-09/managed-microvm-images/{imageIdentifier}/versions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListManagedMicrovmImageVersionsInput",
 }) as any as S.Schema<ListManagedMicrovmImageVersionsInput>;
-export type ManagedMicrovmImageVersionStatus =
-  | "AVAILABLE"
-  | "DEPRECATED"
-  | (string & {});
+export type ManagedMicrovmImageVersionStatus = "AVAILABLE" | "DEPRECATED" | (string & {});
 export const ManagedMicrovmImageVersionStatus = S.String;
 
 export interface ManagedMicrovmImageVersion {
@@ -989,19 +959,16 @@ export const ManagedMicrovmImageVersion = /*@__PURE__*/ S.suspend(() =>
   identifier: "ManagedMicrovmImageVersion",
 }) as any as S.Schema<ManagedMicrovmImageVersion>;
 export type ManagedMicrovmImageVersionList = ManagedMicrovmImageVersion[];
-export const ManagedMicrovmImageVersionList = /*@__PURE__*/ S.Array(
-  ManagedMicrovmImageVersion,
-);
+export const ManagedMicrovmImageVersionList = /*@__PURE__*/ S.Array(ManagedMicrovmImageVersion);
 export interface ListManagedMicrovmImageVersionsOutput {
   nextToken?: string;
   items: ManagedMicrovmImageVersion[];
 }
-export const ListManagedMicrovmImageVersionsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      items: ManagedMicrovmImageVersionList,
-    }),
+export const ListManagedMicrovmImageVersionsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: ManagedMicrovmImageVersionList,
+  }),
 ).annotate({
   identifier: "ListManagedMicrovmImageVersionsOutput",
 }) as any as S.Schema<ListManagedMicrovmImageVersionsOutput>;
@@ -1022,9 +989,7 @@ export const ListMicrovmImageBuildsInput = /*@__PURE__*/ S.suspend(() =>
     imageVersion: S.String.pipe(T.HttpLabel("imageVersion")),
     architecture: S.optional(Architecture).pipe(T.HttpQuery("architecture")),
     chipset: S.optional(Chipset).pipe(T.HttpQuery("chipset")),
-    chipsetGeneration: S.optional(S.String).pipe(
-      T.HttpQuery("chipsetGeneration"),
-    ),
+    chipsetGeneration: S.optional(S.String).pipe(T.HttpQuery("chipsetGeneration")),
   }).pipe(
     T.all(
       T.Http({
@@ -1068,9 +1033,7 @@ export const MicrovmImageBuildSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "MicrovmImageBuildSummary",
 }) as any as S.Schema<MicrovmImageBuildSummary>;
 export type MicrovmImageBuildSummaries = MicrovmImageBuildSummary[];
-export const MicrovmImageBuildSummaries = /*@__PURE__*/ S.Array(
-  MicrovmImageBuildSummary,
-);
+export const MicrovmImageBuildSummaries = /*@__PURE__*/ S.Array(MicrovmImageBuildSummary);
 export interface ListMicrovmImageBuildsOutput {
   nextToken?: string;
   items: MicrovmImageBuildSummary[];
@@ -1214,9 +1177,7 @@ export const MicrovmImageVersionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "MicrovmImageVersionSummary",
 }) as any as S.Schema<MicrovmImageVersionSummary>;
 export type MicrovmImageVersionSummaryList = MicrovmImageVersionSummary[];
-export const MicrovmImageVersionSummaryList = /*@__PURE__*/ S.Array(
-  MicrovmImageVersionSummary,
-);
+export const MicrovmImageVersionSummaryList = /*@__PURE__*/ S.Array(MicrovmImageVersionSummary);
 export interface ListMicrovmImageVersionsOutput {
   nextToken?: string;
   items: MicrovmImageVersionSummary[];
@@ -1242,14 +1203,7 @@ export const ListMicrovmsRequest = /*@__PURE__*/ S.suspend(() =>
     imageIdentifier: S.optional(S.String).pipe(T.HttpQuery("imageIdentifier")),
     imageVersion: S.optional(S.String).pipe(T.HttpQuery("imageVersion")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2025-09-09/microvms" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2025-09-09/microvms" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListMicrovmsRequest",
@@ -1330,9 +1284,7 @@ export const ResumeMicrovmRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResumeMicrovmRequest",
 }) as any as S.Schema<ResumeMicrovmRequest>;
 export interface ResumeMicrovmResponse {}
-export const ResumeMicrovmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ResumeMicrovmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ResumeMicrovmResponse",
 }) as any as S.Schema<ResumeMicrovmResponse>;
 export type RunHookPayload = string | redacted.Redacted<string>;
@@ -1361,14 +1313,7 @@ export const RunMicrovmRequest = /*@__PURE__*/ S.suspend(() =>
     maximumDurationInSeconds: S.optional(S.Number),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2025-09-09/microvms" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/2025-09-09/microvms" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RunMicrovmRequest",
@@ -1430,9 +1375,7 @@ export const SuspendMicrovmRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SuspendMicrovmRequest",
 }) as any as S.Schema<SuspendMicrovmRequest>;
 export interface SuspendMicrovmResponse {}
-export const SuspendMicrovmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const SuspendMicrovmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SuspendMicrovmResponse",
 }) as any as S.Schema<SuspendMicrovmResponse>;
 export interface TagResourceRequest {
@@ -1457,9 +1400,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface TerminateMicrovmRequest {
@@ -1485,15 +1426,11 @@ export const TerminateMicrovmRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TerminateMicrovmRequest",
 }) as any as S.Schema<TerminateMicrovmRequest>;
 export interface TerminateMicrovmResponse {}
-export const TerminateMicrovmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TerminateMicrovmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TerminateMicrovmResponse",
 }) as any as S.Schema<TerminateMicrovmResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Key")),
-);
+export const TagKeyList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Key")));
 export interface UntagResourceRequest {
   Resource: string;
   TagKeys: string[];
@@ -1516,9 +1453,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateMicrovmImageRequest {

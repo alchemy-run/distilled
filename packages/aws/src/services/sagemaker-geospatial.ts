@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Geospatial",
   serviceShapeName: "SageMakerGeospatial",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://sagemaker-geospatial-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,9 +66,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://sagemaker-geospatial.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://sagemaker-geospatial.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -164,11 +156,11 @@ export const DeleteEarthObservationJobInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEarthObservationJobInput",
 }) as any as S.Schema<DeleteEarthObservationJobInput>;
 export interface DeleteEarthObservationJobOutput {}
-export const DeleteEarthObservationJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteEarthObservationJobOutput",
-}) as any as S.Schema<DeleteEarthObservationJobOutput>;
+export const DeleteEarthObservationJobOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "DeleteEarthObservationJobOutput",
+  },
+) as any as S.Schema<DeleteEarthObservationJobOutput>;
 export type VectorEnrichmentJobArn = string;
 export interface DeleteVectorEnrichmentJobInput {
   Arn: string;
@@ -188,11 +180,11 @@ export const DeleteVectorEnrichmentJobInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVectorEnrichmentJobInput",
 }) as any as S.Schema<DeleteVectorEnrichmentJobInput>;
 export interface DeleteVectorEnrichmentJobOutput {}
-export const DeleteVectorEnrichmentJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteVectorEnrichmentJobOutput",
-}) as any as S.Schema<DeleteVectorEnrichmentJobOutput>;
+export const DeleteVectorEnrichmentJobOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "DeleteVectorEnrichmentJobOutput",
+  },
+) as any as S.Schema<DeleteVectorEnrichmentJobOutput>;
 export type ExecutionRoleArn = string;
 export type S3Uri = string;
 export type KmsKey = string;
@@ -273,8 +265,8 @@ export const VectorEnrichmentJobS3Data = /*@__PURE__*/ S.suspend(() =>
 export interface ExportVectorEnrichmentJobOutputConfig {
   S3Data: VectorEnrichmentJobS3Data;
 }
-export const ExportVectorEnrichmentJobOutputConfig = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ S3Data: VectorEnrichmentJobS3Data }),
+export const ExportVectorEnrichmentJobOutputConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ S3Data: VectorEnrichmentJobS3Data }),
 ).annotate({
   identifier: "ExportVectorEnrichmentJobOutputConfig",
 }) as any as S.Schema<ExportVectorEnrichmentJobOutputConfig>;
@@ -711,9 +703,7 @@ export const StackConfigInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "StackConfigInput",
 }) as any as S.Schema<StackConfigInput>;
 export interface CloudMaskingConfigInput {}
-export const CloudMaskingConfigInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CloudMaskingConfigInput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CloudMaskingConfigInput",
 }) as any as S.Schema<CloudMaskingConfigInput>;
 export interface LandCoverSegmentationConfigInput {}
@@ -1000,19 +990,8 @@ export const GetTileInput = /*@__PURE__*/ S.suspend(() =>
     TimeRangeFilter: S.optional(S.String).pipe(T.HttpQuery("TimeRangeFilter")),
     PropertyFilters: S.optional(S.String).pipe(T.HttpQuery("PropertyFilters")),
     OutputDataType: S.optional(S.String).pipe(T.HttpQuery("OutputDataType")),
-    ExecutionRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("ExecutionRoleArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tile/{z}/{x}/{y}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    ExecutionRoleArn: S.optional(S.String).pipe(T.HttpQuery("ExecutionRoleArn")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/tile/{z}/{x}/{y}" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "GetTileInput" }) as any as S.Schema<GetTileInput>;
 export interface GetTileOutput {
   BinaryFile?: T.StreamingOutputBody;
@@ -1111,8 +1090,8 @@ export interface VectorEnrichmentJobExportErrorDetails {
   Type?: string;
   Message?: string;
 }
-export const VectorEnrichmentJobExportErrorDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Type: S.optional(S.String), Message: S.optional(S.String) }),
+export const VectorEnrichmentJobExportErrorDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Type: S.optional(S.String), Message: S.optional(S.String) }),
 ).annotate({
   identifier: "VectorEnrichmentJobExportErrorDetails",
 }) as any as S.Schema<VectorEnrichmentJobExportErrorDetails>;
@@ -1204,9 +1183,7 @@ export const ListEarthObservationJobOutputConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListEarthObservationJobOutputConfig",
 }) as any as S.Schema<ListEarthObservationJobOutputConfig>;
 export type EarthObservationJobList = ListEarthObservationJobOutputConfig[];
-export const EarthObservationJobList = /*@__PURE__*/ S.Array(
-  ListEarthObservationJobOutputConfig,
-);
+export const EarthObservationJobList = /*@__PURE__*/ S.Array(ListEarthObservationJobOutputConfig);
 export interface ListEarthObservationJobOutput {
   EarthObservationJobSummaries: ListEarthObservationJobOutputConfig[];
   NextToken?: string | redacted.Redacted<string>;
@@ -1228,14 +1205,7 @@ export const ListRasterDataCollectionsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/raster-data-collections" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/raster-data-collections" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListRasterDataCollectionsInput",
@@ -1263,9 +1233,7 @@ export const RasterDataCollectionMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "RasterDataCollectionMetadata",
 }) as any as S.Schema<RasterDataCollectionMetadata>;
 export type DataCollectionsList = RasterDataCollectionMetadata[];
-export const DataCollectionsList = /*@__PURE__*/ S.Array(
-  RasterDataCollectionMetadata,
-);
+export const DataCollectionsList = /*@__PURE__*/ S.Array(RasterDataCollectionMetadata);
 export interface ListRasterDataCollectionsOutput {
   RasterDataCollectionSummaries: RasterDataCollectionMetadata[];
   NextToken?: string | redacted.Redacted<string>;
@@ -1284,14 +1252,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1354,9 +1315,7 @@ export const ListVectorEnrichmentJobOutputConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListVectorEnrichmentJobOutputConfig",
 }) as any as S.Schema<ListVectorEnrichmentJobOutputConfig>;
 export type VectorEnrichmentJobList = ListVectorEnrichmentJobOutputConfig[];
-export const VectorEnrichmentJobList = /*@__PURE__*/ S.Array(
-  ListVectorEnrichmentJobOutputConfig,
-);
+export const VectorEnrichmentJobList = /*@__PURE__*/ S.Array(ListVectorEnrichmentJobOutputConfig);
 export interface ListVectorEnrichmentJobOutput {
   VectorEnrichmentJobSummaries: ListVectorEnrichmentJobOutputConfig[];
   NextToken?: string | redacted.Redacted<string>;
@@ -1387,17 +1346,16 @@ export interface RasterDataCollectionQueryWithBandFilterInput {
   PropertyFilters?: PropertyFilters;
   BandFilter?: string[];
 }
-export const RasterDataCollectionQueryWithBandFilterInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TimeRangeFilter: TimeRangeFilterInput,
-      AreaOfInterest: S.optional(AreaOfInterest),
-      PropertyFilters: S.optional(PropertyFilters),
-      BandFilter: S.optional(StringListInput),
-    }),
-  ).annotate({
-    identifier: "RasterDataCollectionQueryWithBandFilterInput",
-  }) as any as S.Schema<RasterDataCollectionQueryWithBandFilterInput>;
+export const RasterDataCollectionQueryWithBandFilterInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TimeRangeFilter: TimeRangeFilterInput,
+    AreaOfInterest: S.optional(AreaOfInterest),
+    PropertyFilters: S.optional(PropertyFilters),
+    BandFilter: S.optional(StringListInput),
+  }),
+).annotate({
+  identifier: "RasterDataCollectionQueryWithBandFilterInput",
+}) as any as S.Schema<RasterDataCollectionQueryWithBandFilterInput>;
 export interface SearchRasterDataCollectionInput {
   Arn: string;
   RasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput;
@@ -1435,10 +1393,7 @@ export const AssetValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Href: S.optional(S.String) }),
 ).annotate({ identifier: "AssetValue" }) as any as S.Schema<AssetValue>;
 export type AssetsMap = { [key: string]: AssetValue | undefined };
-export const AssetsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  AssetValue.pipe(S.optional),
-);
+export const AssetsMap = /*@__PURE__*/ S.Record(S.String, AssetValue.pipe(S.optional));
 export interface Properties {
   EoCloudCover?: number;
   ViewOffNadir?: number;
@@ -1536,14 +1491,7 @@ export const StartEarthObservationJobInput = /*@__PURE__*/ S.suspend(() =>
     ExecutionRoleArn: S.String,
     Tags: S.optional(Tags),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/earth-observation-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/earth-observation-jobs" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartEarthObservationJobInput",
@@ -1595,14 +1543,7 @@ export const StartVectorEnrichmentJobInput = /*@__PURE__*/ S.suspend(() =>
     ExecutionRoleArn: S.String,
     Tags: S.optional(Tags),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/vector-enrichment-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/vector-enrichment-jobs" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartVectorEnrichmentJobInput",
@@ -1655,9 +1596,7 @@ export const StopEarthObservationJobInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopEarthObservationJobInput",
 }) as any as S.Schema<StopEarthObservationJobInput>;
 export interface StopEarthObservationJobOutput {}
-export const StopEarthObservationJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopEarthObservationJobOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopEarthObservationJobOutput",
 }) as any as S.Schema<StopEarthObservationJobOutput>;
 export interface StopVectorEnrichmentJobInput {
@@ -1678,9 +1617,7 @@ export const StopVectorEnrichmentJobInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopVectorEnrichmentJobInput",
 }) as any as S.Schema<StopVectorEnrichmentJobInput>;
 export interface StopVectorEnrichmentJobOutput {}
-export const StopVectorEnrichmentJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopVectorEnrichmentJobOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopVectorEnrichmentJobOutput",
 }) as any as S.Schema<StopVectorEnrichmentJobOutput>;
 export interface TagResourceRequest {
@@ -1692,22 +1629,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: Tags,
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1721,22 +1649,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type DeleteEarthObservationJobError =

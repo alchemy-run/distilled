@@ -41,20 +41,17 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 import {
   applyOperation,
   isStaleTargetError,
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dir, "..");
-const specPath = resolveSpecPath(
-  rootDir,
-  "specs/spec-mirror-forgejo/specs/forgejo.spec.json",
-);
+const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-forgejo/specs/forgejo.spec.json");
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
 
@@ -105,9 +102,7 @@ const listPatchFiles = (root: string): string[] => {
     .readdirSync(root, { withFileTypes: true })
     .sort((a, b) => a.name.localeCompare(b.name))) {
     if (ent.isFile()) {
-      console.warn(
-        `   ⚠️  patches/${ent.name} is not patches/<service>/<op>.json — ignored`,
-      );
+      console.warn(`   ⚠️  patches/${ent.name} is not patches/<service>/<op>.json — ignored`);
       continue;
     }
     if (!ent.isDirectory()) continue;
@@ -116,8 +111,8 @@ const listPatchFiles = (root: string): string[] => {
       .filter((f) => f.endsWith(".json") && !SKIP_PATCH_NAMES.has(f))
       .sort(
         (a, b) =>
-          Number(a.endsWith(".manual.json")) -
-            Number(b.endsWith(".manual.json")) || a.localeCompare(b),
+          Number(a.endsWith(".manual.json")) - Number(b.endsWith(".manual.json")) ||
+          a.localeCompare(b),
       );
     for (const file of files) out.push(path.join(ent.name, file));
   }
@@ -127,9 +122,7 @@ const listPatchFiles = (root: string): string[] => {
 let patchFiles = 0;
 const badPatches: string[] = [];
 for (const rel of listPatchFiles(patchDir)) {
-  const parsed = JSON.parse(
-    fs.readFileSync(path.join(patchDir, rel), "utf-8"),
-  ) as PatchFile;
+  const parsed = JSON.parse(fs.readFileSync(path.join(patchDir, rel), "utf-8")) as PatchFile;
   for (const patchOp of parsed.patches ?? []) {
     // Smithy pointers apply to the converted model in finalizeConvert.
     if (isSmithyPatchPath(patchOp.path)) continue;
@@ -138,9 +131,7 @@ for (const rel of listPatchFiles(patchDir)) {
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       if (isStaleTargetError(e)) {
-        badPatches.push(
-          `${rel} [${patchOp.op} ${patchOp.path}]: stale target (${msg})`,
-        );
+        badPatches.push(`${rel} [${patchOp.op} ${patchOp.path}]: stale target (${msg})`);
       } else {
         badPatches.push(`${rel} [${patchOp.op} ${patchOp.path}]: ${msg}`);
       }
@@ -150,9 +141,7 @@ for (const rel of listPatchFiles(patchDir)) {
 }
 if (badPatches.length) {
   for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(
-    `${badPatches.length} malformed patch operation(s) — fix or remove them`,
-  );
+  throw new Error(`${badPatches.length} malformed patch operation(s) — fix or remove them`);
 }
 if (patchFiles) {
   console.log(`🩹 ${patchFiles} patch files applied`);
@@ -162,18 +151,14 @@ if (patchFiles) {
 const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();
 const unrouted: string[] = [];
 const deprecated: string[] = [];
-for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(
-  fullSpec.paths,
-)) {
+for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(fullSpec.paths)) {
   for (const method of HTTP_METHODS) {
     const op = (pathItem as Record<string, any>)[method];
     if (!op) continue;
     // Reported, not dropped here — the converter is what skips them, so the
     // list stays accurate if that option ever changes.
     if (op.deprecated === true) {
-      deprecated.push(
-        `${method.toUpperCase()} ${pathTemplate} (${op.operationId})`,
-      );
+      deprecated.push(`${method.toUpperCase()} ${pathTemplate} (${op.operationId})`);
     }
     const rawTag: string | undefined =
       Array.isArray(op.tags) && op.tags.length > 0 ? op.tags[0] : undefined;
@@ -234,18 +219,13 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     // 401/429/500/503 ride the common ForgejoOpError union.
   });
 
-  const operations = Object.entries<any>(model.shapes).filter(
-    ([, s]) => s.type === "operation",
-  );
+  const operations = Object.entries<any>(model.shapes).filter(([, s]) => s.type === "operation");
   if (operations.length === 0) {
     emptyBuckets.push(slug);
     continue; // all-deprecated bucket
   }
 
-  fs.writeFileSync(
-    path.join(outDir, `${slug}.json`),
-    JSON.stringify(model, null, 2) + "\n",
-  );
+  fs.writeFileSync(path.join(outDir, `${slug}.json`), JSON.stringify(model, null, 2) + "\n");
   written++;
   totalOps += operations.length;
 }
@@ -263,9 +243,7 @@ if (emptyBuckets.length) {
 }
 if (badPatches.length) {
   for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(
-    `${badPatches.length} malformed patch operation(s) — fix or remove them`,
-  );
+  throw new Error(`${badPatches.length} malformed patch operation(s) — fix or remove them`);
 }
 console.log(`✅ ${written} Smithy models (${totalOps} operations) → ${outDir}`);
 

@@ -1462,11 +1462,7 @@
       ],
       "traits": {
         "aws.iam#iamAction": {
-          "requiredActions": [
-            "iam:PassRole",
-            "transfer:CreateWebApp",
-            "transfer:TagResource"
-          ]
+          "requiredActions": ["iam:PassRole", "transfer:CreateWebApp", "transfer:TagResource"]
         },
         "smithy.api#documentation": "<p>Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessible or hosted within a VPC.</p> <p>For more information about using VPC endpoints with Transfer Family, see <a href=\"https://docs.aws.amazon.com/transfer/latest/userguide/create-webapp-in-vpc.html\">Create a Transfer Family web app in a VPC</a>.</p>",
         "smithy.api#http": {
@@ -2978,10 +2974,7 @@
       ],
       "traits": {
         "aws.iam#iamAction": {
-          "requiredActions": [
-            "ec2:DescribeVpcEndpoints",
-            "transfer:DescribeServer"
-          ]
+          "requiredActions": ["ec2:DescribeVpcEndpoints", "transfer:DescribeServer"]
         },
         "smithy.api#documentation": "<p>Describes a file transfer protocol-enabled server that you specify by passing the <code>ServerId</code> parameter.</p> <p>The response contains a description of a server's properties. When you set <code>EndpointType</code> to VPC, the response will contain the <code>EndpointDetails</code>.</p>",
         "smithy.api#readonly": {},
@@ -10755,11 +10748,7 @@
       ],
       "traits": {
         "aws.iam#iamAction": {
-          "requiredActions": [
-            "transfer:TagResource",
-            "transfer:UnTagResource",
-            "iam:PassRole"
-          ]
+          "requiredActions": ["transfer:TagResource", "transfer:UnTagResource", "iam:PassRole"]
         },
         "smithy.api#documentation": "<p>Updates some of the parameters for an existing agreement. Provide the <code>AgreementId</code> and the <code>ServerId</code> for the agreement that you want to update, along with the new values for the parameters to update.</p> <note> <p>Specify <i>either</i> <code>BaseDirectory</code> or <code>CustomDirectories</code>, but not both. Specifying both causes the command to fail.</p> <p>If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, the custom directories are no longer used.</p> </note>"
       }
@@ -10965,11 +10954,7 @@
       ],
       "traits": {
         "aws.iam#iamAction": {
-          "requiredActions": [
-            "transfer:TagResource",
-            "transfer:UnTagResource",
-            "iam:PassRole"
-          ]
+          "requiredActions": ["transfer:TagResource", "transfer:UnTagResource", "iam:PassRole"]
         },
         "smithy.api#documentation": "<p>Updates some of the parameters for an existing connector. Provide the <code>ConnectorId</code> for the connector that you want to update, along with the new values for the parameters to update.</p>"
       }
@@ -11960,9 +11945,7 @@
       "traits": {
         "aws.cloudformation#cfnResource": {
           "name": "WebAppCustomization",
-          "additionalSchemas": [
-            "com.amazonaws.transfer#DescribedWebAppCustomization"
-          ]
+          "additionalSchemas": ["com.amazonaws.transfer#DescribedWebAppCustomization"]
         }
       }
     },

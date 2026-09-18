@@ -33,16 +33,10 @@ const model = () => ({
 const scaffold = (patches?: Record<string, unknown>) => {
   const root = mkdtempSync(join(tmpdir(), "finalize-"));
   mkdirSync(join(root, ".generated-specs"));
-  writeFileSync(
-    join(root, ".generated-specs", "svc.json"),
-    JSON.stringify(model()),
-  );
+  writeFileSync(join(root, ".generated-specs", "svc.json"), JSON.stringify(model()));
   if (patches) {
     mkdirSync(join(root, "patches", "svc"), { recursive: true });
-    writeFileSync(
-      join(root, "patches", "svc", "a.json"),
-      JSON.stringify(patches),
-    );
+    writeFileSync(join(root, "patches", "svc", "a.json"), JSON.stringify(patches));
   }
   return root;
 };
@@ -68,16 +62,12 @@ describe("finalizeConvert", () => {
   test("refuses a second pass", async () => {
     const root = scaffold();
     await finalizeConvert({ root });
-    await expect(finalizeConvert({ root })).rejects.toThrow(
-      /already finalized/,
-    );
+    await expect(finalizeConvert({ root })).rejects.toThrow(/already finalized/);
   });
 
   test("applies Smithy patches and repairs the service list after a move", async () => {
     const root = scaffold({
-      patches: [
-        { op: "move", from: "/shapes/ns#AppsGet", path: "/shapes/ns#FetchApp" },
-      ],
+      patches: [{ op: "move", from: "/shapes/ns#AppsGet", path: "/shapes/ns#FetchApp" }],
     });
     await finalizeConvert({ root });
     const m = read(root);

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Events Data",
   serviceShapeName: "IotColumboDataService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://data.iotevents-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://data.iotevents.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://data.iotevents.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://data.iotevents.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -134,22 +124,13 @@ export const AcknowledgeAlarmActionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AcknowledgeAlarmActionRequest",
 }) as any as S.Schema<AcknowledgeAlarmActionRequest>;
 export type AcknowledgeAlarmActionRequests = AcknowledgeAlarmActionRequest[];
-export const AcknowledgeAlarmActionRequests = /*@__PURE__*/ S.Array(
-  AcknowledgeAlarmActionRequest,
-);
+export const AcknowledgeAlarmActionRequests = /*@__PURE__*/ S.Array(AcknowledgeAlarmActionRequest);
 export interface BatchAcknowledgeAlarmRequest {
   acknowledgeActionRequests: AcknowledgeAlarmActionRequest[];
 }
 export const BatchAcknowledgeAlarmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ acknowledgeActionRequests: AcknowledgeAlarmActionRequests }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/alarms/acknowledge" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/alarms/acknowledge" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchAcknowledgeAlarmRequest",
@@ -179,9 +160,7 @@ export const BatchAlarmActionErrorEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchAlarmActionErrorEntry",
 }) as any as S.Schema<BatchAlarmActionErrorEntry>;
 export type BatchAlarmActionErrorEntries = BatchAlarmActionErrorEntry[];
-export const BatchAlarmActionErrorEntries = /*@__PURE__*/ S.Array(
-  BatchAlarmActionErrorEntry,
-);
+export const BatchAlarmActionErrorEntries = /*@__PURE__*/ S.Array(BatchAlarmActionErrorEntry);
 export interface BatchAcknowledgeAlarmResponse {
   errorEntries?: BatchAlarmActionErrorEntry[];
 }
@@ -207,22 +186,13 @@ export const DeleteDetectorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDetectorRequest",
 }) as any as S.Schema<DeleteDetectorRequest>;
 export type DeleteDetectorRequests = DeleteDetectorRequest[];
-export const DeleteDetectorRequests = /*@__PURE__*/ S.Array(
-  DeleteDetectorRequest,
-);
+export const DeleteDetectorRequests = /*@__PURE__*/ S.Array(DeleteDetectorRequest);
 export interface BatchDeleteDetectorRequest {
   detectors: DeleteDetectorRequest[];
 }
 export const BatchDeleteDetectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ detectors: DeleteDetectorRequests }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detectors/delete" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/detectors/delete" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchDeleteDetectorRequest",
@@ -242,17 +212,13 @@ export const BatchDeleteDetectorErrorEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchDeleteDetectorErrorEntry",
 }) as any as S.Schema<BatchDeleteDetectorErrorEntry>;
 export type BatchDeleteDetectorErrorEntries = BatchDeleteDetectorErrorEntry[];
-export const BatchDeleteDetectorErrorEntries = /*@__PURE__*/ S.Array(
-  BatchDeleteDetectorErrorEntry,
-);
+export const BatchDeleteDetectorErrorEntries = /*@__PURE__*/ S.Array(BatchDeleteDetectorErrorEntry);
 export interface BatchDeleteDetectorResponse {
   batchDeleteDetectorErrorEntries?: BatchDeleteDetectorErrorEntry[];
 }
 export const BatchDeleteDetectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    batchDeleteDetectorErrorEntries: S.optional(
-      BatchDeleteDetectorErrorEntries,
-    ),
+    batchDeleteDetectorErrorEntries: S.optional(BatchDeleteDetectorErrorEntries),
   }),
 ).annotate({
   identifier: "BatchDeleteDetectorResponse",
@@ -274,22 +240,13 @@ export const DisableAlarmActionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DisableAlarmActionRequest",
 }) as any as S.Schema<DisableAlarmActionRequest>;
 export type DisableAlarmActionRequests = DisableAlarmActionRequest[];
-export const DisableAlarmActionRequests = /*@__PURE__*/ S.Array(
-  DisableAlarmActionRequest,
-);
+export const DisableAlarmActionRequests = /*@__PURE__*/ S.Array(DisableAlarmActionRequest);
 export interface BatchDisableAlarmRequest {
   disableActionRequests: DisableAlarmActionRequest[];
 }
 export const BatchDisableAlarmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ disableActionRequests: DisableAlarmActionRequests }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/alarms/disable" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/alarms/disable" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchDisableAlarmRequest",
@@ -319,22 +276,13 @@ export const EnableAlarmActionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "EnableAlarmActionRequest",
 }) as any as S.Schema<EnableAlarmActionRequest>;
 export type EnableAlarmActionRequests = EnableAlarmActionRequest[];
-export const EnableAlarmActionRequests = /*@__PURE__*/ S.Array(
-  EnableAlarmActionRequest,
-);
+export const EnableAlarmActionRequests = /*@__PURE__*/ S.Array(EnableAlarmActionRequest);
 export interface BatchEnableAlarmRequest {
   enableActionRequests: EnableAlarmActionRequest[];
 }
 export const BatchEnableAlarmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ enableActionRequests: EnableAlarmActionRequests }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/alarms/enable" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/alarms/enable" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchEnableAlarmRequest",
@@ -377,14 +325,7 @@ export interface BatchPutMessageRequest {
 }
 export const BatchPutMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ messages: Messages }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/inputs/messages" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/inputs/messages" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchPutMessageRequest",
@@ -404,9 +345,7 @@ export const BatchPutMessageErrorEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchPutMessageErrorEntry",
 }) as any as S.Schema<BatchPutMessageErrorEntry>;
 export type BatchPutMessageErrorEntries = BatchPutMessageErrorEntry[];
-export const BatchPutMessageErrorEntries = /*@__PURE__*/ S.Array(
-  BatchPutMessageErrorEntry,
-);
+export const BatchPutMessageErrorEntries = /*@__PURE__*/ S.Array(BatchPutMessageErrorEntry);
 export interface BatchPutMessageResponse {
   BatchPutMessageErrorEntries?: BatchPutMessageErrorEntry[];
 }
@@ -434,22 +373,13 @@ export const ResetAlarmActionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResetAlarmActionRequest",
 }) as any as S.Schema<ResetAlarmActionRequest>;
 export type ResetAlarmActionRequests = ResetAlarmActionRequest[];
-export const ResetAlarmActionRequests = /*@__PURE__*/ S.Array(
-  ResetAlarmActionRequest,
-);
+export const ResetAlarmActionRequests = /*@__PURE__*/ S.Array(ResetAlarmActionRequest);
 export interface BatchResetAlarmRequest {
   resetActionRequests: ResetAlarmActionRequest[];
 }
 export const BatchResetAlarmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resetActionRequests: ResetAlarmActionRequests }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/alarms/reset" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/alarms/reset" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchResetAlarmRequest",
@@ -482,22 +412,13 @@ export const SnoozeAlarmActionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SnoozeAlarmActionRequest",
 }) as any as S.Schema<SnoozeAlarmActionRequest>;
 export type SnoozeAlarmActionRequests = SnoozeAlarmActionRequest[];
-export const SnoozeAlarmActionRequests = /*@__PURE__*/ S.Array(
-  SnoozeAlarmActionRequest,
-);
+export const SnoozeAlarmActionRequests = /*@__PURE__*/ S.Array(SnoozeAlarmActionRequest);
 export interface BatchSnoozeAlarmRequest {
   snoozeActionRequests: SnoozeAlarmActionRequest[];
 }
 export const BatchSnoozeAlarmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ snoozeActionRequests: SnoozeAlarmActionRequests }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/alarms/snooze" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/alarms/snooze" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchSnoozeAlarmRequest",
@@ -568,22 +489,13 @@ export const UpdateDetectorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateDetectorRequest",
 }) as any as S.Schema<UpdateDetectorRequest>;
 export type UpdateDetectorRequests = UpdateDetectorRequest[];
-export const UpdateDetectorRequests = /*@__PURE__*/ S.Array(
-  UpdateDetectorRequest,
-);
+export const UpdateDetectorRequests = /*@__PURE__*/ S.Array(UpdateDetectorRequest);
 export interface BatchUpdateDetectorRequest {
   detectors: UpdateDetectorRequest[];
 }
 export const BatchUpdateDetectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ detectors: UpdateDetectorRequests }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/detectors" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchUpdateDetectorRequest",
@@ -603,17 +515,13 @@ export const BatchUpdateDetectorErrorEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchUpdateDetectorErrorEntry",
 }) as any as S.Schema<BatchUpdateDetectorErrorEntry>;
 export type BatchUpdateDetectorErrorEntries = BatchUpdateDetectorErrorEntry[];
-export const BatchUpdateDetectorErrorEntries = /*@__PURE__*/ S.Array(
-  BatchUpdateDetectorErrorEntry,
-);
+export const BatchUpdateDetectorErrorEntries = /*@__PURE__*/ S.Array(BatchUpdateDetectorErrorEntry);
 export interface BatchUpdateDetectorResponse {
   batchUpdateDetectorErrorEntries?: BatchUpdateDetectorErrorEntry[];
 }
 export const BatchUpdateDetectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    batchUpdateDetectorErrorEntries: S.optional(
-      BatchUpdateDetectorErrorEntries,
-    ),
+    batchUpdateDetectorErrorEntries: S.optional(BatchUpdateDetectorErrorEntries),
   }),
 ).annotate({
   identifier: "BatchUpdateDetectorResponse",
@@ -913,14 +821,7 @@ export const ListAlarmsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/alarms/{alarmModelName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/alarms/{alarmModelName}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListAlarmsRequest",

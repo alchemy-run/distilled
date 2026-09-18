@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "finspace",
   serviceShapeName: "AWSHabaneroManagementService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,13 +54,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://finspace-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://finspace-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://finspace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://finspace.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://finspace.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -154,10 +142,7 @@ export type KmsKeyId = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type FederationMode = "FEDERATED" | "LOCAL" | (string & {});
 export const FederationMode = S.String;
 
@@ -168,10 +153,7 @@ export type FederationProviderName = string;
 export type FederationAttributeKey = string;
 export type FederationAttributeValue = string;
 export type AttributeMap = { [key: string]: string | undefined };
-export const AttributeMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const AttributeMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface FederationParameters {
   samlMetadataDocument?: string;
   samlMetadataURL?: string;
@@ -231,16 +213,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     federationParameters: S.optional(FederationParameters),
     superuserParameters: S.optional(SuperuserParameters),
     dataBundles: S.optional(DataBundleArns),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/environment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/environment" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEnvironmentRequest",
 }) as any as S.Schema<CreateEnvironmentRequest>;
@@ -311,12 +284,7 @@ export const CreateKxChangesetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateKxChangesetRequest",
 }) as any as S.Schema<CreateKxChangesetRequest>;
 export type ChangesetId = string;
-export type ChangesetStatus =
-  | "PENDING"
-  | "PROCESSING"
-  | "FAILED"
-  | "COMPLETED"
-  | (string & {});
+export type ChangesetStatus = "PENDING" | "PROCESSING" | "FAILED" | "COMPLETED" | (string & {});
 export const ChangesetStatus = S.String;
 
 export type ErrorMessage = string;
@@ -358,12 +326,8 @@ export const CreateKxChangesetResponse = /*@__PURE__*/ S.suspend(() =>
     databaseName: S.optional(S.String),
     environmentId: S.optional(S.String),
     changeRequests: S.optional(ChangeRequests),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(ChangesetStatus),
     errorInfo: S.optional(ErrorInfo),
   }),
@@ -373,13 +337,7 @@ export const CreateKxChangesetResponse = /*@__PURE__*/ S.suspend(() =>
 export type ClientToken = string;
 export type KxEnvironmentId = string;
 export type KxClusterName = string;
-export type KxClusterType =
-  | "HDB"
-  | "RDB"
-  | "GATEWAY"
-  | "GP"
-  | "TICKERPLANT"
-  | (string & {});
+export type KxClusterType = "HDB" | "RDB" | "GATEWAY" | "GP" | "TICKERPLANT" | (string & {});
 export const KxClusterType = S.String;
 
 export type VolumeName = string;
@@ -412,9 +370,7 @@ export const KxDatabaseCacheConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "KxDatabaseCacheConfiguration",
 }) as any as S.Schema<KxDatabaseCacheConfiguration>;
 export type KxDatabaseCacheConfigurations = KxDatabaseCacheConfiguration[];
-export const KxDatabaseCacheConfigurations = /*@__PURE__*/ S.Array(
-  KxDatabaseCacheConfiguration,
-);
+export const KxDatabaseCacheConfigurations = /*@__PURE__*/ S.Array(KxDatabaseCacheConfiguration);
 export type VersionId = string;
 export type SegmentConfigurationDbPathList = string[];
 export const SegmentConfigurationDbPathList = /*@__PURE__*/ S.Array(S.String);
@@ -433,8 +389,7 @@ export const KxDataviewSegmentConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "KxDataviewSegmentConfiguration",
 }) as any as S.Schema<KxDataviewSegmentConfiguration>;
-export type KxDataviewSegmentConfigurationList =
-  KxDataviewSegmentConfiguration[];
+export type KxDataviewSegmentConfigurationList = KxDataviewSegmentConfiguration[];
 export const KxDataviewSegmentConfigurationList = /*@__PURE__*/ S.Array(
   KxDataviewSegmentConfiguration,
 );
@@ -473,9 +428,7 @@ export const KxDatabaseConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "KxDatabaseConfiguration",
 }) as any as S.Schema<KxDatabaseConfiguration>;
 export type KxDatabaseConfigurations = KxDatabaseConfiguration[];
-export const KxDatabaseConfigurations = /*@__PURE__*/ S.Array(
-  KxDatabaseConfiguration,
-);
+export const KxDatabaseConfigurations = /*@__PURE__*/ S.Array(KxDatabaseConfiguration);
 export type KxCacheStorageSize = number;
 export interface KxCacheStorageConfiguration {
   type: string;
@@ -487,9 +440,7 @@ export const KxCacheStorageConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "KxCacheStorageConfiguration",
 }) as any as S.Schema<KxCacheStorageConfiguration>;
 export type KxCacheStorageConfigurations = KxCacheStorageConfiguration[];
-export const KxCacheStorageConfigurations = /*@__PURE__*/ S.Array(
-  KxCacheStorageConfiguration,
-);
+export const KxCacheStorageConfigurations = /*@__PURE__*/ S.Array(KxCacheStorageConfiguration);
 export type NodeCount = number;
 export type AutoScalingMetric = "CPU_UTILIZATION_PERCENTAGE" | (string & {});
 export const AutoScalingMetric = S.String;
@@ -567,9 +518,7 @@ export const KxCommandLineArgument = /*@__PURE__*/ S.suspend(() =>
   identifier: "KxCommandLineArgument",
 }) as any as S.Schema<KxCommandLineArgument>;
 export type KxCommandLineArguments = KxCommandLineArgument[];
-export const KxCommandLineArguments = /*@__PURE__*/ S.Array(
-  KxCommandLineArgument,
-);
+export const KxCommandLineArguments = /*@__PURE__*/ S.Array(KxCommandLineArgument);
 export type S3Bucket = string;
 export type S3Key = string;
 export type S3ObjectVersion = string;
@@ -768,15 +717,11 @@ export const CreateKxClusterResponse = /*@__PURE__*/ S.suspend(() =>
     commandLineArguments: S.optional(KxCommandLineArguments),
     code: S.optional(CodeConfiguration),
     executionRole: S.optional(S.String),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     savedownStorageConfiguration: S.optional(KxSavedownStorageConfiguration),
     azMode: S.optional(KxAzMode),
     availabilityZoneId: S.optional(S.String),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     scalingGroupConfiguration: S.optional(KxScalingGroupConfiguration),
   }),
 ).annotate({
@@ -827,12 +772,8 @@ export const CreateKxDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     databaseArn: S.optional(S.String),
     environmentId: S.optional(S.String),
     description: S.optional(S.String),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "CreateKxDatabaseResponse",
@@ -917,12 +858,8 @@ export const CreateKxDataviewResponse = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     autoUpdate: S.optional(S.Boolean),
     readWrite: S.optional(S.Boolean),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(KxDataviewStatus),
   }),
 ).annotate({
@@ -944,16 +881,7 @@ export const CreateKxEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     kmsKeyId: S.String,
     tags: S.optional(TagMap),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/kx/environments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/kx/environments" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateKxEnvironmentRequest",
 }) as any as S.Schema<CreateKxEnvironmentRequest>;
@@ -991,9 +919,7 @@ export const CreateKxEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     environmentArn: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "CreateKxEnvironmentResponse",
@@ -1057,12 +983,8 @@ export const CreateKxScalingGroupResponse = /*@__PURE__*/ S.suspend(() =>
     hostType: S.optional(S.String),
     availabilityZoneId: S.optional(S.String),
     status: S.optional(KxScalingGroupStatus),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "CreateKxScalingGroupResponse",
@@ -1209,9 +1131,7 @@ export const CreateKxVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     azMode: S.optional(KxAzMode),
     description: S.optional(S.String),
     availabilityZoneIds: S.optional(AvailabilityZoneIds),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "CreateKxVolumeResponse",
@@ -1234,9 +1154,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEnvironmentRequest",
 }) as any as S.Schema<DeleteEnvironmentRequest>;
 export interface DeleteEnvironmentResponse {}
-export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEnvironmentResponse",
 }) as any as S.Schema<DeleteEnvironmentResponse>;
 export interface DeleteKxClusterRequest {
@@ -1248,10 +1166,7 @@ export const DeleteKxClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({
@@ -1269,9 +1184,7 @@ export const DeleteKxClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKxClusterRequest",
 }) as any as S.Schema<DeleteKxClusterRequest>;
 export interface DeleteKxClusterResponse {}
-export const DeleteKxClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteKxClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxClusterResponse",
 }) as any as S.Schema<DeleteKxClusterResponse>;
 export type KxClusterNodeIdString = string;
@@ -1302,9 +1215,7 @@ export const DeleteKxClusterNodeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKxClusterNodeRequest",
 }) as any as S.Schema<DeleteKxClusterNodeRequest>;
 export interface DeleteKxClusterNodeResponse {}
-export const DeleteKxClusterNodeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteKxClusterNodeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxClusterNodeResponse",
 }) as any as S.Schema<DeleteKxClusterNodeResponse>;
 export interface DeleteKxDatabaseRequest {
@@ -1316,10 +1227,7 @@ export const DeleteKxDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     databaseName: S.String.pipe(T.HttpLabel("databaseName")),
-    clientToken: S.String.pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.String.pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({
@@ -1337,9 +1245,7 @@ export const DeleteKxDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKxDatabaseRequest",
 }) as any as S.Schema<DeleteKxDatabaseRequest>;
 export interface DeleteKxDatabaseResponse {}
-export const DeleteKxDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteKxDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxDatabaseResponse",
 }) as any as S.Schema<DeleteKxDatabaseResponse>;
 export interface DeleteKxDataviewRequest {
@@ -1353,10 +1259,7 @@ export const DeleteKxDataviewRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     databaseName: S.String.pipe(T.HttpLabel("databaseName")),
     dataviewName: S.String.pipe(T.HttpLabel("dataviewName")),
-    clientToken: S.String.pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.String.pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({
@@ -1374,9 +1277,7 @@ export const DeleteKxDataviewRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKxDataviewRequest",
 }) as any as S.Schema<DeleteKxDataviewRequest>;
 export interface DeleteKxDataviewResponse {}
-export const DeleteKxDataviewResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteKxDataviewResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxDataviewResponse",
 }) as any as S.Schema<DeleteKxDataviewResponse>;
 export interface DeleteKxEnvironmentRequest {
@@ -1386,10 +1287,7 @@ export interface DeleteKxEnvironmentRequest {
 export const DeleteKxEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/kx/environments/{environmentId}" }),
@@ -1404,9 +1302,7 @@ export const DeleteKxEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKxEnvironmentRequest",
 }) as any as S.Schema<DeleteKxEnvironmentRequest>;
 export interface DeleteKxEnvironmentResponse {}
-export const DeleteKxEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteKxEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxEnvironmentResponse",
 }) as any as S.Schema<DeleteKxEnvironmentResponse>;
 export interface DeleteKxScalingGroupRequest {
@@ -1418,10 +1314,7 @@ export const DeleteKxScalingGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     scalingGroupName: S.String.pipe(T.HttpLabel("scalingGroupName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({
@@ -1439,9 +1332,7 @@ export const DeleteKxScalingGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKxScalingGroupRequest",
 }) as any as S.Schema<DeleteKxScalingGroupRequest>;
 export interface DeleteKxScalingGroupResponse {}
-export const DeleteKxScalingGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteKxScalingGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxScalingGroupResponse",
 }) as any as S.Schema<DeleteKxScalingGroupResponse>;
 export interface DeleteKxUserRequest {
@@ -1453,10 +1344,7 @@ export const DeleteKxUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userName: S.String.pipe(T.HttpLabel("userName")),
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({
@@ -1474,9 +1362,7 @@ export const DeleteKxUserRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKxUserRequest",
 }) as any as S.Schema<DeleteKxUserRequest>;
 export interface DeleteKxUserResponse {}
-export const DeleteKxUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteKxUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxUserResponse",
 }) as any as S.Schema<DeleteKxUserResponse>;
 export interface DeleteKxVolumeRequest {
@@ -1488,10 +1374,7 @@ export const DeleteKxVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     volumeName: S.String.pipe(T.HttpLabel("volumeName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({
@@ -1509,9 +1392,7 @@ export const DeleteKxVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKxVolumeRequest",
 }) as any as S.Schema<DeleteKxVolumeRequest>;
 export interface DeleteKxVolumeResponse {}
-export const DeleteKxVolumeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteKxVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxVolumeResponse",
 }) as any as S.Schema<DeleteKxVolumeResponse>;
 export interface GetEnvironmentRequest {
@@ -1613,15 +1494,9 @@ export const GetKxChangesetResponse = /*@__PURE__*/ S.suspend(() =>
     databaseName: S.optional(S.String),
     environmentId: S.optional(S.String),
     changeRequests: S.optional(ChangeRequests),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    activeFromTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    activeFromTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(ChangesetStatus),
     errorInfo: S.optional(ErrorInfo),
   }),
@@ -1696,15 +1571,11 @@ export const GetKxClusterResponse = /*@__PURE__*/ S.suspend(() =>
     commandLineArguments: S.optional(KxCommandLineArguments),
     code: S.optional(CodeConfiguration),
     executionRole: S.optional(S.String),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     savedownStorageConfiguration: S.optional(KxSavedownStorageConfiguration),
     azMode: S.optional(KxAzMode),
     availabilityZoneId: S.optional(S.String),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     scalingGroupConfiguration: S.optional(KxScalingGroupConfiguration),
   }),
 ).annotate({
@@ -1790,12 +1661,8 @@ export const GetKxDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     databaseArn: S.optional(S.String),
     environmentId: S.optional(S.String),
     description: S.optional(S.String),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastCompletedChangesetId: S.optional(S.String),
     numBytes: S.optional(S.Number),
     numChangesets: S.optional(S.Number),
@@ -1844,18 +1711,14 @@ export const KxDataviewActiveVersion = /*@__PURE__*/ S.suspend(() =>
     changesetId: S.optional(S.String),
     segmentConfigurations: S.optional(KxDataviewSegmentConfigurationList),
     attachedClusters: S.optional(AttachedClusterList),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     versionId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "KxDataviewActiveVersion",
 }) as any as S.Schema<KxDataviewActiveVersion>;
 export type KxDataviewActiveVersionList = KxDataviewActiveVersion[];
-export const KxDataviewActiveVersionList = /*@__PURE__*/ S.Array(
-  KxDataviewActiveVersion,
-);
+export const KxDataviewActiveVersionList = /*@__PURE__*/ S.Array(KxDataviewActiveVersion);
 export type KxDataviewStatusReason = string;
 export interface GetKxDataviewResponse {
   databaseName?: string;
@@ -1887,12 +1750,8 @@ export const GetKxDataviewResponse = /*@__PURE__*/ S.suspend(() =>
     autoUpdate: S.optional(S.Boolean),
     readWrite: S.optional(S.Boolean),
     environmentId: S.optional(S.String),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(KxDataviewStatus),
     statusReason: S.optional(S.String),
   }),
@@ -2043,12 +1902,8 @@ export const GetKxEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     dedicatedServiceAccountId: S.optional(S.String),
     transitGatewayConfiguration: S.optional(TransitGatewayConfiguration),
     customDNSConfiguration: S.optional(CustomDNSConfiguration),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    updateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     availabilityZoneIds: S.optional(AvailabilityZoneIds),
     certificateAuthorityArn: S.optional(S.String),
   }),
@@ -2102,12 +1957,8 @@ export const GetKxScalingGroupResponse = /*@__PURE__*/ S.suspend(() =>
     availabilityZoneId: S.optional(S.String),
     status: S.optional(KxScalingGroupStatus),
     statusReason: S.optional(S.String),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "GetKxScalingGroupResponse",
@@ -2216,15 +2067,11 @@ export const GetKxVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     nas1Configuration: S.optional(KxNAS1Configuration),
     status: S.optional(KxVolumeStatus),
     statusReason: S.optional(S.String),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     description: S.optional(S.String),
     azMode: S.optional(KxAzMode),
     availabilityZoneIds: S.optional(AvailabilityZoneIds),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     attachedClusters: S.optional(KxAttachedClusters),
   }),
 ).annotate({
@@ -2240,16 +2087,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/environment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/environment" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEnvironmentsRequest",
 }) as any as S.Schema<ListEnvironmentsRequest>;
@@ -2306,15 +2144,9 @@ export interface KxChangesetListEntry {
 export const KxChangesetListEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     changesetId: S.optional(S.String),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    activeFromTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    activeFromTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(ChangesetStatus),
   }),
 ).annotate({
@@ -2449,12 +2281,8 @@ export const KxCluster = /*@__PURE__*/ S.suspend(() =>
     executionRole: S.optional(S.String),
     azMode: S.optional(KxAzMode),
     availabilityZoneId: S.optional(S.String),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "KxCluster" }) as any as S.Schema<KxCluster>;
 export type KxClusters = KxCluster[];
@@ -2505,12 +2333,8 @@ export interface KxDatabaseListEntry {
 export const KxDatabaseListEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     databaseName: S.optional(S.String),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "KxDatabaseListEntry",
@@ -2588,12 +2412,8 @@ export const KxDataviewListEntry = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     autoUpdate: S.optional(S.Boolean),
     readWrite: S.optional(S.Boolean),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     statusReason: S.optional(S.String),
   }),
 ).annotate({
@@ -2622,16 +2442,7 @@ export const ListKxEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/kx/environments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/kx/environments" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListKxEnvironmentsRequest",
 }) as any as S.Schema<ListKxEnvironmentsRequest>;
@@ -2669,12 +2480,8 @@ export const KxEnvironment = /*@__PURE__*/ S.suspend(() =>
     dedicatedServiceAccountId: S.optional(S.String),
     transitGatewayConfiguration: S.optional(TransitGatewayConfiguration),
     customDNSConfiguration: S.optional(CustomDNSConfiguration),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    updateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     availabilityZoneIds: S.optional(AvailabilityZoneIds),
     certificateAuthorityArn: S.optional(S.String),
   }),
@@ -2737,12 +2544,8 @@ export const KxScalingGroup = /*@__PURE__*/ S.suspend(() =>
     availabilityZoneId: S.optional(S.String),
     status: S.optional(KxScalingGroupStatus),
     statusReason: S.optional(S.String),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "KxScalingGroup" }) as any as S.Schema<KxScalingGroup>;
 export type KxScalingGroupList = KxScalingGroup[];
@@ -2794,12 +2597,8 @@ export const KxUser = /*@__PURE__*/ S.suspend(() =>
     userArn: S.optional(S.String),
     userName: S.optional(S.String),
     iamRole: S.optional(S.String),
-    createTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    updateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "KxUser" }) as any as S.Schema<KxUser>;
 export type KxUserList = KxUser[];
@@ -2861,12 +2660,8 @@ export const KxVolume = /*@__PURE__*/ S.suspend(() =>
     statusReason: S.optional(S.String),
     azMode: S.optional(KxAzMode),
     availabilityZoneIds: S.optional(AvailabilityZoneIds),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "KxVolume" }) as any as S.Schema<KxVolume>;
 export type KxVolumes = KxVolume[];
@@ -2889,14 +2684,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2918,22 +2706,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2947,22 +2726,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateEnvironmentRequest {
@@ -3000,18 +2770,14 @@ export const UpdateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateEnvironmentResponse",
 }) as any as S.Schema<UpdateEnvironmentResponse>;
-export type KxClusterCodeDeploymentStrategy =
-  | "NO_RESTART"
-  | "ROLLING"
-  | "FORCE"
-  | (string & {});
+export type KxClusterCodeDeploymentStrategy = "NO_RESTART" | "ROLLING" | "FORCE" | (string & {});
 export const KxClusterCodeDeploymentStrategy = S.String;
 
 export interface KxClusterCodeDeploymentConfiguration {
   deploymentStrategy: KxClusterCodeDeploymentStrategy;
 }
-export const KxClusterCodeDeploymentConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ deploymentStrategy: KxClusterCodeDeploymentStrategy }),
+export const KxClusterCodeDeploymentConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ deploymentStrategy: KxClusterCodeDeploymentStrategy }),
 ).annotate({
   identifier: "KxClusterCodeDeploymentConfiguration",
 }) as any as S.Schema<KxClusterCodeDeploymentConfiguration>;
@@ -3024,35 +2790,34 @@ export interface UpdateKxClusterCodeConfigurationRequest {
   commandLineArguments?: KxCommandLineArgument[];
   deploymentConfiguration?: KxClusterCodeDeploymentConfiguration;
 }
-export const UpdateKxClusterCodeConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      environmentId: S.String.pipe(T.HttpLabel("environmentId")),
-      clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      code: CodeConfiguration,
-      initializationScript: S.optional(S.String),
-      commandLineArguments: S.optional(KxCommandLineArguments),
-      deploymentConfiguration: S.optional(KxClusterCodeDeploymentConfiguration),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/kx/environments/{environmentId}/clusters/{clusterName}/configuration/code",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateKxClusterCodeConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    code: CodeConfiguration,
+    initializationScript: S.optional(S.String),
+    commandLineArguments: S.optional(KxCommandLineArguments),
+    deploymentConfiguration: S.optional(KxClusterCodeDeploymentConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/kx/environments/{environmentId}/clusters/{clusterName}/configuration/code",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateKxClusterCodeConfigurationRequest",
 }) as any as S.Schema<UpdateKxClusterCodeConfigurationRequest>;
 export interface UpdateKxClusterCodeConfigurationResponse {}
-export const UpdateKxClusterCodeConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const UpdateKxClusterCodeConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "UpdateKxClusterCodeConfigurationResponse",
 }) as any as S.Schema<UpdateKxClusterCodeConfigurationResponse>;
@@ -3142,9 +2907,7 @@ export const UpdateKxDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     databaseName: S.optional(S.String),
     environmentId: S.optional(S.String),
     description: S.optional(S.String),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "UpdateKxDatabaseResponse",
@@ -3213,12 +2976,8 @@ export const UpdateKxDataviewResponse = /*@__PURE__*/ S.suspend(() =>
     autoUpdate: S.optional(S.Boolean),
     readWrite: S.optional(S.Boolean),
     description: S.optional(S.String),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "UpdateKxDataviewResponse",
@@ -3281,12 +3040,8 @@ export const UpdateKxEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     dedicatedServiceAccountId: S.optional(S.String),
     transitGatewayConfiguration: S.optional(TransitGatewayConfiguration),
     customDNSConfiguration: S.optional(CustomDNSConfiguration),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    updateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     availabilityZoneIds: S.optional(AvailabilityZoneIds),
   }),
 ).annotate({
@@ -3353,12 +3108,8 @@ export const UpdateKxEnvironmentNetworkResponse = /*@__PURE__*/ S.suspend(() =>
     dedicatedServiceAccountId: S.optional(S.String),
     transitGatewayConfiguration: S.optional(TransitGatewayConfiguration),
     customDNSConfiguration: S.optional(CustomDNSConfiguration),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    updateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     availabilityZoneIds: S.optional(AvailabilityZoneIds),
   }),
 ).annotate({
@@ -3463,14 +3214,10 @@ export const UpdateKxVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(KxVolumeStatus),
     description: S.optional(S.String),
     statusReason: S.optional(S.String),
-    createdTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     azMode: S.optional(KxAzMode),
     availabilityZoneIds: S.optional(AvailabilityZoneIds),
-    lastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     attachedClusters: S.optional(KxAttachedClusters),
   }),
 ).annotate({
@@ -4740,11 +4487,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -4766,11 +4509,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -4792,11 +4531,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "ElementalInference",
   serviceShapeName: "ElementalInference",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elemental-inference-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elemental-inference.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://elemental-inference.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -199,11 +191,7 @@ export const AspectRatio = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ width: S.Number, height: S.Number }),
 ).annotate({ identifier: "AspectRatio" }) as any as S.Schema<AspectRatio>;
 export type DictionaryId = string;
-export type ProfanityFilterMode =
-  | "DISABLED"
-  | "CENSOR"
-  | "DROP"
-  | (string & {});
+export type ProfanityFilterMode = "DISABLED" | "CENSOR" | "DROP" | (string & {});
 export const ProfanityFilterMode = S.String;
 
 export interface SubtitlingConfig {
@@ -263,14 +251,7 @@ export const AssociateFeedRequest = /*@__PURE__*/ S.suspend(() =>
     outputs: CreateOutputList,
     dryRun: S.optional(S.Boolean),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/feed/{id}/associate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/feed/{id}/associate" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "AssociateFeedRequest",
@@ -285,24 +266,14 @@ export const AssociateFeedResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AssociateFeedResponse",
 }) as any as S.Schema<AssociateFeedResponse>;
-export type DictionaryLanguage =
-  | "eng"
-  | "fra"
-  | "ita"
-  | "deu"
-  | "spa"
-  | "por"
-  | (string & {});
+export type DictionaryLanguage = "eng" | "fra" | "ita" | "deu" | "spa" | "por" | (string & {});
 export const DictionaryLanguage = S.String;
 
 export type DictionaryEntriesPayload = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateDictionaryRequest {
   name: string;
   language: DictionaryLanguage;
@@ -315,16 +286,7 @@ export const CreateDictionaryRequest = /*@__PURE__*/ S.suspend(() =>
     language: DictionaryLanguage,
     entries: S.optional(S.String),
     tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/dictionary" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/dictionary" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDictionaryRequest",
 }) as any as S.Schema<CreateDictionaryRequest>;
@@ -375,16 +337,7 @@ export const CreateFeedRequest = /*@__PURE__*/ S.suspend(() =>
     accessRoleArn: S.optional(S.String),
     outputs: CreateOutputList,
     tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/feed" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/feed" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateFeedRequest",
 }) as any as S.Schema<CreateFeedRequest>;
@@ -458,14 +411,7 @@ export interface DeleteDictionaryRequest {
 }
 export const DeleteDictionaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/dictionary/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/v1/dictionary/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDictionaryRequest",
@@ -485,14 +431,7 @@ export interface DeleteFeedRequest {
 }
 export const DeleteFeedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/feed/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/v1/feed/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteFeedRequest",
@@ -569,14 +508,7 @@ export interface GetDictionaryRequest {
 }
 export const GetDictionaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/dictionary/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/dictionary/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDictionaryRequest",
@@ -608,14 +540,7 @@ export interface GetFeedRequest {
 }
 export const GetFeedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/feed/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/feed/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetFeedRequest" }) as any as S.Schema<GetFeedRequest>;
 export interface GetFeedResponse {
@@ -649,14 +574,7 @@ export interface GetFixtureRequest {
 }
 export const GetFixtureRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fixtureId: S.String.pipe(T.HttpLabel("fixtureId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/fixtures/{fixtureId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/fixtures/{fixtureId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetFixtureRequest",
@@ -683,9 +601,7 @@ export const GetFixtureResponse = /*@__PURE__*/ S.suspend(() =>
     fixtureId: S.String,
     name: S.String,
     fixtureGroup: S.optional(S.String),
-    scheduledStart: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    scheduledStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     status: S.String,
     competitors: CompetitorList,
   }),
@@ -700,16 +616,7 @@ export const ListDictionariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/dictionaries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/dictionaries" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDictionariesRequest",
 }) as any as S.Schema<ListDictionariesRequest>;
@@ -753,16 +660,7 @@ export const ListFeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/feeds" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/feeds" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFeedsRequest",
 }) as any as S.Schema<ListFeedsRequest>;
@@ -799,14 +697,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -819,10 +710,7 @@ export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
-export type DataSourceSport =
-  | "basketball"
-  | "american-football"
-  | (string & {});
+export type DataSourceSport = "basketball" | "american-football" | (string & {});
 export const DataSourceSport = S.String;
 
 export type FixtureDate = string;
@@ -857,16 +745,7 @@ export const SearchFixturesRequest = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(SearchFilterList),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/fixtures" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/fixtures" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SearchFixturesRequest",
 }) as any as S.Schema<SearchFixturesRequest>;
@@ -883,9 +762,7 @@ export const FixtureSummary = /*@__PURE__*/ S.suspend(() =>
     fixtureId: S.String,
     name: S.String,
     fixtureGroup: S.optional(S.String),
-    scheduledStart: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    scheduledStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     status: S.String,
     competitors: CompetitorList,
   }),
@@ -910,22 +787,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -952,9 +820,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDictionaryRequest {
@@ -970,14 +836,7 @@ export const UpdateDictionaryRequest = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(DictionaryLanguage),
     entries: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v1/dictionary/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/v1/dictionary/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateDictionaryRequest",
@@ -1034,16 +893,7 @@ export const UpdateFeedRequest = /*@__PURE__*/ S.suspend(() =>
     accessRoleArn: S.optional(S.String),
     id: S.String.pipe(T.HttpLabel("id")),
     outputs: UpdateOutputList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v1/feed/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/v1/feed/{id}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateFeedRequest",
 }) as any as S.Schema<UpdateFeedRequest>;

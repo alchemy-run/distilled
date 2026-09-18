@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "BackupSearch",
   serviceShapeName: "CryoBackupSearchService",
@@ -28,9 +28,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -163,10 +161,7 @@ export type RecoveryPoint = string;
 export type RecoveryPointArnList = string[];
 export const RecoveryPointArnList = /*@__PURE__*/ S.Array(S.String);
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-).pipe(T.Sparse());
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional)).pipe(T.Sparse());
 export interface SearchScope {
   BackupResourceTypes: ResourceType[];
   BackupResourceCreationTime?: BackupCreationTimeFilter;
@@ -343,11 +338,7 @@ export const GetSearchResultExportJobInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetSearchResultExportJobInput",
 }) as any as S.Schema<GetSearchResultExportJobInput>;
 export type ExportJobArn = string;
-export type ExportJobStatus =
-  | "RUNNING"
-  | "FAILED"
-  | "COMPLETED"
-  | (string & {});
+export type ExportJobStatus = "RUNNING" | "FAILED" | "COMPLETED" | (string & {});
 export const ExportJobStatus = S.String;
 
 export interface S3ExportSpecification {
@@ -434,20 +425,14 @@ export const SearchJobBackupsResult = /*@__PURE__*/ S.suspend(() =>
     ResourceType: S.optional(ResourceType),
     BackupResourceArn: S.optional(S.String),
     SourceResourceArn: S.optional(S.String),
-    IndexCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    BackupCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    IndexCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    BackupCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "SearchJobBackupsResult",
 }) as any as S.Schema<SearchJobBackupsResult>;
 export type SearchJobBackupsResults = SearchJobBackupsResult[];
-export const SearchJobBackupsResults = /*@__PURE__*/ S.Array(
-  SearchJobBackupsResult,
-);
+export const SearchJobBackupsResults = /*@__PURE__*/ S.Array(SearchJobBackupsResult);
 export interface ListSearchJobBackupsOutput {
   Results: SearchJobBackupsResult[];
   NextToken?: string;
@@ -529,9 +514,7 @@ export const EBSResultItem = /*@__PURE__*/ S.suspend(() =>
     FilePath: S.optional(SensitiveString),
     FileSize: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "EBSResultItem" }) as any as S.Schema<EBSResultItem>;
 export type ResultItem =
@@ -562,16 +545,7 @@ export const ListSearchJobsInput = /*@__PURE__*/ S.suspend(() =>
     ByStatus: S.optional(SearchJobState).pipe(T.HttpQuery("Status")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/search-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/search-jobs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSearchJobsInput",
 }) as any as S.Schema<ListSearchJobsInput>;
@@ -619,20 +593,11 @@ export interface ListSearchResultExportJobsInput {
 export const ListSearchResultExportJobsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(ExportJobStatus).pipe(T.HttpQuery("Status")),
-    SearchJobIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("SearchJobIdentifier"),
-    ),
+    SearchJobIdentifier: S.optional(S.String).pipe(T.HttpQuery("SearchJobIdentifier")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/export-search-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/export-search-jobs" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListSearchResultExportJobsInput",
@@ -675,14 +640,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -711,16 +669,7 @@ export const StartSearchJobInput = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String),
     SearchScope: SearchScope,
     ItemFilters: S.optional(ItemFilters),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/search-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/search-jobs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartSearchJobInput",
 }) as any as S.Schema<StartSearchJobInput>;
@@ -754,14 +703,7 @@ export const StartSearchResultExportJobInput = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagMap),
     RoleArn: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/export-search-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/export-search-jobs" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartSearchResultExportJobInput",
@@ -801,9 +743,7 @@ export const StopSearchJobInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopSearchJobInput",
 }) as any as S.Schema<StopSearchJobInput>;
 export interface StopSearchJobOutput {}
-export const StopSearchJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopSearchJobOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopSearchJobOutput",
 }) as any as S.Schema<StopSearchJobOutput>;
 export interface TagResourceRequest {
@@ -815,22 +755,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -844,22 +775,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type GetSearchJobError = ResourceNotFoundException | CommonErrors;
@@ -880,9 +802,7 @@ export const getSearchJob: API.OperationMethod<
   operationName: "GetSearchJob",
 }));
 
-export type GetSearchResultExportJobError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type GetSearchResultExportJobError = ResourceNotFoundException | CommonErrors;
 /**
  * This operation retrieves the metadata of an export job.
  *
@@ -904,9 +824,7 @@ export const getSearchResultExportJob: API.OperationMethod<
   operationName: "GetSearchResultExportJob",
 }));
 
-export type ListSearchJobBackupsError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type ListSearchJobBackupsError = ResourceNotFoundException | CommonErrors;
 /**
  * This operation returns a list of all backups (recovery points) in a paginated format that were included in the search job.
  *
@@ -935,9 +853,7 @@ export const listSearchJobBackups: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListSearchJobResultsError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type ListSearchJobResultsError = ResourceNotFoundException | CommonErrors;
 /**
  * This operation returns a list of a specified search job.
  */
@@ -1051,11 +967,7 @@ export const startSearchJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartSearchJobInput,
   output: StartSearchJobOutput,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-  ],
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSearchJob",
@@ -1077,20 +989,13 @@ export const startSearchResultExportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartSearchResultExportJobInput,
   output: StartSearchResultExportJobOutput,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-  ],
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSearchResultExportJob",
 }));
 
-export type StopSearchJobError =
-  | ConflictException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type StopSearchJobError = ConflictException | ResourceNotFoundException | CommonErrors;
 /**
  * This operations ends a search job.
  *

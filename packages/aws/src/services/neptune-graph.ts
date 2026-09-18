@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Neptune Graph",
   serviceShapeName: "AmazonNeptuneGraph",
@@ -15,13 +15,7 @@ const auth = T.AwsAuthSigv4({ name: "neptune-graph" });
 const ver = T.ServiceVersion("2023-11-29");
 const proto = T.AwsProtocolsRestJson1();
 const rules = T.EndpointResolver((p, _) => {
-  const {
-    Region,
-    UseFIPS = false,
-    UseDualStack = false,
-    Endpoint,
-    ApiType,
-  } = p;
+  const { Region, UseFIPS = false, UseDualStack = false, Endpoint, ApiType } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
     endpoint: { url: u as string, properties: p, headers: h },
@@ -32,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,9 +48,7 @@ const rules = T.EndpointResolver((p, _) => {
               );
             }
             if (ApiType === "DataPlane") {
-              return err(
-                "Invalid Configuration: fips endpoint is not supported for this API",
-              );
+              return err("Invalid Configuration: fips endpoint is not supported for this API");
             }
             return err("Invalid Configuration: Unknown ApiType");
           }
@@ -76,15 +64,11 @@ const rules = T.EndpointResolver((p, _) => {
               );
             }
             if (ApiType === "DataPlane") {
-              return err(
-                "Invalid Configuration: fips endpoint is not supported for this API",
-              );
+              return err("Invalid Configuration: fips endpoint is not supported for this API");
             }
             return err("Invalid Configuration: Unknown ApiType");
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -98,19 +82,13 @@ const rules = T.EndpointResolver((p, _) => {
             }
             return err("Invalid Configuration: Unknown ApiType");
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if (ApiType === "ControlPlane") {
-          return e(
-            `https://neptune-graph.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
+          return e(`https://neptune-graph.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
         }
         if (ApiType === "DataPlane") {
-          return e(
-            `https://${Region}.neptune-graph.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
+          return e(`https://${Region}.neptune-graph.${_.getAttr(PartitionResult, "dnsSuffix")}`);
         }
         return err("Invalid Configuration: Unknown ApiType");
       }
@@ -280,12 +258,7 @@ export const CancelImportTaskInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CancelImportTaskInput",
 }) as any as S.Schema<CancelImportTaskInput>;
-export type Format =
-  | "CSV"
-  | "OPEN_CYPHER"
-  | "PARQUET"
-  | "NTRIPLES"
-  | (string & {});
+export type Format = "CSV" | "OPEN_CYPHER" | "PARQUET" | "NTRIPLES" | (string & {});
 export const Format = S.String;
 
 export type ImportTaskStatus =
@@ -332,10 +305,7 @@ export interface CancelQueryInput {
 }
 export const CancelQueryInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    graphIdentifier: S.String.pipe(
-      T.HttpHeader("graphIdentifier"),
-      T.HostLabel(),
-    ),
+    graphIdentifier: S.String.pipe(T.HttpHeader("graphIdentifier"), T.HostLabel()),
     queryId: S.String.pipe(T.HttpLabel("queryId")),
   }).pipe(
     T.all(
@@ -352,19 +322,14 @@ export const CancelQueryInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelQueryInput",
 }) as any as S.Schema<CancelQueryInput>;
 export interface CancelQueryResponse {}
-export const CancelQueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CancelQueryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelQueryResponse",
 }) as any as S.Schema<CancelQueryResponse>;
 export type GraphName = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type VectorSearchDimension = number;
 export interface VectorSearchConfiguration {
   dimension: number;
@@ -489,12 +454,7 @@ export const CreateGraphSnapshotInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateGraphSnapshotInput",
 }) as any as S.Schema<CreateGraphSnapshotInput>;
-export type SnapshotStatus =
-  | "CREATING"
-  | "AVAILABLE"
-  | "DELETING"
-  | "FAILED"
-  | (string & {});
+export type SnapshotStatus = "CREATING" | "AVAILABLE" | "DELETING" | "FAILED" | (string & {});
 export const SnapshotStatus = S.String;
 
 export interface CreateGraphSnapshotOutput {
@@ -512,9 +472,7 @@ export const CreateGraphSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     arn: S.String,
     sourceGraphId: S.optional(S.String),
-    snapshotCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    snapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(SnapshotStatus),
     kmsKeyIdentifier: S.optional(S.String),
   }),
@@ -538,9 +496,7 @@ export const NeptuneImportOptions = /*@__PURE__*/ S.suspend(() =>
   identifier: "NeptuneImportOptions",
 }) as any as S.Schema<NeptuneImportOptions>;
 export type ImportOptions = { neptune: NeptuneImportOptions };
-export const ImportOptions = /*@__PURE__*/ S.Union([
-  S.Struct({ neptune: NeptuneImportOptions }),
-]);
+export const ImportOptions = /*@__PURE__*/ S.Union([S.Struct({ neptune: NeptuneImportOptions })]);
 export type BlankNodeHandling = "convertToIri" | (string & {});
 export const BlankNodeHandling = S.String;
 
@@ -772,9 +728,7 @@ export const DeleteGraphSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     arn: S.String,
     sourceGraphId: S.optional(S.String),
-    snapshotCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    snapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(SnapshotStatus),
     kmsKeyIdentifier: S.optional(S.String),
   }),
@@ -826,10 +780,7 @@ export type QueryLanguage = "OPEN_CYPHER" | (string & {});
 export const QueryLanguage = S.String;
 
 export type DocumentValuedMap = { [key: string]: any | undefined };
-export const DocumentValuedMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Any.pipe(S.optional),
-);
+export const DocumentValuedMap = /*@__PURE__*/ S.Record(S.String, S.Any.pipe(S.optional));
 export type PlanCacheType = "ENABLED" | "DISABLED" | "AUTO" | (string & {});
 export const PlanCacheType = S.String;
 
@@ -847,10 +798,7 @@ export interface ExecuteQueryInput {
 }
 export const ExecuteQueryInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    graphIdentifier: S.String.pipe(
-      T.HttpHeader("graphIdentifier"),
-      T.HostLabel(),
-    ),
+    graphIdentifier: S.String.pipe(T.HttpHeader("graphIdentifier"), T.HostLabel()),
     queryString: S.String,
     language: QueryLanguage,
     parameters: S.optional(DocumentValuedMap),
@@ -1091,9 +1039,7 @@ export const GetGraphSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     arn: S.String,
     sourceGraphId: S.optional(S.String),
-    snapshotCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    snapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(SnapshotStatus),
     kmsKeyIdentifier: S.optional(S.String),
   }),
@@ -1109,10 +1055,7 @@ export interface GetGraphSummaryInput {
 }
 export const GetGraphSummaryInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    graphIdentifier: S.String.pipe(
-      T.HttpHeader("graphIdentifier"),
-      T.HostLabel(),
-    ),
+    graphIdentifier: S.String.pipe(T.HttpHeader("graphIdentifier"), T.HostLabel()),
     mode: S.optional(GraphSummaryMode).pipe(T.HttpQuery("mode")),
   }).pipe(
     T.all(
@@ -1133,10 +1076,7 @@ export const NodeLabels = /*@__PURE__*/ S.Array(S.String);
 export type EdgeLabels = string[];
 export const EdgeLabels = /*@__PURE__*/ S.Array(S.String);
 export type LongValuedMap = { [key: string]: number | undefined };
-export const LongValuedMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
+export const LongValuedMap = /*@__PURE__*/ S.Record(S.String, S.Number.pipe(S.optional));
 export type LongValuedMapList = { [key: string]: number | undefined }[];
 export const LongValuedMapList = /*@__PURE__*/ S.Array(LongValuedMap);
 export type NodeProperties = string[];
@@ -1344,10 +1284,7 @@ export interface GetQueryInput {
 }
 export const GetQueryInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    graphIdentifier: S.String.pipe(
-      T.HttpHeader("graphIdentifier"),
-      T.HostLabel(),
-    ),
+    graphIdentifier: S.String.pipe(T.HttpHeader("graphIdentifier"), T.HostLabel()),
     queryId: S.String.pipe(T.HttpLabel("queryId")),
   }).pipe(
     T.all(
@@ -1541,9 +1478,7 @@ export const GraphSnapshotSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     arn: S.String,
     sourceGraphId: S.optional(S.String),
-    snapshotCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    snapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(SnapshotStatus),
     kmsKeyIdentifier: S.optional(S.String),
   }),
@@ -1551,8 +1486,7 @@ export const GraphSnapshotSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "GraphSnapshotSummary",
 }) as any as S.Schema<GraphSnapshotSummary>;
 export type GraphSnapshotSummaryList = GraphSnapshotSummary[];
-export const GraphSnapshotSummaryList =
-  /*@__PURE__*/ S.Array(GraphSnapshotSummary);
+export const GraphSnapshotSummaryList = /*@__PURE__*/ S.Array(GraphSnapshotSummary);
 export interface ListGraphSnapshotsOutput {
   graphSnapshots: GraphSnapshotSummary[];
   nextToken?: string;
@@ -1661,9 +1595,7 @@ export const PrivateGraphEndpointSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrivateGraphEndpointSummary",
 }) as any as S.Schema<PrivateGraphEndpointSummary>;
 export type PrivateGraphEndpointSummaryList = PrivateGraphEndpointSummary[];
-export const PrivateGraphEndpointSummaryList = /*@__PURE__*/ S.Array(
-  PrivateGraphEndpointSummary,
-);
+export const PrivateGraphEndpointSummaryList = /*@__PURE__*/ S.Array(PrivateGraphEndpointSummary);
 export interface ListPrivateGraphEndpointsOutput {
   privateGraphEndpoints: PrivateGraphEndpointSummary[];
   nextToken?: string;
@@ -1676,12 +1608,7 @@ export const ListPrivateGraphEndpointsOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListPrivateGraphEndpointsOutput",
 }) as any as S.Schema<ListPrivateGraphEndpointsOutput>;
-export type QueryStateInput =
-  | "ALL"
-  | "RUNNING"
-  | "WAITING"
-  | "CANCELLING"
-  | (string & {});
+export type QueryStateInput = "ALL" | "RUNNING" | "WAITING" | "CANCELLING" | (string & {});
 export const QueryStateInput = S.String;
 
 export interface ListQueriesInput {
@@ -1691,10 +1618,7 @@ export interface ListQueriesInput {
 }
 export const ListQueriesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    graphIdentifier: S.String.pipe(
-      T.HttpHeader("graphIdentifier"),
-      T.HostLabel(),
-    ),
+    graphIdentifier: S.String.pipe(T.HttpHeader("graphIdentifier"), T.HostLabel()),
     maxResults: S.Number.pipe(T.HttpQuery("maxResults")),
     state: S.optional(QueryStateInput).pipe(T.HttpQuery("state")),
   }).pipe(
@@ -2154,9 +2078,7 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
@@ -2184,9 +2106,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateGraphInput {
@@ -2882,11 +2802,7 @@ export const listGraphs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListGraphsInput,
   output: ListGraphsOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGraphs",

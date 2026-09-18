@@ -1,3 +1,4 @@
+import { type Policy, throttlingFactory, transientFactory } from "@distilled.cloud/core/retry";
 /**
  * Apache Superset retry configuration.
  *
@@ -16,11 +17,6 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import {
-  type Policy,
-  throttlingFactory,
-  transientFactory,
-} from "@distilled.cloud/core/retry";
 
 export {
   type Options,
@@ -36,18 +32,14 @@ export {
 } from "@distilled.cloud/core/retry";
 
 /** Context tag for configuring retry behavior of Apache Superset API calls. */
-export class Retry extends Context.Service<Retry, Policy>()(
-  "ApacheSupersetRetry",
-) {}
+export class Retry extends Context.Service<Retry, Policy>()("ApacheSupersetRetry") {}
 
 /** Provides a custom retry policy to every Apache Superset API call below it. */
 export const policy = (optionsOrFactory: Policy) =>
   Effect.provide(Layer.succeed(Retry, optionsOrFactory));
 
 /** Disables all automatic retries. */
-export const none = Effect.provide(
-  Layer.succeed(Retry, { while: () => false }),
-);
+export const none = Effect.provide(Layer.succeed(Retry, { while: () => false }));
 
 /** Apply the throttling retry policy (retries throttling errors indefinitely). */
 export const throttling = policy(throttlingFactory);

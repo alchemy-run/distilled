@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Agreement",
   serviceShapeName: "AWSMPCommerceService_v20200301",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://agreement-marketplace-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,9 +66,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://agreement-marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://agreement-marketplace.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -181,14 +173,11 @@ export interface AcceptAgreementCancellationRequestInput {
   agreementId: string;
   agreementCancellationRequestId: string;
 }
-export const AcceptAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.String,
-      agreementCancellationRequestId: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const AcceptAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.String,
+    agreementCancellationRequestId: S.String,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AcceptAgreementCancellationRequestInput",
 }) as any as S.Schema<AcceptAgreementCancellationRequestInput>;
@@ -213,9 +202,7 @@ export type AgreementCancellationRequestReasonCode =
   | (string & {});
 export const AgreementCancellationRequestReasonCode = S.String;
 
-export type AgreementCancellationRequestDescription =
-  | string
-  | redacted.Redacted<string>;
+export type AgreementCancellationRequestDescription = string | redacted.Redacted<string>;
 export interface AcceptAgreementCancellationRequestOutput {
   agreementId?: string;
   agreementCancellationRequestId?: string;
@@ -225,17 +212,16 @@ export interface AcceptAgreementCancellationRequestOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const AcceptAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.optional(S.String),
-      agreementCancellationRequestId: S.optional(S.String),
-      status: S.optional(AgreementCancellationRequestStatus),
-      reasonCode: S.optional(AgreementCancellationRequestReasonCode),
-      description: S.optional(SensitiveString),
-      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const AcceptAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.optional(S.String),
+    agreementCancellationRequestId: S.optional(S.String),
+    status: S.optional(AgreementCancellationRequestStatus),
+    reasonCode: S.optional(AgreementCancellationRequestReasonCode),
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "AcceptAgreementCancellationRequestOutput",
 }) as any as S.Schema<AcceptAgreementCancellationRequestOutput>;
@@ -251,9 +237,7 @@ export const AcceptAgreementPaymentRequestInput = /*@__PURE__*/ S.suspend(() =>
     paymentRequestId: S.String,
     agreementId: S.String,
     purchaseOrderReference: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AcceptAgreementPaymentRequestInput",
 }) as any as S.Schema<AcceptAgreementPaymentRequestInput>;
@@ -324,9 +308,7 @@ export const AcceptAgreementRequestInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agreementRequestId: S.String,
     purchaseOrders: S.optional(PurchaseOrders),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AcceptAgreementRequestInput",
 }) as any as S.Schema<AcceptAgreementRequestInput>;
@@ -361,35 +343,31 @@ export interface BatchCreateBillingAdjustmentRequestEntry {
   description?: string | redacted.Redacted<string>;
   clientToken: string;
 }
-export const BatchCreateBillingAdjustmentRequestEntry = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.String,
-      originalInvoiceId: S.String,
-      adjustmentAmount: S.String,
-      currencyCode: S.String,
-      adjustmentReasonCode: BillingAdjustmentReasonCode,
-      description: S.optional(SensitiveString),
-      clientToken: S.String,
-    }),
+export const BatchCreateBillingAdjustmentRequestEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.String,
+    originalInvoiceId: S.String,
+    adjustmentAmount: S.String,
+    currencyCode: S.String,
+    adjustmentReasonCode: BillingAdjustmentReasonCode,
+    description: S.optional(SensitiveString),
+    clientToken: S.String,
+  }),
 ).annotate({
   identifier: "BatchCreateBillingAdjustmentRequestEntry",
 }) as any as S.Schema<BatchCreateBillingAdjustmentRequestEntry>;
 export type BatchCreateBillingAdjustmentRequestEntryList =
   BatchCreateBillingAdjustmentRequestEntry[];
-export const BatchCreateBillingAdjustmentRequestEntryList =
-  /*@__PURE__*/ S.Array(BatchCreateBillingAdjustmentRequestEntry);
+export const BatchCreateBillingAdjustmentRequestEntryList = /*@__PURE__*/ S.Array(
+  BatchCreateBillingAdjustmentRequestEntry,
+);
 export interface BatchCreateBillingAdjustmentRequestInput {
   billingAdjustmentRequestEntries: BatchCreateBillingAdjustmentRequestEntry[];
 }
-export const BatchCreateBillingAdjustmentRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      billingAdjustmentRequestEntries:
-        BatchCreateBillingAdjustmentRequestEntryList,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const BatchCreateBillingAdjustmentRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billingAdjustmentRequestEntries: BatchCreateBillingAdjustmentRequestEntryList,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchCreateBillingAdjustmentRequestInput",
 }) as any as S.Schema<BatchCreateBillingAdjustmentRequestInput>;
@@ -403,8 +381,7 @@ export const BatchCreateBillingAdjustmentItem = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BatchCreateBillingAdjustmentItem",
 }) as any as S.Schema<BatchCreateBillingAdjustmentItem>;
-export type BatchCreateBillingAdjustmentItemList =
-  BatchCreateBillingAdjustmentItem[];
+export type BatchCreateBillingAdjustmentItemList = BatchCreateBillingAdjustmentItem[];
 export const BatchCreateBillingAdjustmentItemList = /*@__PURE__*/ S.Array(
   BatchCreateBillingAdjustmentItem,
 );
@@ -430,8 +407,7 @@ export const BatchCreateBillingAdjustmentError = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BatchCreateBillingAdjustmentError",
 }) as any as S.Schema<BatchCreateBillingAdjustmentError>;
-export type BatchCreateBillingAdjustmentErrorList =
-  BatchCreateBillingAdjustmentError[];
+export type BatchCreateBillingAdjustmentErrorList = BatchCreateBillingAdjustmentError[];
 export const BatchCreateBillingAdjustmentErrorList = /*@__PURE__*/ S.Array(
   BatchCreateBillingAdjustmentError,
 );
@@ -439,15 +415,14 @@ export interface BatchCreateBillingAdjustmentRequestOutput {
   items: BatchCreateBillingAdjustmentItem[];
   errors: BatchCreateBillingAdjustmentError[];
 }
-export const BatchCreateBillingAdjustmentRequestOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: BatchCreateBillingAdjustmentItemList,
-      errors: BatchCreateBillingAdjustmentErrorList,
-    }),
-  ).annotate({
-    identifier: "BatchCreateBillingAdjustmentRequestOutput",
-  }) as any as S.Schema<BatchCreateBillingAdjustmentRequestOutput>;
+export const BatchCreateBillingAdjustmentRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: BatchCreateBillingAdjustmentItemList,
+    errors: BatchCreateBillingAdjustmentErrorList,
+  }),
+).annotate({
+  identifier: "BatchCreateBillingAdjustmentRequestOutput",
+}) as any as S.Schema<BatchCreateBillingAdjustmentRequestOutput>;
 export interface CancelAgreementInput {
   agreementId: string;
 }
@@ -459,28 +434,21 @@ export const CancelAgreementInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelAgreementInput",
 }) as any as S.Schema<CancelAgreementInput>;
 export interface CancelAgreementOutput {}
-export const CancelAgreementOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CancelAgreementOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelAgreementOutput",
 }) as any as S.Schema<CancelAgreementOutput>;
-export type AgreementCancellationRequestCancellationReason =
-  | string
-  | redacted.Redacted<string>;
+export type AgreementCancellationRequestCancellationReason = string | redacted.Redacted<string>;
 export interface CancelAgreementCancellationRequestInput {
   agreementId: string;
   agreementCancellationRequestId: string;
   cancellationReason: string | redacted.Redacted<string>;
 }
-export const CancelAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.String,
-      agreementCancellationRequestId: S.String,
-      cancellationReason: SensitiveString,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const CancelAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.String,
+    agreementCancellationRequestId: S.String,
+    cancellationReason: SensitiveString,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CancelAgreementCancellationRequestInput",
 }) as any as S.Schema<CancelAgreementCancellationRequestInput>;
@@ -495,18 +463,17 @@ export interface CancelAgreementCancellationRequestOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const CancelAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementCancellationRequestId: S.optional(S.String),
-      agreementId: S.optional(S.String),
-      reasonCode: S.optional(AgreementCancellationRequestReasonCode),
-      description: S.optional(SensitiveString),
-      status: S.optional(AgreementCancellationRequestStatus),
-      statusMessage: S.optional(S.String),
-      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const CancelAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementCancellationRequestId: S.optional(S.String),
+    agreementId: S.optional(S.String),
+    reasonCode: S.optional(AgreementCancellationRequestReasonCode),
+    description: S.optional(SensitiveString),
+    status: S.optional(AgreementCancellationRequestStatus),
+    statusMessage: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "CancelAgreementCancellationRequestOutput",
 }) as any as S.Schema<CancelAgreementCancellationRequestOutput>;
@@ -566,12 +533,11 @@ export interface ConfigurableUpfrontPricingTermConfiguration {
   selectorValue: string;
   dimensions: Dimension[];
 }
-export const ConfigurableUpfrontPricingTermConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ selectorValue: S.String, dimensions: DimensionList }),
-  ).annotate({
-    identifier: "ConfigurableUpfrontPricingTermConfiguration",
-  }) as any as S.Schema<ConfigurableUpfrontPricingTermConfiguration>;
+export const ConfigurableUpfrontPricingTermConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ selectorValue: S.String, dimensions: DimensionList }),
+).annotate({
+  identifier: "ConfigurableUpfrontPricingTermConfiguration",
+}) as any as S.Schema<ConfigurableUpfrontPricingTermConfiguration>;
 export interface RenewalTermConfiguration {
   enableAutoRenew: boolean;
 }
@@ -617,8 +583,7 @@ export type RequestedTermConfiguration =
     };
 export const RequestedTermConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({
-    configurableUpfrontPricingTermConfiguration:
-      ConfigurableUpfrontPricingTermConfiguration,
+    configurableUpfrontPricingTermConfiguration: ConfigurableUpfrontPricingTermConfiguration,
   }),
   S.Struct({ renewalTermConfiguration: RenewalTermConfiguration }),
   S.Struct({
@@ -665,17 +630,11 @@ export const CreateAgreementRequestInput = /*@__PURE__*/ S.suspend(() =>
     sourceAgreementIdentifier: S.optional(S.String),
     agreementProposalIdentifier: S.optional(S.String),
     taxConfiguration: S.optional(TaxConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAgreementRequestInput",
 }) as any as S.Schema<CreateAgreementRequestInput>;
-export type Timing =
-  | "ON_ACCEPTANCE"
-  | "SCHEDULED"
-  | "BILLING_PERIOD"
-  | (string & {});
+export type Timing = "ON_ACCEPTANCE" | "SCHEDULED" | "BILLING_PERIOD" | (string & {});
 export const Timing = S.String;
 
 export interface TaxBreakdownItem {
@@ -893,14 +852,11 @@ export interface GetAgreementCancellationRequestInput {
   agreementCancellationRequestId: string;
   agreementId: string;
 }
-export const GetAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementCancellationRequestId: S.String,
-      agreementId: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const GetAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementCancellationRequestId: S.String,
+    agreementId: S.String,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetAgreementCancellationRequestInput",
 }) as any as S.Schema<GetAgreementCancellationRequestInput>;
@@ -914,18 +870,17 @@ export interface GetAgreementCancellationRequestOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const GetAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementCancellationRequestId: S.optional(S.String),
-      agreementId: S.optional(S.String),
-      reasonCode: S.optional(AgreementCancellationRequestReasonCode),
-      description: S.optional(SensitiveString),
-      status: S.optional(AgreementCancellationRequestStatus),
-      statusMessage: S.optional(S.String),
-      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const GetAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementCancellationRequestId: S.optional(S.String),
+    agreementId: S.optional(S.String),
+    reasonCode: S.optional(AgreementCancellationRequestReasonCode),
+    description: S.optional(SensitiveString),
+    status: S.optional(AgreementCancellationRequestStatus),
+    statusMessage: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "GetAgreementCancellationRequestOutput",
 }) as any as S.Schema<GetAgreementCancellationRequestOutput>;
@@ -941,9 +896,7 @@ export const GetAgreementEntitlementsInput = /*@__PURE__*/ S.suspend(() =>
     agreementId: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetAgreementEntitlementsInput",
 }) as any as S.Schema<GetAgreementEntitlementsInput>;
@@ -993,8 +946,7 @@ export const AgreementEntitlement = /*@__PURE__*/ S.suspend(() =>
   identifier: "AgreementEntitlement",
 }) as any as S.Schema<AgreementEntitlement>;
 export type AgreementEntitlementList = AgreementEntitlement[];
-export const AgreementEntitlementList =
-  /*@__PURE__*/ S.Array(AgreementEntitlement);
+export const AgreementEntitlementList = /*@__PURE__*/ S.Array(AgreementEntitlement);
 export interface GetAgreementEntitlementsOutput {
   agreementEntitlements?: AgreementEntitlement[];
   nextToken?: string;
@@ -1060,9 +1012,7 @@ export const GetAgreementTermsInput = /*@__PURE__*/ S.suspend(() =>
     agreementId: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetAgreementTermsInput",
 }) as any as S.Schema<GetAgreementTermsInput>;
@@ -1135,9 +1085,7 @@ export const UsageBasedRateCardItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "UsageBasedRateCardItem",
 }) as any as S.Schema<UsageBasedRateCardItem>;
 export type UsageBasedRateCardList = UsageBasedRateCardItem[];
-export const UsageBasedRateCardList = /*@__PURE__*/ S.Array(
-  UsageBasedRateCardItem,
-);
+export const UsageBasedRateCardList = /*@__PURE__*/ S.Array(UsageBasedRateCardItem);
 export interface UsageBasedPricingTerm {
   type?: string;
   id?: string;
@@ -1246,12 +1194,8 @@ export const ValidityTerm = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     id: S.optional(S.String),
     agreementDuration: S.optional(S.String),
-    agreementStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    agreementEndDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    agreementStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    agreementEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "ValidityTerm" }) as any as S.Schema<ValidityTerm>;
 export interface ScheduleItem {
@@ -1594,17 +1538,11 @@ export const GetBillingAdjustmentRequestInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agreementId: S.String,
     billingAdjustmentRequestId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetBillingAdjustmentRequestInput",
 }) as any as S.Schema<GetBillingAdjustmentRequestInput>;
-export type BillingAdjustmentStatus =
-  | "PENDING"
-  | "VALIDATION_FAILED"
-  | "COMPLETED"
-  | (string & {});
+export type BillingAdjustmentStatus = "PENDING" | "VALIDATION_FAILED" | "COMPLETED" | (string & {});
 export const BillingAdjustmentStatus = S.String;
 
 export type BillingAdjustmentStatusMessage = string;
@@ -1649,19 +1587,16 @@ export interface ListAgreementCancellationRequestsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListAgreementCancellationRequestsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      partyType: S.String,
-      agreementId: S.optional(S.String),
-      status: S.optional(AgreementCancellationRequestStatus),
-      agreementType: S.optional(S.String),
-      catalog: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-      nextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListAgreementCancellationRequestsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partyType: S.String,
+    agreementId: S.optional(S.String),
+    status: S.optional(AgreementCancellationRequestStatus),
+    agreementType: S.optional(S.String),
+    catalog: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAgreementCancellationRequestsInput",
 }) as any as S.Schema<ListAgreementCancellationRequestsInput>;
@@ -1689,8 +1624,7 @@ export const AgreementCancellationRequestSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AgreementCancellationRequestSummary",
 }) as any as S.Schema<AgreementCancellationRequestSummary>;
-export type AgreementCancellationRequestSummaryList =
-  AgreementCancellationRequestSummary[];
+export type AgreementCancellationRequestSummaryList = AgreementCancellationRequestSummary[];
 export const AgreementCancellationRequestSummaryList = /*@__PURE__*/ S.Array(
   AgreementCancellationRequestSummary,
 );
@@ -1698,12 +1632,11 @@ export interface ListAgreementCancellationRequestsOutput {
   nextToken?: string;
   items?: AgreementCancellationRequestSummary[];
 }
-export const ListAgreementCancellationRequestsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      items: S.optional(AgreementCancellationRequestSummaryList),
-    }),
+export const ListAgreementCancellationRequestsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: S.optional(AgreementCancellationRequestSummaryList),
+  }),
 ).annotate({
   identifier: "ListAgreementCancellationRequestsOutput",
 }) as any as S.Schema<ListAgreementCancellationRequestsOutput>;
@@ -1721,9 +1654,7 @@ export const ListAgreementChargesInput = /*@__PURE__*/ S.suspend(() =>
     agreementType: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAgreementChargesInput",
 }) as any as S.Schema<ListAgreementChargesInput>;
@@ -1793,17 +1724,11 @@ export const ListAgreementInvoiceLineItemsInput = /*@__PURE__*/ S.suspend(() =>
     invoiceId: S.optional(S.String),
     invoiceType: S.optional(InvoiceType),
     invoiceBillingPeriod: S.optional(InvoiceBillingPeriod),
-    beforeIssuedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    afterIssuedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    beforeIssuedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    afterIssuedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAgreementInvoiceLineItemsInput",
 }) as any as S.Schema<ListAgreementInvoiceLineItemsInput>;
@@ -1830,22 +1755,20 @@ export interface AgreementInvoiceLineItemGroupSummary {
   invoiceType?: InvoiceType;
   invoicingEntity?: InvoicingEntity;
 }
-export const AgreementInvoiceLineItemGroupSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.optional(S.String),
-      invoiceId: S.optional(S.String),
-      pricingCurrencyAmount: S.optional(PricingCurrencyAmount),
-      invoiceBillingPeriod: S.optional(InvoiceBillingPeriod),
-      issuedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      invoiceType: S.optional(InvoiceType),
-      invoicingEntity: S.optional(InvoicingEntity),
-    }),
+export const AgreementInvoiceLineItemGroupSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.optional(S.String),
+    invoiceId: S.optional(S.String),
+    pricingCurrencyAmount: S.optional(PricingCurrencyAmount),
+    invoiceBillingPeriod: S.optional(InvoiceBillingPeriod),
+    issuedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    invoiceType: S.optional(InvoiceType),
+    invoicingEntity: S.optional(InvoicingEntity),
+  }),
 ).annotate({
   identifier: "AgreementInvoiceLineItemGroupSummary",
 }) as any as S.Schema<AgreementInvoiceLineItemGroupSummary>;
-export type AgreementInvoiceLineItemGroupSummaries =
-  AgreementInvoiceLineItemGroupSummary[];
+export type AgreementInvoiceLineItemGroupSummaries = AgreementInvoiceLineItemGroupSummary[];
 export const AgreementInvoiceLineItemGroupSummaries = /*@__PURE__*/ S.Array(
   AgreementInvoiceLineItemGroupSummary,
 );
@@ -1855,9 +1778,7 @@ export interface ListAgreementInvoiceLineItemsOutput {
 }
 export const ListAgreementInvoiceLineItemsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    agreementInvoiceLineItemGroupSummaries: S.optional(
-      AgreementInvoiceLineItemGroupSummaries,
-    ),
+    agreementInvoiceLineItemGroupSummaries: S.optional(AgreementInvoiceLineItemGroupSummaries),
     nextToken: S.optional(S.String),
   }),
 ).annotate({
@@ -1881,9 +1802,7 @@ export const ListAgreementPaymentRequestsInput = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(PaymentRequestStatus),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAgreementPaymentRequestsInput",
 }) as any as S.Schema<ListAgreementPaymentRequestsInput>;
@@ -1914,9 +1833,7 @@ export const PaymentRequestSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaymentRequestSummary",
 }) as any as S.Schema<PaymentRequestSummary>;
 export type PaymentRequestSummaryList = PaymentRequestSummary[];
-export const PaymentRequestSummaryList = /*@__PURE__*/ S.Array(
-  PaymentRequestSummary,
-);
+export const PaymentRequestSummaryList = /*@__PURE__*/ S.Array(PaymentRequestSummary);
 export interface ListAgreementPaymentRequestsOutput {
   nextToken?: string;
   items: PaymentRequestSummary[];
@@ -1949,9 +1866,7 @@ export const ListBillingAdjustmentRequestsInput = /*@__PURE__*/ S.suspend(() =>
     catalog: S.optional(S.String),
     agreementType: S.optional(S.String),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBillingAdjustmentRequestsInput",
 }) as any as S.Schema<ListBillingAdjustmentRequestsInput>;
@@ -1984,9 +1899,7 @@ export const BillingAdjustmentSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "BillingAdjustmentSummary",
 }) as any as S.Schema<BillingAdjustmentSummary>;
 export type BillingAdjustmentSummaryList = BillingAdjustmentSummary[];
-export const BillingAdjustmentSummaryList = /*@__PURE__*/ S.Array(
-  BillingAdjustmentSummary,
-);
+export const BillingAdjustmentSummaryList = /*@__PURE__*/ S.Array(BillingAdjustmentSummary);
 export interface ListBillingAdjustmentRequestsOutput {
   nextToken?: string;
   items: BillingAdjustmentSummary[];
@@ -1999,23 +1912,18 @@ export const ListBillingAdjustmentRequestsOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListBillingAdjustmentRequestsOutput",
 }) as any as S.Schema<ListBillingAdjustmentRequestsOutput>;
-export type AgreementCancellationRequestRejectionReason =
-  | string
-  | redacted.Redacted<string>;
+export type AgreementCancellationRequestRejectionReason = string | redacted.Redacted<string>;
 export interface RejectAgreementCancellationRequestInput {
   agreementId: string;
   agreementCancellationRequestId: string;
   rejectionReason: string | redacted.Redacted<string>;
 }
-export const RejectAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.String,
-      agreementCancellationRequestId: S.String,
-      rejectionReason: SensitiveString,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const RejectAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.String,
+    agreementCancellationRequestId: S.String,
+    rejectionReason: SensitiveString,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RejectAgreementCancellationRequestInput",
 }) as any as S.Schema<RejectAgreementCancellationRequestInput>;
@@ -2029,18 +1937,17 @@ export interface RejectAgreementCancellationRequestOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const RejectAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.optional(S.String),
-      agreementCancellationRequestId: S.optional(S.String),
-      status: S.optional(AgreementCancellationRequestStatus),
-      statusMessage: S.optional(S.String),
-      reasonCode: S.optional(AgreementCancellationRequestReasonCode),
-      description: S.optional(SensitiveString),
-      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const RejectAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.optional(S.String),
+    agreementCancellationRequestId: S.optional(S.String),
+    status: S.optional(AgreementCancellationRequestStatus),
+    statusMessage: S.optional(S.String),
+    reasonCode: S.optional(AgreementCancellationRequestReasonCode),
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "RejectAgreementCancellationRequestOutput",
 }) as any as S.Schema<RejectAgreementCancellationRequestOutput>;
@@ -2055,9 +1962,7 @@ export const RejectAgreementPaymentRequestInput = /*@__PURE__*/ S.suspend(() =>
     paymentRequestId: S.String,
     agreementId: S.String,
     rejectionReason: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RejectAgreementPaymentRequestInput",
 }) as any as S.Schema<RejectAgreementPaymentRequestInput>;
@@ -2127,9 +2032,7 @@ export const SearchAgreementsInput = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(Sort),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SearchAgreementsInput",
 }) as any as S.Schema<SearchAgreementsInput>;
@@ -2170,8 +2073,7 @@ export const AgreementViewSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AgreementViewSummary",
 }) as any as S.Schema<AgreementViewSummary>;
 export type AgreementViewSummaryList = AgreementViewSummary[];
-export const AgreementViewSummaryList =
-  /*@__PURE__*/ S.Array(AgreementViewSummary);
+export const AgreementViewSummaryList = /*@__PURE__*/ S.Array(AgreementViewSummary);
 export interface SearchAgreementsOutput {
   agreementViewSummaries?: AgreementViewSummary[];
   nextToken?: string;
@@ -2190,16 +2092,13 @@ export interface SendAgreementCancellationRequestInput {
   clientToken?: string;
   description?: string | redacted.Redacted<string>;
 }
-export const SendAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.String,
-      reasonCode: AgreementCancellationRequestReasonCode,
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      description: S.optional(SensitiveString),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const SendAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.String,
+    reasonCode: AgreementCancellationRequestReasonCode,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    description: S.optional(SensitiveString),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendAgreementCancellationRequestInput",
 }) as any as S.Schema<SendAgreementCancellationRequestInput>;
@@ -2212,17 +2111,16 @@ export interface SendAgreementCancellationRequestOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const SendAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.optional(S.String),
-      agreementCancellationRequestId: S.optional(S.String),
-      status: S.optional(AgreementCancellationRequestStatus),
-      reasonCode: S.optional(AgreementCancellationRequestReasonCode),
-      description: S.optional(SensitiveString),
-      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const SendAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.optional(S.String),
+    agreementCancellationRequestId: S.optional(S.String),
+    status: S.optional(AgreementCancellationRequestStatus),
+    reasonCode: S.optional(AgreementCancellationRequestReasonCode),
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "SendAgreementCancellationRequestOutput",
 }) as any as S.Schema<SendAgreementCancellationRequestOutput>;
@@ -2242,9 +2140,7 @@ export const SendAgreementPaymentRequestInput = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     chargeAmount: S.String,
     description: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendAgreementPaymentRequestInput",
 }) as any as S.Schema<SendAgreementPaymentRequestInput>;
@@ -2283,9 +2179,7 @@ export const UpdatePurchaseOrdersInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdatePurchaseOrdersInput",
 }) as any as S.Schema<UpdatePurchaseOrdersInput>;
 export interface UpdatePurchaseOrdersOutput {}
-export const UpdatePurchaseOrdersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdatePurchaseOrdersOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdatePurchaseOrdersOutput",
 }) as any as S.Schema<UpdatePurchaseOrdersOutput>;
 export type RequestId = string;
@@ -2407,9 +2301,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AcceptAgreementCancellationRequestError =
   | AccessDeniedException
   | ConflictException

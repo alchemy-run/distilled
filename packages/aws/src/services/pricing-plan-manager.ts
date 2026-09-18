@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Pricing Plan Manager",
   serviceShapeName: "AWSPricingPlanManager",
@@ -121,21 +121,14 @@ export interface ScheduledChange {
 export const ScheduledChange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     changeType: ScheduledChangeType,
-    effectiveDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    effectiveDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     planTier: S.optional(S.String),
     usageLevel: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ScheduledChange",
 }) as any as S.Schema<ScheduledChange>;
-export type Status =
-  | "PENDING_APPROVAL"
-  | "ACTIVE"
-  | "SYNC_IN_PROGRESS"
-  | "FAILED"
-  | (string & {});
+export type Status = "PENDING_APPROVAL" | "ACTIVE" | "SYNC_IN_PROGRESS" | "FAILED" | (string & {});
 export const Status = S.String;
 
 export type ResourceArns = string[];
@@ -186,23 +179,22 @@ export interface AssociateResourcesToSubscriptionInput {
   ifMatch: string;
   clientToken?: string;
 }
-export const AssociateResourcesToSubscriptionInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      arn: S.String,
-      resourceArns: ResourceArns,
-      ifMatch: S.String.pipe(T.HttpHeader("If-Match")),
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/AssociateResourcesToSubscription" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateResourcesToSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    resourceArns: ResourceArns,
+    ifMatch: S.String.pipe(T.HttpHeader("If-Match")),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/v1/AssociateResourcesToSubscription" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "AssociateResourcesToSubscriptionInput",
 }) as any as S.Schema<AssociateResourcesToSubscriptionInput>;
@@ -210,14 +202,13 @@ export interface AssociateResourcesToSubscriptionOutput {
   subscription: Subscription;
   eTag: string;
 }
-export const AssociateResourcesToSubscriptionOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscription: Subscription.pipe(T.HttpPayload()).annotate({
-        identifier: "Subscription",
-      }),
-      eTag: S.String.pipe(T.HttpHeader("ETag")),
+export const AssociateResourcesToSubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscription: Subscription.pipe(T.HttpPayload()).annotate({
+      identifier: "Subscription",
     }),
+    eTag: S.String.pipe(T.HttpHeader("ETag")),
+  }),
 ).annotate({
   identifier: "AssociateResourcesToSubscriptionOutput",
 }) as any as S.Schema<AssociateResourcesToSubscriptionOutput>;
@@ -232,14 +223,7 @@ export const CancelSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
     ifMatch: S.String.pipe(T.HttpHeader("If-Match")),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/CancelSubscription" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/CancelSubscription" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CancelSubscriptionInput",
@@ -315,14 +299,7 @@ export const CreateSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
     approvalMode: S.optional(ApprovalMode),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/CreateSubscription" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/CreateSubscription" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateSubscriptionInput",
@@ -347,57 +324,48 @@ export interface DisassociateResourcesFromSubscriptionInput {
   ifMatch: string;
   clientToken?: string;
 }
-export const DisassociateResourcesFromSubscriptionInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      arn: S.String,
-      resourceArns: ResourceArns,
-      ifMatch: S.String.pipe(T.HttpHeader("If-Match")),
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/v1/DisassociateResourcesFromSubscription",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateResourcesFromSubscriptionInput",
-  }) as any as S.Schema<DisassociateResourcesFromSubscriptionInput>;
-export interface DisassociateResourcesFromSubscriptionOutput {
-  subscription: Subscription;
-  eTag: string;
-}
-export const DisassociateResourcesFromSubscriptionOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      subscription: Subscription.pipe(T.HttpPayload()).annotate({
-        identifier: "Subscription",
-      }),
-      eTag: S.String.pipe(T.HttpHeader("ETag")),
-    }),
-  ).annotate({
-    identifier: "DisassociateResourcesFromSubscriptionOutput",
-  }) as any as S.Schema<DisassociateResourcesFromSubscriptionOutput>;
-export interface GetSubscriptionInput {
-  arn: string;
-}
-export const GetSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
+export const DisassociateResourcesFromSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    resourceArns: ResourceArns,
+    ifMatch: S.String.pipe(T.HttpHeader("If-Match")),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/v1/GetSubscription" }),
+      T.Http({
+        method: "POST",
+        uri: "/v1/DisassociateResourcesFromSubscription",
+      }),
       svc,
       auth,
       proto,
       ver,
       rules,
     ),
+  ),
+).annotate({
+  identifier: "DisassociateResourcesFromSubscriptionInput",
+}) as any as S.Schema<DisassociateResourcesFromSubscriptionInput>;
+export interface DisassociateResourcesFromSubscriptionOutput {
+  subscription: Subscription;
+  eTag: string;
+}
+export const DisassociateResourcesFromSubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscription: Subscription.pipe(T.HttpPayload()).annotate({
+      identifier: "Subscription",
+    }),
+    eTag: S.String.pipe(T.HttpHeader("ETag")),
+  }),
+).annotate({
+  identifier: "DisassociateResourcesFromSubscriptionOutput",
+}) as any as S.Schema<DisassociateResourcesFromSubscriptionOutput>;
+export interface GetSubscriptionInput {
+  arn: string;
+}
+export const GetSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ arn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/v1/GetSubscription" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetSubscriptionInput",
@@ -421,14 +389,7 @@ export interface ListSubscriptionsInput {
 }
 export const ListSubscriptionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/ListSubscriptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/ListSubscriptions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListSubscriptionsInput",
@@ -464,8 +425,7 @@ export const SubscriptionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "SubscriptionSummary",
 }) as any as S.Schema<SubscriptionSummary>;
 export type SubscriptionSummaryList = SubscriptionSummary[];
-export const SubscriptionSummaryList =
-  /*@__PURE__*/ S.Array(SubscriptionSummary);
+export const SubscriptionSummaryList = /*@__PURE__*/ S.Array(SubscriptionSummary);
 export interface ListSubscriptionsOutput {
   subscriptionSummaries: SubscriptionSummary[];
   nextToken?: string;
@@ -493,14 +453,7 @@ export const UpdateSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
     ifMatch: S.String.pipe(T.HttpHeader("If-Match")),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/UpdateSubscription" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/UpdateSubscription" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateSubscriptionInput",

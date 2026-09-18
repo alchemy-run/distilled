@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * AxiomProtocol — hand-written.
  *
@@ -25,12 +28,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownAxiomError } from "./errors.ts";
 
@@ -81,31 +78,29 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   if (body === null || typeof body !== "object") return undefined;
   const b = body as Record<string, unknown>;
   const error = typeof b.error === "string" ? b.error : undefined;
-  const code =
-    typeof b.code === "string" || typeof b.code === "number" ? b.code : error;
+  const code = typeof b.code === "string" || typeof b.code === "number" ? b.code : error;
   const message = typeof b.message === "string" ? b.message : error;
   return { code, message };
 };
 
-export const AxiomProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const AxiomProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // The Credentials service holds an effect — resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    ...(creds.orgId ? { "X-Axiom-Org-ID": creds.orgId } : {}),
+  }),
+  errorEnvelope,
+  transformResponse: stripNulls,
+  unknownError: ({ code, message, body }) =>
+    new UnknownAxiomError({
+      code: typeof code === "number" ? String(code) : code,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-      ...(creds.orgId ? { "X-Axiom-Org-ID": creds.orgId } : {}),
-    }),
-    errorEnvelope,
-    transformResponse: stripNulls,
-    unknownError: ({ code, message, body }) =>
-      new UnknownAxiomError({
-        code: typeof code === "number" ? String(code) : code,
-        message,
-        body,
-      }),
-  });
+});

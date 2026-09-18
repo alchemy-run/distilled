@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://sdb.amazonaws.com/doc/2009-04-15/");
 const svc = T.AwsApiService({
   sdkId: "SimpleDB",
@@ -27,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -48,13 +44,10 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class AttributeDoesNotExist
-  extends /*@__PURE__*/ S.TaggedError<AttributeDoesNotExist>()(
-    "AttributeDoesNotExist",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-  ).pipe(C.withNotFoundError) {}
+  extends /*@__PURE__*/ S.TaggedError<AttributeDoesNotExist>()("AttributeDoesNotExist", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    BoxUsage: S.optional(S.String),
+  }).pipe(C.withNotFoundError) {}
 export class DuplicateItemName
   extends /*@__PURE__*/ S.TaggedError<DuplicateItemName>()(
     "DuplicateItemName",
@@ -136,21 +129,15 @@ export class NumberDomainAttributesExceeded
     },
   ).pipe(C.withQuotaError) {}
 export class NumberDomainBytesExceeded
-  extends /*@__PURE__*/ S.TaggedError<NumberDomainBytesExceeded>()(
-    "NumberDomainBytesExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-  ).pipe(C.withQuotaError) {}
+  extends /*@__PURE__*/ S.TaggedError<NumberDomainBytesExceeded>()("NumberDomainBytesExceeded", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    BoxUsage: S.optional(S.String),
+  }).pipe(C.withQuotaError) {}
 export class NumberDomainsExceeded
-  extends /*@__PURE__*/ S.TaggedError<NumberDomainsExceeded>()(
-    "NumberDomainsExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-  ).pipe(C.withQuotaError) {}
+  extends /*@__PURE__*/ S.TaggedError<NumberDomainsExceeded>()("NumberDomainsExceeded", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    BoxUsage: S.optional(S.String),
+  }).pipe(C.withQuotaError) {}
 export class NumberItemAttributesExceeded
   extends /*@__PURE__*/ S.TaggedError<NumberItemAttributesExceeded>()(
     "NumberItemAttributesExceeded",
@@ -212,10 +199,7 @@ export interface DeletableItem {
 export const DeletableItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ItemName: S.String,
-    Attributes: S.optional(DeletableAttributeList).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
+    Attributes: S.optional(DeletableAttributeList).pipe(T.XmlName("Attribute"), T.XmlFlattened()),
   }),
 ).annotate({ identifier: "DeletableItem" }) as any as S.Schema<DeletableItem>;
 export type DeletableItemList = DeletableItem[];
@@ -228,17 +212,7 @@ export const BatchDeleteAttributesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DomainName: S.String,
     Items: DeletableItemList.pipe(T.XmlName("Item"), T.XmlFlattened()),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchDeleteAttributesRequest",
 }) as any as S.Schema<BatchDeleteAttributesRequest>;
@@ -259,8 +233,7 @@ export const ReplaceableAttribute = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReplaceableAttribute",
 }) as any as S.Schema<ReplaceableAttribute>;
 export type ReplaceableAttributeList = ReplaceableAttribute[];
-export const ReplaceableAttributeList =
-  /*@__PURE__*/ S.Array(ReplaceableAttribute);
+export const ReplaceableAttributeList = /*@__PURE__*/ S.Array(ReplaceableAttribute);
 export interface ReplaceableItem {
   ItemName: string;
   Attributes: ReplaceableAttribute[];
@@ -268,10 +241,7 @@ export interface ReplaceableItem {
 export const ReplaceableItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ItemName: S.String,
-    Attributes: ReplaceableAttributeList.pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
+    Attributes: ReplaceableAttributeList.pipe(T.XmlName("Attribute"), T.XmlFlattened()),
   }),
 ).annotate({
   identifier: "ReplaceableItem",
@@ -286,17 +256,7 @@ export const BatchPutAttributesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DomainName: S.String,
     Items: ReplaceableItemList.pipe(T.XmlName("Item"), T.XmlFlattened()),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchPutAttributesRequest",
 }) as any as S.Schema<BatchPutAttributesRequest>;
@@ -311,23 +271,13 @@ export interface CreateDomainRequest {
 }
 export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateDomainRequest",
 }) as any as S.Schema<CreateDomainRequest>;
 export interface CreateDomainResponse {}
-export const CreateDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const CreateDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "CreateDomainResponse",
 }) as any as S.Schema<CreateDomainResponse>;
 export interface UpdateCondition {
@@ -354,22 +304,9 @@ export const DeleteAttributesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DomainName: S.String,
     ItemName: S.String,
-    Attributes: S.optional(DeletableAttributeList).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
+    Attributes: S.optional(DeletableAttributeList).pipe(T.XmlName("Attribute"), T.XmlFlattened()),
     Expected: S.optional(UpdateCondition),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteAttributesRequest",
 }) as any as S.Schema<DeleteAttributesRequest>;
@@ -384,23 +321,13 @@ export interface DeleteDomainRequest {
 }
 export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDomainRequest",
 }) as any as S.Schema<DeleteDomainRequest>;
 export interface DeleteDomainResponse {}
-export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteDomainResponse",
 }) as any as S.Schema<DeleteDomainResponse>;
 export interface DomainMetadataRequest {
@@ -408,15 +335,7 @@ export interface DomainMetadataRequest {
 }
 export const DomainMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DomainMetadataRequest",
@@ -460,17 +379,7 @@ export const GetAttributesRequest = /*@__PURE__*/ S.suspend(() =>
       T.XmlFlattened(),
     ),
     ConsistentRead: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetAttributesRequest",
 }) as any as S.Schema<GetAttributesRequest>;
@@ -495,10 +404,7 @@ export interface GetAttributesResponse {
 }
 export const GetAttributesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    Attributes: S.optional(AttributeList).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
+    Attributes: S.optional(AttributeList).pipe(T.XmlName("Attribute"), T.XmlFlattened()),
   }).pipe(ns),
 ).annotate({
   identifier: "GetAttributesResponse",
@@ -511,17 +417,7 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxNumberOfDomains: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDomainsRequest",
 }) as any as S.Schema<ListDomainsRequest>;
@@ -533,10 +429,7 @@ export interface ListDomainsResponse {
 }
 export const ListDomainsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    DomainNames: S.optional(DomainNameList).pipe(
-      T.XmlName("DomainName"),
-      T.XmlFlattened(),
-    ),
+    DomainNames: S.optional(DomainNameList).pipe(T.XmlName("DomainName"), T.XmlFlattened()),
     NextToken: S.optional(S.String),
   }).pipe(ns),
 ).annotate({
@@ -552,29 +445,14 @@ export const PutAttributesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DomainName: S.String,
     ItemName: S.String,
-    Attributes: ReplaceableAttributeList.pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
+    Attributes: ReplaceableAttributeList.pipe(T.XmlName("Attribute"), T.XmlFlattened()),
     Expected: S.optional(UpdateCondition),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutAttributesRequest",
 }) as any as S.Schema<PutAttributesRequest>;
 export interface PutAttributesResponse {}
-export const PutAttributesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const PutAttributesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "PutAttributesResponse",
 }) as any as S.Schema<PutAttributesResponse>;
 export interface SelectRequest {
@@ -587,17 +465,7 @@ export const SelectRequest = /*@__PURE__*/ S.suspend(() =>
     SelectExpression: S.String,
     NextToken: S.optional(S.String),
     ConsistentRead: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "SelectRequest" }) as any as S.Schema<SelectRequest>;
 export interface Item {
   Name: string;
@@ -608,10 +476,7 @@ export const Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.String,
     AlternateNameEncoding: S.optional(S.String),
-    Attributes: S.optional(AttributeList).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
+    Attributes: S.optional(AttributeList).pipe(T.XmlName("Attribute"), T.XmlFlattened()),
   }),
 ).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
 export type ItemList = Item[];
@@ -721,12 +586,7 @@ export const deleteAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAttributesRequest,
   output: DeleteAttributesResponse,
-  errors: [
-    AttributeDoesNotExist,
-    InvalidParameterValue,
-    MissingParameter,
-    NoSuchDomain,
-  ],
+  errors: [AttributeDoesNotExist, InvalidParameterValue, MissingParameter, NoSuchDomain],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributes",
@@ -750,10 +610,7 @@ export const deleteDomain: API.OperationMethod<
   operationName: "DeleteDomain",
 }));
 
-export type DomainMetadataError =
-  | MissingParameter
-  | NoSuchDomain
-  | CommonErrors;
+export type DomainMetadataError = MissingParameter | NoSuchDomain | CommonErrors;
 /**
  * Returns information about a SimpleDB domain (item count, sizes, timestamp).
  */
@@ -793,10 +650,7 @@ export const getAttributes: API.OperationMethod<
   operationName: "GetAttributes",
 }));
 
-export type ListDomainsError =
-  | InvalidNextToken
-  | InvalidParameterValue
-  | CommonErrors;
+export type ListDomainsError = InvalidNextToken | InvalidParameterValue | CommonErrors;
 /**
  * Lists all SimpleDB domains in the account/region. Paginated.
  */

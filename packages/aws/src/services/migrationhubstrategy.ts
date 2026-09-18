@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "MigrationHubStrategy",
   serviceShapeName: "AWSMigrationHubStrategyRecommendation",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://migrationhub-strategy-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,9 +66,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://migrationhub-strategy.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://migrationhub-strategy.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -143,25 +135,22 @@ export type ApplicationComponentId = string;
 export interface GetApplicationComponentDetailsRequest {
   applicationComponentId: string;
 }
-export const GetApplicationComponentDetailsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      applicationComponentId: S.String.pipe(
-        T.HttpLabel("applicationComponentId"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/get-applicationcomponent-details/{applicationComponentId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetApplicationComponentDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applicationComponentId: S.String.pipe(T.HttpLabel("applicationComponentId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/get-applicationcomponent-details/{applicationComponentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetApplicationComponentDetailsRequest",
 }) as any as S.Schema<GetApplicationComponentDetailsRequest>;
@@ -213,9 +202,7 @@ export const AntipatternSeveritySummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AntipatternSeveritySummary",
 }) as any as S.Schema<AntipatternSeveritySummary>;
 export type ListAntipatternSeveritySummary = AntipatternSeveritySummary[];
-export const ListAntipatternSeveritySummary = /*@__PURE__*/ S.Array(
-  AntipatternSeveritySummary,
-);
+export const ListAntipatternSeveritySummary = /*@__PURE__*/ S.Array(AntipatternSeveritySummary);
 export interface DatabaseConfigDetail {
   secretName?: string;
 }
@@ -241,8 +228,7 @@ export const SourceCodeRepository = /*@__PURE__*/ S.suspend(() =>
   identifier: "SourceCodeRepository",
 }) as any as S.Schema<SourceCodeRepository>;
 export type SourceCodeRepositories = SourceCodeRepository[];
-export const SourceCodeRepositories =
-  /*@__PURE__*/ S.Array(SourceCodeRepository);
+export const SourceCodeRepositories = /*@__PURE__*/ S.Array(SourceCodeRepository);
 export type AppType = string;
 export type ResourceSubType = string;
 export type InclusionStatus = string;
@@ -314,9 +300,7 @@ export const AntipatternReportResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "AntipatternReportResult",
 }) as any as S.Schema<AntipatternReportResult>;
 export type AntipatternReportResultList = AntipatternReportResult[];
-export const AntipatternReportResultList = /*@__PURE__*/ S.Array(
-  AntipatternReportResult,
-);
+export const AntipatternReportResultList = /*@__PURE__*/ S.Array(AntipatternReportResult);
 export interface Result {
   analysisType?: string;
   analysisStatus?: AnalysisStatusUnion;
@@ -376,9 +360,7 @@ export const ApplicationComponentDetail = /*@__PURE__*/ S.suspend(() =>
     antipatternReportStatusMessage: S.optional(S.String),
     osVersion: S.optional(S.String),
     osDriver: S.optional(S.String),
-    lastAnalyzedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastAnalyzedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     associatedServerId: S.optional(S.String),
     moreServerAssociationExists: S.optional(S.Boolean),
     runtimeStatus: S.optional(S.String),
@@ -399,9 +381,7 @@ export const AssociatedApplication = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociatedApplication",
 }) as any as S.Schema<AssociatedApplication>;
 export type AssociatedApplications = AssociatedApplication[];
-export const AssociatedApplications = /*@__PURE__*/ S.Array(
-  AssociatedApplication,
-);
+export const AssociatedApplications = /*@__PURE__*/ S.Array(AssociatedApplication);
 export type AssociatedServerIDs = string[];
 export const AssociatedServerIDs = /*@__PURE__*/ S.Array(S.String);
 export interface GetApplicationComponentDetailsResponse {
@@ -410,39 +390,35 @@ export interface GetApplicationComponentDetailsResponse {
   moreApplicationResource?: boolean;
   associatedServerIds?: string[];
 }
-export const GetApplicationComponentDetailsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      applicationComponentDetail: S.optional(ApplicationComponentDetail),
-      associatedApplications: S.optional(AssociatedApplications),
-      moreApplicationResource: S.optional(S.Boolean),
-      associatedServerIds: S.optional(AssociatedServerIDs),
-    }),
+export const GetApplicationComponentDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applicationComponentDetail: S.optional(ApplicationComponentDetail),
+    associatedApplications: S.optional(AssociatedApplications),
+    moreApplicationResource: S.optional(S.Boolean),
+    associatedServerIds: S.optional(AssociatedServerIDs),
+  }),
 ).annotate({
   identifier: "GetApplicationComponentDetailsResponse",
 }) as any as S.Schema<GetApplicationComponentDetailsResponse>;
 export interface GetApplicationComponentStrategiesRequest {
   applicationComponentId: string;
 }
-export const GetApplicationComponentStrategiesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      applicationComponentId: S.String.pipe(
-        T.HttpLabel("applicationComponentId"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/get-applicationcomponent-strategies/{applicationComponentId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetApplicationComponentStrategiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applicationComponentId: S.String.pipe(T.HttpLabel("applicationComponentId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/get-applicationcomponent-strategies/{applicationComponentId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetApplicationComponentStrategiesRequest",
 }) as any as S.Schema<GetApplicationComponentStrategiesRequest>;
@@ -462,36 +438,24 @@ export const ApplicationComponentStrategy = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApplicationComponentStrategy",
 }) as any as S.Schema<ApplicationComponentStrategy>;
 export type ApplicationComponentStrategies = ApplicationComponentStrategy[];
-export const ApplicationComponentStrategies = /*@__PURE__*/ S.Array(
-  ApplicationComponentStrategy,
-);
+export const ApplicationComponentStrategies = /*@__PURE__*/ S.Array(ApplicationComponentStrategy);
 export interface GetApplicationComponentStrategiesResponse {
   applicationComponentStrategies?: ApplicationComponentStrategy[];
 }
-export const GetApplicationComponentStrategiesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      applicationComponentStrategies: S.optional(
-        ApplicationComponentStrategies,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetApplicationComponentStrategiesResponse",
-  }) as any as S.Schema<GetApplicationComponentStrategiesResponse>;
+export const GetApplicationComponentStrategiesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applicationComponentStrategies: S.optional(ApplicationComponentStrategies),
+  }),
+).annotate({
+  identifier: "GetApplicationComponentStrategiesResponse",
+}) as any as S.Schema<GetApplicationComponentStrategiesResponse>;
 export type AsyncTaskId = string;
 export interface GetAssessmentRequest {
   id: string;
 }
 export const GetAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/get-assessment/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/get-assessment/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetAssessmentRequest",
@@ -731,9 +695,7 @@ export const ApplicationPreferences = /*@__PURE__*/ S.suspend(() =>
 export type DatabaseManagementPreference = string;
 export type HeterogeneousTargetDatabaseEngine = string;
 export type HeterogeneousTargetDatabaseEngines = string[];
-export const HeterogeneousTargetDatabaseEngines = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const HeterogeneousTargetDatabaseEngines = /*@__PURE__*/ S.Array(S.String);
 export interface Heterogeneous {
   targetDatabaseEngine: string[];
 }
@@ -807,14 +769,7 @@ export const GetPortfolioPreferencesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetPortfolioSummaryRequest {}
 export const GetPortfolioSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/get-portfolio-summary" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/get-portfolio-summary" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetPortfolioSummaryRequest",
@@ -840,9 +795,7 @@ export const ApplicationComponentSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApplicationComponentSummary",
 }) as any as S.Schema<ApplicationComponentSummary>;
 export type ListApplicationComponentSummary = ApplicationComponentSummary[];
-export const ListApplicationComponentSummary = /*@__PURE__*/ S.Array(
-  ApplicationComponentSummary,
-);
+export const ListApplicationComponentSummary = /*@__PURE__*/ S.Array(ApplicationComponentSummary);
 export type ServerOsType = string;
 export interface ServerSummary {
   ServerOsType?: string;
@@ -865,8 +818,7 @@ export const ApplicationComponentStatusSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ApplicationComponentStatusSummary",
 }) as any as S.Schema<ApplicationComponentStatusSummary>;
-export type ListApplicationComponentStatusSummary =
-  ApplicationComponentStatusSummary[];
+export type ListApplicationComponentStatusSummary = ApplicationComponentStatusSummary[];
 export const ListApplicationComponentStatusSummary = /*@__PURE__*/ S.Array(
   ApplicationComponentStatusSummary,
 );
@@ -884,8 +836,7 @@ export const ServerStatusSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServerStatusSummary",
 }) as any as S.Schema<ServerStatusSummary>;
 export type ListServerStatusSummary = ServerStatusSummary[];
-export const ListServerStatusSummary =
-  /*@__PURE__*/ S.Array(ServerStatusSummary);
+export const ListServerStatusSummary = /*@__PURE__*/ S.Array(ServerStatusSummary);
 export interface AssessmentSummary {
   listServerStrategySummary?: StrategySummary[];
   listApplicationComponentStrategySummary?: StrategySummary[];
@@ -904,19 +855,13 @@ export const AssessmentSummary = /*@__PURE__*/ S.suspend(() =>
     listServerStrategySummary: S.optional(ListStrategySummary),
     listApplicationComponentStrategySummary: S.optional(ListStrategySummary),
     listAntipatternSeveritySummary: S.optional(ListAntipatternSeveritySummary),
-    listApplicationComponentSummary: S.optional(
-      ListApplicationComponentSummary,
-    ),
+    listApplicationComponentSummary: S.optional(ListApplicationComponentSummary),
     listServerSummary: S.optional(ListServerSummary),
     antipatternReportS3Object: S.optional(S3Object),
     antipatternReportStatus: S.optional(S.String),
     antipatternReportStatusMessage: S.optional(S.String),
-    lastAnalyzedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    listApplicationComponentStatusSummary: S.optional(
-      ListApplicationComponentStatusSummary,
-    ),
+    lastAnalyzedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    listApplicationComponentStatusSummary: S.optional(ListApplicationComponentStatusSummary),
     listServerStatusSummary: S.optional(ListServerStatusSummary),
   }),
 ).annotate({
@@ -934,21 +879,20 @@ export type RecommendationTaskId = string;
 export interface GetRecommendationReportDetailsRequest {
   id: string;
 }
-export const GetRecommendationReportDetailsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/get-recommendation-report-details/{id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetRecommendationReportDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/get-recommendation-report-details/{id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetRecommendationReportDetailsRequest",
 }) as any as S.Schema<GetRecommendationReportDetailsRequest>;
@@ -981,12 +925,11 @@ export interface GetRecommendationReportDetailsResponse {
   id?: string;
   recommendationReportDetails?: RecommendationReportDetails;
 }
-export const GetRecommendationReportDetailsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.String),
-      recommendationReportDetails: S.optional(RecommendationReportDetails),
-    }),
+export const GetRecommendationReportDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    recommendationReportDetails: S.optional(RecommendationReportDetails),
+  }),
 ).annotate({
   identifier: "GetRecommendationReportDetailsResponse",
 }) as any as S.Schema<GetRecommendationReportDetailsResponse>;
@@ -1095,9 +1038,7 @@ export const ServerDetail = /*@__PURE__*/ S.suspend(() =>
     antipatternReportStatus: S.optional(S.String),
     antipatternReportStatusMessage: S.optional(S.String),
     serverType: S.optional(S.String),
-    lastAnalyzedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastAnalyzedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     serverError: S.optional(ServerError),
   }),
 ).annotate({ identifier: "ServerDetail" }) as any as S.Schema<ServerDetail>;
@@ -1197,9 +1138,7 @@ export const AnalyzableServerSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AnalyzableServerSummary",
 }) as any as S.Schema<AnalyzableServerSummary>;
 export type AnalyzableServerSummaryList = AnalyzableServerSummary[];
-export const AnalyzableServerSummaryList = /*@__PURE__*/ S.Array(
-  AnalyzableServerSummary,
-);
+export const AnalyzableServerSummaryList = /*@__PURE__*/ S.Array(AnalyzableServerSummary);
 export interface ListAnalyzableServersResponse {
   analyzableServers?: AnalyzableServerSummary[];
   nextToken?: string;
@@ -1253,9 +1192,7 @@ export const ListApplicationComponentsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListApplicationComponentsRequest",
 }) as any as S.Schema<ListApplicationComponentsRequest>;
 export type ApplicationComponentDetails = ApplicationComponentDetail[];
-export const ApplicationComponentDetails = /*@__PURE__*/ S.Array(
-  ApplicationComponentDetail,
-);
+export const ApplicationComponentDetails = /*@__PURE__*/ S.Array(ApplicationComponentDetail);
 export interface ListApplicationComponentsResponse {
   applicationComponentInfos?: ApplicationComponentDetail[];
   nextToken?: string;
@@ -1276,16 +1213,7 @@ export const ListCollectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/list-collectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/list-collectors" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListCollectorsRequest",
 }) as any as S.Schema<ListCollectorsRequest>;
@@ -1303,9 +1231,7 @@ export const VcenterBasedRemoteInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "VcenterBasedRemoteInfo",
 }) as any as S.Schema<VcenterBasedRemoteInfo>;
 export type VcenterBasedRemoteInfoList = VcenterBasedRemoteInfo[];
-export const VcenterBasedRemoteInfoList = /*@__PURE__*/ S.Array(
-  VcenterBasedRemoteInfo,
-);
+export const VcenterBasedRemoteInfoList = /*@__PURE__*/ S.Array(VcenterBasedRemoteInfo);
 export type AuthType = string;
 export interface IPAddressBasedRemoteInfo {
   ipAddressConfigurationTimeStamp?: string;
@@ -1322,9 +1248,7 @@ export const IPAddressBasedRemoteInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "IPAddressBasedRemoteInfo",
 }) as any as S.Schema<IPAddressBasedRemoteInfo>;
 export type IPAddressBasedRemoteInfoList = IPAddressBasedRemoteInfo[];
-export const IPAddressBasedRemoteInfoList = /*@__PURE__*/ S.Array(
-  IPAddressBasedRemoteInfo,
-);
+export const IPAddressBasedRemoteInfoList = /*@__PURE__*/ S.Array(IPAddressBasedRemoteInfo);
 export type VersionControlType = string;
 export interface VersionControlInfo {
   versionControlType?: string;
@@ -1376,9 +1300,7 @@ export const ConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
     ipAddressBasedRemoteInfoList: S.optional(IPAddressBasedRemoteInfoList),
     versionControlInfoList: S.optional(VersionControlInfoList),
     pipelineInfoList: S.optional(PipelineInfoList),
-    remoteSourceCodeAnalysisServerInfo: S.optional(
-      RemoteSourceCodeAnalysisServerInfo,
-    ),
+    remoteSourceCodeAnalysisServerInfo: S.optional(RemoteSourceCodeAnalysisServerInfo),
   }),
 ).annotate({
   identifier: "ConfigurationSummary",
@@ -1428,14 +1350,7 @@ export const ListImportFileTaskRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/list-import-file-task" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/list-import-file-task" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListImportFileTaskRequest",
@@ -1471,9 +1386,7 @@ export const ImportFileTaskInformation = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImportFileTaskInformation",
 }) as any as S.Schema<ImportFileTaskInformation>;
 export type ListImportFileTaskInformation = ImportFileTaskInformation[];
-export const ListImportFileTaskInformation = /*@__PURE__*/ S.Array(
-  ImportFileTaskInformation,
-);
+export const ListImportFileTaskInformation = /*@__PURE__*/ S.Array(ImportFileTaskInformation);
 export interface ListImportFileTaskResponse {
   taskInfos?: ImportFileTaskInformation[];
   nextToken?: string;
@@ -1503,16 +1416,7 @@ export const ListServersRequest = /*@__PURE__*/ S.suspend(() =>
     groupIdFilter: S.optional(GroupIds),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-servers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/list-servers" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListServersRequest",
 }) as any as S.Schema<ListServersRequest>;
@@ -1556,11 +1460,11 @@ export const PutPortfolioPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutPortfolioPreferencesRequest",
 }) as any as S.Schema<PutPortfolioPreferencesRequest>;
 export interface PutPortfolioPreferencesResponse {}
-export const PutPortfolioPreferencesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutPortfolioPreferencesResponse",
-}) as any as S.Schema<PutPortfolioPreferencesResponse>;
+export const PutPortfolioPreferencesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "PutPortfolioPreferencesResponse",
+  },
+) as any as S.Schema<PutPortfolioPreferencesResponse>;
 export type AssessmentDataSourceType = string;
 export interface StartAssessmentRequest {
   s3bucketForAnalysisData?: string;
@@ -1575,14 +1479,7 @@ export const StartAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
     assessmentTargets: S.optional(AssessmentTargets),
     assessmentDataSourceType: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/start-assessment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/start-assessment" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartAssessmentRequest",
@@ -1613,14 +1510,7 @@ export const StartImportFileTaskRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.optional(GroupIds),
     s3bucketForReportData: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/start-import-file-task" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/start-import-file-task" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartImportFileTaskRequest",
@@ -1638,43 +1528,16 @@ export interface StartRecommendationReportGenerationRequest {
   outputFormat?: string;
   groupIdFilter?: Group[];
 }
-export const StartRecommendationReportGenerationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      outputFormat: S.optional(S.String),
-      groupIdFilter: S.optional(GroupIds),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/start-recommendation-report-generation",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "StartRecommendationReportGenerationRequest",
-  }) as any as S.Schema<StartRecommendationReportGenerationRequest>;
-export interface StartRecommendationReportGenerationResponse {
-  id?: string;
-}
-export const StartRecommendationReportGenerationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ id: S.optional(S.String) }),
-  ).annotate({
-    identifier: "StartRecommendationReportGenerationResponse",
-  }) as any as S.Schema<StartRecommendationReportGenerationResponse>;
-export interface StopAssessmentRequest {
-  assessmentId: string;
-}
-export const StopAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ assessmentId: S.String }).pipe(
+export const StartRecommendationReportGenerationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    outputFormat: S.optional(S.String),
+    groupIdFilter: S.optional(GroupIds),
+  }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/stop-assessment" }),
+      T.Http({
+        method: "POST",
+        uri: "/start-recommendation-report-generation",
+      }),
       svc,
       auth,
       proto,
@@ -1683,12 +1546,28 @@ export const StopAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({
+  identifier: "StartRecommendationReportGenerationRequest",
+}) as any as S.Schema<StartRecommendationReportGenerationRequest>;
+export interface StartRecommendationReportGenerationResponse {
+  id?: string;
+}
+export const StartRecommendationReportGenerationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.optional(S.String) }),
+).annotate({
+  identifier: "StartRecommendationReportGenerationResponse",
+}) as any as S.Schema<StartRecommendationReportGenerationResponse>;
+export interface StopAssessmentRequest {
+  assessmentId: string;
+}
+export const StopAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ assessmentId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/stop-assessment" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
   identifier: "StopAssessmentRequest",
 }) as any as S.Schema<StopAssessmentRequest>;
 export interface StopAssessmentResponse {}
-export const StopAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopAssessmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopAssessmentResponse",
 }) as any as S.Schema<StopAssessmentResponse>;
 export interface StrategyOption {
@@ -1735,32 +1614,31 @@ export interface UpdateApplicationComponentConfigRequest {
   configureOnly?: boolean;
   appType?: string;
 }
-export const UpdateApplicationComponentConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      applicationComponentId: S.String,
-      inclusionStatus: S.optional(S.String),
-      strategyOption: S.optional(StrategyOption),
-      sourceCodeList: S.optional(SourceCodeList),
-      secretsManagerKey: S.optional(SensitiveString),
-      configureOnly: S.optional(S.Boolean),
-      appType: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/update-applicationcomponent-config/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateApplicationComponentConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applicationComponentId: S.String,
+    inclusionStatus: S.optional(S.String),
+    strategyOption: S.optional(StrategyOption),
+    sourceCodeList: S.optional(SourceCodeList),
+    secretsManagerKey: S.optional(SensitiveString),
+    configureOnly: S.optional(S.Boolean),
+    appType: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/update-applicationcomponent-config/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateApplicationComponentConfigRequest",
 }) as any as S.Schema<UpdateApplicationComponentConfigRequest>;
 export interface UpdateApplicationComponentConfigResponse {}
-export const UpdateApplicationComponentConfigResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const UpdateApplicationComponentConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "UpdateApplicationComponentConfigResponse",
 }) as any as S.Schema<UpdateApplicationComponentConfigResponse>;
@@ -1773,22 +1651,13 @@ export const UpdateServerConfigRequest = /*@__PURE__*/ S.suspend(() =>
     serverId: S.String,
     strategyOption: S.optional(StrategyOption),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/update-server-config/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/update-server-config/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateServerConfigRequest",
 }) as any as S.Schema<UpdateServerConfigRequest>;
 export interface UpdateServerConfigResponse {}
-export const UpdateServerConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateServerConfigResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateServerConfigResponse",
 }) as any as S.Schema<UpdateServerConfigResponse>;
 export type ErrorMessage = string;
@@ -1808,11 +1677,7 @@ export const getApplicationComponentDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetApplicationComponentDetailsRequest,
   output: GetApplicationComponentDetailsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationComponentDetails",
@@ -1835,11 +1700,7 @@ export const getApplicationComponentStrategies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetApplicationComponentStrategiesRequest,
   output: GetApplicationComponentStrategiesResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationComponentStrategies",

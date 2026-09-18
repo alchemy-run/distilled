@@ -19,12 +19,7 @@ import type { Protocol, ProtocolHandler } from "../client/protocol.ts";
 import type { Request } from "../client/request.ts";
 import type { Response } from "../client/response.ts";
 import { ParseError } from "../errors.ts";
-import {
-  getEc2QueryName,
-  getServiceVersion,
-  getXmlNameProp,
-  hasXmlAttribute,
-} from "../traits.ts";
+import { getEc2QueryName, getServiceVersion, getXmlNameProp, hasXmlAttribute } from "../traits.ts";
 import {
   getArrayElementAST,
   getEncodedPropertySignatures,
@@ -33,20 +28,13 @@ import {
 } from "../util/ast.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
 import { readStreamAsText } from "../util/stream.ts";
-import {
-  deserializePrimitive,
-  extractXmlRoot,
-  parseXml,
-  unwrapArrayValue,
-} from "../util/xml.ts";
+import { deserializePrimitive, extractXmlRoot, parseXml, unwrapArrayValue } from "../util/xml.ts";
 
 // =============================================================================
 // Protocol Export
 // =============================================================================
 
-export const ec2QueryProtocol: Protocol = (
-  operation: Operation,
-): ProtocolHandler => {
+export const ec2QueryProtocol: Protocol = (operation: Operation): ProtocolHandler => {
   const inputSchema = operation.input;
   const outputSchema = operation.output;
   const inputAst = inputSchema.ast;
@@ -59,9 +47,7 @@ export const ec2QueryProtocol: Protocol = (
   // explicit operation name emitted by the generator; fall back to deriving
   // it from the input shape identifier.
   const identifier = getIdentifier(inputAst) ?? "";
-  const action =
-    operation.operationName ??
-    identifier.replace(/(?:Request|Input|Message)$/, "");
+  const action = operation.operationName ?? identifier.replace(/(?:Request|Input|Message)$/, "");
   const version = getServiceVersion(inputAst) ?? "";
 
   return {
@@ -85,12 +71,7 @@ export const ec2QueryProtocol: Protocol = (
       params.push(`Version=${encodeURIComponent(version)}`);
 
       // Serialize already-encoded input members
-      serializeMembers(
-        inputAst,
-        encoded as Record<string, unknown>,
-        "",
-        params,
-      );
+      serializeMembers(inputAst, encoded as Record<string, unknown>, "", params);
 
       request.body = params.join("&");
 
@@ -253,17 +234,13 @@ function serializeValue(
 
   // Handle Date objects (v4: S.Date remains Date after encode)
   if (value instanceof Date) {
-    params.push(
-      `${encodeURIComponent(key)}=${encodeURIComponent(value.toISOString())}`,
-    );
+    params.push(`${encodeURIComponent(key)}=${encodeURIComponent(value.toISOString())}`);
     return;
   }
 
   // Handle primitives (includes encoded dates as strings, blobs as base64)
   if (typeof value !== "object") {
-    params.push(
-      `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,
-    );
+    params.push(`${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`);
     return;
   }
 
@@ -307,9 +284,7 @@ function deserializeValue(ast: AST.AST, value: unknown): unknown {
 
     const items = Array.isArray(unwrapped) ? unwrapped : [unwrapped];
     // Filter out undefined items (from empty nested wrappers)
-    return items
-      .map((item) => deserializeValue(elAST, item))
-      .filter((item) => item !== undefined);
+    return items.map((item) => deserializeValue(elAST, item)).filter((item) => item !== undefined);
   }
 
   // Handle strings
@@ -330,10 +305,7 @@ function deserializeValue(ast: AST.AST, value: unknown): unknown {
   return value;
 }
 
-function deserializeObject(
-  ast: AST.AST,
-  value: Record<string, unknown>,
-): Record<string, unknown> {
+function deserializeObject(ast: AST.AST, value: Record<string, unknown>): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
   for (const prop of getEncodedPropertySignatures(ast)) {

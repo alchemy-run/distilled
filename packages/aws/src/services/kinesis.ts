@@ -1,13 +1,13 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema";
 import * as stream from "effect/Stream";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://kinesis.amazonaws.com/doc/2013-12-02");
 const svc = T.AwsApiService({
   sdkId: "Kinesis",
@@ -65,24 +65,9 @@ const rules = T.EndpointResolver((p, _) => {
     ) {
       if (OperationType != null) {
         {
-          const HttpsCustomEndpointDelimiterValue = _.substring(
-            Endpoint,
-            15,
-            16,
-            false,
-          );
-          const HttpsEndpointDelimiterValue = _.substring(
-            Endpoint,
-            20,
-            21,
-            false,
-          );
-          const HttpsCustomEndpointSuffixValue = _.substring(
-            Endpoint,
-            15,
-            20,
-            false,
-          );
+          const HttpsCustomEndpointDelimiterValue = _.substring(Endpoint, 15, 16, false);
+          const HttpsEndpointDelimiterValue = _.substring(Endpoint, 20, 21, false);
+          const HttpsCustomEndpointSuffixValue = _.substring(Endpoint, 15, 20, false);
           if (
             Endpoint != null &&
             HttpsCustomEndpointDelimiterValue != null &&
@@ -101,13 +86,9 @@ const rules = T.EndpointResolver((p, _) => {
                     `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                   );
                 }
-                return err(
-                  "DualStack is enabled, but this partition does not support DualStack.",
-                );
+                return err("DualStack is enabled, but this partition does not support DualStack.");
               }
-              return err(
-                "FIPS is enabled, but this partition does not support FIPS.",
-              );
+              return err("FIPS is enabled, but this partition does not support FIPS.");
             }
             if (UseFIPS === true) {
               if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
@@ -115,9 +96,7 @@ const rules = T.EndpointResolver((p, _) => {
                   `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                 );
               }
-              return err(
-                "FIPS is enabled but this partition does not support FIPS",
-              );
+              return err("FIPS is enabled but this partition does not support FIPS");
             }
             if (UseDualStack === true) {
               if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
@@ -125,9 +104,7 @@ const rules = T.EndpointResolver((p, _) => {
                   `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                 );
               }
-              return err(
-                "DualStack is enabled but this partition does not support DualStack",
-              );
+              return err("DualStack is enabled but this partition does not support DualStack");
             }
             return e(
               `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -135,24 +112,9 @@ const rules = T.EndpointResolver((p, _) => {
           }
         }
         {
-          const PlainCustomEndpointDelimiterValue = _.substring(
-            Endpoint,
-            7,
-            8,
-            false,
-          );
-          const PlainEndpointDelimiterValue = _.substring(
-            Endpoint,
-            12,
-            13,
-            false,
-          );
-          const PlainCustomEndpointSuffixValue = _.substring(
-            Endpoint,
-            7,
-            12,
-            false,
-          );
+          const PlainCustomEndpointDelimiterValue = _.substring(Endpoint, 7, 8, false);
+          const PlainEndpointDelimiterValue = _.substring(Endpoint, 12, 13, false);
+          const PlainCustomEndpointSuffixValue = _.substring(Endpoint, 7, 12, false);
           if (
             Endpoint != null &&
             PlainCustomEndpointDelimiterValue != null &&
@@ -171,13 +133,9 @@ const rules = T.EndpointResolver((p, _) => {
                     `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                   );
                 }
-                return err(
-                  "DualStack is enabled, but this partition does not support DualStack.",
-                );
+                return err("DualStack is enabled, but this partition does not support DualStack.");
               }
-              return err(
-                "FIPS is enabled, but this partition does not support FIPS.",
-              );
+              return err("FIPS is enabled, but this partition does not support FIPS.");
             }
             if (UseFIPS === true) {
               if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
@@ -185,9 +143,7 @@ const rules = T.EndpointResolver((p, _) => {
                   `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                 );
               }
-              return err(
-                "FIPS is enabled but this partition does not support FIPS",
-              );
+              return err("FIPS is enabled but this partition does not support FIPS");
             }
             if (UseDualStack === true) {
               if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
@@ -195,9 +151,7 @@ const rules = T.EndpointResolver((p, _) => {
                   `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                 );
               }
-              return err(
-                "DualStack is enabled but this partition does not support DualStack",
-              );
+              return err("DualStack is enabled but this partition does not support DualStack");
             }
             return e(
               `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -211,13 +165,9 @@ const rules = T.EndpointResolver((p, _) => {
                 `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
               );
             }
-            return err(
-              "DualStack is enabled, but this partition does not support DualStack.",
-            );
+            return err("DualStack is enabled, but this partition does not support DualStack.");
           }
-          return err(
-            "FIPS is enabled, but this partition does not support FIPS.",
-          );
+          return err("FIPS is enabled, but this partition does not support FIPS.");
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
@@ -225,9 +175,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
@@ -235,17 +183,13 @@ const rules = T.EndpointResolver((p, _) => {
               `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
         );
       }
-      return err(
-        "Operation Type is not set. Please contact service team for resolution.",
-      );
+      return err("Operation Type is not set. Please contact service team for resolution.");
     }
   }
   {
@@ -267,28 +211,13 @@ const rules = T.EndpointResolver((p, _) => {
               if (_.getAttr(arn, "service") === "kinesis") {
                 {
                   const arnType = _.getAttr(arn, "resourceId[0]");
-                  if (
-                    arnType != null &&
-                    arnType !== false &&
-                    !(arnType === "")
-                  ) {
+                  if (arnType != null && arnType !== false && !(arnType === "")) {
                     if (arnType === "stream") {
-                      if (
-                        _.getAttr(PartitionResult, "name") ===
-                        `${_.getAttr(arn, "partition")}`
-                      ) {
+                      if (_.getAttr(PartitionResult, "name") === `${_.getAttr(arn, "partition")}`) {
                         if (OperationType != null) {
                           if (UseFIPS === true && UseDualStack === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              if (
-                                _.getAttr(
-                                  PartitionResult,
-                                  "supportsDualStack",
-                                ) === true
-                              ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                                 return e(
                                   `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                                 );
@@ -302,25 +231,15 @@ const rules = T.EndpointResolver((p, _) => {
                             );
                           }
                           if (UseFIPS === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                               );
                             }
-                            return err(
-                              "FIPS is enabled but this partition does not support FIPS",
-                            );
+                            return err("FIPS is enabled but this partition does not support FIPS");
                           }
                           if (UseDualStack === true) {
-                            if (
-                              _.getAttr(
-                                PartitionResult,
-                                "supportsDualStack",
-                              ) === true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                               );
@@ -341,9 +260,7 @@ const rules = T.EndpointResolver((p, _) => {
                         `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
                       );
                     }
-                    return err(
-                      `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
-                    );
+                    return err(`Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`);
                   }
                 }
                 return err("Invalid ARN: No ARN type specified");
@@ -379,28 +296,13 @@ const rules = T.EndpointResolver((p, _) => {
               if (_.getAttr(arn, "service") === "kinesis") {
                 {
                   const arnType = _.getAttr(arn, "resourceId[0]");
-                  if (
-                    arnType != null &&
-                    arnType !== false &&
-                    !(arnType === "")
-                  ) {
+                  if (arnType != null && arnType !== false && !(arnType === "")) {
                     if (arnType === "stream") {
-                      if (
-                        _.getAttr(PartitionResult, "name") ===
-                        `${_.getAttr(arn, "partition")}`
-                      ) {
+                      if (_.getAttr(PartitionResult, "name") === `${_.getAttr(arn, "partition")}`) {
                         if (OperationType != null) {
                           if (UseFIPS === true && UseDualStack === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              if (
-                                _.getAttr(
-                                  PartitionResult,
-                                  "supportsDualStack",
-                                ) === true
-                              ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                                 return e(
                                   `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                                 );
@@ -414,25 +316,15 @@ const rules = T.EndpointResolver((p, _) => {
                             );
                           }
                           if (UseFIPS === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                               );
                             }
-                            return err(
-                              "FIPS is enabled but this partition does not support FIPS",
-                            );
+                            return err("FIPS is enabled but this partition does not support FIPS");
                           }
                           if (UseDualStack === true) {
-                            if (
-                              _.getAttr(
-                                PartitionResult,
-                                "supportsDualStack",
-                              ) === true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                               );
@@ -453,9 +345,7 @@ const rules = T.EndpointResolver((p, _) => {
                         `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
                       );
                     }
-                    return err(
-                      `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
-                    );
+                    return err(`Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`);
                   }
                 }
                 return err("Invalid ARN: No ARN type specified");
@@ -491,28 +381,13 @@ const rules = T.EndpointResolver((p, _) => {
               if (_.getAttr(arn, "service") === "kinesis") {
                 {
                   const arnType = _.getAttr(arn, "resourceId[0]");
-                  if (
-                    arnType != null &&
-                    arnType !== false &&
-                    !(arnType === "")
-                  ) {
+                  if (arnType != null && arnType !== false && !(arnType === "")) {
                     if (arnType === "stream") {
-                      if (
-                        _.getAttr(PartitionResult, "name") ===
-                        `${_.getAttr(arn, "partition")}`
-                      ) {
+                      if (_.getAttr(PartitionResult, "name") === `${_.getAttr(arn, "partition")}`) {
                         if (OperationType != null) {
                           if (UseFIPS === true && UseDualStack === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              if (
-                                _.getAttr(
-                                  PartitionResult,
-                                  "supportsDualStack",
-                                ) === true
-                              ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                                 return e(
                                   `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                                 );
@@ -526,25 +401,15 @@ const rules = T.EndpointResolver((p, _) => {
                             );
                           }
                           if (UseFIPS === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                               );
                             }
-                            return err(
-                              "FIPS is enabled but this partition does not support FIPS",
-                            );
+                            return err("FIPS is enabled but this partition does not support FIPS");
                           }
                           if (UseDualStack === true) {
-                            if (
-                              _.getAttr(
-                                PartitionResult,
-                                "supportsDualStack",
-                              ) === true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                               );
@@ -565,9 +430,7 @@ const rules = T.EndpointResolver((p, _) => {
                         `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
                       );
                     }
-                    return err(
-                      `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
-                    );
+                    return err(`Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`);
                   }
                 }
                 return err("Invalid ARN: No ARN type specified");
@@ -608,13 +471,9 @@ const rules = T.EndpointResolver((p, _) => {
                   {},
                 );
               }
-              return err(
-                "DualStack is enabled, but this partition does not support DualStack.",
-              );
+              return err("DualStack is enabled, but this partition does not support DualStack.");
             }
-            return err(
-              "FIPS is enabled, but this partition does not support FIPS.",
-            );
+            return err("FIPS is enabled, but this partition does not support FIPS.");
           }
           if (UseFIPS === true) {
             if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
@@ -624,9 +483,7 @@ const rules = T.EndpointResolver((p, _) => {
                 {},
               );
             }
-            return err(
-              "FIPS is enabled but this partition does not support FIPS",
-            );
+            return err("FIPS is enabled but this partition does not support FIPS");
           }
           if (UseDualStack === true) {
             if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
@@ -636,9 +493,7 @@ const rules = T.EndpointResolver((p, _) => {
                 {},
               );
             }
-            return err(
-              "DualStack is enabled but this partition does not support DualStack",
-            );
+            return err("DualStack is enabled but this partition does not support DualStack");
           }
           return e(
             `https://${AccountId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -646,9 +501,7 @@ const rules = T.EndpointResolver((p, _) => {
             {},
           );
         }
-        return err(
-          "Operation Type is not set. Please contact service team for resolution.",
-        );
+        return err("Operation Type is not set. Please contact service team for resolution.");
       }
       return err("Invalid account id.");
     }
@@ -678,14 +531,10 @@ const rules = T.EndpointResolver((p, _) => {
   }
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -711,13 +560,9 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://kinesis.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -725,13 +570,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -739,92 +580,75 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
 export class ExpiredIteratorException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredIteratorException>()(
-    "ExpiredIteratorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<ExpiredIteratorException>()("ExpiredIteratorException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class ExpiredNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredNextTokenException>()(
-    "ExpiredNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<ExpiredNextTokenException>()("ExpiredNextTokenException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class InternalFailureException
-  extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
-    "InternalFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()("InternalFailureException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidArgumentException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
-    "InvalidArgumentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()("InvalidArgumentException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class KMSAccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<KMSAccessDeniedException>()(
-    "KMSAccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<KMSAccessDeniedException>()("KMSAccessDeniedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
 export class KMSDisabledException
-  extends /*@__PURE__*/ S.TaggedError<KMSDisabledException>()(
-    "KMSDisabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<KMSDisabledException>()("KMSDisabledException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class KMSInvalidStateException
-  extends /*@__PURE__*/ S.TaggedError<KMSInvalidStateException>()(
-    "KMSInvalidStateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<KMSInvalidStateException>()("KMSInvalidStateException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class KMSNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<KMSNotFoundException>()(
-    "KMSNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<KMSNotFoundException>()("KMSNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class KMSOptInRequired
   extends /*@__PURE__*/ S.TaggedError<KMSOptInRequired>()("KMSOptInRequired", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
   }).pipe(C.withBadRequestError) {}
 export class KMSThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<KMSThrottlingException>()(
-    "KMSThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<KMSThrottlingException>()("KMSThrottlingException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withQuotaError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withQuotaError, C.withRetryableError) {}
 export class ProvisionedThroughputExceededException
   extends /*@__PURE__*/ S.TaggedError<ProvisionedThroughputExceededException>()(
     "ProvisionedThroughputExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ResourceInUseException
-  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
-    "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withConflictError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()("ResourceInUseException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withConflictError, C.withRetryableError) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withNotFoundError) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withNotFoundError) {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export type StreamName = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type StreamARN = string;
 export type StreamId = string;
 export interface AddTagsToStreamInput {
@@ -906,9 +730,7 @@ export const CreateStreamInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateStreamInput",
 }) as any as S.Schema<CreateStreamInput>;
 export interface CreateStreamResponse {}
-export const CreateStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const CreateStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "CreateStreamResponse",
 }) as any as S.Schema<CreateStreamResponse>;
 export type RetentionPeriodHours = number;
@@ -940,8 +762,8 @@ export const DecreaseStreamRetentionPeriodInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DecreaseStreamRetentionPeriodInput",
 }) as any as S.Schema<DecreaseStreamRetentionPeriodInput>;
 export interface DecreaseStreamRetentionPeriodResponse {}
-export const DecreaseStreamRetentionPeriodResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DecreaseStreamRetentionPeriodResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DecreaseStreamRetentionPeriodResponse",
 }) as any as S.Schema<DecreaseStreamRetentionPeriodResponse>;
@@ -1003,9 +825,7 @@ export const DeleteStreamInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteStreamInput",
 }) as any as S.Schema<DeleteStreamInput>;
 export interface DeleteStreamResponse {}
-export const DeleteStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteStreamResponse",
 }) as any as S.Schema<DeleteStreamResponse>;
 export type ConsumerName = string;
@@ -1073,16 +893,13 @@ export interface MinimumThroughputBillingCommitmentOutput {
   EndedAt?: Date;
   EarliestAllowedEndAt?: Date;
 }
-export const MinimumThroughputBillingCommitmentOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Status: MinimumThroughputBillingCommitmentOutputStatus,
-      StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EarliestAllowedEndAt: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
+export const MinimumThroughputBillingCommitmentOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Status: MinimumThroughputBillingCommitmentOutputStatus,
+    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EarliestAllowedEndAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "MinimumThroughputBillingCommitmentOutput",
 }) as any as S.Schema<MinimumThroughputBillingCommitmentOutput>;
@@ -1091,9 +908,7 @@ export interface DescribeAccountSettingsOutput {
 }
 export const DescribeAccountSettingsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    MinimumThroughputBillingCommitment: S.optional(
-      MinimumThroughputBillingCommitmentOutput,
-    ),
+    MinimumThroughputBillingCommitment: S.optional(MinimumThroughputBillingCommitmentOutput),
   }).pipe(ns),
 ).annotate({
   identifier: "DescribeAccountSettingsOutput",
@@ -1165,12 +980,7 @@ export const DescribeStreamInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeStreamInput",
 }) as any as S.Schema<DescribeStreamInput>;
-export type StreamStatus =
-  | "CREATING"
-  | "DELETING"
-  | "ACTIVE"
-  | "UPDATING"
-  | (string & {});
+export type StreamStatus = "CREATING" | "DELETING" | "ACTIVE" | "UPDATING" | (string & {});
 export const StreamStatus = S.String;
 
 export type HashKey = string;
@@ -1527,9 +1337,7 @@ export interface Record {
 export const Record = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SequenceNumber: S.String,
-    ApproximateArrivalTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ApproximateArrivalTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Data: T.Blob,
     PartitionKey: S.String,
     EncryptionType: S.optional(EncryptionType),
@@ -1680,8 +1488,8 @@ export const IncreaseStreamRetentionPeriodInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "IncreaseStreamRetentionPeriodInput",
 }) as any as S.Schema<IncreaseStreamRetentionPeriodInput>;
 export interface IncreaseStreamRetentionPeriodResponse {}
-export const IncreaseStreamRetentionPeriodResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const IncreaseStreamRetentionPeriodResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "IncreaseStreamRetentionPeriodResponse",
 }) as any as S.Schema<IncreaseStreamRetentionPeriodResponse>;
@@ -1725,9 +1533,7 @@ export const ListShardsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     ExclusiveStartShardId: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    StreamCreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ShardFilter: S.optional(ShardFilter),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
     StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
@@ -1771,9 +1577,7 @@ export const ListStreamConsumersInput = /*@__PURE__*/ S.suspend(() =>
     StreamARN: S.String.pipe(T.ContextParam("StreamARN")),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    StreamCreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
@@ -1859,9 +1663,7 @@ export const StreamSummary = /*@__PURE__*/ S.suspend(() =>
     StreamARN: S.String,
     StreamStatus: StreamStatus,
     StreamModeDetails: S.optional(StreamModeDetails),
-    StreamCreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "StreamSummary" }) as any as S.Schema<StreamSummary>;
 export type StreamSummaryList = StreamSummary[];
@@ -1991,9 +1793,7 @@ export const MergeShardsInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "MergeShardsInput",
 }) as any as S.Schema<MergeShardsInput>;
 export interface MergeShardsResponse {}
-export const MergeShardsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const MergeShardsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "MergeShardsResponse",
 }) as any as S.Schema<MergeShardsResponse>;
 export interface PutRecordInput {
@@ -2056,9 +1856,7 @@ export const PutRecordsRequestEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutRecordsRequestEntry",
 }) as any as S.Schema<PutRecordsRequestEntry>;
 export type PutRecordsRequestEntryList = PutRecordsRequestEntry[];
-export const PutRecordsRequestEntryList = /*@__PURE__*/ S.Array(
-  PutRecordsRequestEntry,
-);
+export const PutRecordsRequestEntryList = /*@__PURE__*/ S.Array(PutRecordsRequestEntry);
 export interface PutRecordsInput {
   Records: PutRecordsRequestEntry[];
   StreamName?: string;
@@ -2105,9 +1903,7 @@ export const PutRecordsResultEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutRecordsResultEntry",
 }) as any as S.Schema<PutRecordsResultEntry>;
 export type PutRecordsResultEntryList = PutRecordsResultEntry[];
-export const PutRecordsResultEntryList = /*@__PURE__*/ S.Array(
-  PutRecordsResultEntry,
-);
+export const PutRecordsResultEntryList = /*@__PURE__*/ S.Array(PutRecordsResultEntry);
 export interface PutRecordsOutput {
   FailedRecordCount?: number;
   Records: PutRecordsResultEntry[];
@@ -2253,9 +2049,7 @@ export const SplitShardInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "SplitShardInput",
 }) as any as S.Schema<SplitShardInput>;
 export interface SplitShardResponse {}
-export const SplitShardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const SplitShardResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "SplitShardResponse",
 }) as any as S.Schema<SplitShardResponse>;
 export interface StartStreamEncryptionInput {
@@ -2510,9 +2304,9 @@ export const SubscribeToShardEventStream = /*@__PURE__*/ T.EventStream(
   S.Union([
     S.Struct({ SubscribeToShardEvent: SubscribeToShardEvent }),
     S.Struct({
-      ResourceNotFoundException: S.suspend(
-        () => ResourceNotFoundException,
-      ).annotate({ identifier: "ResourceNotFoundException" }),
+      ResourceNotFoundException: S.suspend(() => ResourceNotFoundException).annotate({
+        identifier: "ResourceNotFoundException",
+      }),
     }),
     S.Struct({
       ResourceInUseException: S.suspend(() => ResourceInUseException).annotate({
@@ -2525,14 +2319,14 @@ export const SubscribeToShardEventStream = /*@__PURE__*/ T.EventStream(
       }),
     }),
     S.Struct({
-      KMSInvalidStateException: S.suspend(
-        () => KMSInvalidStateException,
-      ).annotate({ identifier: "KMSInvalidStateException" }),
+      KMSInvalidStateException: S.suspend(() => KMSInvalidStateException).annotate({
+        identifier: "KMSInvalidStateException",
+      }),
     }),
     S.Struct({
-      KMSAccessDeniedException: S.suspend(
-        () => KMSAccessDeniedException,
-      ).annotate({ identifier: "KMSAccessDeniedException" }),
+      KMSAccessDeniedException: S.suspend(() => KMSAccessDeniedException).annotate({
+        identifier: "KMSAccessDeniedException",
+      }),
     }),
     S.Struct({
       KMSNotFoundException: S.suspend(() => KMSNotFoundException).annotate({
@@ -2550,9 +2344,9 @@ export const SubscribeToShardEventStream = /*@__PURE__*/ T.EventStream(
       }),
     }),
     S.Struct({
-      InternalFailureException: S.suspend(
-        () => InternalFailureException,
-      ).annotate({ identifier: "InternalFailureException" }),
+      InternalFailureException: S.suspend(() => InternalFailureException).annotate({
+        identifier: "InternalFailureException",
+      }),
     }),
   ]),
 ) as any as S.Schema<stream.Stream<SubscribeToShardEventStream, Error, never>>;
@@ -2590,9 +2384,7 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceInput {
@@ -2621,22 +2413,17 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type MinimumThroughputBillingCommitmentInputStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type MinimumThroughputBillingCommitmentInputStatus = "ENABLED" | "DISABLED" | (string & {});
 export const MinimumThroughputBillingCommitmentInputStatus = S.String;
 
 export interface MinimumThroughputBillingCommitmentInput {
   Status: MinimumThroughputBillingCommitmentInputStatus;
 }
-export const MinimumThroughputBillingCommitmentInput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Status: MinimumThroughputBillingCommitmentInputStatus }),
+export const MinimumThroughputBillingCommitmentInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Status: MinimumThroughputBillingCommitmentInputStatus }),
 ).annotate({
   identifier: "MinimumThroughputBillingCommitmentInput",
 }) as any as S.Schema<MinimumThroughputBillingCommitmentInput>;
@@ -2666,9 +2453,7 @@ export interface UpdateAccountSettingsOutput {
 }
 export const UpdateAccountSettingsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    MinimumThroughputBillingCommitment: S.optional(
-      MinimumThroughputBillingCommitmentOutput,
-    ),
+    MinimumThroughputBillingCommitment: S.optional(MinimumThroughputBillingCommitmentOutput),
   }).pipe(ns),
 ).annotate({
   identifier: "UpdateAccountSettingsOutput",
@@ -3086,19 +2871,13 @@ export const deregisterStreamConsumer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeregisterStreamConsumerInput,
   output: DeregisterStreamConsumerResponse,
-  errors: [
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidArgumentException, LimitExceededException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterStreamConsumer",
 }));
 
-export type DescribeAccountSettingsError =
-  | LimitExceededException
-  | CommonErrors;
+export type DescribeAccountSettingsError = LimitExceededException | CommonErrors;
 /**
  * Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations.
  *
@@ -3221,11 +3000,7 @@ export const describeStreamConsumer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeStreamConsumerInput,
   output: DescribeStreamConsumerOutput,
-  errors: [
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidArgumentException, LimitExceededException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamConsumer",
@@ -3712,11 +3487,7 @@ export const listStreams: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListStreamsInput,
   output: ListStreamsOutput,
-  errors: [
-    ExpiredNextTokenException,
-    InvalidArgumentException,
-    LimitExceededException,
-  ],
+  errors: [ExpiredNextTokenException, InvalidArgumentException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreams",
@@ -4530,11 +4301,7 @@ export const updateAccountSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountSettingsInput,
   output: UpdateAccountSettingsOutput,
-  errors: [
-    InvalidArgumentException,
-    LimitExceededException,
-    ValidationException,
-  ],
+  errors: [InvalidArgumentException, LimitExceededException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",

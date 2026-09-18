@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({ sdkId: "App Mesh", serviceShapeName: "AppMesh" });
 const auth = T.AwsAuthSigv4({ name: "appmesh" });
 const ver = T.ServiceVersion("2019-01-25");
@@ -23,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -53,13 +49,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://appmesh-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://appmesh-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -67,13 +59,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://appmesh.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://appmesh.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://appmesh.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -250,9 +238,7 @@ export const HttpGatewayRouteHeader = /*@__PURE__*/ S.suspend(() =>
   identifier: "HttpGatewayRouteHeader",
 }) as any as S.Schema<HttpGatewayRouteHeader>;
 export type HttpGatewayRouteHeaders = HttpGatewayRouteHeader[];
-export const HttpGatewayRouteHeaders = /*@__PURE__*/ S.Array(
-  HttpGatewayRouteHeader,
-);
+export const HttpGatewayRouteHeaders = /*@__PURE__*/ S.Array(HttpGatewayRouteHeader);
 export type ListenerPort = number;
 export interface HttpGatewayRouteMatch {
   prefix?: string;
@@ -420,9 +406,7 @@ export const GrpcGatewayRouteMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "GrpcGatewayRouteMetadata",
 }) as any as S.Schema<GrpcGatewayRouteMetadata>;
 export type GrpcGatewayRouteMetadataList = GrpcGatewayRouteMetadata[];
-export const GrpcGatewayRouteMetadataList = /*@__PURE__*/ S.Array(
-  GrpcGatewayRouteMetadata,
-);
+export const GrpcGatewayRouteMetadataList = /*@__PURE__*/ S.Array(GrpcGatewayRouteMetadata);
 export interface GrpcGatewayRouteMatch {
   serviceName?: string;
   hostname?: GatewayRouteHostnameMatch;
@@ -598,9 +582,9 @@ export type EgressFilterType = string;
 export interface EgressFilter {
   type: string;
 }
-export const EgressFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.String }),
-).annotate({ identifier: "EgressFilter" }) as any as S.Schema<EgressFilter>;
+export const EgressFilter = /*@__PURE__*/ S.suspend(() => S.Struct({ type: S.String })).annotate({
+  identifier: "EgressFilter",
+}) as any as S.Schema<EgressFilter>;
 export type IpPreference = string;
 export interface MeshServiceDiscovery {
   ipPreference?: string;
@@ -632,16 +616,7 @@ export const CreateMeshInput = /*@__PURE__*/ S.suspend(() =>
     spec: S.optional(MeshSpec),
     tags: S.optional(TagList),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v20190125/meshes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/v20190125/meshes" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateMeshInput",
 }) as any as S.Schema<CreateMeshInput>;
@@ -998,9 +973,9 @@ export type RouteStatusCode = string;
 export interface RouteStatus {
   status: string;
 }
-export const RouteStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.String }),
-).annotate({ identifier: "RouteStatus" }) as any as S.Schema<RouteStatus>;
+export const RouteStatus = /*@__PURE__*/ S.suspend(() => S.Struct({ status: S.String })).annotate({
+  identifier: "RouteStatus",
+}) as any as S.Schema<RouteStatus>;
 export interface RouteData {
   meshName: string;
   virtualRouterName: string;
@@ -1039,8 +1014,8 @@ export interface VirtualGatewayListenerTlsFileCertificate {
   certificateChain: string;
   privateKey: string;
 }
-export const VirtualGatewayListenerTlsFileCertificate = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ certificateChain: S.String, privateKey: S.String }),
+export const VirtualGatewayListenerTlsFileCertificate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ certificateChain: S.String, privateKey: S.String }),
 ).annotate({
   identifier: "VirtualGatewayListenerTlsFileCertificate",
 }) as any as S.Schema<VirtualGatewayListenerTlsFileCertificate>;
@@ -1048,8 +1023,8 @@ export type VirtualGatewaySdsSecretName = string;
 export interface VirtualGatewayListenerTlsSdsCertificate {
   secretName: string;
 }
-export const VirtualGatewayListenerTlsSdsCertificate = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ secretName: S.String }),
+export const VirtualGatewayListenerTlsSdsCertificate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ secretName: S.String }),
 ).annotate({
   identifier: "VirtualGatewayListenerTlsSdsCertificate",
 }) as any as S.Schema<VirtualGatewayListenerTlsSdsCertificate>;
@@ -1061,36 +1036,33 @@ export const VirtualGatewayClientTlsCertificate = /*@__PURE__*/ S.Union([
   S.Struct({ sds: VirtualGatewayListenerTlsSdsCertificate }),
 ]);
 export type VirtualGatewayCertificateAuthorityArns = string[];
-export const VirtualGatewayCertificateAuthorityArns = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const VirtualGatewayCertificateAuthorityArns = /*@__PURE__*/ S.Array(S.String);
 export interface VirtualGatewayTlsValidationContextAcmTrust {
   certificateAuthorityArns: string[];
 }
-export const VirtualGatewayTlsValidationContextAcmTrust =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      certificateAuthorityArns: VirtualGatewayCertificateAuthorityArns,
-    }),
-  ).annotate({
-    identifier: "VirtualGatewayTlsValidationContextAcmTrust",
-  }) as any as S.Schema<VirtualGatewayTlsValidationContextAcmTrust>;
+export const VirtualGatewayTlsValidationContextAcmTrust = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    certificateAuthorityArns: VirtualGatewayCertificateAuthorityArns,
+  }),
+).annotate({
+  identifier: "VirtualGatewayTlsValidationContextAcmTrust",
+}) as any as S.Schema<VirtualGatewayTlsValidationContextAcmTrust>;
 export interface VirtualGatewayTlsValidationContextFileTrust {
   certificateChain: string;
 }
-export const VirtualGatewayTlsValidationContextFileTrust =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ certificateChain: S.String }),
-  ).annotate({
-    identifier: "VirtualGatewayTlsValidationContextFileTrust",
-  }) as any as S.Schema<VirtualGatewayTlsValidationContextFileTrust>;
+export const VirtualGatewayTlsValidationContextFileTrust = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ certificateChain: S.String }),
+).annotate({
+  identifier: "VirtualGatewayTlsValidationContextFileTrust",
+}) as any as S.Schema<VirtualGatewayTlsValidationContextFileTrust>;
 export interface VirtualGatewayTlsValidationContextSdsTrust {
   secretName: string;
 }
-export const VirtualGatewayTlsValidationContextSdsTrust =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ secretName: S.String })).annotate({
-    identifier: "VirtualGatewayTlsValidationContextSdsTrust",
-  }) as any as S.Schema<VirtualGatewayTlsValidationContextSdsTrust>;
+export const VirtualGatewayTlsValidationContextSdsTrust = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ secretName: S.String }),
+).annotate({
+  identifier: "VirtualGatewayTlsValidationContextSdsTrust",
+}) as any as S.Schema<VirtualGatewayTlsValidationContextSdsTrust>;
 export type VirtualGatewayTlsValidationContextTrust =
   | {
       acm: VirtualGatewayTlsValidationContextAcmTrust;
@@ -1214,29 +1186,27 @@ export type VirtualGatewayListenerTlsMode = string;
 export type VirtualGatewayListenerTlsValidationContextTrust =
   | { file: VirtualGatewayTlsValidationContextFileTrust; sds?: never }
   | { file?: never; sds: VirtualGatewayTlsValidationContextSdsTrust };
-export const VirtualGatewayListenerTlsValidationContextTrust =
-  /*@__PURE__*/ S.Union([
-    S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
-    S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
-  ]);
+export const VirtualGatewayListenerTlsValidationContextTrust = /*@__PURE__*/ S.Union([
+  S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
+  S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
+]);
 export interface VirtualGatewayListenerTlsValidationContext {
   trust: VirtualGatewayListenerTlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames;
 }
-export const VirtualGatewayListenerTlsValidationContext =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      trust: VirtualGatewayListenerTlsValidationContextTrust,
-      subjectAlternativeNames: S.optional(SubjectAlternativeNames),
-    }),
-  ).annotate({
-    identifier: "VirtualGatewayListenerTlsValidationContext",
-  }) as any as S.Schema<VirtualGatewayListenerTlsValidationContext>;
+export const VirtualGatewayListenerTlsValidationContext = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    trust: VirtualGatewayListenerTlsValidationContextTrust,
+    subjectAlternativeNames: S.optional(SubjectAlternativeNames),
+  }),
+).annotate({
+  identifier: "VirtualGatewayListenerTlsValidationContext",
+}) as any as S.Schema<VirtualGatewayListenerTlsValidationContext>;
 export interface VirtualGatewayListenerTlsAcmCertificate {
   certificateArn: string;
 }
-export const VirtualGatewayListenerTlsAcmCertificate = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ certificateArn: S.String }),
+export const VirtualGatewayListenerTlsAcmCertificate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ certificateArn: S.String }),
 ).annotate({
   identifier: "VirtualGatewayListenerTlsAcmCertificate",
 }) as any as S.Schema<VirtualGatewayListenerTlsAcmCertificate>;
@@ -1320,9 +1290,7 @@ export const VirtualGatewayListener = /*@__PURE__*/ S.suspend(() =>
   identifier: "VirtualGatewayListener",
 }) as any as S.Schema<VirtualGatewayListener>;
 export type VirtualGatewayListeners = VirtualGatewayListener[];
-export const VirtualGatewayListeners = /*@__PURE__*/ S.Array(
-  VirtualGatewayListener,
-);
+export const VirtualGatewayListeners = /*@__PURE__*/ S.Array(VirtualGatewayListener);
 export type TextFormat = string;
 export type JsonKey = string;
 export type JsonValue = string;
@@ -1477,9 +1445,7 @@ export const AwsCloudMapInstanceAttribute = /*@__PURE__*/ S.suspend(() =>
   identifier: "AwsCloudMapInstanceAttribute",
 }) as any as S.Schema<AwsCloudMapInstanceAttribute>;
 export type AwsCloudMapInstanceAttributes = AwsCloudMapInstanceAttribute[];
-export const AwsCloudMapInstanceAttributes = /*@__PURE__*/ S.Array(
-  AwsCloudMapInstanceAttribute,
-);
+export const AwsCloudMapInstanceAttributes = /*@__PURE__*/ S.Array(AwsCloudMapInstanceAttribute);
 export interface AwsCloudMapServiceDiscovery {
   namespaceName: string;
   serviceName: string;
@@ -1808,9 +1774,7 @@ export const VirtualServiceBackend = /*@__PURE__*/ S.suspend(() =>
   identifier: "VirtualServiceBackend",
 }) as any as S.Schema<VirtualServiceBackend>;
 export type Backend = { virtualService: VirtualServiceBackend };
-export const Backend = /*@__PURE__*/ S.Union([
-  S.Struct({ virtualService: VirtualServiceBackend }),
-]);
+export const Backend = /*@__PURE__*/ S.Union([S.Struct({ virtualService: VirtualServiceBackend })]);
 export type Backends = Backend[];
 export const Backends = /*@__PURE__*/ S.Array(Backend);
 export interface BackendDefaults {
@@ -1829,9 +1793,7 @@ export const FileAccessLog = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ path: S.String, format: S.optional(LoggingFormat) }),
 ).annotate({ identifier: "FileAccessLog" }) as any as S.Schema<FileAccessLog>;
 export type AccessLog = { file: FileAccessLog };
-export const AccessLog = /*@__PURE__*/ S.Union([
-  S.Struct({ file: FileAccessLog }),
-]);
+export const AccessLog = /*@__PURE__*/ S.Union([S.Struct({ file: FileAccessLog })]);
 export interface Logging {
   accessLog?: AccessLog;
 }
@@ -1936,9 +1898,7 @@ export const VirtualRouterListener = /*@__PURE__*/ S.suspend(() =>
   identifier: "VirtualRouterListener",
 }) as any as S.Schema<VirtualRouterListener>;
 export type VirtualRouterListeners = VirtualRouterListener[];
-export const VirtualRouterListeners = /*@__PURE__*/ S.Array(
-  VirtualRouterListener,
-);
+export const VirtualRouterListeners = /*@__PURE__*/ S.Array(VirtualRouterListener);
 export interface VirtualRouterSpec {
   listeners?: VirtualRouterListener[];
 }
@@ -2722,16 +2682,7 @@ export const ListMeshesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v20190125/meshes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v20190125/meshes" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListMeshesInput",
 }) as any as S.Schema<ListMeshesInput>;
@@ -2843,16 +2794,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v20190125/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v20190125/tags" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
@@ -3136,23 +3078,12 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     tags: TagList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v20190125/tag" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/v20190125/tag" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
@@ -3165,23 +3096,12 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     tagKeys: TagKeyList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v20190125/untag" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/v20190125/untag" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateGatewayRouteInput {

@@ -1,15 +1,15 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as stream from "effect/Stream";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as stream from "effect/Stream";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock AgentCore",
   serviceShapeName: "AmazonBedrockAgentCore",
@@ -29,14 +29,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +59,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://bedrock-agentcore-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +67,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://bedrock-agentcore.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://bedrock-agentcore.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://bedrock-agentcore.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -197,9 +187,7 @@ export type NamespacesList = string[];
 export const NamespacesList = /*@__PURE__*/ S.Array(S.String);
 export type SensitiveString = string | redacted.Redacted<string>;
 export type MemoryContent = { text: string | redacted.Redacted<string> };
-export const MemoryContent = /*@__PURE__*/ S.Union([
-  S.Struct({ text: SensitiveString }),
-]);
+export const MemoryContent = /*@__PURE__*/ S.Union([S.Struct({ text: SensitiveString })]);
 export type MemoryStrategyId = string;
 export type MetadataKey = string;
 export type StringValue = string;
@@ -265,9 +253,7 @@ export const MemoryRecordCreateInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "MemoryRecordCreateInput",
 }) as any as S.Schema<MemoryRecordCreateInput>;
 export type MemoryRecordsCreateInputList = MemoryRecordCreateInput[];
-export const MemoryRecordsCreateInputList = /*@__PURE__*/ S.Array(
-  MemoryRecordCreateInput,
-);
+export const MemoryRecordsCreateInputList = /*@__PURE__*/ S.Array(MemoryRecordCreateInput);
 export interface BatchCreateMemoryRecordsInput {
   memoryId: string;
   records: MemoryRecordCreateInput[];
@@ -317,8 +303,7 @@ export const MemoryRecordOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "MemoryRecordOutput",
 }) as any as S.Schema<MemoryRecordOutput>;
 export type MemoryRecordsOutputList = MemoryRecordOutput[];
-export const MemoryRecordsOutputList =
-  /*@__PURE__*/ S.Array(MemoryRecordOutput);
+export const MemoryRecordsOutputList = /*@__PURE__*/ S.Array(MemoryRecordOutput);
 export interface BatchCreateMemoryRecordsOutput {
   successfulRecords: MemoryRecordOutput[];
   failedRecords: MemoryRecordOutput[];
@@ -341,9 +326,7 @@ export const MemoryRecordDeleteInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "MemoryRecordDeleteInput",
 }) as any as S.Schema<MemoryRecordDeleteInput>;
 export type MemoryRecordsDeleteInputList = MemoryRecordDeleteInput[];
-export const MemoryRecordsDeleteInputList = /*@__PURE__*/ S.Array(
-  MemoryRecordDeleteInput,
-);
+export const MemoryRecordsDeleteInputList = /*@__PURE__*/ S.Array(MemoryRecordDeleteInput);
 export interface BatchDeleteMemoryRecordsInput {
   memoryId: string;
   records: MemoryRecordDeleteInput[];
@@ -403,9 +386,7 @@ export const MemoryRecordUpdateInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "MemoryRecordUpdateInput",
 }) as any as S.Schema<MemoryRecordUpdateInput>;
 export type MemoryRecordsUpdateInputList = MemoryRecordUpdateInput[];
-export const MemoryRecordsUpdateInputList = /*@__PURE__*/ S.Array(
-  MemoryRecordUpdateInput,
-);
+export const MemoryRecordsUpdateInputList = /*@__PURE__*/ S.Array(MemoryRecordUpdateInput);
 export interface BatchUpdateMemoryRecordsInput {
   memoryId: string;
   records: MemoryRecordUpdateInput[];
@@ -495,9 +476,9 @@ export type TargetName = string;
 export interface TargetRef {
   name: string;
 }
-export const TargetRef = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String }),
-).annotate({ identifier: "TargetRef" }) as any as S.Schema<TargetRef>;
+export const TargetRef = /*@__PURE__*/ S.suspend(() => S.Struct({ name: S.String })).annotate({
+  identifier: "TargetRef",
+}) as any as S.Schema<TargetRef>;
 export interface VariantConfiguration {
   configurationBundle?: ConfigurationBundleRef;
   target?: TargetRef;
@@ -543,8 +524,7 @@ export const PerVariantOnlineEvaluationConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PerVariantOnlineEvaluationConfig",
 }) as any as S.Schema<PerVariantOnlineEvaluationConfig>;
-export type PerVariantOnlineEvaluationConfigList =
-  PerVariantOnlineEvaluationConfig[];
+export type PerVariantOnlineEvaluationConfigList = PerVariantOnlineEvaluationConfig[];
 export const PerVariantOnlineEvaluationConfigList = /*@__PURE__*/ S.Array(
   PerVariantOnlineEvaluationConfig,
 );
@@ -568,10 +548,7 @@ export type ClientToken = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateABTestRequest {
   name: string;
   description?: string;
@@ -596,16 +573,7 @@ export const CreateABTestRequest = /*@__PURE__*/ S.suspend(() =>
     enableOnCreate: S.optional(S.Boolean),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ab-tests" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/ab-tests" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateABTestRequest",
 }) as any as S.Schema<CreateABTestRequest>;
@@ -654,9 +622,7 @@ export const CreateABTestResponse = /*@__PURE__*/ S.suspend(() =>
 export type ActorId = string;
 export type SessionId = string;
 export type Content = { text: string | redacted.Redacted<string> };
-export const Content = /*@__PURE__*/ S.Union([
-  S.Struct({ text: SensitiveString }),
-]);
+export const Content = /*@__PURE__*/ S.Union([S.Struct({ text: SensitiveString })]);
 export type Role = "ASSISTANT" | "USER" | "TOOL" | "OTHER" | (string & {});
 export const Role = S.String;
 
@@ -672,9 +638,9 @@ export type MemoryJsonDataContent = unknown;
 export interface MemoryJsonData {
   content: any;
 }
-export const MemoryJsonData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ content: S.Any }),
-).annotate({ identifier: "MemoryJsonData" }) as any as S.Schema<MemoryJsonData>;
+export const MemoryJsonData = /*@__PURE__*/ S.suspend(() => S.Struct({ content: S.Any })).annotate({
+  identifier: "MemoryJsonData",
+}) as any as S.Schema<MemoryJsonData>;
 export type PayloadType =
   | { conversational: Conversational; blob?: never; json?: never }
   | { conversational?: never; blob: any; json?: never }
@@ -696,24 +662,16 @@ export const Branch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ rootEventId: S.optional(S.String), name: S.String }),
 ).annotate({ identifier: "Branch" }) as any as S.Schema<Branch>;
 export type MetadataValue = { stringValue: string };
-export const MetadataValue = /*@__PURE__*/ S.Union([
-  S.Struct({ stringValue: S.String }),
-]);
+export const MetadataValue = /*@__PURE__*/ S.Union([S.Struct({ stringValue: S.String })]);
 export type MetadataMap = { [key: string]: MetadataValue | undefined };
-export const MetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  MetadataValue.pipe(S.optional),
-);
+export const MetadataMap = /*@__PURE__*/ S.Record(S.String, MetadataValue.pipe(S.optional));
 export type ExtractionMode = "SKIP" | (string & {});
 export const ExtractionMode = S.String;
 
 export type NamespaceVariableName = string;
 export type NamespaceVariableValue = string;
 export type NamespaceVariablesMap = { [key: string]: string | undefined };
-export const NamespaceVariablesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const NamespaceVariablesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ExtractionConfig {
   namespaceVariables?: { [key: string]: string | undefined };
 }
@@ -784,11 +742,11 @@ export const Event = /*@__PURE__*/ S.suspend(() =>
 export interface CreateEventOutput {
   event: Event;
 }
-export const CreateEventOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ event: Event }),
-).annotate({
-  identifier: "CreateEventOutput",
-}) as any as S.Schema<CreateEventOutput>;
+export const CreateEventOutput = /*@__PURE__*/ S.suspend(() => S.Struct({ event: Event })).annotate(
+  {
+    identifier: "CreateEventOutput",
+  },
+) as any as S.Schema<CreateEventOutput>;
 export type UserId = string;
 export type PaymentAgentName = string;
 export type PaymentManagerArn = string;
@@ -952,9 +910,7 @@ export interface CreatePaymentInstrumentRequest {
 }
 export const CreatePaymentInstrumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id"),
-    ),
+    userId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id")),
     agentName: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-Agent-Name"),
     ),
@@ -1046,9 +1002,7 @@ export interface CreatePaymentSessionRequest {
 }
 export const CreatePaymentSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id"),
-    ),
+    userId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id")),
     agentName: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-Agent-Name"),
     ),
@@ -1077,9 +1031,7 @@ export interface AvailableLimits {
 export const AvailableLimits = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     availableSpendAmount: S.optional(Amount),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "AvailableLimits",
@@ -1119,14 +1071,7 @@ export interface DeleteABTestRequest {
 }
 export const DeleteABTestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ abTestId: S.String.pipe(T.HttpLabel("abTestId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/ab-tests/{abTestId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/ab-tests/{abTestId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteABTestRequest",
@@ -1196,24 +1141,23 @@ export interface DeleteCapacityProviderSessionRequest {
   capacityProviderId: string;
   sessionId: string;
 }
-export const DeleteCapacityProviderSessionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      capacityProviderId: S.String.pipe(T.HttpLabel("capacityProviderId")),
-      sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/capacity-providers/{capacityProviderId}/sessions/{sessionId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteCapacityProviderSessionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    capacityProviderId: S.String.pipe(T.HttpLabel("capacityProviderId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/capacity-providers/{capacityProviderId}/sessions/{sessionId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteCapacityProviderSessionRequest",
 }) as any as S.Schema<DeleteCapacityProviderSessionRequest>;
@@ -1233,13 +1177,12 @@ export interface DeleteCapacityProviderSessionResponse {
   sessionId: string;
   status: CapacityProviderSessionStatus;
 }
-export const DeleteCapacityProviderSessionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      capacityProviderArn: S.String,
-      sessionId: S.String,
-      status: CapacityProviderSessionStatus,
-    }),
+export const DeleteCapacityProviderSessionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    capacityProviderArn: S.String,
+    sessionId: S.String,
+    status: CapacityProviderSessionStatus,
+  }),
 ).annotate({
   identifier: "DeleteCapacityProviderSessionResponse",
 }) as any as S.Schema<DeleteCapacityProviderSessionResponse>;
@@ -1321,9 +1264,7 @@ export interface DeletePaymentInstrumentRequest {
 }
 export const DeletePaymentInstrumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id"),
-    ),
+    userId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id")),
     paymentManagerArn: S.String,
     paymentConnectorId: S.String,
     paymentInstrumentId: S.String,
@@ -1355,9 +1296,7 @@ export interface DeletePaymentSessionRequest {
 }
 export const DeletePaymentSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id"),
-    ),
+    userId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id")),
     paymentManagerArn: S.String,
     paymentSessionId: S.String,
   }).pipe(
@@ -1373,11 +1312,7 @@ export const DeletePaymentSessionRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeletePaymentSessionRequest",
 }) as any as S.Schema<DeletePaymentSessionRequest>;
-export type PaymentSessionStatus =
-  | "ACTIVE"
-  | "EXPIRED"
-  | "DELETED"
-  | (string & {});
+export type PaymentSessionStatus = "ACTIVE" | "EXPIRED" | "DELETED" | (string & {});
 export const PaymentSessionStatus = S.String;
 
 export interface DeletePaymentSessionResponse {
@@ -1431,9 +1366,7 @@ export type Span = unknown;
 export type Spans = any[];
 export const Spans = /*@__PURE__*/ S.Array(S.Any);
 export type EvaluationInput = { sessionSpans: any[] };
-export const EvaluationInput = /*@__PURE__*/ S.Union([
-  S.Struct({ sessionSpans: Spans }),
-]);
+export const EvaluationInput = /*@__PURE__*/ S.Union([S.Struct({ sessionSpans: Spans })]);
 export type SpanId = string;
 export type SpanIds = string[];
 export const SpanIds = /*@__PURE__*/ S.Array(S.String);
@@ -1460,13 +1393,9 @@ export const SpanContext = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SpanContext" }) as any as S.Schema<SpanContext>;
 export type Context = { spanContext: SpanContext };
-export const Context = /*@__PURE__*/ S.Union([
-  S.Struct({ spanContext: SpanContext }),
-]);
+export const Context = /*@__PURE__*/ S.Union([S.Struct({ spanContext: SpanContext })]);
 export type EvaluationContent = { text: string };
-export const EvaluationContent = /*@__PURE__*/ S.Union([
-  S.Struct({ text: S.String }),
-]);
+export const EvaluationContent = /*@__PURE__*/ S.Union([S.Struct({ text: S.String })]);
 export type EvaluationContentList = EvaluationContent[];
 export const EvaluationContentList = /*@__PURE__*/ S.Array(EvaluationContent);
 export type EvaluationToolName = string;
@@ -1497,9 +1426,7 @@ export const EvaluationReferenceInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "EvaluationReferenceInput",
 }) as any as S.Schema<EvaluationReferenceInput>;
 export type EvaluationReferenceInputs = EvaluationReferenceInput[];
-export const EvaluationReferenceInputs = /*@__PURE__*/ S.Array(
-  EvaluationReferenceInput,
-);
+export const EvaluationReferenceInputs = /*@__PURE__*/ S.Array(EvaluationReferenceInput);
 export interface EvaluateRequest {
   evaluatorId: string;
   evaluationInput: EvaluationInput;
@@ -1590,14 +1517,7 @@ export interface GetABTestRequest {
 }
 export const GetABTestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ abTestId: S.String.pipe(T.HttpLabel("abTestId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ab-tests/{abTestId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/ab-tests/{abTestId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetABTestRequest",
@@ -1667,9 +1587,7 @@ export interface ABTestResults {
 }
 export const ABTestResults = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    analysisTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    analysisTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     evaluatorMetrics: EvaluatorMetricList,
   }),
 ).annotate({ identifier: "ABTestResults" }) as any as S.Schema<ABTestResults>;
@@ -1711,9 +1629,7 @@ export const GetABTestResponse = /*@__PURE__*/ S.suspend(() =>
     errorDetails: S.optional(ErrorDetailsList),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     stoppedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    maxDurationExpiresAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    maxDurationExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     results: S.optional(ABTestResults),
@@ -1804,9 +1720,9 @@ export type InsightId = string;
 export interface Insight {
   insightId: string;
 }
-export const Insight = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ insightId: S.String }),
-).annotate({ identifier: "Insight" }) as any as S.Schema<Insight>;
+export const Insight = /*@__PURE__*/ S.suspend(() => S.Struct({ insightId: S.String })).annotate({
+  identifier: "Insight",
+}) as any as S.Schema<Insight>;
 export type InsightList = Insight[];
 export const InsightList = /*@__PURE__*/ S.Array(Insight);
 export type EvaluationStringList = string[];
@@ -1817,9 +1733,7 @@ export interface SessionFilterConfig {
 }
 export const SessionFilterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
@@ -1988,9 +1902,7 @@ export const InsightsFailureSignal = /*@__PURE__*/ S.suspend(() =>
   identifier: "InsightsFailureSignal",
 }) as any as S.Schema<InsightsFailureSignal>;
 export type InsightsFailureSignalList = InsightsFailureSignal[];
-export const InsightsFailureSignalList = /*@__PURE__*/ S.Array(
-  InsightsFailureSignal,
-);
+export const InsightsFailureSignalList = /*@__PURE__*/ S.Array(InsightsFailureSignal);
 export interface FailureSpanDetail {
   spanId: string;
   traceId: string;
@@ -2068,9 +1980,7 @@ export const FailureSubCategoryCluster = /*@__PURE__*/ S.suspend(() =>
   identifier: "FailureSubCategoryCluster",
 }) as any as S.Schema<FailureSubCategoryCluster>;
 export type FailureSubCategoryClusterList = FailureSubCategoryCluster[];
-export const FailureSubCategoryClusterList = /*@__PURE__*/ S.Array(
-  FailureSubCategoryCluster,
-);
+export const FailureSubCategoryClusterList = /*@__PURE__*/ S.Array(FailureSubCategoryCluster);
 export interface FailureCategoryCluster {
   clusterId: number;
   name: string;
@@ -2090,9 +2000,7 @@ export const FailureCategoryCluster = /*@__PURE__*/ S.suspend(() =>
   identifier: "FailureCategoryCluster",
 }) as any as S.Schema<FailureCategoryCluster>;
 export type FailureCategoryClusterList = FailureCategoryCluster[];
-export const FailureCategoryClusterList = /*@__PURE__*/ S.Array(
-  FailureCategoryCluster,
-);
+export const FailureCategoryClusterList = /*@__PURE__*/ S.Array(FailureCategoryCluster);
 export interface FailureAnalysisResultContent {
   failures: FailureCategoryCluster[];
 }
@@ -2113,9 +2021,7 @@ export const UserIntentAffectedSession = /*@__PURE__*/ S.suspend(() =>
   identifier: "UserIntentAffectedSession",
 }) as any as S.Schema<UserIntentAffectedSession>;
 export type UserIntentAffectedSessionList = UserIntentAffectedSession[];
-export const UserIntentAffectedSessionList = /*@__PURE__*/ S.Array(
-  UserIntentAffectedSession,
-);
+export const UserIntentAffectedSessionList = /*@__PURE__*/ S.Array(UserIntentAffectedSession);
 export interface UserIntentCluster {
   clusterId: number;
   name: string;
@@ -2158,8 +2064,7 @@ export const ExecutionSummaryAffectedSession = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ExecutionSummaryAffectedSession",
 }) as any as S.Schema<ExecutionSummaryAffectedSession>;
-export type ExecutionSummaryAffectedSessionList =
-  ExecutionSummaryAffectedSession[];
+export type ExecutionSummaryAffectedSessionList = ExecutionSummaryAffectedSession[];
 export const ExecutionSummaryAffectedSessionList = /*@__PURE__*/ S.Array(
   ExecutionSummaryAffectedSession,
 );
@@ -2182,14 +2087,12 @@ export const ExecutionSummaryCluster = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExecutionSummaryCluster",
 }) as any as S.Schema<ExecutionSummaryCluster>;
 export type ExecutionSummaryClusterList = ExecutionSummaryCluster[];
-export const ExecutionSummaryClusterList = /*@__PURE__*/ S.Array(
-  ExecutionSummaryCluster,
-);
+export const ExecutionSummaryClusterList = /*@__PURE__*/ S.Array(ExecutionSummaryCluster);
 export interface ExecutionSummaryClusteringResultContent {
   executionSummaries: ExecutionSummaryCluster[];
 }
-export const ExecutionSummaryClusteringResultContent = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ executionSummaries: ExecutionSummaryClusterList }),
+export const ExecutionSummaryClusteringResultContent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ executionSummaries: ExecutionSummaryClusterList }),
 ).annotate({
   identifier: "ExecutionSummaryClusteringResultContent",
 }) as any as S.Schema<ExecutionSummaryClusteringResultContent>;
@@ -2231,9 +2134,7 @@ export const GetBatchEvaluationResponse = /*@__PURE__*/ S.suspend(() =>
     executionSummaryResult: S.optional(ExecutionSummaryClusteringResultContent),
     errorDetails: S.optional(ErrorDetailsList),
     description: S.optional(S.String),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     kmsKeyArn: S.optional(S.String),
   }),
 ).annotate({
@@ -2287,9 +2188,7 @@ export const S3Location = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export type ResourceLocation = { s3: S3Location };
-export const ResourceLocation = /*@__PURE__*/ S.Union([
-  S.Struct({ s3: S3Location }),
-]);
+export const ResourceLocation = /*@__PURE__*/ S.Union([S.Struct({ s3: S3Location })]);
 export interface BrowserExtension {
   location: ResourceLocation;
 }
@@ -2300,10 +2199,7 @@ export const BrowserExtension = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BrowserExtension>;
 export type BrowserExtensions = BrowserExtension[];
 export const BrowserExtensions = /*@__PURE__*/ S.Array(BrowserExtension);
-export type BrowserEnterprisePolicyType =
-  | "MANAGED"
-  | "RECOMMENDED"
-  | (string & {});
+export type BrowserEnterprisePolicyType = "MANAGED" | "RECOMMENDED" | (string & {});
 export const BrowserEnterprisePolicyType = S.String;
 
 export interface BrowserEnterprisePolicy {
@@ -2319,9 +2215,7 @@ export const BrowserEnterprisePolicy = /*@__PURE__*/ S.suspend(() =>
   identifier: "BrowserEnterprisePolicy",
 }) as any as S.Schema<BrowserEnterprisePolicy>;
 export type BrowserEnterprisePolicies = BrowserEnterprisePolicy[];
-export const BrowserEnterprisePolicies = /*@__PURE__*/ S.Array(
-  BrowserEnterprisePolicy,
-);
+export const BrowserEnterprisePolicies = /*@__PURE__*/ S.Array(BrowserEnterprisePolicy);
 export type BrowserProfileId = string;
 export interface BrowserProfileConfiguration {
   profileIdentifier: string;
@@ -2374,13 +2268,11 @@ export type SecretArn = string;
 export interface BasicAuth {
   secretArn: string;
 }
-export const BasicAuth = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ secretArn: S.String }),
-).annotate({ identifier: "BasicAuth" }) as any as S.Schema<BasicAuth>;
+export const BasicAuth = /*@__PURE__*/ S.suspend(() => S.Struct({ secretArn: S.String })).annotate({
+  identifier: "BasicAuth",
+}) as any as S.Schema<BasicAuth>;
 export type ProxyCredentials = { basicAuth: BasicAuth };
-export const ProxyCredentials = /*@__PURE__*/ S.Union([
-  S.Struct({ basicAuth: BasicAuth }),
-]);
+export const ProxyCredentials = /*@__PURE__*/ S.Union([S.Struct({ basicAuth: BasicAuth })]);
 export interface ExternalProxy {
   server: string;
   port: number;
@@ -2396,9 +2288,7 @@ export const ExternalProxy = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ExternalProxy" }) as any as S.Schema<ExternalProxy>;
 export type Proxy = { externalProxy: ExternalProxy };
-export const Proxy = /*@__PURE__*/ S.Union([
-  S.Struct({ externalProxy: ExternalProxy }),
-]);
+export const Proxy = /*@__PURE__*/ S.Union([S.Struct({ externalProxy: ExternalProxy })]);
 export type Proxies = Proxy[];
 export const Proxies = /*@__PURE__*/ S.Array(Proxy);
 export interface ProxyBypass {
@@ -2477,9 +2367,7 @@ export const ToolsFileSystemConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ efsConfiguration: EfsConfiguration }),
 ]);
 export type ToolsFileSystemConfigurations = ToolsFileSystemConfiguration[];
-export const ToolsFileSystemConfigurations = /*@__PURE__*/ S.Array(
-  ToolsFileSystemConfiguration,
-);
+export const ToolsFileSystemConfigurations = /*@__PURE__*/ S.Array(ToolsFileSystemConfiguration);
 export interface GetBrowserSessionResponse {
   browserIdentifier: string;
   sessionId: string;
@@ -2515,9 +2403,7 @@ export const GetBrowserSessionResponse = /*@__PURE__*/ S.suspend(() =>
     certificates: S.optional(Certificates),
     filesystemConfigurations: S.optional(ToolsFileSystemConfigurations),
     sessionReplayArtifact: S.optional(S.String),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "GetBrowserSessionResponse",
@@ -2529,9 +2415,7 @@ export interface GetCodeInterpreterSessionRequest {
 }
 export const GetCodeInterpreterSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    codeInterpreterIdentifier: S.String.pipe(
-      T.HttpLabel("codeInterpreterIdentifier"),
-    ),
+    codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
   }).pipe(
     T.all(
@@ -2550,10 +2434,7 @@ export const GetCodeInterpreterSessionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCodeInterpreterSessionRequest",
 }) as any as S.Schema<GetCodeInterpreterSessionRequest>;
 export type CodeInterpreterSessionTimeout = number;
-export type CodeInterpreterSessionStatus =
-  | "READY"
-  | "TERMINATED"
-  | (string & {});
+export type CodeInterpreterSessionStatus = "READY" | "TERMINATED" | (string & {});
 export const CodeInterpreterSessionStatus = S.String;
 
 export interface GetCodeInterpreterSessionResponse {
@@ -2609,9 +2490,9 @@ export const GetEventInput = /*@__PURE__*/ S.suspend(() =>
 export interface GetEventOutput {
   event: Event;
 }
-export const GetEventOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ event: Event }),
-).annotate({ identifier: "GetEventOutput" }) as any as S.Schema<GetEventOutput>;
+export const GetEventOutput = /*@__PURE__*/ S.suspend(() => S.Struct({ event: Event })).annotate({
+  identifier: "GetEventOutput",
+}) as any as S.Schema<GetEventOutput>;
 export interface GetMemoryRecordInput {
   memoryId: string;
   memoryRecordId: string;
@@ -2673,9 +2554,7 @@ export interface GetPaymentInstrumentRequest {
 }
 export const GetPaymentInstrumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id"),
-    ),
+    userId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id")),
     agentName: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-Agent-Name"),
     ),
@@ -2726,9 +2605,7 @@ export interface GetPaymentInstrumentBalanceRequest {
 }
 export const GetPaymentInstrumentBalanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id"),
-    ),
+    userId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id")),
     agentName: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-Agent-Name"),
     ),
@@ -2783,9 +2660,7 @@ export interface GetPaymentSessionRequest {
 }
 export const GetPaymentSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id"),
-    ),
+    userId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id")),
     agentName: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-Agent-Name"),
     ),
@@ -2905,8 +2780,7 @@ export const CloudWatchLogsFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "CloudWatchLogsFilter",
 }) as any as S.Schema<CloudWatchLogsFilter>;
 export type CloudWatchLogsFilterList = CloudWatchLogsFilter[];
-export const CloudWatchLogsFilterList =
-  /*@__PURE__*/ S.Array(CloudWatchLogsFilter);
+export const CloudWatchLogsFilterList = /*@__PURE__*/ S.Array(CloudWatchLogsFilter);
 export interface CloudWatchLogsRule {
   filters?: CloudWatchLogsFilter[];
 }
@@ -2995,9 +2869,7 @@ export const RecommendationEvaluatorReference = /*@__PURE__*/ S.suspend(() =>
   identifier: "RecommendationEvaluatorReference",
 }) as any as S.Schema<RecommendationEvaluatorReference>;
 export type RecommendationEvaluatorList = RecommendationEvaluatorReference[];
-export const RecommendationEvaluatorList = /*@__PURE__*/ S.Array(
-  RecommendationEvaluatorReference,
-);
+export const RecommendationEvaluatorList = /*@__PURE__*/ S.Array(RecommendationEvaluatorReference);
 export interface RecommendationEvaluationConfig {
   evaluators: RecommendationEvaluatorReference[];
 }
@@ -3025,9 +2897,7 @@ export type ToolDescriptionText = string | redacted.Redacted<string>;
 export type ToolDescriptionConfig = {
   text: string | redacted.Redacted<string>;
 };
-export const ToolDescriptionConfig = /*@__PURE__*/ S.Union([
-  S.Struct({ text: SensitiveString }),
-]);
+export const ToolDescriptionConfig = /*@__PURE__*/ S.Union([S.Struct({ text: SensitiveString })]);
 export interface ToolDescriptionInput {
   toolName: string;
   toolDescription: ToolDescriptionConfig;
@@ -3057,9 +2927,7 @@ export const ConfigurationBundleToolEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfigurationBundleToolEntry",
 }) as any as S.Schema<ConfigurationBundleToolEntry>;
 export type ConfigurationBundleToolEntryList = ConfigurationBundleToolEntry[];
-export const ConfigurationBundleToolEntryList = /*@__PURE__*/ S.Array(
-  ConfigurationBundleToolEntry,
-);
+export const ConfigurationBundleToolEntryList = /*@__PURE__*/ S.Array(ConfigurationBundleToolEntry);
 export interface ToolDescriptionConfigurationBundle {
   bundleArn: string;
   versionId: string;
@@ -3120,8 +2988,8 @@ export interface RecommendationResultConfigurationBundle {
   bundleArn: string;
   versionId: string;
 }
-export const RecommendationResultConfigurationBundle = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ bundleArn: S.String, versionId: S.String }),
+export const RecommendationResultConfigurationBundle = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ bundleArn: S.String, versionId: S.String }),
 ).annotate({
   identifier: "RecommendationResultConfigurationBundle",
 }) as any as S.Schema<RecommendationResultConfigurationBundle>;
@@ -3161,9 +3029,7 @@ export const ToolDescriptionOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ToolDescriptionOutput",
 }) as any as S.Schema<ToolDescriptionOutput>;
 export type ToolDescriptionResultList = ToolDescriptionOutput[];
-export const ToolDescriptionResultList = /*@__PURE__*/ S.Array(
-  ToolDescriptionOutput,
-);
+export const ToolDescriptionResultList = /*@__PURE__*/ S.Array(ToolDescriptionOutput);
 export interface ToolDescriptionRecommendationResult {
   tools?: ToolDescriptionOutput[];
   configurationBundle?: RecommendationResultConfigurationBundle;
@@ -3238,14 +3104,7 @@ export const GetResourceApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     workloadIdentityToken: SensitiveString,
     resourceCredentialProviderName: S.String,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/identities/api-key" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/identities/api-key" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetResourceApiKeyRequest",
@@ -3348,13 +3207,7 @@ export const GetResourceOauth2TokenResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetResourceOauth2TokenResponse",
 }) as any as S.Schema<GetResourceOauth2TokenResponse>;
-export type PaymentHttpMethodType =
-  | "GET"
-  | "POST"
-  | "PUT"
-  | "DELETE"
-  | "PATCH"
-  | (string & {});
+export type PaymentHttpMethodType = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | (string & {});
 export const PaymentHttpMethodType = S.String;
 
 export type PaymentRequestHostType = string;
@@ -3446,9 +3299,7 @@ export const CoinbaseCdpTokenResponseOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CoinbaseCdpTokenResponseOutput",
 }) as any as S.Schema<CoinbaseCdpTokenResponseOutput>;
-export type StripePrivyAuthorizationSignatureType =
-  | string
-  | redacted.Redacted<string>;
+export type StripePrivyAuthorizationSignatureType = string | redacted.Redacted<string>;
 export type StripePrivyAppIdType = string;
 export type StripePrivyBasicAuthTokenType = string | redacted.Redacted<string>;
 export interface StripePrivyTokenResponseOutput {
@@ -3538,8 +3389,8 @@ export const GetWorkloadAccessTokenForJWTRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetWorkloadAccessTokenForJWTResponse {
   workloadAccessToken: string | redacted.Redacted<string>;
 }
-export const GetWorkloadAccessTokenForJWTResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ workloadAccessToken: SensitiveString }),
+export const GetWorkloadAccessTokenForJWTResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ workloadAccessToken: SensitiveString }),
 ).annotate({
   identifier: "GetWorkloadAccessTokenForJWTResponse",
 }) as any as S.Schema<GetWorkloadAccessTokenForJWTResponse>;
@@ -3547,29 +3398,28 @@ export interface GetWorkloadAccessTokenForUserIdRequest {
   workloadName: string;
   userId: string;
 }
-export const GetWorkloadAccessTokenForUserIdRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ workloadName: S.String, userId: S.String }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/identities/GetWorkloadAccessTokenForUserId",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetWorkloadAccessTokenForUserIdRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ workloadName: S.String, userId: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/identities/GetWorkloadAccessTokenForUserId",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetWorkloadAccessTokenForUserIdRequest",
 }) as any as S.Schema<GetWorkloadAccessTokenForUserIdRequest>;
 export interface GetWorkloadAccessTokenForUserIdResponse {
   workloadAccessToken: string | redacted.Redacted<string>;
 }
-export const GetWorkloadAccessTokenForUserIdResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ workloadAccessToken: SensitiveString }),
+export const GetWorkloadAccessTokenForUserIdResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ workloadAccessToken: SensitiveString }),
 ).annotate({
   identifier: "GetWorkloadAccessTokenForUserIdResponse",
 }) as any as S.Schema<GetWorkloadAccessTokenForUserIdResponse>;
@@ -3591,9 +3441,7 @@ export const InlineMemoryContent = /*@__PURE__*/ S.suspend(() =>
   identifier: "InlineMemoryContent",
 }) as any as S.Schema<InlineMemoryContent>;
 export type ContentSource = { inline: InlineMemoryContent };
-export const ContentSource = /*@__PURE__*/ S.Union([
-  S.Struct({ inline: InlineMemoryContent }),
-]);
+export const ContentSource = /*@__PURE__*/ S.Union([S.Struct({ inline: InlineMemoryContent })]);
 export interface IngestDataInput {
   memoryId: string;
   source: ContentSource;
@@ -3665,9 +3513,7 @@ export const InvokeAgentRuntimeRequest = /*@__PURE__*/ S.suspend(() =>
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
       T.IdempotencyToken(),
     ),
-    mcpProtocolVersion: S.optional(S.String).pipe(
-      T.HttpHeader("Mcp-Protocol-Version"),
-    ),
+    mcpProtocolVersion: S.optional(S.String).pipe(T.HttpHeader("Mcp-Protocol-Version")),
     mcpMethod: S.optional(S.String).pipe(T.HttpHeader("Mcp-Method")),
     mcpName: S.optional(S.String).pipe(T.HttpHeader("Mcp-Name")),
     runtimeUserId: S.optional(S.String).pipe(
@@ -3715,9 +3561,7 @@ export const InvokeAgentRuntimeResponse = /*@__PURE__*/ S.suspend(() =>
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
     ),
     mcpSessionId: S.optional(S.String).pipe(T.HttpHeader("Mcp-Session-Id")),
-    mcpProtocolVersion: S.optional(S.String).pipe(
-      T.HttpHeader("Mcp-Protocol-Version"),
-    ),
+    mcpProtocolVersion: S.optional(S.String).pipe(T.HttpHeader("Mcp-Protocol-Version")),
     traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
     traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
     traceState: S.optional(S.String).pipe(T.HttpHeader("tracestate")),
@@ -3733,8 +3577,8 @@ export interface InvokeAgentRuntimeCommandRequestBody {
   command: string;
   timeout?: number;
 }
-export const InvokeAgentRuntimeCommandRequestBody = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ command: S.String, timeout: S.optional(S.Number) }),
+export const InvokeAgentRuntimeCommandRequestBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ command: S.String, timeout: S.optional(S.Number) }),
 ).annotate({
   identifier: "InvokeAgentRuntimeCommandRequestBody",
 }) as any as S.Schema<InvokeAgentRuntimeCommandRequestBody>;
@@ -3783,9 +3627,7 @@ export const InvokeAgentRuntimeCommandRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "InvokeAgentRuntimeCommandRequest",
 }) as any as S.Schema<InvokeAgentRuntimeCommandRequest>;
 export interface ContentStartEvent {}
-export const ContentStartEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ContentStartEvent = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ContentStartEvent",
 }) as any as S.Schema<ContentStartEvent>;
 export interface ContentDeltaEvent {
@@ -3841,9 +3683,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type InvokeAgentRuntimeCommandStreamOutput =
   | {
       chunk: ResponseChunk;
@@ -3925,49 +3765,46 @@ export type InvokeAgentRuntimeCommandStreamOutput =
       validationException?: never;
       runtimeClientError: RuntimeClientError;
     };
-export const InvokeAgentRuntimeCommandStreamOutput =
-  /*@__PURE__*/ T.EventStream(
-    S.Union([
-      S.Struct({ chunk: ResponseChunk }),
-      S.Struct({
-        accessDeniedException: S.suspend(() => AccessDeniedException).annotate({
-          identifier: "AccessDeniedException",
-        }),
+export const InvokeAgentRuntimeCommandStreamOutput = /*@__PURE__*/ T.EventStream(
+  S.Union([
+    S.Struct({ chunk: ResponseChunk }),
+    S.Struct({
+      accessDeniedException: S.suspend(() => AccessDeniedException).annotate({
+        identifier: "AccessDeniedException",
       }),
-      S.Struct({
-        internalServerException: S.suspend(
-          () => InternalServerException,
-        ).annotate({ identifier: "InternalServerException" }),
+    }),
+    S.Struct({
+      internalServerException: S.suspend(() => InternalServerException).annotate({
+        identifier: "InternalServerException",
       }),
-      S.Struct({
-        resourceNotFoundException: S.suspend(
-          () => ResourceNotFoundException,
-        ).annotate({ identifier: "ResourceNotFoundException" }),
+    }),
+    S.Struct({
+      resourceNotFoundException: S.suspend(() => ResourceNotFoundException).annotate({
+        identifier: "ResourceNotFoundException",
       }),
-      S.Struct({
-        serviceQuotaExceededException: S.suspend(
-          () => ServiceQuotaExceededException,
-        ).annotate({ identifier: "ServiceQuotaExceededException" }),
+    }),
+    S.Struct({
+      serviceQuotaExceededException: S.suspend(() => ServiceQuotaExceededException).annotate({
+        identifier: "ServiceQuotaExceededException",
       }),
-      S.Struct({
-        throttlingException: S.suspend(() => ThrottlingException).annotate({
-          identifier: "ThrottlingException",
-        }),
+    }),
+    S.Struct({
+      throttlingException: S.suspend(() => ThrottlingException).annotate({
+        identifier: "ThrottlingException",
       }),
-      S.Struct({
-        validationException: S.suspend(() => ValidationException).annotate({
-          identifier: "ValidationException",
-        }),
+    }),
+    S.Struct({
+      validationException: S.suspend(() => ValidationException).annotate({
+        identifier: "ValidationException",
       }),
-      S.Struct({
-        runtimeClientError: S.suspend(() => RuntimeClientError).annotate({
-          identifier: "RuntimeClientError",
-        }),
+    }),
+    S.Struct({
+      runtimeClientError: S.suspend(() => RuntimeClientError).annotate({
+        identifier: "RuntimeClientError",
       }),
-    ]),
-  ) as any as S.Schema<
-    stream.Stream<InvokeAgentRuntimeCommandStreamOutput, Error, never>
-  >;
+    }),
+  ]),
+) as any as S.Schema<stream.Stream<InvokeAgentRuntimeCommandStreamOutput, Error, never>>;
 export interface InvokeAgentRuntimeCommandResponse {
   runtimeSessionId?: string;
   traceId?: string;
@@ -4404,11 +4241,7 @@ export type ToolName =
 export const ToolName = S.String;
 
 export type MaxLenString = string;
-export type ProgrammingLanguage =
-  | "python"
-  | "javascript"
-  | "typescript"
-  | (string & {});
+export type ProgrammingLanguage = "python" | "javascript" | "typescript" | (string & {});
 export const ProgrammingLanguage = S.String;
 
 export type StringList = string[];
@@ -4468,12 +4301,8 @@ export interface InvokeCodeInterpreterRequest {
 }
 export const InvokeCodeInterpreterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    codeInterpreterIdentifier: S.String.pipe(
-      T.HttpLabel("codeInterpreterIdentifier"),
-    ),
-    sessionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amzn-code-interpreter-session-id"),
-    ),
+    codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")),
+    sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amzn-code-interpreter-session-id")),
     traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
     traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
     name: ToolName,
@@ -4494,12 +4323,7 @@ export const InvokeCodeInterpreterRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "InvokeCodeInterpreterRequest",
 }) as any as S.Schema<InvokeCodeInterpreterRequest>;
-export type ContentBlockType =
-  | "text"
-  | "image"
-  | "resource"
-  | "resource_link"
-  | (string & {});
+export type ContentBlockType = "text" | "image" | "resource" | "resource_link" | (string & {});
 export const ContentBlockType = S.String;
 
 export type ResourceContentType = "text" | "blob" | (string & {});
@@ -4687,19 +4511,19 @@ export const CodeInterpreterStreamOutput = /*@__PURE__*/ T.EventStream(
       }),
     }),
     S.Struct({
-      internalServerException: S.suspend(
-        () => InternalServerException,
-      ).annotate({ identifier: "InternalServerException" }),
+      internalServerException: S.suspend(() => InternalServerException).annotate({
+        identifier: "InternalServerException",
+      }),
     }),
     S.Struct({
-      resourceNotFoundException: S.suspend(
-        () => ResourceNotFoundException,
-      ).annotate({ identifier: "ResourceNotFoundException" }),
+      resourceNotFoundException: S.suspend(() => ResourceNotFoundException).annotate({
+        identifier: "ResourceNotFoundException",
+      }),
     }),
     S.Struct({
-      serviceQuotaExceededException: S.suspend(
-        () => ServiceQuotaExceededException,
-      ).annotate({ identifier: "ServiceQuotaExceededException" }),
+      serviceQuotaExceededException: S.suspend(() => ServiceQuotaExceededException).annotate({
+        identifier: "ServiceQuotaExceededException",
+      }),
     }),
     S.Struct({
       throttlingException: S.suspend(() => ThrottlingException).annotate({
@@ -4719,9 +4543,7 @@ export interface InvokeCodeInterpreterResponse {
 }
 export const InvokeCodeInterpreterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sessionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amzn-code-interpreter-session-id"),
-    ),
+    sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amzn-code-interpreter-session-id")),
     stream: CodeInterpreterStreamOutput.pipe(T.HttpPayload()),
   }),
 ).annotate({
@@ -4736,11 +4558,7 @@ export type SensitiveText = string | redacted.Redacted<string>;
 export type HarnessToolName = string;
 export type HarnessToolUseId = string;
 export type SensitiveJson = unknown;
-export type HarnessToolUseType =
-  | "tool_use"
-  | "server_tool_use"
-  | "mcp_tool_use"
-  | (string & {});
+export type HarnessToolUseType = "tool_use" | "server_tool_use" | "mcp_tool_use" | (string & {});
 export const HarnessToolUseType = S.String;
 
 export interface HarnessToolUseBlock {
@@ -4769,9 +4587,7 @@ export const HarnessToolResultContentBlock = /*@__PURE__*/ S.Union([
   S.Struct({ json: S.Any }),
 ]);
 export type HarnessToolResultContentBlocks = HarnessToolResultContentBlock[];
-export const HarnessToolResultContentBlocks = /*@__PURE__*/ S.Array(
-  HarnessToolResultContentBlock,
-);
+export const HarnessToolResultContentBlocks = /*@__PURE__*/ S.Array(HarnessToolResultContentBlock);
 export type HarnessToolUseStatus = "success" | "error" | (string & {});
 export const HarnessToolUseStatus = S.String;
 
@@ -4881,10 +4697,7 @@ export const HarnessBedrockModelConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "HarnessBedrockModelConfig",
 }) as any as S.Schema<HarnessBedrockModelConfig>;
 export type ApiKeyArn = string;
-export type HarnessOpenAiApiFormat =
-  | "chat_completions"
-  | "responses"
-  | (string & {});
+export type HarnessOpenAiApiFormat = "chat_completions" | "responses" | (string & {});
 export const HarnessOpenAiApiFormat = S.String;
 
 export interface HarnessOpenAiModelConfig {
@@ -4993,9 +4806,7 @@ export const HarnessSystemContentBlock = /*@__PURE__*/ S.Union([
   S.Struct({ text: SensitiveString }),
 ]);
 export type HarnessSystemPrompt = HarnessSystemContentBlock[];
-export const HarnessSystemPrompt = /*@__PURE__*/ S.Array(
-  HarnessSystemContentBlock,
-);
+export const HarnessSystemPrompt = /*@__PURE__*/ S.Array(HarnessSystemContentBlock);
 export type HarnessToolType =
   | "remote_mcp"
   | "agentcore_browser"
@@ -5009,10 +4820,7 @@ export type HarnessRemoteMcpUrl = string | redacted.Redacted<string>;
 export type HttpHeaderKey = string;
 export type HttpHeaderValue = string;
 export type HttpHeadersMap = { [key: string]: string | undefined };
-export const HttpHeadersMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const HttpHeadersMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface HarnessRemoteMcpConfig {
   url: string | redacted.Redacted<string>;
   headers?: { [key: string]: string | undefined };
@@ -5093,9 +4901,7 @@ export const HarnessAgentCoreGatewayConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "HarnessAgentCoreGatewayConfig",
 }) as any as S.Schema<HarnessAgentCoreGatewayConfig>;
-export type HarnessInlineFunctionDescription =
-  | string
-  | redacted.Redacted<string>;
+export type HarnessInlineFunctionDescription = string | redacted.Redacted<string>;
 export interface HarnessInlineFunctionConfig {
   description: string | redacted.Redacted<string>;
   inputSchema: any;
@@ -5109,8 +4915,8 @@ export type HarnessCodeInterpreterArn = string;
 export interface HarnessAgentCoreCodeInterpreterConfig {
   codeInterpreterArn?: string;
 }
-export const HarnessAgentCoreCodeInterpreterConfig = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ codeInterpreterArn: S.optional(S.String) }),
+export const HarnessAgentCoreCodeInterpreterConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ codeInterpreterArn: S.optional(S.String) }),
 ).annotate({
   identifier: "HarnessAgentCoreCodeInterpreterConfig",
 }) as any as S.Schema<HarnessAgentCoreCodeInterpreterConfig>;
@@ -5261,9 +5067,7 @@ export const InvokeHarnessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     harnessArn: S.String.pipe(T.HttpQuery("harnessArn")),
     qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")),
-    runtimeSessionId: S.String.pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
-    ),
+    runtimeSessionId: S.String.pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id")),
     runtimeUserId: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-User-Id"),
     ),
@@ -5282,14 +5086,7 @@ export const InvokeHarnessRequest = /*@__PURE__*/ S.suspend(() =>
     timeoutSeconds: S.optional(S.Number),
     actorId: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/harnesses/invoke" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/harnesses/invoke" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "InvokeHarnessRequest",
@@ -5359,9 +5156,7 @@ export const HarnessToolResultBlockDelta = /*@__PURE__*/ S.Union([
   S.Struct({ json: S.Any }),
 ]);
 export type HarnessToolResultBlocksDelta = HarnessToolResultBlockDelta[];
-export const HarnessToolResultBlocksDelta = /*@__PURE__*/ S.Array(
-  HarnessToolResultBlockDelta,
-);
+export const HarnessToolResultBlocksDelta = /*@__PURE__*/ S.Array(HarnessToolResultBlockDelta);
 export type HarnessReasoningContentBlockDelta =
   | { text: string; redactedContent?: never; signature?: never }
   | {
@@ -5613,9 +5408,9 @@ export const InvokeHarnessStreamOutput = /*@__PURE__*/ T.EventStream(
     S.Struct({ messageStop: HarnessMessageStopEvent }),
     S.Struct({ metadata: HarnessMetadataEvent }),
     S.Struct({
-      internalServerException: S.suspend(
-        () => InternalServerException,
-      ).annotate({ identifier: "InternalServerException" }),
+      internalServerException: S.suspend(() => InternalServerException).annotate({
+        identifier: "InternalServerException",
+      }),
     }),
     S.Struct({
       validationException: S.suspend(() => ValidationException).annotate({
@@ -5645,16 +5440,7 @@ export const ListABTestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ab-tests" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/ab-tests" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListABTestsRequest",
 }) as any as S.Schema<ListABTestsRequest>;
@@ -5721,9 +5507,9 @@ export const ListActorsInput = /*@__PURE__*/ S.suspend(() =>
 export interface ActorSummary {
   actorId: string;
 }
-export const ActorSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ actorId: S.String }),
-).annotate({ identifier: "ActorSummary" }) as any as S.Schema<ActorSummary>;
+export const ActorSummary = /*@__PURE__*/ S.suspend(() => S.Struct({ actorId: S.String })).annotate(
+  { identifier: "ActorSummary" },
+) as any as S.Schema<ActorSummary>;
 export type ActorSummaryList = ActorSummary[];
 export const ActorSummaryList = /*@__PURE__*/ S.Array(ActorSummary);
 export interface ListActorsOutput {
@@ -5786,17 +5572,13 @@ export const BatchEvaluationSummary = /*@__PURE__*/ S.suspend(() =>
     evaluationResults: S.optional(EvaluationJobResults),
     errorDetails: S.optional(ErrorDetailsList),
     kmsKeyArn: S.optional(S.String),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "BatchEvaluationSummary",
 }) as any as S.Schema<BatchEvaluationSummary>;
 export type BatchEvaluationSummaryList = BatchEvaluationSummary[];
-export const BatchEvaluationSummaryList = /*@__PURE__*/ S.Array(
-  BatchEvaluationSummary,
-);
+export const BatchEvaluationSummaryList = /*@__PURE__*/ S.Array(BatchEvaluationSummary);
 export interface ListBatchEvaluationsResponse {
   batchEvaluations: BatchEvaluationSummary[];
   nextToken?: string;
@@ -5853,17 +5635,13 @@ export const BrowserSessionSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: BrowserSessionStatus,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "BrowserSessionSummary",
 }) as any as S.Schema<BrowserSessionSummary>;
 export type BrowserSessionSummaries = BrowserSessionSummary[];
-export const BrowserSessionSummaries = /*@__PURE__*/ S.Array(
-  BrowserSessionSummary,
-);
+export const BrowserSessionSummaries = /*@__PURE__*/ S.Array(BrowserSessionSummary);
 export interface ListBrowserSessionsResponse {
   items: BrowserSessionSummary[];
   nextToken?: string;
@@ -5881,9 +5659,7 @@ export interface ListCodeInterpreterSessionsRequest {
 }
 export const ListCodeInterpreterSessionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    codeInterpreterIdentifier: S.String.pipe(
-      T.HttpLabel("codeInterpreterIdentifier"),
-    ),
+    codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     status: S.optional(CodeInterpreterSessionStatus),
@@ -5918,17 +5694,13 @@ export const CodeInterpreterSessionSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: CodeInterpreterSessionStatus,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "CodeInterpreterSessionSummary",
 }) as any as S.Schema<CodeInterpreterSessionSummary>;
 export type CodeInterpreterSessionSummaries = CodeInterpreterSessionSummary[];
-export const CodeInterpreterSessionSummaries = /*@__PURE__*/ S.Array(
-  CodeInterpreterSessionSummary,
-);
+export const CodeInterpreterSessionSummaries = /*@__PURE__*/ S.Array(CodeInterpreterSessionSummary);
 export interface ListCodeInterpreterSessionsResponse {
   items: CodeInterpreterSessionSummary[];
   nextToken?: string;
@@ -5949,20 +5721,12 @@ export const BranchFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, includeParentBranches: S.optional(S.Boolean) }),
 ).annotate({ identifier: "BranchFilter" }) as any as S.Schema<BranchFilter>;
 export type LeftExpression = { metadataKey: string };
-export const LeftExpression = /*@__PURE__*/ S.Union([
-  S.Struct({ metadataKey: S.String }),
-]);
-export type OperatorType =
-  | "EQUALS_TO"
-  | "EXISTS"
-  | "NOT_EXISTS"
-  | (string & {});
+export const LeftExpression = /*@__PURE__*/ S.Union([S.Struct({ metadataKey: S.String })]);
+export type OperatorType = "EQUALS_TO" | "EXISTS" | "NOT_EXISTS" | (string & {});
 export const OperatorType = S.String;
 
 export type RightExpression = { metadataValue: MetadataValue };
-export const RightExpression = /*@__PURE__*/ S.Union([
-  S.Struct({ metadataValue: MetadataValue }),
-]);
+export const RightExpression = /*@__PURE__*/ S.Union([S.Struct({ metadataValue: MetadataValue })]);
 export interface EventMetadataFilterExpression {
   left: LeftExpression;
   operator: OperatorType;
@@ -5978,9 +5742,7 @@ export const EventMetadataFilterExpression = /*@__PURE__*/ S.suspend(() =>
   identifier: "EventMetadataFilterExpression",
 }) as any as S.Schema<EventMetadataFilterExpression>;
 export type EventMetadataFilterList = EventMetadataFilterExpression[];
-export const EventMetadataFilterList = /*@__PURE__*/ S.Array(
-  EventMetadataFilterExpression,
-);
+export const EventMetadataFilterList = /*@__PURE__*/ S.Array(EventMetadataFilterExpression);
 export interface FilterInput {
   branch?: BranchFilter;
   eventMetadata?: EventMetadataFilterExpression[];
@@ -6118,9 +5880,7 @@ export const ExtractionJobMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExtractionJobMetadata",
 }) as any as S.Schema<ExtractionJobMetadata>;
 export type ExtractionJobMetadataList = ExtractionJobMetadata[];
-export const ExtractionJobMetadataList = /*@__PURE__*/ S.Array(
-  ExtractionJobMetadata,
-);
+export const ExtractionJobMetadataList = /*@__PURE__*/ S.Array(ExtractionJobMetadata);
 export interface ListMemoryExtractionJobsOutput {
   jobs: ExtractionJobMetadata[];
   nextToken?: string;
@@ -6172,9 +5932,7 @@ export const MemoryMetadataFilterExpression = /*@__PURE__*/ S.suspend(() =>
   identifier: "MemoryMetadataFilterExpression",
 }) as any as S.Schema<MemoryMetadataFilterExpression>;
 export type MemoryMetadataFilterList = MemoryMetadataFilterExpression[];
-export const MemoryMetadataFilterList = /*@__PURE__*/ S.Array(
-  MemoryMetadataFilterExpression,
-);
+export const MemoryMetadataFilterList = /*@__PURE__*/ S.Array(MemoryMetadataFilterExpression);
 export interface ListMemoryRecordsInput {
   memoryId: string;
   namespace?: string;
@@ -6229,8 +5987,7 @@ export const MemoryRecordSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "MemoryRecordSummary",
 }) as any as S.Schema<MemoryRecordSummary>;
 export type MemoryRecordSummaryList = MemoryRecordSummary[];
-export const MemoryRecordSummaryList =
-  /*@__PURE__*/ S.Array(MemoryRecordSummary);
+export const MemoryRecordSummaryList = /*@__PURE__*/ S.Array(MemoryRecordSummary);
 export interface ListMemoryRecordsOutput {
   memoryRecordSummaries: MemoryRecordSummary[];
   nextToken?: string;
@@ -6253,9 +6010,7 @@ export interface ListPaymentInstrumentsRequest {
 }
 export const ListPaymentInstrumentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id"),
-    ),
+    userId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id")),
     agentName: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-Agent-Name"),
     ),
@@ -6301,9 +6056,7 @@ export const PaymentInstrumentSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaymentInstrumentSummary",
 }) as any as S.Schema<PaymentInstrumentSummary>;
 export type PaymentInstrumentSummaryList = PaymentInstrumentSummary[];
-export const PaymentInstrumentSummaryList = /*@__PURE__*/ S.Array(
-  PaymentInstrumentSummary,
-);
+export const PaymentInstrumentSummaryList = /*@__PURE__*/ S.Array(PaymentInstrumentSummary);
 export interface ListPaymentInstrumentsResponse {
   paymentInstruments: PaymentInstrumentSummary[];
   nextToken?: string;
@@ -6325,9 +6078,7 @@ export interface ListPaymentSessionsRequest {
 }
 export const ListPaymentSessionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id"),
-    ),
+    userId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id")),
     agentName: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-Agent-Name"),
     ),
@@ -6368,9 +6119,7 @@ export const PaymentSessionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaymentSessionSummary",
 }) as any as S.Schema<PaymentSessionSummary>;
 export type PaymentSessionSummaryList = PaymentSessionSummary[];
-export const PaymentSessionSummaryList = /*@__PURE__*/ S.Array(
-  PaymentSessionSummary,
-);
+export const PaymentSessionSummaryList = /*@__PURE__*/ S.Array(PaymentSessionSummary);
 export interface ListPaymentSessionsResponse {
   paymentSessions: PaymentSessionSummary[];
   nextToken?: string;
@@ -6393,16 +6142,7 @@ export const ListRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     statusFilter: S.optional(RecommendationStatus).pipe(T.HttpQuery("status")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/recommendations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/recommendations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRecommendationsRequest",
 }) as any as S.Schema<ListRecommendationsRequest>;
@@ -6431,9 +6171,7 @@ export const RecommendationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "RecommendationSummary",
 }) as any as S.Schema<RecommendationSummary>;
 export type RecommendationSummaryList = RecommendationSummary[];
-export const RecommendationSummaryList = /*@__PURE__*/ S.Array(
-  RecommendationSummary,
-);
+export const RecommendationSummaryList = /*@__PURE__*/ S.Array(RecommendationSummary);
 export interface ListRecommendationsResponse {
   recommendationSummaries: RecommendationSummary[];
   nextToken?: string;
@@ -6567,9 +6305,7 @@ export interface ProcessPaymentRequest {
 }
 export const ProcessPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id"),
-    ),
+    userId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-User-Id")),
     agentName: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Payments-Agent-Name"),
     ),
@@ -6790,12 +6526,7 @@ export type RegistryRecordArn = string;
 export type RegistryRecordId = string;
 export type RegistryRecordName = string;
 export type Description = string | redacted.Redacted<string>;
-export type DescriptorType =
-  | "MCP"
-  | "A2A"
-  | "CUSTOM"
-  | "AGENT_SKILLS"
-  | (string & {});
+export type DescriptorType = "MCP" | "A2A" | "CUSTOM" | "AGENT_SKILLS" | (string & {});
 export const DescriptorType = S.String;
 
 export type SchemaVersion = string;
@@ -6944,9 +6675,7 @@ export const RegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegistryRecordSummary",
 }) as any as S.Schema<RegistryRecordSummary>;
 export type RegistryRecordSummaryList = RegistryRecordSummary[];
-export const RegistryRecordSummaryList = /*@__PURE__*/ S.Array(
-  RegistryRecordSummary,
-);
+export const RegistryRecordSummaryList = /*@__PURE__*/ S.Array(RegistryRecordSummary);
 export interface SearchRegistryRecordsResponse {
   registryRecords: RegistryRecordSummary[];
 }
@@ -6956,9 +6685,7 @@ export const SearchRegistryRecordsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "SearchRegistryRecordsResponse",
 }) as any as S.Schema<SearchRegistryRecordsResponse>;
 export type GroundTruthTurnInput = { prompt: string };
-export const GroundTruthTurnInput = /*@__PURE__*/ S.Union([
-  S.Struct({ prompt: S.String }),
-]);
+export const GroundTruthTurnInput = /*@__PURE__*/ S.Union([S.Struct({ prompt: S.String })]);
 export interface GroundTruthTurn {
   input?: GroundTruthTurnInput;
   expectedResponse?: EvaluationContent;
@@ -6988,14 +6715,9 @@ export const InlineGroundTruth = /*@__PURE__*/ S.suspend(() =>
   identifier: "InlineGroundTruth",
 }) as any as S.Schema<InlineGroundTruth>;
 export type GroundTruthSource = { inline: InlineGroundTruth };
-export const GroundTruthSource = /*@__PURE__*/ S.Union([
-  S.Struct({ inline: InlineGroundTruth }),
-]);
+export const GroundTruthSource = /*@__PURE__*/ S.Union([S.Struct({ inline: InlineGroundTruth })]);
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface SessionMetadataShape {
   sessionId: string;
   testScenarioId?: string;
@@ -7159,9 +6881,7 @@ export const StartCodeInterpreterSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
     traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
-    codeInterpreterIdentifier: S.String.pipe(
-      T.HttpLabel("codeInterpreterIdentifier"),
-    ),
+    codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")),
     name: S.optional(S.String),
     sessionTimeoutSeconds: S.optional(S.Number),
     certificates: S.optional(Certificates),
@@ -7200,9 +6920,9 @@ export const StartCodeInterpreterSessionResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ExtractionJob {
   jobId: string;
 }
-export const ExtractionJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String }),
-).annotate({ identifier: "ExtractionJob" }) as any as S.Schema<ExtractionJob>;
+export const ExtractionJob = /*@__PURE__*/ S.suspend(() => S.Struct({ jobId: S.String })).annotate({
+  identifier: "ExtractionJob",
+}) as any as S.Schema<ExtractionJob>;
 export interface StartMemoryExtractionJobInput {
   memoryId: string;
   extractionJob: ExtractionJob;
@@ -7255,16 +6975,7 @@ export const StartRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
     kmsKeyArn: S.optional(S.String),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/recommendations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/recommendations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartRecommendationRequest",
 }) as any as S.Schema<StartRecommendationRequest>;
@@ -7387,9 +7098,7 @@ export const StopCodeInterpreterSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
     traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
-    codeInterpreterIdentifier: S.String.pipe(
-      T.HttpLabel("codeInterpreterIdentifier"),
-    ),
+    codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
@@ -7430,9 +7139,7 @@ export interface StopRuntimeSessionRequest {
 }
 export const StopRuntimeSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    runtimeSessionId: S.String.pipe(
-      T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
-    ),
+    runtimeSessionId: S.String.pipe(T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id")),
     agentRuntimeArn: S.String.pipe(T.HttpLabel("agentRuntimeArn")),
     qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -7489,14 +7196,7 @@ export const UpdateABTestRequest = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.optional(S.String),
     executionStatus: S.optional(ABTestExecutionStatus),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/ab-tests/{abTestId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/ab-tests/{abTestId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateABTestRequest",

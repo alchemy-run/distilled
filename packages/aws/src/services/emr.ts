@@ -1,17 +1,15 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace(
-  "http://elasticmapreduce.amazonaws.com/doc/2009-03-31",
-);
+import * as T from "../traits.ts";
+const ns = T.XmlNamespace("http://elasticmapreduce.amazonaws.com/doc/2009-03-31");
 const svc = T.AwsApiService({
   sdkId: "EMR",
   serviceShapeName: "ElasticMapReduce",
@@ -31,14 +29,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -68,9 +62,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elasticmapreduce-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -78,13 +70,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elasticmapreduce.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://elasticmapreduce.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://elasticmapreduce.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -107,24 +95,17 @@ export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
     "InternalServerError",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InternalFailure", httpResponseCode: 500 }),
-      T.HttpError(500),
-    ),
+    T.all(T.AwsQueryError({ code: "InternalFailure", httpResponseCode: 500 }), T.HttpError(500)),
   ).pipe(C.withServerError) {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
-    "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()("InternalServerException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
-    "InvalidRequestException",
-    {
-      ErrorCode: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()("InvalidRequestException", {
+    ErrorCode: S.optional(S.String),
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class JobFlowNotFound
   extends /*@__PURE__*/ S.TaggedError<JobFlowNotFound>()(
     "JobFlowNotFound",
@@ -237,8 +218,7 @@ export const EbsBlockDeviceConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "EbsBlockDeviceConfig",
 }) as any as S.Schema<EbsBlockDeviceConfig>;
 export type EbsBlockDeviceConfigList = EbsBlockDeviceConfig[];
-export const EbsBlockDeviceConfigList =
-  /*@__PURE__*/ S.Array(EbsBlockDeviceConfig);
+export const EbsBlockDeviceConfigList = /*@__PURE__*/ S.Array(EbsBlockDeviceConfig);
 export interface EbsConfiguration {
   EbsBlockDeviceConfigs?: EbsBlockDeviceConfig[];
   EbsOptimized?: boolean;
@@ -252,10 +232,7 @@ export const EbsConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "EbsConfiguration",
 }) as any as S.Schema<EbsConfiguration>;
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface Configuration {
   Classification?: string;
   Configurations?: Configuration[];
@@ -335,10 +312,7 @@ export const SpotProvisioningSpecification = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SpotProvisioningSpecification",
 }) as any as S.Schema<SpotProvisioningSpecification>;
-export type OnDemandProvisioningAllocationStrategy =
-  | "lowest-price"
-  | "prioritized"
-  | (string & {});
+export type OnDemandProvisioningAllocationStrategy = "lowest-price" | "prioritized" | (string & {});
 export const OnDemandProvisioningAllocationStrategy = S.String;
 
 export type OnDemandCapacityReservationUsageStrategy =
@@ -346,10 +320,7 @@ export type OnDemandCapacityReservationUsageStrategy =
   | (string & {});
 export const OnDemandCapacityReservationUsageStrategy = S.String;
 
-export type OnDemandCapacityReservationPreference =
-  | "open"
-  | "none"
-  | (string & {});
+export type OnDemandCapacityReservationPreference = "open" | "none" | (string & {});
 export const OnDemandCapacityReservationPreference = S.String;
 
 export interface OnDemandCapacityReservationOptions {
@@ -360,9 +331,7 @@ export interface OnDemandCapacityReservationOptions {
 export const OnDemandCapacityReservationOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     UsageStrategy: S.optional(OnDemandCapacityReservationUsageStrategy),
-    CapacityReservationPreference: S.optional(
-      OnDemandCapacityReservationPreference,
-    ),
+    CapacityReservationPreference: S.optional(OnDemandCapacityReservationPreference),
     CapacityReservationResourceGroupArn: S.optional(S.String),
   }),
 ).annotate({
@@ -384,12 +353,11 @@ export interface InstanceFleetProvisioningSpecifications {
   SpotSpecification?: SpotProvisioningSpecification;
   OnDemandSpecification?: OnDemandProvisioningSpecification;
 }
-export const InstanceFleetProvisioningSpecifications = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SpotSpecification: S.optional(SpotProvisioningSpecification),
-      OnDemandSpecification: S.optional(OnDemandProvisioningSpecification),
-    }),
+export const InstanceFleetProvisioningSpecifications = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SpotSpecification: S.optional(SpotProvisioningSpecification),
+    OnDemandSpecification: S.optional(OnDemandProvisioningSpecification),
+  }),
 ).annotate({
   identifier: "InstanceFleetProvisioningSpecifications",
 }) as any as S.Schema<InstanceFleetProvisioningSpecifications>;
@@ -463,17 +431,7 @@ export const AddInstanceFleetInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     InstanceFleet: S.optional(InstanceFleetConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddInstanceFleetInput",
 }) as any as S.Schema<AddInstanceFleetInput>;
@@ -539,9 +497,7 @@ export interface ScalingAction {
 export const ScalingAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Market: S.optional(MarketType),
-    SimpleScalingPolicyConfiguration: S.optional(
-      SimpleScalingPolicyConfiguration,
-    ),
+    SimpleScalingPolicyConfiguration: S.optional(SimpleScalingPolicyConfiguration),
   }),
 ).annotate({ identifier: "ScalingAction" }) as any as S.Schema<ScalingAction>;
 export type ComparisonOperator =
@@ -552,13 +508,7 @@ export type ComparisonOperator =
   | (string & {});
 export const ComparisonOperator = S.String;
 
-export type Statistic =
-  | "SAMPLE_COUNT"
-  | "AVERAGE"
-  | "SUM"
-  | "MINIMUM"
-  | "MAXIMUM"
-  | (string & {});
+export type Statistic = "SAMPLE_COUNT" | "AVERAGE" | "SUM" | "MINIMUM" | "MAXIMUM" | (string & {});
 export const Statistic = S.String;
 
 export type Unit =
@@ -694,8 +644,7 @@ export const InstanceGroupConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "InstanceGroupConfig",
 }) as any as S.Schema<InstanceGroupConfig>;
 export type InstanceGroupConfigList = InstanceGroupConfig[];
-export const InstanceGroupConfigList =
-  /*@__PURE__*/ S.Array(InstanceGroupConfig);
+export const InstanceGroupConfigList = /*@__PURE__*/ S.Array(InstanceGroupConfig);
 export interface AddInstanceGroupsInput {
   InstanceGroups?: InstanceGroupConfig[];
   JobFlowId?: string;
@@ -704,17 +653,7 @@ export const AddInstanceGroupsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     InstanceGroups: S.optional(InstanceGroupConfigList),
     JobFlowId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddInstanceGroupsInput",
 }) as any as S.Schema<AddInstanceGroupsInput>;
@@ -818,17 +757,7 @@ export const AddJobFlowStepsInput = /*@__PURE__*/ S.suspend(() =>
     JobFlowId: S.optional(S.String),
     Steps: S.optional(StepConfigList),
     ExecutionRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddJobFlowStepsInput",
 }) as any as S.Schema<AddJobFlowStepsInput>;
@@ -863,26 +792,13 @@ export const AddTagsInput = /*@__PURE__*/ S.suspend(() =>
     ResourceId: S.optional(S.String),
     Tags: S.optional(TagList),
     ClusterId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "AddTagsInput" }) as any as S.Schema<AddTagsInput>;
 export interface AddTagsOutput {}
-export const AddTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "AddTagsOutput" }) as any as S.Schema<AddTagsOutput>;
-export type StepCancellationOption =
-  | "SEND_INTERRUPT"
-  | "TERMINATE_PROCESS"
-  | (string & {});
+export const AddTagsOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+  identifier: "AddTagsOutput",
+}) as any as S.Schema<AddTagsOutput>;
+export type StepCancellationOption = "SEND_INTERRUPT" | "TERMINATE_PROCESS" | (string & {});
 export const StepCancellationOption = S.String;
 
 export interface CancelStepsInput {
@@ -895,17 +811,7 @@ export const CancelStepsInput = /*@__PURE__*/ S.suspend(() =>
     ClusterId: S.optional(S.String),
     StepIds: S.optional(StepIdsList),
     StepCancellationOption: S.optional(StepCancellationOption),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CancelStepsInput",
 }) as any as S.Schema<CancelStepsInput>;
@@ -962,17 +868,7 @@ export const CreatePersistentAppUIInput = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     XReferer: S.optional(S.String),
     ProfilerType: S.optional(ProfilerType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreatePersistentAppUIInput",
 }) as any as S.Schema<CreatePersistentAppUIInput>;
@@ -996,17 +892,7 @@ export const CreateSecurityConfigurationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     SecurityConfiguration: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSecurityConfigurationInput",
 }) as any as S.Schema<CreateSecurityConfigurationInput>;
@@ -1017,9 +903,7 @@ export interface CreateSecurityConfigurationOutput {
 export const CreateSecurityConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
 ).annotate({
   identifier: "CreateSecurityConfigurationOutput",
@@ -1070,17 +954,7 @@ export const CreateStudioInput = /*@__PURE__*/ S.suspend(() =>
     IdcUserAssignment: S.optional(IdcUserAssignment),
     IdcInstanceArn: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateStudioInput",
 }) as any as S.Schema<CreateStudioInput>;
@@ -1089,9 +963,7 @@ export interface CreateStudioOutput {
   Url?: string;
 }
 export const CreateStudioOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StudioId: S.optional(S.String), Url: S.optional(S.String) }).pipe(
-    ns,
-  ),
+  S.Struct({ StudioId: S.optional(S.String), Url: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "CreateStudioOutput",
 }) as any as S.Schema<CreateStudioOutput>;
@@ -1112,17 +984,7 @@ export const CreateStudioSessionMappingInput = /*@__PURE__*/ S.suspend(() =>
     IdentityName: S.optional(S.String),
     IdentityType: S.optional(IdentityType),
     SessionPolicyArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateStudioSessionMappingInput",
 }) as any as S.Schema<CreateStudioSessionMappingInput>;
@@ -1137,15 +999,7 @@ export interface DeleteSecurityConfigurationInput {
 }
 export const DeleteSecurityConfigurationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteSecurityConfigurationInput",
@@ -1161,23 +1015,13 @@ export interface DeleteStudioInput {
 }
 export const DeleteStudioInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StudioId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteStudioInput",
 }) as any as S.Schema<DeleteStudioInput>;
 export interface DeleteStudioResponse {}
-export const DeleteStudioResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteStudioResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteStudioResponse",
 }) as any as S.Schema<DeleteStudioResponse>;
 export interface DeleteStudioSessionMappingInput {
@@ -1192,17 +1036,7 @@ export const DeleteStudioSessionMappingInput = /*@__PURE__*/ S.suspend(() =>
     IdentityId: S.optional(S.String),
     IdentityName: S.optional(S.String),
     IdentityType: S.optional(IdentityType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteStudioSessionMappingInput",
 }) as any as S.Schema<DeleteStudioSessionMappingInput>;
@@ -1217,15 +1051,7 @@ export interface DescribeClusterInput {
 }
 export const DescribeClusterInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeClusterInput",
@@ -1272,9 +1098,7 @@ export interface ClusterTimeline {
 }
 export const ClusterTimeline = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReadyDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1345,10 +1169,7 @@ export const Ec2InstanceAttributes = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "Ec2InstanceAttributes",
 }) as any as S.Schema<Ec2InstanceAttributes>;
-export type InstanceCollectionType =
-  | "INSTANCE_FLEET"
-  | "INSTANCE_GROUP"
-  | (string & {});
+export type InstanceCollectionType = "INSTANCE_FLEET" | "INSTANCE_GROUP" | (string & {});
 export const InstanceCollectionType = S.String;
 
 export interface Application {
@@ -1395,12 +1216,7 @@ export const KerberosAttributes = /*@__PURE__*/ S.suspend(() =>
   identifier: "KerberosAttributes",
 }) as any as S.Schema<KerberosAttributes>;
 export type OptionalArnType = string;
-export type PlacementGroupStrategy =
-  | "SPREAD"
-  | "PARTITION"
-  | "CLUSTER"
-  | "NONE"
-  | (string & {});
+export type PlacementGroupStrategy = "SPREAD" | "PARTITION" | "CLUSTER" | "NONE" | (string & {});
 export const PlacementGroupStrategy = S.String;
 
 export interface PlacementGroupConfig {
@@ -1416,13 +1232,9 @@ export const PlacementGroupConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "PlacementGroupConfig",
 }) as any as S.Schema<PlacementGroupConfig>;
 export type PlacementGroupConfigList = PlacementGroupConfig[];
-export const PlacementGroupConfigList =
-  /*@__PURE__*/ S.Array(PlacementGroupConfig);
+export const PlacementGroupConfigList = /*@__PURE__*/ S.Array(PlacementGroupConfig);
 export type LogTypesMap = { [key: string]: string[] | undefined };
-export const LogTypesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  XmlStringList.pipe(S.optional),
-);
+export const LogTypesMap = /*@__PURE__*/ S.Record(S.String, XmlStringList.pipe(S.optional));
 export interface CloudWatchLogConfiguration {
   Enabled?: boolean;
   LogGroupName?: string;
@@ -1441,11 +1253,7 @@ export const CloudWatchLogConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CloudWatchLogConfiguration",
 }) as any as S.Schema<CloudWatchLogConfiguration>;
-export type LogType =
-  | "system-logs"
-  | "application-logs"
-  | "persistent-ui-logs"
-  | (string & {});
+export type LogType = "system-logs" | "application-logs" | "persistent-ui-logs" | (string & {});
 export const LogType = S.String;
 
 export type LogUploadPolicyValue =
@@ -1456,10 +1264,7 @@ export type LogUploadPolicyValue =
 export const LogUploadPolicyValue = S.String;
 
 export type LogTypeMap = { [key in LogType]?: LogUploadPolicyValue };
-export const LogTypeMap = /*@__PURE__*/ S.Record(
-  LogType,
-  LogUploadPolicyValue.pipe(S.optional),
-);
+export const LogTypeMap = /*@__PURE__*/ S.Record(LogType, LogUploadPolicyValue.pipe(S.optional));
 export interface S3LoggingConfiguration {
   LogTypeUploadPolicy?: { [key: string]: LogUploadPolicyValue | undefined };
 }
@@ -1594,9 +1399,7 @@ export type JobFlowExecutionState =
 export const JobFlowExecutionState = S.String;
 
 export type JobFlowExecutionStateList = JobFlowExecutionState[];
-export const JobFlowExecutionStateList = /*@__PURE__*/ S.Array(
-  JobFlowExecutionState,
-);
+export const JobFlowExecutionStateList = /*@__PURE__*/ S.Array(JobFlowExecutionState);
 export interface DescribeJobFlowsInput {
   CreatedAfter?: Date;
   CreatedBefore?: Date;
@@ -1609,17 +1412,7 @@ export const DescribeJobFlowsInput = /*@__PURE__*/ S.suspend(() =>
     CreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     JobFlowIds: S.optional(XmlStringList),
     JobFlowStates: S.optional(JobFlowExecutionStateList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeJobFlowsInput",
 }) as any as S.Schema<DescribeJobFlowsInput>;
@@ -1634,9 +1427,7 @@ export interface JobFlowExecutionStatusDetail {
 export const JobFlowExecutionStatusDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     State: S.optional(JobFlowExecutionState),
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReadyDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1689,9 +1480,7 @@ export const InstanceGroupDetail = /*@__PURE__*/ S.suspend(() =>
     InstanceRunningCount: S.optional(S.Number),
     State: S.optional(InstanceGroupState),
     LastStateChangeReason: S.optional(S.String),
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReadyDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1701,8 +1490,7 @@ export const InstanceGroupDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "InstanceGroupDetail",
 }) as any as S.Schema<InstanceGroupDetail>;
 export type InstanceGroupDetailList = InstanceGroupDetail[];
-export const InstanceGroupDetailList =
-  /*@__PURE__*/ S.Array(InstanceGroupDetail);
+export const InstanceGroupDetailList = /*@__PURE__*/ S.Array(InstanceGroupDetail);
 export interface PlacementType {
   AvailabilityZone?: string;
   AvailabilityZones?: string[];
@@ -1770,9 +1558,7 @@ export interface StepExecutionStatusDetail {
 export const StepExecutionStatusDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     State: S.optional(StepExecutionState),
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastStateChangeReason: S.optional(S.String),
@@ -1822,9 +1608,7 @@ export const BootstrapActionDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "BootstrapActionDetail",
 }) as any as S.Schema<BootstrapActionDetail>;
 export type BootstrapActionDetailList = BootstrapActionDetail[];
-export const BootstrapActionDetailList = /*@__PURE__*/ S.Array(
-  BootstrapActionDetail,
-);
+export const BootstrapActionDetailList = /*@__PURE__*/ S.Array(BootstrapActionDetail);
 export type SupportedProductsList = string[];
 export const SupportedProductsList = /*@__PURE__*/ S.Array(S.String);
 export interface JobFlowDetail {
@@ -1917,15 +1701,7 @@ export interface DescribeNotebookExecutionInput {
 }
 export const DescribeNotebookExecutionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NotebookExecutionId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeNotebookExecutionInput",
@@ -1987,10 +1763,7 @@ export type OutputNotebookFormat = "HTML" | (string & {});
 export const OutputNotebookFormat = S.String;
 
 export type EnvironmentVariablesMap = { [key: string]: string | undefined };
-export const EnvironmentVariablesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EnvironmentVariablesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface NotebookExecution {
   NotebookExecutionId?: string;
   EditorId?: string;
@@ -2048,15 +1821,7 @@ export interface DescribePersistentAppUIInput {
 }
 export const DescribePersistentAppUIInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PersistentAppUIId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribePersistentAppUIInput",
@@ -2065,8 +1830,7 @@ export type PersistentAppUIType = "SHS" | "TEZ" | "YTS" | (string & {});
 export const PersistentAppUIType = S.String;
 
 export type PersistentAppUITypeList = PersistentAppUIType[];
-export const PersistentAppUITypeList =
-  /*@__PURE__*/ S.Array(PersistentAppUIType);
+export const PersistentAppUITypeList = /*@__PURE__*/ S.Array(PersistentAppUIType);
 export interface PersistentAppUI {
   PersistentAppUIId?: string;
   PersistentAppUITypeList?: PersistentAppUIType[];
@@ -2084,9 +1848,7 @@ export const PersistentAppUI = /*@__PURE__*/ S.suspend(() =>
     PersistentAppUIStatus: S.optional(S.String),
     AuthorId: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastStateChangeReason: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
@@ -2112,17 +1874,7 @@ export const DescribeReleaseLabelInput = /*@__PURE__*/ S.suspend(() =>
     ReleaseLabel: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeReleaseLabelInput",
 }) as any as S.Schema<DescribeReleaseLabelInput>;
@@ -2136,9 +1888,7 @@ export const SimplifiedApplication = /*@__PURE__*/ S.suspend(() =>
   identifier: "SimplifiedApplication",
 }) as any as S.Schema<SimplifiedApplication>;
 export type SimplifiedApplicationList = SimplifiedApplication[];
-export const SimplifiedApplicationList = /*@__PURE__*/ S.Array(
-  SimplifiedApplication,
-);
+export const SimplifiedApplicationList = /*@__PURE__*/ S.Array(SimplifiedApplication);
 export interface OSRelease {
   Label?: string;
 }
@@ -2168,15 +1918,7 @@ export interface DescribeSecurityConfigurationInput {
 }
 export const DescribeSecurityConfigurationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeSecurityConfigurationInput",
@@ -2190,9 +1932,7 @@ export const DescribeSecurityConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     SecurityConfiguration: S.optional(S.String),
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
 ).annotate({
   identifier: "DescribeSecurityConfigurationOutput",
@@ -2205,17 +1945,7 @@ export const DescribeStepInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     StepId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeStepInput",
 }) as any as S.Schema<DescribeStepInput>;
@@ -2280,9 +2010,7 @@ export interface StepTimeline {
 }
 export const StepTimeline = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2336,15 +2064,7 @@ export interface DescribeStudioInput {
 }
 export const DescribeStudioInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StudioId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeStudioInput",
@@ -2410,15 +2130,7 @@ export interface GetAutoTerminationPolicyInput {
 }
 export const GetAutoTerminationPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetAutoTerminationPolicyInput",
@@ -2435,26 +2147,13 @@ export interface GetAutoTerminationPolicyOutput {
   AutoTerminationPolicy?: AutoTerminationPolicy;
 }
 export const GetAutoTerminationPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AutoTerminationPolicy: S.optional(AutoTerminationPolicy) }).pipe(
-    ns,
-  ),
+  S.Struct({ AutoTerminationPolicy: S.optional(AutoTerminationPolicy) }).pipe(ns),
 ).annotate({
   identifier: "GetAutoTerminationPolicyOutput",
 }) as any as S.Schema<GetAutoTerminationPolicyOutput>;
 export interface GetBlockPublicAccessConfigurationInput {}
-export const GetBlockPublicAccessConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const GetBlockPublicAccessConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetBlockPublicAccessConfigurationInput",
 }) as any as S.Schema<GetBlockPublicAccessConfigurationInput>;
@@ -2490,14 +2189,11 @@ export interface BlockPublicAccessConfigurationMetadata {
   CreationDateTime?: Date;
   CreatedByArn?: string;
 }
-export const BlockPublicAccessConfigurationMetadata = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      CreationDateTime: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-      CreatedByArn: S.optional(S.String),
-    }),
+export const BlockPublicAccessConfigurationMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedByArn: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "BlockPublicAccessConfigurationMetadata",
 }) as any as S.Schema<BlockPublicAccessConfigurationMetadata>;
@@ -2511,16 +2207,11 @@ export interface GetBlockPublicAccessConfigurationOutput {
     CreatedByArn: ArnType;
   };
 }
-export const GetBlockPublicAccessConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BlockPublicAccessConfiguration: S.optional(
-        BlockPublicAccessConfiguration,
-      ),
-      BlockPublicAccessConfigurationMetadata: S.optional(
-        BlockPublicAccessConfigurationMetadata,
-      ),
-    }).pipe(ns),
+export const GetBlockPublicAccessConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BlockPublicAccessConfiguration: S.optional(BlockPublicAccessConfiguration),
+    BlockPublicAccessConfigurationMetadata: S.optional(BlockPublicAccessConfigurationMetadata),
+  }).pipe(ns),
 ).annotate({
   identifier: "GetBlockPublicAccessConfigurationOutput",
 }) as any as S.Schema<GetBlockPublicAccessConfigurationOutput>;
@@ -2532,17 +2223,7 @@ export const GetClusterSessionCredentialsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     ExecutionRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetClusterSessionCredentialsInput",
 }) as any as S.Schema<GetClusterSessionCredentialsInput>;
@@ -2579,24 +2260,12 @@ export interface GetManagedScalingPolicyInput {
 }
 export const GetManagedScalingPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetManagedScalingPolicyInput",
 }) as any as S.Schema<GetManagedScalingPolicyInput>;
-export type ComputeLimitsUnitType =
-  | "InstanceFleetUnits"
-  | "Instances"
-  | "VCPU"
-  | (string & {});
+export type ComputeLimitsUnitType = "InstanceFleetUnits" | "Instances" | "VCPU" | (string & {});
 export const ComputeLimitsUnitType = S.String;
 
 export interface ComputeLimits {
@@ -2671,17 +2340,7 @@ export const GetOnClusterAppUIPresignedURLInput = /*@__PURE__*/ S.suspend(() =>
     ApplicationId: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
     ExecutionRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetOnClusterAppUIPresignedURLInput",
 }) as any as S.Schema<GetOnClusterAppUIPresignedURLInput>;
@@ -2711,17 +2370,7 @@ export const GetPersistentAppUIPresignedURLInput = /*@__PURE__*/ S.suspend(() =>
     ApplicationId: S.optional(S.String),
     AuthProxyCall: S.optional(S.Boolean),
     ExecutionRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetPersistentAppUIPresignedURLInput",
 }) as any as S.Schema<GetPersistentAppUIPresignedURLInput>;
@@ -2729,12 +2378,11 @@ export interface GetPersistentAppUIPresignedURLOutput {
   PresignedURLReady?: boolean;
   PresignedURL?: string;
 }
-export const GetPersistentAppUIPresignedURLOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PresignedURLReady: S.optional(S.Boolean),
-      PresignedURL: S.optional(S.String),
-    }).pipe(ns),
+export const GetPersistentAppUIPresignedURLOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PresignedURLReady: S.optional(S.Boolean),
+    PresignedURL: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "GetPersistentAppUIPresignedURLOutput",
 }) as any as S.Schema<GetPersistentAppUIPresignedURLOutput>;
@@ -2747,17 +2395,7 @@ export const GetSessionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     SessionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetSessionInput",
 }) as any as S.Schema<GetSessionInput>;
@@ -2780,15 +2418,14 @@ export interface SessionCloudWatchLoggingConfiguration {
   EncryptionKeyArn?: string;
   LogTypes?: { [key: string]: string[] | undefined };
 }
-export const SessionCloudWatchLoggingConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Enabled: S.optional(S.Boolean),
-      LogGroup: S.optional(S.String),
-      LogStreamNamePrefix: S.optional(S.String),
-      EncryptionKeyArn: S.optional(S.String),
-      LogTypes: S.optional(LogTypesMap),
-    }),
+export const SessionCloudWatchLoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Enabled: S.optional(S.Boolean),
+    LogGroup: S.optional(S.String),
+    LogStreamNamePrefix: S.optional(S.String),
+    EncryptionKeyArn: S.optional(S.String),
+    LogTypes: S.optional(LogTypesMap),
+  }),
 ).annotate({
   identifier: "SessionCloudWatchLoggingConfiguration",
 }) as any as S.Schema<SessionCloudWatchLoggingConfiguration>;
@@ -2827,9 +2464,7 @@ export interface SessionMonitoringConfiguration {
 }
 export const SessionMonitoringConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CloudWatchLoggingConfiguration: S.optional(
-      SessionCloudWatchLoggingConfiguration,
-    ),
+    CloudWatchLoggingConfiguration: S.optional(SessionCloudWatchLoggingConfiguration),
     ManagedLoggingConfiguration: S.optional(SessionManagedLoggingConfiguration),
     S3LoggingConfiguration: S.optional(SessionS3LoggingConfiguration),
   }),
@@ -2901,17 +2536,7 @@ export const GetSessionEndpointInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     SessionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetSessionEndpointInput",
 }) as any as S.Schema<GetSessionEndpointInput>;
@@ -2926,9 +2551,7 @@ export const GetSessionEndpointOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Endpoint: S.optional(S.String),
     AuthToken: S.optional(SensitiveString),
-    AuthTokenExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    AuthTokenExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Credentials: S.optional(Credentials),
   }).pipe(ns),
 ).annotate({
@@ -2946,17 +2569,7 @@ export const GetStudioSessionMappingInput = /*@__PURE__*/ S.suspend(() =>
     IdentityId: S.optional(S.String),
     IdentityName: S.optional(S.String),
     IdentityType: S.optional(IdentityType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetStudioSessionMappingInput",
 }) as any as S.Schema<GetStudioSessionMappingInput>;
@@ -2977,9 +2590,7 @@ export const SessionMappingDetail = /*@__PURE__*/ S.suspend(() =>
     IdentityType: S.optional(IdentityType),
     SessionPolicyArn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "SessionMappingDetail",
@@ -3001,17 +2612,7 @@ export const ListBootstrapActionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBootstrapActionsInput",
 }) as any as S.Schema<ListBootstrapActionsInput>;
@@ -3055,17 +2656,7 @@ export const ListClustersInput = /*@__PURE__*/ S.suspend(() =>
     CreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ClusterStates: S.optional(ClusterStateList),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListClustersInput",
 }) as any as S.Schema<ListClustersInput>;
@@ -3109,17 +2700,7 @@ export const ListInstanceFleetsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListInstanceFleetsInput",
 }) as any as S.Schema<ListInstanceFleetsInput>;
@@ -3162,9 +2743,7 @@ export interface InstanceFleetTimeline {
 }
 export const InstanceFleetTimeline = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReadyDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3224,9 +2803,7 @@ export const InstanceTypeSpecification = /*@__PURE__*/ S.suspend(() =>
   identifier: "InstanceTypeSpecification",
 }) as any as S.Schema<InstanceTypeSpecification>;
 export type InstanceTypeSpecificationList = InstanceTypeSpecification[];
-export const InstanceTypeSpecificationList = /*@__PURE__*/ S.Array(
-  InstanceTypeSpecification,
-);
+export const InstanceTypeSpecificationList = /*@__PURE__*/ S.Array(InstanceTypeSpecification);
 export interface InstanceFleet {
   Id?: string;
   Name?: string;
@@ -3297,17 +2874,7 @@ export const ListInstanceGroupsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListInstanceGroupsInput",
 }) as any as S.Schema<ListInstanceGroupsInput>;
@@ -3342,9 +2909,7 @@ export interface InstanceGroupTimeline {
 }
 export const InstanceGroupTimeline = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReadyDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3563,17 +3128,7 @@ export const ListInstancesInput = /*@__PURE__*/ S.suspend(() =>
     InstanceFleetType: S.optional(InstanceFleetType),
     InstanceStates: S.optional(InstanceStateList),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListInstancesInput",
 }) as any as S.Schema<ListInstancesInput>;
@@ -3605,9 +3160,7 @@ export interface InstanceTimeline {
 }
 export const InstanceTimeline = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ReadyDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -3695,17 +3248,7 @@ export const ListNotebookExecutionsInput = /*@__PURE__*/ S.suspend(() =>
     To: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Marker: S.optional(S.String),
     ExecutionEngineId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListNotebookExecutionsInput",
 }) as any as S.Schema<ListNotebookExecutionsInput>;
@@ -3734,9 +3277,7 @@ export const NotebookExecutionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "NotebookExecutionSummary",
 }) as any as S.Schema<NotebookExecutionSummary>;
 export type NotebookExecutionSummaryList = NotebookExecutionSummary[];
-export const NotebookExecutionSummaryList = /*@__PURE__*/ S.Array(
-  NotebookExecutionSummary,
-);
+export const NotebookExecutionSummaryList = /*@__PURE__*/ S.Array(NotebookExecutionSummary);
 export interface ListNotebookExecutionsOutput {
   NotebookExecutions?: NotebookExecutionSummary[];
   Marker?: string;
@@ -3768,17 +3309,7 @@ export const ListReleaseLabelsInput = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(ReleaseLabelFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListReleaseLabelsInput",
 }) as any as S.Schema<ListReleaseLabelsInput>;
@@ -3799,15 +3330,7 @@ export interface ListSecurityConfigurationsInput {
 }
 export const ListSecurityConfigurationsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Marker: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListSecurityConfigurationsInput",
@@ -3819,17 +3342,13 @@ export interface SecurityConfigurationSummary {
 export const SecurityConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    CreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "SecurityConfigurationSummary",
 }) as any as S.Schema<SecurityConfigurationSummary>;
 export type SecurityConfigurationList = SecurityConfigurationSummary[];
-export const SecurityConfigurationList = /*@__PURE__*/ S.Array(
-  SecurityConfigurationSummary,
-);
+export const SecurityConfigurationList = /*@__PURE__*/ S.Array(SecurityConfigurationSummary);
 export interface ListSecurityConfigurationsOutput {
   SecurityConfigurations?: SecurityConfigurationSummary[];
   Marker?: string;
@@ -3856,17 +3375,7 @@ export const ListSessionsInput = /*@__PURE__*/ S.suspend(() =>
     SessionStates: S.optional(SessionStateList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSessionsInput",
 }) as any as S.Schema<ListSessionsInput>;
@@ -3903,17 +3412,7 @@ export const ListStepsInput = /*@__PURE__*/ S.suspend(() =>
     StepStates: S.optional(StepStateList),
     StepIds: S.optional(XmlStringList),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "ListStepsInput" }) as any as S.Schema<ListStepsInput>;
 export interface StepSummary {
   Id?: string;
@@ -3954,15 +3453,7 @@ export interface ListStudiosInput {
 }
 export const ListStudiosInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Marker: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListStudiosInput",
@@ -4011,17 +3502,7 @@ export const ListStudioSessionMappingsInput = /*@__PURE__*/ S.suspend(() =>
     StudioId: S.optional(S.String),
     IdentityType: S.optional(IdentityType),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStudioSessionMappingsInput",
 }) as any as S.Schema<ListStudioSessionMappingsInput>;
@@ -4046,9 +3527,7 @@ export const SessionMappingSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "SessionMappingSummary",
 }) as any as S.Schema<SessionMappingSummary>;
 export type SessionMappingSummaryList = SessionMappingSummary[];
-export const SessionMappingSummaryList = /*@__PURE__*/ S.Array(
-  SessionMappingSummary,
-);
+export const SessionMappingSummaryList = /*@__PURE__*/ S.Array(SessionMappingSummary);
 export interface ListStudioSessionMappingsOutput {
   SessionMappings?: SessionMappingSummary[];
   Marker?: string;
@@ -4069,17 +3548,7 @@ export const ListSupportedInstanceTypesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ReleaseLabel: S.optional(S.String),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSupportedInstanceTypesInput",
 }) as any as S.Schema<ListSupportedInstanceTypesInput>;
@@ -4114,9 +3583,7 @@ export const SupportedInstanceType = /*@__PURE__*/ S.suspend(() =>
   identifier: "SupportedInstanceType",
 }) as any as S.Schema<SupportedInstanceType>;
 export type SupportedInstanceTypesList = SupportedInstanceType[];
-export const SupportedInstanceTypesList = /*@__PURE__*/ S.Array(
-  SupportedInstanceType,
-);
+export const SupportedInstanceTypesList = /*@__PURE__*/ S.Array(SupportedInstanceType);
 export interface ListSupportedInstanceTypesOutput {
   SupportedInstanceTypes?: SupportedInstanceType[];
   Marker?: string;
@@ -4139,17 +3606,7 @@ export const ModifyClusterInput = /*@__PURE__*/ S.suspend(() =>
     ClusterId: S.optional(S.String),
     StepConcurrencyLevel: S.optional(S.Number),
     ExtendedSupport: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyClusterInput",
 }) as any as S.Schema<ModifyClusterInput>;
@@ -4193,17 +3650,7 @@ export const ModifyInstanceFleetInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     InstanceFleet: S.optional(InstanceFleetModifyConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyInstanceFleetInput",
 }) as any as S.Schema<ModifyInstanceFleetInput>;
@@ -4239,9 +3686,7 @@ export const InstanceGroupModifyConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "InstanceGroupModifyConfig",
 }) as any as S.Schema<InstanceGroupModifyConfig>;
 export type InstanceGroupModifyConfigList = InstanceGroupModifyConfig[];
-export const InstanceGroupModifyConfigList = /*@__PURE__*/ S.Array(
-  InstanceGroupModifyConfig,
-);
+export const InstanceGroupModifyConfigList = /*@__PURE__*/ S.Array(InstanceGroupModifyConfig);
 export interface ModifyInstanceGroupsInput {
   ClusterId?: string;
   InstanceGroups?: InstanceGroupModifyConfig[];
@@ -4250,17 +3695,7 @@ export const ModifyInstanceGroupsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     InstanceGroups: S.optional(InstanceGroupModifyConfigList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyInstanceGroupsInput",
 }) as any as S.Schema<ModifyInstanceGroupsInput>;
@@ -4280,17 +3715,7 @@ export const PutAutoScalingPolicyInput = /*@__PURE__*/ S.suspend(() =>
     ClusterId: S.optional(S.String),
     InstanceGroupId: S.optional(S.String),
     AutoScalingPolicy: S.optional(AutoScalingPolicy),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutAutoScalingPolicyInput",
 }) as any as S.Schema<PutAutoScalingPolicyInput>;
@@ -4339,17 +3764,7 @@ export const PutAutoTerminationPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     AutoTerminationPolicy: S.optional(AutoTerminationPolicy),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutAutoTerminationPolicyInput",
 }) as any as S.Schema<PutAutoTerminationPolicyInput>;
@@ -4362,29 +3777,16 @@ export const PutAutoTerminationPolicyOutput = /*@__PURE__*/ S.suspend(() =>
 export interface PutBlockPublicAccessConfigurationInput {
   BlockPublicAccessConfiguration?: BlockPublicAccessConfiguration;
 }
-export const PutBlockPublicAccessConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BlockPublicAccessConfiguration: S.optional(
-        BlockPublicAccessConfiguration,
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const PutBlockPublicAccessConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BlockPublicAccessConfiguration: S.optional(BlockPublicAccessConfiguration),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutBlockPublicAccessConfigurationInput",
 }) as any as S.Schema<PutBlockPublicAccessConfigurationInput>;
 export interface PutBlockPublicAccessConfigurationOutput {}
-export const PutBlockPublicAccessConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const PutBlockPublicAccessConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "PutBlockPublicAccessConfigurationOutput",
 }) as any as S.Schema<PutBlockPublicAccessConfigurationOutput>;
@@ -4396,17 +3798,7 @@ export const PutManagedScalingPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     ManagedScalingPolicy: S.optional(ManagedScalingPolicy),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutManagedScalingPolicyInput",
 }) as any as S.Schema<PutManagedScalingPolicyInput>;
@@ -4424,17 +3816,7 @@ export const RemoveAutoScalingPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     InstanceGroupId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RemoveAutoScalingPolicyInput",
 }) as any as S.Schema<RemoveAutoScalingPolicyInput>;
@@ -4449,15 +3831,7 @@ export interface RemoveAutoTerminationPolicyInput {
 }
 export const RemoveAutoTerminationPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RemoveAutoTerminationPolicyInput",
@@ -4473,15 +3847,7 @@ export interface RemoveManagedScalingPolicyInput {
 }
 export const RemoveManagedScalingPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RemoveManagedScalingPolicyInput",
@@ -4502,29 +3868,16 @@ export const RemoveTagsInput = /*@__PURE__*/ S.suspend(() =>
     ResourceId: S.optional(S.String),
     TagKeys: S.optional(StringList),
     ClusterId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RemoveTagsInput",
 }) as any as S.Schema<RemoveTagsInput>;
 export interface RemoveTagsOutput {}
-export const RemoveTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const RemoveTagsOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "RemoveTagsOutput",
 }) as any as S.Schema<RemoveTagsOutput>;
 export type InstanceFleetConfigList = InstanceFleetConfig[];
-export const InstanceFleetConfigList =
-  /*@__PURE__*/ S.Array(InstanceFleetConfig);
+export const InstanceFleetConfigList = /*@__PURE__*/ S.Array(InstanceFleetConfig);
 export type SecurityGroupsList = string[];
 export const SecurityGroupsList = /*@__PURE__*/ S.Array(S.String);
 export interface JobFlowInstancesConfig {
@@ -4572,9 +3925,7 @@ export const JobFlowInstancesConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "JobFlowInstancesConfig",
 }) as any as S.Schema<JobFlowInstancesConfig>;
 export type BootstrapActionConfigList = BootstrapActionConfig[];
-export const BootstrapActionConfigList = /*@__PURE__*/ S.Array(
-  BootstrapActionConfig,
-);
+export const BootstrapActionConfigList = /*@__PURE__*/ S.Array(BootstrapActionConfig);
 export interface SupportedProductConfig {
   Name?: string;
   Args?: string[];
@@ -4585,9 +3936,7 @@ export const SupportedProductConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "SupportedProductConfig",
 }) as any as S.Schema<SupportedProductConfig>;
 export type NewSupportedProductsList = SupportedProductConfig[];
-export const NewSupportedProductsList = /*@__PURE__*/ S.Array(
-  SupportedProductConfig,
-);
+export const NewSupportedProductsList = /*@__PURE__*/ S.Array(SupportedProductConfig);
 export interface RunJobFlowInput {
   Name?: string;
   LogUri?: string;
@@ -4662,17 +4011,7 @@ export const RunJobFlowInput = /*@__PURE__*/ S.suspend(() =>
     ExtendedSupport: S.optional(S.Boolean),
     MonitoringConfiguration: S.optional(MonitoringConfiguration),
     SessionEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RunJobFlowInput",
 }) as any as S.Schema<RunJobFlowInput>;
@@ -4696,23 +4035,13 @@ export const SetKeepJobFlowAliveWhenNoStepsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobFlowIds: S.optional(XmlStringList),
     KeepJobFlowAliveWhenNoSteps: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SetKeepJobFlowAliveWhenNoStepsInput",
 }) as any as S.Schema<SetKeepJobFlowAliveWhenNoStepsInput>;
 export interface SetKeepJobFlowAliveWhenNoStepsResponse {}
-export const SetKeepJobFlowAliveWhenNoStepsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const SetKeepJobFlowAliveWhenNoStepsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "SetKeepJobFlowAliveWhenNoStepsResponse",
 }) as any as S.Schema<SetKeepJobFlowAliveWhenNoStepsResponse>;
@@ -4724,17 +4053,7 @@ export const SetTerminationProtectionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobFlowIds: S.optional(XmlStringList),
     TerminationProtected: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SetTerminationProtectionInput",
 }) as any as S.Schema<SetTerminationProtectionInput>;
@@ -4752,17 +4071,7 @@ export const SetUnhealthyNodeReplacementInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobFlowIds: S.optional(XmlStringList),
     UnhealthyNodeReplacement: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SetUnhealthyNodeReplacementInput",
 }) as any as S.Schema<SetUnhealthyNodeReplacementInput>;
@@ -4780,17 +4089,7 @@ export const SetVisibleToAllUsersInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobFlowIds: S.optional(XmlStringList),
     VisibleToAllUsers: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SetVisibleToAllUsersInput",
 }) as any as S.Schema<SetVisibleToAllUsersInput>;
@@ -4846,17 +4145,7 @@ export const StartNotebookExecutionInput = /*@__PURE__*/ S.suspend(() =>
     OutputNotebookS3Location: S.optional(OutputNotebookS3LocationFromInput),
     OutputNotebookFormat: S.optional(OutputNotebookFormat),
     EnvironmentVariables: S.optional(EnvironmentVariablesMap),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartNotebookExecutionInput",
 }) as any as S.Schema<StartNotebookExecutionInput>;
@@ -4889,17 +4178,7 @@ export const StartSessionInput = /*@__PURE__*/ S.suspend(() =>
     SessionIdleTimeoutInMinutes: S.optional(S.Number),
     ClientRequestToken: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartSessionInput",
 }) as any as S.Schema<StartSessionInput>;
@@ -4926,15 +4205,7 @@ export interface StopNotebookExecutionInput {
 }
 export const StopNotebookExecutionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NotebookExecutionId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StopNotebookExecutionInput",
@@ -4950,15 +4221,7 @@ export interface TerminateJobFlowsInput {
 }
 export const TerminateJobFlowsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobFlowIds: S.optional(XmlStringList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TerminateJobFlowsInput",
@@ -4977,17 +4240,7 @@ export const TerminateSessionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterId: S.optional(S.String),
     SessionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "TerminateSessionInput",
 }) as any as S.Schema<TerminateSessionInput>;
@@ -5021,24 +4274,12 @@ export const UpdateStudioInput = /*@__PURE__*/ S.suspend(() =>
     SubnetIds: S.optional(SubnetIdList),
     DefaultS3Location: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateStudioInput",
 }) as any as S.Schema<UpdateStudioInput>;
 export interface UpdateStudioResponse {}
-export const UpdateStudioResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UpdateStudioResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UpdateStudioResponse",
 }) as any as S.Schema<UpdateStudioResponse>;
 export interface UpdateStudioSessionMappingInput {
@@ -5055,17 +4296,7 @@ export const UpdateStudioSessionMappingInput = /*@__PURE__*/ S.suspend(() =>
     IdentityName: S.optional(S.String),
     IdentityType: S.optional(IdentityType),
     SessionPolicyArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateStudioSessionMappingInput",
 }) as any as S.Schema<UpdateStudioSessionMappingInput>;
@@ -5158,10 +4389,7 @@ export const addJobFlowSteps: API.OperationMethod<
   operationName: "AddJobFlowSteps",
 }));
 
-export type AddTagsError =
-  | InternalServerException
-  | InvalidRequestException
-  | CommonErrors;
+export type AddTagsError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Adds tags to an Amazon EMR resource, such as a cluster or an Amazon EMR
  * Studio. Tags make it easier to associate resources in various ways, such as grouping
@@ -5183,10 +4411,7 @@ export const addTags: API.OperationMethod<
   operationName: "AddTags",
 }));
 
-export type CancelStepsError =
-  | InternalServerError
-  | InvalidRequestException
-  | CommonErrors;
+export type CancelStepsError = InternalServerError | InvalidRequestException | CommonErrors;
 /**
  * Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in
  * each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee
@@ -5246,11 +4471,7 @@ export const createSecurityConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSecurityConfigurationInput,
   output: CreateSecurityConfigurationOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    SecurityConfigurationAlreadyExists,
-  ],
+  errors: [InternalServerException, InvalidRequestException, SecurityConfigurationAlreadyExists],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfiguration",
@@ -5325,11 +4546,7 @@ export const deleteSecurityConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSecurityConfigurationInput,
   output: DeleteSecurityConfigurationOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    SecurityConfigurationNotFound,
-  ],
+  errors: [InternalServerException, InvalidRequestException, SecurityConfigurationNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfiguration",
@@ -5520,20 +4737,13 @@ export const describeSecurityConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeSecurityConfigurationInput,
   output: DescribeSecurityConfigurationOutput,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    SecurityConfigurationNotFound,
-  ],
+  errors: [InternalServerException, InvalidRequestException, SecurityConfigurationNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityConfiguration",
 }));
 
-export type DescribeStepError =
-  | InternalServerException
-  | InvalidRequestException
-  | CommonErrors;
+export type DescribeStepError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Provides more detail about the cluster step.
  */
@@ -5699,10 +4909,7 @@ export const getPersistentAppUIPresignedURL: API.OperationMethod<
   operationName: "GetPersistentAppUIPresignedURL",
 }));
 
-export type GetSessionError =
-  | InternalServerException
-  | InvalidRequestException
-  | CommonErrors;
+export type GetSessionError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Returns detailed information about a session.
  */
@@ -5790,10 +4997,7 @@ export const listBootstrapActions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListClustersError =
-  | InternalServerException
-  | InvalidRequestException
-  | CommonErrors;
+export type ListClustersError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Provides the status of all clusters visible to this Amazon Web Services account. Allows
  * you to filter the list of clusters based on certain criteria; for example, filtering by
@@ -5878,10 +5082,7 @@ export const listInstanceGroups: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListInstancesError =
-  | InternalServerException
-  | InvalidRequestException
-  | CommonErrors;
+export type ListInstancesError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Provides information for all active Amazon EC2 instances and Amazon EC2
  * instances terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2
@@ -5996,10 +5197,7 @@ export const listSecurityConfigurations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListSessionsError =
-  | InternalServerException
-  | InvalidRequestException
-  | CommonErrors;
+export type ListSessionsError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Lists the sessions on a cluster. You can filter the results by session state. Newer sessions are returned first.
  */
@@ -6023,10 +5221,7 @@ export const listSessions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListStepsError =
-  | InternalServerException
-  | InvalidRequestException
-  | CommonErrors;
+export type ListStepsError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Provides a list of steps for the cluster in reverse order unless you specify
  * `stepIds` with the request or filter by `StepStates`. You can
@@ -6055,10 +5250,7 @@ export const listSteps: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListStudiosError =
-  | InternalServerException
-  | InvalidRequestException
-  | CommonErrors;
+export type ListStudiosError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Returns a list of all Amazon EMR Studios associated with the Amazon Web Services account. The list includes details such as ID, Studio Access URL, and
  * creation time for each Studio.
@@ -6135,10 +5327,7 @@ export const listSupportedInstanceTypes: API.PaginatedOperationMethod<
   pagination: { inputToken: "Marker", outputToken: "Marker" } as const,
 })) as any;
 
-export type ModifyClusterError =
-  | InternalServerError
-  | InvalidRequestException
-  | CommonErrors;
+export type ModifyClusterError = InternalServerError | InvalidRequestException | CommonErrors;
 /**
  * Modifies the number of steps that can be executed concurrently for the cluster specified
  * using ClusterID.
@@ -6348,10 +5537,7 @@ export const removeManagedScalingPolicy: API.OperationMethod<
   operationName: "RemoveManagedScalingPolicy",
 }));
 
-export type RemoveTagsError =
-  | InternalServerException
-  | InvalidRequestException
-  | CommonErrors;
+export type RemoveTagsError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Removes tags from an Amazon EMR resource, such as a cluster or Amazon EMR Studio. Tags make it easier to associate resources in various ways, such as grouping
  * clusters to track your Amazon EMR resource allocation costs. For more information,
@@ -6416,9 +5602,7 @@ export const runJobFlow: API.OperationMethod<
   operationName: "RunJobFlow",
 }));
 
-export type SetKeepJobFlowAliveWhenNoStepsError =
-  | InternalServerError
-  | CommonErrors;
+export type SetKeepJobFlowAliveWhenNoStepsError = InternalServerError | CommonErrors;
 /**
  * You can use the `SetKeepJobFlowAliveWhenNoSteps` to configure a cluster (job flow) to terminate after the step execution, i.e., all your
  * steps are executed. If you want a transient cluster that shuts down after the last of the current executing steps are completed,
@@ -6440,10 +5624,7 @@ export const setKeepJobFlowAliveWhenNoSteps: API.OperationMethod<
   operationName: "SetKeepJobFlowAliveWhenNoSteps",
 }));
 
-export type SetTerminationProtectionError =
-  | InternalServerError
-  | JobFlowNotFound
-  | CommonErrors;
+export type SetTerminationProtectionError = InternalServerError | JobFlowNotFound | CommonErrors;
 /**
  * SetTerminationProtection locks a cluster (job flow) so the Amazon EC2 instances
  * in the cluster cannot be terminated by user intervention, an API call, or in the event of a
@@ -6479,9 +5660,7 @@ export const setTerminationProtection: API.OperationMethod<
   operationName: "SetTerminationProtection",
 }));
 
-export type SetUnhealthyNodeReplacementError =
-  | InternalServerError
-  | CommonErrors;
+export type SetUnhealthyNodeReplacementError = InternalServerError | CommonErrors;
 /**
  * Specify whether to enable unhealthy node replacement, which lets Amazon EMR gracefully
  * replace core nodes on a cluster if any nodes become unhealthy. For example, a node becomes
@@ -6564,10 +5743,7 @@ export const startNotebookExecution: API.OperationMethod<
   operationName: "StartNotebookExecution",
 }));
 
-export type StartSessionError =
-  | InternalServerException
-  | InvalidRequestException
-  | CommonErrors;
+export type StartSessionError = InternalServerException | InvalidRequestException | CommonErrors;
 /**
  * Creates and starts a new Spark Connect session on the specified cluster. The cluster must be in the `RUNNING` or `WAITING` state and have sessions enabled. This operation is supported in Amazon EMR Spark 8.0.0 and later.
  */
@@ -6606,10 +5782,7 @@ export const stopNotebookExecution: API.OperationMethod<
   operationName: "StopNotebookExecution",
 }));
 
-export type TerminateJobFlowsError =
-  | InternalServerError
-  | JobFlowNotFound
-  | CommonErrors;
+export type TerminateJobFlowsError = InternalServerError | JobFlowNotFound | CommonErrors;
 /**
  * TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is shut
  * down, any step not yet completed is canceled and the Amazon EC2 instances on which

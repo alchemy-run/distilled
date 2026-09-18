@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Media Pipelines",
   serviceShapeName: "ChimeSDKMediaPipelinesService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://media-pipelines-chime-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,9 +66,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://media-pipelines-chime.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://media-pipelines-chime.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -89,9 +81,7 @@ export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
     {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      Code: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       RequestId: S.optional(S.String),
     },
@@ -101,9 +91,7 @@ export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
     {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      Code: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       RequestId: S.optional(S.String),
     },
@@ -113,9 +101,7 @@ export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
     "ForbiddenException",
     {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      Code: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       RequestId: S.optional(S.String),
     },
@@ -125,9 +111,7 @@ export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
     {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      Code: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       RequestId: S.optional(S.String),
     },
@@ -137,9 +121,7 @@ export class ResourceLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ResourceLimitExceededException>()(
     "ResourceLimitExceededException",
     {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      Code: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       RequestId: S.optional(S.String),
     },
@@ -149,9 +131,7 @@ export class ServiceFailureException
   extends /*@__PURE__*/ S.TaggedError<ServiceFailureException>()(
     "ServiceFailureException",
     {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      Code: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       RequestId: S.optional(S.String),
     },
@@ -161,9 +141,7 @@ export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
     {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      Code: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       RequestId: S.optional(S.String),
     },
@@ -173,9 +151,7 @@ export class ThrottledClientException
   extends /*@__PURE__*/ S.TaggedError<ThrottledClientException>()(
     "ThrottledClientException",
     {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      Code: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       RequestId: S.optional(S.String),
     },
@@ -185,9 +161,7 @@ export class UnauthorizedClientException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedClientException>()(
     "UnauthorizedClientException",
     {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      Code: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       RequestId: S.optional(S.String),
     },
@@ -359,14 +333,7 @@ export const VerticalLayoutConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "VerticalLayoutConfiguration",
 }) as any as S.Schema<VerticalLayoutConfiguration>;
 export type CornerRadius = number;
-export type BorderColor =
-  | "Black"
-  | "Blue"
-  | "Red"
-  | "Green"
-  | "White"
-  | "Yellow"
-  | (string & {});
+export type BorderColor = "Black" | "Blue" | "Red" | "Green" | "White" | "Yellow" | (string & {});
 export const BorderColor = S.String;
 
 export type HighlightColor =
@@ -424,13 +391,12 @@ export interface CompositedVideoArtifactsConfiguration {
   Resolution?: ResolutionOption;
   GridViewConfiguration: GridViewConfiguration;
 }
-export const CompositedVideoArtifactsConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Layout: S.optional(LayoutOption),
-      Resolution: S.optional(ResolutionOption),
-      GridViewConfiguration: GridViewConfiguration,
-    }),
+export const CompositedVideoArtifactsConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Layout: S.optional(LayoutOption),
+    Resolution: S.optional(ResolutionOption),
+    GridViewConfiguration: GridViewConfiguration,
+  }),
 ).annotate({
   identifier: "CompositedVideoArtifactsConfiguration",
 }) as any as S.Schema<CompositedVideoArtifactsConfiguration>;
@@ -556,12 +522,8 @@ export const MediaCapturePipeline = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(MediaPipelineStatus),
     SinkType: S.optional(MediaPipelineSinkType),
     SinkArn: S.optional(SensitiveString),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ChimeSdkMeetingConfiguration: S.optional(ChimeSdkMeetingConfiguration),
     SseAwsKeyManagementParams: S.optional(SseAwsKeyManagementParams),
     SinkIamRoleArn: S.optional(SensitiveString),
@@ -591,10 +553,7 @@ export const AudioConcatenationConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AudioConcatenationConfiguration",
 }) as any as S.Schema<AudioConcatenationConfiguration>;
-export type ArtifactsConcatenationState =
-  | "Enabled"
-  | "Disabled"
-  | (string & {});
+export type ArtifactsConcatenationState = "Enabled" | "Disabled" | (string & {});
 export const ArtifactsConcatenationState = S.String;
 
 export interface VideoConcatenationConfiguration {
@@ -616,37 +575,35 @@ export const ContentConcatenationConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface DataChannelConcatenationConfiguration {
   State: ArtifactsConcatenationState;
 }
-export const DataChannelConcatenationConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ State: ArtifactsConcatenationState }),
+export const DataChannelConcatenationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ State: ArtifactsConcatenationState }),
 ).annotate({
   identifier: "DataChannelConcatenationConfiguration",
 }) as any as S.Schema<DataChannelConcatenationConfiguration>;
 export interface TranscriptionMessagesConcatenationConfiguration {
   State: ArtifactsConcatenationState;
 }
-export const TranscriptionMessagesConcatenationConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ State: ArtifactsConcatenationState }),
-  ).annotate({
-    identifier: "TranscriptionMessagesConcatenationConfiguration",
-  }) as any as S.Schema<TranscriptionMessagesConcatenationConfiguration>;
+export const TranscriptionMessagesConcatenationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ State: ArtifactsConcatenationState }),
+).annotate({
+  identifier: "TranscriptionMessagesConcatenationConfiguration",
+}) as any as S.Schema<TranscriptionMessagesConcatenationConfiguration>;
 export interface MeetingEventsConcatenationConfiguration {
   State: ArtifactsConcatenationState;
 }
-export const MeetingEventsConcatenationConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ State: ArtifactsConcatenationState }),
+export const MeetingEventsConcatenationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ State: ArtifactsConcatenationState }),
 ).annotate({
   identifier: "MeetingEventsConcatenationConfiguration",
 }) as any as S.Schema<MeetingEventsConcatenationConfiguration>;
 export interface CompositedVideoConcatenationConfiguration {
   State: ArtifactsConcatenationState;
 }
-export const CompositedVideoConcatenationConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ State: ArtifactsConcatenationState }),
-  ).annotate({
-    identifier: "CompositedVideoConcatenationConfiguration",
-  }) as any as S.Schema<CompositedVideoConcatenationConfiguration>;
+export const CompositedVideoConcatenationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ State: ArtifactsConcatenationState }),
+).annotate({
+  identifier: "CompositedVideoConcatenationConfiguration",
+}) as any as S.Schema<CompositedVideoConcatenationConfiguration>;
 export interface ArtifactsConcatenationConfiguration {
   Audio: AudioConcatenationConfiguration;
   Video: VideoConcatenationConfiguration;
@@ -672,22 +629,20 @@ export const ArtifactsConcatenationConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface ChimeSdkMeetingConcatenationConfiguration {
   ArtifactsConfiguration: ArtifactsConcatenationConfiguration;
 }
-export const ChimeSdkMeetingConcatenationConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ArtifactsConfiguration: ArtifactsConcatenationConfiguration }),
-  ).annotate({
-    identifier: "ChimeSdkMeetingConcatenationConfiguration",
-  }) as any as S.Schema<ChimeSdkMeetingConcatenationConfiguration>;
+export const ChimeSdkMeetingConcatenationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ArtifactsConfiguration: ArtifactsConcatenationConfiguration }),
+).annotate({
+  identifier: "ChimeSdkMeetingConcatenationConfiguration",
+}) as any as S.Schema<ChimeSdkMeetingConcatenationConfiguration>;
 export interface MediaCapturePipelineSourceConfiguration {
   MediaPipelineArn: string | redacted.Redacted<string>;
   ChimeSdkMeetingConfiguration: ChimeSdkMeetingConcatenationConfiguration;
 }
-export const MediaCapturePipelineSourceConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MediaPipelineArn: SensitiveString,
-      ChimeSdkMeetingConfiguration: ChimeSdkMeetingConcatenationConfiguration,
-    }),
+export const MediaCapturePipelineSourceConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MediaPipelineArn: SensitiveString,
+    ChimeSdkMeetingConfiguration: ChimeSdkMeetingConcatenationConfiguration,
+  }),
 ).annotate({
   identifier: "MediaCapturePipelineSourceConfiguration",
 }) as any as S.Schema<MediaCapturePipelineSourceConfiguration>;
@@ -698,15 +653,13 @@ export interface ConcatenationSource {
 export const ConcatenationSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Type: ConcatenationSourceType,
-    MediaCapturePipelineSourceConfiguration:
-      MediaCapturePipelineSourceConfiguration,
+    MediaCapturePipelineSourceConfiguration: MediaCapturePipelineSourceConfiguration,
   }),
 ).annotate({
   identifier: "ConcatenationSource",
 }) as any as S.Schema<ConcatenationSource>;
 export type ConcatenationSourceList = ConcatenationSource[];
-export const ConcatenationSourceList =
-  /*@__PURE__*/ S.Array(ConcatenationSource);
+export const ConcatenationSourceList = /*@__PURE__*/ S.Array(ConcatenationSource);
 export type ConcatenationSinkType = "S3Bucket" | (string & {});
 export const ConcatenationSinkType = S.String;
 
@@ -738,25 +691,22 @@ export interface CreateMediaConcatenationPipelineRequest {
   ClientRequestToken?: string | redacted.Redacted<string>;
   Tags?: Tag[];
 }
-export const CreateMediaConcatenationPipelineRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Sources: ConcatenationSourceList,
-      Sinks: ConcatenationSinkList,
-      ClientRequestToken: S.optional(SensitiveString).pipe(
-        T.IdempotencyToken(),
-      ),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/sdk-media-concatenation-pipelines" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateMediaConcatenationPipelineRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Sources: ConcatenationSourceList,
+    Sinks: ConcatenationSinkList,
+    ClientRequestToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/sdk-media-concatenation-pipelines" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateMediaConcatenationPipelineRequest",
 }) as any as S.Schema<CreateMediaConcatenationPipelineRequest>;
@@ -776,12 +726,8 @@ export const MediaConcatenationPipeline = /*@__PURE__*/ S.suspend(() =>
     Sources: S.optional(ConcatenationSourceList),
     Sinks: S.optional(ConcatenationSinkList),
     Status: S.optional(MediaPipelineStatus),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "MediaConcatenationPipeline",
@@ -789,11 +735,10 @@ export const MediaConcatenationPipeline = /*@__PURE__*/ S.suspend(() =>
 export interface CreateMediaConcatenationPipelineResponse {
   MediaConcatenationPipeline?: MediaConcatenationPipeline;
 }
-export const CreateMediaConcatenationPipelineResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MediaConcatenationPipeline: S.optional(MediaConcatenationPipeline),
-    }),
+export const CreateMediaConcatenationPipelineResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MediaConcatenationPipeline: S.optional(MediaConcatenationPipeline),
+  }),
 ).annotate({
   identifier: "CreateMediaConcatenationPipelineResponse",
 }) as any as S.Schema<CreateMediaConcatenationPipelineResponse>;
@@ -855,16 +800,15 @@ export interface KinesisVideoStreamSourceRuntimeConfiguration {
   MediaEncoding: MediaEncoding;
   MediaSampleRate: number;
 }
-export const KinesisVideoStreamSourceRuntimeConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Streams: Streams,
-      MediaEncoding: MediaEncoding,
-      MediaSampleRate: S.Number,
-    }),
-  ).annotate({
-    identifier: "KinesisVideoStreamSourceRuntimeConfiguration",
-  }) as any as S.Schema<KinesisVideoStreamSourceRuntimeConfiguration>;
+export const KinesisVideoStreamSourceRuntimeConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Streams: Streams,
+    MediaEncoding: MediaEncoding,
+    MediaSampleRate: S.Number,
+  }),
+).annotate({
+  identifier: "KinesisVideoStreamSourceRuntimeConfiguration",
+}) as any as S.Schema<KinesisVideoStreamSourceRuntimeConfiguration>;
 export type NonEmptyString = string;
 export type MediaInsightsRuntimeMetadata = {
   [key: string]: string | undefined;
@@ -882,13 +826,8 @@ export const RecordingStreamConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "RecordingStreamConfiguration",
 }) as any as S.Schema<RecordingStreamConfiguration>;
 export type RecordingStreamList = RecordingStreamConfiguration[];
-export const RecordingStreamList = /*@__PURE__*/ S.Array(
-  RecordingStreamConfiguration,
-);
-export type FragmentSelectorType =
-  | "ProducerTimestamp"
-  | "ServerTimestamp"
-  | (string & {});
+export const RecordingStreamList = /*@__PURE__*/ S.Array(RecordingStreamConfiguration);
+export type FragmentSelectorType = "ProducerTimestamp" | "ServerTimestamp" | (string & {});
 export const FragmentSelectorType = S.String;
 
 export interface TimestampRange {
@@ -917,15 +856,14 @@ export interface KinesisVideoStreamRecordingSourceRuntimeConfiguration {
   Streams: RecordingStreamConfiguration[];
   FragmentSelector: FragmentSelector;
 }
-export const KinesisVideoStreamRecordingSourceRuntimeConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Streams: RecordingStreamList,
-      FragmentSelector: FragmentSelector,
-    }),
-  ).annotate({
-    identifier: "KinesisVideoStreamRecordingSourceRuntimeConfiguration",
-  }) as any as S.Schema<KinesisVideoStreamRecordingSourceRuntimeConfiguration>;
+export const KinesisVideoStreamRecordingSourceRuntimeConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Streams: RecordingStreamList,
+    FragmentSelector: FragmentSelector,
+  }),
+).annotate({
+  identifier: "KinesisVideoStreamRecordingSourceRuntimeConfiguration",
+}) as any as S.Schema<KinesisVideoStreamRecordingSourceRuntimeConfiguration>;
 export type RecordingFileFormat = "Wav" | "Opus" | (string & {});
 export const RecordingFileFormat = S.String;
 
@@ -960,9 +898,7 @@ export const CreateMediaInsightsPipelineRequest = /*@__PURE__*/ S.suspend(() =>
     KinesisVideoStreamRecordingSourceRuntimeConfiguration: S.optional(
       KinesisVideoStreamRecordingSourceRuntimeConfiguration,
     ),
-    S3RecordingSinkRuntimeConfiguration: S.optional(
-      S3RecordingSinkRuntimeConfiguration,
-    ),
+    S3RecordingSinkRuntimeConfiguration: S.optional(S3RecordingSinkRuntimeConfiguration),
     Tags: S.optional(TagList),
     ClientRequestToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
   }).pipe(
@@ -1015,8 +951,7 @@ export const MediaInsightsPipelineElementStatus = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "MediaInsightsPipelineElementStatus",
 }) as any as S.Schema<MediaInsightsPipelineElementStatus>;
-export type MediaInsightsPipelineElementStatuses =
-  MediaInsightsPipelineElementStatus[];
+export type MediaInsightsPipelineElementStatuses = MediaInsightsPipelineElementStatus[];
 export const MediaInsightsPipelineElementStatuses = /*@__PURE__*/ S.Array(
   MediaInsightsPipelineElementStatus,
 );
@@ -1045,12 +980,8 @@ export const MediaInsightsPipeline = /*@__PURE__*/ S.suspend(() =>
     KinesisVideoStreamRecordingSourceRuntimeConfiguration: S.optional(
       KinesisVideoStreamRecordingSourceRuntimeConfiguration,
     ),
-    S3RecordingSinkRuntimeConfiguration: S.optional(
-      S3RecordingSinkRuntimeConfiguration,
-    ),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    S3RecordingSinkRuntimeConfiguration: S.optional(S3RecordingSinkRuntimeConfiguration),
+    CreatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ElementStatuses: S.optional(MediaInsightsPipelineElementStatuses),
   }),
 ).annotate({
@@ -1065,11 +996,7 @@ export const CreateMediaInsightsPipelineResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateMediaInsightsPipelineResponse",
 }) as any as S.Schema<CreateMediaInsightsPipelineResponse>;
 export type MediaInsightsPipelineConfigurationNameString = string;
-export type RealTimeAlertRuleType =
-  | "KeywordMatch"
-  | "Sentiment"
-  | "IssueDetection"
-  | (string & {});
+export type RealTimeAlertRuleType = "KeywordMatch" | "Sentiment" | "IssueDetection" | (string & {});
 export const RealTimeAlertRuleType = S.String;
 
 export type RuleName = string;
@@ -1172,10 +1099,7 @@ export type ContentType = "PII" | (string & {});
 export const ContentType = S.String;
 
 export type PiiEntityTypes = string;
-export type ContentRedactionOutput =
-  | "redacted"
-  | "redacted_and_unredacted"
-  | (string & {});
+export type ContentRedactionOutput = "redacted" | "redacted_and_unredacted" | (string & {});
 export const ContentRedactionOutput = S.String;
 
 export interface PostCallAnalyticsSettings {
@@ -1212,26 +1136,25 @@ export interface AmazonTranscribeCallAnalyticsProcessorConfiguration {
   PostCallAnalyticsSettings?: PostCallAnalyticsSettings;
   CallAnalyticsStreamCategories?: string[];
 }
-export const AmazonTranscribeCallAnalyticsProcessorConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LanguageCode: CallAnalyticsLanguageCode,
-      VocabularyName: S.optional(S.String),
-      VocabularyFilterName: S.optional(S.String),
-      VocabularyFilterMethod: S.optional(VocabularyFilterMethod),
-      LanguageModelName: S.optional(S.String),
-      EnablePartialResultsStabilization: S.optional(S.Boolean),
-      PartialResultsStability: S.optional(PartialResultsStability),
-      ContentIdentificationType: S.optional(ContentType),
-      ContentRedactionType: S.optional(ContentType),
-      PiiEntityTypes: S.optional(S.String),
-      FilterPartialResults: S.optional(S.Boolean),
-      PostCallAnalyticsSettings: S.optional(PostCallAnalyticsSettings),
-      CallAnalyticsStreamCategories: S.optional(CategoryNameList),
-    }),
-  ).annotate({
-    identifier: "AmazonTranscribeCallAnalyticsProcessorConfiguration",
-  }) as any as S.Schema<AmazonTranscribeCallAnalyticsProcessorConfiguration>;
+export const AmazonTranscribeCallAnalyticsProcessorConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LanguageCode: CallAnalyticsLanguageCode,
+    VocabularyName: S.optional(S.String),
+    VocabularyFilterName: S.optional(S.String),
+    VocabularyFilterMethod: S.optional(VocabularyFilterMethod),
+    LanguageModelName: S.optional(S.String),
+    EnablePartialResultsStabilization: S.optional(S.Boolean),
+    PartialResultsStability: S.optional(PartialResultsStability),
+    ContentIdentificationType: S.optional(ContentType),
+    ContentRedactionType: S.optional(ContentType),
+    PiiEntityTypes: S.optional(S.String),
+    FilterPartialResults: S.optional(S.Boolean),
+    PostCallAnalyticsSettings: S.optional(PostCallAnalyticsSettings),
+    CallAnalyticsStreamCategories: S.optional(CategoryNameList),
+  }),
+).annotate({
+  identifier: "AmazonTranscribeCallAnalyticsProcessorConfiguration",
+}) as any as S.Schema<AmazonTranscribeCallAnalyticsProcessorConfiguration>;
 export type LanguageOptions = string;
 export type VocabularyNames = string;
 export type VocabularyFilterNames = string;
@@ -1255,28 +1178,27 @@ export interface AmazonTranscribeProcessorConfiguration {
   VocabularyNames?: string;
   VocabularyFilterNames?: string;
 }
-export const AmazonTranscribeProcessorConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      LanguageCode: S.optional(CallAnalyticsLanguageCode),
-      VocabularyName: S.optional(S.String),
-      VocabularyFilterName: S.optional(S.String),
-      VocabularyFilterMethod: S.optional(VocabularyFilterMethod),
-      ShowSpeakerLabel: S.optional(S.Boolean),
-      EnablePartialResultsStabilization: S.optional(S.Boolean),
-      PartialResultsStability: S.optional(PartialResultsStability),
-      ContentIdentificationType: S.optional(ContentType),
-      ContentRedactionType: S.optional(ContentType),
-      PiiEntityTypes: S.optional(S.String),
-      LanguageModelName: S.optional(S.String),
-      FilterPartialResults: S.optional(S.Boolean),
-      IdentifyLanguage: S.optional(S.Boolean),
-      IdentifyMultipleLanguages: S.optional(S.Boolean),
-      LanguageOptions: S.optional(S.String),
-      PreferredLanguage: S.optional(CallAnalyticsLanguageCode),
-      VocabularyNames: S.optional(S.String),
-      VocabularyFilterNames: S.optional(S.String),
-    }),
+export const AmazonTranscribeProcessorConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LanguageCode: S.optional(CallAnalyticsLanguageCode),
+    VocabularyName: S.optional(S.String),
+    VocabularyFilterName: S.optional(S.String),
+    VocabularyFilterMethod: S.optional(VocabularyFilterMethod),
+    ShowSpeakerLabel: S.optional(S.Boolean),
+    EnablePartialResultsStabilization: S.optional(S.Boolean),
+    PartialResultsStability: S.optional(PartialResultsStability),
+    ContentIdentificationType: S.optional(ContentType),
+    ContentRedactionType: S.optional(ContentType),
+    PiiEntityTypes: S.optional(S.String),
+    LanguageModelName: S.optional(S.String),
+    FilterPartialResults: S.optional(S.Boolean),
+    IdentifyLanguage: S.optional(S.Boolean),
+    IdentifyMultipleLanguages: S.optional(S.Boolean),
+    LanguageOptions: S.optional(S.String),
+    PreferredLanguage: S.optional(CallAnalyticsLanguageCode),
+    VocabularyNames: S.optional(S.String),
+    VocabularyFilterNames: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "AmazonTranscribeProcessorConfiguration",
 }) as any as S.Schema<AmazonTranscribeProcessorConfiguration>;
@@ -1300,22 +1222,18 @@ export const S3RecordingSinkConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "S3RecordingSinkConfiguration",
 }) as any as S.Schema<S3RecordingSinkConfiguration>;
-export type VoiceAnalyticsConfigurationStatus =
-  | "Enabled"
-  | "Disabled"
-  | (string & {});
+export type VoiceAnalyticsConfigurationStatus = "Enabled" | "Disabled" | (string & {});
 export const VoiceAnalyticsConfigurationStatus = S.String;
 
 export interface VoiceAnalyticsProcessorConfiguration {
   SpeakerSearchStatus?: VoiceAnalyticsConfigurationStatus;
   VoiceToneAnalysisStatus?: VoiceAnalyticsConfigurationStatus;
 }
-export const VoiceAnalyticsProcessorConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SpeakerSearchStatus: S.optional(VoiceAnalyticsConfigurationStatus),
-      VoiceToneAnalysisStatus: S.optional(VoiceAnalyticsConfigurationStatus),
-    }),
+export const VoiceAnalyticsProcessorConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SpeakerSearchStatus: S.optional(VoiceAnalyticsConfigurationStatus),
+    VoiceToneAnalysisStatus: S.optional(VoiceAnalyticsConfigurationStatus),
+  }),
 ).annotate({
   identifier: "VoiceAnalyticsProcessorConfiguration",
 }) as any as S.Schema<VoiceAnalyticsProcessorConfiguration>;
@@ -1363,35 +1281,24 @@ export interface MediaInsightsPipelineConfigurationElement {
   SnsTopicSinkConfiguration?: SnsTopicSinkConfiguration;
   VoiceEnhancementSinkConfiguration?: VoiceEnhancementSinkConfiguration;
 }
-export const MediaInsightsPipelineConfigurationElement =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Type: MediaInsightsPipelineConfigurationElementType,
-      AmazonTranscribeCallAnalyticsProcessorConfiguration: S.optional(
-        AmazonTranscribeCallAnalyticsProcessorConfiguration,
-      ),
-      AmazonTranscribeProcessorConfiguration: S.optional(
-        AmazonTranscribeProcessorConfiguration,
-      ),
-      KinesisDataStreamSinkConfiguration: S.optional(
-        KinesisDataStreamSinkConfiguration,
-      ),
-      S3RecordingSinkConfiguration: S.optional(S3RecordingSinkConfiguration),
-      VoiceAnalyticsProcessorConfiguration: S.optional(
-        VoiceAnalyticsProcessorConfiguration,
-      ),
-      LambdaFunctionSinkConfiguration: S.optional(
-        LambdaFunctionSinkConfiguration,
-      ),
-      SqsQueueSinkConfiguration: S.optional(SqsQueueSinkConfiguration),
-      SnsTopicSinkConfiguration: S.optional(SnsTopicSinkConfiguration),
-      VoiceEnhancementSinkConfiguration: S.optional(
-        VoiceEnhancementSinkConfiguration,
-      ),
-    }),
-  ).annotate({
-    identifier: "MediaInsightsPipelineConfigurationElement",
-  }) as any as S.Schema<MediaInsightsPipelineConfigurationElement>;
+export const MediaInsightsPipelineConfigurationElement = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Type: MediaInsightsPipelineConfigurationElementType,
+    AmazonTranscribeCallAnalyticsProcessorConfiguration: S.optional(
+      AmazonTranscribeCallAnalyticsProcessorConfiguration,
+    ),
+    AmazonTranscribeProcessorConfiguration: S.optional(AmazonTranscribeProcessorConfiguration),
+    KinesisDataStreamSinkConfiguration: S.optional(KinesisDataStreamSinkConfiguration),
+    S3RecordingSinkConfiguration: S.optional(S3RecordingSinkConfiguration),
+    VoiceAnalyticsProcessorConfiguration: S.optional(VoiceAnalyticsProcessorConfiguration),
+    LambdaFunctionSinkConfiguration: S.optional(LambdaFunctionSinkConfiguration),
+    SqsQueueSinkConfiguration: S.optional(SqsQueueSinkConfiguration),
+    SnsTopicSinkConfiguration: S.optional(SnsTopicSinkConfiguration),
+    VoiceEnhancementSinkConfiguration: S.optional(VoiceEnhancementSinkConfiguration),
+  }),
+).annotate({
+  identifier: "MediaInsightsPipelineConfigurationElement",
+}) as any as S.Schema<MediaInsightsPipelineConfigurationElement>;
 export type MediaInsightsPipelineConfigurationElements =
   MediaInsightsPipelineConfigurationElement[];
 export const MediaInsightsPipelineConfigurationElements = /*@__PURE__*/ S.Array(
@@ -1405,33 +1312,30 @@ export interface CreateMediaInsightsPipelineConfigurationRequest {
   Tags?: Tag[];
   ClientRequestToken?: string | redacted.Redacted<string>;
 }
-export const CreateMediaInsightsPipelineConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MediaInsightsPipelineConfigurationName: S.String,
-      ResourceAccessRoleArn: SensitiveString,
-      RealTimeAlertConfiguration: S.optional(RealTimeAlertConfiguration),
-      Elements: MediaInsightsPipelineConfigurationElements,
-      Tags: S.optional(TagList),
-      ClientRequestToken: S.optional(SensitiveString).pipe(
-        T.IdempotencyToken(),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/media-insights-pipeline-configurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateMediaInsightsPipelineConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MediaInsightsPipelineConfigurationName: S.String,
+    ResourceAccessRoleArn: SensitiveString,
+    RealTimeAlertConfiguration: S.optional(RealTimeAlertConfiguration),
+    Elements: MediaInsightsPipelineConfigurationElements,
+    Tags: S.optional(TagList),
+    ClientRequestToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/media-insights-pipeline-configurations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "CreateMediaInsightsPipelineConfigurationRequest",
-  }) as any as S.Schema<CreateMediaInsightsPipelineConfigurationRequest>;
+  ),
+).annotate({
+  identifier: "CreateMediaInsightsPipelineConfigurationRequest",
+}) as any as S.Schema<CreateMediaInsightsPipelineConfigurationRequest>;
 export interface MediaInsightsPipelineConfiguration {
   MediaInsightsPipelineConfigurationName?: string;
   MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string>;
@@ -1450,12 +1354,8 @@ export const MediaInsightsPipelineConfiguration = /*@__PURE__*/ S.suspend(() =>
     RealTimeAlertConfiguration: S.optional(RealTimeAlertConfiguration),
     Elements: S.optional(MediaInsightsPipelineConfigurationElements),
     MediaInsightsPipelineConfigurationId: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "MediaInsightsPipelineConfiguration",
@@ -1463,16 +1363,13 @@ export const MediaInsightsPipelineConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface CreateMediaInsightsPipelineConfigurationResponse {
   MediaInsightsPipelineConfiguration?: MediaInsightsPipelineConfiguration;
 }
-export const CreateMediaInsightsPipelineConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MediaInsightsPipelineConfiguration: S.optional(
-        MediaInsightsPipelineConfiguration,
-      ),
-    }),
-  ).annotate({
-    identifier: "CreateMediaInsightsPipelineConfigurationResponse",
-  }) as any as S.Schema<CreateMediaInsightsPipelineConfigurationResponse>;
+export const CreateMediaInsightsPipelineConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MediaInsightsPipelineConfiguration: S.optional(MediaInsightsPipelineConfiguration),
+  }),
+).annotate({
+  identifier: "CreateMediaInsightsPipelineConfigurationResponse",
+}) as any as S.Schema<CreateMediaInsightsPipelineConfigurationResponse>;
 export type LiveConnectorSourceType = "ChimeSdkMeeting" | (string & {});
 export const LiveConnectorSourceType = S.String;
 
@@ -1488,17 +1385,16 @@ export interface ChimeSdkMeetingLiveConnectorConfiguration {
   CompositedVideo?: CompositedVideoArtifactsConfiguration;
   SourceConfiguration?: SourceConfiguration;
 }
-export const ChimeSdkMeetingLiveConnectorConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Arn: SensitiveString,
-      MuxType: LiveConnectorMuxType,
-      CompositedVideo: S.optional(CompositedVideoArtifactsConfiguration),
-      SourceConfiguration: S.optional(SourceConfiguration),
-    }),
-  ).annotate({
-    identifier: "ChimeSdkMeetingLiveConnectorConfiguration",
-  }) as any as S.Schema<ChimeSdkMeetingLiveConnectorConfiguration>;
+export const ChimeSdkMeetingLiveConnectorConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Arn: SensitiveString,
+    MuxType: LiveConnectorMuxType,
+    CompositedVideo: S.optional(CompositedVideoArtifactsConfiguration),
+    SourceConfiguration: S.optional(SourceConfiguration),
+  }),
+).annotate({
+  identifier: "ChimeSdkMeetingLiveConnectorConfiguration",
+}) as any as S.Schema<ChimeSdkMeetingLiveConnectorConfiguration>;
 export interface LiveConnectorSourceConfiguration {
   SourceType: LiveConnectorSourceType;
   ChimeSdkMeetingLiveConnectorConfiguration: ChimeSdkMeetingLiveConnectorConfiguration;
@@ -1506,16 +1402,13 @@ export interface LiveConnectorSourceConfiguration {
 export const LiveConnectorSourceConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SourceType: LiveConnectorSourceType,
-    ChimeSdkMeetingLiveConnectorConfiguration:
-      ChimeSdkMeetingLiveConnectorConfiguration,
+    ChimeSdkMeetingLiveConnectorConfiguration: ChimeSdkMeetingLiveConnectorConfiguration,
   }),
 ).annotate({
   identifier: "LiveConnectorSourceConfiguration",
 }) as any as S.Schema<LiveConnectorSourceConfiguration>;
 export type LiveConnectorSourceList = LiveConnectorSourceConfiguration[];
-export const LiveConnectorSourceList = /*@__PURE__*/ S.Array(
-  LiveConnectorSourceConfiguration,
-);
+export const LiveConnectorSourceList = /*@__PURE__*/ S.Array(LiveConnectorSourceConfiguration);
 export type LiveConnectorSinkType = "RTMP" | (string & {});
 export const LiveConnectorSinkType = S.String;
 
@@ -1551,34 +1444,29 @@ export const LiveConnectorSinkConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "LiveConnectorSinkConfiguration",
 }) as any as S.Schema<LiveConnectorSinkConfiguration>;
 export type LiveConnectorSinkList = LiveConnectorSinkConfiguration[];
-export const LiveConnectorSinkList = /*@__PURE__*/ S.Array(
-  LiveConnectorSinkConfiguration,
-);
+export const LiveConnectorSinkList = /*@__PURE__*/ S.Array(LiveConnectorSinkConfiguration);
 export interface CreateMediaLiveConnectorPipelineRequest {
   Sources: LiveConnectorSourceConfiguration[];
   Sinks: LiveConnectorSinkConfiguration[];
   ClientRequestToken?: string | redacted.Redacted<string>;
   Tags?: Tag[];
 }
-export const CreateMediaLiveConnectorPipelineRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Sources: LiveConnectorSourceList,
-      Sinks: LiveConnectorSinkList,
-      ClientRequestToken: S.optional(SensitiveString).pipe(
-        T.IdempotencyToken(),
-      ),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/sdk-media-live-connector-pipelines" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateMediaLiveConnectorPipelineRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Sources: LiveConnectorSourceList,
+    Sinks: LiveConnectorSinkList,
+    ClientRequestToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/sdk-media-live-connector-pipelines" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateMediaLiveConnectorPipelineRequest",
 }) as any as S.Schema<CreateMediaLiveConnectorPipelineRequest>;
@@ -1598,12 +1486,8 @@ export const MediaLiveConnectorPipeline = /*@__PURE__*/ S.suspend(() =>
     MediaPipelineId: S.optional(S.String),
     MediaPipelineArn: S.optional(S.String),
     Status: S.optional(MediaPipelineStatus),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "MediaLiveConnectorPipeline",
@@ -1611,11 +1495,10 @@ export const MediaLiveConnectorPipeline = /*@__PURE__*/ S.suspend(() =>
 export interface CreateMediaLiveConnectorPipelineResponse {
   MediaLiveConnectorPipeline?: MediaLiveConnectorPipeline;
 }
-export const CreateMediaLiveConnectorPipelineResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MediaLiveConnectorPipeline: S.optional(MediaLiveConnectorPipeline),
-    }),
+export const CreateMediaLiveConnectorPipelineResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MediaLiveConnectorPipeline: S.optional(MediaLiveConnectorPipeline),
+  }),
 ).annotate({
   identifier: "CreateMediaLiveConnectorPipelineResponse",
 }) as any as S.Schema<CreateMediaLiveConnectorPipelineResponse>;
@@ -1637,31 +1520,28 @@ export interface CreateMediaPipelineKinesisVideoStreamPoolRequest {
   ClientRequestToken?: string | redacted.Redacted<string>;
   Tags?: Tag[];
 }
-export const CreateMediaPipelineKinesisVideoStreamPoolRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      StreamConfiguration: KinesisVideoStreamConfiguration,
-      PoolName: S.String,
-      ClientRequestToken: S.optional(SensitiveString).pipe(
-        T.IdempotencyToken(),
-      ),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/media-pipeline-kinesis-video-stream-pools",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateMediaPipelineKinesisVideoStreamPoolRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamConfiguration: KinesisVideoStreamConfiguration,
+    PoolName: S.String,
+    ClientRequestToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/media-pipeline-kinesis-video-stream-pools",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "CreateMediaPipelineKinesisVideoStreamPoolRequest",
-  }) as any as S.Schema<CreateMediaPipelineKinesisVideoStreamPoolRequest>;
+  ),
+).annotate({
+  identifier: "CreateMediaPipelineKinesisVideoStreamPoolRequest",
+}) as any as S.Schema<CreateMediaPipelineKinesisVideoStreamPoolRequest>;
 export type KinesisVideoStreamPoolId = string;
 export type KinesisVideoStreamPoolStatus =
   | "CREATING"
@@ -1691,12 +1571,8 @@ export const KinesisVideoStreamPoolConfiguration = /*@__PURE__*/ S.suspend(() =>
     PoolStatus: S.optional(KinesisVideoStreamPoolStatus),
     PoolSize: S.optional(S.Number),
     StreamConfiguration: S.optional(KinesisVideoStreamConfiguration),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "KinesisVideoStreamPoolConfiguration",
@@ -1704,16 +1580,13 @@ export const KinesisVideoStreamPoolConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface CreateMediaPipelineKinesisVideoStreamPoolResponse {
   KinesisVideoStreamPoolConfiguration?: KinesisVideoStreamPoolConfiguration;
 }
-export const CreateMediaPipelineKinesisVideoStreamPoolResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      KinesisVideoStreamPoolConfiguration: S.optional(
-        KinesisVideoStreamPoolConfiguration,
-      ),
-    }),
-  ).annotate({
-    identifier: "CreateMediaPipelineKinesisVideoStreamPoolResponse",
-  }) as any as S.Schema<CreateMediaPipelineKinesisVideoStreamPoolResponse>;
+export const CreateMediaPipelineKinesisVideoStreamPoolResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    KinesisVideoStreamPoolConfiguration: S.optional(KinesisVideoStreamPoolConfiguration),
+  }),
+).annotate({
+  identifier: "CreateMediaPipelineKinesisVideoStreamPoolResponse",
+}) as any as S.Schema<CreateMediaPipelineKinesisVideoStreamPoolResponse>;
 export interface MediaStreamSource {
   SourceType: MediaPipelineSourceType;
   SourceArn: string | redacted.Redacted<string>;
@@ -1725,9 +1598,7 @@ export const MediaStreamSource = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MediaStreamSource>;
 export type MediaStreamSourceList = MediaStreamSource[];
 export const MediaStreamSourceList = /*@__PURE__*/ S.Array(MediaStreamSource);
-export type MediaStreamPipelineSinkType =
-  | "KinesisVideoStreamPool"
-  | (string & {});
+export type MediaStreamPipelineSinkType = "KinesisVideoStreamPool" | (string & {});
 export const MediaStreamPipelineSinkType = S.String;
 
 export type ReservedStreamCapacity = number;
@@ -1790,12 +1661,8 @@ export const MediaStreamPipeline = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MediaPipelineId: S.optional(S.String),
     MediaPipelineArn: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Status: S.optional(MediaPipelineStatus),
     Sources: S.optional(MediaStreamSourceList),
     Sinks: S.optional(MediaStreamSinkList),
@@ -1842,29 +1709,29 @@ export const DeleteMediaCapturePipelineResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteMediaInsightsPipelineConfigurationRequest {
   Identifier: string;
 }
-export const DeleteMediaInsightsPipelineConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/media-insights-pipeline-configurations/{Identifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteMediaInsightsPipelineConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/media-insights-pipeline-configurations/{Identifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DeleteMediaInsightsPipelineConfigurationRequest",
-  }) as any as S.Schema<DeleteMediaInsightsPipelineConfigurationRequest>;
+  ),
+).annotate({
+  identifier: "DeleteMediaInsightsPipelineConfigurationRequest",
+}) as any as S.Schema<DeleteMediaInsightsPipelineConfigurationRequest>;
 export interface DeleteMediaInsightsPipelineConfigurationResponse {}
-export const DeleteMediaInsightsPipelineConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteMediaInsightsPipelineConfigurationResponse",
-  }) as any as S.Schema<DeleteMediaInsightsPipelineConfigurationResponse>;
+export const DeleteMediaInsightsPipelineConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteMediaInsightsPipelineConfigurationResponse",
+}) as any as S.Schema<DeleteMediaInsightsPipelineConfigurationResponse>;
 export interface DeleteMediaPipelineRequest {
   MediaPipelineId: string;
 }
@@ -1888,37 +1755,35 @@ export const DeleteMediaPipelineRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMediaPipelineRequest",
 }) as any as S.Schema<DeleteMediaPipelineRequest>;
 export interface DeleteMediaPipelineResponse {}
-export const DeleteMediaPipelineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteMediaPipelineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMediaPipelineResponse",
 }) as any as S.Schema<DeleteMediaPipelineResponse>;
 export interface DeleteMediaPipelineKinesisVideoStreamPoolRequest {
   Identifier: string;
 }
-export const DeleteMediaPipelineKinesisVideoStreamPoolRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/media-pipeline-kinesis-video-stream-pools/{Identifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteMediaPipelineKinesisVideoStreamPoolRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/media-pipeline-kinesis-video-stream-pools/{Identifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DeleteMediaPipelineKinesisVideoStreamPoolRequest",
-  }) as any as S.Schema<DeleteMediaPipelineKinesisVideoStreamPoolRequest>;
+  ),
+).annotate({
+  identifier: "DeleteMediaPipelineKinesisVideoStreamPoolRequest",
+}) as any as S.Schema<DeleteMediaPipelineKinesisVideoStreamPoolRequest>;
 export interface DeleteMediaPipelineKinesisVideoStreamPoolResponse {}
-export const DeleteMediaPipelineKinesisVideoStreamPoolResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteMediaPipelineKinesisVideoStreamPoolResponse",
-  }) as any as S.Schema<DeleteMediaPipelineKinesisVideoStreamPoolResponse>;
+export const DeleteMediaPipelineKinesisVideoStreamPoolResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteMediaPipelineKinesisVideoStreamPoolResponse",
+}) as any as S.Schema<DeleteMediaPipelineKinesisVideoStreamPoolResponse>;
 export interface GetMediaCapturePipelineRequest {
   MediaPipelineId: string;
 }
@@ -1952,37 +1817,33 @@ export const GetMediaCapturePipelineResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetMediaInsightsPipelineConfigurationRequest {
   Identifier: string;
 }
-export const GetMediaInsightsPipelineConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/media-insights-pipeline-configurations/{Identifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetMediaInsightsPipelineConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/media-insights-pipeline-configurations/{Identifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "GetMediaInsightsPipelineConfigurationRequest",
-  }) as any as S.Schema<GetMediaInsightsPipelineConfigurationRequest>;
+  ),
+).annotate({
+  identifier: "GetMediaInsightsPipelineConfigurationRequest",
+}) as any as S.Schema<GetMediaInsightsPipelineConfigurationRequest>;
 export interface GetMediaInsightsPipelineConfigurationResponse {
   MediaInsightsPipelineConfiguration?: MediaInsightsPipelineConfiguration;
 }
-export const GetMediaInsightsPipelineConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MediaInsightsPipelineConfiguration: S.optional(
-        MediaInsightsPipelineConfiguration,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetMediaInsightsPipelineConfigurationResponse",
-  }) as any as S.Schema<GetMediaInsightsPipelineConfigurationResponse>;
+export const GetMediaInsightsPipelineConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MediaInsightsPipelineConfiguration: S.optional(MediaInsightsPipelineConfiguration),
+  }),
+).annotate({
+  identifier: "GetMediaInsightsPipelineConfigurationResponse",
+}) as any as S.Schema<GetMediaInsightsPipelineConfigurationResponse>;
 export interface GetMediaPipelineRequest {
   MediaPipelineId: string;
 }
@@ -2029,37 +1890,33 @@ export const GetMediaPipelineResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetMediaPipelineKinesisVideoStreamPoolRequest {
   Identifier: string;
 }
-export const GetMediaPipelineKinesisVideoStreamPoolRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/media-pipeline-kinesis-video-stream-pools/{Identifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetMediaPipelineKinesisVideoStreamPoolRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/media-pipeline-kinesis-video-stream-pools/{Identifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "GetMediaPipelineKinesisVideoStreamPoolRequest",
-  }) as any as S.Schema<GetMediaPipelineKinesisVideoStreamPoolRequest>;
+  ),
+).annotate({
+  identifier: "GetMediaPipelineKinesisVideoStreamPoolRequest",
+}) as any as S.Schema<GetMediaPipelineKinesisVideoStreamPoolRequest>;
 export interface GetMediaPipelineKinesisVideoStreamPoolResponse {
   KinesisVideoStreamPoolConfiguration?: KinesisVideoStreamPoolConfiguration;
 }
-export const GetMediaPipelineKinesisVideoStreamPoolResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      KinesisVideoStreamPoolConfiguration: S.optional(
-        KinesisVideoStreamPoolConfiguration,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetMediaPipelineKinesisVideoStreamPoolResponse",
-  }) as any as S.Schema<GetMediaPipelineKinesisVideoStreamPoolResponse>;
+export const GetMediaPipelineKinesisVideoStreamPoolResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    KinesisVideoStreamPoolConfiguration: S.optional(KinesisVideoStreamPoolConfiguration),
+  }),
+).annotate({
+  identifier: "GetMediaPipelineKinesisVideoStreamPoolResponse",
+}) as any as S.Schema<GetMediaPipelineKinesisVideoStreamPoolResponse>;
 export interface GetSpeakerSearchTaskRequest {
   Identifier: string;
   SpeakerSearchTaskId: string;
@@ -2104,12 +1961,8 @@ export const SpeakerSearchTask = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SpeakerSearchTaskId: S.optional(S.String),
     SpeakerSearchTaskStatus: S.optional(MediaPipelineTaskStatus),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "SpeakerSearchTask",
@@ -2129,9 +1982,7 @@ export interface GetVoiceToneAnalysisTaskRequest {
 export const GetVoiceToneAnalysisTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    VoiceToneAnalysisTaskId: S.String.pipe(
-      T.HttpLabel("VoiceToneAnalysisTaskId"),
-    ),
+    VoiceToneAnalysisTaskId: S.String.pipe(T.HttpLabel("VoiceToneAnalysisTaskId")),
   }).pipe(
     T.all(
       T.Http({
@@ -2158,12 +2009,8 @@ export const VoiceToneAnalysisTask = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VoiceToneAnalysisTaskId: S.optional(S.String),
     VoiceToneAnalysisTaskStatus: S.optional(MediaPipelineTaskStatus),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "VoiceToneAnalysisTask",
@@ -2211,9 +2058,7 @@ export const MediaCapturePipelineSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "MediaCapturePipelineSummary",
 }) as any as S.Schema<MediaCapturePipelineSummary>;
 export type MediaCapturePipelineSummaryList = MediaCapturePipelineSummary[];
-export const MediaCapturePipelineSummaryList = /*@__PURE__*/ S.Array(
-  MediaCapturePipelineSummary,
-);
+export const MediaCapturePipelineSummaryList = /*@__PURE__*/ S.Array(MediaCapturePipelineSummary);
 export interface ListMediaCapturePipelinesResponse {
   MediaCapturePipelines?: MediaCapturePipelineSummary[];
   NextToken?: string;
@@ -2230,86 +2075,81 @@ export interface ListMediaInsightsPipelineConfigurationsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListMediaInsightsPipelineConfigurationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/media-insights-pipeline-configurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListMediaInsightsPipelineConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/media-insights-pipeline-configurations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListMediaInsightsPipelineConfigurationsRequest",
-  }) as any as S.Schema<ListMediaInsightsPipelineConfigurationsRequest>;
+  ),
+).annotate({
+  identifier: "ListMediaInsightsPipelineConfigurationsRequest",
+}) as any as S.Schema<ListMediaInsightsPipelineConfigurationsRequest>;
 export interface MediaInsightsPipelineConfigurationSummary {
   MediaInsightsPipelineConfigurationName?: string;
   MediaInsightsPipelineConfigurationId?: string;
   MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string>;
 }
-export const MediaInsightsPipelineConfigurationSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MediaInsightsPipelineConfigurationName: S.optional(S.String),
-      MediaInsightsPipelineConfigurationId: S.optional(S.String),
-      MediaInsightsPipelineConfigurationArn: S.optional(SensitiveString),
-    }),
-  ).annotate({
-    identifier: "MediaInsightsPipelineConfigurationSummary",
-  }) as any as S.Schema<MediaInsightsPipelineConfigurationSummary>;
+export const MediaInsightsPipelineConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MediaInsightsPipelineConfigurationName: S.optional(S.String),
+    MediaInsightsPipelineConfigurationId: S.optional(S.String),
+    MediaInsightsPipelineConfigurationArn: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "MediaInsightsPipelineConfigurationSummary",
+}) as any as S.Schema<MediaInsightsPipelineConfigurationSummary>;
 export type MediaInsightsPipelineConfigurationSummaryList =
   MediaInsightsPipelineConfigurationSummary[];
-export const MediaInsightsPipelineConfigurationSummaryList =
-  /*@__PURE__*/ S.Array(MediaInsightsPipelineConfigurationSummary);
+export const MediaInsightsPipelineConfigurationSummaryList = /*@__PURE__*/ S.Array(
+  MediaInsightsPipelineConfigurationSummary,
+);
 export interface ListMediaInsightsPipelineConfigurationsResponse {
   MediaInsightsPipelineConfigurations?: MediaInsightsPipelineConfigurationSummary[];
   NextToken?: string;
 }
-export const ListMediaInsightsPipelineConfigurationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MediaInsightsPipelineConfigurations: S.optional(
-        MediaInsightsPipelineConfigurationSummaryList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListMediaInsightsPipelineConfigurationsResponse",
-  }) as any as S.Schema<ListMediaInsightsPipelineConfigurationsResponse>;
+export const ListMediaInsightsPipelineConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MediaInsightsPipelineConfigurations: S.optional(MediaInsightsPipelineConfigurationSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListMediaInsightsPipelineConfigurationsResponse",
+}) as any as S.Schema<ListMediaInsightsPipelineConfigurationsResponse>;
 export interface ListMediaPipelineKinesisVideoStreamPoolsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListMediaPipelineKinesisVideoStreamPoolsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/media-pipeline-kinesis-video-stream-pools",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListMediaPipelineKinesisVideoStreamPoolsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/media-pipeline-kinesis-video-stream-pools",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListMediaPipelineKinesisVideoStreamPoolsRequest",
-  }) as any as S.Schema<ListMediaPipelineKinesisVideoStreamPoolsRequest>;
+  ),
+).annotate({
+  identifier: "ListMediaPipelineKinesisVideoStreamPoolsRequest",
+}) as any as S.Schema<ListMediaPipelineKinesisVideoStreamPoolsRequest>;
 export interface KinesisVideoStreamPoolSummary {
   PoolName?: string;
   PoolId?: string;
@@ -2332,15 +2172,14 @@ export interface ListMediaPipelineKinesisVideoStreamPoolsResponse {
   KinesisVideoStreamPools?: KinesisVideoStreamPoolSummary[];
   NextToken?: string;
 }
-export const ListMediaPipelineKinesisVideoStreamPoolsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      KinesisVideoStreamPools: S.optional(KinesisVideoStreamPoolSummaryList),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListMediaPipelineKinesisVideoStreamPoolsResponse",
-  }) as any as S.Schema<ListMediaPipelineKinesisVideoStreamPoolsResponse>;
+export const ListMediaPipelineKinesisVideoStreamPoolsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    KinesisVideoStreamPools: S.optional(KinesisVideoStreamPoolSummaryList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListMediaPipelineKinesisVideoStreamPoolsResponse",
+}) as any as S.Schema<ListMediaPipelineKinesisVideoStreamPoolsResponse>;
 export interface ListMediaPipelinesRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -2350,14 +2189,7 @@ export const ListMediaPipelinesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/sdk-media-pipelines" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/sdk-media-pipelines" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListMediaPipelinesRequest",
@@ -2393,14 +2225,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2418,16 +2243,15 @@ export interface KinesisVideoStreamSourceTaskConfiguration {
   ChannelId: number;
   FragmentNumber?: string;
 }
-export const KinesisVideoStreamSourceTaskConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      StreamArn: S.String,
-      ChannelId: S.Number,
-      FragmentNumber: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "KinesisVideoStreamSourceTaskConfiguration",
-  }) as any as S.Schema<KinesisVideoStreamSourceTaskConfiguration>;
+export const KinesisVideoStreamSourceTaskConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamArn: S.String,
+    ChannelId: S.Number,
+    FragmentNumber: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "KinesisVideoStreamSourceTaskConfiguration",
+}) as any as S.Schema<KinesisVideoStreamSourceTaskConfiguration>;
 export interface StartSpeakerSearchTaskRequest {
   Identifier: string;
   VoiceProfileDomainArn: string | redacted.Redacted<string>;
@@ -2532,9 +2356,7 @@ export const StopSpeakerSearchTaskRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopSpeakerSearchTaskRequest",
 }) as any as S.Schema<StopSpeakerSearchTaskRequest>;
 export interface StopSpeakerSearchTaskResponse {}
-export const StopSpeakerSearchTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopSpeakerSearchTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopSpeakerSearchTaskResponse",
 }) as any as S.Schema<StopSpeakerSearchTaskResponse>;
 export interface StopVoiceToneAnalysisTaskRequest {
@@ -2544,9 +2366,7 @@ export interface StopVoiceToneAnalysisTaskRequest {
 export const StopVoiceToneAnalysisTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    VoiceToneAnalysisTaskId: S.String.pipe(
-      T.HttpLabel("VoiceToneAnalysisTaskId"),
-    ),
+    VoiceToneAnalysisTaskId: S.String.pipe(T.HttpLabel("VoiceToneAnalysisTaskId")),
   }).pipe(
     T.all(
       T.Http({
@@ -2588,9 +2408,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2614,9 +2432,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateMediaInsightsPipelineConfigurationRequest {
@@ -2625,42 +2441,38 @@ export interface UpdateMediaInsightsPipelineConfigurationRequest {
   RealTimeAlertConfiguration?: RealTimeAlertConfiguration;
   Elements: MediaInsightsPipelineConfigurationElement[];
 }
-export const UpdateMediaInsightsPipelineConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-      ResourceAccessRoleArn: SensitiveString,
-      RealTimeAlertConfiguration: S.optional(RealTimeAlertConfiguration),
-      Elements: MediaInsightsPipelineConfigurationElements,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/media-insights-pipeline-configurations/{Identifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateMediaInsightsPipelineConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    ResourceAccessRoleArn: SensitiveString,
+    RealTimeAlertConfiguration: S.optional(RealTimeAlertConfiguration),
+    Elements: MediaInsightsPipelineConfigurationElements,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/media-insights-pipeline-configurations/{Identifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "UpdateMediaInsightsPipelineConfigurationRequest",
-  }) as any as S.Schema<UpdateMediaInsightsPipelineConfigurationRequest>;
+  ),
+).annotate({
+  identifier: "UpdateMediaInsightsPipelineConfigurationRequest",
+}) as any as S.Schema<UpdateMediaInsightsPipelineConfigurationRequest>;
 export interface UpdateMediaInsightsPipelineConfigurationResponse {
   MediaInsightsPipelineConfiguration?: MediaInsightsPipelineConfiguration;
 }
-export const UpdateMediaInsightsPipelineConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MediaInsightsPipelineConfiguration: S.optional(
-        MediaInsightsPipelineConfiguration,
-      ),
-    }),
-  ).annotate({
-    identifier: "UpdateMediaInsightsPipelineConfigurationResponse",
-  }) as any as S.Schema<UpdateMediaInsightsPipelineConfigurationResponse>;
+export const UpdateMediaInsightsPipelineConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MediaInsightsPipelineConfiguration: S.optional(MediaInsightsPipelineConfiguration),
+  }),
+).annotate({
+  identifier: "UpdateMediaInsightsPipelineConfigurationResponse",
+}) as any as S.Schema<UpdateMediaInsightsPipelineConfigurationResponse>;
 export type MediaPipelineStatusUpdate = "Pause" | "Resume" | (string & {});
 export const MediaPipelineStatusUpdate = S.String;
 
@@ -2668,38 +2480,38 @@ export interface UpdateMediaInsightsPipelineStatusRequest {
   Identifier: string;
   UpdateStatus: MediaPipelineStatusUpdate;
 }
-export const UpdateMediaInsightsPipelineStatusRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-      UpdateStatus: MediaPipelineStatusUpdate,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/media-insights-pipeline-status/{Identifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateMediaInsightsPipelineStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    UpdateStatus: MediaPipelineStatusUpdate,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/media-insights-pipeline-status/{Identifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateMediaInsightsPipelineStatusRequest",
 }) as any as S.Schema<UpdateMediaInsightsPipelineStatusRequest>;
 export interface UpdateMediaInsightsPipelineStatusResponse {}
-export const UpdateMediaInsightsPipelineStatusResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "UpdateMediaInsightsPipelineStatusResponse",
-  }) as any as S.Schema<UpdateMediaInsightsPipelineStatusResponse>;
+export const UpdateMediaInsightsPipelineStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateMediaInsightsPipelineStatusResponse",
+}) as any as S.Schema<UpdateMediaInsightsPipelineStatusResponse>;
 export type DataRetentionChangeInHours = number;
 export interface KinesisVideoStreamConfigurationUpdate {
   DataRetentionInHours?: number;
 }
-export const KinesisVideoStreamConfigurationUpdate = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ DataRetentionInHours: S.optional(S.Number) }),
+export const KinesisVideoStreamConfigurationUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DataRetentionInHours: S.optional(S.Number) }),
 ).annotate({
   identifier: "KinesisVideoStreamConfigurationUpdate",
 }) as any as S.Schema<KinesisVideoStreamConfigurationUpdate>;
@@ -2707,40 +2519,36 @@ export interface UpdateMediaPipelineKinesisVideoStreamPoolRequest {
   Identifier: string;
   StreamConfiguration?: KinesisVideoStreamConfigurationUpdate;
 }
-export const UpdateMediaPipelineKinesisVideoStreamPoolRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-      StreamConfiguration: S.optional(KinesisVideoStreamConfigurationUpdate),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/media-pipeline-kinesis-video-stream-pools/{Identifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateMediaPipelineKinesisVideoStreamPoolRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    StreamConfiguration: S.optional(KinesisVideoStreamConfigurationUpdate),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/media-pipeline-kinesis-video-stream-pools/{Identifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "UpdateMediaPipelineKinesisVideoStreamPoolRequest",
-  }) as any as S.Schema<UpdateMediaPipelineKinesisVideoStreamPoolRequest>;
+  ),
+).annotate({
+  identifier: "UpdateMediaPipelineKinesisVideoStreamPoolRequest",
+}) as any as S.Schema<UpdateMediaPipelineKinesisVideoStreamPoolRequest>;
 export interface UpdateMediaPipelineKinesisVideoStreamPoolResponse {
   KinesisVideoStreamPoolConfiguration?: KinesisVideoStreamPoolConfiguration;
 }
-export const UpdateMediaPipelineKinesisVideoStreamPoolResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      KinesisVideoStreamPoolConfiguration: S.optional(
-        KinesisVideoStreamPoolConfiguration,
-      ),
-    }),
-  ).annotate({
-    identifier: "UpdateMediaPipelineKinesisVideoStreamPoolResponse",
-  }) as any as S.Schema<UpdateMediaPipelineKinesisVideoStreamPoolResponse>;
+export const UpdateMediaPipelineKinesisVideoStreamPoolResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    KinesisVideoStreamPoolConfiguration: S.optional(KinesisVideoStreamPoolConfiguration),
+  }),
+).annotate({
+  identifier: "UpdateMediaPipelineKinesisVideoStreamPoolResponse",
+}) as any as S.Schema<UpdateMediaPipelineKinesisVideoStreamPoolResponse>;
 export type ErrorCode =
   | "BadRequest"
   | "Forbidden"

@@ -6,7 +6,4 @@
  * the converter stamps as paginated pass core's {@link paginateCursor} or
  * {@link paginatePageNumber} strategy to `API.makePaginated`.
  */
-export {
-  paginateCursor,
-  paginatePageNumber,
-} from "@distilled.cloud/core/pagination";
+export { paginateCursor, paginatePageNumber } from "@distilled.cloud/core/pagination";

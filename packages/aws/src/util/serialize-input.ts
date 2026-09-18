@@ -41,11 +41,7 @@ export function applyHttpTrait(ast: AST.AST, request: Request): void {
  * - Collects @httpPayload for body serialization
  * - Collects remaining members as body content
  */
-export function bindInputToRequest(
-  ast: AST.AST,
-  input: Record<string, unknown>,
-  request: Request,
-) {
+export function bindInputToRequest(ast: AST.AST, input: Record<string, unknown>, request: Request) {
   // Use encoded property signatures - these have wire format keys matching the encoded input
   const props = getEncodedPropertySignatures(ast);
 

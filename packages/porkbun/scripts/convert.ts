@@ -42,8 +42,7 @@ const stripAuth = (spec: any): void => {
       }
       if (Array.isArray(schema.required)) {
         schema.required = schema.required.filter(
-          (name: unknown) =>
-            typeof name !== "string" || !AUTH_BODY_FIELDS.has(name),
+          (name: unknown) => typeof name !== "string" || !AUTH_BODY_FIELDS.has(name),
         );
         if (schema.required.length === 0) delete schema.required;
       }

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "ServerlessApplicationRepository",
   serviceShapeName: "ServerlessApplicationRepository",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +59,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://serverlessrepo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +67,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://serverlessrepo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://serverlessrepo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://serverlessrepo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -196,16 +186,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
         TemplateUrl: "templateUrl",
       }),
     )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/applications" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+    .pipe(T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateApplicationRequest",
 }) as any as S.Schema<CreateApplicationRequest>;
@@ -260,8 +241,7 @@ export const ParameterDefinition = /*@__PURE__*/ S.suspend(() =>
   identifier: "ParameterDefinition",
 }) as any as S.Schema<ParameterDefinition>;
 export type __listOfParameterDefinition = ParameterDefinition[];
-export const __listOfParameterDefinition =
-  /*@__PURE__*/ S.Array(ParameterDefinition);
+export const __listOfParameterDefinition = /*@__PURE__*/ S.Array(ParameterDefinition);
 export type Capability =
   | "CAPABILITY_IAM"
   | "CAPABILITY_NAMED_IAM"
@@ -518,52 +498,51 @@ export interface CreateCloudFormationChangeSetRequest {
   Tags?: Tag[];
   TemplateId?: string;
 }
-export const CreateCloudFormationChangeSetRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      Capabilities: S.optional(__listOf__string),
-      ChangeSetName: S.optional(S.String),
-      ClientToken: S.optional(S.String),
-      Description: S.optional(S.String),
-      NotificationArns: S.optional(__listOf__string),
-      ParameterOverrides: S.optional(__listOfParameterValue),
-      ResourceTypes: S.optional(__listOf__string),
-      RollbackConfiguration: S.optional(RollbackConfiguration),
-      SemanticVersion: S.optional(S.String),
-      StackName: S.optional(S.String),
-      Tags: S.optional(__listOfTag),
-      TemplateId: S.optional(S.String),
-    })
-      .pipe(
-        S.encodeKeys({
-          Capabilities: "capabilities",
-          ChangeSetName: "changeSetName",
-          ClientToken: "clientToken",
-          Description: "description",
-          NotificationArns: "notificationArns",
-          ParameterOverrides: "parameterOverrides",
-          ResourceTypes: "resourceTypes",
-          RollbackConfiguration: "rollbackConfiguration",
-          SemanticVersion: "semanticVersion",
-          StackName: "stackName",
-          Tags: "tags",
-          TemplateId: "templateId",
+export const CreateCloudFormationChangeSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    Capabilities: S.optional(__listOf__string),
+    ChangeSetName: S.optional(S.String),
+    ClientToken: S.optional(S.String),
+    Description: S.optional(S.String),
+    NotificationArns: S.optional(__listOf__string),
+    ParameterOverrides: S.optional(__listOfParameterValue),
+    ResourceTypes: S.optional(__listOf__string),
+    RollbackConfiguration: S.optional(RollbackConfiguration),
+    SemanticVersion: S.optional(S.String),
+    StackName: S.optional(S.String),
+    Tags: S.optional(__listOfTag),
+    TemplateId: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        Capabilities: "capabilities",
+        ChangeSetName: "changeSetName",
+        ClientToken: "clientToken",
+        Description: "description",
+        NotificationArns: "notificationArns",
+        ParameterOverrides: "parameterOverrides",
+        ResourceTypes: "resourceTypes",
+        RollbackConfiguration: "rollbackConfiguration",
+        SemanticVersion: "semanticVersion",
+        StackName: "stackName",
+        Tags: "tags",
+        TemplateId: "templateId",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/applications/{ApplicationId}/changesets",
         }),
-      )
-      .pipe(
-        T.all(
-          T.Http({
-            method: "POST",
-            uri: "/applications/{ApplicationId}/changesets",
-          }),
-          svc,
-          auth,
-          proto,
-          ver,
-          rules,
-        ),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
       ),
+    ),
 ).annotate({
   identifier: "CreateCloudFormationChangeSetRequest",
 }) as any as S.Schema<CreateCloudFormationChangeSetRequest>;
@@ -573,21 +552,20 @@ export interface CreateCloudFormationChangeSetResponse {
   SemanticVersion?: string;
   StackId?: string;
 }
-export const CreateCloudFormationChangeSetResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.optional(S.String),
-      ChangeSetId: S.optional(S.String),
-      SemanticVersion: S.optional(S.String),
-      StackId: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        ApplicationId: "applicationId",
-        ChangeSetId: "changeSetId",
-        SemanticVersion: "semanticVersion",
-        StackId: "stackId",
-      }),
-    ),
+export const CreateCloudFormationChangeSetResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    ChangeSetId: S.optional(S.String),
+    SemanticVersion: S.optional(S.String),
+    StackId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApplicationId: "applicationId",
+      ChangeSetId: "changeSetId",
+      SemanticVersion: "semanticVersion",
+      StackId: "stackId",
+    }),
+  ),
 ).annotate({
   identifier: "CreateCloudFormationChangeSetResponse",
 }) as any as S.Schema<CreateCloudFormationChangeSetResponse>;
@@ -629,27 +607,26 @@ export interface CreateCloudFormationTemplateResponse {
   TemplateId?: string;
   TemplateUrl?: string;
 }
-export const CreateCloudFormationTemplateResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.optional(S.String),
-      CreationTime: S.optional(S.String),
-      ExpirationTime: S.optional(S.String),
-      SemanticVersion: S.optional(S.String),
-      Status: S.optional(Status),
-      TemplateId: S.optional(S.String),
-      TemplateUrl: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        ApplicationId: "applicationId",
-        CreationTime: "creationTime",
-        ExpirationTime: "expirationTime",
-        SemanticVersion: "semanticVersion",
-        Status: "status",
-        TemplateId: "templateId",
-        TemplateUrl: "templateUrl",
-      }),
-    ),
+export const CreateCloudFormationTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.optional(S.String),
+    CreationTime: S.optional(S.String),
+    ExpirationTime: S.optional(S.String),
+    SemanticVersion: S.optional(S.String),
+    Status: S.optional(Status),
+    TemplateId: S.optional(S.String),
+    TemplateUrl: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApplicationId: "applicationId",
+      CreationTime: "creationTime",
+      ExpirationTime: "expirationTime",
+      SemanticVersion: "semanticVersion",
+      Status: "status",
+      TemplateId: "templateId",
+      TemplateUrl: "templateUrl",
+    }),
+  ),
 ).annotate({
   identifier: "CreateCloudFormationTemplateResponse",
 }) as any as S.Schema<CreateCloudFormationTemplateResponse>;
@@ -671,9 +648,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationRequest",
 }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApplicationResponse",
 }) as any as S.Schema<DeleteApplicationResponse>;
 export interface GetApplicationRequest {
@@ -799,9 +774,7 @@ export const ApplicationPolicyStatement = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApplicationPolicyStatement",
 }) as any as S.Schema<ApplicationPolicyStatement>;
 export type __listOfApplicationPolicyStatement = ApplicationPolicyStatement[];
-export const __listOfApplicationPolicyStatement = /*@__PURE__*/ S.Array(
-  ApplicationPolicyStatement,
-);
+export const __listOfApplicationPolicyStatement = /*@__PURE__*/ S.Array(ApplicationPolicyStatement);
 export interface GetApplicationPolicyResponse {
   Statements?: (ApplicationPolicyStatement & {
     Actions: __listOf__string;
@@ -917,8 +890,7 @@ export const ApplicationDependencySummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ApplicationDependencySummary",
 }) as any as S.Schema<ApplicationDependencySummary>;
-export type __listOfApplicationDependencySummary =
-  ApplicationDependencySummary[];
+export type __listOfApplicationDependencySummary = ApplicationDependencySummary[];
 export const __listOfApplicationDependencySummary = /*@__PURE__*/ S.Array(
   ApplicationDependencySummary,
 );
@@ -933,9 +905,7 @@ export const ListApplicationDependenciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Dependencies: S.optional(__listOfApplicationDependencySummary),
     NextToken: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ Dependencies: "dependencies", NextToken: "nextToken" }),
-  ),
+  }).pipe(S.encodeKeys({ Dependencies: "dependencies", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListApplicationDependenciesResponse",
 }) as any as S.Schema<ListApplicationDependenciesResponse>;
@@ -947,16 +917,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("maxItems")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/applications" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListApplicationsRequest",
 }) as any as S.Schema<ListApplicationsRequest>;
@@ -996,8 +957,7 @@ export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApplicationSummary",
 }) as any as S.Schema<ApplicationSummary>;
 export type __listOfApplicationSummary = ApplicationSummary[];
-export const __listOfApplicationSummary =
-  /*@__PURE__*/ S.Array(ApplicationSummary);
+export const __listOfApplicationSummary = /*@__PURE__*/ S.Array(ApplicationSummary);
 export interface ListApplicationsResponse {
   Applications?: (ApplicationSummary & {
     ApplicationId: string;
@@ -1011,9 +971,7 @@ export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Applications: S.optional(__listOfApplicationSummary),
     NextToken: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ Applications: "applications", NextToken: "nextToken" }),
-  ),
+  }).pipe(S.encodeKeys({ Applications: "applications", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListApplicationsResponse",
 }) as any as S.Schema<ListApplicationsResponse>;
@@ -1142,9 +1100,7 @@ export const UnshareApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UnshareApplicationRequest",
 }) as any as S.Schema<UnshareApplicationRequest>;
 export interface UnshareApplicationResponse {}
-export const UnshareApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UnshareApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UnshareApplicationResponse",
 }) as any as S.Schema<UnshareApplicationResponse>;
 export interface UpdateApplicationRequest {

@@ -4159,10 +4159,7 @@
             "title": "ListVerifiedEmailAddresses",
             "documentation": "The following example lists all email addresses that have been submitted for verification with Amazon SES:",
             "output": {
-              "VerifiedEmailAddresses": [
-                "user1@example.com",
-                "user2@example.com"
-              ]
+              "VerifiedEmailAddresses": ["user1@example.com", "user2@example.com"]
             }
           }
         ]
@@ -5473,10 +5470,7 @@
             "input": {
               "Source": "sender@example.com",
               "Destination": {
-                "ToAddresses": [
-                  "recipient1@example.com",
-                  "recipient2@example.com"
-                ],
+                "ToAddresses": ["recipient1@example.com", "recipient2@example.com"],
                 "CcAddresses": ["recipient3@example.com"],
                 "BccAddresses": []
               },

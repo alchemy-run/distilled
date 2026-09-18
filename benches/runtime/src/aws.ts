@@ -1,3 +1,8 @@
+import * as Credentials from "@distilled.cloud/aws/Credentials";
+import * as DynamoDB from "@distilled.cloud/aws/dynamodb";
+import * as Lambda from "@distilled.cloud/aws/lambda";
+import * as S3 from "@distilled.cloud/aws/s3";
+import * as STS from "@distilled.cloud/aws/sts";
 /**
  * AWS runtime cases — one service per Smithy wire protocol family:
  *
@@ -24,19 +29,12 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as HttpClient from "effect/unstable/http/HttpClient";
-
-import * as Credentials from "@distilled.cloud/aws/Credentials";
+import type { Operation } from "../../../packages/aws/src/client/operation.ts";
 // The request builder is internal to the AWS package (not in its export map);
 // reach it through the workspace so the "build" stage times the real
 // serializer the protocol layer uses.
 import { makeRequestBuilder } from "../../../packages/aws/src/client/request-builder.ts";
 import { makeResponseParser } from "../../../packages/aws/src/client/response-parser.ts";
-import type { Operation } from "../../../packages/aws/src/client/operation.ts";
-import * as DynamoDB from "@distilled.cloud/aws/dynamodb";
-import * as Lambda from "@distilled.cloud/aws/lambda";
-import * as S3 from "@distilled.cloud/aws/s3";
-import * as STS from "@distilled.cloud/aws/sts";
-
 import {
   type Case,
   buildLayer,
@@ -141,8 +139,7 @@ const getFunctionJson = JSON.stringify({
   },
   Code: {
     RepositoryType: "S3",
-    Location:
-      "https://awslambda-us-east-1-tasks.s3.us-east-1.amazonaws.com/snapshots/x",
+    Location: "https://awslambda-us-east-1-tasks.s3.us-east-1.amazonaws.com/snapshots/x",
   },
   Tags: { app: "alchemy", env: "bench" },
   Concurrency: { ReservedConcurrentExecutions: 10 },
@@ -205,11 +202,8 @@ const invokeInput: Lambda.InvocationRequest = {
  * protocol reads Credentials and Region from the calling fiber's context on
  * every request, so this is exactly what a real caller would provide.
  */
-const awsContext = (canned: {
-  status?: number;
-  headers?: Record<string, string>;
-  body?: string;
-}) => buildLayer(Layer.merge(Credentials.mock, mockHttpLayer(canned)));
+const awsContext = (canned: { status?: number; headers?: Record<string, string>; body?: string }) =>
+  buildLayer(Layer.merge(Credentials.mock, mockHttpLayer(canned)));
 
 type Ctx = Context.Context<Credentials.Credentials | HttpClient.HttpClient>;
 
@@ -261,12 +255,7 @@ export const awsCases = async (): Promise<Case[]> => {
     const callHead = (ctx: Ctx) => () =>
       runPromise(Effect.provideContext(S3.headObject(headObjectInput), ctx));
     const callHeadErr = () =>
-      runPromise(
-        Effect.provideContext(
-          S3.headObject(headObjectInput).pipe(Effect.flip),
-          errCtx,
-        ),
-      );
+      runPromise(Effect.provideContext(S3.headObject(headObjectInput).pipe(Effect.flip), errCtx));
 
     cases.push(
       {
@@ -291,11 +280,7 @@ export const awsCases = async (): Promise<Case[]> => {
         op: "ListBuckets",
         stage: "wire-decode",
         note: "XML parse + deserialize + decode, 20 buckets",
-        fn: parse(
-          S3.listBuckets,
-          { "content-type": "application/xml" },
-          listBucketsXml,
-        ),
+        fn: parse(S3.listBuckets, { "content-type": "application/xml" }, listBucketsXml),
       },
       {
         provider: "aws",
@@ -395,11 +380,7 @@ export const awsCases = async (): Promise<Case[]> => {
         op: "GetItem",
         stage: "wire-decode",
         note: "JSON parse + deserialize + decode, 7-attr item",
-        fn: parse(
-          DynamoDB.getItem,
-          { "content-type": "application/x-amz-json-1.0" },
-          getItemJson,
-        ),
+        fn: parse(DynamoDB.getItem, { "content-type": "application/x-amz-json-1.0" }, getItemJson),
       },
       {
         provider: "aws",
@@ -415,10 +396,7 @@ export const awsCases = async (): Promise<Case[]> => {
         op: "GetItem",
         stage: "call",
         note: "aws-json + SigV4, 7-attr item",
-        fn: () =>
-          runPromise(
-            Effect.provideContext(DynamoDB.getItem(getItemInput), getCtx),
-          ),
+        fn: () => runPromise(Effect.provideContext(DynamoDB.getItem(getItemInput), getCtx)),
       },
       {
         provider: "aws",
@@ -428,10 +406,7 @@ export const awsCases = async (): Promise<Case[]> => {
         note: "400 ResourceNotFoundException → typed error",
         fn: () =>
           runPromise(
-            Effect.provideContext(
-              DynamoDB.getItem(getItemInput).pipe(Effect.flip),
-              errCtx,
-            ),
+            Effect.provideContext(DynamoDB.getItem(getItemInput).pipe(Effect.flip), errCtx),
           ),
       },
       {
@@ -464,10 +439,7 @@ export const awsCases = async (): Promise<Case[]> => {
         op: "PutItem",
         stage: "call",
         note: "aws-json + SigV4, 7-attr item",
-        fn: () =>
-          runPromise(
-            Effect.provideContext(DynamoDB.putItem(putItemInput), putCtx),
-          ),
+        fn: () => runPromise(Effect.provideContext(DynamoDB.putItem(putItemInput), putCtx)),
       },
     );
   }
@@ -515,11 +487,7 @@ export const awsCases = async (): Promise<Case[]> => {
         op: "GetFunction",
         stage: "wire-decode",
         note: "JSON parse + deserialize + decode, full config",
-        fn: parse(
-          Lambda.getFunction,
-          { "content-type": "application/json" },
-          getFunctionJson,
-        ),
+        fn: parse(Lambda.getFunction, { "content-type": "application/json" }, getFunctionJson),
       },
       {
         provider: "aws",
@@ -535,10 +503,7 @@ export const awsCases = async (): Promise<Case[]> => {
         op: "GetFunction",
         stage: "call",
         note: "rest-json + SigV4, full config body",
-        fn: () =>
-          runPromise(
-            Effect.provideContext(Lambda.getFunction(getFunctionInput), getCtx),
-          ),
+        fn: () => runPromise(Effect.provideContext(Lambda.getFunction(getFunctionInput), getCtx)),
       },
       {
         provider: "aws",
@@ -562,10 +527,7 @@ export const awsCases = async (): Promise<Case[]> => {
         op: "Invoke",
         stage: "call",
         note: "rest-json + SigV4 (signed payload), streamed response",
-        fn: () =>
-          runPromise(
-            Effect.provideContext(Lambda.invoke(invokeInput), invokeCtx),
-          ),
+        fn: () => runPromise(Effect.provideContext(Lambda.invoke(invokeInput), invokeCtx)),
       },
     );
   }
@@ -609,11 +571,7 @@ export const awsCases = async (): Promise<Case[]> => {
         op: "GetCallerIdentity",
         stage: "wire-decode",
         note: "XML parse + Result unwrap + decode",
-        fn: parse(
-          STS.getCallerIdentity,
-          { "content-type": "text/xml" },
-          callerIdentityXml,
-        ),
+        fn: parse(STS.getCallerIdentity, { "content-type": "text/xml" }, callerIdentityXml),
       },
       {
         provider: "aws",
@@ -629,8 +587,7 @@ export const awsCases = async (): Promise<Case[]> => {
         op: "GetCallerIdentity",
         stage: "call",
         note: "aws-query + SigV4, XML result",
-        fn: () =>
-          runPromise(Effect.provideContext(STS.getCallerIdentity(input), ctx)),
+        fn: () => runPromise(Effect.provideContext(STS.getCallerIdentity(input), ctx)),
       },
     );
   }

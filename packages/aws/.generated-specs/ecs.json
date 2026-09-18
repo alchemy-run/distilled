@@ -585,12 +585,7 @@
           }
         },
         "aws.iam#disableConditionKeyInference": {},
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#awsJson1_1": {},
         "smithy.api#documentation": "<fullname>Amazon Elastic Container Service</fullname> <p>Amazon Elastic Container Service (Amazon ECS) is a highly scalable, fast, container management service. It makes it easy to run, stop, and manage Docker containers. You can host your cluster on a serverless infrastructure that's managed by Amazon ECS by launching your services or tasks on Fargate. For more control, you can host your tasks on a cluster of Amazon Elastic Compute Cloud (Amazon EC2) or External (on-premises) instances that you manage.</p> <p>Amazon ECS makes it easy to launch and stop container-based applications with simple API calls. This makes it easy to get the state of your cluster from a centralized service, and gives you access to many familiar Amazon EC2 features.</p> <p>You can use Amazon ECS to schedule the placement of containers across your cluster based on your resource needs, isolation policies, and availability requirements. With Amazon ECS, you don't need to operate your own cluster management and configuration management systems. You also don't need to worry about scaling your management infrastructure. </p>",
         "smithy.api#title": "Amazon EC2 Container Service",
@@ -2304,10 +2299,7 @@
           "template": "capacity-provider/{CapacityProviderName}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "capacity-provider",
           "relativeDocumentation": "create-capacity-provider-console-v2.html",
@@ -2854,10 +2846,7 @@
           "template": "cluster/{ClusterName}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "cluster",
           "relativeDocumentation": "clusters.html",
@@ -3684,10 +3673,7 @@
           "template": "container-instance/{ClusterName}/{ContainerInstanceId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "container-instance",
           "relativeDocumentation": "create-capacity.html",
@@ -3923,11 +3909,7 @@
           "resources": {
             "required": {
               "service-deployment": {
-                "conditionKeys": [
-                  "ecs:service",
-                  "ecs:cluster",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"]
               },
               "service": {
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
@@ -5919,11 +5901,7 @@
           "template": "daemon-deployment/{ClusterName}/{DaemonName}/{DaemonDeploymentId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:cluster",
-          "ecs:daemon",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:cluster", "ecs:daemon", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "daemon-deployment",
           "relativeDocumentation": "daemon-deployment.html",
@@ -6470,11 +6448,7 @@
           "template": "daemon-revision/{ClusterName}/{DaemonName}/{DaemonRevisionId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:cluster",
-          "ecs:daemon",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:cluster", "ecs:daemon", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "daemon-revision",
           "relativeDocumentation": "daemon-revision.html",
@@ -7789,11 +7763,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aws:ResourceTag/${TagKey}",
-          "ecs:cluster",
-          "ecs:service"
-        ],
+        "aws.iam#conditionKeys": ["aws:ResourceTag/${TagKey}", "ecs:cluster", "ecs:service"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to delete the specified task set",
           "relativeDocumentation": "API_DeleteTaskSet.html",
@@ -9341,11 +9311,7 @@
           "resources": {
             "required": {
               "daemon-deployment": {
-                "conditionKeys": [
-                  "ecs:cluster",
-                  "ecs:daemon",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:cluster", "ecs:daemon", "aws:ResourceTag/${TagKey}"]
               },
               "daemon": {
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
@@ -9596,11 +9562,7 @@
           "resources": {
             "required": {
               "daemon-revision": {
-                "conditionKeys": [
-                  "ecs:cluster",
-                  "ecs:daemon",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:cluster", "ecs:daemon", "aws:ResourceTag/${TagKey}"]
               },
               "daemon": {
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
@@ -9971,11 +9933,7 @@
           "resources": {
             "required": {
               "service-deployment": {
-                "conditionKeys": [
-                  "ecs:service",
-                  "ecs:cluster",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"]
               },
               "service": {
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
@@ -10168,11 +10126,7 @@
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
               },
               "service-revision": {
-                "conditionKeys": [
-                  "ecs:service",
-                  "ecs:cluster",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"]
               }
             }
           }
@@ -10710,11 +10664,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aws:ResourceTag/${TagKey}",
-          "ecs:cluster",
-          "ecs:service"
-        ],
+        "aws.iam#conditionKeys": ["aws:ResourceTag/${TagKey}", "ecs:cluster", "ecs:service"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to describe Amazon ECS task sets",
           "relativeDocumentation": "API_DescribeTaskSets.html",
@@ -14322,9 +14272,7 @@
             "title": "To list the services in a cluster",
             "documentation": "This example lists the services running in the default cluster for an account.",
             "output": {
-              "serviceArns": [
-                "arn:aws:ecs:us-east-1:012345678910:service/default/my-http-service"
-              ]
+              "serviceArns": ["arn:aws:ecs:us-east-1:012345678910:service/default/my-http-service"]
             }
           }
         ],
@@ -14618,12 +14566,7 @@
             "title": "To list your registered task definition families",
             "documentation": "This example lists all of your registered task definition families.",
             "output": {
-              "families": [
-                "node-js-app",
-                "web-timer",
-                "hpcc",
-                "hpcc-c4-8xlarge"
-              ]
+              "families": ["node-js-app", "web-timer", "hpcc", "hpcc-c4-8xlarge"]
             }
           },
           {
@@ -17241,10 +17184,7 @@
             "documentation": "This example adds an existing capacity provider \"MyCapacityProvider2\" to a cluster that already has the capacity provider \"MyCapacityProvider1\" associated with it. Both \"MyCapacityProvider2\" and \"MyCapacityProvider1\" need to be specified. ",
             "input": {
               "cluster": "MyCluster",
-              "capacityProviders": [
-                "MyCapacityProvider1",
-                "MyCapacityProvider2"
-              ],
+              "capacityProviders": ["MyCapacityProvider1", "MyCapacityProvider2"],
               "defaultCapacityProviderStrategy": [
                 {
                   "capacityProvider": "MyCapacityProvider1",
@@ -17273,10 +17213,7 @@
                     "value": "enabled"
                   }
                 ],
-                "capacityProviders": [
-                  "MyCapacityProvider1",
-                  "MyCapacityProvider2"
-                ],
+                "capacityProviders": ["MyCapacityProvider1", "MyCapacityProvider2"],
                 "defaultCapacityProviderStrategy": [
                   {
                     "capacityProvider": "MyCapacityProvider1",
@@ -19588,11 +19525,7 @@
           "template": "service-deployment/{ClusterName}/{ServiceName}/{ServiceDeploymentId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:service",
-          "ecs:cluster",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "service-deployment",
           "relativeDocumentation": "service-deployment.html",
@@ -19954,10 +19887,7 @@
           "template": "service/{ClusterName}/{ServiceName}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "service",
           "relativeDocumentation": "ecs_services.html",
@@ -20181,11 +20111,7 @@
           "template": "service-revision/{ClusterName}/{ServiceName}/{ServiceRevisionId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:service",
-          "ecs:cluster",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "service-revision",
           "relativeDocumentation": "service-revision.html",
@@ -20737,11 +20663,7 @@
           "resources": {
             "required": {
               "service-deployment": {
-                "conditionKeys": [
-                  "ecs:service",
-                  "ecs:cluster",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"]
               },
               "service": {
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
@@ -22026,10 +21948,7 @@
           "template": "task-definition/{TaskDefinitionFamilyName}:{TaskDefinitionRevisionNumber}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "task-definition",
           "relativeDocumentation": "task_definitions.html",
@@ -22309,10 +22228,7 @@
           "template": "task/{ClusterName}/{TaskId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "task",
           "relativeDocumentation": "scheduling_tasks.html",
@@ -22546,10 +22462,7 @@
           "template": "task-set/{ClusterName}/{ServiceName}/{TaskSetId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "task-set",
           "relativeDocumentation": "deployment-type-external.html",
@@ -23794,13 +23707,7 @@
                       "integerValue": 0,
                       "longValue": 0,
                       "name": "PORTS",
-                      "stringSetValue": [
-                        "22",
-                        "2376",
-                        "2375",
-                        "51678",
-                        "51679"
-                      ],
+                      "stringSetValue": ["22", "2376", "2375", "51678", "51679"],
                       "type": "STRINGSET"
                     },
                     {
@@ -23832,13 +23739,7 @@
                       "integerValue": 0,
                       "longValue": 0,
                       "name": "PORTS",
-                      "stringSetValue": [
-                        "22",
-                        "2376",
-                        "2375",
-                        "51678",
-                        "51679"
-                      ],
+                      "stringSetValue": ["22", "2376", "2375", "51678", "51679"],
                       "type": "STRINGSET"
                     },
                     {
@@ -24928,11 +24829,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aws:ResourceTag/${TagKey}",
-          "ecs:cluster",
-          "ecs:service"
-        ],
+        "aws.iam#conditionKeys": ["aws:ResourceTag/${TagKey}", "ecs:cluster", "ecs:service"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to update the specified task set",
           "relativeDocumentation": "API_UpdateTaskSet.html",

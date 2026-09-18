@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "ControlCatalog",
   serviceShapeName: "ControlCatalog",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://controlcatalog-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://controlcatalog.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://controlcatalog.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://controlcatalog.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -119,14 +109,7 @@ export interface GetControlRequest {
 }
 export const GetControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ControlArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-control" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/get-control" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetControlRequest",
@@ -134,19 +117,10 @@ export const GetControlRequest = /*@__PURE__*/ S.suspend(() =>
 export type ControlAlias = string;
 export type ControlAliases = string[];
 export const ControlAliases = /*@__PURE__*/ S.Array(S.String);
-export type ControlBehavior =
-  | "PREVENTIVE"
-  | "PROACTIVE"
-  | "DETECTIVE"
-  | (string & {});
+export type ControlBehavior = "PREVENTIVE" | "PROACTIVE" | "DETECTIVE" | (string & {});
 export const ControlBehavior = S.String;
 
-export type ControlSeverity =
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL"
-  | (string & {});
+export type ControlSeverity = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
 export const ControlSeverity = S.String;
 
 export type ControlScope = "GLOBAL" | "REGIONAL" | (string & {});
@@ -178,17 +152,10 @@ export const ImplementationDetails = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ImplementationDetails",
 }) as any as S.Schema<ImplementationDetails>;
-export type ParameterRequirementSummary =
-  | "REQUIRED"
-  | "OPTIONAL"
-  | "NONE"
-  | (string & {});
+export type ParameterRequirementSummary = "REQUIRED" | "OPTIONAL" | "NONE" | (string & {});
 export const ParameterRequirementSummary = S.String;
 
-export type ControlParameterRequirement =
-  | "REQUIRED"
-  | "OPTIONAL"
-  | (string & {});
+export type ControlParameterRequirement = "REQUIRED" | "OPTIONAL" | (string & {});
 export const ControlParameterRequirement = S.String;
 
 export interface ControlParameter {
@@ -257,9 +224,7 @@ export const ObjectiveResourceFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "ObjectiveResourceFilter",
 }) as any as S.Schema<ObjectiveResourceFilter>;
 export type ObjectiveResourceFilterList = ObjectiveResourceFilter[];
-export const ObjectiveResourceFilterList = /*@__PURE__*/ S.Array(
-  ObjectiveResourceFilter,
-);
+export const ObjectiveResourceFilterList = /*@__PURE__*/ S.Array(ObjectiveResourceFilter);
 export interface CommonControlFilter {
   Objectives?: ObjectiveResourceFilter[];
 }
@@ -278,16 +243,7 @@ export const ListCommonControlsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     CommonControlFilter: S.optional(CommonControlFilter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/common-controls" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/common-controls" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListCommonControlsRequest",
 }) as any as S.Schema<ListCommonControlsRequest>;
@@ -334,8 +290,7 @@ export const CommonControlSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "CommonControlSummary",
 }) as any as S.Schema<CommonControlSummary>;
 export type CommonControlSummaryList = CommonControlSummary[];
-export const CommonControlSummaryList =
-  /*@__PURE__*/ S.Array(CommonControlSummary);
+export const CommonControlSummaryList = /*@__PURE__*/ S.Array(CommonControlSummary);
 export interface ListCommonControlsResponse {
   CommonControls: CommonControlSummary[];
   NextToken?: string;
@@ -353,11 +308,7 @@ export type ControlArnFilterList = string[];
 export const ControlArnFilterList = /*@__PURE__*/ S.Array(S.String);
 export type CommonControlArnFilterList = string[];
 export const CommonControlArnFilterList = /*@__PURE__*/ S.Array(S.String);
-export type MappingType =
-  | "FRAMEWORK"
-  | "COMMON_CONTROL"
-  | "RELATED_CONTROL"
-  | (string & {});
+export type MappingType = "FRAMEWORK" | "COMMON_CONTROL" | "RELATED_CONTROL" | (string & {});
 export const MappingType = S.String;
 
 export type MappingTypeFilterList = MappingType[];
@@ -387,14 +338,7 @@ export const ListControlMappingsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     Filter: S.optional(ControlMappingFilter),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-control-mappings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-control-mappings" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListControlMappingsRequest",
@@ -488,9 +432,7 @@ export type MaxListControlsResults = number;
 export type ImplementationTypeFilterList = string[];
 export const ImplementationTypeFilterList = /*@__PURE__*/ S.Array(S.String);
 export type ImplementationIdentifierFilterList = string[];
-export const ImplementationIdentifierFilterList = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const ImplementationIdentifierFilterList = /*@__PURE__*/ S.Array(S.String);
 export interface ImplementationFilter {
   Types?: string[];
   Identifiers?: string[];
@@ -525,16 +467,7 @@ export const ListControlsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     Filter: S.optional(ControlFilter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-controls" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/list-controls" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListControlsRequest",
 }) as any as S.Schema<ListControlsRequest>;
@@ -595,16 +528,7 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/domains" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/domains" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDomainsRequest",
 }) as any as S.Schema<ListDomainsRequest>;
@@ -645,8 +569,7 @@ export const DomainResourceFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "DomainResourceFilter",
 }) as any as S.Schema<DomainResourceFilter>;
 export type DomainResourceFilterList = DomainResourceFilter[];
-export const DomainResourceFilterList =
-  /*@__PURE__*/ S.Array(DomainResourceFilter);
+export const DomainResourceFilterList = /*@__PURE__*/ S.Array(DomainResourceFilter);
 export interface ObjectiveFilter {
   Domains?: DomainResourceFilter[];
 }
@@ -665,16 +588,7 @@ export const ListObjectivesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ObjectiveFilter: S.optional(ObjectiveFilter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/objectives" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/objectives" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListObjectivesRequest",
 }) as any as S.Schema<ListObjectivesRequest>;

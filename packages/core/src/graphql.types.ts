@@ -1,5 +1,3 @@
-/** Compile-only contract checks. The coordinator runs these with noCheck=false. */
-import type * as G from "./graphql.ts";
 import type * as Stream from "effect/Stream";
 import type {
   FixtureSchema,
@@ -8,6 +6,8 @@ import type {
   Unauthorized,
   PageInfoUnavailable,
 } from "./graphql.fixture.ts";
+/** Compile-only contract checks. The coordinator runs these with noCheck=false. */
+import type * as G from "./graphql.ts";
 
 type Assert<T extends true> = T;
 type Assignable<A, B> = [A] extends [B] ? true : false;
@@ -42,9 +42,7 @@ type SearchSelection = {
 
 type Identity = G.Result<FixtureSchema, "Query!", IdentitySelection>;
 type _Identity = Assert<Equal<Identity, { project: { id: string } | null }>>;
-type _UnselectedFieldsAbsent = Assert<
-  Equal<keyof NonNullable<Identity["project"]>, "id">
->;
+type _UnselectedFieldsAbsent = Assert<Equal<keyof NonNullable<Identity["project"]>, "id">>;
 
 type Alias = G.Result<FixtureSchema, "Query!", AliasSelection>;
 type _Alias = Assert<Equal<Alias, { production: { id: string } | null }>>;
@@ -62,9 +60,7 @@ type IdentityErrors = G.Errors<FixtureSchema, "Query", IdentitySelection>;
 type DetailedErrors = G.Errors<FixtureSchema, "Query", DetailedSelection>;
 type _RootErrorIncluded = Assert<Assignable<ProjectNotFound, IdentityErrors>>;
 type _GlobalErrorIncluded = Assert<Assignable<Unauthorized, IdentityErrors>>;
-type _NestedErrorIncluded = Assert<
-  Assignable<ServicesUnavailable, DetailedErrors>
->;
+type _NestedErrorIncluded = Assert<Assignable<ServicesUnavailable, DetailedErrors>>;
 type _UnselectedErrorExcluded = Assert<
   Equal<Extract<IdentityErrors, { _tag: "ServicesUnavailable" }>, never>
 >;
@@ -150,18 +146,10 @@ const unknownField: G.Selection<FixtureSchema, "Query"> = {
 // @ts-expect-error Fields returning objects require a projection.
 const noProjection: G.Selection<FixtureSchema, "Query"> = { project: true };
 
-void [
-  validSelection,
-  missingArgument,
-  wrongArgument,
-  unknownField,
-  noProjection,
-];
+void [validSelection, missingArgument, wrongArgument, unknownField, noProjection];
 
 // Named operations retain projection and pagination constraints during inference.
-declare const inferredClient: ReturnType<
-  typeof G.makeClient<FixtureSchema, never>
->;
+declare const inferredClient: ReturnType<typeof G.makeClient<FixtureSchema, never>>;
 
 // @ts-expect-error An object-returning operation always requires a projection.
 inferredClient.operation("query", "project")({ id: "p1" });
@@ -177,9 +165,5 @@ const selectivePages = inferredClient
   .pages({}, { edges: { node: { id: true } } });
 type PageErrors = Stream.Error<typeof selectivePages>;
 type PageIssues =
-  Extract<PageErrors, G.GraphQLFailure> extends G.GraphQLFailure<infer E>
-    ? E
-    : never;
-type _HiddenPaginationErrorIncluded = Assert<
-  Assignable<PageInfoUnavailable, PageIssues>
->;
+  Extract<PageErrors, G.GraphQLFailure> extends G.GraphQLFailure<infer E> ? E : never;
+type _HiddenPaginationErrorIncluded = Assert<Assignable<PageInfoUnavailable, PageIssues>>;

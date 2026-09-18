@@ -7,10 +7,7 @@ import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 
-const layer = Layer.mergeAll(
-  CF.fromApiToken({ apiToken: "bench-token" }),
-  FetchHttpClient.layer,
-);
+const layer = Layer.mergeAll(CF.fromApiToken({ apiToken: "bench-token" }), FetchHttpClient.layer);
 
 const program = CF.Services.workers.listScripts
   .items({ accountId: "bench-account" })

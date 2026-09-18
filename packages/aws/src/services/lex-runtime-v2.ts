@@ -1,15 +1,15 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as stream from "effect/Stream";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as stream from "effect/Stream";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Lex Runtime V2",
   serviceShapeName: "AWSDeepSenseRunTimeServiceApi2_0",
@@ -29,14 +29,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +59,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://runtime-v2-lex-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +67,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://runtime-v2-lex.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://runtime-v2-lex.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://runtime-v2-lex.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -271,12 +261,7 @@ export const ConfidenceScore = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ConfidenceScore",
 }) as any as S.Schema<ConfidenceScore>;
-export type SentimentType =
-  | "MIXED"
-  | "NEGATIVE"
-  | "NEUTRAL"
-  | "POSITIVE"
-  | (string & {});
+export type SentimentType = "MIXED" | "NEGATIVE" | "NEUTRAL" | "POSITIVE" | (string & {});
 export const SentimentType = S.String;
 
 export interface SentimentScore {
@@ -336,12 +321,8 @@ export const Slot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(Value),
     shape: S.optional(Shape),
-    values: S.optional(
-      S.suspend(() => Values).annotate({ identifier: "Values" }),
-    ),
-    subSlots: S.optional(
-      S.suspend(() => Slots).annotate({ identifier: "Slots" }),
-    ),
+    values: S.optional(S.suspend(() => Values).annotate({ identifier: "Values" })),
+    subSlots: S.optional(S.suspend(() => Slots).annotate({ identifier: "Slots" })),
   }),
 ).annotate({ identifier: "Slot" }) as any as S.Schema<Slot>;
 export type Slots = { [key: string]: Slot | undefined };
@@ -407,11 +388,7 @@ export type DialogActionType =
   | (string & {});
 export const DialogActionType = S.String;
 
-export type StyleType =
-  | "Default"
-  | "SpellByLetter"
-  | "SpellByWord"
-  | (string & {});
+export type StyleType = "Default" | "SpellByLetter" | "SpellByWord" | (string & {});
 export const StyleType = S.String;
 
 export interface ElicitSubSlot {
@@ -479,10 +456,7 @@ export const ActiveContext = /*@__PURE__*/ S.suspend(() =>
 export type ActiveContextsList = ActiveContext[];
 export const ActiveContextsList = /*@__PURE__*/ S.Array(ActiveContext);
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type Name = string;
 export type RuntimeHintPhrase = string;
 export interface RuntimeHintValue {
@@ -531,9 +505,7 @@ export const SlotHintsIntentMap = /*@__PURE__*/ S.Record(
 );
 export interface RuntimeHints {
   slotHints?: {
-    [key: string]:
-      | { [key: string]: RuntimeHintDetails | undefined }
-      | undefined;
+    [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined;
   };
 }
 export const RuntimeHints = /*@__PURE__*/ S.suspend(() =>
@@ -592,9 +564,7 @@ export const PutSessionRequest = /*@__PURE__*/ S.suspend(() =>
     messages: S.optional(Messages),
     sessionState: SessionState,
     requestAttributes: S.optional(StringMap),
-    responseContentType: S.optional(S.String).pipe(
-      T.HttpHeader("ResponseContentType"),
-    ),
+    responseContentType: S.optional(S.String).pipe(T.HttpHeader("ResponseContentType")),
   }).pipe(
     T.all(
       T.Http({
@@ -623,12 +593,8 @@ export const PutSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     messages: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-messages")),
-    sessionState: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-session-state"),
-    ),
-    requestAttributes: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-request-attributes"),
-    ),
+    sessionState: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-state")),
+    requestAttributes: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-request-attributes")),
     sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
     audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
   }),
@@ -716,16 +682,12 @@ export const RecognizeUtteranceRequest = /*@__PURE__*/ S.suspend(() =>
     botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
     localeId: S.String.pipe(T.HttpLabel("localeId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-    sessionState: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-session-state"),
-    ),
+    sessionState: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-session-state")),
     requestAttributes: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-request-attributes"),
     ),
     requestContentType: S.String.pipe(T.HttpHeader("Content-Type")),
-    responseContentType: S.optional(S.String).pipe(
-      T.HttpHeader("Response-Content-Type"),
-    ),
+    responseContentType: S.optional(S.String).pipe(T.HttpHeader("Response-Content-Type")),
     inputStream: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
   }).pipe(
     T.all(
@@ -760,23 +722,13 @@ export const RecognizeUtteranceResponse = /*@__PURE__*/ S.suspend(() =>
     inputMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-input-mode")),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     messages: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-messages")),
-    interpretations: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-interpretations"),
-    ),
-    sessionState: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-session-state"),
-    ),
-    requestAttributes: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-request-attributes"),
-    ),
+    interpretations: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-interpretations")),
+    sessionState: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-state")),
+    requestAttributes: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-request-attributes")),
     sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
-    inputTranscript: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-input-transcript"),
-    ),
+    inputTranscript: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-input-transcript")),
     audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    recognizedBotMember: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-recognized-bot-member"),
-    ),
+    recognizedBotMember: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-recognized-bot-member")),
   }),
 ).annotate({
   identifier: "RecognizeUtteranceResponse",
@@ -923,30 +875,23 @@ export type StartConversationRequestEventStream =
       PlaybackCompletionEvent?: never;
       DisconnectionEvent: DisconnectionEvent;
     };
-export const StartConversationRequestEventStream =
-  /*@__PURE__*/ T.InputEventStream(
-    S.Union([
-      S.Struct({ ConfigurationEvent: ConfigurationEvent }),
-      S.Struct({ AudioInputEvent: AudioInputEvent }),
-      S.Struct({ DTMFInputEvent: DTMFInputEvent }),
-      S.Struct({ TextInputEvent: TextInputEvent }),
-      S.Struct({ PlaybackCompletionEvent: PlaybackCompletionEvent }),
-      S.Struct({ DisconnectionEvent: DisconnectionEvent }),
-    ]),
-  ) as any as S.Schema<
-    stream.Stream<StartConversationRequestEventStream, Error, never>
-  >;
+export const StartConversationRequestEventStream = /*@__PURE__*/ T.InputEventStream(
+  S.Union([
+    S.Struct({ ConfigurationEvent: ConfigurationEvent }),
+    S.Struct({ AudioInputEvent: AudioInputEvent }),
+    S.Struct({ DTMFInputEvent: DTMFInputEvent }),
+    S.Struct({ TextInputEvent: TextInputEvent }),
+    S.Struct({ PlaybackCompletionEvent: PlaybackCompletionEvent }),
+    S.Struct({ DisconnectionEvent: DisconnectionEvent }),
+  ]),
+) as any as S.Schema<stream.Stream<StartConversationRequestEventStream, Error, never>>;
 export interface StartConversationRequest {
   botId: string;
   botAliasId: string;
   localeId: string;
   sessionId: string;
   conversationMode?: ConversationMode;
-  requestEventStream: stream.Stream<
-    StartConversationRequestEventStream,
-    Error,
-    never
-  >;
+  requestEventStream: stream.Stream<StartConversationRequestEventStream, Error, never>;
 }
 export const StartConversationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -957,9 +902,7 @@ export const StartConversationRequest = /*@__PURE__*/ S.suspend(() =>
     conversationMode: S.optional(ConversationMode).pipe(
       T.HttpHeader("x-amz-lex-conversation-mode"),
     ),
-    requestEventStream: StartConversationRequestEventStream.pipe(
-      T.HttpPayload(),
-    ),
+    requestEventStream: StartConversationRequestEventStream.pipe(T.HttpPayload()),
   }).pipe(
     T.all(
       T.Http({
@@ -1299,9 +1242,9 @@ export const StartConversationResponseEventStream = /*@__PURE__*/ T.EventStream(
       }),
     }),
     S.Struct({
-      ResourceNotFoundException: S.suspend(
-        () => ResourceNotFoundException,
-      ).annotate({ identifier: "ResourceNotFoundException" }),
+      ResourceNotFoundException: S.suspend(() => ResourceNotFoundException).annotate({
+        identifier: "ResourceNotFoundException",
+      }),
     }),
     S.Struct({
       ValidationException: S.suspend(() => ValidationException).annotate({
@@ -1314,9 +1257,9 @@ export const StartConversationResponseEventStream = /*@__PURE__*/ T.EventStream(
       }),
     }),
     S.Struct({
-      InternalServerException: S.suspend(
-        () => InternalServerException,
-      ).annotate({ identifier: "InternalServerException" }),
+      InternalServerException: S.suspend(() => InternalServerException).annotate({
+        identifier: "InternalServerException",
+      }),
     }),
     S.Struct({
       ConflictException: S.suspend(() => ConflictException).annotate({
@@ -1324,9 +1267,9 @@ export const StartConversationResponseEventStream = /*@__PURE__*/ T.EventStream(
       }),
     }),
     S.Struct({
-      DependencyFailedException: S.suspend(
-        () => DependencyFailedException,
-      ).annotate({ identifier: "DependencyFailedException" }),
+      DependencyFailedException: S.suspend(() => DependencyFailedException).annotate({
+        identifier: "DependencyFailedException",
+      }),
     }),
     S.Struct({
       BadGatewayException: S.suspend(() => BadGatewayException).annotate({
@@ -1334,21 +1277,13 @@ export const StartConversationResponseEventStream = /*@__PURE__*/ T.EventStream(
       }),
     }),
   ]),
-) as any as S.Schema<
-  stream.Stream<StartConversationResponseEventStream, Error, never>
->;
+) as any as S.Schema<stream.Stream<StartConversationResponseEventStream, Error, never>>;
 export interface StartConversationResponse {
-  responseEventStream?: stream.Stream<
-    StartConversationResponseEventStream,
-    Error,
-    never
-  >;
+  responseEventStream?: stream.Stream<StartConversationResponseEventStream, Error, never>;
 }
 export const StartConversationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    responseEventStream: S.optional(StartConversationResponseEventStream).pipe(
-      T.HttpPayload(),
-    ),
+    responseEventStream: S.optional(StartConversationResponseEventStream).pipe(T.HttpPayload()),
   }),
 ).annotate({
   identifier: "StartConversationResponse",

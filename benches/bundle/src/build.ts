@@ -42,8 +42,7 @@ export interface BuildResult {
   readonly warnings: string[];
 }
 
-const SERVICE_MODULE_RE =
-  /\/packages\/[^/]+\/src\/services\/(?!index\.ts$)[^/]+\.ts$/;
+const SERVICE_MODULE_RE = /\/packages\/[^/]+\/src\/services\/(?!index\.ts$)[^/]+\.ts$/;
 
 const emptyStats = (): PurePluginStats => ({
   matchedModules: 0,
@@ -89,9 +88,7 @@ export async function build(req: BuildRequest): Promise<BuildResult> {
     }))
     .filter((m) => m.renderedLength > 0)
     .sort((a, b) => b.renderedLength - a.renderedLength);
-  const rendered = Object.entries(chunk.modules).filter(
-    ([, m]) => m.renderedLength > 0 && m.code,
-  );
+  const rendered = Object.entries(chunk.modules).filter(([, m]) => m.renderedLength > 0 && m.code);
   const services = rendered
     .filter(([id]) => SERVICE_MODULE_RE.test(id))
     .map(([id, m]) =>

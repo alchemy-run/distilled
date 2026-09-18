@@ -452,9 +452,7 @@
             "title": "Associate additional resources to a subscription",
             "input": {
               "arn": "arn:aws:pricingplanmanager::123456789012:subscription/sub-1234567890",
-              "resourceArns": [
-                "arn:aws:route53:::hostedzone/Z0123456789EXAMPLE"
-              ],
+              "resourceArns": ["arn:aws:route53:::hostedzone/Z0123456789EXAMPLE"],
               "ifMatch": "1"
             },
             "output": {
@@ -999,9 +997,7 @@
             "title": "Remove a resource from a subscription",
             "input": {
               "arn": "arn:aws:pricingplanmanager::123456789012:subscription/sub-1234567890",
-              "resourceArns": [
-                "arn:aws:route53:::hostedzone/Z0123456789EXAMPLE"
-              ],
+              "resourceArns": ["arn:aws:route53:::hostedzone/Z0123456789EXAMPLE"],
               "ifMatch": "2"
             },
             "output": {

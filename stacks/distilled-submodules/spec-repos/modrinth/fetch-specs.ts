@@ -35,9 +35,7 @@ async function main() {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = Bun.YAML.parse(await response.text()) as Record<string, unknown>;

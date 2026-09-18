@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Personalize",
   serviceShapeName: "AmazonPersonalize",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://personalize-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://personalize.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://personalize.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://personalize.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -165,10 +155,7 @@ export type RoleArn = string;
 export type ParameterName = string;
 export type ParameterValue = string;
 export type HyperParameters = { [key: string]: string | undefined };
-export const HyperParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const HyperParameters = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type RankingInfluenceType = "POPULARITY" | "FRESHNESS" | (string & {});
 export const RankingInfluenceType = S.String;
 
@@ -201,10 +188,7 @@ export const Tag = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
 export const Tags = /*@__PURE__*/ S.Array(Tag);
-export type BatchInferenceJobMode =
-  | "BATCH_INFERENCE"
-  | "THEME_GENERATION"
-  | (string & {});
+export type BatchInferenceJobMode = "BATCH_INFERENCE" | "THEME_GENERATION" | (string & {});
 export const BatchInferenceJobMode = S.String;
 
 export type ColumnName = string;
@@ -250,9 +234,7 @@ export const CreateBatchInferenceJobRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     batchInferenceJobMode: S.optional(BatchInferenceJobMode),
     themeGenerationConfig: S.optional(ThemeGenerationConfig),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateBatchInferenceJobRequest",
 }) as any as S.Schema<CreateBatchInferenceJobRequest>;
@@ -300,9 +282,7 @@ export const CreateBatchSegmentJobRequest = /*@__PURE__*/ S.suspend(() =>
     jobOutput: BatchSegmentJobOutput,
     roleArn: S.String,
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateBatchSegmentJobRequest",
 }) as any as S.Schema<CreateBatchSegmentJobRequest>;
@@ -343,9 +323,7 @@ export const CreateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     minProvisionedTPS: S.optional(S.Number),
     campaignConfig: S.optional(CampaignConfig),
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateCampaignRequest",
 }) as any as S.Schema<CreateCampaignRequest>;
@@ -377,9 +355,7 @@ export const CreateDataDeletionJobRequest = /*@__PURE__*/ S.suspend(() =>
     dataSource: DataSource,
     roleArn: S.String,
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDataDeletionJobRequest",
 }) as any as S.Schema<CreateDataDeletionJobRequest>;
@@ -406,9 +382,7 @@ export const CreateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.String,
     datasetType: S.String,
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDatasetRequest",
 }) as any as S.Schema<CreateDatasetRequest>;
@@ -447,9 +421,7 @@ export const CreateDatasetExportJobRequest = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.String,
     jobOutput: DatasetExportJobOutput,
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDatasetExportJobRequest",
 }) as any as S.Schema<CreateDatasetExportJobRequest>;
@@ -478,9 +450,7 @@ export const CreateDatasetGroupRequest = /*@__PURE__*/ S.suspend(() =>
     kmsKeyArn: S.optional(S.String),
     domain: S.optional(Domain),
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDatasetGroupRequest",
 }) as any as S.Schema<CreateDatasetGroupRequest>;
@@ -517,9 +487,7 @@ export const CreateDatasetImportJobRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     importMode: S.optional(ImportMode),
     publishAttributionMetricsToS3: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDatasetImportJobRequest",
 }) as any as S.Schema<CreateDatasetImportJobRequest>;
@@ -541,9 +509,7 @@ export const CreateEventTrackerRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     datasetGroupArn: S.String,
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEventTrackerRequest",
 }) as any as S.Schema<CreateEventTrackerRequest>;
@@ -573,9 +539,7 @@ export const CreateFilterRequest = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.String,
     filterExpression: SensitiveString,
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateFilterRequest",
 }) as any as S.Schema<CreateFilterRequest>;
@@ -623,9 +587,7 @@ export const CreateMetricAttributionRequest = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.String,
     metrics: MetricAttributes,
     metricsOutputConfig: MetricAttributionOutput,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateMetricAttributionRequest",
 }) as any as S.Schema<CreateMetricAttributionRequest>;
@@ -691,9 +653,7 @@ export const CreateRecommenderRequest = /*@__PURE__*/ S.suspend(() =>
     recipeArn: S.String,
     recommenderConfig: S.optional(RecommenderConfig),
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateRecommenderRequest",
 }) as any as S.Schema<CreateRecommenderRequest>;
@@ -716,9 +676,7 @@ export const CreateSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     schema: S.String,
     domain: S.optional(Domain),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSchemaRequest",
 }) as any as S.Schema<CreateSchemaRequest>;
@@ -778,9 +736,7 @@ export const IntegerHyperParameterRange = /*@__PURE__*/ S.suspend(() =>
   identifier: "IntegerHyperParameterRange",
 }) as any as S.Schema<IntegerHyperParameterRange>;
 export type IntegerHyperParameterRanges = IntegerHyperParameterRange[];
-export const IntegerHyperParameterRanges = /*@__PURE__*/ S.Array(
-  IntegerHyperParameterRange,
-);
+export const IntegerHyperParameterRanges = /*@__PURE__*/ S.Array(IntegerHyperParameterRange);
 export type ContinuousMinValue = number;
 export type ContinuousMaxValue = number;
 export interface ContinuousHyperParameterRange {
@@ -798,9 +754,7 @@ export const ContinuousHyperParameterRange = /*@__PURE__*/ S.suspend(() =>
   identifier: "ContinuousHyperParameterRange",
 }) as any as S.Schema<ContinuousHyperParameterRange>;
 export type ContinuousHyperParameterRanges = ContinuousHyperParameterRange[];
-export const ContinuousHyperParameterRanges = /*@__PURE__*/ S.Array(
-  ContinuousHyperParameterRange,
-);
+export const ContinuousHyperParameterRanges = /*@__PURE__*/ S.Array(ContinuousHyperParameterRange);
 export type CategoricalValue = string;
 export type CategoricalValues = string[];
 export const CategoricalValues = /*@__PURE__*/ S.Array(S.String);
@@ -829,9 +783,7 @@ export const HyperParameterRanges = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integerHyperParameterRanges: S.optional(IntegerHyperParameterRanges),
     continuousHyperParameterRanges: S.optional(ContinuousHyperParameterRanges),
-    categoricalHyperParameterRanges: S.optional(
-      CategoricalHyperParameterRanges,
-    ),
+    categoricalHyperParameterRanges: S.optional(CategoricalHyperParameterRanges),
   }),
 ).annotate({
   identifier: "HyperParameterRanges",
@@ -892,12 +844,7 @@ export const EventsConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ eventParametersList: S.optional(EventParametersList) }),
 ).annotate({ identifier: "EventsConfig" }) as any as S.Schema<EventsConfig>;
 export type ItemAttribute = string;
-export type ObjectiveSensitivity =
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "OFF"
-  | (string & {});
+export type ObjectiveSensitivity = "LOW" | "MEDIUM" | "HIGH" | "OFF" | (string & {});
 export const ObjectiveSensitivity = S.String;
 
 export interface OptimizationObjective {
@@ -937,9 +884,7 @@ export const SolutionConfig = /*@__PURE__*/ S.suspend(() =>
     eventValueThreshold: S.optional(S.String),
     hpoConfig: S.optional(HPOConfig),
     algorithmHyperParameters: S.optional(HyperParameters),
-    featureTransformationParameters: S.optional(
-      FeatureTransformationParameters,
-    ),
+    featureTransformationParameters: S.optional(FeatureTransformationParameters),
     autoMLConfig: S.optional(AutoMLConfig),
     eventsConfig: S.optional(EventsConfig),
     optimizationObjective: S.optional(OptimizationObjective),
@@ -971,9 +916,7 @@ export const CreateSolutionRequest = /*@__PURE__*/ S.suspend(() =>
     eventType: S.optional(S.String),
     solutionConfig: S.optional(SolutionConfig),
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSolutionRequest",
 }) as any as S.Schema<CreateSolutionRequest>;
@@ -1000,9 +943,7 @@ export const CreateSolutionVersionRequest = /*@__PURE__*/ S.suspend(() =>
     solutionArn: S.String,
     trainingMode: S.optional(TrainingMode),
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSolutionVersionRequest",
 }) as any as S.Schema<CreateSolutionVersionRequest>;
@@ -1025,9 +966,7 @@ export const DeleteCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCampaignRequest",
 }) as any as S.Schema<DeleteCampaignRequest>;
 export interface DeleteCampaignResponse {}
-export const DeleteCampaignResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCampaignResponse",
 }) as any as S.Schema<DeleteCampaignResponse>;
 export interface DeleteDatasetRequest {
@@ -1041,9 +980,7 @@ export const DeleteDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDatasetRequest",
 }) as any as S.Schema<DeleteDatasetRequest>;
 export interface DeleteDatasetResponse {}
-export const DeleteDatasetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDatasetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDatasetResponse",
 }) as any as S.Schema<DeleteDatasetResponse>;
 export interface DeleteDatasetGroupRequest {
@@ -1057,9 +994,7 @@ export const DeleteDatasetGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDatasetGroupRequest",
 }) as any as S.Schema<DeleteDatasetGroupRequest>;
 export interface DeleteDatasetGroupResponse {}
-export const DeleteDatasetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDatasetGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDatasetGroupResponse",
 }) as any as S.Schema<DeleteDatasetGroupResponse>;
 export interface DeleteEventTrackerRequest {
@@ -1073,9 +1008,7 @@ export const DeleteEventTrackerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEventTrackerRequest",
 }) as any as S.Schema<DeleteEventTrackerRequest>;
 export interface DeleteEventTrackerResponse {}
-export const DeleteEventTrackerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEventTrackerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEventTrackerResponse",
 }) as any as S.Schema<DeleteEventTrackerResponse>;
 export interface DeleteFilterRequest {
@@ -1089,9 +1022,7 @@ export const DeleteFilterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFilterRequest",
 }) as any as S.Schema<DeleteFilterRequest>;
 export interface DeleteFilterResponse {}
-export const DeleteFilterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFilterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFilterResponse",
 }) as any as S.Schema<DeleteFilterResponse>;
 export interface DeleteMetricAttributionRequest {
@@ -1105,11 +1036,11 @@ export const DeleteMetricAttributionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMetricAttributionRequest",
 }) as any as S.Schema<DeleteMetricAttributionRequest>;
 export interface DeleteMetricAttributionResponse {}
-export const DeleteMetricAttributionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteMetricAttributionResponse",
-}) as any as S.Schema<DeleteMetricAttributionResponse>;
+export const DeleteMetricAttributionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "DeleteMetricAttributionResponse",
+  },
+) as any as S.Schema<DeleteMetricAttributionResponse>;
 export interface DeleteRecommenderRequest {
   recommenderArn: string;
 }
@@ -1121,9 +1052,7 @@ export const DeleteRecommenderRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRecommenderRequest",
 }) as any as S.Schema<DeleteRecommenderRequest>;
 export interface DeleteRecommenderResponse {}
-export const DeleteRecommenderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRecommenderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRecommenderResponse",
 }) as any as S.Schema<DeleteRecommenderResponse>;
 export interface DeleteSchemaRequest {
@@ -1137,9 +1066,7 @@ export const DeleteSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSchemaRequest",
 }) as any as S.Schema<DeleteSchemaRequest>;
 export interface DeleteSchemaResponse {}
-export const DeleteSchemaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSchemaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSchemaResponse",
 }) as any as S.Schema<DeleteSchemaResponse>;
 export interface DeleteSolutionRequest {
@@ -1153,9 +1080,7 @@ export const DeleteSolutionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSolutionRequest",
 }) as any as S.Schema<DeleteSolutionRequest>;
 export interface DeleteSolutionResponse {}
-export const DeleteSolutionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSolutionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSolutionResponse",
 }) as any as S.Schema<DeleteSolutionResponse>;
 export interface DescribeAlgorithmRequest {
@@ -1193,8 +1118,7 @@ export const DefaultIntegerHyperParameterRange = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DefaultIntegerHyperParameterRange",
 }) as any as S.Schema<DefaultIntegerHyperParameterRange>;
-export type DefaultIntegerHyperParameterRanges =
-  DefaultIntegerHyperParameterRange[];
+export type DefaultIntegerHyperParameterRanges = DefaultIntegerHyperParameterRange[];
 export const DefaultIntegerHyperParameterRanges = /*@__PURE__*/ S.Array(
   DefaultIntegerHyperParameterRange,
 );
@@ -1204,19 +1128,17 @@ export interface DefaultContinuousHyperParameterRange {
   maxValue?: number;
   isTunable?: boolean;
 }
-export const DefaultContinuousHyperParameterRange = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.optional(S.String),
-      minValue: S.optional(S.Number),
-      maxValue: S.optional(S.Number),
-      isTunable: S.optional(S.Boolean),
-    }),
+export const DefaultContinuousHyperParameterRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    minValue: S.optional(S.Number),
+    maxValue: S.optional(S.Number),
+    isTunable: S.optional(S.Boolean),
+  }),
 ).annotate({
   identifier: "DefaultContinuousHyperParameterRange",
 }) as any as S.Schema<DefaultContinuousHyperParameterRange>;
-export type DefaultContinuousHyperParameterRanges =
-  DefaultContinuousHyperParameterRange[];
+export type DefaultContinuousHyperParameterRanges = DefaultContinuousHyperParameterRange[];
 export const DefaultContinuousHyperParameterRanges = /*@__PURE__*/ S.Array(
   DefaultContinuousHyperParameterRange,
 );
@@ -1225,18 +1147,16 @@ export interface DefaultCategoricalHyperParameterRange {
   values?: string[];
   isTunable?: boolean;
 }
-export const DefaultCategoricalHyperParameterRange = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.optional(S.String),
-      values: S.optional(CategoricalValues),
-      isTunable: S.optional(S.Boolean),
-    }),
+export const DefaultCategoricalHyperParameterRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    values: S.optional(CategoricalValues),
+    isTunable: S.optional(S.Boolean),
+  }),
 ).annotate({
   identifier: "DefaultCategoricalHyperParameterRange",
 }) as any as S.Schema<DefaultCategoricalHyperParameterRange>;
-export type DefaultCategoricalHyperParameterRanges =
-  DefaultCategoricalHyperParameterRange[];
+export type DefaultCategoricalHyperParameterRanges = DefaultCategoricalHyperParameterRange[];
 export const DefaultCategoricalHyperParameterRanges = /*@__PURE__*/ S.Array(
   DefaultCategoricalHyperParameterRange,
 );
@@ -1248,21 +1168,14 @@ export interface DefaultHyperParameterRanges {
 export const DefaultHyperParameterRanges = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integerHyperParameterRanges: S.optional(DefaultIntegerHyperParameterRanges),
-    continuousHyperParameterRanges: S.optional(
-      DefaultContinuousHyperParameterRanges,
-    ),
-    categoricalHyperParameterRanges: S.optional(
-      DefaultCategoricalHyperParameterRanges,
-    ),
+    continuousHyperParameterRanges: S.optional(DefaultContinuousHyperParameterRanges),
+    categoricalHyperParameterRanges: S.optional(DefaultCategoricalHyperParameterRanges),
   }),
 ).annotate({
   identifier: "DefaultHyperParameterRanges",
 }) as any as S.Schema<DefaultHyperParameterRanges>;
 export type ResourceConfig = { [key: string]: string | undefined };
-export const ResourceConfig = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ResourceConfig = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type TrainingInputMode = string;
 export interface Algorithm {
   name?: string;
@@ -1286,12 +1199,8 @@ export const Algorithm = /*@__PURE__*/ S.suspend(() =>
     defaultResourceConfig: S.optional(ResourceConfig),
     trainingInputMode: S.optional(S.String),
     roleArn: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "Algorithm" }) as any as S.Schema<Algorithm>;
 export interface DescribeAlgorithmResponse {
@@ -1346,12 +1255,8 @@ export const BatchInferenceJob = /*@__PURE__*/ S.suspend(() =>
     batchInferenceJobMode: S.optional(BatchInferenceJobMode),
     themeGenerationConfig: S.optional(ThemeGenerationConfig),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "BatchInferenceJob",
@@ -1400,12 +1305,8 @@ export const BatchSegmentJob = /*@__PURE__*/ S.suspend(() =>
     jobOutput: S.optional(BatchSegmentJobOutput),
     roleArn: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "BatchSegmentJob",
@@ -1444,12 +1345,8 @@ export const CampaignUpdateSummary = /*@__PURE__*/ S.suspend(() =>
     campaignConfig: S.optional(CampaignConfig),
     status: S.optional(S.String),
     failureReason: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "CampaignUpdateSummary",
@@ -1475,12 +1372,8 @@ export const Campaign = /*@__PURE__*/ S.suspend(() =>
     campaignConfig: S.optional(CampaignConfig),
     status: S.optional(S.String),
     failureReason: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     latestCampaignUpdate: S.optional(CampaignUpdateSummary),
   }),
 ).annotate({ identifier: "Campaign" }) as any as S.Schema<Campaign>;
@@ -1523,12 +1416,8 @@ export const DataDeletionJob = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.optional(S.String),
     status: S.optional(S.String),
     numDeleted: S.optional(S.Number),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
   }),
 ).annotate({
@@ -1564,12 +1453,8 @@ export const DatasetUpdateSummary = /*@__PURE__*/ S.suspend(() =>
     schemaArn: S.optional(S.String),
     status: S.optional(S.String),
     failureReason: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DatasetUpdateSummary",
@@ -1594,12 +1479,8 @@ export const Dataset = /*@__PURE__*/ S.suspend(() =>
     datasetType: S.optional(S.String),
     schemaArn: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     latestDatasetUpdate: S.optional(DatasetUpdateSummary),
     trackingId: S.optional(S.String),
   }),
@@ -1643,12 +1524,8 @@ export const DatasetExportJob = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.optional(S.String),
     status: S.optional(S.String),
     jobOutput: S.optional(DatasetExportJobOutput),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
   }),
 ).annotate({
@@ -1690,12 +1567,8 @@ export const DatasetGroup = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     roleArn: S.optional(S.String),
     kmsKeyArn: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
     domain: S.optional(Domain),
   }),
@@ -1739,12 +1612,8 @@ export const DatasetImportJob = /*@__PURE__*/ S.suspend(() =>
     dataSource: S.optional(DataSource),
     roleArn: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
     importMode: S.optional(ImportMode),
     publishAttributionMetricsToS3: S.optional(S.Boolean),
@@ -1789,12 +1658,8 @@ export const EventTracker = /*@__PURE__*/ S.suspend(() =>
     trackingId: S.optional(S.String),
     datasetGroupArn: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "EventTracker" }) as any as S.Schema<EventTracker>;
 export interface DescribeEventTrackerResponse {
@@ -1808,19 +1673,15 @@ export const DescribeEventTrackerResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeFeatureTransformationRequest {
   featureTransformationArn: string;
 }
-export const DescribeFeatureTransformationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ featureTransformationArn: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeFeatureTransformationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ featureTransformationArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeFeatureTransformationRequest",
 }) as any as S.Schema<DescribeFeatureTransformationRequest>;
 export type FeaturizationParameters = { [key: string]: string | undefined };
-export const FeaturizationParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const FeaturizationParameters = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface FeatureTransformation {
   name?: string;
   featureTransformationArn?: string;
@@ -1834,12 +1695,8 @@ export const FeatureTransformation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     featureTransformationArn: S.optional(S.String),
     defaultParameters: S.optional(FeaturizationParameters),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(S.String),
   }),
 ).annotate({
@@ -1848,8 +1705,8 @@ export const FeatureTransformation = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeFeatureTransformationResponse {
   featureTransformation?: FeatureTransformation;
 }
-export const DescribeFeatureTransformationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ featureTransformation: S.optional(FeatureTransformation) }),
+export const DescribeFeatureTransformationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ featureTransformation: S.optional(FeatureTransformation) }),
 ).annotate({
   identifier: "DescribeFeatureTransformationResponse",
 }) as any as S.Schema<DescribeFeatureTransformationResponse>;
@@ -1877,12 +1734,8 @@ export const Filter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     filterArn: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     datasetGroupArn: S.optional(S.String),
     failureReason: S.optional(S.String),
     filterExpression: S.optional(SensitiveString),
@@ -1924,12 +1777,8 @@ export const MetricAttribution = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.optional(S.String),
     metricsOutputConfig: S.optional(MetricAttributionOutput),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
   }),
 ).annotate({
@@ -1974,13 +1823,9 @@ export const Recipe = /*@__PURE__*/ S.suspend(() =>
     featureTransformationArn: S.optional(S.String),
     status: S.optional(S.String),
     description: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     recipeType: S.optional(S.String),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "Recipe" }) as any as S.Schema<Recipe>;
 export interface DescribeRecipeResponse {
@@ -2011,12 +1856,8 @@ export interface RecommenderUpdateSummary {
 export const RecommenderUpdateSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recommenderConfig: S.optional(RecommenderConfig),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(S.String),
     failureReason: S.optional(S.String),
   }),
@@ -2025,10 +1866,7 @@ export const RecommenderUpdateSummary = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RecommenderUpdateSummary>;
 export type MetricValue = number;
 export type Metrics = { [key: string]: number | undefined };
-export const Metrics = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
+export const Metrics = /*@__PURE__*/ S.Record(S.String, S.Number.pipe(S.optional));
 export interface Recommender {
   recommenderArn?: string;
   datasetGroupArn?: string;
@@ -2049,12 +1887,8 @@ export const Recommender = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     recipeArn: S.optional(S.String),
     recommenderConfig: S.optional(RecommenderConfig),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(S.String),
     failureReason: S.optional(S.String),
     latestRecommenderUpdate: S.optional(RecommenderUpdateSummary),
@@ -2092,12 +1926,8 @@ export const DatasetSchema = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     schemaArn: S.optional(S.String),
     schema: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     domain: S.optional(Domain),
   }),
 ).annotate({ identifier: "DatasetSchema" }) as any as S.Schema<DatasetSchema>;
@@ -2144,12 +1974,8 @@ export const SolutionVersionSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     trainingMode: S.optional(TrainingMode),
     trainingType: S.optional(TrainingType),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
   }),
 ).annotate({
@@ -2182,12 +2008,8 @@ export const SolutionUpdateSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     performAutoTraining: S.optional(S.Boolean),
     performIncrementalUpdate: S.optional(S.Boolean),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
   }),
 ).annotate({
@@ -2225,12 +2047,8 @@ export const Solution = /*@__PURE__*/ S.suspend(() =>
     solutionConfig: S.optional(SolutionConfig),
     autoMLResult: S.optional(AutoMLResult),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     latestSolutionVersion: S.optional(SolutionVersionSummary),
     latestSolutionUpdate: S.optional(SolutionUpdateSummary),
   }),
@@ -2297,12 +2115,8 @@ export const SolutionVersion = /*@__PURE__*/ S.suspend(() =>
     tunedHPOParams: S.optional(TunedHPOParams),
     status: S.optional(S.String),
     failureReason: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     trainingType: S.optional(TrainingType),
   }),
 ).annotate({
@@ -2350,9 +2164,7 @@ export const ListBatchInferenceJobsRequest = /*@__PURE__*/ S.suspend(() =>
     solutionVersionArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBatchInferenceJobsRequest",
 }) as any as S.Schema<ListBatchInferenceJobsRequest>;
@@ -2371,12 +2183,8 @@ export const BatchInferenceJobSummary = /*@__PURE__*/ S.suspend(() =>
     batchInferenceJobArn: S.optional(S.String),
     jobName: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
     solutionVersionArn: S.optional(S.String),
     batchInferenceJobMode: S.optional(BatchInferenceJobMode),
@@ -2385,9 +2193,7 @@ export const BatchInferenceJobSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchInferenceJobSummary",
 }) as any as S.Schema<BatchInferenceJobSummary>;
 export type BatchInferenceJobs = BatchInferenceJobSummary[];
-export const BatchInferenceJobs = /*@__PURE__*/ S.Array(
-  BatchInferenceJobSummary,
-);
+export const BatchInferenceJobs = /*@__PURE__*/ S.Array(BatchInferenceJobSummary);
 export interface ListBatchInferenceJobsResponse {
   batchInferenceJobs?: BatchInferenceJobSummary[];
   nextToken?: string;
@@ -2410,9 +2216,7 @@ export const ListBatchSegmentJobsRequest = /*@__PURE__*/ S.suspend(() =>
     solutionVersionArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBatchSegmentJobsRequest",
 }) as any as S.Schema<ListBatchSegmentJobsRequest>;
@@ -2430,12 +2234,8 @@ export const BatchSegmentJobSummary = /*@__PURE__*/ S.suspend(() =>
     batchSegmentJobArn: S.optional(S.String),
     jobName: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
     solutionVersionArn: S.optional(S.String),
   }),
@@ -2466,9 +2266,7 @@ export const ListCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
     solutionArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListCampaignsRequest",
 }) as any as S.Schema<ListCampaignsRequest>;
@@ -2485,12 +2283,8 @@ export const CampaignSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     campaignArn: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
   }),
 ).annotate({
@@ -2520,9 +2314,7 @@ export const ListDataDeletionJobsRequest = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDataDeletionJobsRequest",
 }) as any as S.Schema<ListDataDeletionJobsRequest>;
@@ -2541,12 +2333,8 @@ export const DataDeletionJobSummary = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.optional(S.String),
     jobName: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
   }),
 ).annotate({
@@ -2576,9 +2364,7 @@ export const ListDatasetExportJobsRequest = /*@__PURE__*/ S.suspend(() =>
     datasetArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDatasetExportJobsRequest",
 }) as any as S.Schema<ListDatasetExportJobsRequest>;
@@ -2595,12 +2381,8 @@ export const DatasetExportJobSummary = /*@__PURE__*/ S.suspend(() =>
     datasetExportJobArn: S.optional(S.String),
     jobName: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
   }),
 ).annotate({
@@ -2628,9 +2410,7 @@ export const ListDatasetGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDatasetGroupsRequest",
 }) as any as S.Schema<ListDatasetGroupsRequest>;
@@ -2648,12 +2428,8 @@ export const DatasetGroupSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     datasetGroupArn: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
     domain: S.optional(Domain),
   }),
@@ -2684,9 +2460,7 @@ export const ListDatasetImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
     datasetArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDatasetImportJobsRequest",
 }) as any as S.Schema<ListDatasetImportJobsRequest>;
@@ -2704,12 +2478,8 @@ export const DatasetImportJobSummary = /*@__PURE__*/ S.suspend(() =>
     datasetImportJobArn: S.optional(S.String),
     jobName: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
     importMode: S.optional(ImportMode),
   }),
@@ -2740,9 +2510,7 @@ export const ListDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDatasetsRequest",
 }) as any as S.Schema<ListDatasetsRequest>;
@@ -2760,12 +2528,8 @@ export const DatasetSummary = /*@__PURE__*/ S.suspend(() =>
     datasetArn: S.optional(S.String),
     datasetType: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "DatasetSummary" }) as any as S.Schema<DatasetSummary>;
 export type Datasets = DatasetSummary[];
@@ -2789,9 +2553,7 @@ export const ListEventTrackersRequest = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEventTrackersRequest",
 }) as any as S.Schema<ListEventTrackersRequest>;
@@ -2807,12 +2569,8 @@ export const EventTrackerSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     eventTrackerArn: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "EventTrackerSummary",
@@ -2841,9 +2599,7 @@ export const ListFiltersRequest = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFiltersRequest",
 }) as any as S.Schema<ListFiltersRequest>;
@@ -2860,12 +2616,8 @@ export const FilterSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     filterArn: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     datasetGroupArn: S.optional(S.String),
     failureReason: S.optional(S.String),
     status: S.optional(S.String),
@@ -2892,9 +2644,7 @@ export const ListMetricAttributionMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     metricAttributionArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListMetricAttributionMetricsRequest",
 }) as any as S.Schema<ListMetricAttributionMetricsRequest>;
@@ -2902,12 +2652,11 @@ export interface ListMetricAttributionMetricsResponse {
   metrics?: MetricAttribute[];
   nextToken?: string;
 }
-export const ListMetricAttributionMetricsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      metrics: S.optional(MetricAttributes),
-      nextToken: S.optional(S.String),
-    }),
+export const ListMetricAttributionMetricsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metrics: S.optional(MetricAttributes),
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListMetricAttributionMetricsResponse",
 }) as any as S.Schema<ListMetricAttributionMetricsResponse>;
@@ -2921,9 +2670,7 @@ export const ListMetricAttributionsRequest = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListMetricAttributionsRequest",
 }) as any as S.Schema<ListMetricAttributionsRequest>;
@@ -2940,21 +2687,15 @@ export const MetricAttributionSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     metricAttributionArn: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     failureReason: S.optional(S.String),
   }),
 ).annotate({
   identifier: "MetricAttributionSummary",
 }) as any as S.Schema<MetricAttributionSummary>;
 export type MetricAttributions = MetricAttributionSummary[];
-export const MetricAttributions = /*@__PURE__*/ S.Array(
-  MetricAttributionSummary,
-);
+export const MetricAttributions = /*@__PURE__*/ S.Array(MetricAttributionSummary);
 export interface ListMetricAttributionsResponse {
   metricAttributions?: MetricAttributionSummary[];
   nextToken?: string;
@@ -2982,9 +2723,7 @@ export const ListRecipesRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     domain: S.optional(Domain),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRecipesRequest",
 }) as any as S.Schema<ListRecipesRequest>;
@@ -3001,12 +2740,8 @@ export const RecipeSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     recipeArn: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     domain: S.optional(Domain),
   }),
 ).annotate({ identifier: "RecipeSummary" }) as any as S.Schema<RecipeSummary>;
@@ -3031,9 +2766,7 @@ export const ListRecommendersRequest = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRecommendersRequest",
 }) as any as S.Schema<ListRecommendersRequest>;
@@ -3055,12 +2788,8 @@ export const RecommenderSummary = /*@__PURE__*/ S.suspend(() =>
     recipeArn: S.optional(S.String),
     recommenderConfig: S.optional(RecommenderConfig),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "RecommenderSummary",
@@ -3087,9 +2816,7 @@ export const ListSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSchemasRequest",
 }) as any as S.Schema<ListSchemasRequest>;
@@ -3104,12 +2831,8 @@ export const DatasetSchemaSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     schemaArn: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     domain: S.optional(Domain),
   }),
 ).annotate({
@@ -3136,9 +2859,7 @@ export const ListSolutionsRequest = /*@__PURE__*/ S.suspend(() =>
     datasetGroupArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSolutionsRequest",
 }) as any as S.Schema<ListSolutionsRequest>;
@@ -3155,12 +2876,8 @@ export const SolutionSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     solutionArn: S.optional(S.String),
     status: S.optional(S.String),
-    creationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdatedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     recipeArn: S.optional(S.String),
   }),
 ).annotate({
@@ -3190,9 +2907,7 @@ export const ListSolutionVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     solutionArn: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSolutionVersionsRequest",
 }) as any as S.Schema<ListSolutionVersionsRequest>;
@@ -3292,9 +3007,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = (string | redacted.Redacted<string>)[];
@@ -3311,9 +3024,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateCampaignRequest {
@@ -3328,9 +3039,7 @@ export const UpdateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     solutionVersionArn: S.optional(S.String),
     minProvisionedTPS: S.optional(S.Number),
     campaignConfig: S.optional(CampaignConfig),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateCampaignRequest",
 }) as any as S.Schema<UpdateCampaignRequest>;
@@ -3375,9 +3084,7 @@ export const UpdateMetricAttributionRequest = /*@__PURE__*/ S.suspend(() =>
     removeMetrics: S.optional(MetricAttributesNamesList),
     metricsOutputConfig: S.optional(MetricAttributionOutput),
     metricAttributionArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateMetricAttributionRequest",
 }) as any as S.Schema<UpdateMetricAttributionRequest>;
@@ -3397,9 +3104,7 @@ export const UpdateRecommenderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recommenderArn: S.String,
     recommenderConfig: RecommenderConfig,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateRecommenderRequest",
 }) as any as S.Schema<UpdateRecommenderRequest>;
@@ -3423,9 +3128,7 @@ export const UpdateSolutionRequest = /*@__PURE__*/ S.suspend(() =>
     performAutoTraining: S.optional(S.Boolean),
     performIncrementalUpdate: S.optional(S.Boolean),
     solutionUpdateConfig: S.optional(SolutionUpdateConfig),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateSolutionRequest",
 }) as any as S.Schema<UpdateSolutionRequest>;
@@ -4181,11 +3884,7 @@ export const createSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSchemaRequest,
   output: CreateSchemaResponse,
-  errors: [
-    InvalidInputException,
-    LimitExceededException,
-    ResourceAlreadyExistsException,
-  ],
+  errors: [InvalidInputException, LimitExceededException, ResourceAlreadyExistsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchema",
@@ -4371,11 +4070,7 @@ export const deleteCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCampaignRequest,
   output: DeleteCampaignResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
@@ -4400,11 +4095,7 @@ export const deleteDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDatasetRequest,
   output: DeleteDatasetResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
@@ -4433,11 +4124,7 @@ export const deleteDatasetGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDatasetGroupRequest,
   output: DeleteDatasetGroupResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetGroup",
@@ -4461,11 +4148,7 @@ export const deleteEventTracker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteEventTrackerRequest,
   output: DeleteEventTrackerResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventTracker",
@@ -4487,11 +4170,7 @@ export const deleteFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFilterRequest,
   output: DeleteFilterResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFilter",
@@ -4513,11 +4192,7 @@ export const deleteMetricAttribution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteMetricAttributionRequest,
   output: DeleteMetricAttributionResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricAttribution",
@@ -4540,11 +4215,7 @@ export const deleteRecommender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteRecommenderRequest,
   output: DeleteRecommenderResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommender",
@@ -4568,11 +4239,7 @@ export const deleteSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSchemaRequest,
   output: DeleteSchemaResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchema",
@@ -4600,11 +4267,7 @@ export const deleteSolution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSolutionRequest,
   output: DeleteSolutionResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSolution",
@@ -4730,10 +4393,7 @@ export const describeDataDeletionJob: API.OperationMethod<
   operationName: "DescribeDataDeletionJob",
 }));
 
-export type DescribeDatasetError =
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DescribeDatasetError = InvalidInputException | ResourceNotFoundException | CommonErrors;
 /**
  * Describes the given dataset. For more information on datasets, see
  * CreateDataset.
@@ -4860,10 +4520,7 @@ export const describeFeatureTransformation: API.OperationMethod<
   operationName: "DescribeFeatureTransformation",
 }));
 
-export type DescribeFilterError =
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DescribeFilterError = InvalidInputException | ResourceNotFoundException | CommonErrors;
 /**
  * Describes a filter's properties.
  */
@@ -4902,10 +4559,7 @@ export const describeMetricAttribution: API.OperationMethod<
   operationName: "DescribeMetricAttribution",
 }));
 
-export type DescribeRecipeError =
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DescribeRecipeError = InvalidInputException | ResourceNotFoundException | CommonErrors;
 /**
  * Describes a recipe.
  *
@@ -4975,10 +4629,7 @@ export const describeRecommender: API.OperationMethod<
   operationName: "DescribeRecommender",
 }));
 
-export type DescribeSchemaError =
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DescribeSchemaError = InvalidInputException | ResourceNotFoundException | CommonErrors;
 /**
  * Describes a schema. For more information on schemas, see
  * CreateSchema.
@@ -5056,11 +4707,7 @@ export const getSolutionMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSolutionMetricsRequest,
   output: GetSolutionMetricsResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolutionMetrics",
@@ -5124,10 +4771,7 @@ export const listBatchSegmentJobs: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListCampaignsError =
-  | InvalidInputException
-  | InvalidNextTokenException
-  | CommonErrors;
+export type ListCampaignsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
 /**
  * Returns a list of campaigns that use the given solution.
  * When a solution is not specified, all the campaigns associated with the account are listed.
@@ -5275,10 +4919,7 @@ export const listDatasetImportJobs: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListDatasetsError =
-  | InvalidInputException
-  | InvalidNextTokenException
-  | CommonErrors;
+export type ListDatasetsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
 /**
  * Returns the list of datasets contained in the given dataset group. The
  * response provides the properties for each dataset, including the Amazon
@@ -5336,10 +4977,7 @@ export const listEventTrackers: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListFiltersError =
-  | InvalidInputException
-  | InvalidNextTokenException
-  | CommonErrors;
+export type ListFiltersError = InvalidInputException | InvalidNextTokenException | CommonErrors;
 /**
  * Lists all filters that belong to a given dataset group.
  */
@@ -5420,10 +5058,7 @@ export const listMetricAttributions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListRecipesError =
-  | InvalidInputException
-  | InvalidNextTokenException
-  | CommonErrors;
+export type ListRecipesError = InvalidInputException | InvalidNextTokenException | CommonErrors;
 /**
  * Returns a list of available recipes. The response provides the properties
  * for each recipe, including the recipe's Amazon Resource Name (ARN).
@@ -5507,10 +5142,7 @@ export const listSchemas: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListSolutionsError =
-  | InvalidInputException
-  | InvalidNextTokenException
-  | CommonErrors;
+export type ListSolutionsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
 /**
  * Returns a list of solutions in a given dataset group.
  * When a dataset group is not specified, all the solutions associated with the account are listed.
@@ -5557,11 +5189,7 @@ export const listSolutionVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSolutionVersionsRequest,
   output: ListSolutionVersionsResponse,
-  errors: [
-    InvalidInputException,
-    InvalidNextTokenException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, InvalidNextTokenException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSolutionVersions",
@@ -5589,11 +5217,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -5616,11 +5240,7 @@ export const startRecommender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartRecommenderRequest,
   output: StartRecommenderResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommender",
@@ -5642,11 +5262,7 @@ export const stopRecommender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopRecommenderRequest,
   output: StopRecommenderResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRecommender",
@@ -5679,11 +5295,7 @@ export const stopSolutionVersionCreation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopSolutionVersionCreationRequest,
   output: StopSolutionVersionCreationResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSolutionVersionCreation",
@@ -5780,11 +5392,7 @@ export const updateCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateCampaignRequest,
   output: UpdateCampaignResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
@@ -5806,11 +5414,7 @@ export const updateDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDatasetRequest,
   output: UpdateDatasetResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
@@ -5866,11 +5470,7 @@ export const updateRecommender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRecommenderRequest,
   output: UpdateRecommenderResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommender",

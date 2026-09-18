@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Snow Device Management",
   serviceShapeName: "SnowDeviceManagement",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://snow-device-management-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://snow-device-management.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://snow-device-management.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -125,14 +117,7 @@ export interface CancelTaskInput {
 }
 export const CancelTaskInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ taskId: S.String.pipe(T.HttpLabel("taskId")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/task/{taskId}/cancel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/task/{taskId}/cancel" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CancelTaskInput",
@@ -155,19 +140,14 @@ export interface Reboot {}
 export const Reboot = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Reboot",
 }) as any as S.Schema<Reboot>;
-export type Command =
-  | { unlock: Unlock; reboot?: never }
-  | { unlock?: never; reboot: Reboot };
+export type Command = { unlock: Unlock; reboot?: never } | { unlock?: never; reboot: Reboot };
 export const Command = /*@__PURE__*/ S.Union([
   S.Struct({ unlock: Unlock }),
   S.Struct({ reboot: Reboot }),
 ]);
 export type TaskDescriptionString = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type IdempotencyToken = string;
 export interface CreateTaskInput {
   targets: string[];
@@ -183,16 +163,7 @@ export const CreateTaskInput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     tags: S.optional(TagMap),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/task" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/task" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateTaskInput",
 }) as any as S.Schema<CreateTaskInput>;
@@ -254,9 +225,7 @@ export const PhysicalNetworkInterface = /*@__PURE__*/ S.suspend(() =>
   identifier: "PhysicalNetworkInterface",
 }) as any as S.Schema<PhysicalNetworkInterface>;
 export type PhysicalNetworkInterfaceList = PhysicalNetworkInterface[];
-export const PhysicalNetworkInterfaceList = /*@__PURE__*/ S.Array(
-  PhysicalNetworkInterface,
-);
+export const PhysicalNetworkInterfaceList = /*@__PURE__*/ S.Array(PhysicalNetworkInterface);
 export interface Capacity {
   name?: string;
   unit?: string;
@@ -304,9 +273,7 @@ export interface DescribeDeviceOutput {
 }
 export const DescribeDeviceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastReachedOutAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastReachedOutAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagMap),
     managedDeviceId: S.optional(S.String),
@@ -385,9 +352,7 @@ export const InstanceBlockDeviceMapping = /*@__PURE__*/ S.suspend(() =>
   identifier: "InstanceBlockDeviceMapping",
 }) as any as S.Schema<InstanceBlockDeviceMapping>;
 export type InstanceBlockDeviceMappingList = InstanceBlockDeviceMapping[];
-export const InstanceBlockDeviceMappingList = /*@__PURE__*/ S.Array(
-  InstanceBlockDeviceMapping,
-);
+export const InstanceBlockDeviceMappingList = /*@__PURE__*/ S.Array(InstanceBlockDeviceMapping);
 export interface SecurityGroupIdentifier {
   groupId?: string;
   groupName?: string;
@@ -398,9 +363,7 @@ export const SecurityGroupIdentifier = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecurityGroupIdentifier",
 }) as any as S.Schema<SecurityGroupIdentifier>;
 export type SecurityGroupIdentifierList = SecurityGroupIdentifier[];
-export const SecurityGroupIdentifierList = /*@__PURE__*/ S.Array(
-  SecurityGroupIdentifier,
-);
+export const SecurityGroupIdentifierList = /*@__PURE__*/ S.Array(SecurityGroupIdentifier);
 export interface CpuOptions {
   coreCount?: number;
   threadsPerCore?: number;
@@ -516,14 +479,7 @@ export interface DescribeTaskInput {
 }
 export const DescribeTaskInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ taskId: S.String.pipe(T.HttpLabel("taskId")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/task/{taskId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/task/{taskId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeTaskInput",
@@ -624,16 +580,7 @@ export const ListDevicesInput = /*@__PURE__*/ S.suspend(() =>
     jobId: S.optional(S.String).pipe(T.HttpQuery("jobId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/managed-devices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/managed-devices" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDevicesInput",
 }) as any as S.Schema<ListDevicesInput>;
@@ -677,16 +624,7 @@ export const ListExecutionsInput = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.String).pipe(T.HttpQuery("state")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/executions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/executions" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListExecutionsInput",
 }) as any as S.Schema<ListExecutionsInput>;
@@ -725,14 +663,7 @@ export interface ListTagsForResourceInput {
 }
 export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceInput",
@@ -755,16 +686,7 @@ export const ListTasksInput = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.String).pipe(T.HttpQuery("state")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tasks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/tasks" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "ListTasksInput" }) as any as S.Schema<ListTasksInput>;
 export interface TaskSummary {
   taskId: string;
@@ -803,22 +725,13 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -832,22 +745,13 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type CancelTaskError =
@@ -1165,11 +1069,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1226,11 +1126,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1252,11 +1148,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

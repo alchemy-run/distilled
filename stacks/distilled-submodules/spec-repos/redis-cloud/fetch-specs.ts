@@ -15,8 +15,7 @@
  *   ../specs/openapi.json
  */
 
-const OPENAPI_SPEC_URL =
-  "https://redis.io/docs/latest/operate/rc/api/api-reference/openapi.json";
+const OPENAPI_SPEC_URL = "https://redis.io/docs/latest/operate/rc/api/api-reference/openapi.json";
 const SPECS_DIR = "../specs";
 const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
 
@@ -65,9 +64,7 @@ const fetchText = async (url: string): Promise<string> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 };
@@ -115,9 +112,7 @@ async function main() {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = (await response.json()) as Record<string, unknown>;
@@ -135,9 +130,7 @@ async function main() {
   // produces no diff.
   await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   mkdirSync(`${SPECS_DIR}/docs`, { recursive: true });
   for (const doc of DOCS) {

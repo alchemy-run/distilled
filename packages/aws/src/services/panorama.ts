@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Panorama",
   serviceShapeName: "OmniCloudServiceLambda",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,13 +54,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://panorama-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://panorama-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://panorama.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://panorama.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://panorama.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -162,9 +150,7 @@ export type ApplicationInstanceName = string;
 export type Description = string;
 export type ManifestPayloadData = string;
 export type ManifestPayload = { PayloadData: string };
-export const ManifestPayload = /*@__PURE__*/ S.Union([
-  S.Struct({ PayloadData: S.String }),
-]);
+export const ManifestPayload = /*@__PURE__*/ S.Union([S.Struct({ PayloadData: S.String })]);
 export type ManifestOverridesPayloadData = string;
 export type ManifestOverridesPayload = { PayloadData: string };
 export const ManifestOverridesPayload = /*@__PURE__*/ S.Union([
@@ -176,10 +162,7 @@ export type DefaultRuntimeContextDevice = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateApplicationInstanceRequest {
   Name?: string;
   Description?: string;
@@ -201,14 +184,7 @@ export const CreateApplicationInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     DefaultRuntimeContextDevice: S.String,
     Tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/application-instances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/application-instances" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateApplicationInstanceRequest",
@@ -254,16 +230,7 @@ export const CreateJobForDevicesRequest = /*@__PURE__*/ S.suspend(() =>
     DeviceIds: DeviceIdList,
     DeviceJobConfig: S.optional(DeviceJobConfig),
     JobType: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/jobs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateJobForDevicesRequest",
 }) as any as S.Schema<CreateJobForDevicesRequest>;
@@ -331,14 +298,7 @@ export const CreateNodeFromTemplateJobRequest = /*@__PURE__*/ S.suspend(() =>
     TemplateParameters: TemplateParametersMap,
     JobTags: S.optional(JobTagsList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/packages/template-job" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/packages/template-job" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateNodeFromTemplateJobRequest",
@@ -357,14 +317,7 @@ export interface CreatePackageRequest {
 }
 export const CreatePackageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PackageName: S.String, Tags: S.optional(TagMap) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/packages" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/packages" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreatePackageRequest",
@@ -479,14 +432,7 @@ export const CreatePackageImportJobRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.String,
     JobTags: S.optional(JobTagsList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/packages/import-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/packages/import-jobs" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreatePackageImportJobRequest",
@@ -504,14 +450,7 @@ export interface DeleteDeviceRequest {
 }
 export const DeleteDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DeviceId: S.String.pipe(T.HttpLabel("DeviceId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/devices/{DeviceId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/devices/{DeviceId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDeviceRequest",
@@ -533,22 +472,13 @@ export const DeletePackageRequest = /*@__PURE__*/ S.suspend(() =>
     PackageId: S.String.pipe(T.HttpLabel("PackageId")),
     ForceDelete: S.optional(S.Boolean).pipe(T.HttpQuery("ForceDelete")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/packages/{PackageId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/packages/{PackageId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeletePackageRequest",
 }) as any as S.Schema<DeletePackageRequest>;
 export interface DeletePackageResponse {}
-export const DeletePackageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeletePackageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeletePackageResponse",
 }) as any as S.Schema<DeletePackageResponse>;
 export type PackageOwnerAccount = string;
@@ -566,9 +496,7 @@ export const DeregisterPackageVersionRequest = /*@__PURE__*/ S.suspend(() =>
     PackageId: S.String.pipe(T.HttpLabel("PackageId")),
     PackageVersion: S.String.pipe(T.HttpLabel("PackageVersion")),
     PatchVersion: S.String.pipe(T.HttpLabel("PatchVersion")),
-    UpdatedLatestPatchVersion: S.optional(S.String).pipe(
-      T.HttpQuery("UpdatedLatestPatchVersion"),
-    ),
+    UpdatedLatestPatchVersion: S.optional(S.String).pipe(T.HttpQuery("UpdatedLatestPatchVersion")),
   }).pipe(
     T.all(
       T.Http({
@@ -638,9 +566,7 @@ export const ReportedRuntimeContextState = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReportedRuntimeContextState",
 }) as any as S.Schema<ReportedRuntimeContextState>;
 export type ReportedRuntimeContextStates = ReportedRuntimeContextState[];
-export const ReportedRuntimeContextStates = /*@__PURE__*/ S.Array(
-  ReportedRuntimeContextState,
-);
+export const ReportedRuntimeContextStates = /*@__PURE__*/ S.Array(ReportedRuntimeContextState);
 export interface DescribeApplicationInstanceResponse {
   Name?: string;
   Description?: string;
@@ -670,9 +596,7 @@ export const DescribeApplicationInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     HealthStatus: S.optional(S.String),
     StatusDescription: S.optional(S.String),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ApplicationInstanceId: S.optional(S.String),
     Arn: S.optional(S.String),
     Tags: S.optional(TagMap),
@@ -684,28 +608,25 @@ export const DescribeApplicationInstanceResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeApplicationInstanceDetailsRequest {
   ApplicationInstanceId: string;
 }
-export const DescribeApplicationInstanceDetailsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationInstanceId: S.String.pipe(
-        T.HttpLabel("ApplicationInstanceId"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/application-instances/{ApplicationInstanceId}/details",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeApplicationInstanceDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationInstanceId: S.String.pipe(T.HttpLabel("ApplicationInstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/application-instances/{ApplicationInstanceId}/details",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DescribeApplicationInstanceDetailsRequest",
-  }) as any as S.Schema<DescribeApplicationInstanceDetailsRequest>;
+  ),
+).annotate({
+  identifier: "DescribeApplicationInstanceDetailsRequest",
+}) as any as S.Schema<DescribeApplicationInstanceDetailsRequest>;
 export interface DescribeApplicationInstanceDetailsResponse {
   Name?: string;
   Description?: string;
@@ -716,34 +637,26 @@ export interface DescribeApplicationInstanceDetailsResponse {
   CreatedTime?: Date;
   ApplicationInstanceId?: string;
 }
-export const DescribeApplicationInstanceDetailsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Name: S.optional(S.String),
-      Description: S.optional(S.String),
-      DefaultRuntimeContextDevice: S.optional(S.String),
-      ManifestPayload: S.optional(ManifestPayload),
-      ManifestOverridesPayload: S.optional(ManifestOverridesPayload),
-      ApplicationInstanceIdToReplace: S.optional(S.String),
-      CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      ApplicationInstanceId: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DescribeApplicationInstanceDetailsResponse",
-  }) as any as S.Schema<DescribeApplicationInstanceDetailsResponse>;
+export const DescribeApplicationInstanceDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    DefaultRuntimeContextDevice: S.optional(S.String),
+    ManifestPayload: S.optional(ManifestPayload),
+    ManifestOverridesPayload: S.optional(ManifestOverridesPayload),
+    ApplicationInstanceIdToReplace: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ApplicationInstanceId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeApplicationInstanceDetailsResponse",
+}) as any as S.Schema<DescribeApplicationInstanceDetailsResponse>;
 export interface DescribeDeviceRequest {
   DeviceId: string;
 }
 export const DescribeDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DeviceId: S.String.pipe(T.HttpLabel("DeviceId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/devices/{DeviceId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/devices/{DeviceId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeDeviceRequest",
@@ -851,9 +764,7 @@ export const NetworkStatus = /*@__PURE__*/ S.suspend(() =>
     Ethernet0Status: S.optional(EthernetStatus),
     Ethernet1Status: S.optional(EthernetStatus),
     NtpStatus: S.optional(NtpStatus),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "NetworkStatus" }) as any as S.Schema<NetworkStatus>;
 export type LeaseExpirationTime = Date;
@@ -867,9 +778,7 @@ export const AlternateSoftwareMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "AlternateSoftwareMetadata",
 }) as any as S.Schema<AlternateSoftwareMetadata>;
 export type AlternateSoftwares = AlternateSoftwareMetadata[];
-export const AlternateSoftwares = /*@__PURE__*/ S.Array(
-  AlternateSoftwareMetadata,
-);
+export const AlternateSoftwares = /*@__PURE__*/ S.Array(AlternateSoftwareMetadata);
 export type LatestAlternateSoftware = string;
 export type DeviceBrand = string;
 export type UpdateProgress = string;
@@ -926,9 +835,7 @@ export const DescribeDeviceResponse = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagMap),
     NetworkingConfiguration: S.optional(NetworkPayload),
     CurrentNetworkingStatus: S.optional(NetworkStatus),
-    LeaseExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LeaseExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AlternateSoftwares: S.optional(AlternateSoftwares),
     LatestAlternateSoftware: S.optional(S.String),
     Brand: S.optional(S.String),
@@ -943,14 +850,7 @@ export interface DescribeDeviceJobRequest {
 }
 export const DescribeDeviceJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobId: S.String.pipe(T.HttpLabel("JobId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/jobs/{JobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/jobs/{JobId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeDeviceJobRequest",
@@ -991,16 +891,7 @@ export const DescribeNodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NodeId: S.String.pipe(T.HttpLabel("NodeId")),
     OwnerAccount: S.optional(S.String).pipe(T.HttpQuery("OwnerAccount")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/nodes/{NodeId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/nodes/{NodeId}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeNodeRequest",
 }) as any as S.Schema<DescribeNodeRequest>;
@@ -1321,30 +1212,27 @@ export interface ListApplicationInstanceDependenciesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListApplicationInstanceDependenciesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationInstanceId: S.String.pipe(
-        T.HttpLabel("ApplicationInstanceId"),
-      ),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/application-instances/{ApplicationInstanceId}/package-dependencies",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListApplicationInstanceDependenciesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationInstanceId: S.String.pipe(T.HttpLabel("ApplicationInstanceId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/application-instances/{ApplicationInstanceId}/package-dependencies",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListApplicationInstanceDependenciesRequest",
-  }) as any as S.Schema<ListApplicationInstanceDependenciesRequest>;
+  ),
+).annotate({
+  identifier: "ListApplicationInstanceDependenciesRequest",
+}) as any as S.Schema<ListApplicationInstanceDependenciesRequest>;
 export interface PackageObject {
   Name: string;
   PackageVersion: string;
@@ -1363,44 +1251,40 @@ export interface ListApplicationInstanceDependenciesResponse {
   PackageObjects?: PackageObject[];
   NextToken?: string;
 }
-export const ListApplicationInstanceDependenciesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      PackageObjects: S.optional(PackageObjects),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListApplicationInstanceDependenciesResponse",
-  }) as any as S.Schema<ListApplicationInstanceDependenciesResponse>;
+export const ListApplicationInstanceDependenciesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PackageObjects: S.optional(PackageObjects),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListApplicationInstanceDependenciesResponse",
+}) as any as S.Schema<ListApplicationInstanceDependenciesResponse>;
 export interface ListApplicationInstanceNodeInstancesRequest {
   ApplicationInstanceId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListApplicationInstanceNodeInstancesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationInstanceId: S.String.pipe(
-        T.HttpLabel("ApplicationInstanceId"),
-      ),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/application-instances/{ApplicationInstanceId}/node-instances",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListApplicationInstanceNodeInstancesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationInstanceId: S.String.pipe(T.HttpLabel("ApplicationInstanceId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/application-instances/{ApplicationInstanceId}/node-instances",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListApplicationInstanceNodeInstancesRequest",
-  }) as any as S.Schema<ListApplicationInstanceNodeInstancesRequest>;
+  ),
+).annotate({
+  identifier: "ListApplicationInstanceNodeInstancesRequest",
+}) as any as S.Schema<ListApplicationInstanceNodeInstancesRequest>;
 export type NodeInstanceId = string;
 export type NodeInstanceStatus = string;
 export interface NodeInstance {
@@ -1429,15 +1313,14 @@ export interface ListApplicationInstanceNodeInstancesResponse {
   NodeInstances?: NodeInstance[];
   NextToken?: string;
 }
-export const ListApplicationInstanceNodeInstancesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NodeInstances: S.optional(NodeInstances),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListApplicationInstanceNodeInstancesResponse",
-  }) as any as S.Schema<ListApplicationInstanceNodeInstancesResponse>;
+export const ListApplicationInstanceNodeInstancesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NodeInstances: S.optional(NodeInstances),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListApplicationInstanceNodeInstancesResponse",
+}) as any as S.Schema<ListApplicationInstanceNodeInstancesResponse>;
 export type StatusFilter = string;
 export interface ListApplicationInstancesRequest {
   DeviceId?: string;
@@ -1452,14 +1335,7 @@ export const ListApplicationInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/application-instances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/application-instances" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListApplicationInstancesRequest",
@@ -1531,16 +1407,7 @@ export const ListDevicesRequest = /*@__PURE__*/ S.suspend(() =>
     DeviceAggregatedStatusFilter: S.optional(S.String).pipe(
       T.HttpQuery("DeviceAggregatedStatusFilter"),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/devices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/devices" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDevicesRequest",
 }) as any as S.Schema<ListDevicesRequest>;
@@ -1565,12 +1432,8 @@ export const Device = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(S.String),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ProvisioningStatus: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LeaseExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LeaseExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Brand: S.optional(S.String),
     CurrentSoftware: S.optional(S.String),
     Description: S.optional(S.String),
@@ -1601,16 +1464,7 @@ export const ListDevicesJobsRequest = /*@__PURE__*/ S.suspend(() =>
     DeviceId: S.optional(S.String).pipe(T.HttpQuery("DeviceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/jobs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDevicesJobsRequest",
 }) as any as S.Schema<ListDevicesJobsRequest>;
@@ -1653,14 +1507,7 @@ export const ListNodeFromTemplateJobsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/packages/template-job" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/packages/template-job" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListNodeFromTemplateJobsRequest",
@@ -1686,8 +1533,7 @@ export const NodeFromTemplateJob = /*@__PURE__*/ S.suspend(() =>
   identifier: "NodeFromTemplateJob",
 }) as any as S.Schema<NodeFromTemplateJob>;
 export type NodeFromTemplateJobList = NodeFromTemplateJob[];
-export const NodeFromTemplateJobList =
-  /*@__PURE__*/ S.Array(NodeFromTemplateJob);
+export const NodeFromTemplateJobList = /*@__PURE__*/ S.Array(NodeFromTemplateJob);
 export interface ListNodeFromTemplateJobsResponse {
   NodeFromTemplateJobs: NodeFromTemplateJob[];
   NextToken?: string;
@@ -1719,16 +1565,7 @@ export const ListNodesRequest = /*@__PURE__*/ S.suspend(() =>
     PatchVersion: S.optional(S.String).pipe(T.HttpQuery("patchVersion")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/nodes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/nodes" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListNodesRequest",
 }) as any as S.Schema<ListNodesRequest>;
@@ -1780,14 +1617,7 @@ export const ListPackageImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/packages/import-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/packages/import-jobs" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListPackageImportJobsRequest",
@@ -1807,9 +1637,7 @@ export const PackageImportJob = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(S.String),
     StatusMessage: S.optional(S.String),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "PackageImportJob",
@@ -1836,16 +1664,7 @@ export const ListPackagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/packages" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/packages" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPackagesRequest",
 }) as any as S.Schema<ListPackagesRequest>;
@@ -1887,14 +1706,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1919,16 +1731,7 @@ export const ProvisionDeviceRequest = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     Tags: S.optional(TagMap),
     NetworkingConfiguration: S.optional(NetworkPayload),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/devices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/devices" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ProvisionDeviceRequest",
 }) as any as S.Schema<ProvisionDeviceRequest>;
@@ -1983,9 +1786,7 @@ export const RegisterPackageVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegisterPackageVersionRequest",
 }) as any as S.Schema<RegisterPackageVersionRequest>;
 export interface RegisterPackageVersionResponse {}
-export const RegisterPackageVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const RegisterPackageVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "RegisterPackageVersionResponse",
 }) as any as S.Schema<RegisterPackageVersionResponse>;
 export interface RemoveApplicationInstanceRequest {
@@ -2030,38 +1831,34 @@ export interface SignalApplicationInstanceNodeInstancesRequest {
   ApplicationInstanceId: string;
   NodeSignals: NodeSignal[];
 }
-export const SignalApplicationInstanceNodeInstancesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationInstanceId: S.String.pipe(
-        T.HttpLabel("ApplicationInstanceId"),
-      ),
-      NodeSignals: NodeSignalList,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/application-instances/{ApplicationInstanceId}/node-signals",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const SignalApplicationInstanceNodeInstancesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationInstanceId: S.String.pipe(T.HttpLabel("ApplicationInstanceId")),
+    NodeSignals: NodeSignalList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/application-instances/{ApplicationInstanceId}/node-signals",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "SignalApplicationInstanceNodeInstancesRequest",
-  }) as any as S.Schema<SignalApplicationInstanceNodeInstancesRequest>;
+  ),
+).annotate({
+  identifier: "SignalApplicationInstanceNodeInstancesRequest",
+}) as any as S.Schema<SignalApplicationInstanceNodeInstancesRequest>;
 export interface SignalApplicationInstanceNodeInstancesResponse {
   ApplicationInstanceId: string;
 }
-export const SignalApplicationInstanceNodeInstancesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ApplicationInstanceId: S.String }),
-  ).annotate({
-    identifier: "SignalApplicationInstanceNodeInstancesResponse",
-  }) as any as S.Schema<SignalApplicationInstanceNodeInstancesResponse>;
+export const SignalApplicationInstanceNodeInstancesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ApplicationInstanceId: S.String }),
+).annotate({
+  identifier: "SignalApplicationInstanceNodeInstancesResponse",
+}) as any as S.Schema<SignalApplicationInstanceNodeInstancesResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
@@ -2071,22 +1868,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2100,22 +1888,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDeviceMetadataRequest {
@@ -2127,14 +1906,7 @@ export const UpdateDeviceMetadataRequest = /*@__PURE__*/ S.suspend(() =>
     DeviceId: S.String.pipe(T.HttpLabel("DeviceId")),
     Description: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/devices/{DeviceId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/devices/{DeviceId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateDeviceMetadataRequest",
@@ -2158,8 +1930,7 @@ export const ValidationExceptionErrorArgument = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ValidationExceptionErrorArgument",
 }) as any as S.Schema<ValidationExceptionErrorArgument>;
-export type ValidationExceptionErrorArgumentList =
-  ValidationExceptionErrorArgument[];
+export type ValidationExceptionErrorArgumentList = ValidationExceptionErrorArgument[];
 export const ValidationExceptionErrorArgumentList = /*@__PURE__*/ S.Array(
   ValidationExceptionErrorArgument,
 );
@@ -2173,9 +1944,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export interface ConflictExceptionErrorArgument {
   Name: string;
   Value: string;
@@ -2185,8 +1954,7 @@ export const ConflictExceptionErrorArgument = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ConflictExceptionErrorArgument",
 }) as any as S.Schema<ConflictExceptionErrorArgument>;
-export type ConflictExceptionErrorArgumentList =
-  ConflictExceptionErrorArgument[];
+export type ConflictExceptionErrorArgumentList = ConflictExceptionErrorArgument[];
 export const ConflictExceptionErrorArgumentList = /*@__PURE__*/ S.Array(
   ConflictExceptionErrorArgument,
 );
@@ -2265,12 +2033,7 @@ export const createNodeFromTemplateJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateNodeFromTemplateJobRequest,
   output: CreateNodeFromTemplateJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNodeFromTemplateJob",
@@ -2293,12 +2056,7 @@ export const createPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePackageRequest,
   output: CreatePackageResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackage",
@@ -2321,12 +2079,7 @@ export const createPackageImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePackageImportJobRequest,
   output: CreatePackageImportJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackageImportJob",
@@ -2590,12 +2343,7 @@ export const describeNodeFromTemplateJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeNodeFromTemplateJobRequest,
   output: DescribeNodeFromTemplateJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNodeFromTemplateJob",
@@ -2648,12 +2396,7 @@ export const describePackageImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribePackageImportJobRequest,
   output: DescribePackageImportJobResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackageImportJob",
@@ -2788,12 +2531,7 @@ export const listDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDevicesRequest,
   output: ListDevicesResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevices",
@@ -2858,12 +2596,7 @@ export const listNodeFromTemplateJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNodeFromTemplateJobsRequest,
   output: ListNodeFromTemplateJobsResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNodeFromTemplateJobs",
@@ -2920,12 +2653,7 @@ export const listPackageImportJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPackageImportJobsRequest,
   output: ListPackageImportJobsResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPackageImportJobs",
@@ -2988,11 +2716,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -3048,12 +2772,7 @@ export const registerPackageVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RegisterPackageVersionRequest,
   output: RegisterPackageVersionResponse,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterPackageVersion",
@@ -3133,11 +2852,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -3159,11 +2874,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

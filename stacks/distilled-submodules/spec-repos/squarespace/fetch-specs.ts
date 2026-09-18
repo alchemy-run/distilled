@@ -71,9 +71,7 @@ const fetchText = async (url: string, accept: string): Promise<Response> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return response;
 };
@@ -99,9 +97,7 @@ async function main() {
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
   await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   for (const doc of DOCS) {
     console.log(`Fetching ${doc.url}...`);

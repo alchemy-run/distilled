@@ -2,8 +2,8 @@
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
-import * as S from "effect/Schema";
 import * as Schedule from "effect/Schedule";
+import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import {
   Kind,
@@ -40,9 +40,7 @@ type Named<T extends string> = T extends `${infer R}!`
   : T extends `[${infer R}]`
     ? Named<R>
     : T;
-type Fields<C extends Schema, N extends string> = N extends keyof C["types"]
-  ? C["types"][N]
-  : {};
+type Fields<C extends Schema, N extends string> = N extends keyof C["types"] ? C["types"][N] : {};
 type TypeOf<F> = F extends Field<any, infer T, any> ? T : never;
 type ArgsOf<F> = F extends Field<infer A, any, any> ? A : never;
 type TagsOf<F> = F extends Field<any, any, infer E> ? E : never;
@@ -54,11 +52,8 @@ type FieldSelection<C extends Schema, F> =
         | ({} extends ArgsOf<F> ? boolean : never)
         | (Where<ArgsOf<F>> & Directives & { readonly select?: true })
     :
-        | (keyof ArgsOf<F> extends never
-            ? Selection<C, Named<TypeOf<F>>>
-            : never)
-        | (Where<ArgsOf<F>> &
-            Directives & { readonly select: Selection<C, Named<TypeOf<F>>> });
+        | (keyof ArgsOf<F> extends never ? Selection<C, Named<TypeOf<F>>> : never)
+        | (Where<ArgsOf<F>> & Directives & { readonly select: Selection<C, Named<TypeOf<F>>> });
 type Alias<C extends Schema, N extends string> = {
   [K in keyof Fields<C, N>]: {
     readonly [P in K]: FieldSelection<C, Fields<C, N>[K]>;
@@ -81,24 +76,24 @@ type Keys<Q> = {
 }[keyof Q];
 type Simplify<A> = { [K in keyof A]: A[K] };
 type AliasValue<C extends Schema, N extends string, Q> = {
-  [K in Extract<Keys<Q>, keyof Fields<C, N>>]: Result<
-    C,
-    TypeOf<Fields<C, N>[K]>,
-    Selected<Q[K]>
-  >;
+  [K in Extract<Keys<Q>, keyof Fields<C, N>>]: Result<C, TypeOf<Fields<C, N>[K]>, Selected<Q[K]>>;
 }[Extract<Keys<Q>, keyof Fields<C, N>>];
 type AliasResult<C extends Schema, N extends string, Q> = Q extends {
   readonly __alias: infer A;
 }
   ? Simplify<
       {
-        [
-          K in keyof A as Conditional<A[K][keyof A[K]]> extends true ? never : K
-        ]: AliasValue<C, N, A[K]>;
+        [K in keyof A as Conditional<A[K][keyof A[K]]> extends true ? never : K]: AliasValue<
+          C,
+          N,
+          A[K]
+        >;
       } & {
-        [
-          K in keyof A as Conditional<A[K][keyof A[K]]> extends true ? K : never
-        ]?: AliasValue<C, N, A[K]>;
+        [K in keyof A as Conditional<A[K][keyof A[K]]> extends true ? K : never]?: AliasValue<
+          C,
+          N,
+          A[K]
+        >;
       }
     >
   : {};
@@ -118,16 +113,14 @@ type Conditional<Q> = boolean extends Q
         : true
       : false;
 type ObjectFields<C extends Schema, N extends string, Q> = {
-  [
-    K in Extract<Keys<Q>, keyof Fields<C, N>> as Conditional<Q[K]> extends true
-      ? never
-      : K
-  ]: Result<C, TypeOf<Fields<C, N>[K]>, Selected<Q[K]>>;
+  [K in Extract<Keys<Q>, keyof Fields<C, N>> as Conditional<Q[K]> extends true ? never : K]: Result<
+    C,
+    TypeOf<Fields<C, N>[K]>,
+    Selected<Q[K]>
+  >;
 } & {
   [
-    K in Extract<Keys<Q>, keyof Fields<C, N>> as Conditional<Q[K]> extends true
-      ? K
-      : never
+    K in Extract<Keys<Q>, keyof Fields<C, N>> as Conditional<Q[K]> extends true ? K : never
   ]?: Result<C, TypeOf<Fields<C, N>[K]>, Selected<Q[K]>>;
 };
 type ObjectResult<C extends Schema, N extends string, Q> = Simplify<
@@ -135,12 +128,7 @@ type ObjectResult<C extends Schema, N extends string, Q> = Simplify<
     (Q extends { readonly __typename: true } ? { __typename: N } : {}) &
     AliasResult<C, N, Q>
 >;
-type Branch<
-  C extends Schema,
-  N extends string,
-  Q,
-  T extends string,
-> = T extends unknown
+type Branch<C extends Schema, N extends string, Q, T extends string> = T extends unknown
   ? Simplify<
       Omit<ObjectResult<C, N, Q>, "__typename"> &
         (Q extends { readonly __on: infer O }
@@ -158,11 +146,9 @@ type Value<C extends Schema, T extends string, Q> = T extends `[${infer I}]`
       ? Branch<C, T, Q, C["possibleTypes"][T]>
       : ObjectResult<C, T, Q>;
 /** Selected output, preserving list and nullable wrappers. */
-export type Result<
-  C extends Schema,
-  Ref extends string,
-  Q,
-> = Ref extends `${infer T}!` ? Value<C, T, Q> : Value<C, Ref, Q> | null;
+export type Result<C extends Schema, Ref extends string, Q> = Ref extends `${infer T}!`
+  ? Value<C, T, Q>
+  : Value<C, Ref, Q> | null;
 type SelectionTags<C extends Schema, N extends string, Q> = string extends N
   ? string
   : Q extends object
@@ -170,15 +156,10 @@ type SelectionTags<C extends Schema, N extends string, Q> = string extends N
         | {
             [K in Extract<Keys<Q>, keyof Fields<C, N>>]:
               | TagsOf<Fields<C, N>[K]>
-              | SelectionTags<
-                  C,
-                  Named<TypeOf<Fields<C, N>[K]>>,
-                  Selected<Q[K]>
-                >;
+              | SelectionTags<C, Named<TypeOf<Fields<C, N>[K]>>, Selected<Q[K]>>;
           }[Extract<Keys<Q>, keyof Fields<C, N>>]
         | (Q extends { readonly __on: infer O }
-            ? { [K in keyof O & string]: SelectionTags<C, K, O[K]> }[keyof O &
-                string]
+            ? { [K in keyof O & string]: SelectionTags<C, K, O[K]> }[keyof O & string]
             : never)
         | (Q extends { readonly __alias: infer A }
             ? { [K in keyof A]: SelectionTags<C, N, A[K]> }[keyof A]
@@ -193,20 +174,15 @@ export type Errors<C extends Schema, N extends string, Q> =
 type Root<C extends Schema, K extends OperationKind> = K extends "query"
   ? C["query"]
   : C["mutation"];
-type OperationSelection<
-  C extends Schema,
-  N extends string,
-  K extends keyof Fields<C, N>,
-  Q,
-> = { [P in K]: { select: Q } };
+type OperationSelection<C extends Schema, N extends string, K extends keyof Fields<C, N>, Q> = {
+  [P in K]: { select: Q };
+};
 
 export const errorFields = {
   message: S.String,
   code: S.optional(S.String),
   path: S.optional(S.Array(S.Union([S.String, S.Number]))),
-  locations: S.optional(
-    S.Array(S.Struct({ line: S.Number, column: S.Number })),
-  ),
+  locations: S.optional(S.Array(S.Struct({ line: S.Number, column: S.Number }))),
   extensions: S.optional(S.Unknown),
   traceId: S.optional(S.String),
   status: S.optional(S.Number),
@@ -235,25 +211,20 @@ export class UnknownGraphQLError extends S.TaggedError<UnknownGraphQLError>()(
   },
 ) {}
 /** All errors from one GraphQL execution, with the original partial response. */
-export class GraphQLFailure<
-  E extends GraphQLIssue = GraphQLIssue,
-> extends Data.TaggedError("GraphQLFailure")<{
+export class GraphQLFailure<E extends GraphQLIssue = GraphQLIssue> extends Data.TaggedError(
+  "GraphQLFailure",
+)<{
   readonly errors: readonly [E, ...E[]];
   readonly data: unknown;
   readonly status: number;
 }> {
   get message(): string {
     return this.errors
-      .map(
-        (e) =>
-          `${e._tag}${e.path?.length ? ` at ${e.path.join(".")}` : ""}: ${e.message}`,
-      )
+      .map((e) => `${e._tag}${e.path?.length ? ` at ${e.path.join(".")}` : ""}: ${e.message}`)
       .join("; ");
   }
 }
-export class GraphQLTransportError extends Data.TaggedError(
-  "GraphQLTransportError",
-)<{
+export class GraphQLTransportError extends Data.TaggedError("GraphQLTransportError")<{
   readonly message: string;
   readonly cause?: unknown;
   readonly status?: number;
@@ -264,19 +235,13 @@ export class GraphQLDecodeError extends Data.TaggedError("GraphQLDecodeError")<{
   readonly path?: ReadonlyArray<string | number>;
   readonly cause?: unknown;
 }> {}
-export class GraphQLRequestError extends Data.TaggedError(
-  "GraphQLRequestError",
-)<{ readonly message: string }> {}
-export type ClientError =
-  | GraphQLTransportError
-  | GraphQLDecodeError
-  | GraphQLRequestError;
+export class GraphQLRequestError extends Data.TaggedError("GraphQLRequestError")<{
+  readonly message: string;
+}> {}
+export type ClientError = GraphQLTransportError | GraphQLDecodeError | GraphQLRequestError;
 type IssueOf<E> = E extends GraphQLFailure<infer I> ? I : never;
 /** True only when every issue has an allowed tag; mixed failures are never hidden. */
-export const isErrorTag = (
-  error: unknown,
-  tags: string | readonly string[],
-): boolean => {
+export const isErrorTag = (error: unknown, tags: string | readonly string[]): boolean => {
   const allowed = typeof tags === "string" ? [tags] : tags;
   return (
     error instanceof GraphQLFailure &&
@@ -293,16 +258,11 @@ export const catchTags =
       failure: GraphQLFailure,
     ) => Effect.Effect<B, E2, R2>,
   ) =>
-  <A, E, R>(
-    self: Effect.Effect<A, E, R>,
-  ): Effect.Effect<A | B, E | E2, R | R2> =>
+  <A, E, R>(self: Effect.Effect<A, E, R>): Effect.Effect<A | B, E | E2, R | R2> =>
     self.pipe(
       Effect.catch((error): Effect.Effect<B, E | E2, R2> =>
         isErrorTag(error, tags)
-          ? handler(
-              (error as GraphQLFailure).errors[0] as any,
-              error as GraphQLFailure,
-            )
+          ? handler((error as GraphQLFailure).errors[0] as any, error as GraphQLFailure)
           : Effect.fail(error),
       ),
     );
@@ -321,11 +281,7 @@ export interface GraphQLResponse {
 }
 export type Transport<R> = (
   request: GraphQLRequest,
-) => Effect.Effect<
-  GraphQLResponse,
-  GraphQLTransportError | GraphQLDecodeError,
-  R
->;
+) => Effect.Effect<GraphQLResponse, GraphQLTransportError | GraphQLDecodeError, R>;
 interface Position {
   readonly field: string;
   readonly key: string;
@@ -349,17 +305,11 @@ const requestError = (message: string): never => {
   throw new GraphQLRequestError({ message });
 };
 const assertName = (name: string) => {
-  if (!/^[_A-Za-z][_0-9A-Za-z]*$/.test(name))
-    requestError(`Invalid GraphQL name ${name}`);
+  if (!/^[_A-Za-z][_0-9A-Za-z]*$/.test(name)) requestError(`Invalid GraphQL name ${name}`);
 };
 
 /** Validate and encode inputs recursively. Undefined omits; null stays null. */
-const encodeInput = (
-  model: GraphQLModel,
-  ref: string,
-  value: unknown,
-  at: string,
-): unknown => {
+const encodeInput = (model: GraphQLModel, ref: string, value: unknown, at: string): unknown => {
   if (value === undefined) return undefined;
   if (value === null) {
     if (ref.endsWith("!")) requestError(`${at} must not be null`);
@@ -380,19 +330,12 @@ const encodeInput = (
     const input = value as Record<string, unknown>;
     const result: Record<string, unknown> = {};
     for (const key of Object.keys(input))
-      if (!type.inputFields?.[key])
-        requestError(`${at}: unknown input field ${key}`);
+      if (!type.inputFields?.[key]) requestError(`${at}: unknown input field ${key}`);
     for (const [key, field] of Object.entries(type.inputFields ?? {})) {
       if (input[key] === undefined) {
         if (field.type.endsWith("!") && field.defaultValue === undefined)
           requestError(`${at}.${key} is required`);
-      } else
-        result[key] = encodeInput(
-          model,
-          field.type,
-          input[key],
-          `${at}.${key}`,
-        );
+      } else result[key] = encodeInput(model, field.type, input[key], `${at}.${key}`);
     }
     return result;
   }
@@ -414,11 +357,7 @@ const encodeInput = (
   } else if (type.scalar === "boolean" || base === "Boolean") {
     if (typeof value !== "boolean") requestError(`${at} must be a boolean`);
   }
-  if (
-    type.scalar === "string | number" &&
-    typeof value !== "string" &&
-    typeof value !== "number"
-  )
+  if (type.scalar === "string | number" && typeof value !== "string" && typeof value !== "number")
     requestError(`${at} must be a string or number`);
   if (
     base === "BigInt" &&
@@ -460,8 +399,7 @@ export const compile = (
     parent: string,
     input: unknown,
   ): { nodes: SelectionNode[]; positions: Position[] } => {
-    if (!object(input))
-      return requestError(`${parent} requires an object selection`);
+    if (!object(input)) return requestError(`${parent} requires an object selection`);
     const type = model.types[parent];
     if (!type) return requestError(`Unknown GraphQL type ${parent}`);
     const nodes: SelectionNode[] = [];
@@ -472,9 +410,7 @@ export const compile = (
       if (alias) assertName(alias);
       const key = alias ?? fieldName;
       if (positions.some((p) => p.key === key))
-        return requestError(
-          `Duplicate response key ${parent}.${key}; use distinct aliases`,
-        );
+        return requestError(`Duplicate response key ${parent}.${key}; use distinct aliases`);
       const field: GraphQLField | undefined =
         fieldName === "__typename"
           ? { type: "String!", args: {}, errors: [] }
@@ -489,20 +425,14 @@ export const compile = (
           ? selected
           : undefined;
       const args = wrapper?.where ?? {};
-      if (!object(args))
-        return requestError(`${parent}.${fieldName}.where must be an object`);
+      if (!object(args)) return requestError(`${parent}.${fieldName}.where must be an object`);
       for (const arg of Object.keys(args))
         if (!field.args[arg])
-          return requestError(
-            `Unknown argument ${parent}.${fieldName}(${arg})`,
-          );
+          return requestError(`Unknown argument ${parent}.${fieldName}(${arg})`);
       const arguments_: NonNullable<FieldNode["arguments"]>[number][] = [];
       for (const [arg, definition] of Object.entries(field.args)) {
         if (args[arg] === undefined) {
-          if (
-            definition.type.endsWith("!") &&
-            definition.defaultValue === undefined
-          )
+          if (definition.type.endsWith("!") && definition.defaultValue === undefined)
             return requestError(`${parent}.${fieldName}(${arg}) is required`);
         } else
           arguments_.push({
@@ -510,12 +440,7 @@ export const compile = (
             name: nameNode(arg),
             value: variable(
               definition.type,
-              encodeInput(
-                model,
-                definition.type,
-                args[arg],
-                `${parent}.${fieldName}(${arg})`,
-              ),
+              encodeInput(model, definition.type, args[arg], `${parent}.${fieldName}(${arg})`),
             ),
           });
       }
@@ -523,8 +448,7 @@ export const compile = (
       for (const directive of ["include", "skip"] as const) {
         const value = wrapper?.[`$${directive}`];
         if (value !== undefined) {
-          if (typeof value !== "boolean")
-            return requestError(`$${directive} must be a boolean`);
+          if (typeof value !== "boolean") return requestError(`$${directive} must be a boolean`);
           directives.push({
             kind: Kind.DIRECTIVE,
             name: nameNode(directive),
@@ -540,16 +464,12 @@ export const compile = (
       }
       const outputType = model.types[named(field.type)];
       const leaf =
-        fieldName === "__typename" ||
-        outputType?.kind === "SCALAR" ||
-        outputType?.kind === "ENUM";
+        fieldName === "__typename" || outputType?.kind === "SCALAR" || outputType?.kind === "ENUM";
       const sub = wrapper ? wrapper.select : selected;
       let child: ReturnType<typeof walk> = { nodes: [], positions: [] };
       if (leaf) {
         if (sub !== true && sub !== undefined)
-          return requestError(
-            `${parent}.${fieldName} is a leaf and takes no selection`,
-          );
+          return requestError(`${parent}.${fieldName} is a leaf and takes no selection`);
       } else child = walk(named(field.type), sub);
       nodes.push({
         kind: Kind.FIELD,
@@ -568,8 +488,7 @@ export const compile = (
       });
       const branches: Record<string, readonly Position[]> = {};
       // Branch metadata is attached to sentinel positions by walk and removed from regular children.
-      for (const p of child.positions)
-        if (p.field === "__fragment") branches[p.type] = p.children;
+      for (const p of child.positions) if (p.field === "__fragment") branches[p.type] = p.children;
       positions.push({
         field: fieldName,
         key,
@@ -584,8 +503,7 @@ export const compile = (
     };
     for (const [key, value] of Object.entries(input)) {
       if (key === "__alias") {
-        if (!object(value))
-          return requestError(`${parent}.__alias must be an object`);
+        if (!object(value)) return requestError(`${parent}.__alias must be an object`);
         for (const [alias, fields] of Object.entries(value)) {
           if (!object(fields) || Object.keys(fields).length !== 1)
             return requestError(`Alias ${alias} must select exactly one field`);
@@ -593,13 +511,10 @@ export const compile = (
           addField(field, selected, alias);
         }
       } else if (key === "__on") {
-        if (!object(value))
-          return requestError(`${parent}.__on must be an object`);
+        if (!object(value)) return requestError(`${parent}.__on must be an object`);
         for (const [branch, fields] of Object.entries(value)) {
           if (!type.possibleTypes?.includes(branch))
-            return requestError(
-              `${branch} is not a possible type of ${parent}`,
-            );
+            return requestError(`${branch} is not a possible type of ${parent}`);
           const children = walk(branch, fields);
           nodes.push({
             kind: Kind.INLINE_FRAGMENT,
@@ -650,10 +565,7 @@ export const compile = (
   };
 };
 
-const decodeFailure = (
-  message: string,
-  path: ReadonlyArray<string | number>,
-): never => {
+const decodeFailure = (message: string, path: ReadonlyArray<string | number>): never => {
   throw new GraphQLDecodeError({ message, path });
 };
 /** Validate only selected fields. Preserve the schema's nullability exactly. */
@@ -666,20 +578,15 @@ const decodeData = (
   path: ReadonlyArray<string | number>,
 ): unknown => {
   if (data === null) {
-    if (ref.endsWith("!"))
-      return decodeFailure(`Non-null ${ref} was null`, path);
+    if (ref.endsWith("!")) return decodeFailure(`Non-null ${ref} was null`, path);
     return null;
   }
   if (data === undefined) return decodeFailure(`Missing selected ${ref}`, path);
   const base = ref.endsWith("!") ? ref.slice(0, -1) : ref;
   if (base.startsWith("[")) {
-    if (!Array.isArray(data))
-      return decodeFailure(`Expected ${ref} array`, path);
+    if (!Array.isArray(data)) return decodeFailure(`Expected ${ref} array`, path);
     return data.map((v, i) =>
-      decodeData(model, base.slice(1, -1), v, positions, branches, [
-        ...path,
-        i,
-      ]),
+      decodeData(model, base.slice(1, -1), v, positions, branches, [...path, i]),
     );
   }
   const type = model.types[base];
@@ -696,11 +603,7 @@ const decodeData = (
           Float: "number",
         } as Record<string, string>
       )[base];
-    if (
-      primitive === "string | number" &&
-      typeof data !== "string" &&
-      typeof data !== "number"
-    )
+    if (primitive === "string | number" && typeof data !== "string" && typeof data !== "number")
       return decodeFailure(`Expected ${base}`, path);
     if (
       base === "BigInt" &&
@@ -708,16 +611,12 @@ const decodeData = (
         (typeof data === "string" && !/^-?\d+$/.test(data)))
     )
       return decodeFailure(`Invalid ${base}`, path);
-    if (
-      ["string", "number", "boolean"].includes(primitive ?? "") &&
-      typeof data !== primitive
-    )
+    if (["string", "number", "boolean"].includes(primitive ?? "") && typeof data !== primitive)
       return decodeFailure(`Expected ${base}`, path);
     if (
       typeof data === "number" &&
       (!Number.isFinite(data) ||
-        (base === "Int" &&
-          (!Number.isInteger(data) || data < -2147483648 || data > 2147483647)))
+        (base === "Int" && (!Number.isInteger(data) || data < -2147483648 || data > 2147483647)))
     )
       return decodeFailure(`Invalid ${base}`, path);
     return data;
@@ -730,15 +629,12 @@ const decodeData = (
   if (!object(data)) return decodeFailure(`Expected ${base} object`, path);
   if (
     type.possibleTypes?.length &&
-    (typeof data.__typename !== "string" ||
-      !type.possibleTypes.includes(data.__typename))
+    (typeof data.__typename !== "string" || !type.possibleTypes.includes(data.__typename))
   )
     return decodeFailure(`Missing or invalid ${base} __typename`, path);
   const active = [
     ...positions,
-    ...(typeof data.__typename === "string"
-      ? (branches[data.__typename] ?? [])
-      : []),
+    ...(typeof data.__typename === "string" ? (branches[data.__typename] ?? []) : []),
   ];
   const result: Record<string, unknown> = {};
   const merged = new Map<string, Position>();
@@ -753,16 +649,10 @@ const decodeData = (
             children: [...previous.children, ...position.children],
             branches: Object.fromEntries(
               [
-                ...new Set([
-                  ...Object.keys(previous.branches),
-                  ...Object.keys(position.branches),
-                ]),
+                ...new Set([...Object.keys(previous.branches), ...Object.keys(position.branches)]),
               ].map((key) => [
                 key,
-                [
-                  ...(previous.branches[key] ?? []),
-                  ...(position.branches[key] ?? []),
-                ],
+                [...(previous.branches[key] ?? []), ...(position.branches[key] ?? [])],
               ]),
             ),
           }
@@ -776,10 +666,7 @@ const decodeData = (
         typeof data[position.key] !== "string" ||
         (type.kind === "OBJECT" && data[position.key] !== base)
       )
-        return decodeFailure(`Invalid __typename for ${base}`, [
-          ...path,
-          position.key,
-        ]);
+        return decodeFailure(`Invalid __typename for ${base}`, [...path, position.key]);
       Object.defineProperty(result, position.key, {
         value: data[position.key],
         enumerable: true,
@@ -812,19 +699,12 @@ const classify = (
   response: GraphQLResponse,
   classes: Readonly<Record<string, ErrorConstructor>>,
 ): GraphQLIssue => {
-  const path = Array.isArray(raw.path)
-    ? (raw.path as (string | number)[])
-    : undefined;
+  const path = Array.isArray(raw.path) ? (raw.path as (string | number)[]) : undefined;
   let candidates = compiled.positions;
   let position: Position | undefined;
-  let currentData: unknown = object(response.body)
-    ? response.body.data
-    : undefined;
+  let currentData: unknown = object(response.body) ? response.body.data : undefined;
   let parents: readonly Position[] = [];
-  const descendants = (
-    positions: readonly Position[],
-    value: unknown,
-  ): readonly Position[] =>
+  const descendants = (positions: readonly Position[], value: unknown): readonly Position[] =>
     positions.flatMap((p) => [
       ...p.children,
       ...(object(value) && typeof value.__typename === "string"
@@ -834,9 +714,7 @@ const classify = (
   let valid = !!path?.length;
   for (const segment of path ?? []) {
     if (typeof segment === "number") {
-      currentData = Array.isArray(currentData)
-        ? currentData[segment]
-        : undefined;
+      currentData = Array.isArray(currentData) ? currentData[segment] : undefined;
       candidates = descendants(parents, currentData);
       continue;
     }
@@ -862,9 +740,7 @@ const classify = (
         : undefined;
   const retryHeader = response.headers["retry-after"];
   const retryAfter =
-    retryHeader && /^\d+(\.\d+)?$/.test(retryHeader)
-      ? Number(retryHeader)
-      : undefined;
+    retryHeader && /^\d+(\.\d+)?$/.test(retryHeader) ? Number(retryHeader) : undefined;
   const props = {
     message: raw.message,
     code,
@@ -880,25 +756,19 @@ const classify = (
     status: response.status,
     retryAfter,
   };
-  const tags = [
-    ...model.globalErrors,
-    ...(valid ? (position?.errors ?? []) : []),
-  ];
+  const tags = [...model.globalErrors, ...(valid ? (position?.errors ?? []) : [])];
   const matches = tags.flatMap((tag) =>
     (model.errors[tag]?.matchers ?? [])
       .filter(
         (matcher) =>
           (matcher.code === undefined || matcher.code === code) &&
           (matcher.message === undefined || matcher.message === raw.message) &&
-          (matcher.messageIncludes === undefined ||
-            raw.message.includes(matcher.messageIncludes)),
+          (matcher.messageIncludes === undefined || raw.message.includes(matcher.messageIncludes)),
       )
       .map((matcher) => ({
         tag,
         score:
-          (matcher.code ? 1 : 0) +
-          (matcher.message ? 4 : 0) +
-          (matcher.messageIncludes ? 2 : 0),
+          (matcher.code ? 1 : 0) + (matcher.message ? 4 : 0) + (matcher.messageIncludes ? 2 : 0),
       })),
   );
   matches.sort((a, b) => b.score - a.score);
@@ -920,14 +790,10 @@ export interface Report<A, E extends GraphQLIssue> {
   readonly status: number;
   readonly extensions?: unknown;
 }
-type Failure<C extends Schema, N extends string, Q> =
-  | ClientError
-  | GraphQLFailure<Errors<C, N, Q>>;
-type FieldAt<
-  C extends Schema,
-  N extends string,
-  K extends string,
-> = K extends keyof Fields<C, N> ? Fields<C, N>[K] : never;
+type Failure<C extends Schema, N extends string, Q> = ClientError | GraphQLFailure<Errors<C, N, Q>>;
+type FieldAt<C extends Schema, N extends string, K extends string> = K extends keyof Fields<C, N>
+  ? Fields<C, N>[K]
+  : never;
 type ConnectionEdge<C extends Schema, Ref extends string> = Named<
   TypeOf<FieldAt<C, Named<Ref>, "edges">>
 >;
@@ -986,12 +852,7 @@ export interface Pagination<
       >,
     R
   >;
-  items<
-    const Q extends Selection<
-      C,
-      Named<ConnectionNode<C, TypeOf<Fields<C, Root<C, K>>[N]>>>
-    >,
-  >(
+  items<const Q extends Selection<C, Named<ConnectionNode<C, TypeOf<Fields<C, Root<C, K>>[N]>>>>>(
     args: ArgsOf<Fields<C, Root<C, K>>[N]>,
     select: Q,
   ): Stream.Stream<
@@ -1020,9 +881,7 @@ export type Operation<
     : ObjectOperation<C, K, N, R> &
         (K extends "query"
           ? "after" extends keyof ArgsOf<Fields<C, Root<C, K>>[N]>
-            ? [ConnectionNode<C, TypeOf<Fields<C, Root<C, K>>[N]>>] extends [
-                never,
-              ]
+            ? [ConnectionNode<C, TypeOf<Fields<C, Root<C, K>>[N]>>] extends [never]
               ? {}
               : Pagination<C, K, N, R>
             : {}
@@ -1050,12 +909,8 @@ export const makeClient = <C extends Schema, R>(
       return yield* Effect.try({
         try: () => {
           const body = response.body;
-          if (!object(body))
-            return decodeFailure("GraphQL response must be an object", []);
-          if (
-            body.errors !== undefined &&
-            (!Array.isArray(body.errors) || !body.errors.length)
-          )
+          if (!object(body)) return decodeFailure("GraphQL response must be an object", []);
+          if (body.errors !== undefined && (!Array.isArray(body.errors) || !body.errors.length))
             return decodeFailure("GraphQL errors must be a nonempty array", []);
           const rawErrors = body.errors ?? [];
           for (const error of rawErrors) {
@@ -1078,10 +933,7 @@ export const makeClient = <C extends Schema, R>(
                 message: `HTTP ${response.status} without a GraphQL response`,
                 status: response.status,
               });
-            return decodeFailure(
-              "GraphQL response has neither data nor errors",
-              [],
-            );
+            return decodeFailure("GraphQL response has neither data nor errors", []);
           }
           if (response.status >= 400 && !rawErrors.length)
             throw new GraphQLTransportError({
@@ -1093,14 +945,7 @@ export const makeClient = <C extends Schema, R>(
           );
           let data = body.data;
           if (data !== undefined && data !== null)
-            data = decodeData(
-              model,
-              compiled.rootType + "!",
-              data,
-              compiled.positions,
-              {},
-              [],
-            );
+            data = decodeData(model, compiled.rootType + "!", data, compiled.positions, {}, []);
           if ((data === undefined || data === null) && !errors.length)
             return decodeFailure("GraphQL success has no data", []);
           return {
@@ -1111,8 +956,7 @@ export const makeClient = <C extends Schema, R>(
           };
         },
         catch: (cause) =>
-          cause instanceof GraphQLDecodeError ||
-          cause instanceof GraphQLTransportError
+          cause instanceof GraphQLDecodeError || cause instanceof GraphQLTransportError
             ? cause
             : new GraphQLDecodeError({
                 message: "Invalid GraphQL response",
@@ -1122,13 +966,9 @@ export const makeClient = <C extends Schema, R>(
     });
   const retryable = (error: ClientError | GraphQLFailure): boolean =>
     error instanceof GraphQLFailure
-      ? error.errors.every(
-          (issue) => model.errors[issue._tag]?.retryable === true,
-        )
+      ? error.errors.every((issue) => model.errors[issue._tag]?.retryable === true)
       : error instanceof GraphQLTransportError &&
-        (error.status === undefined ||
-          error.status === 429 ||
-          error.status >= 500);
+        (error.status === undefined || error.status === 429 || error.status >= 500);
   const execute = (
     kind: OperationKind,
     selection: unknown,
@@ -1156,16 +996,12 @@ export const makeClient = <C extends Schema, R>(
         )
       : effect;
   };
-  const operation = <
-    K extends OperationKind,
-    N extends keyof Fields<C, Root<C, K>> & string,
-  >(
+  const operation = <K extends OperationKind, N extends keyof Fields<C, Root<C, K>> & string>(
     kind: K,
     name: N,
   ): Operation<C, K, N, R> => {
     const field =
-      model.types[kind === "query" ? model.queryType : model.mutationType!]
-        ?.fields?.[name];
+      model.types[kind === "query" ? model.queryType : model.mutationType!]?.fields?.[name];
     const call = (args: unknown, selection?: unknown) =>
       execute(kind, {
         [name]: { where: args, select: selection ?? true },
@@ -1194,10 +1030,7 @@ export const makeClient = <C extends Schema, R>(
             }).positions[0]!;
             let cursorKey = "pageInfo";
             let complete: Record<string, unknown>;
-            if (
-              selection.__alias &&
-              Object.hasOwn(selection.__alias, "pageInfo")
-            ) {
+            if (selection.__alias && Object.hasOwn(selection.__alias, "pageInfo")) {
               cursorKey = "_distilledPageInfo";
               while (
                 Object.hasOwn(selection, cursorKey) ||
@@ -1257,9 +1090,7 @@ export const makeClient = <C extends Schema, R>(
                     );
                     return Effect.succeed([
                       [projected],
-                      more
-                        ? Option.some({ after: cursor, seen })
-                        : Option.none(),
+                      more ? Option.some({ after: cursor, seen }) : Option.none(),
                     ] as const);
                   }),
                 ),
@@ -1277,9 +1108,7 @@ export const makeClient = <C extends Schema, R>(
         pages(args, { edges: { node: select } }).pipe(
           Stream.flatMap((page) =>
             Stream.fromIterable(
-              (page?.edges ?? []).flatMap((edge: any) =>
-                edge === null ? [] : [edge.node],
-              ),
+              (page?.edges ?? []).flatMap((edge: any) => (edge === null ? [] : [edge.node])),
             ),
           ),
         ),
@@ -1288,18 +1117,12 @@ export const makeClient = <C extends Schema, R>(
   return {
     query: <const Q extends Selection<C, C["query"]>>(
       selection: Q,
-    ): Effect.Effect<
-      Result<C, `${C["query"]}!`, Q>,
-      Failure<C, C["query"], Q>,
-      R
-    > => execute("query", selection) as any,
+    ): Effect.Effect<Result<C, `${C["query"]}!`, Q>, Failure<C, C["query"], Q>, R> =>
+      execute("query", selection) as any,
     mutation: <const Q extends Selection<C, C["mutation"]>>(
       selection: Q,
-    ): Effect.Effect<
-      Result<C, `${C["mutation"]}!`, Q>,
-      Failure<C, C["mutation"], Q>,
-      R
-    > => execute("mutation", selection) as any,
+    ): Effect.Effect<Result<C, `${C["mutation"]}!`, Q>, Failure<C, C["mutation"], Q>, R> =>
+      execute("mutation", selection) as any,
     report: {
       query: <const Q extends Selection<C, C["query"]>>(
         selection: Q,

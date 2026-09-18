@@ -1,6 +1,13 @@
 {
   "name": "stripe-spec",
   "private": true,
+  "workspaces": {
+    "catalog": {
+      "@typescript/native-preview": "latest",
+      "oxfmt": "0.21.0",
+      "oxlint": "1.36.0"
+    }
+  },
   "type": "module",
   "scripts": {
     "fetch-specs": "bun run fetch-specs.ts",
@@ -9,13 +16,6 @@
     "fmt": "oxfmt --write .",
     "fmt:check": "oxfmt --check .",
     "check": "bun run tsc && bun run lint && bun run fmt:check"
-  },
-  "workspaces": {
-    "catalog": {
-      "@typescript/native-preview": "latest",
-      "oxfmt": "0.21.0",
-      "oxlint": "1.36.0"
-    }
   },
   "dependencies": {
     "@typescript/native-preview": "catalog:"

@@ -1182,18 +1182,10 @@
             "externalDocumentation": "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-tagkeys"
           }
         },
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#cors": {
-          "additionalAllowedHeaders": [
-            "Content-Type",
-            "X-Amz-Requested-Operation"
-          ]
+          "additionalAllowedHeaders": ["Content-Type", "X-Amz-Requested-Operation"]
         },
         "smithy.api#documentation": "<p>Amazon CloudWatch Network Monitor is an Amazon Web Services active network monitoring\n            service that identifies if a network issues exists within the Amazon Web Services network\n            or your own company network.  Within Network Monitor you'll choose the source VPCs and\n            subnets from the Amazon Web Services network in which you operate and then you'll choose\n            the destination IP addresses from your on-premises network. From these sources and\n            destinations, Network Monitor creates a monitor containing all the possible source and\n            destination combinations, each of which is called a probe, within a single monitor.\n            These probes then monitor network traffic to help you identify where network issues might be affecting your traffic.</p>\n         <p>Before you begin, ensure the Amazon Web Services CLI is configured in the Amazon Web Services Account where you will create the Network Monitor resource. Network\n            Monitor doesn’t support creation on cross-account resources, but you can create a\n            Network Monitor in any subnet belonging to a VPC owned by your Account.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/what-is-network-monitor.html\">Using Amazon CloudWatch Network Monitor</a> in the <i>Amazon CloudWatch User Guide</i>.</p>",
         "smithy.api#title": "Amazon CloudWatch Network Monitor",

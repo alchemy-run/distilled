@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "RTBFabric",
   serviceShapeName: "RTBFabric",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,13 +54,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true && UseDualStack === false) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://rtbfabric-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://rtbfabric-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://rtbfabric.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://rtbfabric.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://rtbfabric.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -129,21 +117,13 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export type GatewayId = string;
 export type LinkId = string;
-export type ResponderErrorMaskingAction =
-  | "NO_BID"
-  | "PASSTHROUGH"
-  | (string & {});
+export type ResponderErrorMaskingAction = "NO_BID" | "PASSTHROUGH" | (string & {});
 export const ResponderErrorMaskingAction = S.String;
 
-export type ResponderErrorMaskingLoggingType =
-  | "NONE"
-  | "METRIC"
-  | "RESPONSE"
-  | (string & {});
+export type ResponderErrorMaskingLoggingType = "NONE" | "METRIC" | "RESPONSE" | (string & {});
 export const ResponderErrorMaskingLoggingType = S.String;
 
-export type ResponderErrorMaskingLoggingTypes =
-  ResponderErrorMaskingLoggingType[];
+export type ResponderErrorMaskingLoggingTypes = ResponderErrorMaskingLoggingType[];
 export const ResponderErrorMaskingLoggingTypes = /*@__PURE__*/ S.Array(
   ResponderErrorMaskingLoggingType,
 );
@@ -164,9 +144,7 @@ export const ResponderErrorMaskingForHttpCode = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResponderErrorMaskingForHttpCode",
 }) as any as S.Schema<ResponderErrorMaskingForHttpCode>;
 export type ResponderErrorMasking = ResponderErrorMaskingForHttpCode[];
-export const ResponderErrorMasking = /*@__PURE__*/ S.Array(
-  ResponderErrorMaskingForHttpCode,
-);
+export const ResponderErrorMasking = /*@__PURE__*/ S.Array(ResponderErrorMaskingForHttpCode);
 export type CustomerProvidedId = string;
 export interface LinkAttributes {
   responderErrorMasking?: ResponderErrorMaskingForHttpCode[];
@@ -380,8 +358,7 @@ export const ModuleConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "ModuleConfiguration",
 }) as any as S.Schema<ModuleConfiguration>;
 export type ModuleConfigurationList = ModuleConfiguration[];
-export const ModuleConfigurationList =
-  /*@__PURE__*/ S.Array(ModuleConfiguration);
+export const ModuleConfigurationList = /*@__PURE__*/ S.Array(ModuleConfiguration);
 export type ConnectivityType =
   | "DEFAULT"
   | "PUBLIC_INGRESS"
@@ -475,10 +452,7 @@ export const AssociateCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateInboundExternalLinkRequest {
   clientToken: string;
   gatewayId: string;
@@ -743,14 +717,7 @@ export const CreateRequesterGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     tags: S.optional(TagsMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/requester-gateway" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/requester-gateway" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateRequesterGatewayRequest",
@@ -794,12 +761,8 @@ export const ListenerConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ protocols: ProtocolList }),
 ).annotate({ identifier: "ListenerConfig" }) as any as S.Schema<ListenerConfig>;
 export type Base64EncodedCertificateChain = string | redacted.Redacted<string>;
-export type CertificateAuthorityCertificates = (
-  | string
-  | redacted.Redacted<string>
-)[];
-export const CertificateAuthorityCertificates =
-  /*@__PURE__*/ S.Array(SensitiveString);
+export type CertificateAuthorityCertificates = (string | redacted.Redacted<string>)[];
+export const CertificateAuthorityCertificates = /*@__PURE__*/ S.Array(SensitiveString);
 export interface TrustStoreConfiguration {
   certificateAuthorityCertificates: (string | redacted.Redacted<string>)[];
 }
@@ -917,14 +880,7 @@ export const CreateResponderGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagsMap),
     gatewayType: S.optional(GatewayType),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/responder-gateway" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/responder-gateway" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateResponderGatewayRequest",
@@ -1663,9 +1619,7 @@ export const LinkRoutingRuleSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "LinkRoutingRuleSummary",
 }) as any as S.Schema<LinkRoutingRuleSummary>;
 export type LinkRoutingRuleList = LinkRoutingRuleSummary[];
-export const LinkRoutingRuleList = /*@__PURE__*/ S.Array(
-  LinkRoutingRuleSummary,
-);
+export const LinkRoutingRuleList = /*@__PURE__*/ S.Array(LinkRoutingRuleSummary);
 export interface ListLinkRoutingRulesResponse {
   rules?: LinkRoutingRuleSummary[];
   nextToken?: string;
@@ -1757,14 +1711,7 @@ export const ListRequesterGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/requester-gateways" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/requester-gateways" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListRequesterGatewaysRequest",
@@ -1792,14 +1739,7 @@ export const ListResponderGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/responder-gateways" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/responder-gateways" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListResponderGatewaysRequest",
@@ -1822,14 +1762,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1907,22 +1840,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagsMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1936,22 +1860,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateLinkRequest {

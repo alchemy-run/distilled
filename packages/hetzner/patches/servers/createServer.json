@@ -5,10 +5,7 @@
       "op": "replace",
       "path": "/paths/~1servers/post/requestBody/content/application~1json/schema/properties/ssh_keys/items",
       "value": {
-        "oneOf": [
-          { "type": "integer", "format": "int64" },
-          { "type": "string" }
-        ]
+        "oneOf": [{ "type": "integer", "format": "int64" }, { "type": "string" }]
       }
     }
   ]

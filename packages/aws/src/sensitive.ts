@@ -1,3 +1,4 @@
+import { toBase64 } from "@smithy/util-base64";
 /**
  * Sensitive data schemas for smithy.api#sensitive trait.
  *
@@ -8,7 +9,6 @@
 import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as SchemaTransformation from "effect/SchemaTransformation";
-import { toBase64 } from "@smithy/util-base64";
 
 /**
  * smithy.api#sensitive - Marks data as sensitive, wrapping in Effect's Redacted type.
@@ -37,9 +37,7 @@ import { toBase64 } from "@smithy/util-base64";
  * // But at runtime, it's always Redacted:
  * console.log(key); // logs "<redacted>"
  */
-export const Sensitive = <A>(
-  schema: S.Schema<A>,
-): S.Schema<A | Redacted.Redacted<A>> =>
+export const Sensitive = <A>(schema: S.Schema<A>): S.Schema<A | Redacted.Redacted<A>> =>
   schema
     .pipe(
       S.decodeTo(

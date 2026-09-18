@@ -1,9 +1,6 @@
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
-import {
-  StripeWebhookPayloadParseError,
-  StripeWebhookSignatureError,
-} from "./errors.ts";
+import { StripeWebhookPayloadParseError, StripeWebhookSignatureError } from "./errors.ts";
 
 export const DEFAULT_WEBHOOK_TOLERANCE_SECONDS = 300;
 
@@ -126,15 +123,10 @@ const parseSignatureHeader = (
   return { timestamp, timestampSeconds, signatures };
 };
 
-const signedPayloadBytes = (
-  timestamp: string,
-  payload: WebhookPayload,
-): ArrayBuffer => {
+const signedPayloadBytes = (timestamp: string, payload: WebhookPayload): ArrayBuffer => {
   const timestampBytes = textEncoder.encode(`${timestamp}.`);
   const bodyBytes = payloadToBytes(payload);
-  const signedPayload = new Uint8Array(
-    timestampBytes.byteLength + bodyBytes.byteLength,
-  );
+  const signedPayload = new Uint8Array(timestampBytes.byteLength + bodyBytes.byteLength);
 
   signedPayload.set(timestampBytes, 0);
   signedPayload.set(bodyBytes, timestampBytes.byteLength);
@@ -183,10 +175,7 @@ const hexToBytes = (hex: string): Uint8Array | undefined => {
   return bytes;
 };
 
-const constantTimeEqual = (
-  expected: Uint8Array,
-  candidate: Uint8Array,
-): boolean => {
+const constantTimeEqual = (expected: Uint8Array, candidate: Uint8Array): boolean => {
   // JavaScript cannot guarantee CPU-level constant time, but length mismatches
   // are folded into the accumulator so a matching prefix can never succeed.
   let difference = expected.byteLength ^ candidate.byteLength;
@@ -251,25 +240,17 @@ export const verifySignature = ({
       return yield* Effect.fail(parsed);
     }
 
-    const expectedSignature = yield* hmacSha256(
-      secretToString(secret),
-      parsed.timestamp,
-      payload,
-    );
+    const expectedSignature = yield* hmacSha256(secretToString(secret), parsed.timestamp, payload);
 
     if (!hasMatchingSignature(expectedSignature, parsed.signatures)) {
       return yield* Effect.fail(
         new StripeWebhookSignatureError({
-          message:
-            "No v1 signature matches the expected Stripe webhook signature",
+          message: "No v1 signature matches the expected Stripe webhook signature",
         }),
       );
     }
 
-    const toleranceError = validateTolerance(
-      parsed.timestampSeconds,
-      toleranceSeconds,
-    );
+    const toleranceError = validateTolerance(parsed.timestampSeconds, toleranceSeconds);
     if (toleranceError !== undefined) {
       return yield* Effect.fail(toleranceError);
     }

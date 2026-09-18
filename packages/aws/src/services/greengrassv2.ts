@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "GreengrassV2",
   serviceShapeName: "GreengrassV2",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -66,9 +62,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://greengrass-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -76,9 +70,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://greengrass.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if (Region === "dataplane-us-gov-east-1") {
           return e(
@@ -110,9 +102,7 @@ const rules = T.EndpointResolver((p, _) => {
             {},
           );
         }
-        return e(
-          `https://greengrass.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://greengrass.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -204,31 +194,29 @@ export class ValidationException
 export interface AssociateServiceRoleToAccountRequest {
   roleArn: string;
 }
-export const AssociateServiceRoleToAccountRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ roleArn: S.String })
-      .pipe(S.encodeKeys({ roleArn: "RoleArn" }))
-      .pipe(
-        T.all(
-          T.Http({ method: "PUT", uri: "/greengrass/servicerole" }),
-          svc,
-          auth,
-          proto,
-          ver,
-          rules,
-        ),
+export const AssociateServiceRoleToAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ roleArn: S.String })
+    .pipe(S.encodeKeys({ roleArn: "RoleArn" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/greengrass/servicerole" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
       ),
+    ),
 ).annotate({
   identifier: "AssociateServiceRoleToAccountRequest",
 }) as any as S.Schema<AssociateServiceRoleToAccountRequest>;
 export interface AssociateServiceRoleToAccountResponse {
   associatedAt?: string;
 }
-export const AssociateServiceRoleToAccountResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ associatedAt: S.optional(S.String) }).pipe(
-      S.encodeKeys({ associatedAt: "AssociatedAt" }),
-    ),
+export const AssociateServiceRoleToAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ associatedAt: S.optional(S.String) }).pipe(
+    S.encodeKeys({ associatedAt: "AssociatedAt" }),
+  ),
 ).annotate({
   identifier: "AssociateServiceRoleToAccountResponse",
 }) as any as S.Schema<AssociateServiceRoleToAccountResponse>;
@@ -236,137 +224,136 @@ export type IoTThingName = string;
 export interface AssociateClientDeviceWithCoreDeviceEntry {
   thingName: string;
 }
-export const AssociateClientDeviceWithCoreDeviceEntry = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ thingName: S.String }),
+export const AssociateClientDeviceWithCoreDeviceEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ thingName: S.String }),
 ).annotate({
   identifier: "AssociateClientDeviceWithCoreDeviceEntry",
 }) as any as S.Schema<AssociateClientDeviceWithCoreDeviceEntry>;
 export type AssociateClientDeviceWithCoreDeviceEntryList =
   AssociateClientDeviceWithCoreDeviceEntry[];
-export const AssociateClientDeviceWithCoreDeviceEntryList =
-  /*@__PURE__*/ S.Array(AssociateClientDeviceWithCoreDeviceEntry);
+export const AssociateClientDeviceWithCoreDeviceEntryList = /*@__PURE__*/ S.Array(
+  AssociateClientDeviceWithCoreDeviceEntry,
+);
 export interface BatchAssociateClientDeviceWithCoreDeviceRequest {
   entries?: AssociateClientDeviceWithCoreDeviceEntry[];
   coreDeviceThingName: string;
 }
-export const BatchAssociateClientDeviceWithCoreDeviceRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      entries: S.optional(AssociateClientDeviceWithCoreDeviceEntryList),
-      coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/associateClientDevices",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchAssociateClientDeviceWithCoreDeviceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entries: S.optional(AssociateClientDeviceWithCoreDeviceEntryList),
+    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/associateClientDevices",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "BatchAssociateClientDeviceWithCoreDeviceRequest",
-  }) as any as S.Schema<BatchAssociateClientDeviceWithCoreDeviceRequest>;
+  ),
+).annotate({
+  identifier: "BatchAssociateClientDeviceWithCoreDeviceRequest",
+}) as any as S.Schema<BatchAssociateClientDeviceWithCoreDeviceRequest>;
 export type NonEmptyString = string;
 export interface AssociateClientDeviceWithCoreDeviceErrorEntry {
   thingName?: string;
   code?: string;
   message?: string;
 }
-export const AssociateClientDeviceWithCoreDeviceErrorEntry =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      thingName: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "AssociateClientDeviceWithCoreDeviceErrorEntry",
-  }) as any as S.Schema<AssociateClientDeviceWithCoreDeviceErrorEntry>;
+export const AssociateClientDeviceWithCoreDeviceErrorEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    thingName: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AssociateClientDeviceWithCoreDeviceErrorEntry",
+}) as any as S.Schema<AssociateClientDeviceWithCoreDeviceErrorEntry>;
 export type AssociateClientDeviceWithCoreDeviceErrorList =
   AssociateClientDeviceWithCoreDeviceErrorEntry[];
-export const AssociateClientDeviceWithCoreDeviceErrorList =
-  /*@__PURE__*/ S.Array(AssociateClientDeviceWithCoreDeviceErrorEntry);
+export const AssociateClientDeviceWithCoreDeviceErrorList = /*@__PURE__*/ S.Array(
+  AssociateClientDeviceWithCoreDeviceErrorEntry,
+);
 export interface BatchAssociateClientDeviceWithCoreDeviceResponse {
   errorEntries?: AssociateClientDeviceWithCoreDeviceErrorEntry[];
 }
-export const BatchAssociateClientDeviceWithCoreDeviceResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      errorEntries: S.optional(AssociateClientDeviceWithCoreDeviceErrorList),
-    }),
-  ).annotate({
-    identifier: "BatchAssociateClientDeviceWithCoreDeviceResponse",
-  }) as any as S.Schema<BatchAssociateClientDeviceWithCoreDeviceResponse>;
+export const BatchAssociateClientDeviceWithCoreDeviceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errorEntries: S.optional(AssociateClientDeviceWithCoreDeviceErrorList),
+  }),
+).annotate({
+  identifier: "BatchAssociateClientDeviceWithCoreDeviceResponse",
+}) as any as S.Schema<BatchAssociateClientDeviceWithCoreDeviceResponse>;
 export interface DisassociateClientDeviceFromCoreDeviceEntry {
   thingName: string;
 }
-export const DisassociateClientDeviceFromCoreDeviceEntry =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ thingName: S.String })).annotate({
-    identifier: "DisassociateClientDeviceFromCoreDeviceEntry",
-  }) as any as S.Schema<DisassociateClientDeviceFromCoreDeviceEntry>;
+export const DisassociateClientDeviceFromCoreDeviceEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ thingName: S.String }),
+).annotate({
+  identifier: "DisassociateClientDeviceFromCoreDeviceEntry",
+}) as any as S.Schema<DisassociateClientDeviceFromCoreDeviceEntry>;
 export type DisassociateClientDeviceFromCoreDeviceEntryList =
   DisassociateClientDeviceFromCoreDeviceEntry[];
-export const DisassociateClientDeviceFromCoreDeviceEntryList =
-  /*@__PURE__*/ S.Array(DisassociateClientDeviceFromCoreDeviceEntry);
+export const DisassociateClientDeviceFromCoreDeviceEntryList = /*@__PURE__*/ S.Array(
+  DisassociateClientDeviceFromCoreDeviceEntry,
+);
 export interface BatchDisassociateClientDeviceFromCoreDeviceRequest {
   entries?: DisassociateClientDeviceFromCoreDeviceEntry[];
   coreDeviceThingName: string;
 }
-export const BatchDisassociateClientDeviceFromCoreDeviceRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      entries: S.optional(DisassociateClientDeviceFromCoreDeviceEntryList),
-      coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/disassociateClientDevices",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchDisassociateClientDeviceFromCoreDeviceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entries: S.optional(DisassociateClientDeviceFromCoreDeviceEntryList),
+    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/disassociateClientDevices",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "BatchDisassociateClientDeviceFromCoreDeviceRequest",
-  }) as any as S.Schema<BatchDisassociateClientDeviceFromCoreDeviceRequest>;
+  ),
+).annotate({
+  identifier: "BatchDisassociateClientDeviceFromCoreDeviceRequest",
+}) as any as S.Schema<BatchDisassociateClientDeviceFromCoreDeviceRequest>;
 export interface DisassociateClientDeviceFromCoreDeviceErrorEntry {
   thingName?: string;
   code?: string;
   message?: string;
 }
-export const DisassociateClientDeviceFromCoreDeviceErrorEntry =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      thingName: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DisassociateClientDeviceFromCoreDeviceErrorEntry",
-  }) as any as S.Schema<DisassociateClientDeviceFromCoreDeviceErrorEntry>;
+export const DisassociateClientDeviceFromCoreDeviceErrorEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    thingName: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DisassociateClientDeviceFromCoreDeviceErrorEntry",
+}) as any as S.Schema<DisassociateClientDeviceFromCoreDeviceErrorEntry>;
 export type DisassociateClientDeviceFromCoreDeviceErrorList =
   DisassociateClientDeviceFromCoreDeviceErrorEntry[];
-export const DisassociateClientDeviceFromCoreDeviceErrorList =
-  /*@__PURE__*/ S.Array(DisassociateClientDeviceFromCoreDeviceErrorEntry);
+export const DisassociateClientDeviceFromCoreDeviceErrorList = /*@__PURE__*/ S.Array(
+  DisassociateClientDeviceFromCoreDeviceErrorEntry,
+);
 export interface BatchDisassociateClientDeviceFromCoreDeviceResponse {
   errorEntries?: DisassociateClientDeviceFromCoreDeviceErrorEntry[];
 }
-export const BatchDisassociateClientDeviceFromCoreDeviceResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      errorEntries: S.optional(DisassociateClientDeviceFromCoreDeviceErrorList),
-    }),
-  ).annotate({
-    identifier: "BatchDisassociateClientDeviceFromCoreDeviceResponse",
-  }) as any as S.Schema<BatchDisassociateClientDeviceFromCoreDeviceResponse>;
+export const BatchDisassociateClientDeviceFromCoreDeviceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errorEntries: S.optional(DisassociateClientDeviceFromCoreDeviceErrorList),
+  }),
+).annotate({
+  identifier: "BatchDisassociateClientDeviceFromCoreDeviceResponse",
+}) as any as S.Schema<BatchDisassociateClientDeviceFromCoreDeviceResponse>;
 export interface CancelDeploymentRequest {
   deploymentId: string;
 }
@@ -399,10 +386,7 @@ export type RecipeBlob = Uint8Array;
 export type ComponentNameString = string;
 export type ComponentVersionString = string;
 export type PlatformAttributesMap = { [key: string]: string | undefined };
-export const PlatformAttributesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const PlatformAttributesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ComponentPlatform {
   name?: string;
   attributes?: { [key: string]: string | undefined };
@@ -467,10 +451,7 @@ export const LambdaEnvironmentVariables = /*@__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
 );
-export type LambdaIsolationMode =
-  | "GreengrassContainer"
-  | "NoContainer"
-  | (string & {});
+export type LambdaIsolationMode = "GreengrassContainer" | "NoContainer" | (string & {});
 export const LambdaIsolationMode = S.String;
 
 export type FileSystemPath = string;
@@ -594,10 +575,7 @@ export const LambdaFunctionRecipeSource = /*@__PURE__*/ S.suspend(() =>
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ClientTokenString = string;
 export interface CreateComponentVersionRequest {
   inlineRecipe?: Uint8Array;
@@ -635,15 +613,8 @@ export type CloudComponentState =
 export const CloudComponentState = S.String;
 
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
-export type VendorGuidance =
-  | "ACTIVE"
-  | "DISCONTINUED"
-  | "DELETED"
-  | (string & {});
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
+export type VendorGuidance = "ACTIVE" | "DISCONTINUED" | "DELETED" | (string & {});
 export const VendorGuidance = S.String;
 
 export interface CloudComponentStatus {
@@ -818,8 +789,7 @@ export const IoTJobAbortCriteria = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoTJobAbortCriteria",
 }) as any as S.Schema<IoTJobAbortCriteria>;
 export type IoTJobAbortCriteriaList = IoTJobAbortCriteria[];
-export const IoTJobAbortCriteriaList =
-  /*@__PURE__*/ S.Array(IoTJobAbortCriteria);
+export const IoTJobAbortCriteriaList = /*@__PURE__*/ S.Array(IoTJobAbortCriteria);
 export interface IoTJobAbortConfig {
   criteriaList: IoTJobAbortCriteria[];
 }
@@ -851,10 +821,7 @@ export const DeploymentIoTJobConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeploymentIoTJobConfiguration",
 }) as any as S.Schema<DeploymentIoTJobConfiguration>;
-export type DeploymentFailureHandlingPolicy =
-  | "ROLLBACK"
-  | "DO_NOTHING"
-  | (string & {});
+export type DeploymentFailureHandlingPolicy = "ROLLBACK" | "DO_NOTHING" | (string & {});
 export const DeploymentFailureHandlingPolicy = S.String;
 
 export type DeploymentComponentUpdatePolicyAction =
@@ -878,8 +845,8 @@ export const DeploymentComponentUpdatePolicy = /*@__PURE__*/ S.suspend(() =>
 export interface DeploymentConfigurationValidationPolicy {
   timeoutInSeconds?: number;
 }
-export const DeploymentConfigurationValidationPolicy = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ timeoutInSeconds: S.optional(S.Number) }),
+export const DeploymentConfigurationValidationPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ timeoutInSeconds: S.optional(S.Number) }),
 ).annotate({
   identifier: "DeploymentConfigurationValidationPolicy",
 }) as any as S.Schema<DeploymentConfigurationValidationPolicy>;
@@ -892,9 +859,7 @@ export const DeploymentPolicies = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     failureHandlingPolicy: S.optional(DeploymentFailureHandlingPolicy),
     componentUpdatePolicy: S.optional(DeploymentComponentUpdatePolicy),
-    configurationValidationPolicy: S.optional(
-      DeploymentConfigurationValidationPolicy,
-    ),
+    configurationValidationPolicy: S.optional(DeploymentConfigurationValidationPolicy),
   }),
 ).annotate({
   identifier: "DeploymentPolicies",
@@ -966,9 +931,7 @@ export const DeleteComponentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteComponentRequest",
 }) as any as S.Schema<DeleteComponentRequest>;
 export interface DeleteComponentResponse {}
-export const DeleteComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteComponentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteComponentResponse",
 }) as any as S.Schema<DeleteComponentResponse>;
 export type CoreDeviceThingName = string;
@@ -995,9 +958,7 @@ export const DeleteCoreDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCoreDeviceRequest",
 }) as any as S.Schema<DeleteCoreDeviceRequest>;
 export interface DeleteCoreDeviceResponse {}
-export const DeleteCoreDeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteCoreDeviceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCoreDeviceResponse",
 }) as any as S.Schema<DeleteCoreDeviceResponse>;
 export interface DeleteDeploymentRequest {
@@ -1021,9 +982,7 @@ export const DeleteDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDeploymentRequest",
 }) as any as S.Schema<DeleteDeploymentRequest>;
 export interface DeleteDeploymentResponse {}
-export const DeleteDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDeploymentResponse",
 }) as any as S.Schema<DeleteDeploymentResponse>;
 export interface DescribeComponentRequest {
@@ -1064,9 +1023,7 @@ export const DescribeComponentResponse = /*@__PURE__*/ S.suspend(() =>
     arn: S.optional(S.String),
     componentName: S.optional(S.String),
     componentVersion: S.optional(S.String),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     publisher: S.optional(S.String),
     description: S.optional(S.String),
     status: S.optional(CloudComponentStatus),
@@ -1077,32 +1034,30 @@ export const DescribeComponentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeComponentResponse",
 }) as any as S.Schema<DescribeComponentResponse>;
 export interface DisassociateServiceRoleFromAccountRequest {}
-export const DisassociateServiceRoleFromAccountRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(
-        T.Http({ method: "DELETE", uri: "/greengrass/servicerole" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DisassociateServiceRoleFromAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/greengrass/servicerole" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DisassociateServiceRoleFromAccountRequest",
-  }) as any as S.Schema<DisassociateServiceRoleFromAccountRequest>;
+  ),
+).annotate({
+  identifier: "DisassociateServiceRoleFromAccountRequest",
+}) as any as S.Schema<DisassociateServiceRoleFromAccountRequest>;
 export interface DisassociateServiceRoleFromAccountResponse {
   disassociatedAt?: string;
 }
-export const DisassociateServiceRoleFromAccountResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ disassociatedAt: S.optional(S.String) }).pipe(
-      S.encodeKeys({ disassociatedAt: "DisassociatedAt" }),
-    ),
-  ).annotate({
-    identifier: "DisassociateServiceRoleFromAccountResponse",
-  }) as any as S.Schema<DisassociateServiceRoleFromAccountResponse>;
+export const DisassociateServiceRoleFromAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ disassociatedAt: S.optional(S.String) }).pipe(
+    S.encodeKeys({ disassociatedAt: "DisassociatedAt" }),
+  ),
+).annotate({
+  identifier: "DisassociateServiceRoleFromAccountResponse",
+}) as any as S.Schema<DisassociateServiceRoleFromAccountResponse>;
 export type RecipeOutputFormat = "JSON" | "YAML" | (string & {});
 export const RecipeOutputFormat = S.String;
 
@@ -1112,9 +1067,7 @@ export interface GetComponentRequest {
 }
 export const GetComponentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    recipeOutputFormat: S.optional(RecipeOutputFormat).pipe(
-      T.HttpQuery("recipeOutputFormat"),
-    ),
+    recipeOutputFormat: S.optional(RecipeOutputFormat).pipe(T.HttpQuery("recipeOutputFormat")),
     arn: S.String.pipe(T.HttpLabel("arn")),
   }).pipe(
     T.all(
@@ -1159,12 +1112,8 @@ export const GetComponentVersionArtifactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String.pipe(T.HttpLabel("arn")),
     artifactName: S.String.pipe(T.HttpLabel("artifactName")),
-    s3EndpointType: S.optional(S3EndpointType).pipe(
-      T.HttpQuery("s3EndpointType"),
-    ),
-    iotEndpointType: S.optional(IotEndpointType).pipe(
-      T.HttpHeader("x-amz-iot-endpoint-type"),
-    ),
+    s3EndpointType: S.optional(S3EndpointType).pipe(T.HttpQuery("s3EndpointType")),
+    iotEndpointType: S.optional(IotEndpointType).pipe(T.HttpHeader("x-amz-iot-endpoint-type")),
   }).pipe(
     T.all(
       T.Http({
@@ -1243,9 +1192,7 @@ export const GetConnectivityInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectivityInfo: S.optional(ConnectivityInfoList),
     message: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ connectivityInfo: "ConnectivityInfo", message: "Message" }),
-  ),
+  }).pipe(S.encodeKeys({ connectivityInfo: "ConnectivityInfo", message: "Message" })),
 ).annotate({
   identifier: "GetConnectivityInfoResponse",
 }) as any as S.Schema<GetConnectivityInfoResponse>;
@@ -1296,9 +1243,7 @@ export const GetCoreDeviceResponse = /*@__PURE__*/ S.suspend(() =>
     architecture: S.optional(S.String),
     runtime: S.optional(S.String),
     status: S.optional(CoreDeviceStatus),
-    lastStatusUpdateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastStatusUpdateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagMap),
   }),
 ).annotate({
@@ -1363,9 +1308,7 @@ export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     components: S.optional(ComponentDeploymentSpecifications),
     deploymentPolicies: S.optional(DeploymentPolicies),
     iotJobConfiguration: S.optional(DeploymentIoTJobConfiguration),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     isLatestForTarget: S.optional(S.Boolean),
     parentTargetArn: S.optional(S.String),
     tags: S.optional(TagMap),
@@ -1376,14 +1319,7 @@ export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetServiceRoleForAccountRequest {}
 export const GetServiceRoleForAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/servicerole" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/greengrass/servicerole" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetServiceRoleForAccountRequest",
@@ -1407,28 +1343,27 @@ export interface ListClientDevicesAssociatedWithCoreDeviceRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListClientDevicesAssociatedWithCoreDeviceRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/associatedClientDevices",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListClientDevicesAssociatedWithCoreDeviceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    coreDeviceThingName: S.String.pipe(T.HttpLabel("coreDeviceThingName")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/greengrass/v2/coreDevices/{coreDeviceThingName}/associatedClientDevices",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListClientDevicesAssociatedWithCoreDeviceRequest",
-  }) as any as S.Schema<ListClientDevicesAssociatedWithCoreDeviceRequest>;
+  ),
+).annotate({
+  identifier: "ListClientDevicesAssociatedWithCoreDeviceRequest",
+}) as any as S.Schema<ListClientDevicesAssociatedWithCoreDeviceRequest>;
 export interface AssociatedClientDevice {
   thingName?: string;
   associationTimestamp?: Date;
@@ -1436,30 +1371,25 @@ export interface AssociatedClientDevice {
 export const AssociatedClientDevice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     thingName: S.optional(S.String),
-    associationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    associationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "AssociatedClientDevice",
 }) as any as S.Schema<AssociatedClientDevice>;
 export type AssociatedClientDeviceList = AssociatedClientDevice[];
-export const AssociatedClientDeviceList = /*@__PURE__*/ S.Array(
-  AssociatedClientDevice,
-);
+export const AssociatedClientDeviceList = /*@__PURE__*/ S.Array(AssociatedClientDevice);
 export interface ListClientDevicesAssociatedWithCoreDeviceResponse {
   associatedClientDevices?: AssociatedClientDevice[];
   nextToken?: string;
 }
-export const ListClientDevicesAssociatedWithCoreDeviceResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      associatedClientDevices: S.optional(AssociatedClientDeviceList),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListClientDevicesAssociatedWithCoreDeviceResponse",
-  }) as any as S.Schema<ListClientDevicesAssociatedWithCoreDeviceResponse>;
+export const ListClientDevicesAssociatedWithCoreDeviceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    associatedClientDevices: S.optional(AssociatedClientDeviceList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListClientDevicesAssociatedWithCoreDeviceResponse",
+}) as any as S.Schema<ListClientDevicesAssociatedWithCoreDeviceResponse>;
 export type ComponentVisibilityScope = "PRIVATE" | "PUBLIC" | (string & {});
 export const ComponentVisibilityScope = S.String;
 
@@ -1499,9 +1429,7 @@ export const ComponentLatestVersion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     componentVersion: S.optional(S.String),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     description: S.optional(S.String),
     publisher: S.optional(S.String),
     platforms: S.optional(ComponentPlatformList),
@@ -1576,9 +1504,7 @@ export const ComponentVersionListItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "ComponentVersionListItem",
 }) as any as S.Schema<ComponentVersionListItem>;
 export type ComponentVersionList = ComponentVersionListItem[];
-export const ComponentVersionList = /*@__PURE__*/ S.Array(
-  ComponentVersionListItem,
-);
+export const ComponentVersionList = /*@__PURE__*/ S.Array(ComponentVersionListItem);
 export interface ListComponentVersionsResponse {
   componentVersions?: ComponentVersionListItem[];
   nextToken?: string;
@@ -1630,9 +1556,7 @@ export const CoreDevice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     coreDeviceThingName: S.optional(S.String),
     status: S.optional(CoreDeviceStatus),
-    lastStatusUpdateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastStatusUpdateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     platform: S.optional(S.String),
     architecture: S.optional(S.String),
     runtime: S.optional(S.String),
@@ -1665,9 +1589,7 @@ export interface ListDeploymentsRequest {
 export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     targetArn: S.optional(S.String).pipe(T.HttpQuery("targetArn")),
-    historyFilter: S.optional(DeploymentHistoryFilter).pipe(
-      T.HttpQuery("historyFilter"),
-    ),
+    historyFilter: S.optional(DeploymentHistoryFilter).pipe(T.HttpQuery("historyFilter")),
     parentTargetArn: S.optional(S.String).pipe(T.HttpQuery("parentTargetArn")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -1700,9 +1622,7 @@ export const Deployment = /*@__PURE__*/ S.suspend(() =>
     revisionId: S.optional(S.String),
     deploymentId: S.optional(S.String),
     deploymentName: S.optional(S.String),
-    creationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     deploymentStatus: S.optional(DeploymentStatus),
     isLatestForTarget: S.optional(S.Boolean),
     parentTargetArn: S.optional(S.String),
@@ -1814,8 +1734,7 @@ export const EffectiveDeployment = /*@__PURE__*/ S.suspend(() =>
   identifier: "EffectiveDeployment",
 }) as any as S.Schema<EffectiveDeployment>;
 export type EffectiveDeploymentsList = EffectiveDeployment[];
-export const EffectiveDeploymentsList =
-  /*@__PURE__*/ S.Array(EffectiveDeployment);
+export const EffectiveDeploymentsList = /*@__PURE__*/ S.Array(EffectiveDeployment);
 export interface ListEffectiveDeploymentsResponse {
   effectiveDeployments?: EffectiveDeployment[];
   nextToken?: string;
@@ -1877,9 +1796,7 @@ export type LifecycleStateDetails = string;
 export type IsRoot = boolean;
 export type InstalledComponentLifecycleStatusCode = string;
 export type InstalledComponentLifecycleStatusCodeList = string[];
-export const InstalledComponentLifecycleStatusCodeList = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const InstalledComponentLifecycleStatusCodeList = /*@__PURE__*/ S.Array(S.String);
 export interface InstalledComponent {
   componentName?: string;
   componentVersion?: string;
@@ -1898,12 +1815,8 @@ export const InstalledComponent = /*@__PURE__*/ S.suspend(() =>
     lifecycleState: S.optional(InstalledComponentLifecycleState),
     lifecycleStateDetails: S.optional(S.String),
     isRoot: S.optional(S.Boolean),
-    lastStatusChangeTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastReportedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastStatusChangeTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastReportedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastInstallationSource: S.optional(S.String),
     lifecycleStatusCodes: S.optional(InstalledComponentLifecycleStatusCodeList),
   }),
@@ -1930,14 +1843,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2018,9 +1924,7 @@ export const ResolvedComponentVersion = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResolvedComponentVersion",
 }) as any as S.Schema<ResolvedComponentVersion>;
 export type ResolvedComponentVersionsList = ResolvedComponentVersion[];
-export const ResolvedComponentVersionsList = /*@__PURE__*/ S.Array(
-  ResolvedComponentVersion,
-);
+export const ResolvedComponentVersionsList = /*@__PURE__*/ S.Array(ResolvedComponentVersion);
 export interface ResolveComponentCandidatesResponse {
   resolvedComponentVersions?: ResolvedComponentVersion[];
 }
@@ -2040,22 +1944,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2069,22 +1964,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateConnectivityInfoRequest {
@@ -2149,9 +2035,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AssociateServiceRoleToAccountError =
   | InternalServerException
   | ValidationException
@@ -2532,9 +2416,7 @@ export const describeComponent: API.OperationMethod<
   operationName: "DescribeComponent",
 }));
 
-export type DisassociateServiceRoleFromAccountError =
-  | InternalServerException
-  | CommonErrors;
+export type DisassociateServiceRoleFromAccountError = InternalServerException | CommonErrors;
 /**
  * Disassociates the Greengrass service role from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
  * Without a service role, IoT Greengrass can't verify the identity of client devices or manage core device
@@ -2617,10 +2499,7 @@ export const getComponentVersionArtifact: API.OperationMethod<
   operationName: "GetComponentVersionArtifact",
 }));
 
-export type GetConnectivityInfoError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type GetConnectivityInfoError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Retrieves connectivity information for a Greengrass core device.
  *
@@ -2724,9 +2603,7 @@ export const getDeployment: API.OperationMethod<
   operationName: "GetDeployment",
 }));
 
-export type GetServiceRoleForAccountError =
-  | InternalServerException
-  | CommonErrors;
+export type GetServiceRoleForAccountError = InternalServerException | CommonErrors;
 /**
  * Gets the service role associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
  * IoT Greengrass uses this role to verify the identity of client devices and manage core device
@@ -3067,11 +2944,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -3141,11 +3014,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -3167,11 +3036,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "EKS",
   serviceShapeName: "AWSWesleyFrontend",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,27 +58,17 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://eks.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://eks-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://eks-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://eks.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://eks.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://eks.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://eks.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -228,9 +214,7 @@ export class UnsupportedAvailabilityZoneException
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       clusterName: S.optional(S.String),
       nodegroupName: S.optional(S.String),
-      validZones: S.optional(
-        S.suspend(() => StringList).annotate({ identifier: "StringList" }),
-      ),
+      validZones: S.optional(S.suspend(() => StringList).annotate({ identifier: "StringList" })),
     },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
@@ -242,9 +226,7 @@ export interface ActivateCertificateAuthorityRequest {
 export const ActivateCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-    certificateAuthorityId: S.String.pipe(
-      T.HttpLabel("certificateAuthorityId"),
-    ),
+    certificateAuthorityId: S.String.pipe(T.HttpLabel("certificateAuthorityId")),
     clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
@@ -262,12 +244,7 @@ export const ActivateCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ActivateCertificateAuthorityRequest",
 }) as any as S.Schema<ActivateCertificateAuthorityRequest>;
-export type UpdateStatus =
-  | "InProgress"
-  | "Failed"
-  | "Cancelled"
-  | "Successful"
-  | (string & {});
+export type UpdateStatus = "InProgress" | "Failed" | "Cancelled" | "Successful" | (string & {});
 export const UpdateStatus = S.String;
 
 export type UpdateType =
@@ -404,11 +381,7 @@ export const ErrorDetail = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
 export type ErrorDetails = ErrorDetail[];
 export const ErrorDetails = /*@__PURE__*/ S.Array(ErrorDetail);
-export type CancellationStatus =
-  | "InProgress"
-  | "Failed"
-  | "Successful"
-  | (string & {});
+export type CancellationStatus = "InProgress" | "Failed" | "Successful" | (string & {});
 export const CancellationStatus = S.String;
 
 export interface Cancellation {
@@ -444,10 +417,7 @@ export const Update = /*@__PURE__*/ S.suspend(() =>
 export type CertificateAuthorityCreatedBy = "EKS" | "CUSTOMER" | (string & {});
 export const CertificateAuthorityCreatedBy = S.String;
 
-export type CertificateAuthorityActivatedBy =
-  | "EKS"
-  | "CUSTOMER"
-  | (string & {});
+export type CertificateAuthorityActivatedBy = "EKS" | "CUSTOMER" | (string & {});
 export const CertificateAuthorityActivatedBy = S.String;
 
 export type CertificateAuthoritySigningStatus =
@@ -491,12 +461,11 @@ export interface ActivateCertificateAuthorityResponse {
   update?: Update;
   certificateAuthority?: CertificateAuthoritySummary;
 }
-export const ActivateCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      update: S.optional(Update),
-      certificateAuthority: S.optional(CertificateAuthoritySummary),
-    }),
+export const ActivateCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    update: S.optional(Update),
+    certificateAuthority: S.optional(CertificateAuthoritySummary),
+  }),
 ).annotate({
   identifier: "ActivateCertificateAuthorityResponse",
 }) as any as S.Schema<ActivateCertificateAuthorityResponse>;
@@ -628,10 +597,7 @@ export const AssociateEncryptionConfigResponse = /*@__PURE__*/ S.suspend(() =>
 export type RequiredClaimsKey = string;
 export type RequiredClaimsValue = string;
 export type RequiredClaimsMap = { [key: string]: string | undefined };
-export const RequiredClaimsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const RequiredClaimsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface OidcIdentityProviderConfigRequest {
   identityProviderConfigName: string;
   issuerUrl: string;
@@ -659,36 +625,32 @@ export const OidcIdentityProviderConfigRequest = /*@__PURE__*/ S.suspend(() =>
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface AssociateIdentityProviderConfigRequest {
   clusterName: string;
   oidc: OidcIdentityProviderConfigRequest;
   tags?: { [key: string]: string | undefined };
   clientRequestToken?: string;
 }
-export const AssociateIdentityProviderConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-      oidc: OidcIdentityProviderConfigRequest,
-      tags: S.optional(TagMap),
-      clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/clusters/{clusterName}/identity-provider-configs/associate",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateIdentityProviderConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    oidc: OidcIdentityProviderConfigRequest,
+    tags: S.optional(TagMap),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/identity-provider-configs/associate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "AssociateIdentityProviderConfigRequest",
 }) as any as S.Schema<AssociateIdentityProviderConfigRequest>;
@@ -696,8 +658,8 @@ export interface AssociateIdentityProviderConfigResponse {
   update?: Update;
   tags?: { [key: string]: string | undefined };
 }
-export const AssociateIdentityProviderConfigResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ update: S.optional(Update), tags: S.optional(TagMap) }),
+export const AssociateIdentityProviderConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ update: S.optional(Update), tags: S.optional(TagMap) }),
 ).annotate({
   identifier: "AssociateIdentityProviderConfigResponse",
 }) as any as S.Schema<AssociateIdentityProviderConfigResponse>;
@@ -800,11 +762,7 @@ export const CreateAccessEntryResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateAccessEntryResponse>;
 export type ClusterName = string;
 export type RoleArn = string;
-export type ResolveConflicts =
-  | "OVERWRITE"
-  | "NONE"
-  | "PRESERVE"
-  | (string & {});
+export type ResolveConflicts = "OVERWRITE" | "NONE" | "PRESERVE" | (string & {});
 export const ResolveConflicts = S.String;
 
 export interface AddonPodIdentityAssociations {
@@ -817,9 +775,7 @@ export const AddonPodIdentityAssociations = /*@__PURE__*/ S.suspend(() =>
   identifier: "AddonPodIdentityAssociations",
 }) as any as S.Schema<AddonPodIdentityAssociations>;
 export type AddonPodIdentityAssociationsList = AddonPodIdentityAssociations[];
-export const AddonPodIdentityAssociationsList = /*@__PURE__*/ S.Array(
-  AddonPodIdentityAssociations,
-);
+export const AddonPodIdentityAssociationsList = /*@__PURE__*/ S.Array(AddonPodIdentityAssociations);
 export type Namespace = string;
 export interface AddonNamespaceConfigRequest {
   namespace?: string;
@@ -1143,10 +1099,7 @@ export const CapabilityConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CapabilityConfigurationResponse",
 }) as any as S.Schema<CapabilityConfigurationResponse>;
-export type CapabilityIssueCode =
-  | "AccessDenied"
-  | "ClusterUnreachable"
-  | (string & {});
+export type CapabilityIssueCode = "AccessDenied" | "ClusterUnreachable" | (string & {});
 export const CapabilityIssueCode = S.String;
 
 export interface CapabilityIssue {
@@ -1367,11 +1320,7 @@ export const OutpostConfigRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "OutpostConfigRequest",
 }) as any as S.Schema<OutpostConfigRequest>;
-export type AuthenticationMode =
-  | "API"
-  | "API_AND_CONFIG_MAP"
-  | "CONFIG_MAP"
-  | (string & {});
+export type AuthenticationMode = "API" | "API_AND_CONFIG_MAP" | "CONFIG_MAP" | (string & {});
 export const AuthenticationMode = S.String;
 
 export interface CreateAccessConfigRequest {
@@ -1503,10 +1452,7 @@ export const KubeApiServerConfigRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "KubeApiServerConfigRequest",
 }) as any as S.Schema<KubeApiServerConfigRequest>;
-export type ScoringStrategyType =
-  | "LeastAllocated"
-  | "MostAllocated"
-  | (string & {});
+export type ScoringStrategyType = "LeastAllocated" | "MostAllocated" | (string & {});
 export const ScoringStrategyType = S.String;
 
 export type ResourceWeightName = string;
@@ -1560,12 +1506,11 @@ export const PodGcControllerConfigRequest = /*@__PURE__*/ S.suspend(() =>
 export interface HorizontalPodAutoscalerControllerConfigRequest {
   horizontalPodAutoscalerSyncPeriod?: string;
 }
-export const HorizontalPodAutoscalerControllerConfigRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ horizontalPodAutoscalerSyncPeriod: S.optional(S.String) }),
-  ).annotate({
-    identifier: "HorizontalPodAutoscalerControllerConfigRequest",
-  }) as any as S.Schema<HorizontalPodAutoscalerControllerConfigRequest>;
+export const HorizontalPodAutoscalerControllerConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ horizontalPodAutoscalerSyncPeriod: S.optional(S.String) }),
+).annotate({
+  identifier: "HorizontalPodAutoscalerControllerConfigRequest",
+}) as any as S.Schema<HorizontalPodAutoscalerControllerConfigRequest>;
 export interface KubeControllerManagerConfigRequest {
   podGcControllerConfig?: PodGcControllerConfigRequest;
   horizontalPodAutoscalerControllerConfig?: HorizontalPodAutoscalerControllerConfigRequest;
@@ -1628,16 +1573,7 @@ export const CreateClusterRequest = /*@__PURE__*/ S.suspend(() =>
     kubeApiServerConfig: S.optional(KubeApiServerConfigRequest),
     kubeSchedulerConfig: S.optional(KubeSchedulerConfigRequest),
     kubeControllerManagerConfig: S.optional(KubeControllerManagerConfigRequest),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/clusters" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/clusters" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateClusterRequest",
 }) as any as S.Schema<CreateClusterRequest>;
@@ -1736,9 +1672,7 @@ export const ConnectorConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     activationId: S.optional(S.String),
     activationCode: S.optional(S.String),
-    activationExpiry: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    activationExpiry: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     provider: S.optional(S.String),
     roleArn: S.optional(S.String),
   }),
@@ -1919,12 +1853,11 @@ export const PodGcControllerConfigResponse = /*@__PURE__*/ S.suspend(() =>
 export interface HorizontalPodAutoscalerControllerConfigResponse {
   horizontalPodAutoscalerSyncPeriod?: string;
 }
-export const HorizontalPodAutoscalerControllerConfigResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ horizontalPodAutoscalerSyncPeriod: S.optional(S.String) }),
-  ).annotate({
-    identifier: "HorizontalPodAutoscalerControllerConfigResponse",
-  }) as any as S.Schema<HorizontalPodAutoscalerControllerConfigResponse>;
+export const HorizontalPodAutoscalerControllerConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ horizontalPodAutoscalerSyncPeriod: S.optional(S.String) }),
+).annotate({
+  identifier: "HorizontalPodAutoscalerControllerConfigResponse",
+}) as any as S.Schema<HorizontalPodAutoscalerControllerConfigResponse>;
 export interface KubeControllerManagerConfigResponse {
   podGcControllerConfig?: PodGcControllerConfigResponse;
   horizontalPodAutoscalerControllerConfig?: HorizontalPodAutoscalerControllerConfigResponse;
@@ -2004,9 +1937,7 @@ export const Cluster = /*@__PURE__*/ S.suspend(() =>
     controlPlaneScalingConfig: S.optional(ControlPlaneScalingConfig),
     kubeApiServerConfig: S.optional(KubeApiServerConfigResponse),
     kubeSchedulerConfig: S.optional(KubeSchedulerConfigResponse),
-    kubeControllerManagerConfig: S.optional(
-      KubeControllerManagerConfigResponse,
-    ),
+    kubeControllerManagerConfig: S.optional(KubeControllerManagerConfigResponse),
   }),
 ).annotate({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export interface CreateClusterResponse {
@@ -2045,26 +1976,25 @@ export interface CreateEksAnywhereSubscriptionRequest {
   clientRequestToken?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateEksAnywhereSubscriptionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      term: EksAnywhereSubscriptionTerm,
-      licenseQuantity: S.optional(S.Number),
-      licenseType: S.optional(EksAnywhereSubscriptionLicenseType),
-      autoRenew: S.optional(S.Boolean),
-      clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      tags: S.optional(TagMap),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/eks-anywhere-subscriptions" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateEksAnywhereSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    term: EksAnywhereSubscriptionTerm,
+    licenseQuantity: S.optional(S.Number),
+    licenseType: S.optional(EksAnywhereSubscriptionLicenseType),
+    autoRenew: S.optional(S.Boolean),
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    tags: S.optional(TagMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/eks-anywhere-subscriptions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateEksAnywhereSubscriptionRequest",
 }) as any as S.Schema<CreateEksAnywhereSubscriptionRequest>;
@@ -2114,16 +2044,13 @@ export const EksAnywhereSubscription = /*@__PURE__*/ S.suspend(() =>
 export interface CreateEksAnywhereSubscriptionResponse {
   subscription?: EksAnywhereSubscription;
 }
-export const CreateEksAnywhereSubscriptionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
+export const CreateEksAnywhereSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
 ).annotate({
   identifier: "CreateEksAnywhereSubscriptionResponse",
 }) as any as S.Schema<CreateEksAnywhereSubscriptionResponse>;
 export type FargateProfileLabel = { [key: string]: string | undefined };
-export const FargateProfileLabel = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const FargateProfileLabel = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface FargateProfileSelector {
   namespace?: string;
   labels?: { [key: string]: string | undefined };
@@ -2137,9 +2064,7 @@ export const FargateProfileSelector = /*@__PURE__*/ S.suspend(() =>
   identifier: "FargateProfileSelector",
 }) as any as S.Schema<FargateProfileSelector>;
 export type FargateProfileSelectors = FargateProfileSelector[];
-export const FargateProfileSelectors = /*@__PURE__*/ S.Array(
-  FargateProfileSelector,
-);
+export const FargateProfileSelectors = /*@__PURE__*/ S.Array(FargateProfileSelector);
 export interface CreateFargateProfileRequest {
   fargateProfileName: string;
   clusterName: string;
@@ -2206,8 +2131,7 @@ export const FargateProfileIssue = /*@__PURE__*/ S.suspend(() =>
   identifier: "FargateProfileIssue",
 }) as any as S.Schema<FargateProfileIssue>;
 export type FargateProfileIssueList = FargateProfileIssue[];
-export const FargateProfileIssueList =
-  /*@__PURE__*/ S.Array(FargateProfileIssue);
+export const FargateProfileIssueList = /*@__PURE__*/ S.Array(FargateProfileIssue);
 export interface FargateProfileHealth {
   issues?: FargateProfileIssue[];
 }
@@ -2309,17 +2233,10 @@ export const RemoteAccessConfig = /*@__PURE__*/ S.suspend(() =>
 export type LabelKey = string;
 export type LabelValue = string;
 export type LabelsMap = { [key: string]: string | undefined };
-export const LabelsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const LabelsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type TaintKey = string;
 export type TaintValue = string;
-export type TaintEffect =
-  | "NO_SCHEDULE"
-  | "NO_EXECUTE"
-  | "PREFER_NO_SCHEDULE"
-  | (string & {});
+export type TaintEffect = "NO_SCHEDULE" | "NO_EXECUTE" | "PREFER_NO_SCHEDULE" | (string & {});
 export const TaintEffect = S.String;
 
 export interface Taint {
@@ -2389,9 +2306,7 @@ export const NodeRepairConfigOverrides = /*@__PURE__*/ S.suspend(() =>
   identifier: "NodeRepairConfigOverrides",
 }) as any as S.Schema<NodeRepairConfigOverrides>;
 export type NodeRepairConfigOverridesList = NodeRepairConfigOverrides[];
-export const NodeRepairConfigOverridesList = /*@__PURE__*/ S.Array(
-  NodeRepairConfigOverrides,
-);
+export const NodeRepairConfigOverridesList = /*@__PURE__*/ S.Array(NodeRepairConfigOverrides);
 export interface NodeRepairConfig {
   enabled?: boolean;
   maxUnhealthyNodeThresholdCount?: number;
@@ -2412,18 +2327,10 @@ export const NodeRepairConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "NodeRepairConfig",
 }) as any as S.Schema<NodeRepairConfig>;
-export type CapacityTypes =
-  | "ON_DEMAND"
-  | "SPOT"
-  | "CAPACITY_BLOCK"
-  | (string & {});
+export type CapacityTypes = "ON_DEMAND" | "SPOT" | "CAPACITY_BLOCK" | (string & {});
 export const CapacityTypes = S.String;
 
-export type WarmPoolState =
-  | "STOPPED"
-  | "RUNNING"
-  | "HIBERNATED"
-  | (string & {});
+export type WarmPoolState = "STOPPED" | "RUNNING" | "HIBERNATED" | (string & {});
 export const WarmPoolState = S.String;
 
 export interface WarmPoolConfig {
@@ -2735,8 +2642,8 @@ export const PodIdentityAssociation = /*@__PURE__*/ S.suspend(() =>
 export interface CreatePodIdentityAssociationResponse {
   association?: PodIdentityAssociation;
 }
-export const CreatePodIdentityAssociationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ association: S.optional(PodIdentityAssociation) }),
+export const CreatePodIdentityAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ association: S.optional(PodIdentityAssociation) }),
 ).annotate({
   identifier: "CreatePodIdentityAssociationResponse",
 }) as any as S.Schema<CreatePodIdentityAssociationResponse>;
@@ -2765,9 +2672,7 @@ export const DeleteAccessEntryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAccessEntryRequest",
 }) as any as S.Schema<DeleteAccessEntryRequest>;
 export interface DeleteAccessEntryResponse {}
-export const DeleteAccessEntryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAccessEntryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAccessEntryResponse",
 }) as any as S.Schema<DeleteAccessEntryResponse>;
 export interface DeleteAddonRequest {
@@ -2844,9 +2749,7 @@ export interface DeleteCertificateAuthorityRequest {
 export const DeleteCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-    certificateAuthorityId: S.String.pipe(
-      T.HttpLabel("certificateAuthorityId"),
-    ),
+    certificateAuthorityId: S.String.pipe(T.HttpLabel("certificateAuthorityId")),
     clientRequestToken: S.optional(S.String).pipe(
       T.HttpQuery("clientRequestToken"),
       T.IdempotencyToken(),
@@ -2884,14 +2787,7 @@ export interface DeleteClusterRequest {
 }
 export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/clusters/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/clusters/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteClusterRequest",
@@ -2907,26 +2803,25 @@ export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteEksAnywhereSubscriptionRequest {
   id: string;
 }
-export const DeleteEksAnywhereSubscriptionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-      T.all(
-        T.Http({ method: "DELETE", uri: "/eks-anywhere-subscriptions/{id}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteEksAnywhereSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/eks-anywhere-subscriptions/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteEksAnywhereSubscriptionRequest",
 }) as any as S.Schema<DeleteEksAnywhereSubscriptionRequest>;
 export interface DeleteEksAnywhereSubscriptionResponse {
   subscription?: EksAnywhereSubscription;
 }
-export const DeleteEksAnywhereSubscriptionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
+export const DeleteEksAnywhereSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
 ).annotate({
   identifier: "DeleteEksAnywhereSubscriptionResponse",
 }) as any as S.Schema<DeleteEksAnywhereSubscriptionResponse>;
@@ -3021,8 +2916,8 @@ export const DeletePodIdentityAssociationRequest = /*@__PURE__*/ S.suspend(() =>
 export interface DeletePodIdentityAssociationResponse {
   association?: PodIdentityAssociation;
 }
-export const DeletePodIdentityAssociationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ association: S.optional(PodIdentityAssociation) }),
+export const DeletePodIdentityAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ association: S.optional(PodIdentityAssociation) }),
 ).annotate({
   identifier: "DeletePodIdentityAssociationResponse",
 }) as any as S.Schema<DeletePodIdentityAssociationResponse>;
@@ -3180,9 +3075,7 @@ export interface DescribeAddonVersionsRequest {
 }
 export const DescribeAddonVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kubernetesVersion: S.optional(S.String).pipe(
-      T.HttpQuery("kubernetesVersion"),
-    ),
+    kubernetesVersion: S.optional(S.String).pipe(T.HttpQuery("kubernetesVersion")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     addonName: S.optional(S.String).pipe(T.HttpQuery("addonName")),
@@ -3308,9 +3201,7 @@ export interface DescribeCertificateAuthorityRequest {
 export const DescribeCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-    certificateAuthorityId: S.String.pipe(
-      T.HttpLabel("certificateAuthorityId"),
-    ),
+    certificateAuthorityId: S.String.pipe(T.HttpLabel("certificateAuthorityId")),
   }).pipe(
     T.all(
       T.Http({
@@ -3345,12 +3236,8 @@ export interface CertificateAuthorityScheduledEvents {
 }
 export const CertificateAuthorityScheduledEvents = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    firstAutoActivation: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    finalAutoActivation: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    firstAutoActivation: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    finalAutoActivation: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "CertificateAuthorityScheduledEvents",
@@ -3388,8 +3275,8 @@ export const CertificateAuthority = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeCertificateAuthorityResponse {
   certificateAuthority?: CertificateAuthority;
 }
-export const DescribeCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ certificateAuthority: S.optional(CertificateAuthority) }),
+export const DescribeCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ certificateAuthority: S.optional(CertificateAuthority) }),
 ).annotate({
   identifier: "DescribeCertificateAuthorityResponse",
 }) as any as S.Schema<DescribeCertificateAuthorityResponse>;
@@ -3398,14 +3285,7 @@ export interface DescribeClusterRequest {
 }
 export const DescribeClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/clusters/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/clusters/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeClusterRequest",
@@ -3426,11 +3306,7 @@ export type ClusterVersionStatus =
   | (string & {});
 export const ClusterVersionStatus = S.String;
 
-export type VersionStatus =
-  | "UNSUPPORTED"
-  | "STANDARD_SUPPORT"
-  | "EXTENDED_SUPPORT"
-  | (string & {});
+export type VersionStatus = "UNSUPPORTED" | "STANDARD_SUPPORT" | "EXTENDED_SUPPORT" | (string & {});
 export const VersionStatus = S.String;
 
 export interface DescribeClusterVersionsRequest {
@@ -3450,21 +3326,10 @@ export const DescribeClusterVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     defaultOnly: S.optional(S.Boolean).pipe(T.HttpQuery("defaultOnly")),
     includeAll: S.optional(S.Boolean).pipe(T.HttpQuery("includeAll")),
-    clusterVersions: S.optional(StringList).pipe(
-      T.HttpQuery("clusterVersions"),
-    ),
+    clusterVersions: S.optional(StringList).pipe(T.HttpQuery("clusterVersions")),
     status: S.optional(ClusterVersionStatus).pipe(T.HttpQuery("status")),
     versionStatus: S.optional(VersionStatus).pipe(T.HttpQuery("versionStatus")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster-versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/cluster-versions" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeClusterVersionsRequest",
 }) as any as S.Schema<DescribeClusterVersionsRequest>;
@@ -3628,14 +3493,13 @@ export const PodGcControllerVersionConfig = /*@__PURE__*/ S.suspend(() =>
 export interface HorizontalPodAutoscalerControllerVersionConfig {
   horizontalPodAutoscalerSyncPeriod?: DurationParameterConfig;
 }
-export const HorizontalPodAutoscalerControllerVersionConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      horizontalPodAutoscalerSyncPeriod: S.optional(DurationParameterConfig),
-    }),
-  ).annotate({
-    identifier: "HorizontalPodAutoscalerControllerVersionConfig",
-  }) as any as S.Schema<HorizontalPodAutoscalerControllerVersionConfig>;
+export const HorizontalPodAutoscalerControllerVersionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    horizontalPodAutoscalerSyncPeriod: S.optional(DurationParameterConfig),
+  }),
+).annotate({
+  identifier: "HorizontalPodAutoscalerControllerVersionConfig",
+}) as any as S.Schema<HorizontalPodAutoscalerControllerVersionConfig>;
 export interface KubeControllerManagerVersionConfig {
   podGcControllerConfig?: PodGcControllerVersionConfig;
   horizontalPodAutoscalerControllerConfig?: HorizontalPodAutoscalerControllerVersionConfig;
@@ -3683,9 +3547,7 @@ export const ControlPlaneScalingTierInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "ControlPlaneScalingTierInfo",
 }) as any as S.Schema<ControlPlaneScalingTierInfo>;
 export type ControlPlaneScalingTierList = ControlPlaneScalingTierInfo[];
-export const ControlPlaneScalingTierList = /*@__PURE__*/ S.Array(
-  ControlPlaneScalingTierInfo,
-);
+export const ControlPlaneScalingTierList = /*@__PURE__*/ S.Array(ControlPlaneScalingTierInfo);
 export interface ClusterVersionInformation {
   clusterVersion?: string;
   clusterType?: string;
@@ -3707,12 +3569,8 @@ export const ClusterVersionInformation = /*@__PURE__*/ S.suspend(() =>
     defaultPlatformVersion: S.optional(S.String),
     defaultVersion: S.optional(S.Boolean),
     releaseDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endOfStandardSupportDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    endOfExtendedSupportDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    endOfStandardSupportDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endOfExtendedSupportDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(ClusterVersionStatus),
     versionStatus: S.optional(VersionStatus),
     kubernetesPatchVersion: S.optional(S.String),
@@ -3723,9 +3581,7 @@ export const ClusterVersionInformation = /*@__PURE__*/ S.suspend(() =>
   identifier: "ClusterVersionInformation",
 }) as any as S.Schema<ClusterVersionInformation>;
 export type ClusterVersionList = ClusterVersionInformation[];
-export const ClusterVersionList = /*@__PURE__*/ S.Array(
-  ClusterVersionInformation,
-);
+export const ClusterVersionList = /*@__PURE__*/ S.Array(ClusterVersionInformation);
 export interface DescribeClusterVersionsResponse {
   nextToken?: string;
   clusterVersions?: ClusterVersionInformation[];
@@ -3741,26 +3597,25 @@ export const DescribeClusterVersionsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeEksAnywhereSubscriptionRequest {
   id: string;
 }
-export const DescribeEksAnywhereSubscriptionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/eks-anywhere-subscriptions/{id}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeEksAnywhereSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/eks-anywhere-subscriptions/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeEksAnywhereSubscriptionRequest",
 }) as any as S.Schema<DescribeEksAnywhereSubscriptionRequest>;
 export interface DescribeEksAnywhereSubscriptionResponse {
   subscription?: EksAnywhereSubscription;
 }
-export const DescribeEksAnywhereSubscriptionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
+export const DescribeEksAnywhereSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
 ).annotate({
   identifier: "DescribeEksAnywhereSubscriptionResponse",
 }) as any as S.Schema<DescribeEksAnywhereSubscriptionResponse>;
@@ -3809,24 +3664,23 @@ export interface DescribeIdentityProviderConfigRequest {
   clusterName: string;
   identityProviderConfig: IdentityProviderConfig;
 }
-export const DescribeIdentityProviderConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-      identityProviderConfig: IdentityProviderConfig,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/clusters/{clusterName}/identity-provider-configs/describe",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeIdentityProviderConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    identityProviderConfig: IdentityProviderConfig,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/identity-provider-configs/describe",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeIdentityProviderConfigRequest",
 }) as any as S.Schema<DescribeIdentityProviderConfigRequest>;
@@ -3876,11 +3730,10 @@ export const IdentityProviderConfigResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeIdentityProviderConfigResponse {
   identityProviderConfig?: IdentityProviderConfigResponse;
 }
-export const DescribeIdentityProviderConfigResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      identityProviderConfig: S.optional(IdentityProviderConfigResponse),
-    }),
+export const DescribeIdentityProviderConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    identityProviderConfig: S.optional(IdentityProviderConfigResponse),
+  }),
 ).annotate({
   identifier: "DescribeIdentityProviderConfigResponse",
 }) as any as S.Schema<DescribeIdentityProviderConfigResponse>;
@@ -3912,12 +3765,7 @@ export type Category =
   | (string & {});
 export const Category = S.String;
 
-export type InsightStatusValue =
-  | "PASSING"
-  | "WARNING"
-  | "ERROR"
-  | "UNKNOWN"
-  | (string & {});
+export type InsightStatusValue = "PASSING" | "WARNING" | "ERROR" | "UNKNOWN" | (string & {});
 export const InsightStatusValue = S.String;
 
 export interface InsightStatus {
@@ -3931,10 +3779,7 @@ export const InsightStatus = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "InsightStatus" }) as any as S.Schema<InsightStatus>;
 export type AdditionalInfoMap = { [key: string]: string | undefined };
-export const AdditionalInfoMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const AdditionalInfoMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface InsightResourceDetail {
   insightStatus?: InsightStatus;
   kubernetesResourceUri?: string;
@@ -3950,9 +3795,7 @@ export const InsightResourceDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "InsightResourceDetail",
 }) as any as S.Schema<InsightResourceDetail>;
 export type InsightResourceDetails = InsightResourceDetail[];
-export const InsightResourceDetails = /*@__PURE__*/ S.Array(
-  InsightResourceDetail,
-);
+export const InsightResourceDetails = /*@__PURE__*/ S.Array(InsightResourceDetail);
 export interface ClientStat {
   userAgent?: string;
   numberOfRequestsLast30Days?: number;
@@ -3962,9 +3805,7 @@ export const ClientStat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userAgent: S.optional(S.String),
     numberOfRequestsLast30Days: S.optional(S.Number),
-    lastRequestTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastRequestTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "ClientStat" }) as any as S.Schema<ClientStat>;
 export type ClientStats = ClientStat[];
@@ -4002,9 +3843,7 @@ export const AddonCompatibilityDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "AddonCompatibilityDetail",
 }) as any as S.Schema<AddonCompatibilityDetail>;
 export type AddonCompatibilityDetails = AddonCompatibilityDetail[];
-export const AddonCompatibilityDetails = /*@__PURE__*/ S.Array(
-  AddonCompatibilityDetail,
-);
+export const AddonCompatibilityDetails = /*@__PURE__*/ S.Array(AddonCompatibilityDetail);
 export interface InsightCategorySpecificSummary {
   deprecationDetails?: DeprecationDetail[];
   addonCompatibilityDetails?: AddonCompatibilityDetail[];
@@ -4037,12 +3876,8 @@ export const Insight = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     category: S.optional(Category),
     kubernetesVersion: S.optional(S.String),
-    lastRefreshTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastTransitionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastRefreshTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastTransitionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     description: S.optional(S.String),
     insightStatus: S.optional(InsightStatus),
     recommendation: S.optional(S.String),
@@ -4079,11 +3914,7 @@ export const DescribeInsightsRefreshRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeInsightsRefreshRequest",
 }) as any as S.Schema<DescribeInsightsRefreshRequest>;
-export type InsightsRefreshStatus =
-  | "IN_PROGRESS"
-  | "FAILED"
-  | "COMPLETED"
-  | (string & {});
+export type InsightsRefreshStatus = "IN_PROGRESS" | "FAILED" | "COMPLETED" | (string & {});
 export const InsightsRefreshStatus = S.String;
 
 export interface DescribeInsightsRefreshResponse {
@@ -4138,32 +3969,31 @@ export interface DescribePodIdentityAssociationRequest {
   clusterName: string;
   associationId: string;
 }
-export const DescribePodIdentityAssociationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-      associationId: S.String.pipe(T.HttpLabel("associationId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/clusters/{clusterName}/pod-identity-associations/{associationId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribePodIdentityAssociationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    associationId: S.String.pipe(T.HttpLabel("associationId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/clusters/{clusterName}/pod-identity-associations/{associationId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribePodIdentityAssociationRequest",
 }) as any as S.Schema<DescribePodIdentityAssociationRequest>;
 export interface DescribePodIdentityAssociationResponse {
   association?: PodIdentityAssociation;
 }
-export const DescribePodIdentityAssociationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ association: S.optional(PodIdentityAssociation) }),
+export const DescribePodIdentityAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ association: S.optional(PodIdentityAssociation) }),
 ).annotate({
   identifier: "DescribePodIdentityAssociationResponse",
 }) as any as S.Schema<DescribePodIdentityAssociationResponse>;
@@ -4239,37 +4069,35 @@ export interface DisassociateIdentityProviderConfigRequest {
   identityProviderConfig: IdentityProviderConfig;
   clientRequestToken?: string;
 }
-export const DisassociateIdentityProviderConfigRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-      identityProviderConfig: IdentityProviderConfig,
-      clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/clusters/{clusterName}/identity-provider-configs/disassociate",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DisassociateIdentityProviderConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    identityProviderConfig: IdentityProviderConfig,
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/clusters/{clusterName}/identity-provider-configs/disassociate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DisassociateIdentityProviderConfigRequest",
-  }) as any as S.Schema<DisassociateIdentityProviderConfigRequest>;
+  ),
+).annotate({
+  identifier: "DisassociateIdentityProviderConfigRequest",
+}) as any as S.Schema<DisassociateIdentityProviderConfigRequest>;
 export interface DisassociateIdentityProviderConfigResponse {
   update?: Update;
 }
-export const DisassociateIdentityProviderConfigResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ update: S.optional(Update) }),
-  ).annotate({
-    identifier: "DisassociateIdentityProviderConfigResponse",
-  }) as any as S.Schema<DisassociateIdentityProviderConfigResponse>;
+export const DisassociateIdentityProviderConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ update: S.optional(Update) }),
+).annotate({
+  identifier: "DisassociateIdentityProviderConfigResponse",
+}) as any as S.Schema<DisassociateIdentityProviderConfigResponse>;
 export type ListAccessEntriesRequestMaxResults = number;
 export interface ListAccessEntriesRequest {
   clusterName: string;
@@ -4280,9 +4108,7 @@ export interface ListAccessEntriesRequest {
 export const ListAccessEntriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-    associatedPolicyArn: S.optional(S.String).pipe(
-      T.HttpQuery("associatedPolicyArn"),
-    ),
+    associatedPolicyArn: S.optional(S.String).pipe(T.HttpQuery("associatedPolicyArn")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -4319,16 +4145,7 @@ export const ListAccessPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/access-policies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/access-policies" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAccessPoliciesRequest",
 }) as any as S.Schema<ListAccessPoliciesRequest>;
@@ -4416,23 +4233,20 @@ export const ListAssociatedAccessPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListAssociatedAccessPoliciesRequest",
 }) as any as S.Schema<ListAssociatedAccessPoliciesRequest>;
 export type AssociatedAccessPoliciesList = AssociatedAccessPolicy[];
-export const AssociatedAccessPoliciesList = /*@__PURE__*/ S.Array(
-  AssociatedAccessPolicy,
-);
+export const AssociatedAccessPoliciesList = /*@__PURE__*/ S.Array(AssociatedAccessPolicy);
 export interface ListAssociatedAccessPoliciesResponse {
   clusterName?: string;
   principalArn?: string;
   nextToken?: string;
   associatedAccessPolicies?: AssociatedAccessPolicy[];
 }
-export const ListAssociatedAccessPoliciesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      clusterName: S.optional(S.String),
-      principalArn: S.optional(S.String),
-      nextToken: S.optional(S.String),
-      associatedAccessPolicies: S.optional(AssociatedAccessPoliciesList),
-    }),
+export const ListAssociatedAccessPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clusterName: S.optional(S.String),
+    principalArn: S.optional(S.String),
+    nextToken: S.optional(S.String),
+    associatedAccessPolicies: S.optional(AssociatedAccessPoliciesList),
+  }),
 ).annotate({
   identifier: "ListAssociatedAccessPoliciesResponse",
 }) as any as S.Schema<ListAssociatedAccessPoliciesResponse>;
@@ -4524,9 +4338,7 @@ export const ListCertificateAuthoritiesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListCertificateAuthoritiesRequest",
 }) as any as S.Schema<ListCertificateAuthoritiesRequest>;
 export type CertificateAuthoritySummaryList = CertificateAuthoritySummary[];
-export const CertificateAuthoritySummaryList = /*@__PURE__*/ S.Array(
-  CertificateAuthoritySummary,
-);
+export const CertificateAuthoritySummaryList = /*@__PURE__*/ S.Array(CertificateAuthoritySummary);
 export interface ListCertificateAuthoritiesResponse {
   certificateAuthorities?: CertificateAuthoritySummary[];
   nextToken?: string;
@@ -4552,16 +4364,7 @@ export const ListClustersRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     include: S.optional(IncludeClustersList).pipe(T.HttpQuery("include")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/clusters" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/clusters" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListClustersRequest",
 }) as any as S.Schema<ListClustersRequest>;
@@ -4588,8 +4391,7 @@ export type EksAnywhereSubscriptionStatus =
   | (string & {});
 export const EksAnywhereSubscriptionStatus = S.String;
 
-export type EksAnywhereSubscriptionStatusValues =
-  EksAnywhereSubscriptionStatus[];
+export type EksAnywhereSubscriptionStatusValues = EksAnywhereSubscriptionStatus[];
 export const EksAnywhereSubscriptionStatusValues = /*@__PURE__*/ S.Array(
   EksAnywhereSubscriptionStatus,
 );
@@ -4619,19 +4421,16 @@ export const ListEksAnywhereSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListEksAnywhereSubscriptionsRequest",
 }) as any as S.Schema<ListEksAnywhereSubscriptionsRequest>;
 export type EksAnywhereSubscriptionList = EksAnywhereSubscription[];
-export const EksAnywhereSubscriptionList = /*@__PURE__*/ S.Array(
-  EksAnywhereSubscription,
-);
+export const EksAnywhereSubscriptionList = /*@__PURE__*/ S.Array(EksAnywhereSubscription);
 export interface ListEksAnywhereSubscriptionsResponse {
   subscriptions?: EksAnywhereSubscription[];
   nextToken?: string;
 }
-export const ListEksAnywhereSubscriptionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subscriptions: S.optional(EksAnywhereSubscriptionList),
-      nextToken: S.optional(S.String),
-    }),
+export const ListEksAnywhereSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptions: S.optional(EksAnywhereSubscriptionList),
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListEksAnywhereSubscriptionsResponse",
 }) as any as S.Schema<ListEksAnywhereSubscriptionsResponse>;
@@ -4702,9 +4501,7 @@ export const ListIdentityProviderConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListIdentityProviderConfigsRequest",
 }) as any as S.Schema<ListIdentityProviderConfigsRequest>;
 export type IdentityProviderConfigs = IdentityProviderConfig[];
-export const IdentityProviderConfigs = /*@__PURE__*/ S.Array(
-  IdentityProviderConfig,
-);
+export const IdentityProviderConfigs = /*@__PURE__*/ S.Array(IdentityProviderConfig);
 export interface ListIdentityProviderConfigsResponse {
   identityProviderConfigs?: IdentityProviderConfig[];
   nextToken?: string;
@@ -4775,12 +4572,8 @@ export const InsightSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     category: S.optional(Category),
     kubernetesVersion: S.optional(S.String),
-    lastRefreshTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastTransitionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastRefreshTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastTransitionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     description: S.optional(S.String),
     insightStatus: S.optional(InsightStatus),
   }),
@@ -4887,9 +4680,7 @@ export const PodIdentityAssociationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PodIdentityAssociationSummary",
 }) as any as S.Schema<PodIdentityAssociationSummary>;
 export type PodIdentityAssociationSummaries = PodIdentityAssociationSummary[];
-export const PodIdentityAssociationSummaries = /*@__PURE__*/ S.Array(
-  PodIdentityAssociationSummary,
-);
+export const PodIdentityAssociationSummaries = /*@__PURE__*/ S.Array(PodIdentityAssociationSummary);
 export interface ListPodIdentityAssociationsResponse {
   associations?: PodIdentityAssociationSummary[];
   nextToken?: string;
@@ -4907,14 +4698,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -4945,14 +4729,7 @@ export const ListUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/clusters/{name}/updates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/clusters/{name}/updates" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListUpdatesRequest",
@@ -5004,14 +4781,7 @@ export const RegisterClusterRequest = /*@__PURE__*/ S.suspend(() =>
     clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster-registrations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/cluster-registrations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RegisterClusterRequest",
@@ -5065,22 +4835,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -5094,22 +4855,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAccessEntryRequest {
@@ -5377,30 +5129,29 @@ export interface UpdateEksAnywhereSubscriptionRequest {
   autoRenew: boolean;
   clientRequestToken?: string;
 }
-export const UpdateEksAnywhereSubscriptionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.String.pipe(T.HttpLabel("id")),
-      autoRenew: S.Boolean,
-      clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/eks-anywhere-subscriptions/{id}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateEksAnywhereSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.HttpLabel("id")),
+    autoRenew: S.Boolean,
+    clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/eks-anywhere-subscriptions/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateEksAnywhereSubscriptionRequest",
 }) as any as S.Schema<UpdateEksAnywhereSubscriptionRequest>;
 export interface UpdateEksAnywhereSubscriptionResponse {
   subscription?: EksAnywhereSubscription;
 }
-export const UpdateEksAnywhereSubscriptionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
+export const UpdateEksAnywhereSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ subscription: S.optional(EksAnywhereSubscription) }),
 ).annotate({
   identifier: "UpdateEksAnywhereSubscriptionResponse",
 }) as any as S.Schema<UpdateEksAnywhereSubscriptionResponse>;
@@ -5555,8 +5306,8 @@ export const UpdatePodIdentityAssociationRequest = /*@__PURE__*/ S.suspend(() =>
 export interface UpdatePodIdentityAssociationResponse {
   association?: PodIdentityAssociation;
 }
-export const UpdatePodIdentityAssociationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ association: S.optional(PodIdentityAssociation) }),
+export const UpdatePodIdentityAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ association: S.optional(PodIdentityAssociation) }),
 ).annotate({
   identifier: "UpdatePodIdentityAssociationResponse",
 }) as any as S.Schema<UpdatePodIdentityAssociationResponse>;
@@ -6417,12 +6168,7 @@ export const deleteEksAnywhereSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteEksAnywhereSubscriptionRequest,
   output: DeleteEksAnywhereSubscriptionResponse,
-  errors: [
-    ClientException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
+  errors: [ClientException, InvalidRequestException, ResourceNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEksAnywhereSubscription",
@@ -6633,11 +6379,7 @@ export const describeAddonConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeAddonConfigurationRequest,
   output: DescribeAddonConfigurationResponse,
-  errors: [
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
+  errors: [InvalidParameterException, ResourceNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddonConfiguration",
@@ -6664,11 +6406,7 @@ export const describeAddonVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeAddonVersionsRequest,
   output: DescribeAddonVersionsResponse,
-  errors: [
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
+  errors: [InvalidParameterException, ResourceNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddonVersions",
@@ -6726,11 +6464,7 @@ export const describeCertificateAuthority: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeCertificateAuthorityRequest,
   output: DescribeCertificateAuthorityResponse,
-  errors: [
-    ResourceNotFoundException,
-    ServerException,
-    ServiceUnavailableException,
-  ],
+  errors: [ResourceNotFoundException, ServerException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificateAuthority",
@@ -6846,12 +6580,7 @@ export const describeFargateProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeFargateProfileRequest,
   output: DescribeFargateProfileResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
+  errors: [ClientException, InvalidParameterException, ResourceNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFargateProfile",
@@ -7027,12 +6756,7 @@ export const describeUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeUpdateRequest,
   output: DescribeUpdateResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
+  errors: [ClientException, InvalidParameterException, ResourceNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUpdate",
@@ -7224,10 +6948,7 @@ export const listAssociatedAccessPolicies: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListCapabilitiesError =
-  | InvalidParameterException
-  | ServerException
-  | CommonErrors;
+export type ListCapabilitiesError = InvalidParameterException | ServerException | CommonErrors;
 /**
  * Lists all managed capabilities in your Amazon EKS cluster. You can use this operation to get an overview of all capabilities and their current status.
  */
@@ -7378,12 +7099,7 @@ export const listFargateProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFargateProfilesRequest,
   output: ListFargateProfilesResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
+  errors: [ClientException, InvalidParameterException, ResourceNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFargateProfiles",
@@ -7552,10 +7268,7 @@ export const listPodIdentityAssociations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListTagsForResourceError =
-  | BadRequestException
-  | NotFoundException
-  | CommonErrors;
+export type ListTagsForResourceError = BadRequestException | NotFoundException | CommonErrors;
 /**
  * List the tags for an Amazon EKS resource.
  */
@@ -7592,12 +7305,7 @@ export const listUpdates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListUpdatesRequest,
   output: ListUpdatesResponse,
-  errors: [
-    ClientException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-    ServerException,
-  ],
+  errors: [ClientException, InvalidParameterException, ResourceNotFoundException, ServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUpdates",
@@ -7690,10 +7398,7 @@ export const startInsightsRefresh: API.OperationMethod<
   operationName: "StartInsightsRefresh",
 }));
 
-export type TagResourceError =
-  | BadRequestException
-  | NotFoundException
-  | CommonErrors;
+export type TagResourceError = BadRequestException | NotFoundException | CommonErrors;
 /**
  * Associates the specified tags to an Amazon EKS resource with the specified
  * `resourceArn`. If existing tags on a resource are not specified in the
@@ -7717,10 +7422,7 @@ export const tagResource: API.OperationMethod<
   operationName: "TagResource",
 }));
 
-export type UntagResourceError =
-  | BadRequestException
-  | NotFoundException
-  | CommonErrors;
+export type UntagResourceError = BadRequestException | NotFoundException | CommonErrors;
 /**
  * Deletes specified tags from an Amazon EKS resource.
  */

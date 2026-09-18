@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "BCM Data Exports",
   serviceShapeName: "AWSBillingAndCostManagementDataExports",
@@ -34,9 +34,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -44,10 +42,7 @@ const rules = T.EndpointResolver((p, _) => {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso" &&
-          UseFIPS === false
-        ) {
+        if (_.getAttr(PartitionResult, "name") === "aws-iso" && UseFIPS === false) {
           return e(
             "https://bcm-data-exports.us-iso-east-1.c2s.ic.gov",
             {
@@ -56,10 +51,7 @@ const rules = T.EndpointResolver((p, _) => {
             {},
           );
         }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-          UseFIPS === false
-        ) {
+        if (_.getAttr(PartitionResult, "name") === "aws-iso-b" && UseFIPS === false) {
           return e(
             "https://bcm-data-exports.us-isob-east-1.sc2s.sgov.gov",
             {
@@ -68,10 +60,7 @@ const rules = T.EndpointResolver((p, _) => {
             {},
           );
         }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
-          UseFIPS === false
-        ) {
+        if (_.getAttr(PartitionResult, "name") === "aws-iso-e" && UseFIPS === false) {
           return e(
             "https://bcm-data-exports.eu-isoe-west-1.cloud.adc-e.uk",
             {
@@ -80,16 +69,11 @@ const rules = T.EndpointResolver((p, _) => {
             {},
           );
         }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
-          UseFIPS === false
-        ) {
+        if (_.getAttr(PartitionResult, "name") === "aws-iso-f" && UseFIPS === false) {
           return e(
             "https://bcm-data-exports.us-isof-south-1.csp.hci.ic.gov",
             {
-              authSchemes: [
-                { name: "sigv4", signingRegion: "us-isof-south-1" },
-              ],
+              authSchemes: [{ name: "sigv4", signingRegion: "us-isof-south-1" }],
             },
             {},
           );
@@ -181,10 +165,7 @@ export type TableName = string;
 export type TableProperty = string;
 export type TablePropertyGenericString = string;
 export type TableProperties = { [key: string]: string | undefined };
-export const TableProperties = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TableProperties = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type TableConfigurations = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
@@ -214,10 +195,7 @@ export const FormatOption = S.String;
 export type CompressionOption = "GZIP" | "PARQUET" | "ZIP" | (string & {});
 export const CompressionOption = S.String;
 
-export type OverwriteOption =
-  | "CREATE_NEW_REPORT"
-  | "OVERWRITE_REPORT"
-  | (string & {});
+export type OverwriteOption = "CREATE_NEW_REPORT" | "OVERWRITE_REPORT" | (string & {});
 export const OverwriteOption = S.String;
 
 export interface S3OutputConfigurations {
@@ -376,15 +354,9 @@ export const ExecutionStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StatusCode: S.optional(ExecutionStatusCode),
     StatusReason: S.optional(ExecutionStatusReason),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    CompletedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    CompletedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "ExecutionStatus",
@@ -427,15 +399,9 @@ export const ExportStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StatusCode: S.optional(ExportStatusCode),
     StatusReason: S.optional(ExecutionStatusReason),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastRefreshedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastRefreshedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "ExportStatus" }) as any as S.Schema<ExportStatus>;
 export interface GetExportResponse {
@@ -458,9 +424,7 @@ export const GetTableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TableName: S.String,
     TableProperties: S.optional(TableProperties),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetTableRequest",
 }) as any as S.Schema<GetTableRequest>;
@@ -506,9 +470,7 @@ export const ListExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
     ExportArn: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListExecutionsRequest",
 }) as any as S.Schema<ListExecutionsRequest>;
@@ -543,9 +505,7 @@ export const ListExportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListExportsRequest",
 }) as any as S.Schema<ListExportsRequest>;
@@ -585,9 +545,7 @@ export const ListTablesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTablesRequest",
 }) as any as S.Schema<ListTablesRequest>;
@@ -610,9 +568,7 @@ export const TablePropertyDescription = /*@__PURE__*/ S.suspend(() =>
   identifier: "TablePropertyDescription",
 }) as any as S.Schema<TablePropertyDescription>;
 export type TablePropertyDescriptionList = TablePropertyDescription[];
-export const TablePropertyDescriptionList = /*@__PURE__*/ S.Array(
-  TablePropertyDescription,
-);
+export const TablePropertyDescriptionList = /*@__PURE__*/ S.Array(TablePropertyDescription);
 export interface Table {
   TableName?: string;
   Description?: string;
@@ -646,9 +602,7 @@ export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
@@ -676,9 +630,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type ResourceTagKeyList = string[];
@@ -695,9 +647,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateExportRequest {
@@ -737,9 +687,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CreateExportError =
   | AccessDeniedException
   | InternalServerException

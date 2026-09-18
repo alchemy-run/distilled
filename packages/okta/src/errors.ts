@@ -27,24 +27,18 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown Okta error — returned when nothing else matches the failure. */
-export class UnknownOktaError extends Schema.TaggedError<UnknownOktaError>()(
-  "UnknownOktaError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+export class UnknownOktaError extends Schema.TaggedError<UnknownOktaError>()("UnknownOktaError", {
+  code: Schema.optional(Schema.String),
+  message: Schema.optional(Schema.String),
+  body: Schema.Unknown,
+}).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper (kept for surface parity with other SDKs). */
-export class OktaParseError extends Schema.TaggedError<OktaParseError>()(
-  "OktaParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class OktaParseError extends Schema.TaggedError<OktaParseError>()("OktaParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}

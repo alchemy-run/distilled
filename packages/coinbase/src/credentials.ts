@@ -42,10 +42,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("CoinbaseCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "CoinbaseCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   apiKeyId: EffectConfig.option(EffectConfig.String("CDP_API_KEY_ID")),
@@ -67,13 +66,11 @@ export const CredentialsFromEnv = Layer.succeed(
     );
 
     const apiKeyId =
-      Option.getOrUndefined(config.apiKeyId) ??
-      Option.getOrUndefined(config.apiKeyName);
+      Option.getOrUndefined(config.apiKeyId) ?? Option.getOrUndefined(config.apiKeyName);
 
     if (!apiKeyId) {
       return yield* new ConfigError({
-        message:
-          "CDP_API_KEY_ID (or CDP_API_KEY_NAME) environment variable is required",
+        message: "CDP_API_KEY_ID (or CDP_API_KEY_NAME) environment variable is required",
       });
     }
 

@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "RolesAnywhere",
   serviceShapeName: "RolesAnywhere",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://rolesanywhere-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://rolesanywhere.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://rolesanywhere.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://rolesanywhere.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -148,16 +138,7 @@ export const CreateProfileRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     tags: S.optional(TagList),
     acceptRoleSessionName: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/profiles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/profiles" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateProfileRequest",
 }) as any as S.Schema<CreateProfileRequest>;
@@ -213,12 +194,8 @@ export const ProfileDetail = /*@__PURE__*/ S.suspend(() =>
     sessionPolicy: S.optional(S.String),
     roleArns: S.optional(RoleArnList),
     managedPolicyArns: S.optional(ManagedPolicyList),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     durationSeconds: S.optional(S.Number),
     acceptRoleSessionName: S.optional(S.Boolean),
     attributeMappings: S.optional(AttributeMappings),
@@ -284,16 +261,7 @@ export const CreateTrustAnchorRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     tags: S.optional(TagList),
     notificationSettings: S.optional(NotificationSettings),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/trustanchors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/trustanchors" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateTrustAnchorRequest",
 }) as any as S.Schema<CreateTrustAnchorRequest>;
@@ -316,9 +284,7 @@ export const NotificationSettingDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "NotificationSettingDetail",
 }) as any as S.Schema<NotificationSettingDetail>;
 export type NotificationSettingDetails = NotificationSettingDetail[];
-export const NotificationSettingDetails = /*@__PURE__*/ S.Array(
-  NotificationSettingDetail,
-);
+export const NotificationSettingDetails = /*@__PURE__*/ S.Array(NotificationSettingDetail);
 export interface TrustAnchorDetail {
   trustAnchorId?: string;
   trustAnchorArn?: string;
@@ -336,12 +302,8 @@ export const TrustAnchorDetail = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     source: S.optional(Source),
     enabled: S.optional(S.Boolean),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     notificationSettings: S.optional(NotificationSettingDetails),
   }),
 ).annotate({
@@ -393,14 +355,7 @@ export interface ScalarCrlRequest {
 }
 export const ScalarCrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ crlId: S.String.pipe(T.HttpLabel("crlId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/crl/{crlId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/crl/{crlId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ScalarCrlRequest",
@@ -423,12 +378,8 @@ export const CrlDetail = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     crlData: S.optional(T.Blob),
     trustAnchorArn: S.optional(S.String),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "CrlDetail" }) as any as S.Schema<CrlDetail>;
 export interface CrlDetailResponse {
@@ -444,14 +395,7 @@ export interface ScalarProfileRequest {
 }
 export const ScalarProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ profileId: S.String.pipe(T.HttpLabel("profileId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/profile/{profileId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/profile/{profileId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ScalarProfileRequest",
@@ -478,14 +422,7 @@ export interface ScalarSubjectRequest {
 }
 export const ScalarSubjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ subjectId: S.String.pipe(T.HttpLabel("subjectId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/subject/{subjectId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/subject/{subjectId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ScalarSubjectRequest",
@@ -513,10 +450,7 @@ export const CredentialSummary = /*@__PURE__*/ S.suspend(() =>
 export type CredentialSummaries = CredentialSummary[];
 export const CredentialSummaries = /*@__PURE__*/ S.Array(CredentialSummary);
 export type InstancePropertyMap = { [key: string]: string | undefined };
-export const InstancePropertyMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const InstancePropertyMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface InstanceProperty {
   seenAt?: Date;
   properties?: { [key: string]: string | undefined };
@@ -550,15 +484,9 @@ export const SubjectDetail = /*@__PURE__*/ S.suspend(() =>
     subjectId: S.optional(S.String),
     enabled: S.optional(S.Boolean),
     x509Subject: S.optional(S.String),
-    lastSeenAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastSeenAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     credentials: S.optional(CredentialSummaries),
     instanceProperties: S.optional(InstanceProperties),
   }),
@@ -586,16 +514,7 @@ export const ImportCrlRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     tags: S.optional(TagList),
     trustAnchorArn: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/crls" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/crls" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ImportCrlRequest",
 }) as any as S.Schema<ImportCrlRequest>;
@@ -607,16 +526,7 @@ export const ListRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     pageSize: S.optional(S.Number).pipe(T.HttpQuery("pageSize")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/crls" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/crls" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "ListRequest" }) as any as S.Schema<ListRequest>;
 export type CrlDetails = CrlDetail[];
 export const CrlDetails = /*@__PURE__*/ S.Array(CrlDetail);
@@ -658,15 +568,9 @@ export const SubjectSummary = /*@__PURE__*/ S.suspend(() =>
     subjectId: S.optional(S.String),
     enabled: S.optional(S.Boolean),
     x509Subject: S.optional(S.String),
-    lastSeenAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastSeenAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "SubjectSummary" }) as any as S.Schema<SubjectSummary>;
 export type SubjectSummaries = SubjectSummary[];
@@ -689,14 +593,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpQuery("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ListTagsForResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/ListTagsForResource" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -793,9 +690,7 @@ export const NotificationSettingKey = /*@__PURE__*/ S.suspend(() =>
   identifier: "NotificationSettingKey",
 }) as any as S.Schema<NotificationSettingKey>;
 export type NotificationSettingKeys = NotificationSettingKey[];
-export const NotificationSettingKeys = /*@__PURE__*/ S.Array(
-  NotificationSettingKey,
-);
+export const NotificationSettingKeys = /*@__PURE__*/ S.Array(NotificationSettingKey);
 export interface ResetNotificationSettingsRequest {
   trustAnchorId: string;
   notificationSettingKeys: NotificationSettingKey[];
@@ -831,22 +726,13 @@ export interface TagResourceRequest {
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/TagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/TagResource" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = (string | redacted.Redacted<string>)[];
@@ -857,22 +743,13 @@ export interface UntagResourceRequest {
 }
 export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UntagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/UntagResource" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateCrlRequest {
@@ -885,16 +762,7 @@ export const UpdateCrlRequest = /*@__PURE__*/ S.suspend(() =>
     crlId: S.String.pipe(T.HttpLabel("crlId")),
     name: S.optional(S.String),
     crlData: S.optional(T.Blob),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/crl/{crlId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PATCH", uri: "/crl/{crlId}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateCrlRequest",
 }) as any as S.Schema<UpdateCrlRequest>;
@@ -917,14 +785,7 @@ export const UpdateProfileRequest = /*@__PURE__*/ S.suspend(() =>
     durationSeconds: S.optional(S.Number),
     acceptRoleSessionName: S.optional(S.Boolean),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/profile/{profileId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/profile/{profileId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateProfileRequest",
@@ -952,10 +813,7 @@ export const UpdateTrustAnchorRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateTrustAnchorRequest",
 }) as any as S.Schema<UpdateTrustAnchorRequest>;
-export type CreateProfileError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type CreateProfileError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Creates a *profile*, a list of the roles that Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies.
  *
@@ -975,10 +833,7 @@ export const createProfile: API.OperationMethod<
   operationName: "CreateProfile",
 }));
 
-export type CreateTrustAnchorError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type CreateTrustAnchorError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials.
  *
@@ -1014,20 +869,13 @@ export const deleteAttributeMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAttributeMappingRequest,
   output: DeleteAttributeMappingResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeMapping",
 }));
 
-export type DeleteCrlError =
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DeleteCrlError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Deletes a certificate revocation list (CRL).
  *
@@ -1047,10 +895,7 @@ export const deleteCrl: API.OperationMethod<
   operationName: "DeleteCrl",
 }));
 
-export type DeleteProfileError =
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DeleteProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Deletes a profile.
  *
@@ -1099,10 +944,7 @@ export const DisableCrlRequest = /*@__PURE__*/ ScalarCrlRequest.pipe(
 ).annotate({
   identifier: "DisableCrlRequest",
 }) as any as S.Schema<DisableCrlRequest>;
-export type DisableCrlError =
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DisableCrlError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Disables a certificate revocation list (CRL).
  *
@@ -1128,10 +970,7 @@ export const DisableProfileRequest = /*@__PURE__*/ ScalarProfileRequest.pipe(
 ).annotate({
   identifier: "DisableProfileRequest",
 }) as any as S.Schema<DisableProfileRequest>;
-export type DisableProfileError =
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DisableProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Disables a profile. When disabled, temporary credential requests with this profile fail.
  *
@@ -1152,12 +991,11 @@ export const disableProfile: API.OperationMethod<
 }));
 
 export interface DisableTrustAnchorRequest extends ScalarTrustAnchorRequest {}
-export const DisableTrustAnchorRequest =
-  /*@__PURE__*/ ScalarTrustAnchorRequest.pipe(
-    T.Http({ method: "POST", uri: "/trustanchor/{trustAnchorId}/disable" }),
-  ).annotate({
-    identifier: "DisableTrustAnchorRequest",
-  }) as any as S.Schema<DisableTrustAnchorRequest>;
+export const DisableTrustAnchorRequest = /*@__PURE__*/ ScalarTrustAnchorRequest.pipe(
+  T.Http({ method: "POST", uri: "/trustanchor/{trustAnchorId}/disable" }),
+).annotate({
+  identifier: "DisableTrustAnchorRequest",
+}) as any as S.Schema<DisableTrustAnchorRequest>;
 export type DisableTrustAnchorError =
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1187,10 +1025,7 @@ export const EnableCrlRequest = /*@__PURE__*/ ScalarCrlRequest.pipe(
 ).annotate({
   identifier: "EnableCrlRequest",
 }) as any as S.Schema<EnableCrlRequest>;
-export type EnableCrlError =
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type EnableCrlError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL are unauthorized to receive session credentials.
  *
@@ -1216,10 +1051,7 @@ export const EnableProfileRequest = /*@__PURE__*/ ScalarProfileRequest.pipe(
 ).annotate({
   identifier: "EnableProfileRequest",
 }) as any as S.Schema<EnableProfileRequest>;
-export type EnableProfileError =
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type EnableProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Enables temporary credential requests for a profile.
  *
@@ -1240,12 +1072,11 @@ export const enableProfile: API.OperationMethod<
 }));
 
 export interface EnableTrustAnchorRequest extends ScalarTrustAnchorRequest {}
-export const EnableTrustAnchorRequest =
-  /*@__PURE__*/ ScalarTrustAnchorRequest.pipe(
-    T.Http({ method: "POST", uri: "/trustanchor/{trustAnchorId}/enable" }),
-  ).annotate({
-    identifier: "EnableTrustAnchorRequest",
-  }) as any as S.Schema<EnableTrustAnchorRequest>;
+export const EnableTrustAnchorRequest = /*@__PURE__*/ ScalarTrustAnchorRequest.pipe(
+  T.Http({ method: "POST", uri: "/trustanchor/{trustAnchorId}/enable" }),
+).annotate({
+  identifier: "EnableTrustAnchorRequest",
+}) as any as S.Schema<EnableTrustAnchorRequest>;
 export type EnableTrustAnchorError =
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1299,10 +1130,7 @@ export const GetProfileRequest = /*@__PURE__*/ ScalarProfileRequest.pipe(
 ).annotate({
   identifier: "GetProfileRequest",
 }) as any as S.Schema<GetProfileRequest>;
-export type GetProfileError =
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type GetProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Gets a profile.
  *
@@ -1322,10 +1150,7 @@ export const getProfile: API.OperationMethod<
   operationName: "GetProfile",
 }));
 
-export type GetSubjectError =
-  | AccessDeniedException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type GetSubjectError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Gets a *subject*, which associates a certificate identity with authentication attempts. The subject stores auditing information such as the status of the last authentication attempt, the certificate data used in the attempt, and the last time the associated identity attempted authentication.
  *
@@ -1346,12 +1171,11 @@ export const getSubject: API.OperationMethod<
 }));
 
 export interface GetTrustAnchorRequest extends ScalarTrustAnchorRequest {}
-export const GetTrustAnchorRequest =
-  /*@__PURE__*/ ScalarTrustAnchorRequest.pipe(
-    T.Http({ method: "GET", uri: "/trustanchor/{trustAnchorId}" }),
-  ).annotate({
-    identifier: "GetTrustAnchorRequest",
-  }) as any as S.Schema<GetTrustAnchorRequest>;
+export const GetTrustAnchorRequest = /*@__PURE__*/ ScalarTrustAnchorRequest.pipe(
+  T.Http({ method: "GET", uri: "/trustanchor/{trustAnchorId}" }),
+).annotate({
+  identifier: "GetTrustAnchorRequest",
+}) as any as S.Schema<GetTrustAnchorRequest>;
 export type GetTrustAnchorError =
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1370,20 +1194,13 @@ export const getTrustAnchor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustAnchor",
 }));
 
-export type ImportCrlError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ImportCrlError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials.
  *
@@ -1403,10 +1220,7 @@ export const importCrl: API.OperationMethod<
   operationName: "ImportCrl",
 }));
 
-export type ListCrlsError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ListCrlsError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web Services Region.
  *
@@ -1438,10 +1252,7 @@ export const ListProfilesRequest = /*@__PURE__*/ ListRequest.pipe(
 ).annotate({
   identifier: "ListProfilesRequest",
 }) as any as S.Schema<ListProfilesRequest>;
-export type ListProfilesError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ListProfilesError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists all profiles in the authenticated account and Amazon Web Services Region.
  *
@@ -1473,10 +1284,7 @@ export const ListSubjectsRequest = /*@__PURE__*/ ListRequest.pipe(
 ).annotate({
   identifier: "ListSubjectsRequest",
 }) as any as S.Schema<ListSubjectsRequest>;
-export type ListSubjectsError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ListSubjectsError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists the subjects in the authenticated account and Amazon Web Services Region.
  *
@@ -1520,11 +1328,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1536,10 +1340,7 @@ export const ListTrustAnchorsRequest = /*@__PURE__*/ ListRequest.pipe(
 ).annotate({
   identifier: "ListTrustAnchorsRequest",
 }) as any as S.Schema<ListTrustAnchorsRequest>;
-export type ListTrustAnchorsError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ListTrustAnchorsError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists the trust anchors in the authenticated account and Amazon Web Services Region.
  *
@@ -1581,11 +1382,7 @@ export const putAttributeMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutAttributeMappingRequest,
   output: PutAttributeMappingResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributeMapping",
@@ -1611,11 +1408,7 @@ export const putNotificationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutNotificationSettingsRequest,
   output: PutNotificationSettingsResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationSettings",
@@ -1639,11 +1432,7 @@ export const resetNotificationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResetNotificationSettingsRequest,
   output: ResetNotificationSettingsResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetNotificationSettings",
@@ -1697,11 +1486,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1725,11 +1510,7 @@ export const updateCrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateCrlRequest,
   output: CrlDetailResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrl",
@@ -1753,11 +1534,7 @@ export const updateProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateProfileRequest,
   output: ProfileDetailResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
@@ -1781,11 +1558,7 @@ export const updateTrustAnchor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateTrustAnchorRequest,
   output: TrustAnchorDetailResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustAnchor",

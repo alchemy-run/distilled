@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "PartnerCentral Benefits",
   serviceShapeName: "PartnerCentralBenefitsService",
@@ -28,9 +28,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -150,9 +148,7 @@ export const AmendBenefitApplicationInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "AmendBenefitApplicationInput",
 }) as any as S.Schema<AmendBenefitApplicationInput>;
 export interface AmendBenefitApplicationOutput {}
-export const AmendBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const AmendBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AmendBenefitApplicationOutput",
 }) as any as S.Schema<AmendBenefitApplicationOutput>;
 export type Arn = string;
@@ -161,22 +157,21 @@ export interface AssociateBenefitApplicationResourceInput {
   BenefitApplicationIdentifier: string;
   ResourceArn: string;
 }
-export const AssociateBenefitApplicationResourceInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Catalog: S.String,
-      BenefitApplicationIdentifier: S.String,
-      ResourceArn: S.String,
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/AssociateBenefitApplicationResource" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateBenefitApplicationResourceInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    BenefitApplicationIdentifier: S.String,
+    ResourceArn: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/AssociateBenefitApplicationResource" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "AssociateBenefitApplicationResourceInput",
 }) as any as S.Schema<AssociateBenefitApplicationResourceInput>;
@@ -186,16 +181,15 @@ export interface AssociateBenefitApplicationResourceOutput {
   Arn?: string;
   Revision?: string;
 }
-export const AssociateBenefitApplicationResourceOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.optional(S.String),
-      Arn: S.optional(S.String),
-      Revision: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "AssociateBenefitApplicationResourceOutput",
-  }) as any as S.Schema<AssociateBenefitApplicationResourceOutput>;
+export const AssociateBenefitApplicationResourceOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Revision: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AssociateBenefitApplicationResourceOutput",
+}) as any as S.Schema<AssociateBenefitApplicationResourceOutput>;
 export interface CancelBenefitApplicationInput {
   Catalog: string;
   ClientToken: string;
@@ -222,9 +216,7 @@ export const CancelBenefitApplicationInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelBenefitApplicationInput",
 }) as any as S.Schema<CancelBenefitApplicationInput>;
 export interface CancelBenefitApplicationOutput {}
-export const CancelBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CancelBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelBenefitApplicationOutput",
 }) as any as S.Schema<CancelBenefitApplicationOutput>;
 export type BenefitApplicationName = string;
@@ -337,57 +329,48 @@ export interface DisassociateBenefitApplicationResourceInput {
   BenefitApplicationIdentifier: string;
   ResourceArn: string;
 }
-export const DisassociateBenefitApplicationResourceInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Catalog: S.String,
-      BenefitApplicationIdentifier: S.String,
-      ResourceArn: S.String,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/DisassociateBenefitApplicationResource",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateBenefitApplicationResourceInput",
-  }) as any as S.Schema<DisassociateBenefitApplicationResourceInput>;
-export interface DisassociateBenefitApplicationResourceOutput {
-  Id?: string;
-  Arn?: string;
-  Revision?: string;
-}
-export const DisassociateBenefitApplicationResourceOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.optional(S.String),
-      Arn: S.optional(S.String),
-      Revision: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DisassociateBenefitApplicationResourceOutput",
-  }) as any as S.Schema<DisassociateBenefitApplicationResourceOutput>;
-export interface GetBenefitInput {
-  Catalog: string;
-  Identifier: string;
-}
-export const GetBenefitInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
+export const DisassociateBenefitApplicationResourceInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    BenefitApplicationIdentifier: S.String,
+    ResourceArn: S.String,
+  }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/GetBenefit" }),
+      T.Http({
+        method: "POST",
+        uri: "/DisassociateBenefitApplicationResource",
+      }),
       svc,
       auth,
       proto,
       ver,
       rules,
     ),
+  ),
+).annotate({
+  identifier: "DisassociateBenefitApplicationResourceInput",
+}) as any as S.Schema<DisassociateBenefitApplicationResourceInput>;
+export interface DisassociateBenefitApplicationResourceOutput {
+  Id?: string;
+  Arn?: string;
+  Revision?: string;
+}
+export const DisassociateBenefitApplicationResourceOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Revision: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DisassociateBenefitApplicationResourceOutput",
+}) as any as S.Schema<DisassociateBenefitApplicationResourceOutput>;
+export interface GetBenefitInput {
+  Catalog: string;
+  Identifier: string;
+}
+export const GetBenefitInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/GetBenefit" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetBenefitInput",
@@ -431,25 +414,14 @@ export interface GetBenefitAllocationInput {
 }
 export const GetBenefitAllocationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetBenefitAllocation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/GetBenefitAllocation" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetBenefitAllocationInput",
 }) as any as S.Schema<GetBenefitAllocationInput>;
 export type BenefitAllocationId = string;
 export type BenefitAllocationArn = string;
-export type BenefitAllocationStatus =
-  | "ACTIVE"
-  | "INACTIVE"
-  | "FULFILLED"
-  | (string & {});
+export type BenefitAllocationStatus = "ACTIVE" | "INACTIVE" | "FULFILLED" | (string & {});
 export const BenefitAllocationStatus = S.String;
 
 export type BenefitId = string;
@@ -702,16 +674,10 @@ export const GetBenefitAllocationOutput = /*@__PURE__*/ S.suspend(() =>
     FulfillmentType: S.optional(FulfillmentType),
     ApplicableBenefitIds: S.optional(BenefitIdentifiers),
     FulfillmentDetail: S.optional(FulfillmentDetails),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     StartsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    ExpiresAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "GetBenefitAllocationOutput",
@@ -722,14 +688,7 @@ export interface GetBenefitApplicationInput {
 }
 export const GetBenefitApplicationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetBenefitApplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/GetBenefitApplication" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetBenefitApplicationInput",
@@ -780,9 +739,7 @@ export const FileDetail = /*@__PURE__*/ S.suspend(() =>
     FileStatusReason: S.optional(S.String),
     FileType: S.optional(FileType),
     CreatedBy: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "FileDetail" }) as any as S.Schema<FileDetail>;
 export type FileDetails = FileDetail[];
@@ -825,12 +782,8 @@ export const GetBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() =>
     StatusReason: S.optional(S.String),
     StatusReasonCode: S.optional(S.String),
     StatusReasonCodes: S.optional(StatusReasonCodes),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Revision: S.optional(S.String),
     AssociatedResources: S.optional(Arns),
     PartnerContacts: S.optional(Contacts),
@@ -842,9 +795,7 @@ export const GetBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() =>
 export type BenefitApplicationIdentifierList = string[];
 export const BenefitApplicationIdentifierList = /*@__PURE__*/ S.Array(S.String);
 export type BenefitAllocationStatusList = BenefitAllocationStatus[];
-export const BenefitAllocationStatusList = /*@__PURE__*/ S.Array(
-  BenefitAllocationStatus,
-);
+export const BenefitAllocationStatusList = /*@__PURE__*/ S.Array(BenefitAllocationStatus);
 export interface ListBenefitAllocationsInput {
   Catalog: string;
   FulfillmentTypes?: FulfillmentType[];
@@ -864,14 +815,7 @@ export const ListBenefitAllocationsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListBenefitAllocations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/ListBenefitAllocations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListBenefitAllocationsInput",
@@ -904,21 +848,15 @@ export const BenefitAllocationSummary = /*@__PURE__*/ S.suspend(() =>
     BenefitId: S.optional(S.String),
     BenefitApplicationId: S.optional(S.String),
     FulfillmentTypes: S.optional(FulfillmentTypes),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ExpiresAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ApplicableBenefitIds: S.optional(BenefitIds),
   }),
 ).annotate({
   identifier: "BenefitAllocationSummary",
 }) as any as S.Schema<BenefitAllocationSummary>;
 export type BenefitAllocationSummaries = BenefitAllocationSummary[];
-export const BenefitAllocationSummaries = /*@__PURE__*/ S.Array(
-  BenefitAllocationSummary,
-);
+export const BenefitAllocationSummaries = /*@__PURE__*/ S.Array(BenefitAllocationSummary);
 export interface ListBenefitAllocationsOutput {
   BenefitAllocationSummaries?: BenefitAllocationSummary[];
   NextToken?: string;
@@ -992,10 +930,7 @@ export const ListBenefitApplicationsInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListBenefitApplicationsInput",
 }) as any as S.Schema<ListBenefitApplicationsInput>;
 export type Attributes = { [key: string]: string | undefined };
-export const Attributes = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Attributes = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface BenefitApplicationSummary {
   Catalog?: string;
   Name?: string;
@@ -1022,12 +957,8 @@ export const BenefitApplicationSummary = /*@__PURE__*/ S.suspend(() =>
     FulfillmentTypes: S.optional(FulfillmentTypes),
     Status: S.optional(BenefitApplicationStatus),
     Stage: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     BenefitApplicationDetails: S.optional(Attributes),
     AssociatedResources: S.optional(Arns),
   }),
@@ -1035,9 +966,7 @@ export const BenefitApplicationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "BenefitApplicationSummary",
 }) as any as S.Schema<BenefitApplicationSummary>;
 export type BenefitApplicationSummaries = BenefitApplicationSummary[];
-export const BenefitApplicationSummaries = /*@__PURE__*/ S.Array(
-  BenefitApplicationSummary,
-);
+export const BenefitApplicationSummaries = /*@__PURE__*/ S.Array(BenefitApplicationSummary);
 export interface ListBenefitApplicationsOutput {
   BenefitApplicationSummaries?: BenefitApplicationSummary[];
   NextToken?: string;
@@ -1068,16 +997,7 @@ export const ListBenefitsInput = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(BenefitStatuses),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListBenefits" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/ListBenefits" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBenefitsInput",
 }) as any as S.Schema<ListBenefitsInput>;
@@ -1123,14 +1043,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListTagsForResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/ListTagsForResource" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1169,9 +1082,7 @@ export const RecallBenefitApplicationInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "RecallBenefitApplicationInput",
 }) as any as S.Schema<RecallBenefitApplicationInput>;
 export interface RecallBenefitApplicationOutput {}
-export const RecallBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const RecallBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "RecallBenefitApplicationOutput",
 }) as any as S.Schema<RecallBenefitApplicationOutput>;
 export interface SubmitBenefitApplicationInput {
@@ -1193,9 +1104,7 @@ export const SubmitBenefitApplicationInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "SubmitBenefitApplicationInput",
 }) as any as S.Schema<SubmitBenefitApplicationInput>;
 export interface SubmitBenefitApplicationOutput {}
-export const SubmitBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const SubmitBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SubmitBenefitApplicationOutput",
 }) as any as S.Schema<SubmitBenefitApplicationOutput>;
 export interface TagResourceRequest {
@@ -1204,22 +1113,13 @@ export interface TagResourceRequest {
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/TagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/TagResource" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1230,22 +1130,13 @@ export interface UntagResourceRequest {
 }
 export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UntagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/UntagResource" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateBenefitApplicationInput {
@@ -1335,9 +1226,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AmendBenefitApplicationError =
   | AccessDeniedException
   | ConflictException

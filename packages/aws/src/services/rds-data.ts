@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "RDS Data",
   serviceShapeName: "RdsDataService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,13 +52,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://rds-data-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://rds-data-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +62,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://rds-data.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://rds-data.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://rds-data.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -327,14 +315,7 @@ export const Field = /*@__PURE__*/ S.Union([
   S.Struct({ blobValue: T.Blob }),
   S.Struct({ arrayValue: ArrayValue }),
 ]);
-export type TypeHint =
-  | "JSON"
-  | "UUID"
-  | "TIMESTAMP"
-  | "DATE"
-  | "TIME"
-  | "DECIMAL"
-  | (string & {});
+export type TypeHint = "JSON" | "UUID" | "TIMESTAMP" | "DATE" | "TIME" | "DECIMAL" | (string & {});
 export const TypeHint = S.String;
 
 export interface SqlParameter {
@@ -372,16 +353,7 @@ export const BatchExecuteStatementRequest = /*@__PURE__*/ S.suspend(() =>
     schema: S.optional(S.String),
     parameterSets: S.optional(SqlParameterSets),
     transactionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchExecute" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/BatchExecute" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchExecuteStatementRequest",
 }) as any as S.Schema<BatchExecuteStatementRequest>;
@@ -416,14 +388,7 @@ export const BeginTransactionRequest = /*@__PURE__*/ S.suspend(() =>
     database: S.optional(S.String),
     schema: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BeginTransaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/BeginTransaction" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BeginTransactionRequest",
@@ -447,14 +412,7 @@ export const CommitTransactionRequest = /*@__PURE__*/ S.suspend(() =>
     secretArn: S.String,
     transactionId: S.String,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CommitTransaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/CommitTransaction" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CommitTransactionRequest",
@@ -482,16 +440,7 @@ export const ExecuteSqlRequest = /*@__PURE__*/ S.suspend(() =>
     sqlStatements: S.String,
     database: S.optional(S.String),
     schema: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ExecuteSql" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/ExecuteSql" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ExecuteSqlRequest",
 }) as any as S.Schema<ExecuteSqlRequest>;
@@ -703,15 +652,13 @@ export const Value = /*@__PURE__*/ S.Union([
   }),
 ]) as any as S.Schema<Value>;
 export type Row = Value[];
-export const Row = /*@__PURE__*/ S.Array(
-  S.suspend(() => Value).annotate({ identifier: "Value" }),
-);
+export const Row = /*@__PURE__*/ S.Array(S.suspend(() => Value).annotate({ identifier: "Value" }));
 export interface Record {
   values?: Value[];
 }
-export const Record = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ values: S.optional(Row) }),
-).annotate({ identifier: "Record" }) as any as S.Schema<Record>;
+export const Record = /*@__PURE__*/ S.suspend(() => S.Struct({ values: S.optional(Row) })).annotate(
+  { identifier: "Record" },
+) as any as S.Schema<Record>;
 export type Records = Record[];
 export const Records = /*@__PURE__*/ S.Array(Record);
 export interface ResultFrame {
@@ -794,16 +741,7 @@ export const ExecuteStatementRequest = /*@__PURE__*/ S.suspend(() =>
     continueAfterTimeout: S.optional(S.Boolean),
     resultSetOptions: S.optional(ResultSetOptions),
     formatRecordsAs: S.optional(RecordsFormatType),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/Execute" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/Execute" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ExecuteStatementRequest",
 }) as any as S.Schema<ExecuteStatementRequest>;
@@ -839,14 +777,7 @@ export const RollbackTransactionRequest = /*@__PURE__*/ S.suspend(() =>
     secretArn: S.String,
     transactionId: S.String,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/RollbackTransaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/RollbackTransaction" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RollbackTransactionRequest",

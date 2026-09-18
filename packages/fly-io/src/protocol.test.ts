@@ -33,10 +33,7 @@ const decodeError = <A, E>(
             HttpClient.HttpClient,
             HttpClient.make((request) =>
               Effect.sync(() =>
-                HttpClientResponse.fromWeb(
-                  request,
-                  new Response(body, { status }),
-                ),
+                HttpClientResponse.fromWeb(request, new Response(body, { status })),
               ),
             ),
           ),
@@ -82,9 +79,7 @@ describe("Machines start precondition decoding", () => {
           status,
           JSON.stringify({ error: message }),
         );
-        expect(error).toBeInstanceOf(
-          status === 400 ? BadRequest : UnknownFlyIoError,
-        );
+        expect(error).toBeInstanceOf(status === 400 ? BadRequest : UnknownFlyIoError);
         expect(error).toMatchObject({ message });
       }
     });
@@ -119,11 +114,7 @@ describe("Machines wait timeout decoding", () => {
   }
 
   test("decodes the recorded waiter failure from plain text", async () => {
-    const error = await decodeError(
-      waitMachine(machine),
-      412,
-      recordedWaitMessage,
-    );
+    const error = await decodeError(waitMachine(machine), 412, recordedWaitMessage);
     expect(error).toBeInstanceOf(MachineWaitTimeout);
     expect(error).toMatchObject({ message: recordedWaitMessage });
   });
@@ -131,11 +122,7 @@ describe("Machines wait timeout decoding", () => {
   test("matches other desired and current machine states", async () => {
     const message =
       "deadline_exceeded: machine failed to reach desired state, stopped, currently stopping";
-    const error = await decodeError(
-      waitMachine(machine),
-      412,
-      JSON.stringify({ error: message }),
-    );
+    const error = await decodeError(waitMachine(machine), 412, JSON.stringify({ error: message }));
     expect(error).toBeInstanceOf(MachineWaitTimeout);
     expect(error).toMatchObject({ message });
   });
@@ -154,9 +141,7 @@ describe("Machines wait timeout decoding", () => {
           status,
           JSON.stringify({ error: message }),
         );
-        expect(error).toBeInstanceOf(
-          status === 400 ? BadRequest : UnknownFlyIoError,
-        );
+        expect(error).toBeInstanceOf(status === 400 ? BadRequest : UnknownFlyIoError);
         expect(error).toMatchObject({ message });
       }
     });

@@ -1831,10 +1831,7 @@
             },
             "output": {
               "vaultNotificationConfig": {
-                "Events": [
-                  "InventoryRetrievalCompleted",
-                  "ArchiveRetrievalCompleted"
-                ],
+                "Events": ["InventoryRetrievalCompleted", "ArchiveRetrievalCompleted"],
                 "SNSTopic": "arn:aws:sns:us-west-2:0123456789012:my-vault"
               }
             }
@@ -5454,10 +5451,7 @@
               "accountId": "-",
               "vaultName": "examplevault",
               "vaultNotificationConfig": {
-                "Events": [
-                  "ArchiveRetrievalCompleted",
-                  "InventoryRetrievalCompleted"
-                ],
+                "Events": ["ArchiveRetrievalCompleted", "InventoryRetrievalCompleted"],
                 "SNSTopic": "arn:aws:sns:us-west-2:012345678901:mytopic"
               }
             }

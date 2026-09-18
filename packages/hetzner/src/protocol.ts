@@ -1,3 +1,7 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { ConfigError } from "@distilled.cloud/core/errors";
+import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * HetznerProtocol — the shared bearer-REST protocol instantiated for Hetzner
  * Cloud.
@@ -28,13 +32,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   Gone,
@@ -50,10 +47,7 @@ import {
  * HetznerOpError, HetznerOpContext>` explicitly so the compiler never infers
  * these back out of the schema generics.
  */
-export type HetznerOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type HetznerOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated Hetzner operation. */
 export type HetznerOpContext = Credentials | HttpClient.HttpClient;
@@ -83,40 +77,34 @@ const errorDetails = (body: unknown): unknown => {
   return (err as Record<string, unknown>).details ?? undefined;
 };
 
-export const HetznerProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // Resolved on the CALLING fiber per request (the layer is memoized per
-    // process); the Credentials service holds an effect, so a token rotated
-    // between calls is picked up without rebuilding the layer.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const HetznerProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // Resolved on the CALLING fiber per request (the layer is memoized per
+  // process); the Credentials service holds an effect, so a token rotated
+  // between calls is picked up without rebuilding the layer.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.token)}`,
+  }),
+  errorEnvelope,
+  // Core's shared map plus the three statuses in Hetzner's documented
+  // error table that it doesn't cover: 405, 410 and 412. Leaving them
+  // unmapped would funnel a sold-out Server type (412) into the same
+  // UnknownHetznerError as a genuinely unrecognized failure.
+  statusMap: {
+    ...HTTP_STATUS_MAP,
+    405: MethodNotAllowed,
+    410: Gone,
+    412: PreconditionFailed,
+  },
+  unknownError: ({ code, message, body }) =>
+    new UnknownHetznerError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      details: errorDetails(body),
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.token)}`,
-    }),
-    errorEnvelope,
-    // Core's shared map plus the three statuses in Hetzner's documented
-    // error table that it doesn't cover: 405, 410 and 412. Leaving them
-    // unmapped would funnel a sold-out Server type (412) into the same
-    // UnknownHetznerError as a genuinely unrecognized failure.
-    statusMap: {
-      ...HTTP_STATUS_MAP,
-      405: MethodNotAllowed,
-      410: Gone,
-      412: PreconditionFailed,
-    },
-    unknownError: ({ code, message, body }) =>
-      new UnknownHetznerError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        details: errorDetails(body),
-        body,
-      }),
-  });
+});

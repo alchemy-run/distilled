@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * DatadogProtocol — hand-written.
  *
@@ -18,12 +21,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownDatadogError } from "./errors.ts";
 
@@ -65,52 +62,37 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
             ? b.message
             : undefined;
     const code =
-      typeof e.code === "string"
-        ? e.code
-        : typeof e.status === "string"
-          ? e.status
-          : undefined;
+      typeof e.code === "string" ? e.code : typeof e.status === "string" ? e.status : undefined;
     return { code, message };
   }
   const message = typeof b.message === "string" ? b.message : undefined;
-  const code =
-    typeof b.code === "string" || typeof b.code === "number"
-      ? b.code
-      : undefined;
-  return message !== undefined || code !== undefined
-    ? { code, message }
-    : undefined;
+  const code = typeof b.code === "string" || typeof b.code === "number" ? b.code : undefined;
+  return message !== undefined || code !== undefined ? { code, message } : undefined;
 };
 
-export const DatadogProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const DatadogProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // The Credentials service holds an effect — resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => {
+    const headers: Record<string, string> = {
+      "DD-API-KEY": Redacted.value(creds.apiKey),
+      Accept: "application/json",
+    };
+    if (creds.applicationKey !== undefined) {
+      headers["DD-APPLICATION-KEY"] = Redacted.value(creds.applicationKey);
+    }
+    return headers;
+  },
+  errorEnvelope,
+  unknownError: ({ code, message, body }) =>
+    new UnknownDatadogError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => {
-      const headers: Record<string, string> = {
-        "DD-API-KEY": Redacted.value(creds.apiKey),
-        Accept: "application/json",
-      };
-      if (creds.applicationKey !== undefined) {
-        headers["DD-APPLICATION-KEY"] = Redacted.value(creds.applicationKey);
-      }
-      return headers;
-    },
-    errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownDatadogError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+});

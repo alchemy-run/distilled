@@ -103,9 +103,7 @@ export const withCategory =
   <Args extends Array<any>, Ret, C extends { new (...args: Args): Ret }>(
     C: C,
   ): C & {
-    new (
-      ...args: Args
-    ): Ret & { [categoriesKey]: { [Cat in Categories[number]]: true } };
+    new (...args: Args): Ret & { [categoriesKey]: { [Cat in Categories[number]]: true } };
   } => {
     for (const category of categories) {
       if (!(categoriesKey in C.prototype)) {
@@ -165,9 +163,7 @@ export const withRetryableError = withCategory(RetryableError);
 export const withLockedError = withCategory(LockedError);
 export const withAbortedError = withCategory(AbortedError);
 export const withAlreadyExistsError = withCategory(AlreadyExistsError);
-export const withDependencyViolationError = withCategory(
-  DependencyViolationError,
-);
+export const withDependencyViolationError = withCategory(DependencyViolationError);
 
 // ============================================================================
 // Category Predicates
@@ -177,57 +173,41 @@ export const withDependencyViolationError = withCategory(
  * Check if an error has a specific category.
  */
 export const hasCategory = (error: unknown, category: Category): boolean => {
-  if (
-    Predicate.isObject(error) &&
-    Predicate.hasProperty(categoriesKey)(error)
-  ) {
+  if (Predicate.isObject(error) && Predicate.hasProperty(categoriesKey)(error)) {
     // @ts-expect-error - dynamic property access
     return category in error[categoriesKey];
   }
   return false;
 };
 
-export const isAuthError = (error: unknown): boolean =>
-  hasCategory(error, AuthError);
+export const isAuthError = (error: unknown): boolean => hasCategory(error, AuthError);
 
-export const isBadRequestError = (error: unknown): boolean =>
-  hasCategory(error, BadRequestError);
+export const isBadRequestError = (error: unknown): boolean => hasCategory(error, BadRequestError);
 
-export const isConflictError = (error: unknown): boolean =>
-  hasCategory(error, ConflictError);
+export const isConflictError = (error: unknown): boolean => hasCategory(error, ConflictError);
 
-export const isNotFoundError = (error: unknown): boolean =>
-  hasCategory(error, NotFoundError);
+export const isNotFoundError = (error: unknown): boolean => hasCategory(error, NotFoundError);
 
-export const isQuotaError = (error: unknown): boolean =>
-  hasCategory(error, QuotaError);
+export const isQuotaError = (error: unknown): boolean => hasCategory(error, QuotaError);
 
-export const isServerError = (error: unknown): boolean =>
-  hasCategory(error, ServerError);
+export const isServerError = (error: unknown): boolean => hasCategory(error, ServerError);
 
-export const isThrottlingError = (error: unknown): boolean =>
-  hasCategory(error, ThrottlingError);
+export const isThrottlingError = (error: unknown): boolean => hasCategory(error, ThrottlingError);
 
-export const isNetworkError = (error: unknown): boolean =>
-  hasCategory(error, NetworkError);
+export const isNetworkError = (error: unknown): boolean => hasCategory(error, NetworkError);
 
-export const isParseError = (error: unknown): boolean =>
-  hasCategory(error, ParseError);
+export const isParseError = (error: unknown): boolean => hasCategory(error, ParseError);
 
 export const isConfigurationError = (error: unknown): boolean =>
   hasCategory(error, ConfigurationError);
 
-export const isTimeoutError = (error: unknown): boolean =>
-  hasCategory(error, TimeoutError);
+export const isTimeoutError = (error: unknown): boolean => hasCategory(error, TimeoutError);
 
-export const isRetryableError = (error: unknown): boolean =>
-  hasCategory(error, RetryableError);
+export const isRetryableError = (error: unknown): boolean => hasCategory(error, RetryableError);
 
-export const isLockedError = (error: unknown): boolean =>
-  hasCategory(error, LockedError);
+export const isLockedError = (error: unknown): boolean => hasCategory(error, LockedError);
 
-export const isAbortedError = (error: unknown): boolean =>
-  hasCategory(error, AbortedError);
+export const isAbortedError = (error: unknown): boolean => hasCategory(error, AbortedError);
 
 export const isAlreadyExistsError = (error: unknown): boolean =>
   hasCategory(error, AlreadyExistsError);
@@ -271,8 +251,7 @@ export const isThrottling = (error: unknown): boolean => {
  * which knows whether a given response is genuinely retryable.
  */
 const isHttpTransportError = (error: unknown): boolean =>
-  HttpClientError.isHttpClientError(error) &&
-  error.reason._tag === "TransportError";
+  HttpClientError.isHttpClientError(error) && error.reason._tag === "TransportError";
 
 /**
  * Check if an error is a transient error that should be automatically retried.
@@ -309,9 +288,7 @@ export const isTransientError = (error: unknown): boolean => {
 // Category Type Utilities
 // ============================================================================
 
-export type AllKeys<E> = E extends { [categoriesKey]: infer Q }
-  ? keyof Q
-  : never;
+export type AllKeys<E> = E extends { [categoriesKey]: infer Q } ? keyof Q : never;
 
 export type ExtractAll<E, Cats extends PropertyKey> = Cats extends any
   ? Extract<E, { [categoriesKey]: { [K in Cats]: any } }>
@@ -375,9 +352,7 @@ export const catchRetryableError = makeCatcher(RetryableError);
 export const catchLockedError = makeCatcher(LockedError);
 export const catchAbortedError = makeCatcher(AbortedError);
 export const catchAlreadyExistsError = makeCatcher(AlreadyExistsError);
-export const catchDependencyViolationError = makeCatcher(
-  DependencyViolationError,
-);
+export const catchDependencyViolationError = makeCatcher(DependencyViolationError);
 
 /**
  * Catch errors with specified categories with full type narrowing.
@@ -398,11 +373,7 @@ export const catchCategory =
   ) =>
   <A, R>(
     effect: Effect.Effect<A, E, R>,
-  ): Effect.Effect<
-    A | A2,
-    E2 | Exclude<E, ExtractAll<E, Categories[number]>>,
-    R | R2
-  > => {
+  ): Effect.Effect<A | A2, E2 | Exclude<E, ExtractAll<E, Categories[number]>>, R | R2> => {
     const f = args.pop()!;
     const categories = args;
     return Effect.catchIf(

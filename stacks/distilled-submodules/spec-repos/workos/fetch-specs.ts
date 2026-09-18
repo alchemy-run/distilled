@@ -28,9 +28,7 @@ interface SpecFile {
   output: string;
 }
 
-const FILES: SpecFile[] = [
-  { path: "spec/open-api-spec.yaml", output: "open-api-spec.yaml" },
-];
+const FILES: SpecFile[] = [{ path: "spec/open-api-spec.yaml", output: "open-api-spec.yaml" }];
 
 const SPECS_DIR = "../specs";
 
@@ -54,9 +52,7 @@ async function main() {
 
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
     }
 
     const outputPath = `${SPECS_DIR}/${file.output}`;

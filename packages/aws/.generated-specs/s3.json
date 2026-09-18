@@ -12506,9 +12506,7 @@
                                                           "disableDoubleEncoding": true,
                                                           "name": "sigv4a",
                                                           "signingName": "s3",
-                                                          "signingRegionSet": [
-                                                            "*"
-                                                          ]
+                                                          "signingRegionSet": ["*"]
                                                         }
                                                       ]
                                                     },

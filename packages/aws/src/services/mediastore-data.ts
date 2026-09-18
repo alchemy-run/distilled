@@ -1,15 +1,13 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace(
-  "https://object.mediastore.amazonaws.com/doc/2017-09-01",
-);
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const ns = T.XmlNamespace("https://object.mediastore.amazonaws.com/doc/2017-09-01");
 const svc = T.AwsApiService({
   sdkId: "MediaStore Data",
   serviceShapeName: "MediaStoreObject_20170901",
@@ -29,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +57,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://data.mediastore-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +65,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://data.mediastore.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://data.mediastore.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://data.mediastore.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -93,10 +81,9 @@ export class ContainerNotFoundException
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class InternalServerError
-  extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
-    "InternalServerError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServerError>()("InternalServerError", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ObjectNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ObjectNotFoundException>()(
     "ObjectNotFoundException",
@@ -115,23 +102,13 @@ export interface DeleteObjectRequest {
 }
 export const DeleteObjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Path: S.String.pipe(T.HttpLabel("Path")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Path+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "DELETE", uri: "/{Path+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteObjectRequest",
 }) as any as S.Schema<DeleteObjectRequest>;
 export interface DeleteObjectResponse {}
-export const DeleteObjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteObjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteObjectResponse",
 }) as any as S.Schema<DeleteObjectResponse>;
 export interface DescribeObjectRequest {
@@ -139,15 +116,7 @@ export interface DescribeObjectRequest {
 }
 export const DescribeObjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Path: S.String.pipe(T.HttpLabel("Path")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "HEAD", uri: "/{Path+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "HEAD", uri: "/{Path+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeObjectRequest",
@@ -185,17 +154,7 @@ export const GetObjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Path: S.String.pipe(T.HttpLabel("Path")),
     Range: S.optional(S.String).pipe(T.HttpHeader("Range")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Path+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/{Path+}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetObjectRequest",
 }) as any as S.Schema<GetObjectRequest>;
@@ -240,17 +199,7 @@ export const ListItemsRequest = /*@__PURE__*/ S.suspend(() =>
     Path: S.optional(S.String).pipe(T.HttpQuery("Path")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListItemsRequest",
 }) as any as S.Schema<ListItemsRequest>;
@@ -310,23 +259,11 @@ export const PutObjectRequest = /*@__PURE__*/ S.suspend(() =>
     Path: S.String.pipe(T.HttpLabel("Path")),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    StorageClass: S.optional(StorageClass).pipe(
-      T.HttpHeader("x-amz-storage-class"),
-    ),
+    StorageClass: S.optional(StorageClass).pipe(T.HttpHeader("x-amz-storage-class")),
     UploadAvailability: S.optional(UploadAvailability).pipe(
       T.HttpHeader("x-amz-upload-availability"),
     ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Path+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "PUT", uri: "/{Path+}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutObjectRequest",
 }) as any as S.Schema<PutObjectRequest>;
@@ -362,11 +299,7 @@ export const deleteObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteObjectRequest,
   output: DeleteObjectResponse,
-  errors: [
-    ContainerNotFoundException,
-    InternalServerError,
-    ObjectNotFoundException,
-  ],
+  errors: [ContainerNotFoundException, InternalServerError, ObjectNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
@@ -388,11 +321,7 @@ export const describeObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeObjectRequest,
   output: DescribeObjectResponse,
-  errors: [
-    ContainerNotFoundException,
-    InternalServerError,
-    ObjectNotFoundException,
-  ],
+  errors: [ContainerNotFoundException, InternalServerError, ObjectNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeObject",
@@ -426,10 +355,7 @@ export const getObject: API.OperationMethod<
   operationName: "GetObject",
 }));
 
-export type ListItemsError =
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors;
+export type ListItemsError = ContainerNotFoundException | InternalServerError | CommonErrors;
 /**
  * Provides a list of metadata entries about folders and objects in the specified
  * folder.
@@ -454,10 +380,7 @@ export const listItems: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type PutObjectError =
-  | ContainerNotFoundException
-  | InternalServerError
-  | CommonErrors;
+export type PutObjectError = ContainerNotFoundException | InternalServerError | CommonErrors;
 /**
  * Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
  */

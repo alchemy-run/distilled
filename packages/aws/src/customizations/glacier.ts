@@ -20,10 +20,7 @@ import type { Request } from "../client/request.ts";
  * @param serviceVersion - The Glacier service version (e.g., "2012-06-01")
  * @returns The request with Glacier customizations applied
  */
-export function applyGlacierCustomizations(
-  request: Request,
-  serviceVersion: string,
-): Request {
+export function applyGlacierCustomizations(request: Request, serviceVersion: string): Request {
   return {
     ...request,
     headers: {
@@ -61,9 +58,7 @@ export const DEFAULT_GLACIER_ACCOUNT_ID = "-";
  * @returns true if the operation requires checksum headers
  */
 export function requiresGlacierChecksums(operationName: string): boolean {
-  return (
-    operationName === "UploadArchive" || operationName === "UploadMultipartPart"
-  );
+  return operationName === "UploadArchive" || operationName === "UploadMultipartPart";
 }
 
 /**
@@ -72,11 +67,8 @@ export function requiresGlacierChecksums(operationName: string): boolean {
  * @param data - The data to hash
  * @returns Hex-encoded SHA256 hash
  */
-export async function computeSha256(
-  data: Uint8Array | string,
-): Promise<string> {
-  const bytes =
-    typeof data === "string" ? new TextEncoder().encode(data) : data;
+export async function computeSha256(data: Uint8Array | string): Promise<string> {
+  const bytes = typeof data === "string" ? new TextEncoder().encode(data) : data;
   const hashBuffer = await crypto.subtle.digest("SHA-256", bytes as any);
   return Array.from(new Uint8Array(hashBuffer))
     .map((b) => b.toString(16).padStart(2, "0"))
@@ -96,11 +88,8 @@ export async function computeSha256(
  * @param data - The data to compute the tree hash for
  * @returns Hex-encoded SHA256 tree hash
  */
-export async function computeTreeHash(
-  data: Uint8Array | string,
-): Promise<string> {
-  const bytes =
-    typeof data === "string" ? new TextEncoder().encode(data) : data;
+export async function computeTreeHash(data: Uint8Array | string): Promise<string> {
+  const bytes = typeof data === "string" ? new TextEncoder().encode(data) : data;
 
   // 1 MB chunk size
   const CHUNK_SIZE = 1024 * 1024;
@@ -160,9 +149,7 @@ export async function computeTreeHash(
  * @param request - The request to add checksum headers to
  * @returns The request with checksum headers added
  */
-export async function applyGlacierChecksums(
-  request: Request,
-): Promise<Request> {
+export async function applyGlacierChecksums(request: Request): Promise<Request> {
   // Skip if body is not present or is a stream
   if (!request.body || request.body instanceof ReadableStream) {
     return request;

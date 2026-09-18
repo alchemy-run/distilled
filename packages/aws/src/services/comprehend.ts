@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Comprehend",
   serviceShapeName: "Comprehend_20171127",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://comprehend-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://comprehend.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://comprehend.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://comprehend.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -140,10 +130,9 @@ export class KmsKeyValidationException
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class NotAuthorizedException
-  extends /*@__PURE__*/ S.TaggedError<NotAuthorizedException>()(
-    "NotAuthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<NotAuthorizedException>()("NotAuthorizedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
 export class ResourceInUseException
   extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
     "ResourceInUseException",
@@ -226,17 +215,15 @@ export interface BatchDetectDominantLanguageItemResult {
   Index?: number;
   Languages?: DominantLanguage[];
 }
-export const BatchDetectDominantLanguageItemResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Index: S.optional(S.Number),
-      Languages: S.optional(ListOfDominantLanguages),
-    }),
+export const BatchDetectDominantLanguageItemResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Index: S.optional(S.Number),
+    Languages: S.optional(ListOfDominantLanguages),
+  }),
 ).annotate({
   identifier: "BatchDetectDominantLanguageItemResult",
 }) as any as S.Schema<BatchDetectDominantLanguageItemResult>;
-export type ListOfDetectDominantLanguageResult =
-  BatchDetectDominantLanguageItemResult[];
+export type ListOfDetectDominantLanguageResult = BatchDetectDominantLanguageItemResult[];
 export const ListOfDetectDominantLanguageResult = /*@__PURE__*/ S.Array(
   BatchDetectDominantLanguageItemResult,
 );
@@ -290,9 +277,7 @@ export const BatchDetectEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TextList: CustomerInputStringList,
     LanguageCode: LanguageCode,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchDetectEntitiesRequest",
 }) as any as S.Schema<BatchDetectEntitiesRequest>;
@@ -372,9 +357,7 @@ export const BatchDetectEntitiesItemResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchDetectEntitiesItemResult",
 }) as any as S.Schema<BatchDetectEntitiesItemResult>;
 export type ListOfDetectEntitiesResult = BatchDetectEntitiesItemResult[];
-export const ListOfDetectEntitiesResult = /*@__PURE__*/ S.Array(
-  BatchDetectEntitiesItemResult,
-);
+export const ListOfDetectEntitiesResult = /*@__PURE__*/ S.Array(BatchDetectEntitiesItemResult);
 export interface BatchDetectEntitiesResponse {
   ResultList: BatchDetectEntitiesItemResult[];
   ErrorList: BatchItemError[];
@@ -395,9 +378,7 @@ export const BatchDetectKeyPhrasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TextList: CustomerInputStringList,
     LanguageCode: LanguageCode,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchDetectKeyPhrasesRequest",
 }) as any as S.Schema<BatchDetectKeyPhrasesRequest>;
@@ -430,9 +411,7 @@ export const BatchDetectKeyPhrasesItemResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchDetectKeyPhrasesItemResult",
 }) as any as S.Schema<BatchDetectKeyPhrasesItemResult>;
 export type ListOfDetectKeyPhrasesResult = BatchDetectKeyPhrasesItemResult[];
-export const ListOfDetectKeyPhrasesResult = /*@__PURE__*/ S.Array(
-  BatchDetectKeyPhrasesItemResult,
-);
+export const ListOfDetectKeyPhrasesResult = /*@__PURE__*/ S.Array(BatchDetectKeyPhrasesItemResult);
 export interface BatchDetectKeyPhrasesResponse {
   ResultList: BatchDetectKeyPhrasesItemResult[];
   ErrorList: BatchItemError[];
@@ -453,18 +432,11 @@ export const BatchDetectSentimentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TextList: CustomerInputStringList,
     LanguageCode: LanguageCode,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchDetectSentimentRequest",
 }) as any as S.Schema<BatchDetectSentimentRequest>;
-export type SentimentType =
-  | "POSITIVE"
-  | "NEGATIVE"
-  | "NEUTRAL"
-  | "MIXED"
-  | (string & {});
+export type SentimentType = "POSITIVE" | "NEGATIVE" | "NEUTRAL" | "MIXED" | (string & {});
 export const SentimentType = S.String;
 
 export interface SentimentScore {
@@ -496,9 +468,7 @@ export const BatchDetectSentimentItemResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchDetectSentimentItemResult",
 }) as any as S.Schema<BatchDetectSentimentItemResult>;
 export type ListOfDetectSentimentResult = BatchDetectSentimentItemResult[];
-export const ListOfDetectSentimentResult = /*@__PURE__*/ S.Array(
-  BatchDetectSentimentItemResult,
-);
+export const ListOfDetectSentimentResult = /*@__PURE__*/ S.Array(BatchDetectSentimentItemResult);
 export interface BatchDetectSentimentResponse {
   ResultList: BatchDetectSentimentItemResult[];
   ErrorList: BatchItemError[];
@@ -511,14 +481,7 @@ export const BatchDetectSentimentResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BatchDetectSentimentResponse",
 }) as any as S.Schema<BatchDetectSentimentResponse>;
-export type SyntaxLanguageCode =
-  | "en"
-  | "es"
-  | "fr"
-  | "de"
-  | "it"
-  | "pt"
-  | (string & {});
+export type SyntaxLanguageCode = "en" | "es" | "fr" | "de" | "it" | "pt" | (string & {});
 export const SyntaxLanguageCode = S.String;
 
 export interface BatchDetectSyntaxRequest {
@@ -529,9 +492,7 @@ export const BatchDetectSyntaxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TextList: CustomerInputStringList,
     LanguageCode: SyntaxLanguageCode,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchDetectSyntaxRequest",
 }) as any as S.Schema<BatchDetectSyntaxRequest>;
@@ -600,9 +561,7 @@ export const BatchDetectSyntaxItemResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchDetectSyntaxItemResult",
 }) as any as S.Schema<BatchDetectSyntaxItemResult>;
 export type ListOfDetectSyntaxResult = BatchDetectSyntaxItemResult[];
-export const ListOfDetectSyntaxResult = /*@__PURE__*/ S.Array(
-  BatchDetectSyntaxItemResult,
-);
+export const ListOfDetectSyntaxResult = /*@__PURE__*/ S.Array(BatchDetectSyntaxItemResult);
 export interface BatchDetectSyntaxResponse {
   ResultList: BatchDetectSyntaxItemResult[];
   ErrorList: BatchItemError[];
@@ -623,9 +582,7 @@ export const BatchDetectTargetedSentimentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TextList: CustomerInputStringList,
     LanguageCode: LanguageCode,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchDetectTargetedSentimentRequest",
 }) as any as S.Schema<BatchDetectTargetedSentimentRequest>;
@@ -701,24 +658,20 @@ export const TargetedSentimentEntity = /*@__PURE__*/ S.suspend(() =>
   identifier: "TargetedSentimentEntity",
 }) as any as S.Schema<TargetedSentimentEntity>;
 export type ListOfTargetedSentimentEntities = TargetedSentimentEntity[];
-export const ListOfTargetedSentimentEntities = /*@__PURE__*/ S.Array(
-  TargetedSentimentEntity,
-);
+export const ListOfTargetedSentimentEntities = /*@__PURE__*/ S.Array(TargetedSentimentEntity);
 export interface BatchDetectTargetedSentimentItemResult {
   Index?: number;
   Entities?: TargetedSentimentEntity[];
 }
-export const BatchDetectTargetedSentimentItemResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Index: S.optional(S.Number),
-      Entities: S.optional(ListOfTargetedSentimentEntities),
-    }),
+export const BatchDetectTargetedSentimentItemResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Index: S.optional(S.Number),
+    Entities: S.optional(ListOfTargetedSentimentEntities),
+  }),
 ).annotate({
   identifier: "BatchDetectTargetedSentimentItemResult",
 }) as any as S.Schema<BatchDetectTargetedSentimentItemResult>;
-export type ListOfDetectTargetedSentimentResult =
-  BatchDetectTargetedSentimentItemResult[];
+export type ListOfDetectTargetedSentimentResult = BatchDetectTargetedSentimentItemResult[];
 export const ListOfDetectTargetedSentimentResult = /*@__PURE__*/ S.Array(
   BatchDetectTargetedSentimentItemResult,
 );
@@ -726,12 +679,11 @@ export interface BatchDetectTargetedSentimentResponse {
   ResultList: BatchDetectTargetedSentimentItemResult[];
   ErrorList: BatchItemError[];
 }
-export const BatchDetectTargetedSentimentResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResultList: ListOfDetectTargetedSentimentResult,
-      ErrorList: BatchItemErrorList,
-    }),
+export const BatchDetectTargetedSentimentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResultList: ListOfDetectTargetedSentimentResult,
+    ErrorList: BatchItemErrorList,
+  }),
 ).annotate({
   identifier: "BatchDetectTargetedSentimentResponse",
 }) as any as S.Schema<BatchDetectTargetedSentimentResponse>;
@@ -743,19 +695,14 @@ export type DocumentReadAction =
   | (string & {});
 export const DocumentReadAction = S.String;
 
-export type DocumentReadMode =
-  | "SERVICE_DEFAULT"
-  | "FORCE_DOCUMENT_READ_ACTION"
-  | (string & {});
+export type DocumentReadMode = "SERVICE_DEFAULT" | "FORCE_DOCUMENT_READ_ACTION" | (string & {});
 export const DocumentReadMode = S.String;
 
 export type DocumentReadFeatureTypes = "TABLES" | "FORMS" | (string & {});
 export const DocumentReadFeatureTypes = S.String;
 
 export type ListOfDocumentReadFeatureTypes = DocumentReadFeatureTypes[];
-export const ListOfDocumentReadFeatureTypes = /*@__PURE__*/ S.Array(
-  DocumentReadFeatureTypes,
-);
+export const ListOfDocumentReadFeatureTypes = /*@__PURE__*/ S.Array(DocumentReadFeatureTypes);
 export interface DocumentReaderConfig {
   DocumentReadAction: DocumentReadAction;
   DocumentReadMode?: DocumentReadMode;
@@ -782,9 +729,7 @@ export const ClassifyDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     EndpointArn: S.String,
     Bytes: S.optional(T.Blob),
     DocumentReaderConfig: S.optional(DocumentReaderConfig),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ClassifyDocumentRequest",
 }) as any as S.Schema<ClassifyDocumentRequest>;
@@ -826,9 +771,7 @@ export const ExtractedCharactersListItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExtractedCharactersListItem",
 }) as any as S.Schema<ExtractedCharactersListItem>;
 export type ListOfExtractedCharacters = ExtractedCharactersListItem[];
-export const ListOfExtractedCharacters = /*@__PURE__*/ S.Array(
-  ExtractedCharactersListItem,
-);
+export const ListOfExtractedCharacters = /*@__PURE__*/ S.Array(ExtractedCharactersListItem);
 export interface DocumentMetadata {
   Pages?: number;
   ExtractedCharacters?: ExtractedCharactersListItem[];
@@ -1035,10 +978,7 @@ export type DatasetAugmentedManifestsList = DatasetAugmentedManifestsListItem[];
 export const DatasetAugmentedManifestsList = /*@__PURE__*/ S.Array(
   DatasetAugmentedManifestsListItem,
 );
-export type DatasetDataFormat =
-  | "COMPREHEND_CSV"
-  | "AUGMENTED_MANIFEST"
-  | (string & {});
+export type DatasetDataFormat = "COMPREHEND_CSV" | "AUGMENTED_MANIFEST" | (string & {});
 export const DatasetDataFormat = S.String;
 
 export type LabelDelimiter = string;
@@ -1046,8 +986,8 @@ export interface DatasetDocumentClassifierInputDataConfig {
   S3Uri: string;
   LabelDelimiter?: string;
 }
-export const DatasetDocumentClassifierInputDataConfig = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ S3Uri: S.String, LabelDelimiter: S.optional(S.String) }),
+export const DatasetDocumentClassifierInputDataConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ S3Uri: S.String, LabelDelimiter: S.optional(S.String) }),
 ).annotate({
   identifier: "DatasetDocumentClassifierInputDataConfig",
 }) as any as S.Schema<DatasetDocumentClassifierInputDataConfig>;
@@ -1059,10 +999,7 @@ export const DatasetEntityRecognizerAnnotations = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DatasetEntityRecognizerAnnotations",
 }) as any as S.Schema<DatasetEntityRecognizerAnnotations>;
-export type InputFormat =
-  | "ONE_DOC_PER_FILE"
-  | "ONE_DOC_PER_LINE"
-  | (string & {});
+export type InputFormat = "ONE_DOC_PER_FILE" | "ONE_DOC_PER_LINE" | (string & {});
 export const InputFormat = S.String;
 
 export interface DatasetEntityRecognizerDocuments {
@@ -1087,13 +1024,12 @@ export interface DatasetEntityRecognizerInputDataConfig {
   Documents: DatasetEntityRecognizerDocuments;
   EntityList?: DatasetEntityRecognizerEntityList;
 }
-export const DatasetEntityRecognizerInputDataConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Annotations: S.optional(DatasetEntityRecognizerAnnotations),
-      Documents: DatasetEntityRecognizerDocuments,
-      EntityList: S.optional(DatasetEntityRecognizerEntityList),
-    }),
+export const DatasetEntityRecognizerInputDataConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Annotations: S.optional(DatasetEntityRecognizerAnnotations),
+    Documents: DatasetEntityRecognizerDocuments,
+    EntityList: S.optional(DatasetEntityRecognizerEntityList),
+  }),
 ).annotate({
   identifier: "DatasetEntityRecognizerInputDataConfig",
 }) as any as S.Schema<DatasetEntityRecognizerInputDataConfig>;
@@ -1107,12 +1043,8 @@ export const DatasetInputDataConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AugmentedManifests: S.optional(DatasetAugmentedManifestsList),
     DataFormat: S.optional(DatasetDataFormat),
-    DocumentClassifierInputDataConfig: S.optional(
-      DatasetDocumentClassifierInputDataConfig,
-    ),
-    EntityRecognizerInputDataConfig: S.optional(
-      DatasetEntityRecognizerInputDataConfig,
-    ),
+    DocumentClassifierInputDataConfig: S.optional(DatasetDocumentClassifierInputDataConfig),
+    EntityRecognizerInputDataConfig: S.optional(DatasetEntityRecognizerInputDataConfig),
   }),
 ).annotate({
   identifier: "DatasetInputDataConfig",
@@ -1147,9 +1079,7 @@ export const CreateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     InputDataConfig: DatasetInputDataConfig,
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDatasetRequest",
 }) as any as S.Schema<CreateDatasetRequest>;
@@ -1164,10 +1094,7 @@ export const CreateDatasetResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateDatasetResponse>;
 export type VersionName = string;
 export type IamRoleArn = string;
-export type DocumentClassifierDataFormat =
-  | "COMPREHEND_CSV"
-  | "AUGMENTED_MANIFEST"
-  | (string & {});
+export type DocumentClassifierDataFormat = "COMPREHEND_CSV" | "AUGMENTED_MANIFEST" | (string & {});
 export const DocumentClassifierDataFormat = S.String;
 
 export type Split = "TRAIN" | "TEST" | (string & {});
@@ -1193,8 +1120,7 @@ export const AugmentedManifestsListItem = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AugmentedManifestsListItem",
 }) as any as S.Schema<AugmentedManifestsListItem>;
-export type DocumentClassifierAugmentedManifestsList =
-  AugmentedManifestsListItem[];
+export type DocumentClassifierAugmentedManifestsList = AugmentedManifestsListItem[];
 export const DocumentClassifierAugmentedManifestsList = /*@__PURE__*/ S.Array(
   AugmentedManifestsListItem,
 );
@@ -1265,10 +1191,7 @@ export interface VpcConfig {
 export const VpcConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SecurityGroupIds: SecurityGroupIds, Subnets: Subnets }),
 ).annotate({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
-export type DocumentClassifierMode =
-  | "MULTI_CLASS"
-  | "MULTI_LABEL"
-  | (string & {});
+export type DocumentClassifierMode = "MULTI_CLASS" | "MULTI_LABEL" | (string & {});
 export const DocumentClassifierMode = S.String;
 
 export type Policy = string;
@@ -1302,9 +1225,7 @@ export const CreateDocumentClassifierRequest = /*@__PURE__*/ S.suspend(() =>
     Mode: S.optional(DocumentClassifierMode),
     ModelKmsKeyId: S.optional(S.String),
     ModelPolicy: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDocumentClassifierRequest",
 }) as any as S.Schema<CreateDocumentClassifierRequest>;
@@ -1338,9 +1259,7 @@ export const CreateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     DataAccessRoleArn: S.optional(S.String),
     FlywheelArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEndpointRequest",
 }) as any as S.Schema<CreateEndpointRequest>;
@@ -1357,10 +1276,7 @@ export const CreateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateEndpointResponse",
 }) as any as S.Schema<CreateEndpointResponse>;
-export type EntityRecognizerDataFormat =
-  | "COMPREHEND_CSV"
-  | "AUGMENTED_MANIFEST"
-  | (string & {});
+export type EntityRecognizerDataFormat = "COMPREHEND_CSV" | "AUGMENTED_MANIFEST" | (string & {});
 export const EntityRecognizerDataFormat = S.String;
 
 export type EntityTypeName = string;
@@ -1405,8 +1321,7 @@ export const EntityRecognizerEntityList = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "EntityRecognizerEntityList",
 }) as any as S.Schema<EntityRecognizerEntityList>;
-export type EntityRecognizerAugmentedManifestsList =
-  AugmentedManifestsListItem[];
+export type EntityRecognizerAugmentedManifestsList = AugmentedManifestsListItem[];
 export const EntityRecognizerAugmentedManifestsList = /*@__PURE__*/ S.Array(
   AugmentedManifestsListItem,
 );
@@ -1456,9 +1371,7 @@ export const CreateEntityRecognizerRequest = /*@__PURE__*/ S.suspend(() =>
     VpcConfig: S.optional(VpcConfig),
     ModelKmsKeyId: S.optional(S.String),
     ModelPolicy: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEntityRecognizerRequest",
 }) as any as S.Schema<CreateEntityRecognizerRequest>;
@@ -1503,10 +1416,7 @@ export const TaskConfig = /*@__PURE__*/ S.suspend(() =>
     EntityRecognitionConfig: S.optional(EntityRecognitionConfig),
   }),
 ).annotate({ identifier: "TaskConfig" }) as any as S.Schema<TaskConfig>;
-export type ModelType =
-  | "DOCUMENT_CLASSIFIER"
-  | "ENTITY_RECOGNIZER"
-  | (string & {});
+export type ModelType = "DOCUMENT_CLASSIFIER" | "ENTITY_RECOGNIZER" | (string & {});
 export const ModelType = S.String;
 
 export type FlywheelS3Uri = string;
@@ -1548,9 +1458,7 @@ export const CreateFlywheelRequest = /*@__PURE__*/ S.suspend(() =>
     DataSecurityConfig: S.optional(DataSecurityConfig),
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateFlywheelRequest",
 }) as any as S.Schema<CreateFlywheelRequest>;
@@ -1593,9 +1501,7 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEndpointRequest",
 }) as any as S.Schema<DeleteEndpointRequest>;
 export interface DeleteEndpointResponse {}
-export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEndpointResponse",
 }) as any as S.Schema<DeleteEndpointResponse>;
 export interface DeleteEntityRecognizerRequest {
@@ -1609,9 +1515,7 @@ export const DeleteEntityRecognizerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEntityRecognizerRequest",
 }) as any as S.Schema<DeleteEntityRecognizerRequest>;
 export interface DeleteEntityRecognizerResponse {}
-export const DeleteEntityRecognizerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEntityRecognizerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEntityRecognizerResponse",
 }) as any as S.Schema<DeleteEntityRecognizerResponse>;
 export interface DeleteFlywheelRequest {
@@ -1625,9 +1529,7 @@ export const DeleteFlywheelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFlywheelRequest",
 }) as any as S.Schema<DeleteFlywheelRequest>;
 export interface DeleteFlywheelResponse {}
-export const DeleteFlywheelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFlywheelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFlywheelResponse",
 }) as any as S.Schema<DeleteFlywheelResponse>;
 export type PolicyRevisionId = string;
@@ -1639,16 +1541,12 @@ export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String,
     PolicyRevisionId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteResourcePolicyRequest",
 }) as any as S.Schema<DeleteResourcePolicyRequest>;
 export interface DeleteResourcePolicyResponse {}
-export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteResourcePolicyResponse",
 }) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DescribeDatasetRequest {
@@ -1706,11 +1604,10 @@ export type JobId = string;
 export interface DescribeDocumentClassificationJobRequest {
   JobId: string;
 }
-export const DescribeDocumentClassificationJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ JobId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeDocumentClassificationJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeDocumentClassificationJobRequest",
 }) as any as S.Schema<DescribeDocumentClassificationJobRequest>;
@@ -1788,16 +1685,13 @@ export const DocumentClassificationJobProperties = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeDocumentClassificationJobResponse {
   DocumentClassificationJobProperties?: DocumentClassificationJobProperties;
 }
-export const DescribeDocumentClassificationJobResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DocumentClassificationJobProperties: S.optional(
-        DocumentClassificationJobProperties,
-      ),
-    }),
-  ).annotate({
-    identifier: "DescribeDocumentClassificationJobResponse",
-  }) as any as S.Schema<DescribeDocumentClassificationJobResponse>;
+export const DescribeDocumentClassificationJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DocumentClassificationJobProperties: S.optional(DocumentClassificationJobProperties),
+  }),
+).annotate({
+  identifier: "DescribeDocumentClassificationJobResponse",
+}) as any as S.Schema<DescribeDocumentClassificationJobResponse>;
 export interface DescribeDocumentClassifierRequest {
   DocumentClassifierArn: string;
 }
@@ -1889,12 +1783,8 @@ export const DocumentClassifierProperties = /*@__PURE__*/ S.suspend(() =>
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TrainingStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    TrainingEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    TrainingStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TrainingEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputDataConfig: S.optional(DocumentClassifierInputDataConfig),
     OutputDataConfig: S.optional(DocumentClassifierOutputDataConfig),
     ClassifierMetadata: S.optional(ClassifierMetadata),
@@ -1923,14 +1813,13 @@ export const DescribeDocumentClassifierResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeDominantLanguageDetectionJobRequest {
   JobId: string;
 }
-export const DescribeDominantLanguageDetectionJobRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ JobId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeDominantLanguageDetectionJobRequest",
-  }) as any as S.Schema<DescribeDominantLanguageDetectionJobRequest>;
+export const DescribeDominantLanguageDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeDominantLanguageDetectionJobRequest",
+}) as any as S.Schema<DescribeDominantLanguageDetectionJobRequest>;
 export interface DominantLanguageDetectionJobProperties {
   JobId?: string;
   JobArn?: string;
@@ -1945,38 +1834,34 @@ export interface DominantLanguageDetectionJobProperties {
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
 }
-export const DominantLanguageDetectionJobProperties = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      JobId: S.optional(S.String),
-      JobArn: S.optional(S.String),
-      JobName: S.optional(S.String),
-      JobStatus: S.optional(JobStatus),
-      Message: S.optional(S.String),
-      SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      InputDataConfig: S.optional(InputDataConfig),
-      OutputDataConfig: S.optional(OutputDataConfig),
-      DataAccessRoleArn: S.optional(S.String),
-      VolumeKmsKeyId: S.optional(S.String),
-      VpcConfig: S.optional(VpcConfig),
-    }),
+export const DominantLanguageDetectionJobProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+  }),
 ).annotate({
   identifier: "DominantLanguageDetectionJobProperties",
 }) as any as S.Schema<DominantLanguageDetectionJobProperties>;
 export interface DescribeDominantLanguageDetectionJobResponse {
   DominantLanguageDetectionJobProperties?: DominantLanguageDetectionJobProperties;
 }
-export const DescribeDominantLanguageDetectionJobResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DominantLanguageDetectionJobProperties: S.optional(
-        DominantLanguageDetectionJobProperties,
-      ),
-    }),
-  ).annotate({
-    identifier: "DescribeDominantLanguageDetectionJobResponse",
-  }) as any as S.Schema<DescribeDominantLanguageDetectionJobResponse>;
+export const DescribeDominantLanguageDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DominantLanguageDetectionJobProperties: S.optional(DominantLanguageDetectionJobProperties),
+  }),
+).annotate({
+  identifier: "DescribeDominantLanguageDetectionJobResponse",
+}) as any as S.Schema<DescribeDominantLanguageDetectionJobResponse>;
 export interface DescribeEndpointRequest {
   EndpointArn: string;
 }
@@ -2020,9 +1905,7 @@ export const EndpointProperties = /*@__PURE__*/ S.suspend(() =>
     DesiredInferenceUnits: S.optional(S.Number),
     CurrentInferenceUnits: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DataAccessRoleArn: S.optional(S.String),
     DesiredDataAccessRoleArn: S.optional(S.String),
     FlywheelArn: S.optional(S.String),
@@ -2089,13 +1972,10 @@ export const EntitiesDetectionJobProperties = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeEntitiesDetectionJobResponse {
   EntitiesDetectionJobProperties?: EntitiesDetectionJobProperties;
 }
-export const DescribeEntitiesDetectionJobResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EntitiesDetectionJobProperties: S.optional(
-        EntitiesDetectionJobProperties,
-      ),
-    }),
+export const DescribeEntitiesDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EntitiesDetectionJobProperties: S.optional(EntitiesDetectionJobProperties),
+  }),
 ).annotate({
   identifier: "DescribeEntitiesDetectionJobResponse",
 }) as any as S.Schema<DescribeEntitiesDetectionJobResponse>;
@@ -2142,18 +2022,16 @@ export interface EntityRecognizerMetadataEntityTypesListItem {
   EvaluationMetrics?: EntityTypesEvaluationMetrics;
   NumberOfTrainMentions?: number;
 }
-export const EntityRecognizerMetadataEntityTypesListItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Type: S.optional(S.String),
-      EvaluationMetrics: S.optional(EntityTypesEvaluationMetrics),
-      NumberOfTrainMentions: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "EntityRecognizerMetadataEntityTypesListItem",
-  }) as any as S.Schema<EntityRecognizerMetadataEntityTypesListItem>;
-export type EntityRecognizerMetadataEntityTypesList =
-  EntityRecognizerMetadataEntityTypesListItem[];
+export const EntityRecognizerMetadataEntityTypesListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Type: S.optional(S.String),
+    EvaluationMetrics: S.optional(EntityTypesEvaluationMetrics),
+    NumberOfTrainMentions: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "EntityRecognizerMetadataEntityTypesListItem",
+}) as any as S.Schema<EntityRecognizerMetadataEntityTypesListItem>;
+export type EntityRecognizerMetadataEntityTypesList = EntityRecognizerMetadataEntityTypesListItem[];
 export const EntityRecognizerMetadataEntityTypesList = /*@__PURE__*/ S.Array(
   EntityRecognizerMetadataEntityTypesListItem,
 );
@@ -2209,12 +2087,8 @@ export const EntityRecognizerProperties = /*@__PURE__*/ S.suspend(() =>
     Message: S.optional(S.String),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TrainingStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    TrainingEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    TrainingStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TrainingEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputDataConfig: S.optional(EntityRecognizerInputDataConfig),
     RecognizerMetadata: S.optional(EntityRecognizerMetadata),
     DataAccessRoleArn: S.optional(S.String),
@@ -2340,9 +2214,7 @@ export const FlywheelProperties = /*@__PURE__*/ S.suspend(() =>
     ModelType: S.optional(ModelType),
     Message: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestFlywheelIteration: S.optional(S.String),
   }),
 ).annotate({
@@ -2436,11 +2308,10 @@ export const DescribeFlywheelIterationResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeKeyPhrasesDetectionJobRequest {
   JobId: string;
 }
-export const DescribeKeyPhrasesDetectionJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ JobId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeKeyPhrasesDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeKeyPhrasesDetectionJobRequest",
 }) as any as S.Schema<DescribeKeyPhrasesDetectionJobRequest>;
@@ -2481,24 +2352,20 @@ export const KeyPhrasesDetectionJobProperties = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeKeyPhrasesDetectionJobResponse {
   KeyPhrasesDetectionJobProperties?: KeyPhrasesDetectionJobProperties;
 }
-export const DescribeKeyPhrasesDetectionJobResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      KeyPhrasesDetectionJobProperties: S.optional(
-        KeyPhrasesDetectionJobProperties,
-      ),
-    }),
+export const DescribeKeyPhrasesDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    KeyPhrasesDetectionJobProperties: S.optional(KeyPhrasesDetectionJobProperties),
+  }),
 ).annotate({
   identifier: "DescribeKeyPhrasesDetectionJobResponse",
 }) as any as S.Schema<DescribeKeyPhrasesDetectionJobResponse>;
 export interface DescribePiiEntitiesDetectionJobRequest {
   JobId: string;
 }
-export const DescribePiiEntitiesDetectionJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ JobId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribePiiEntitiesDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribePiiEntitiesDetectionJobRequest",
 }) as any as S.Schema<DescribePiiEntitiesDetectionJobRequest>;
@@ -2513,10 +2380,7 @@ export const PiiOutputDataConfig = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PiiOutputDataConfig>;
 export type ListOfPiiEntityTypes = PiiEntityType[];
 export const ListOfPiiEntityTypes = /*@__PURE__*/ S.Array(PiiEntityType);
-export type PiiEntitiesDetectionMaskMode =
-  | "MASK"
-  | "REPLACE_WITH_PII_ENTITY_TYPE"
-  | (string & {});
+export type PiiEntitiesDetectionMaskMode = "MASK" | "REPLACE_WITH_PII_ENTITY_TYPE" | (string & {});
 export const PiiEntitiesDetectionMaskMode = S.String;
 
 export type MaskCharacter = string;
@@ -2534,10 +2398,7 @@ export const RedactionConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RedactionConfig",
 }) as any as S.Schema<RedactionConfig>;
-export type PiiEntitiesDetectionMode =
-  | "ONLY_REDACTION"
-  | "ONLY_OFFSETS"
-  | (string & {});
+export type PiiEntitiesDetectionMode = "ONLY_REDACTION" | "ONLY_OFFSETS" | (string & {});
 export const PiiEntitiesDetectionMode = S.String;
 
 export interface PiiEntitiesDetectionJobProperties {
@@ -2577,13 +2438,10 @@ export const PiiEntitiesDetectionJobProperties = /*@__PURE__*/ S.suspend(() =>
 export interface DescribePiiEntitiesDetectionJobResponse {
   PiiEntitiesDetectionJobProperties?: PiiEntitiesDetectionJobProperties;
 }
-export const DescribePiiEntitiesDetectionJobResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PiiEntitiesDetectionJobProperties: S.optional(
-        PiiEntitiesDetectionJobProperties,
-      ),
-    }),
+export const DescribePiiEntitiesDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PiiEntitiesDetectionJobProperties: S.optional(PiiEntitiesDetectionJobProperties),
+  }),
 ).annotate({
   identifier: "DescribePiiEntitiesDetectionJobResponse",
 }) as any as S.Schema<DescribePiiEntitiesDetectionJobResponse>;
@@ -2607,9 +2465,7 @@ export const DescribeResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourcePolicy: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     PolicyRevisionId: S.optional(S.String),
   }),
 ).annotate({
@@ -2618,11 +2474,10 @@ export const DescribeResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeSentimentDetectionJobRequest {
   JobId: string;
 }
-export const DescribeSentimentDetectionJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ JobId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeSentimentDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeSentimentDetectionJobRequest",
 }) as any as S.Schema<DescribeSentimentDetectionJobRequest>;
@@ -2663,27 +2518,23 @@ export const SentimentDetectionJobProperties = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeSentimentDetectionJobResponse {
   SentimentDetectionJobProperties?: SentimentDetectionJobProperties;
 }
-export const DescribeSentimentDetectionJobResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SentimentDetectionJobProperties: S.optional(
-        SentimentDetectionJobProperties,
-      ),
-    }),
+export const DescribeSentimentDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SentimentDetectionJobProperties: S.optional(SentimentDetectionJobProperties),
+  }),
 ).annotate({
   identifier: "DescribeSentimentDetectionJobResponse",
 }) as any as S.Schema<DescribeSentimentDetectionJobResponse>;
 export interface DescribeTargetedSentimentDetectionJobRequest {
   JobId: string;
 }
-export const DescribeTargetedSentimentDetectionJobRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ JobId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeTargetedSentimentDetectionJobRequest",
-  }) as any as S.Schema<DescribeTargetedSentimentDetectionJobRequest>;
+export const DescribeTargetedSentimentDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeTargetedSentimentDetectionJobRequest",
+}) as any as S.Schema<DescribeTargetedSentimentDetectionJobRequest>;
 export interface TargetedSentimentDetectionJobProperties {
   JobId?: string;
   JobArn?: string;
@@ -2699,39 +2550,35 @@ export interface TargetedSentimentDetectionJobProperties {
   VolumeKmsKeyId?: string;
   VpcConfig?: VpcConfig;
 }
-export const TargetedSentimentDetectionJobProperties = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      JobId: S.optional(S.String),
-      JobArn: S.optional(S.String),
-      JobName: S.optional(S.String),
-      JobStatus: S.optional(JobStatus),
-      Message: S.optional(S.String),
-      SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      InputDataConfig: S.optional(InputDataConfig),
-      OutputDataConfig: S.optional(OutputDataConfig),
-      LanguageCode: S.optional(LanguageCode),
-      DataAccessRoleArn: S.optional(S.String),
-      VolumeKmsKeyId: S.optional(S.String),
-      VpcConfig: S.optional(VpcConfig),
-    }),
+export const TargetedSentimentDetectionJobProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobName: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
+    Message: S.optional(S.String),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    InputDataConfig: S.optional(InputDataConfig),
+    OutputDataConfig: S.optional(OutputDataConfig),
+    LanguageCode: S.optional(LanguageCode),
+    DataAccessRoleArn: S.optional(S.String),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+  }),
 ).annotate({
   identifier: "TargetedSentimentDetectionJobProperties",
 }) as any as S.Schema<TargetedSentimentDetectionJobProperties>;
 export interface DescribeTargetedSentimentDetectionJobResponse {
   TargetedSentimentDetectionJobProperties?: TargetedSentimentDetectionJobProperties;
 }
-export const DescribeTargetedSentimentDetectionJobResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TargetedSentimentDetectionJobProperties: S.optional(
-        TargetedSentimentDetectionJobProperties,
-      ),
-    }),
-  ).annotate({
-    identifier: "DescribeTargetedSentimentDetectionJobResponse",
-  }) as any as S.Schema<DescribeTargetedSentimentDetectionJobResponse>;
+export const DescribeTargetedSentimentDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TargetedSentimentDetectionJobProperties: S.optional(TargetedSentimentDetectionJobProperties),
+  }),
+).annotate({
+  identifier: "DescribeTargetedSentimentDetectionJobResponse",
+}) as any as S.Schema<DescribeTargetedSentimentDetectionJobResponse>;
 export interface DescribeTopicsDetectionJobRequest {
   JobId: string;
 }
@@ -2819,9 +2666,7 @@ export const DetectEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
     EndpointArn: S.optional(S.String),
     Bytes: S.optional(T.Blob),
     DocumentReaderConfig: S.optional(DocumentReaderConfig),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DetectEntitiesRequest",
 }) as any as S.Schema<DetectEntitiesRequest>;
@@ -3046,9 +2891,7 @@ export const DetectToxicContentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TextSegments: ListOfTextSegments,
     LanguageCode: LanguageCode,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DetectToxicContentRequest",
 }) as any as S.Schema<DetectToxicContentRequest>;
@@ -3108,9 +2951,7 @@ export const ImportModelRequest = /*@__PURE__*/ S.suspend(() =>
     ModelKmsKeyId: S.optional(S.String),
     DataAccessRoleArn: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ImportModelRequest",
 }) as any as S.Schema<ImportModelRequest>;
@@ -3132,12 +2973,8 @@ export const DatasetFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(DatasetStatus),
     DatasetType: S.optional(DatasetType),
-    CreationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CreationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreationTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "DatasetFilter" }) as any as S.Schema<DatasetFilter>;
 export type MaxResultsInteger = number;
@@ -3153,9 +2990,7 @@ export const ListDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(DatasetFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDatasetsRequest",
 }) as any as S.Schema<ListDatasetsRequest>;
@@ -3183,12 +3018,8 @@ export const DocumentClassificationJobFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DocumentClassificationJobFilter",
@@ -3198,20 +3029,16 @@ export interface ListDocumentClassificationJobsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListDocumentClassificationJobsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Filter: S.optional(DocumentClassificationJobFilter),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListDocumentClassificationJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Filter: S.optional(DocumentClassificationJobFilter),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDocumentClassificationJobsRequest",
 }) as any as S.Schema<ListDocumentClassificationJobsRequest>;
-export type DocumentClassificationJobPropertiesList =
-  DocumentClassificationJobProperties[];
+export type DocumentClassificationJobPropertiesList = DocumentClassificationJobProperties[];
 export const DocumentClassificationJobPropertiesList = /*@__PURE__*/ S.Array(
   DocumentClassificationJobProperties,
 );
@@ -3219,14 +3046,11 @@ export interface ListDocumentClassificationJobsResponse {
   DocumentClassificationJobPropertiesList?: DocumentClassificationJobProperties[];
   NextToken?: string;
 }
-export const ListDocumentClassificationJobsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DocumentClassificationJobPropertiesList: S.optional(
-        DocumentClassificationJobPropertiesList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
+export const ListDocumentClassificationJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DocumentClassificationJobPropertiesList: S.optional(DocumentClassificationJobPropertiesList),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListDocumentClassificationJobsResponse",
 }) as any as S.Schema<ListDocumentClassificationJobsResponse>;
@@ -3240,12 +3064,8 @@ export const DocumentClassifierFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(ModelStatus),
     DocumentClassifierName: S.optional(S.String),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DocumentClassifierFilter",
@@ -3260,25 +3080,19 @@ export const ListDocumentClassifiersRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(DocumentClassifierFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDocumentClassifiersRequest",
 }) as any as S.Schema<ListDocumentClassifiersRequest>;
 export type DocumentClassifierPropertiesList = DocumentClassifierProperties[];
-export const DocumentClassifierPropertiesList = /*@__PURE__*/ S.Array(
-  DocumentClassifierProperties,
-);
+export const DocumentClassifierPropertiesList = /*@__PURE__*/ S.Array(DocumentClassifierProperties);
 export interface ListDocumentClassifiersResponse {
   DocumentClassifierPropertiesList?: DocumentClassifierProperties[];
   NextToken?: string;
 }
 export const ListDocumentClassifiersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    DocumentClassifierPropertiesList: S.optional(
-      DocumentClassifierPropertiesList,
-    ),
+    DocumentClassifierPropertiesList: S.optional(DocumentClassifierPropertiesList),
     NextToken: S.optional(S.String),
   }),
 ).annotate({
@@ -3288,14 +3102,11 @@ export interface ListDocumentClassifierSummariesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListDocumentClassifierSummariesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListDocumentClassifierSummariesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDocumentClassifierSummariesRequest",
 }) as any as S.Schema<ListDocumentClassifierSummariesRequest>;
@@ -3310,9 +3121,7 @@ export const DocumentClassifierSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DocumentClassifierName: S.optional(S.String),
     NumberOfVersions: S.optional(S.Number),
-    LatestVersionCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestVersionCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestVersionName: S.optional(S.String),
     LatestVersionStatus: S.optional(ModelStatus),
   }),
@@ -3320,21 +3129,16 @@ export const DocumentClassifierSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DocumentClassifierSummary",
 }) as any as S.Schema<DocumentClassifierSummary>;
 export type DocumentClassifierSummariesList = DocumentClassifierSummary[];
-export const DocumentClassifierSummariesList = /*@__PURE__*/ S.Array(
-  DocumentClassifierSummary,
-);
+export const DocumentClassifierSummariesList = /*@__PURE__*/ S.Array(DocumentClassifierSummary);
 export interface ListDocumentClassifierSummariesResponse {
   DocumentClassifierSummariesList?: DocumentClassifierSummary[];
   NextToken?: string;
 }
-export const ListDocumentClassifierSummariesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DocumentClassifierSummariesList: S.optional(
-        DocumentClassifierSummariesList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
+export const ListDocumentClassifierSummariesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DocumentClassifierSummariesList: S.optional(DocumentClassifierSummariesList),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListDocumentClassifierSummariesResponse",
 }) as any as S.Schema<ListDocumentClassifierSummariesResponse>;
@@ -3348,12 +3152,8 @@ export const DominantLanguageDetectionJobFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DominantLanguageDetectionJobFilter",
@@ -3363,20 +3163,16 @@ export interface ListDominantLanguageDetectionJobsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListDominantLanguageDetectionJobsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Filter: S.optional(DominantLanguageDetectionJobFilter),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListDominantLanguageDetectionJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Filter: S.optional(DominantLanguageDetectionJobFilter),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDominantLanguageDetectionJobsRequest",
 }) as any as S.Schema<ListDominantLanguageDetectionJobsRequest>;
-export type DominantLanguageDetectionJobPropertiesList =
-  DominantLanguageDetectionJobProperties[];
+export type DominantLanguageDetectionJobPropertiesList = DominantLanguageDetectionJobProperties[];
 export const DominantLanguageDetectionJobPropertiesList = /*@__PURE__*/ S.Array(
   DominantLanguageDetectionJobProperties,
 );
@@ -3384,17 +3180,16 @@ export interface ListDominantLanguageDetectionJobsResponse {
   DominantLanguageDetectionJobPropertiesList?: DominantLanguageDetectionJobProperties[];
   NextToken?: string;
 }
-export const ListDominantLanguageDetectionJobsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DominantLanguageDetectionJobPropertiesList: S.optional(
-        DominantLanguageDetectionJobPropertiesList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListDominantLanguageDetectionJobsResponse",
-  }) as any as S.Schema<ListDominantLanguageDetectionJobsResponse>;
+export const ListDominantLanguageDetectionJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DominantLanguageDetectionJobPropertiesList: S.optional(
+      DominantLanguageDetectionJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListDominantLanguageDetectionJobsResponse",
+}) as any as S.Schema<ListDominantLanguageDetectionJobsResponse>;
 export interface EndpointFilter {
   ModelArn?: string;
   Status?: EndpointStatus;
@@ -3405,12 +3200,8 @@ export const EndpointFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ModelArn: S.optional(S.String),
     Status: S.optional(EndpointStatus),
-    CreationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CreationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreationTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "EndpointFilter" }) as any as S.Schema<EndpointFilter>;
 export interface ListEndpointsRequest {
@@ -3423,9 +3214,7 @@ export const ListEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(EndpointFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEndpointsRequest",
 }) as any as S.Schema<ListEndpointsRequest>;
@@ -3453,12 +3242,8 @@ export const EntitiesDetectionJobFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "EntitiesDetectionJobFilter",
@@ -3473,14 +3258,11 @@ export const ListEntitiesDetectionJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(EntitiesDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEntitiesDetectionJobsRequest",
 }) as any as S.Schema<ListEntitiesDetectionJobsRequest>;
-export type EntitiesDetectionJobPropertiesList =
-  EntitiesDetectionJobProperties[];
+export type EntitiesDetectionJobPropertiesList = EntitiesDetectionJobProperties[];
 export const EntitiesDetectionJobPropertiesList = /*@__PURE__*/ S.Array(
   EntitiesDetectionJobProperties,
 );
@@ -3490,9 +3272,7 @@ export interface ListEntitiesDetectionJobsResponse {
 }
 export const ListEntitiesDetectionJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    EntitiesDetectionJobPropertiesList: S.optional(
-      EntitiesDetectionJobPropertiesList,
-    ),
+    EntitiesDetectionJobPropertiesList: S.optional(EntitiesDetectionJobPropertiesList),
     NextToken: S.optional(S.String),
   }),
 ).annotate({
@@ -3508,12 +3288,8 @@ export const EntityRecognizerFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(ModelStatus),
     RecognizerName: S.optional(S.String),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "EntityRecognizerFilter",
@@ -3528,16 +3304,12 @@ export const ListEntityRecognizersRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(EntityRecognizerFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEntityRecognizersRequest",
 }) as any as S.Schema<ListEntityRecognizersRequest>;
 export type EntityRecognizerPropertiesList = EntityRecognizerProperties[];
-export const EntityRecognizerPropertiesList = /*@__PURE__*/ S.Array(
-  EntityRecognizerProperties,
-);
+export const EntityRecognizerPropertiesList = /*@__PURE__*/ S.Array(EntityRecognizerProperties);
 export interface ListEntityRecognizersResponse {
   EntityRecognizerPropertiesList?: EntityRecognizerProperties[];
   NextToken?: string;
@@ -3554,14 +3326,11 @@ export interface ListEntityRecognizerSummariesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListEntityRecognizerSummariesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListEntityRecognizerSummariesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEntityRecognizerSummariesRequest",
 }) as any as S.Schema<ListEntityRecognizerSummariesRequest>;
@@ -3576,9 +3345,7 @@ export const EntityRecognizerSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     RecognizerName: S.optional(S.String),
     NumberOfVersions: S.optional(S.Number),
-    LatestVersionCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestVersionCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestVersionName: S.optional(S.String),
     LatestVersionStatus: S.optional(ModelStatus),
   }),
@@ -3586,19 +3353,16 @@ export const EntityRecognizerSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "EntityRecognizerSummary",
 }) as any as S.Schema<EntityRecognizerSummary>;
 export type EntityRecognizerSummariesList = EntityRecognizerSummary[];
-export const EntityRecognizerSummariesList = /*@__PURE__*/ S.Array(
-  EntityRecognizerSummary,
-);
+export const EntityRecognizerSummariesList = /*@__PURE__*/ S.Array(EntityRecognizerSummary);
 export interface ListEntityRecognizerSummariesResponse {
   EntityRecognizerSummariesList?: EntityRecognizerSummary[];
   NextToken?: string;
 }
-export const ListEntityRecognizerSummariesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EntityRecognizerSummariesList: S.optional(EntityRecognizerSummariesList),
-      NextToken: S.optional(S.String),
-    }),
+export const ListEntityRecognizerSummariesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EntityRecognizerSummariesList: S.optional(EntityRecognizerSummariesList),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListEntityRecognizerSummariesResponse",
 }) as any as S.Schema<ListEntityRecognizerSummariesResponse>;
@@ -3612,12 +3376,8 @@ export const EventsDetectionJobFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "EventsDetectionJobFilter",
@@ -3632,25 +3392,19 @@ export const ListEventsDetectionJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(EventsDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEventsDetectionJobsRequest",
 }) as any as S.Schema<ListEventsDetectionJobsRequest>;
 export type EventsDetectionJobPropertiesList = EventsDetectionJobProperties[];
-export const EventsDetectionJobPropertiesList = /*@__PURE__*/ S.Array(
-  EventsDetectionJobProperties,
-);
+export const EventsDetectionJobPropertiesList = /*@__PURE__*/ S.Array(EventsDetectionJobProperties);
 export interface ListEventsDetectionJobsResponse {
   EventsDetectionJobPropertiesList?: EventsDetectionJobProperties[];
   NextToken?: string;
 }
 export const ListEventsDetectionJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    EventsDetectionJobPropertiesList: S.optional(
-      EventsDetectionJobPropertiesList,
-    ),
+    EventsDetectionJobPropertiesList: S.optional(EventsDetectionJobPropertiesList),
     NextToken: S.optional(S.String),
   }),
 ).annotate({
@@ -3662,12 +3416,8 @@ export interface FlywheelIterationFilter {
 }
 export const FlywheelIterationFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CreationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreationTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "FlywheelIterationFilter",
@@ -3684,28 +3434,21 @@ export const ListFlywheelIterationHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(FlywheelIterationFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFlywheelIterationHistoryRequest",
 }) as any as S.Schema<ListFlywheelIterationHistoryRequest>;
 export type FlywheelIterationPropertiesList = FlywheelIterationProperties[];
-export const FlywheelIterationPropertiesList = /*@__PURE__*/ S.Array(
-  FlywheelIterationProperties,
-);
+export const FlywheelIterationPropertiesList = /*@__PURE__*/ S.Array(FlywheelIterationProperties);
 export interface ListFlywheelIterationHistoryResponse {
   FlywheelIterationPropertiesList?: FlywheelIterationProperties[];
   NextToken?: string;
 }
-export const ListFlywheelIterationHistoryResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FlywheelIterationPropertiesList: S.optional(
-        FlywheelIterationPropertiesList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
+export const ListFlywheelIterationHistoryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    FlywheelIterationPropertiesList: S.optional(FlywheelIterationPropertiesList),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListFlywheelIterationHistoryResponse",
 }) as any as S.Schema<ListFlywheelIterationHistoryResponse>;
@@ -3717,12 +3460,8 @@ export interface FlywheelFilter {
 export const FlywheelFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(FlywheelStatus),
-    CreationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CreationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreationTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "FlywheelFilter" }) as any as S.Schema<FlywheelFilter>;
 export interface ListFlywheelsRequest {
@@ -3735,9 +3474,7 @@ export const ListFlywheelsRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(FlywheelFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFlywheelsRequest",
 }) as any as S.Schema<ListFlywheelsRequest>;
@@ -3761,9 +3498,7 @@ export const FlywheelSummary = /*@__PURE__*/ S.suspend(() =>
     ModelType: S.optional(ModelType),
     Message: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestFlywheelIteration: S.optional(S.String),
   }),
 ).annotate({
@@ -3793,12 +3528,8 @@ export const KeyPhrasesDetectionJobFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "KeyPhrasesDetectionJobFilter",
@@ -3813,14 +3544,11 @@ export const ListKeyPhrasesDetectionJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(KeyPhrasesDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListKeyPhrasesDetectionJobsRequest",
 }) as any as S.Schema<ListKeyPhrasesDetectionJobsRequest>;
-export type KeyPhrasesDetectionJobPropertiesList =
-  KeyPhrasesDetectionJobProperties[];
+export type KeyPhrasesDetectionJobPropertiesList = KeyPhrasesDetectionJobProperties[];
 export const KeyPhrasesDetectionJobPropertiesList = /*@__PURE__*/ S.Array(
   KeyPhrasesDetectionJobProperties,
 );
@@ -3830,9 +3558,7 @@ export interface ListKeyPhrasesDetectionJobsResponse {
 }
 export const ListKeyPhrasesDetectionJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    KeyPhrasesDetectionJobPropertiesList: S.optional(
-      KeyPhrasesDetectionJobPropertiesList,
-    ),
+    KeyPhrasesDetectionJobPropertiesList: S.optional(KeyPhrasesDetectionJobPropertiesList),
     NextToken: S.optional(S.String),
   }),
 ).annotate({
@@ -3848,12 +3574,8 @@ export const PiiEntitiesDetectionJobFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "PiiEntitiesDetectionJobFilter",
@@ -3868,14 +3590,11 @@ export const ListPiiEntitiesDetectionJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(PiiEntitiesDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPiiEntitiesDetectionJobsRequest",
 }) as any as S.Schema<ListPiiEntitiesDetectionJobsRequest>;
-export type PiiEntitiesDetectionJobPropertiesList =
-  PiiEntitiesDetectionJobProperties[];
+export type PiiEntitiesDetectionJobPropertiesList = PiiEntitiesDetectionJobProperties[];
 export const PiiEntitiesDetectionJobPropertiesList = /*@__PURE__*/ S.Array(
   PiiEntitiesDetectionJobProperties,
 );
@@ -3883,14 +3602,11 @@ export interface ListPiiEntitiesDetectionJobsResponse {
   PiiEntitiesDetectionJobPropertiesList?: PiiEntitiesDetectionJobProperties[];
   NextToken?: string;
 }
-export const ListPiiEntitiesDetectionJobsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PiiEntitiesDetectionJobPropertiesList: S.optional(
-        PiiEntitiesDetectionJobPropertiesList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
+export const ListPiiEntitiesDetectionJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PiiEntitiesDetectionJobPropertiesList: S.optional(PiiEntitiesDetectionJobPropertiesList),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListPiiEntitiesDetectionJobsResponse",
 }) as any as S.Schema<ListPiiEntitiesDetectionJobsResponse>;
@@ -3904,12 +3620,8 @@ export const SentimentDetectionJobFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "SentimentDetectionJobFilter",
@@ -3924,14 +3636,11 @@ export const ListSentimentDetectionJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(SentimentDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSentimentDetectionJobsRequest",
 }) as any as S.Schema<ListSentimentDetectionJobsRequest>;
-export type SentimentDetectionJobPropertiesList =
-  SentimentDetectionJobProperties[];
+export type SentimentDetectionJobPropertiesList = SentimentDetectionJobProperties[];
 export const SentimentDetectionJobPropertiesList = /*@__PURE__*/ S.Array(
   SentimentDetectionJobProperties,
 );
@@ -3941,9 +3650,7 @@ export interface ListSentimentDetectionJobsResponse {
 }
 export const ListSentimentDetectionJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    SentimentDetectionJobPropertiesList: S.optional(
-      SentimentDetectionJobPropertiesList,
-    ),
+    SentimentDetectionJobPropertiesList: S.optional(SentimentDetectionJobPropertiesList),
     NextToken: S.optional(S.String),
   }),
 ).annotate({
@@ -3978,12 +3685,8 @@ export const TargetedSentimentDetectionJobFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "TargetedSentimentDetectionJobFilter",
@@ -3993,37 +3696,33 @@ export interface ListTargetedSentimentDetectionJobsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListTargetedSentimentDetectionJobsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Filter: S.optional(TargetedSentimentDetectionJobFilter),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ListTargetedSentimentDetectionJobsRequest",
-  }) as any as S.Schema<ListTargetedSentimentDetectionJobsRequest>;
-export type TargetedSentimentDetectionJobPropertiesList =
-  TargetedSentimentDetectionJobProperties[];
-export const TargetedSentimentDetectionJobPropertiesList =
-  /*@__PURE__*/ S.Array(TargetedSentimentDetectionJobProperties);
+export const ListTargetedSentimentDetectionJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Filter: S.optional(TargetedSentimentDetectionJobFilter),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListTargetedSentimentDetectionJobsRequest",
+}) as any as S.Schema<ListTargetedSentimentDetectionJobsRequest>;
+export type TargetedSentimentDetectionJobPropertiesList = TargetedSentimentDetectionJobProperties[];
+export const TargetedSentimentDetectionJobPropertiesList = /*@__PURE__*/ S.Array(
+  TargetedSentimentDetectionJobProperties,
+);
 export interface ListTargetedSentimentDetectionJobsResponse {
   TargetedSentimentDetectionJobPropertiesList?: TargetedSentimentDetectionJobProperties[];
   NextToken?: string;
 }
-export const ListTargetedSentimentDetectionJobsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TargetedSentimentDetectionJobPropertiesList: S.optional(
-        TargetedSentimentDetectionJobPropertiesList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListTargetedSentimentDetectionJobsResponse",
-  }) as any as S.Schema<ListTargetedSentimentDetectionJobsResponse>;
+export const ListTargetedSentimentDetectionJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TargetedSentimentDetectionJobPropertiesList: S.optional(
+      TargetedSentimentDetectionJobPropertiesList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListTargetedSentimentDetectionJobsResponse",
+}) as any as S.Schema<ListTargetedSentimentDetectionJobsResponse>;
 export interface TopicsDetectionJobFilter {
   JobName?: string;
   JobStatus?: JobStatus;
@@ -4034,12 +3733,8 @@ export const TopicsDetectionJobFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmitTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "TopicsDetectionJobFilter",
@@ -4054,25 +3749,19 @@ export const ListTopicsDetectionJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(TopicsDetectionJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTopicsDetectionJobsRequest",
 }) as any as S.Schema<ListTopicsDetectionJobsRequest>;
 export type TopicsDetectionJobPropertiesList = TopicsDetectionJobProperties[];
-export const TopicsDetectionJobPropertiesList = /*@__PURE__*/ S.Array(
-  TopicsDetectionJobProperties,
-);
+export const TopicsDetectionJobPropertiesList = /*@__PURE__*/ S.Array(TopicsDetectionJobProperties);
 export interface ListTopicsDetectionJobsResponse {
   TopicsDetectionJobPropertiesList?: TopicsDetectionJobProperties[];
   NextToken?: string;
 }
 export const ListTopicsDetectionJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    TopicsDetectionJobPropertiesList: S.optional(
-      TopicsDetectionJobPropertiesList,
-    ),
+    TopicsDetectionJobPropertiesList: S.optional(TopicsDetectionJobPropertiesList),
     NextToken: S.optional(S.String),
   }),
 ).annotate({
@@ -4088,9 +3777,7 @@ export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String,
     ResourcePolicy: S.String,
     PolicyRevisionId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutResourcePolicyRequest",
 }) as any as S.Schema<PutResourcePolicyRequest>;
@@ -4114,22 +3801,19 @@ export interface StartDocumentClassificationJobRequest {
   Tags?: Tag[];
   FlywheelArn?: string;
 }
-export const StartDocumentClassificationJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      JobName: S.optional(S.String),
-      DocumentClassifierArn: S.optional(S.String),
-      InputDataConfig: InputDataConfig,
-      OutputDataConfig: OutputDataConfig,
-      DataAccessRoleArn: S.String,
-      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      VolumeKmsKeyId: S.optional(S.String),
-      VpcConfig: S.optional(VpcConfig),
-      Tags: S.optional(TagList),
-      FlywheelArn: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const StartDocumentClassificationJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JobName: S.optional(S.String),
+    DocumentClassifierArn: S.optional(S.String),
+    InputDataConfig: InputDataConfig,
+    OutputDataConfig: OutputDataConfig,
+    DataAccessRoleArn: S.String,
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+    Tags: S.optional(TagList),
+    FlywheelArn: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartDocumentClassificationJobRequest",
 }) as any as S.Schema<StartDocumentClassificationJobRequest>;
@@ -4139,14 +3823,13 @@ export interface StartDocumentClassificationJobResponse {
   JobStatus?: JobStatus;
   DocumentClassifierArn?: string;
 }
-export const StartDocumentClassificationJobResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      JobId: S.optional(S.String),
-      JobArn: S.optional(S.String),
-      JobStatus: S.optional(JobStatus),
-      DocumentClassifierArn: S.optional(S.String),
-    }),
+export const StartDocumentClassificationJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
+    DocumentClassifierArn: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "StartDocumentClassificationJobResponse",
 }) as any as S.Schema<StartDocumentClassificationJobResponse>;
@@ -4160,20 +3843,17 @@ export interface StartDominantLanguageDetectionJobRequest {
   VpcConfig?: VpcConfig;
   Tags?: Tag[];
 }
-export const StartDominantLanguageDetectionJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      InputDataConfig: InputDataConfig,
-      OutputDataConfig: OutputDataConfig,
-      DataAccessRoleArn: S.String,
-      JobName: S.optional(S.String),
-      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      VolumeKmsKeyId: S.optional(S.String),
-      VpcConfig: S.optional(VpcConfig),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const StartDominantLanguageDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    InputDataConfig: InputDataConfig,
+    OutputDataConfig: OutputDataConfig,
+    DataAccessRoleArn: S.String,
+    JobName: S.optional(S.String),
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+    Tags: S.optional(TagList),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartDominantLanguageDetectionJobRequest",
 }) as any as S.Schema<StartDominantLanguageDetectionJobRequest>;
@@ -4182,16 +3862,15 @@ export interface StartDominantLanguageDetectionJobResponse {
   JobArn?: string;
   JobStatus?: JobStatus;
 }
-export const StartDominantLanguageDetectionJobResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      JobId: S.optional(S.String),
-      JobArn: S.optional(S.String),
-      JobStatus: S.optional(JobStatus),
-    }),
-  ).annotate({
-    identifier: "StartDominantLanguageDetectionJobResponse",
-  }) as any as S.Schema<StartDominantLanguageDetectionJobResponse>;
+export const StartDominantLanguageDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
+  }),
+).annotate({
+  identifier: "StartDominantLanguageDetectionJobResponse",
+}) as any as S.Schema<StartDominantLanguageDetectionJobResponse>;
 export interface StartEntitiesDetectionJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
@@ -4218,9 +3897,7 @@ export const StartEntitiesDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
     FlywheelArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartEntitiesDetectionJobRequest",
 }) as any as S.Schema<StartEntitiesDetectionJobRequest>;
@@ -4260,9 +3937,7 @@ export const StartEventsDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     TargetEventTypes: TargetEventTypes,
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartEventsDetectionJobRequest",
 }) as any as S.Schema<StartEventsDetectionJobRequest>;
@@ -4288,9 +3963,7 @@ export const StartFlywheelIterationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     FlywheelArn: S.String,
     ClientRequestToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartFlywheelIterationRequest",
 }) as any as S.Schema<StartFlywheelIterationRequest>;
@@ -4328,9 +4001,7 @@ export const StartKeyPhrasesDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartKeyPhrasesDetectionJobRequest",
 }) as any as S.Schema<StartKeyPhrasesDetectionJobRequest>;
@@ -4370,9 +4041,7 @@ export const StartPiiEntitiesDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
     LanguageCode: LanguageCode,
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartPiiEntitiesDetectionJobRequest",
 }) as any as S.Schema<StartPiiEntitiesDetectionJobRequest>;
@@ -4381,13 +4050,12 @@ export interface StartPiiEntitiesDetectionJobResponse {
   JobArn?: string;
   JobStatus?: JobStatus;
 }
-export const StartPiiEntitiesDetectionJobResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      JobId: S.optional(S.String),
-      JobArn: S.optional(S.String),
-      JobStatus: S.optional(JobStatus),
-    }),
+export const StartPiiEntitiesDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
+  }),
 ).annotate({
   identifier: "StartPiiEntitiesDetectionJobResponse",
 }) as any as S.Schema<StartPiiEntitiesDetectionJobResponse>;
@@ -4413,9 +4081,7 @@ export const StartSentimentDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartSentimentDetectionJobRequest",
 }) as any as S.Schema<StartSentimentDetectionJobRequest>;
@@ -4444,39 +4110,35 @@ export interface StartTargetedSentimentDetectionJobRequest {
   VpcConfig?: VpcConfig;
   Tags?: Tag[];
 }
-export const StartTargetedSentimentDetectionJobRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      InputDataConfig: InputDataConfig,
-      OutputDataConfig: OutputDataConfig,
-      DataAccessRoleArn: S.String,
-      JobName: S.optional(S.String),
-      LanguageCode: LanguageCode,
-      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      VolumeKmsKeyId: S.optional(S.String),
-      VpcConfig: S.optional(VpcConfig),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "StartTargetedSentimentDetectionJobRequest",
-  }) as any as S.Schema<StartTargetedSentimentDetectionJobRequest>;
+export const StartTargetedSentimentDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    InputDataConfig: InputDataConfig,
+    OutputDataConfig: OutputDataConfig,
+    DataAccessRoleArn: S.String,
+    JobName: S.optional(S.String),
+    LanguageCode: LanguageCode,
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    VolumeKmsKeyId: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+    Tags: S.optional(TagList),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "StartTargetedSentimentDetectionJobRequest",
+}) as any as S.Schema<StartTargetedSentimentDetectionJobRequest>;
 export interface StartTargetedSentimentDetectionJobResponse {
   JobId?: string;
   JobArn?: string;
   JobStatus?: JobStatus;
 }
-export const StartTargetedSentimentDetectionJobResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      JobId: S.optional(S.String),
-      JobArn: S.optional(S.String),
-      JobStatus: S.optional(JobStatus),
-    }),
-  ).annotate({
-    identifier: "StartTargetedSentimentDetectionJobResponse",
-  }) as any as S.Schema<StartTargetedSentimentDetectionJobResponse>;
+export const StartTargetedSentimentDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JobId: S.optional(S.String),
+    JobArn: S.optional(S.String),
+    JobStatus: S.optional(JobStatus),
+  }),
+).annotate({
+  identifier: "StartTargetedSentimentDetectionJobResponse",
+}) as any as S.Schema<StartTargetedSentimentDetectionJobResponse>;
 export type NumberOfTopicsInteger = number;
 export interface StartTopicsDetectionJobRequest {
   InputDataConfig: InputDataConfig;
@@ -4500,9 +4162,7 @@ export const StartTopicsDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
     VolumeKmsKeyId: S.optional(S.String),
     VpcConfig: S.optional(VpcConfig),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartTopicsDetectionJobRequest",
 }) as any as S.Schema<StartTopicsDetectionJobRequest>;
@@ -4523,11 +4183,10 @@ export const StartTopicsDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
 export interface StopDominantLanguageDetectionJobRequest {
   JobId: string;
 }
-export const StopDominantLanguageDetectionJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ JobId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const StopDominantLanguageDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "StopDominantLanguageDetectionJobRequest",
 }) as any as S.Schema<StopDominantLanguageDetectionJobRequest>;
@@ -4535,9 +4194,8 @@ export interface StopDominantLanguageDetectionJobResponse {
   JobId?: string;
   JobStatus?: JobStatus;
 }
-export const StopDominantLanguageDetectionJobResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
+export const StopDominantLanguageDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
 ).annotate({
   identifier: "StopDominantLanguageDetectionJobResponse",
 }) as any as S.Schema<StopDominantLanguageDetectionJobResponse>;
@@ -4639,11 +4297,10 @@ export const StopSentimentDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
 export interface StopTargetedSentimentDetectionJobRequest {
   JobId: string;
 }
-export const StopTargetedSentimentDetectionJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ JobId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const StopTargetedSentimentDetectionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "StopTargetedSentimentDetectionJobRequest",
 }) as any as S.Schema<StopTargetedSentimentDetectionJobRequest>;
@@ -4651,26 +4308,24 @@ export interface StopTargetedSentimentDetectionJobResponse {
   JobId?: string;
   JobStatus?: JobStatus;
 }
-export const StopTargetedSentimentDetectionJobResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
-  ).annotate({
-    identifier: "StopTargetedSentimentDetectionJobResponse",
-  }) as any as S.Schema<StopTargetedSentimentDetectionJobResponse>;
+export const StopTargetedSentimentDetectionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.optional(S.String), JobStatus: S.optional(JobStatus) }),
+).annotate({
+  identifier: "StopTargetedSentimentDetectionJobResponse",
+}) as any as S.Schema<StopTargetedSentimentDetectionJobResponse>;
 export interface StopTrainingDocumentClassifierRequest {
   DocumentClassifierArn: string;
 }
-export const StopTrainingDocumentClassifierRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ DocumentClassifierArn: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const StopTrainingDocumentClassifierRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DocumentClassifierArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "StopTrainingDocumentClassifierRequest",
 }) as any as S.Schema<StopTrainingDocumentClassifierRequest>;
 export interface StopTrainingDocumentClassifierResponse {}
-export const StopTrainingDocumentClassifierResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const StopTrainingDocumentClassifierResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "StopTrainingDocumentClassifierResponse",
 }) as any as S.Schema<StopTrainingDocumentClassifierResponse>;
@@ -4685,8 +4340,8 @@ export const StopTrainingEntityRecognizerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopTrainingEntityRecognizerRequest",
 }) as any as S.Schema<StopTrainingEntityRecognizerRequest>;
 export interface StopTrainingEntityRecognizerResponse {}
-export const StopTrainingEntityRecognizerResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const StopTrainingEntityRecognizerResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "StopTrainingEntityRecognizerResponse",
 }) as any as S.Schema<StopTrainingEntityRecognizerResponse>;
@@ -4702,9 +4357,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -4721,9 +4374,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateEndpointRequest {
@@ -4740,9 +4391,7 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     DesiredInferenceUnits: S.optional(S.Number),
     DesiredDataAccessRoleArn: S.optional(S.String),
     FlywheelArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateEndpointRequest",
 }) as any as S.Schema<UpdateEndpointRequest>;
@@ -4780,9 +4429,7 @@ export const UpdateFlywheelRequest = /*@__PURE__*/ S.suspend(() =>
     ActiveModelArn: S.optional(S.String),
     DataAccessRoleArn: S.optional(S.String),
     DataSecurityConfig: S.optional(UpdateDataSecurityConfig),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateFlywheelRequest",
 }) as any as S.Schema<UpdateFlywheelRequest>;
@@ -5451,11 +5098,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
   output: DeleteResourcePolicyResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -5829,11 +5472,7 @@ export const describeResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeResourcePolicyRequest,
   output: DescribeResourcePolicyResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
@@ -5943,11 +5582,7 @@ export const detectDominantLanguage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DetectDominantLanguageRequest,
   output: DetectDominantLanguageResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TextSizeLimitExceededException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, TextSizeLimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectDominantLanguage",
@@ -6343,11 +5978,7 @@ export const listDocumentClassifierSummaries: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDocumentClassifierSummariesRequest,
   output: ListDocumentClassifierSummariesResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDocumentClassifierSummaries",
@@ -6410,11 +6041,7 @@ export const listEndpoints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEndpointsRequest,
   output: ListEndpointsResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEndpoints",
@@ -6517,11 +6144,7 @@ export const listEntityRecognizerSummaries: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEntityRecognizerSummariesRequest,
   output: ListEntityRecognizerSummariesResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntityRecognizerSummaries",
@@ -6759,11 +6382,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -6855,11 +6474,7 @@ export const putResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutResourcePolicyRequest,
   output: PutResourcePolicyResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
@@ -7239,11 +6854,7 @@ export const stopDominantLanguageDetectionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopDominantLanguageDetectionJobRequest,
   output: StopDominantLanguageDetectionJobResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    JobNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, JobNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDominantLanguageDetectionJob",
@@ -7277,11 +6888,7 @@ export const stopEntitiesDetectionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopEntitiesDetectionJobRequest,
   output: StopEntitiesDetectionJobResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    JobNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, JobNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEntitiesDetectionJob",
@@ -7343,11 +6950,7 @@ export const stopKeyPhrasesDetectionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopKeyPhrasesDetectionJobRequest,
   output: StopKeyPhrasesDetectionJobResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    JobNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, JobNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopKeyPhrasesDetectionJob",
@@ -7369,11 +6972,7 @@ export const stopPiiEntitiesDetectionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopPiiEntitiesDetectionJobRequest,
   output: StopPiiEntitiesDetectionJobResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    JobNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, JobNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPiiEntitiesDetectionJob",
@@ -7407,11 +7006,7 @@ export const stopSentimentDetectionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopSentimentDetectionJobRequest,
   output: StopSentimentDetectionJobResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    JobNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, JobNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSentimentDetectionJob",
@@ -7445,11 +7040,7 @@ export const stopTargetedSentimentDetectionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopTargetedSentimentDetectionJobRequest,
   output: StopTargetedSentimentDetectionJobResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    JobNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, JobNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTargetedSentimentDetectionJob",

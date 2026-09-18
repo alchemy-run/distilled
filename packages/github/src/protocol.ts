@@ -1,3 +1,7 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { ConfigError } from "@distilled.cloud/core/errors";
+import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * GithubProtocol — the shared bearer-REST protocol instantiated for GitHub.
  *
@@ -16,13 +20,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
 import { Credentials, type Config } from "./credentials.ts";
 import { Gone, UnknownGithubError, type DefaultErrors } from "./errors.ts";
 
@@ -39,10 +36,7 @@ export const API_VERSION = "2022-11-28";
  * GithubOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type GithubOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type GithubOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated GitHub operation. */
 export type GithubOpContext = Credentials | HttpClient.HttpClient;
@@ -66,36 +60,30 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const GithubProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // Resolved on the CALLING fiber per request (the layer is memoized per
-    // process); the Credentials service holds an effect so rotating tokens
-    // (GitHub App installation tokens expire hourly) Just Work.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const GithubProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // Resolved on the CALLING fiber per request (the layer is memoized per
+  // process); the Credentials service holds an effect so rotating tokens
+  // (GitHub App installation tokens expire hourly) Just Work.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.token)}`,
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": API_VERSION,
+    "User-Agent": creds.userAgent,
+  }),
+  errorEnvelope,
+  // Core's shared map plus 410 — GitHub uses Gone far more than most APIs
+  // (issues disabled, deleted migration archives), and an op that doesn't
+  // declare a 410 response would otherwise land in UnknownGithubError.
+  statusMap: { ...HTTP_STATUS_MAP, 410: Gone },
+  unknownError: ({ code, message, body }) =>
+    new UnknownGithubError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.token)}`,
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": API_VERSION,
-      "User-Agent": creds.userAgent,
-    }),
-    errorEnvelope,
-    // Core's shared map plus 410 — GitHub uses Gone far more than most APIs
-    // (issues disabled, deleted migration archives), and an op that doesn't
-    // declare a 410 response would otherwise land in UnknownGithubError.
-    statusMap: { ...HTTP_STATUS_MAP, 410: Gone },
-    unknownError: ({ code, message, body }) =>
-      new UnknownGithubError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+});

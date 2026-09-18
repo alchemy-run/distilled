@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://support.amazonaws.com/doc/2013-04-15/");
 const svc = T.AwsApiService({
   sdkId: "Support",
@@ -26,20 +26,14 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = () => ({
-    authSchemes: [
-      { name: "sigv4", signingName: "support", signingRegion: "us-gov-west-1" },
-    ],
+    authSchemes: [{ name: "sigv4", signingName: "support", signingRegion: "us-gov-west-1" }],
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -152,13 +146,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://support-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://support-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -166,13 +156,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://support.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://support.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://support.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -180,35 +166,30 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class AttachmentIdNotFound
-  extends /*@__PURE__*/ S.TaggedError<AttachmentIdNotFound>()(
-    "AttachmentIdNotFound",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<AttachmentIdNotFound>()("AttachmentIdNotFound", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class AttachmentLimitExceeded
-  extends /*@__PURE__*/ S.TaggedError<AttachmentLimitExceeded>()(
-    "AttachmentLimitExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError) {}
+  extends /*@__PURE__*/ S.TaggedError<AttachmentLimitExceeded>()("AttachmentLimitExceeded", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withThrottlingError) {}
 export class AttachmentSetExpired
-  extends /*@__PURE__*/ S.TaggedError<AttachmentSetExpired>()(
-    "AttachmentSetExpired",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<AttachmentSetExpired>()("AttachmentSetExpired", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class AttachmentSetIdNotFound
-  extends /*@__PURE__*/ S.TaggedError<AttachmentSetIdNotFound>()(
-    "AttachmentSetIdNotFound",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<AttachmentSetIdNotFound>()("AttachmentSetIdNotFound", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class AttachmentSetSizeLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<AttachmentSetSizeLimitExceeded>()(
     "AttachmentSetSizeLimitExceeded",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withThrottlingError) {}
 export class CaseCreationLimitExceeded
-  extends /*@__PURE__*/ S.TaggedError<CaseCreationLimitExceeded>()(
-    "CaseCreationLimitExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError) {}
+  extends /*@__PURE__*/ S.TaggedError<CaseCreationLimitExceeded>()("CaseCreationLimitExceeded", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withThrottlingError) {}
 export class CaseIdNotFound
   extends /*@__PURE__*/ S.TaggedError<CaseIdNotFound>()("CaseIdNotFound", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
@@ -219,18 +200,14 @@ export class DescribeAttachmentLimitExceeded
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withThrottlingError) {}
 export class InternalServerError
-  extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
-    "InternalServerError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServerError>()("InternalServerError", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export type AttachmentSetId = string;
 export type FileName = string;
@@ -252,17 +229,7 @@ export const AddAttachmentsToSetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attachmentSetId: S.optional(S.String),
     attachments: Attachments,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddAttachmentsToSetRequest",
 }) as any as S.Schema<AddAttachmentsToSetRequest>;
@@ -296,17 +263,7 @@ export const AddCommunicationToCaseRequest = /*@__PURE__*/ S.suspend(() =>
     communicationBody: S.String,
     ccEmailAddresses: S.optional(CcEmailAddressList),
     attachmentSetId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddCommunicationToCaseRequest",
 }) as any as S.Schema<AddCommunicationToCaseRequest>;
@@ -347,17 +304,7 @@ export const CreateCaseRequest = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(S.String),
     issueType: S.optional(S.String),
     attachmentSetId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateCaseRequest",
 }) as any as S.Schema<CreateCaseRequest>;
@@ -375,15 +322,7 @@ export interface DescribeAttachmentRequest {
 }
 export const DescribeAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ attachmentId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeAttachmentRequest",
@@ -427,17 +366,7 @@ export const DescribeCasesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     language: S.optional(S.String),
     includeCommunications: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeCasesRequest",
 }) as any as S.Schema<DescribeCasesRequest>;
@@ -548,17 +477,7 @@ export const DescribeCommunicationsRequest = /*@__PURE__*/ S.suspend(() =>
     afterTime: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeCommunicationsRequest",
 }) as any as S.Schema<DescribeCommunicationsRequest>;
@@ -586,17 +505,7 @@ export const DescribeCreateCaseOptionsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceCode: S.String,
     language: S.String,
     categoryCode: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeCreateCaseOptionsRequest",
 }) as any as S.Schema<DescribeCreateCaseOptionsRequest>;
@@ -641,9 +550,7 @@ export const CommunicationTypeOptions = /*@__PURE__*/ S.suspend(() =>
   identifier: "CommunicationTypeOptions",
 }) as any as S.Schema<CommunicationTypeOptions>;
 export type CommunicationTypeOptionsList = CommunicationTypeOptions[];
-export const CommunicationTypeOptionsList = /*@__PURE__*/ S.Array(
-  CommunicationTypeOptions,
-);
+export const CommunicationTypeOptionsList = /*@__PURE__*/ S.Array(CommunicationTypeOptions);
 export interface DescribeCreateCaseOptionsResponse {
   languageAvailability?: string;
   communicationTypes?: CommunicationTypeOptions[];
@@ -666,17 +573,7 @@ export const DescribeServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceCodeList: S.optional(ServiceCodeList),
     language: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeServicesRequest",
 }) as any as S.Schema<DescribeServicesRequest>;
@@ -718,15 +615,7 @@ export interface DescribeSeverityLevelsRequest {
 }
 export const DescribeSeverityLevelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ language: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeSeverityLevelsRequest",
@@ -763,17 +652,7 @@ export const DescribeSupportedLanguagesRequest = /*@__PURE__*/ S.suspend(() =>
     issueType: S.String,
     serviceCode: S.String,
     categoryCode: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeSupportedLanguagesRequest",
 }) as any as S.Schema<DescribeSupportedLanguagesRequest>;
@@ -808,22 +687,13 @@ export const StringList = /*@__PURE__*/ S.Array(S.String).pipe(T.Sparse());
 export interface DescribeTrustedAdvisorCheckRefreshStatusesRequest {
   checkIds: string[];
 }
-export const DescribeTrustedAdvisorCheckRefreshStatusesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ checkIds: StringList }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeTrustedAdvisorCheckRefreshStatusesRequest",
-  }) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesRequest>;
+export const DescribeTrustedAdvisorCheckRefreshStatusesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ checkIds: StringList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeTrustedAdvisorCheckRefreshStatusesRequest",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesRequest>;
 export interface TrustedAdvisorCheckRefreshStatus {
   checkId: string;
   status: string;
@@ -838,37 +708,26 @@ export const TrustedAdvisorCheckRefreshStatus = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "TrustedAdvisorCheckRefreshStatus",
 }) as any as S.Schema<TrustedAdvisorCheckRefreshStatus>;
-export type TrustedAdvisorCheckRefreshStatusList =
-  TrustedAdvisorCheckRefreshStatus[];
+export type TrustedAdvisorCheckRefreshStatusList = TrustedAdvisorCheckRefreshStatus[];
 export const TrustedAdvisorCheckRefreshStatusList = /*@__PURE__*/ S.Array(
   TrustedAdvisorCheckRefreshStatus,
 );
 export interface DescribeTrustedAdvisorCheckRefreshStatusesResponse {
   statuses: TrustedAdvisorCheckRefreshStatus[];
 }
-export const DescribeTrustedAdvisorCheckRefreshStatusesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ statuses: TrustedAdvisorCheckRefreshStatusList }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeTrustedAdvisorCheckRefreshStatusesResponse",
-  }) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesResponse>;
+export const DescribeTrustedAdvisorCheckRefreshStatusesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ statuses: TrustedAdvisorCheckRefreshStatusList }).pipe(ns),
+).annotate({
+  identifier: "DescribeTrustedAdvisorCheckRefreshStatusesResponse",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckRefreshStatusesResponse>;
 export interface DescribeTrustedAdvisorCheckResultRequest {
   checkId: string;
   language?: string;
 }
-export const DescribeTrustedAdvisorCheckResultRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ checkId: S.String, language: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeTrustedAdvisorCheckResultRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ checkId: S.String, language: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeTrustedAdvisorCheckResultRequest",
 }) as any as S.Schema<DescribeTrustedAdvisorCheckResultRequest>;
@@ -903,11 +762,10 @@ export const TrustedAdvisorCostOptimizingSummary = /*@__PURE__*/ S.suspend(() =>
 export interface TrustedAdvisorCategorySpecificSummary {
   costOptimizing?: TrustedAdvisorCostOptimizingSummary;
 }
-export const TrustedAdvisorCategorySpecificSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      costOptimizing: S.optional(TrustedAdvisorCostOptimizingSummary),
-    }),
+export const TrustedAdvisorCategorySpecificSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    costOptimizing: S.optional(TrustedAdvisorCostOptimizingSummary),
+  }),
 ).annotate({
   identifier: "TrustedAdvisorCategorySpecificSummary",
 }) as any as S.Schema<TrustedAdvisorCategorySpecificSummary>;
@@ -930,9 +788,7 @@ export const TrustedAdvisorResourceDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "TrustedAdvisorResourceDetail",
 }) as any as S.Schema<TrustedAdvisorResourceDetail>;
 export type TrustedAdvisorResourceDetailList = TrustedAdvisorResourceDetail[];
-export const TrustedAdvisorResourceDetailList = /*@__PURE__*/ S.Array(
-  TrustedAdvisorResourceDetail,
-);
+export const TrustedAdvisorResourceDetailList = /*@__PURE__*/ S.Array(TrustedAdvisorResourceDetail);
 export interface TrustedAdvisorCheckResult {
   checkId: string;
   timestamp: string;
@@ -956,26 +812,17 @@ export const TrustedAdvisorCheckResult = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeTrustedAdvisorCheckResultResponse {
   result?: TrustedAdvisorCheckResult;
 }
-export const DescribeTrustedAdvisorCheckResultResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ result: S.optional(TrustedAdvisorCheckResult) }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeTrustedAdvisorCheckResultResponse",
-  }) as any as S.Schema<DescribeTrustedAdvisorCheckResultResponse>;
+export const DescribeTrustedAdvisorCheckResultResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ result: S.optional(TrustedAdvisorCheckResult) }).pipe(ns),
+).annotate({
+  identifier: "DescribeTrustedAdvisorCheckResultResponse",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckResultResponse>;
 export interface DescribeTrustedAdvisorChecksRequest {
   language: string;
 }
 export const DescribeTrustedAdvisorChecksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ language: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeTrustedAdvisorChecksRequest",
@@ -999,36 +846,25 @@ export const TrustedAdvisorCheckDescription = /*@__PURE__*/ S.suspend(() =>
   identifier: "TrustedAdvisorCheckDescription",
 }) as any as S.Schema<TrustedAdvisorCheckDescription>;
 export type TrustedAdvisorCheckList = TrustedAdvisorCheckDescription[];
-export const TrustedAdvisorCheckList = /*@__PURE__*/ S.Array(
-  TrustedAdvisorCheckDescription,
-);
+export const TrustedAdvisorCheckList = /*@__PURE__*/ S.Array(TrustedAdvisorCheckDescription);
 export interface DescribeTrustedAdvisorChecksResponse {
   checks: TrustedAdvisorCheckDescription[];
 }
-export const DescribeTrustedAdvisorChecksResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ checks: TrustedAdvisorCheckList }).pipe(ns),
+export const DescribeTrustedAdvisorChecksResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ checks: TrustedAdvisorCheckList }).pipe(ns),
 ).annotate({
   identifier: "DescribeTrustedAdvisorChecksResponse",
 }) as any as S.Schema<DescribeTrustedAdvisorChecksResponse>;
 export interface DescribeTrustedAdvisorCheckSummariesRequest {
   checkIds: string[];
 }
-export const DescribeTrustedAdvisorCheckSummariesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ checkIds: StringList }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeTrustedAdvisorCheckSummariesRequest",
-  }) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesRequest>;
+export const DescribeTrustedAdvisorCheckSummariesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ checkIds: StringList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeTrustedAdvisorCheckSummariesRequest",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesRequest>;
 export interface TrustedAdvisorCheckSummary {
   checkId: string;
   timestamp: string;
@@ -1050,32 +886,21 @@ export const TrustedAdvisorCheckSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "TrustedAdvisorCheckSummary",
 }) as any as S.Schema<TrustedAdvisorCheckSummary>;
 export type TrustedAdvisorCheckSummaryList = TrustedAdvisorCheckSummary[];
-export const TrustedAdvisorCheckSummaryList = /*@__PURE__*/ S.Array(
-  TrustedAdvisorCheckSummary,
-);
+export const TrustedAdvisorCheckSummaryList = /*@__PURE__*/ S.Array(TrustedAdvisorCheckSummary);
 export interface DescribeTrustedAdvisorCheckSummariesResponse {
   summaries: TrustedAdvisorCheckSummary[];
 }
-export const DescribeTrustedAdvisorCheckSummariesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ summaries: TrustedAdvisorCheckSummaryList }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeTrustedAdvisorCheckSummariesResponse",
-  }) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesResponse>;
+export const DescribeTrustedAdvisorCheckSummariesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ summaries: TrustedAdvisorCheckSummaryList }).pipe(ns),
+).annotate({
+  identifier: "DescribeTrustedAdvisorCheckSummariesResponse",
+}) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesResponse>;
 export interface RefreshTrustedAdvisorCheckRequest {
   checkId: string;
 }
 export const RefreshTrustedAdvisorCheckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ checkId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RefreshTrustedAdvisorCheckRequest",
@@ -1093,15 +918,7 @@ export interface ResolveCaseRequest {
 }
 export const ResolveCaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ caseId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ResolveCaseRequest",
@@ -1192,12 +1009,7 @@ export const addCommunicationToCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddCommunicationToCaseRequest,
   output: AddCommunicationToCaseResponse,
-  errors: [
-    AttachmentSetExpired,
-    AttachmentSetIdNotFound,
-    CaseIdNotFound,
-    InternalServerError,
-  ],
+  errors: [AttachmentSetExpired, AttachmentSetIdNotFound, CaseIdNotFound, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCommunicationToCase",
@@ -1284,20 +1096,13 @@ export const describeAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeAttachmentRequest,
   output: DescribeAttachmentResponse,
-  errors: [
-    AttachmentIdNotFound,
-    DescribeAttachmentLimitExceeded,
-    InternalServerError,
-  ],
+  errors: [AttachmentIdNotFound, DescribeAttachmentLimitExceeded, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttachment",
 }));
 
-export type DescribeCasesError =
-  | CaseIdNotFound
-  | InternalServerError
-  | CommonErrors;
+export type DescribeCasesError = CaseIdNotFound | InternalServerError | CommonErrors;
 /**
  * Returns a list of cases that you specify by passing one or more case IDs. You can use
  * the `afterTime` and `beforeTime` parameters to filter the cases by
@@ -1344,10 +1149,7 @@ export const describeCases: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeCommunicationsError =
-  | CaseIdNotFound
-  | InternalServerError
-  | CommonErrors;
+export type DescribeCommunicationsError = CaseIdNotFound | InternalServerError | CommonErrors;
 /**
  * Returns communications and attachments for one or more support cases. Use the
  * `afterTime` and `beforeTime` parameters to filter by date. You
@@ -1693,9 +1495,7 @@ export const describeTrustedAdvisorCheckSummaries: API.OperationMethod<
   operationName: "DescribeTrustedAdvisorCheckSummaries",
 }));
 
-export type RefreshTrustedAdvisorCheckError =
-  | InternalServerError
-  | CommonErrors;
+export type RefreshTrustedAdvisorCheckError = InternalServerError | CommonErrors;
 /**
  * Refreshes the Trusted Advisor check that you specify using the check ID. You can get the
  * check IDs by calling the DescribeTrustedAdvisorChecks
@@ -1735,10 +1535,7 @@ export const refreshTrustedAdvisorCheck: API.OperationMethod<
   operationName: "RefreshTrustedAdvisorCheck",
 }));
 
-export type ResolveCaseError =
-  | CaseIdNotFound
-  | InternalServerError
-  | CommonErrors;
+export type ResolveCaseError = CaseIdNotFound | InternalServerError | CommonErrors;
 /**
  * Resolves a support case. This operation takes a `caseId` and returns the
  * initial and final state of the case.

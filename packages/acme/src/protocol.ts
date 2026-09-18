@@ -1,3 +1,13 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  type ConfigError,
+} from "@distilled.cloud/core/errors";
+import { getAnn, getProps, hasPropAnn, mapKeys } from "@distilled.cloud/core/protocol-http";
+import { unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
+import { parseRetryAfter, parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { getErrorMatchers, httpSymbol, labelSymbol } from "@distilled.cloud/core/trait";
 /**
  * AcmeProtocol — hand-written.
  *
@@ -28,34 +38,12 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import type * as HttpBody from "effect/unstable/http/HttpBody";
 import type * as AST from "effect/SchemaAST";
+import type * as HttpBody from "effect/unstable/http/HttpBody";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import {
-  getAnn,
-  getProps,
-  hasPropAnn,
-  mapKeys,
-} from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
-import {
-  getErrorMatchers,
-  httpSymbol,
-  labelSymbol,
-} from "@distilled.cloud/core/trait";
-import {
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type ConfigError,
-} from "@distilled.cloud/core/errors";
-import {
-  parseRetryAfter,
-  parseRetryAfterForStatus,
-} from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   AcmeParseError,
@@ -64,12 +52,7 @@ import {
   UnknownAcmeError,
   type DefaultErrors,
 } from "./errors.ts";
-import {
-  parseJwk,
-  signExternalAccountBinding,
-  signRequest,
-  type SignOptions,
-} from "./jose.ts";
+import { parseJwk, signExternalAccountBinding, signRequest, type SignOptions } from "./jose.ts";
 
 /**
  * Error channel shared by every generated ACME operation. Generated service
@@ -77,10 +60,7 @@ import {
  * AcmeOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type AcmeOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type AcmeOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated ACME operation. */
 export type AcmeOpContext = Credentials | HttpClient.HttpClient;
@@ -134,9 +114,7 @@ const fetchDirectory = (directoryUrl: string) =>
     }
     const text = yield* response.text;
     const json = yield* parseJson(text);
-    const directory = yield* Schema.decodeUnknownEffect(DirectorySchema)(
-      json,
-    ).pipe(
+    const directory = yield* Schema.decodeUnknownEffect(DirectorySchema)(json).pipe(
       Effect.mapError(() => parseError("Invalid ACME directory response")),
     );
     directories.set(directoryUrl, directory);
@@ -162,9 +140,7 @@ const takeNonce = (directoryUrl: string, directory: Directory) =>
       return cached;
     }
     const client = yield* HttpClient.HttpClient;
-    const response = yield* client.execute(
-      HttpClientRequest.head(directory.newNonce),
-    );
+    const response = yield* client.execute(HttpClientRequest.head(directory.newNonce));
     const nonce = response.headers["replay-nonce"];
     if (typeof nonce !== "string" || nonce.length === 0) {
       return yield* fail(
@@ -216,11 +192,7 @@ const DIRECTORY_OPERATIONS: Record<string, keyof Directory> = {
 };
 
 /** Operations whose payload is the empty POST-as-GET. */
-const POST_AS_GET = new Set([
-  "GetOrder",
-  "GetAuthorization",
-  "DownloadCertificate",
-]);
+const POST_AS_GET = new Set(["GetOrder", "GetAuthorization", "DownloadCertificate"]);
 
 const JOSE_ACCEPT = "application/json, application/pem-certificate-chain";
 
@@ -257,10 +229,7 @@ const encode = ({
 
     // Resolve the request URL: from the directory for the well-known
     // resources, else the absolute `url` label the CA handed back.
-    const inputObj = (unwrapRedactedDeep(input) ?? {}) as Record<
-      string,
-      unknown
-    >;
+    const inputObj = (unwrapRedactedDeep(input) ?? {}) as Record<string, unknown>;
     const directoryKey = DIRECTORY_OPERATIONS[operation];
     let url: string;
     if (directoryKey !== undefined) {
@@ -304,8 +273,7 @@ const encode = ({
     // `newAccount` proves the key by embedding it; a CA that requires an
     // External Account Binding gets it from the credentials unless the
     // caller built one.
-    const embedKey =
-      operation === "NewAccount" || creds.accountUrl === undefined;
+    const embedKey = operation === "NewAccount" || creds.accountUrl === undefined;
     if (
       operation === "NewAccount" &&
       creds.externalAccountBinding !== undefined &&
@@ -379,12 +347,10 @@ const matchProblem = (
       let hit = false;
       if (rule === undefined) hit = true;
       else if (typeof rule === "string") hit = rule === urn;
-      else if (rule.matches !== undefined)
-        hit = new RegExp(rule.matches).test(urn);
+      else if (rule.matches !== undefined) hit = new RegExp(rule.matches).test(urn);
       else if (rule.includes !== undefined) hit = urn.includes(rule.includes);
       if (!hit) continue;
-      const specificity =
-        (m.status !== undefined ? 1 : 0) + (rule !== undefined ? 2 : 0);
+      const specificity = (m.status !== undefined ? 1 : 0) + (rule !== undefined ? 2 : 0);
       if (!best || specificity > best.specificity) best = { cls, specificity };
     }
   }
@@ -424,16 +390,13 @@ const decode = ({
   Effect.gen(function* () {
     const signing = signedRequests.get(response.request.body);
     signedRequests.delete(response.request.body);
-    const directoryUrl =
-      signing?.directoryUrl ?? (yield* resolveCredentials).directoryUrl;
+    const directoryUrl = signing?.directoryUrl ?? (yield* resolveCredentials).directoryUrl;
 
     for (let retries = 0; ; retries++) {
       const headers = response.headers as Record<string, string | undefined>;
       const status = response.status;
       const isNewNonce = response.request.method === "HEAD";
-      const isCertificate = (headers["content-type"] ?? "").includes(
-        "pem-certificate-chain",
-      );
+      const isCertificate = (headers["content-type"] ?? "").includes("pem-certificate-chain");
       const text = isNewNonce ? "" : yield* response.text;
       const json =
         isNewNonce || (isCertificate && status < 400)
@@ -450,9 +413,7 @@ const decode = ({
         // Rejection nonces belong only to this request, never to the shared cache.
         if (signing && nonce && retries < 2) {
           const client = yield* HttpClient.HttpClient;
-          response = yield* client.execute(
-            yield* signedRequest(signing, nonce),
-          );
+          response = yield* client.execute(yield* signedRequest(signing, nonce));
           continue;
         }
       } else {
@@ -475,9 +436,7 @@ const decode = ({
           );
         }
         const message = `HTTP ${status}`;
-        const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[
-          status
-        ] as
+        const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
           | (new (args: {
               message: string;
               retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
@@ -517,19 +476,14 @@ const decode = ({
           alternates: parseLinkAlternates(headers["link"]),
         };
       } else {
-        if (!isObject(json))
-          return yield* fail(parseError("Expected a JSON object"));
+        if (!isObject(json)) return yield* fail(parseError("Expected a JSON object"));
         body = json;
         const location = headers["location"];
         if (location) body = { ...body, location };
       }
-      return yield* Schema.decodeUnknownEffect(
-        Schema.make<Schema.Schema<unknown>>(outputAst),
-      )(mapKeys(outputAst, body, "decode")).pipe(
-        Effect.mapError(() =>
-          parseError("Response does not match the output schema"),
-        ),
-      );
+      return yield* Schema.decodeUnknownEffect(Schema.make<Schema.Schema<unknown>>(outputAst))(
+        mapKeys(outputAst, body, "decode"),
+      ).pipe(Effect.mapError(() => parseError("Response does not match the output schema")));
     }
   });
 
@@ -553,8 +507,7 @@ const fail = <E>(error: E) => Effect.fail(error) as Effect.Effect<never, E>;
 export const AcmeProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: (args) => decode(args) as Effect.Effect<unknown>,
   }),
 );

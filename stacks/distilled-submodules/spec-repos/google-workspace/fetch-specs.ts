@@ -112,9 +112,7 @@ async function main() {
 
   const dirResponse = await fetch(DISCOVERY_URL);
   if (!dirResponse.ok) {
-    throw new Error(
-      `Failed to fetch directory: ${dirResponse.status} ${dirResponse.statusText}`,
-    );
+    throw new Error(`Failed to fetch directory: ${dirResponse.status} ${dirResponse.statusText}`);
   }
   const directory: DirectoryResponse = await dirResponse.json();
   if (!Array.isArray(directory.items)) {
@@ -123,9 +121,7 @@ async function main() {
 
   const items = directory.items
     .filter((item) => WORKSPACE_NAMES.has(item.name))
-    .sort((a, b) =>
-      `${a.name}:${a.version}`.localeCompare(`${b.name}:${b.version}`),
-    );
+    .sort((a, b) => `${a.name}:${a.version}`.localeCompare(`${b.name}:${b.version}`));
 
   const filteredDirectory: DirectoryResponse = {
     kind: directory.kind,
@@ -157,9 +153,7 @@ async function main() {
           }
           const doc: unknown = await response.json();
           if (!isDiscoveryDoc(doc)) {
-            throw new Error(
-              "response is not a discovery#restDescription with resources/methods",
-            );
+            throw new Error("response is not a discovery#restDescription with resources/methods");
           }
           await writeJson(filepath, doc);
           fetched++;
@@ -188,9 +182,7 @@ async function main() {
   const manifest = items
     .filter((item) => {
       try {
-        return (
-          Bun.file(`${SPECS_DIR}/${item.name}-${item.version}.json`).size > 0
-        );
+        return Bun.file(`${SPECS_DIR}/${item.name}-${item.version}.json`).size > 0;
       } catch {
         return false;
       }

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "KeyspacesStreams",
   serviceShapeName: "KeyspacesStreams",
@@ -26,9 +26,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -179,9 +177,9 @@ export const KeyspacesCellMapDefinition = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<KeyspacesCellMapDefinition>;
 export type KeyspacesCellMap = KeyspacesCellMapDefinition[];
 export const KeyspacesCellMap = /*@__PURE__*/ S.Array(
-  S.suspend(
-    (): S.Schema<KeyspacesCellMapDefinition> => KeyspacesCellMapDefinition,
-  ).annotate({ identifier: "KeyspacesCellMapDefinition" }),
+  S.suspend((): S.Schema<KeyspacesCellMapDefinition> => KeyspacesCellMapDefinition).annotate({
+    identifier: "KeyspacesCellMapDefinition",
+  }),
 ) as any as S.Schema<KeyspacesCellMap>;
 export type KeyspacesUdtMap = { [key: string]: KeyspacesCell | undefined };
 export const KeyspacesUdtMap = /*@__PURE__*/ S.Record(
@@ -1067,9 +1065,7 @@ export const GetShardIteratorInput = /*@__PURE__*/ S.suspend(() =>
     shardId: S.String,
     shardIteratorType: ShardIteratorType,
     sequenceNumber: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetShardIteratorInput",
 }) as any as S.Schema<GetShardIteratorInput>;
@@ -1107,16 +1103,9 @@ export const GetStreamInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     shardFilter: S.optional(ShardFilter),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "GetStreamInput" }) as any as S.Schema<GetStreamInput>;
-export type StreamStatus =
-  | "ENABLING"
-  | "ENABLED"
-  | "DISABLING"
-  | "DISABLED"
-  | (string & {});
+export type StreamStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
 export const StreamStatus = S.String;
 
 export type StreamViewType =
@@ -1196,9 +1185,7 @@ export const ListStreamsInput = /*@__PURE__*/ S.suspend(() =>
     tableName: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStreamsInput",
 }) as any as S.Schema<ListStreamsInput>;
