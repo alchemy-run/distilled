@@ -1,0 +1,48 @@
+{
+  "description": "Type the transient origin connection error observed while creating Hyperdrive against a newly provisioned Prisma database.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.hyperdrive#HyperdriveOriginUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Failed to connect to upstream database"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.hyperdrive#CreateConfig/errors/-",
+      "value": {
+        "target": "com.cloudflare.hyperdrive#HyperdriveOriginUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.hyperdrive#UpdateConfig/errors/-",
+      "value": {
+        "target": "com.cloudflare.hyperdrive#HyperdriveOriginUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.hyperdrive#PatchConfig/errors/-",
+      "value": {
+        "target": "com.cloudflare.hyperdrive#HyperdriveOriginUnavailable"
+      }
+    }
+  ]
+}

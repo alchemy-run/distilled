@@ -78,8 +78,8 @@
 	url = https://github.com/distilled-mirror/spec-mirror-posthog.git
 	shallow = true
 	ignore = dirty
-[submodule "packages/prisma-postgres/specs/spec-mirror-prisma-postgres"]
-	path = packages/prisma-postgres/specs/spec-mirror-prisma-postgres
+[submodule "packages/prisma/specs/spec-mirror-prisma-postgres"]
+	path = packages/prisma/specs/spec-mirror-prisma-postgres
 	url = https://github.com/distilled-mirror/spec-mirror-prisma-postgres.git
 	shallow = true
 	ignore = dirty

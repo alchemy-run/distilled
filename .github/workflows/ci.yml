@@ -74,6 +74,9 @@ jobs:
       - name: Check spec mirrors
         run: pnpm specs:check
 
+      - name: Test Prisma credentials and spec mirror identities
+        run: bun test packages/prisma/test/credentials.test.ts stacks/distilled-submodules/SpecRepos.test.ts
+
   format:
     name: Check formatting
     runs-on: blacksmith-4vcpu-ubuntu-2404

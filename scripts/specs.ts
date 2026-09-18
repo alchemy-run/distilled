@@ -5,7 +5,7 @@
  *
  * Every SDK package reads its specs out of `packages/<pkg>/specs/`. In
  * production that directory holds a submodule of the package's mirror
- * repository — `distilled-mirror/spec-mirror-<pkg>`, one per spec-consuming
+ * repository — `distilled-mirror/spec-mirror-<mirrorId>`, one per spec-consuming
  * package, created and kept in shape by `stacks/distilled-submodules`.
  *
  * That leaves a gap for anyone adding a provider: the mirror does not exist
@@ -54,6 +54,7 @@ const MIRROR_OWNER = "distilled-mirror";
 
 interface SpecRepo {
   readonly package: string;
+  readonly mirror?: string;
   readonly blocked?: string;
 }
 
@@ -72,15 +73,13 @@ const manifest = (await import(manifestPath)) as {
   SHARED: ReadonlyArray<readonly [string, string]>;
   PER_REPO: ReadonlyArray<readonly [string, string]>;
 };
-const { SPEC_REPOS, SHARED, PER_REPO } = manifest;
+const { SPEC_REPOS, repositoryName, SHARED, PER_REPO } = manifest;
 
-/** Mirror repository name for a package — the whole naming convention. */
-const mirrorName = (pkg: string) => `spec-mirror-${pkg}`;
-const mirrorUrl = (pkg: string) =>
-  `https://github.com/${MIRROR_OWNER}/${mirrorName(pkg)}.git`;
+const mirrorUrl = (specRepo: SpecRepo) =>
+  `https://github.com/${MIRROR_OWNER}/${repositoryName(specRepo)}.git`;
 /** Where the mirror is submoduled once it exists. */
-const submodulePath = (pkg: string) =>
-  `packages/${pkg}/specs/${mirrorName(pkg)}`;
+const submodulePath = (specRepo: SpecRepo) =>
+  `packages/${specRepo.package}/specs/${repositoryName(specRepo)}`;
 /** The gitignored stand-in for that submodule. */
 const localPath = (pkg: string) => join(PACKAGES, pkg, "specs", ".local");
 
@@ -159,8 +158,8 @@ const local = (pkg: string) => {
 /**
  * Point `.gitmodules` at the package's mirror.
  *
- * Everything here is derived from the package name, so this is a convenience
- * rather than a decision. When the mirror already exists the entry is made
+ * Paths and URLs come from the manifest's package and stable mirror identity.
+ * When the mirror already exists the entry is made
  * the normal way, with `git submodule add`, which also records the gitlink.
  * When it does not — the usual case in a contributor's PR, since the stack
  * only creates it on merge to main — the `.gitmodules` stanza is written on
@@ -170,8 +169,10 @@ const local = (pkg: string) => {
  * someone runs this command again after the deploy.
  */
 const link = (pkg: string) => {
-  const path = submodulePath(pkg);
-  const url = mirrorUrl(pkg);
+  const specRepo = SPEC_REPOS.find((r) => r.package === pkg);
+  if (!specRepo) die(`No SPEC_REPOS entry for "${pkg}".`);
+  const path = submodulePath(specRepo);
+  const url = mirrorUrl(specRepo);
 
   if (existsSync(join(ROOT, path, ".git"))) {
     console.log(`✅ ${pkg}: already submoduled at ${path}`);
@@ -230,7 +231,7 @@ const link = (pkg: string) => {
 
   if (!remoteExists) {
     console.log(
-      `\nℹ  ${mirrorName(pkg)} is created by the distilled-submodules stack, ` +
+      `\nℹ  ${repositoryName(specRepo)} is created by the distilled-submodules stack, ` +
         `which deploys\n   on merge to main. Until then, develop against ` +
         `\`pnpm specs:local ${pkg}\`.\n`,
     );
@@ -303,7 +304,7 @@ const check = () => {
   );
   for (const specRepo of SPEC_REPOS) {
     if (specRepo.blocked !== undefined) continue;
-    const path = submodulePath(specRepo.package);
+    const path = submodulePath(specRepo);
     if (!entries.has(path)) {
       errors.push(`.gitmodules has no entry for ${path}`);
       continue;
@@ -320,27 +321,32 @@ const check = () => {
       );
     }
   }
+  const mirrors = new Map(SPEC_REPOS.map((r) => [submodulePath(r), r]));
   for (const name of entries) {
-    const mirror = /\/specs\/spec-mirror-(.+)$/.exec(name!);
-    if (!mirror) continue;
-    const pkg = mirror[1]!;
-    if (name !== submodulePath(pkg)) {
-      errors.push(
-        `.gitmodules: "${name}" should be "${submodulePath(pkg)}" — mirror ` +
-          `paths are derived from the package name`,
-      );
-    }
-    if (!covered.has(pkg)) {
+    if (!/\/specs\/spec-mirror-.+$/.test(name)) continue;
+    const specRepo = mirrors.get(name);
+    if (!specRepo) {
       errors.push(`.gitmodules: ${name} has no SPEC_REPOS entry`);
+      continue;
+    }
+    const path = spawnSync(
+      "git",
+      ["config", "-f", ".gitmodules", `submodule.${name}.path`],
+      { cwd: ROOT, encoding: "utf8" },
+    ).stdout?.trim();
+    if (path !== submodulePath(specRepo)) {
+      errors.push(
+        `.gitmodules: ${name} path is ${path}, expected ${submodulePath(specRepo)}`,
+      );
     }
     const url = spawnSync(
       "git",
       ["config", "-f", ".gitmodules", `submodule.${name}.url`],
       { cwd: ROOT, encoding: "utf8" },
     ).stdout?.trim();
-    if (url !== mirrorUrl(pkg)) {
+    if (url !== mirrorUrl(specRepo)) {
       errors.push(
-        `.gitmodules: ${name} url is ${url}, expected ${mirrorUrl(pkg)}`,
+        `.gitmodules: ${name} url is ${url}, expected ${mirrorUrl(specRepo)}`,
       );
     }
   }

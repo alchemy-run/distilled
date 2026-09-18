@@ -1,5 +1,8 @@
 {
   "operations": {
+    "describeDBEngineVersions": {
+      "errors": ["InvalidParameterCombination"]
+    },
     "createDBInstance": {
       "errors": ["InvalidParameterCombination", "InvalidParameterValue"]
     },

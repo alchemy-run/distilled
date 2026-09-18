@@ -1260,9 +1260,6 @@
         "created_at": {
           "target": "smithy.api#String"
         },
-        "egress": {
-          "target": "smithy.api#Boolean"
-        },
         "ip": {
           "target": "smithy.api#String"
         },
@@ -1277,6 +1274,9 @@
         },
         "type": {
           "target": "smithy.api#String"
+        },
+        "egress": {
+          "target": "smithy.api#Boolean"
         }
       },
       "traits": {}
@@ -1313,56 +1313,6 @@
         "smithy.api#documentation": "List IP assignments for app"
       }
     },
-    "com.flyio.machines#IPAssignmentType": {
-      "type": "enum",
-      "members": {
-        "V4": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "v4"
-          }
-        },
-        "V6": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "v6"
-          }
-        },
-        "SHARED_V4": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "shared_v4"
-          }
-        },
-        "PRIVATE_V6": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "private_v6"
-          }
-        },
-        "EGRESS_V4": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "egress_v4"
-          }
-        },
-        "EGRESS_V6": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "egress_v6"
-          }
-        },
-        "EGRESS_PAIR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "egress_pair"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Type of IP address to allocate. \"egress-pair\" allocates both v4 and v6 egress IP addresses (recommended when using egress IPs)."
-      }
-    },
     "com.flyio.machines#CreateAppIPAssignmentRequest": {
       "type": "structure",
       "members": {
@@ -1393,48 +1343,6 @@
       "traits": {
         "smithy.api#input": {}
       }
-    },
-    "com.flyio.machines#AssignIPResponse": {
-      "type": "structure",
-      "members": {
-        "created_at": {
-          "target": "smithy.api#String"
-        },
-        "egress": {
-          "target": "smithy.api#Boolean"
-        },
-        "ip": {
-          "target": "smithy.api#String"
-        },
-        "ip_pair": {
-          "target": "com.flyio.machines#IPPair",
-          "traits": {
-            "smithy.api#documentation": "ip_pair is returned when \"egress-pair\" IP type is requested; in this case, ip is null."
-          }
-        },
-        "region": {
-          "target": "smithy.api#String"
-        },
-        "service_name": {
-          "target": "smithy.api#String"
-        },
-        "shared": {
-          "target": "smithy.api#Boolean"
-        }
-      },
-      "traits": {}
-    },
-    "com.flyio.machines#IPPair": {
-      "type": "structure",
-      "members": {
-        "v4": {
-          "target": "smithy.api#String"
-        },
-        "v6": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
     },
     "com.flyio.machines#CreateAppIPAssignment": {
       "type": "operation",
@@ -5276,6 +5184,9 @@
         },
         {
           "target": "com.flyio.machines#Conflict"
+        },
+        {
+          "target": "com.flyio.machines#MachineStartFromCreatedState"
         }
       ],
       "traits": {
@@ -5719,6 +5630,9 @@
         },
         {
           "target": "com.flyio.machines#GatewayTimeout"
+        },
+        {
+          "target": "com.flyio.machines#MachineWaitTimeout"
         }
       ],
       "traits": {
@@ -7220,6 +7134,9 @@
         },
         {
           "target": "com.flyio.machines#Conflict"
+        },
+        {
+          "target": "com.flyio.machines#VolumeAttached"
         }
       ],
       "traits": {
@@ -11051,6 +10968,150 @@
       "traits": {
         "smithy.api#title": "Machines API",
         "smithy.api#documentation": "This site hosts documentation generated from the Fly.io Machines API OpenAPI specification. Visit our complete [Machines API docs](https://fly.io/docs/machines/api/) for how to get started, more information about each endpoint, parameter descriptions, and examples."
+      }
+    },
+    "com.flyio.machines#IPAssignmentType": {
+      "type": "enum",
+      "members": {
+        "V4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v4"
+          }
+        },
+        "V6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v6"
+          }
+        },
+        "SHARED_V4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared_v4"
+          }
+        },
+        "PRIVATE_V6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private_v6"
+          }
+        },
+        "EGRESS_V4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egress_v4"
+          }
+        },
+        "EGRESS_V6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egress_v6"
+          }
+        },
+        "EGRESS_PAIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egress_pair"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of IP address to allocate. \"egress-pair\" allocates both v4 and v6 egress IP addresses (recommended when using egress IPs)."
+      }
+    },
+    "com.flyio.machines#AssignIPResponse": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "egress": {
+          "target": "smithy.api#Boolean"
+        },
+        "ip": {
+          "target": "smithy.api#String"
+        },
+        "ip_pair": {
+          "target": "com.flyio.machines#IPPair",
+          "traits": {
+            "smithy.api#documentation": "ip_pair is returned when \"egress-pair\" IP type is requested; in this case, ip is null."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String"
+        },
+        "service_name": {
+          "target": "smithy.api#String"
+        },
+        "shared": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#IPPair": {
+      "type": "structure",
+      "members": {
+        "v4": {
+          "target": "smithy.api#String"
+        },
+        "v6": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#MachineStartFromCreatedState": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "failed_precondition: unable to start machine from current state: 'created'"
+          }
+        ]
+      }
+    },
+    "com.flyio.machines#MachineWaitTimeout": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^deadline_exceeded: machine failed to reach desired state, [a-z_]+, currently [a-z_]+$"
+            }
+          }
+        ]
+      }
+    },
+    "com.flyio.machines#VolumeAttached": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "includes": "failed_precondition: volume is currently bound to machine:"
+            }
+          }
+        ]
       }
     }
   }

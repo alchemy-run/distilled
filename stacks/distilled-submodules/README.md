@@ -53,6 +53,23 @@ loses `shallow`.
   the root tsconfig's project references, so `tsc -b` never sees it; CI
   checks it through the `typecheck-stacks` job instead.
 
+## Stable mirror identity
+
+A manifest entry's `package` selects `packages/<package>/` and
+`spec-repos/<package>/`. Its optional `mirror` preserves an existing mirror's
+identity when the package is renamed; it defaults to `package`.
+`mirrorId` supplies the repository logical ID and `scaffold-<mirrorId>` action
+ID, while `repositoryName` supplies `spec-mirror-<mirrorId>` for the remote
+repository, URL, and submodule directory name.
+
+For example, `{ package: "prisma", mirror: "prisma-postgres" }` keeps
+`distilled-mirror/spec-mirror-prisma-postgres`, repository logical ID
+`prisma-postgres`, and action ID `scaffold-prisma-postgres`. Only the package
+and fetch-script directories move to `prisma`; the existing gitlink moves to
+`packages/prisma/specs/spec-mirror-prisma-postgres` without changing its pin. `specs:link` and
+`specs:check` use this manifest identity rather than assuming the package
+name matches the mirror suffix.
+
 ## The file set
 
 Every mirror gets exactly:

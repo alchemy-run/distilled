@@ -62,7 +62,7 @@ jobs:
               { "dir": "packages/neon",            "name": "@distilled.cloud/neon",            "group": "Distilled" },
               { "dir": "packages/planetscale",     "name": "@distilled.cloud/planetscale",     "group": "Distilled" },
               { "dir": "packages/posthog",         "name": "@distilled.cloud/posthog",         "group": "Distilled" },
-              { "dir": "packages/prisma-postgres", "name": "@distilled.cloud/prisma-postgres", "group": "Distilled" },
+              { "dir": "packages/prisma", "name": "@distilled.cloud/prisma", "group": "Distilled" },
               { "dir": "packages/railway",         "name": "@distilled.cloud/railway",         "group": "Distilled" },
               { "dir": "packages/stripe",          "name": "@distilled.cloud/stripe",          "group": "Distilled" },
               { "dir": "packages/supabase",        "name": "@distilled.cloud/supabase",        "group": "Distilled" },

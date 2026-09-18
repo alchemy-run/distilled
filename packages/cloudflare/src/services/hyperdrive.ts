@@ -40,6 +40,23 @@ export class HyperdriveConfigNotFound
     [{ code: 2006 }, { status: 404 }],
   ) {}
 
+export class HyperdriveOriginUnavailable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<HyperdriveOriginUnavailable>()(
+      "HyperdriveOriginUnavailable",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [
+      {
+        status: 400,
+        message: { includes: "Failed to connect to upstream database" },
+      },
+    ],
+  ) {}
+
 export class InvalidHyperdriveConfig
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidHyperdriveConfig>()(
@@ -1674,6 +1691,7 @@ export type CreateConfigError =
   | PrivateHostNotAllowed
   | InvalidHyperdriveConfig
   | InvalidObjectIdentifier
+  | HyperdriveOriginUnavailable
   | CloudflareOpError;
 /** Creates and returns a new Hyperdrive configuration. */
 export const createConfig: API.OperationMethod<
@@ -1688,6 +1706,7 @@ export const createConfig: API.OperationMethod<
     PrivateHostNotAllowed,
     InvalidHyperdriveConfig,
     InvalidObjectIdentifier,
+    HyperdriveOriginUnavailable,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -1780,6 +1799,7 @@ export type PatchConfigError =
   | HyperdriveConfigNotFound
   | InvalidObjectIdentifier
   | MethodNotAllowed
+  | HyperdriveOriginUnavailable
   | CloudflareOpError;
 /** Updates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. */
 export const patchConfig: API.OperationMethod<
@@ -1795,6 +1815,7 @@ export const patchConfig: API.OperationMethod<
     HyperdriveConfigNotFound,
     InvalidObjectIdentifier,
     MethodNotAllowed,
+    HyperdriveOriginUnavailable,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -1807,6 +1828,7 @@ export type UpdateConfigError =
   | HyperdriveConfigNotFound
   | InvalidObjectIdentifier
   | MethodNotAllowed
+  | HyperdriveOriginUnavailable
   | CloudflareOpError;
 /** Replaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. Use the update operation to modify only selected fields. */
 export const updateConfig: API.OperationMethod<
@@ -1822,6 +1844,7 @@ export const updateConfig: API.OperationMethod<
     HyperdriveConfigNotFound,
     InvalidObjectIdentifier,
     MethodNotAllowed,
+    HyperdriveOriginUnavailable,
     CloudflareRateLimited,
     CloudflareError,
   ],

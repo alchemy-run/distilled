@@ -19,6 +19,52 @@ import * as Retry from "../retry.ts";
 
 export type { FlyIoOpError, FlyIoOpContext };
 
+export class MachineStartFromCreatedState
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MachineStartFromCreatedState>()(
+      "MachineStartFromCreatedState",
+      {
+        message: S.String,
+      },
+    ),
+    [
+      {
+        message:
+          "failed_precondition: unable to start machine from current state: 'created'",
+      },
+    ],
+  ) {}
+
+export class MachineWaitTimeout
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MachineWaitTimeout>()("MachineWaitTimeout", {
+      message: S.String,
+    }),
+    [
+      {
+        message: {
+          matches:
+            "^deadline_exceeded: machine failed to reach desired state, [a-z_]+, currently [a-z_]+$",
+        },
+      },
+    ],
+  ) {}
+
+export class VolumeAttached
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<VolumeAttached>()("VolumeAttached", {
+      message: S.String,
+    }),
+    [
+      {
+        message: {
+          includes:
+            "failed_precondition: volume is currently bound to machine:",
+        },
+      },
+    ],
+  ) {}
+
 export interface AuthenticateTokenRequest {
   header?: string;
 }
@@ -3937,22 +3983,22 @@ export const ListAppIPAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface IPAssignment {
   created_at?: string;
-  egress?: boolean;
   ip?: string;
   region?: string;
   service_name?: string;
   shared?: boolean;
   type?: string;
+  egress?: boolean;
 }
 export const IPAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     created_at: S.optional(S.String),
-    egress: S.optional(S.Boolean),
     ip: S.optional(S.String),
     region: S.optional(S.String),
     service_name: S.optional(S.String),
     shared: S.optional(S.Boolean),
     type: S.optional(S.String),
+    egress: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "IPAssignment" }) as any as S.Schema<IPAssignment>;
 
@@ -6339,7 +6385,12 @@ export const deleteSecretKey: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteVolumeError = Forbidden | NotFound | Conflict | FlyIoOpError;
+export type DeleteVolumeError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VolumeAttached
+  | FlyIoOpError;
 /** Destroy Volume Delete a specific volume within an app by volume ID. */
 export const deleteVolume: API.OperationMethod<
   DeleteVolumeRequest,
@@ -6349,7 +6400,7 @@ export const deleteVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteVolumeRequest,
   output: Volume,
-  errors: [Forbidden, NotFound, Conflict],
+  errors: [Forbidden, NotFound, Conflict, VolumeAttached],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -7214,6 +7265,7 @@ export type StartMachineError =
   | Forbidden
   | NotFound
   | Conflict
+  | MachineStartFromCreatedState
   | FlyIoOpError;
 /** Start Machine Start a specific Machine within an app. */
 export const startMachine: API.OperationMethod<
@@ -7224,7 +7276,13 @@ export const startMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartMachineRequest,
   output: StartMachineResponse,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    Conflict,
+    MachineStartFromCreatedState,
+  ],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -7422,6 +7480,7 @@ export type WaitMachineError =
   | Forbidden
   | NotFound
   | GatewayTimeout
+  | MachineWaitTimeout
   | FlyIoOpError;
 /** Wait for State Wait for a Machine to reach a specific state. Specify the desired state with the state parameter. See the [Machine states table](https://fly.io/docs/machines/working-with-machines/#machine-states) for a list of possible states. The default for this parameter is `started`. This request will block for up to 60 seconds. Set a shorter timeout with the timeout parameter. */
 export const waitMachine: API.OperationMethod<
@@ -7432,7 +7491,7 @@ export const waitMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WaitMachineRequest,
   output: WaitMachineResponse,
-  errors: [BadRequest, Forbidden, NotFound, GatewayTimeout],
+  errors: [BadRequest, Forbidden, NotFound, GatewayTimeout, MachineWaitTimeout],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));

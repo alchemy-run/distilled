@@ -7,7 +7,19 @@
       "add": ["Creating"]
     }
   },
+  "errorCategories": {
+    "LambdaInternalKmsError": ["RetryableError"]
+  },
   "operations": {
+    "createFunction": {
+      "syntheticErrors": [
+        {
+          "name": "LambdaInternalKmsError",
+          "from": "InvalidParameterValueException",
+          "message": "Internal KMS service error. Try again."
+        }
+      ]
+    },
     "createEventSourceMapping": {
       "errors": ["RequestLimitExceeded", "ResourceInUseException"]
     },

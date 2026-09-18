@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/aws",
-  "version": "1.0.0-rc.10",
+  "version": "1.0.0-rc.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -362,8 +362,7 @@
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*",
-    "@smithy/types": "catalog:",
-    "fast-xml-parser": "catalog:"
+    "@smithy/types": "catalog:"
   },
   "devDependencies": {
     "@effect/platform-bun": "catalog:",

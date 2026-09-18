@@ -14680,7 +14680,9 @@ export const describeDBClusterSnapshots: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBEngineVersionsError = CommonErrors;
+export type DescribeDBEngineVersionsError =
+  | InvalidParameterCombination
+  | CommonErrors;
 /**
  * Describes the properties of specific versions of DB engines.
  */
@@ -14693,7 +14695,7 @@ export const describeDBEngineVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeDBEngineVersionsMessage,
   output: DBEngineVersionMessage,
-  errors: [],
+  errors: [InvalidParameterCombination],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBEngineVersions",

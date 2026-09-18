@@ -1,6 +1,10 @@
 {
   "files": [],
   "references": [
+    { "path": "./packages/acme/tsconfig.json" },
+    { "path": "./packages/acme/tsconfig.scripts.json" },
+    { "path": "./packages/zerossl/tsconfig.json" },
+    { "path": "./packages/zerossl/tsconfig.scripts.json" },
     {
       "path": "./packages/core/tsconfig.json"
     },
@@ -119,10 +123,10 @@
       "path": "./packages/posthog/tsconfig.scripts.json"
     },
     {
-      "path": "./packages/prisma-postgres/tsconfig.json"
+      "path": "./packages/prisma/tsconfig.json"
     },
     {
-      "path": "./packages/prisma-postgres/tsconfig.scripts.json"
+      "path": "./packages/prisma/tsconfig.scripts.json"
     },
     {
       "path": "./packages/railway/tsconfig.json"
