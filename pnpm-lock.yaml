@@ -346,6 +346,28 @@ importers:
         specifier: 'catalog:'
         version: 26.2.0
 
+  packages/celld:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.0-rc.115
+    devDependencies:
+      '@distilled.cloud/aws':
+        specifier: workspace:*
+        version: link:../aws
+      '@effect/platform-bun':
+        specifier: 'catalog:'
+        version: 4.0.0-rc.115(effect@4.0.0-rc.115)
+      '@types/bun':
+        specifier: 'catalog:'
+        version: 1.3.14
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
   packages/chronosphere:
     dependencies:
       '@distilled.cloud/core':

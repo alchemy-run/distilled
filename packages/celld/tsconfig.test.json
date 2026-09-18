@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["test/**/*.ts"],
+  "compilerOptions": {
+    "noEmit": true,
+    "noCheck": false,
+    "rewriteRelativeImportExtensions": false
+  },
+  "references": [{ "path": "./tsconfig.json" }, { "path": "../aws" }]
+}

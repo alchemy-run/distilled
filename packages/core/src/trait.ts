@@ -109,6 +109,19 @@ export const labelSymbol = Symbol.for("@distilled.cloud/core/http/label");
 export const Label = (name?: string) =>
   makeAnnotation(labelSymbol, name ?? true);
 
+export const labelEncodingSymbol = Symbol.for(
+  "@distilled.cloud/core/http/label-encoding",
+);
+/** Preserve selected RFC 3986 pchar delimiters inside a single URI label. */
+export const LabelEncoding = (options: { readonly preserve: string }) => {
+  if (!/^[!$&'()*+,;=:@]*$/.test(options.preserve)) {
+    throw new TypeError(
+      "LabelEncoding can preserve only URI path-segment delimiters",
+    );
+  }
+  return makeAnnotation(labelEncodingSymbol, options.preserve);
+};
+
 export const responseCodeSymbol = Symbol.for(
   "@distilled.cloud/core/http/response-code",
 );
