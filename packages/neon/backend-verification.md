@@ -55,6 +55,14 @@ Only Neon was regenerated, retaining **163 operations** and producing **748 shap
 
 The coordinator independently reran the Neon source/scripts build-mode typecheck and shared core's `tsc --noEmit --noCheck false` check after this follow-up; both exited 0. The independent bounded regression run passed all **338 tests across 10 files**. `README.md`, the mirror revision, and prior live-probe history remain unchanged. No additional typed API error gap was observed. The existing Function update-propagation blocker below is unchanged and was not retested.
 
+## S3-compatible storage server-error follow-up
+
+Repeated Alchemy `WriteObject` calls isolated an S3 PUT response with HTTP 500 and an HTML body without a structured error code. AWS REST-XML decoding turned that response into `ParseError`, preventing the existing bounded transient-error retry policy from applying. The upstream cause of the HTTP 500 remains unknown.
+
+The REST-XML error decoder now returns the existing `InternalError` classification for code-less 5xx bodies, including HTML, JSON, plain text, incomplete XML errors, and otherwise unmapped empty-body server failures. Structured codes and malformed 4xx behavior remain unchanged. The fallback retains no raw response body. This is a protocol correction; no generated AWS model or Neon management API shape changed.
+
+`timeout 240 bun test packages/aws/src/client/response-parser.test.ts --timeout 90000` passed 34 tests (95 assertions), including the existing Lambda error regressions. After the correction, Alchemy's combined live storage run passed all five tests covering native and Effect Functions, RPC-backed local Functions, Workers and Lambda, with eight consecutive typed writes and normal stack cleanup. This passing run does not identify the upstream server fault or prove it cannot recur.
+
 ## Observed API details
 
 - A missing Function returns `NotFound: function not visible on branch`.
