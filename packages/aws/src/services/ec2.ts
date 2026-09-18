@@ -99325,6 +99325,7 @@ export type ModifySecurityGroupRulesError =
   | InvalidParameterValue
   | MissingParameter
   | UnauthorizedOperation
+  | InvalidSecurityGroupRuleIdNotFound
   | CommonErrors;
 /**
  * Modifies the rules of a security group.
@@ -99342,6 +99343,7 @@ export const modifySecurityGroupRules: API.OperationMethod<
     InvalidParameterValue,
     MissingParameter,
     UnauthorizedOperation,
+    InvalidSecurityGroupRuleIdNotFound,
   ],
   protocol: AwsProtocol,
   retry: Retry,
