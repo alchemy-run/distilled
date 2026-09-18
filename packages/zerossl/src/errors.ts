@@ -24,6 +24,7 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
+import * as Category from "@distilled.cloud/core/category";
 import type {
   BadRequest as CoreBadRequest,
   DefaultErrors as CoreDefaultErrors,
@@ -31,7 +32,6 @@ import type {
   NotFound as CoreNotFound,
 } from "@distilled.cloud/core/errors";
 import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/core/category";
 
 /**
  * Unknown ZeroSSL error — an error envelope whose `type` matches no typed

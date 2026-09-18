@@ -46,8 +46,7 @@ export interface GraphQLModel {
 
 export const graphqlTypeString = (ref: TypeRef): string => {
   if (ref.kind === "NON_NULL" || ref.kind === "LIST") {
-    if (!ref.ofType)
-      throw new Error(`Incomplete GraphQL ${ref.kind} reference`);
+    if (!ref.ofType) throw new Error(`Incomplete GraphQL ${ref.kind} reference`);
     const inner = graphqlTypeString(ref.ofType);
     return ref.kind === "NON_NULL" ? `${inner}!` : `[${inner}]`;
   }
@@ -79,9 +78,7 @@ export const convertGraphQLClient = (
     ...(value.defaultValue != null ? { defaultValue: value.defaultValue } : {}),
   });
   const types: Record<string, GraphQLType> = {};
-  for (const type of [...schema.types].sort((a, b) =>
-    a.name.localeCompare(b.name),
-  )) {
+  for (const type of [...schema.types].sort((a, b) => a.name.localeCompare(b.name))) {
     if (type.name.startsWith("__")) continue;
     types[type.name] = {
       kind: type.kind,
@@ -98,13 +95,9 @@ export const convertGraphQLClient = (
                   field.name,
                   {
                     type: graphqlTypeString(field.type),
-                    args: Object.fromEntries(
-                      field.args.map((arg) => [arg.name, argument(arg)]),
-                    ),
+                    args: Object.fromEntries(field.args.map((arg) => [arg.name, argument(arg)])),
                     errors: [],
-                    ...(field.description
-                      ? { description: field.description }
-                      : {}),
+                    ...(field.description ? { description: field.description } : {}),
                     ...(field.isDeprecated
                       ? {
                           deprecated:
@@ -127,17 +120,11 @@ export const convertGraphQLClient = (
             ),
           }
         : {}),
-      ...(type.enumValues
-        ? { enumValues: type.enumValues.map((value) => value.name) }
-        : {}),
-      ...(type.possibleTypes
-        ? { possibleTypes: type.possibleTypes.map((ref) => ref.name!) }
-        : {}),
+      ...(type.enumValues ? { enumValues: type.enumValues.map((value) => value.name) } : {}),
+      ...(type.possibleTypes ? { possibleTypes: type.possibleTypes.map((ref) => ref.name!) } : {}),
       ...("interfaces" in type && Array.isArray(type.interfaces)
         ? {
-            interfaces: type.interfaces.map(
-              (ref: { name: string }) => ref.name,
-            ),
+            interfaces: type.interfaces.map((ref: { name: string }) => ref.name),
           }
         : {}),
     };
@@ -146,9 +133,7 @@ export const convertGraphQLClient = (
     version: 1,
     queryType: schema.queryType.name,
     ...(schema.mutationType ? { mutationType: schema.mutationType.name } : {}),
-    ...(schema.subscriptionType
-      ? { subscriptionType: schema.subscriptionType.name }
-      : {}),
+    ...(schema.subscriptionType ? { subscriptionType: schema.subscriptionType.name } : {}),
     types,
     errors: {},
     globalErrors: [],
@@ -159,20 +144,13 @@ export const convertGraphQLClient = (
 export const validateGraphQLModel = (model: GraphQLModel): void => {
   const checkType = (ref: string, coordinate: string) => {
     const name = ref.replace(/[\[\]!]/g, "");
-    if (!model.types[name])
-      throw new Error(`${coordinate}: unknown GraphQL type ${name}`);
+    if (!model.types[name]) throw new Error(`${coordinate}: unknown GraphQL type ${name}`);
   };
   const checkError = (error: string, coordinate: string) => {
-    if (!model.errors[error])
-      throw new Error(`${coordinate}: unknown GraphQL error ${error}`);
+    if (!model.errors[error]) throw new Error(`${coordinate}: unknown GraphQL error ${error}`);
   };
-  for (const name of [
-    model.queryType,
-    model.mutationType,
-    model.subscriptionType,
-  ]) {
-    if (name && !model.types[name])
-      throw new Error(`Unknown GraphQL root ${name}`);
+  for (const name of [model.queryType, model.mutationType, model.subscriptionType]) {
+    if (name && !model.types[name]) throw new Error(`Unknown GraphQL root ${name}`);
   }
   for (const error of model.globalErrors) checkError(error, "globalErrors");
   for (const [name, type] of Object.entries(model.types)) {
@@ -185,17 +163,13 @@ export const validateGraphQLModel = (model: GraphQLModel): void => {
     }
     for (const [fieldName, field] of Object.entries(type.inputFields ?? {}))
       checkType(field.type, `${name}.${fieldName}`);
-    for (const member of [
-      ...(type.possibleTypes ?? []),
-      ...(type.interfaces ?? []),
-    ])
+    for (const member of [...(type.possibleTypes ?? []), ...(type.interfaces ?? [])])
       checkType(member, name);
   }
 };
 
 const literal = (value: unknown): string => JSON.stringify(value);
-const union = (values: readonly string[]): string =>
-  values.length ? values.join(" | ") : "never";
+const union = (values: readonly string[]): string => (values.length ? values.join(" | ") : "never");
 const documentation = (description?: string): string =>
   description ? `/** ${description.replaceAll("*/", "* /")} */\n` : "";
 
@@ -210,9 +184,7 @@ export interface GenerateGraphQLClientOptions {
   readonly sdkName?: string;
 }
 
-const peelRef = (
-  ref: string,
-): { name: string; list: boolean; nonNull: boolean } => {
+const peelRef = (ref: string): { name: string; list: boolean; nonNull: boolean } => {
   let text = ref;
   let nonNull = false;
   let list = false;
@@ -249,15 +221,9 @@ export const generateGraphQLClient = (
     if (!type) return "unknown";
     if (type.kind === "SCALAR") return type.scalar ?? "unknown";
     if (type.kind === "ENUM")
-      return (
-        (type.enumValues ?? [])
-          .map((value) => JSON.stringify(value))
-          .join(" | ") || "string"
-      );
+      return (type.enumValues ?? []).map((value) => JSON.stringify(value)).join(" | ") || "string";
     if (type.kind === "UNION")
-      return (
-        (type.possibleTypes ?? []).filter(Boolean).join(" | ") || "unknown"
-      );
+      return (type.possibleTypes ?? []).filter(Boolean).join(" | ") || "unknown";
     return name;
   };
   /** Relay `edges { node }` → node type name, else undefined. */
@@ -340,8 +306,7 @@ export const generateGraphQLClient = (
     if (!/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(tag))
       throw new Error(`GraphQL error tag ${tag} is not a valid identifier`);
     for (const name of [tag, `${tag}Spec`])
-      if (reserved.has(name))
-        throw new Error(`GraphQL error ${tag} collides with ${name}`);
+      if (reserved.has(name)) throw new Error(`GraphQL error ${tag} collides with ${name}`);
   }
   const globalErrors = [...model.globalErrors].sort();
   const rootErrors = (field: GraphQLField) => {
@@ -354,11 +319,7 @@ export const generateGraphQLClient = (
       : "globalErrors";
     return { type, specs };
   };
-  const rootFn = (
-    kind: "query" | "mutation",
-    fieldName: string,
-    field: GraphQLField,
-  ): string => {
+  const rootFn = (kind: "query" | "mutation", fieldName: string, field: GraphQLField): string => {
     const errors = rootErrors(field);
     const { name, list } = peelRef(field.type);
     const node = !list ? connectionNode(name) : undefined;
@@ -371,12 +332,8 @@ export const generateGraphQLClient = (
     const required = argEntries.filter(([, arg]) => arg.type.endsWith("!"));
     const optional = argEntries.filter(([, arg]) => !arg.type.endsWith("!"));
     const argFields = [
-      ...required.map(
-        ([argName, arg]) => `readonly ${argName}: ${tsArg(arg.type)}`,
-      ),
-      ...optional.map(
-        ([argName, arg]) => `readonly ${argName}?: ${tsArg(arg.type)}`,
-      ),
+      ...required.map(([argName, arg]) => `readonly ${argName}: ${tsArg(arg.type)}`),
+      ...optional.map(([argName, arg]) => `readonly ${argName}?: ${tsArg(arg.type)}`),
     ].join("; ");
     const sig =
       argEntries.length === 0
@@ -448,9 +405,7 @@ export const generateGraphQLClient = (
   for (const tag of errorTags) {
     const error = model.errors[tag]!;
     if (error.category && !categories[error.category])
-      throw new Error(
-        `GraphQL error ${tag}: unknown category ${error.category}`,
-      );
+      throw new Error(`GraphQL error ${tag}: unknown category ${error.category}`);
     const pipes = [
       error.category ? `Category.${categories[error.category]}` : undefined,
       error.retryable
@@ -493,12 +448,7 @@ export const generateGraphQLClient = (
       ([fieldName, field]) =>
         `  readonly ${fieldName}${field.type.endsWith("!") ? "" : "?"}: ${tsArg(field.type)};`,
     );
-    lines.push(
-      documentation(type.description) + `export interface ${name} {`,
-      ...fields,
-      "}",
-      "",
-    );
+    lines.push(documentation(type.description) + `export interface ${name} {`, ...fields, "}", "");
   }
 
   for (const name of unions) {
@@ -513,21 +463,13 @@ export const generateGraphQLClient = (
   for (const name of objects) {
     const type = model.types[name]!;
     const fields = Object.entries(type.fields ?? {}).map(
-      ([fieldName, field]) =>
-        `  readonly ${fieldName}: ${tsOutput(field.type)};`,
+      ([fieldName, field]) => `  readonly ${fieldName}: ${tsOutput(field.type)};`,
     );
-    lines.push(
-      documentation(type.description) + `export interface ${name} {`,
-      ...fields,
-      "}",
-      "",
-    );
+    lines.push(documentation(type.description) + `export interface ${name} {`, ...fields, "}", "");
   }
 
   for (const name of [...objects, ...unions]) {
-    lines.push(
-      `export const ${name}: TypeMeta = { name: ${JSON.stringify(name)}, fields: {} };`,
-    );
+    lines.push(`export const ${name}: TypeMeta = { name: ${JSON.stringify(name)}, fields: {} };`);
   }
   lines.push("");
 
@@ -540,10 +482,7 @@ export const generateGraphQLClient = (
     lines.push("});", "");
   }
   for (const name of unions) {
-    lines.push(
-      `Object.assign(${name}.fields, { __typename: scalarField("__typename") });`,
-      "",
-    );
+    lines.push(`Object.assign(${name}.fields, { __typename: scalarField("__typename") });`, "");
   }
 
   lines.push(`export const ${sdkName} = {`);
@@ -559,14 +498,10 @@ export const generateGraphQLClient = (
     const mutationType = model.types[model.mutationType];
     if (mutationType?.fields) {
       for (const [fieldName, field] of Object.entries(mutationType.fields)) {
-        const exportName = queryNames.has(fieldName)
-          ? `${fieldName}Mutation`
-          : fieldName;
+        const exportName = queryNames.has(fieldName) ? `${fieldName}Mutation` : fieldName;
         const line = rootFn("mutation", fieldName, field);
         lines.push(
-          exportName === fieldName
-            ? line
-            : line.replace(`  ${fieldName}:`, `  ${exportName}:`),
+          exportName === fieldName ? line : line.replace(`  ${fieldName}:`, `  ${exportName}:`),
         );
       }
     }

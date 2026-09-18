@@ -58,9 +58,7 @@ const fetchText = async (url: string): Promise<string> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 };
@@ -68,10 +66,7 @@ const fetchText = async (url: string): Promise<string> => {
 async function main() {
   const openapiUrl = rawUrl(OPENAPI_PATH);
   console.log(`Fetching OpenAPI spec from ${openapiUrl}...`);
-  const spec = JSON.parse(await fetchText(openapiUrl)) as Record<
-    string,
-    unknown
-  >;
+  const spec = JSON.parse(await fetchText(openapiUrl)) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid JSON, but it is not an OpenAPI document.
@@ -111,10 +106,7 @@ async function main() {
     },
     docs,
   };
-  await Bun.write(
-    `${DOCS_DIR}/_manifest.json`,
-    JSON.stringify(manifest, null, 2) + "\n",
-  );
+  await Bun.write(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
 
   console.log(
     `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths, ${docs.length} docs`,

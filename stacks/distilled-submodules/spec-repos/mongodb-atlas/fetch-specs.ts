@@ -9,8 +9,7 @@
  *   ../specs/openapi.json
  */
 
-const OPENAPI_SPEC_URL =
-  "https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2.json";
+const OPENAPI_SPEC_URL = "https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2.json";
 const SPECS_DIR = "../specs";
 const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
 
@@ -27,9 +26,7 @@ async function main() {
   const response = await fetch(OPENAPI_SPEC_URL);
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = await response.json();

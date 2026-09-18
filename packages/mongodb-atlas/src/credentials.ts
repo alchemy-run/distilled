@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * MongoDB Atlas credentials — hand-written.
  *
@@ -17,7 +18,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://cloud.mongodb.com";
 
@@ -31,10 +31,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config, ConfigError>
->()("Mongodb-atlasCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  "Mongodb-atlasCredentials",
+) {}
 
 export interface ClientCredentialsConfig {
   readonly clientId: string;
@@ -45,10 +44,7 @@ export interface ClientCredentialsConfig {
 /** Exchange service-account credentials for an OAuth2 access token. */
 const exchangeToken = (
   config: Required<ClientCredentialsConfig>,
-): Effect.Effect<
-  { accessToken: string; expiresInSeconds: number },
-  ConfigError
-> =>
+): Effect.Effect<{ accessToken: string; expiresInSeconds: number }, ConfigError> =>
   Effect.gen(function* () {
     const res = yield* Effect.tryPromise(() =>
       fetch(`${config.apiBaseUrl}/api/oauth/token`, {
@@ -69,9 +65,7 @@ const exchangeToken = (
     );
 
     if (!res.ok) {
-      const text = yield* Effect.tryPromise(() => res.text()).pipe(
-        Effect.orElseSucceed(() => ""),
-      );
+      const text = yield* Effect.tryPromise(() => res.text()).pipe(Effect.orElseSucceed(() => ""));
       return yield* new ConfigError({
         message: `OAuth2 token exchange failed: ${res.status} ${text}`,
       });
@@ -124,19 +118,14 @@ const cachedTokenEffect = (
       };
       refreshAt =
         Date.now() +
-        Math.max(
-          token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
-          TOKEN_REFRESH_WINDOW_MS,
-        );
+        Math.max(token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS, TOKEN_REFRESH_WINDOW_MS);
       return cached;
     });
   });
 };
 
 /** Layer from service-account client credentials (OAuth2 client_credentials). */
-export const fromClientCredentials = (
-  config: ClientCredentialsConfig,
-): Layer.Layer<Credentials> =>
+export const fromClientCredentials = (config: ClientCredentialsConfig): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     cachedTokenEffect(
@@ -184,8 +173,7 @@ export const fromEnv = (): Layer.Layer<Credentials> =>
         return Effect.succeed({
           clientId,
           clientSecret,
-          apiBaseUrl:
-            process.env.MONGODB_ATLAS_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+          apiBaseUrl: process.env.MONGODB_ATLAS_API_BASE_URL ?? DEFAULT_API_BASE_URL,
         });
       }),
     ),

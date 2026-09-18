@@ -47,9 +47,7 @@ const Owner = Config.string("DISTILLED_REPOS_OWNER").pipe(
   // An unset repository variable reaches the workflow as an empty string, so
   // treat empty the same as missing.
   Config.withDefault(""),
-  Config.map((owner) =>
-    owner.trim() === "" ? "distilled-mirror" : owner.trim(),
-  ),
+  Config.map((owner) => (owner.trim() === "" ? "distilled-mirror" : owner.trim())),
 );
 
 /**
@@ -67,9 +65,7 @@ const checkCoverage = Effect.gen(function* () {
   const missing: string[] = [];
   for (const entry of (yield* fs.readDirectory(packagesDir)).toSorted()) {
     if (covered.has(entry)) continue;
-    const consumesSpecs = yield* fs.exists(
-      path.join(packagesDir, entry, "specs"),
-    );
+    const consumesSpecs = yield* fs.exists(path.join(packagesDir, entry, "specs"));
     if (consumesSpecs) missing.push(entry);
   }
 
@@ -98,9 +94,7 @@ export default Alchemy.Stack(
     // closure, so the state store holds a digest per repository rather than
     // 21 copies of the file set.
     const scaffolds = yield* loadScaffolds;
-    const SyncScaffold = makeSyncScaffold(
-      (repository) => scaffolds[repository]!,
-    );
+    const SyncScaffold = makeSyncScaffold((repository) => scaffolds[repository]!);
 
     const mirrors = yield* Effect.all(
       SPEC_REPOS.map((specRepo) =>

@@ -40,9 +40,7 @@ async function fetchOpenApi(): Promise<void> {
 
   const response = await fetch(OPENAPI_SPEC_URL, { headers });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const text = await response.text();
@@ -61,9 +59,7 @@ async function fetchOpenApi(): Promise<void> {
   // produces no diff.
   await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 function apiReferenceDocPaths(llmsTxt: string): string[] {
@@ -86,16 +82,12 @@ async function fetchDocs(): Promise<void> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch vendor docs: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch vendor docs: ${response.status} ${response.statusText}`);
   }
 
   const text = await response.text();
   if (!text.includes("# Archil") || !text.includes("openapi.yaml")) {
-    throw new Error(
-      `${LLMS_TXT_URL} did not look like Archil's llms.txt catalog`,
-    );
+    throw new Error(`${LLMS_TXT_URL} did not look like Archil's llms.txt catalog`);
   }
 
   console.log(`Writing docs catalog to ${LLMS_OUTPUT}...`);
@@ -114,9 +106,7 @@ async function fetchDocs(): Promise<void> {
       },
     });
     if (!docResponse.ok) {
-      throw new Error(
-        `Failed to fetch ${url}: ${docResponse.status} ${docResponse.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url}: ${docResponse.status} ${docResponse.statusText}`);
     }
     const body = await docResponse.text();
     if (body.includes("<html") || body.trim().length === 0) {

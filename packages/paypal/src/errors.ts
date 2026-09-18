@@ -27,8 +27,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown PayPal error — returned when nothing else matches the failure. */
 export class UnknownPaypalError extends Schema.TaggedError<UnknownPaypalError>()(
@@ -41,10 +41,7 @@ export class UnknownPaypalError extends Schema.TaggedError<UnknownPaypalError>()
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class PaypalParseError extends Schema.TaggedError<PaypalParseError>()(
-  "PaypalParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class PaypalParseError extends Schema.TaggedError<PaypalParseError>()("PaypalParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}

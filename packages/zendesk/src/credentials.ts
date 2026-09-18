@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Zendesk credentials — hand-written.
  *
@@ -16,17 +17,15 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export interface Config {
   readonly authorization: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ZendeskCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "ZendeskCredentials",
+) {}
 
 const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
@@ -96,14 +95,11 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
 
     if (!subdomain && !apiBaseUrl) {
       return yield* new ConfigError({
-        message:
-          "ZENDESK_SUBDOMAIN (or ZENDESK_API_BASE_URL) environment variable is required",
+        message: "ZENDESK_SUBDOMAIN (or ZENDESK_API_BASE_URL) environment variable is required",
       });
     }
 
-    const origin = apiBaseUrl
-      ? stripTrailingSlash(apiBaseUrl)
-      : originFromSubdomain(subdomain!);
+    const origin = apiBaseUrl ? stripTrailingSlash(apiBaseUrl) : originFromSubdomain(subdomain!);
 
     if (accessToken) {
       return {

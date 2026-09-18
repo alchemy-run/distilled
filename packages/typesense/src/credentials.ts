@@ -25,10 +25,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("TypesenseCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "TypesenseCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   apiKey: EffectConfig.String("TYPESENSE_API_KEY"),
@@ -41,8 +40,7 @@ export const CredentialsFromEnv = Layer.succeed(
     Effect.mapError(
       () =>
         new ConfigError({
-          message:
-            "TYPESENSE_API_KEY and TYPESENSE_API_URL environment variables are required",
+          message: "TYPESENSE_API_KEY and TYPESENSE_API_URL environment variables are required",
         }),
     ),
     Effect.map(({ apiKey, apiBaseUrl }) => ({

@@ -27,8 +27,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown Render error — returned when nothing else matches the failure. */
 export class UnknownRenderError extends Schema.TaggedError<UnknownRenderError>()(
@@ -41,10 +41,7 @@ export class UnknownRenderError extends Schema.TaggedError<UnknownRenderError>()
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class RenderParseError extends Schema.TaggedError<RenderParseError>()(
-  "RenderParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class RenderParseError extends Schema.TaggedError<RenderParseError>()("RenderParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}

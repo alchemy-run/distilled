@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Whop credentials — hand-written.
  *
@@ -22,7 +23,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 import { API_VERSION_DATE } from "./api-version.ts";
 
 export { API_VERSION_DATE };
@@ -54,10 +54,9 @@ export interface Config {
   readonly apiVersionDate: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("WhopCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "WhopCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   // `WHOP_API_KEY` is what Whop's dashboard, CLI and app templates emit.

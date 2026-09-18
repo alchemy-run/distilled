@@ -69,9 +69,7 @@ async function fetchSpec(file: SpecFile): Promise<void> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
   const spec = Bun.YAML.parse(await response.text()) as Record<string, unknown>;
@@ -79,17 +77,13 @@ async function fetchSpec(file: SpecFile): Promise<void> {
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid YAML/JSON, but it is not an OpenAPI document.
   if (typeof spec.openapi !== "string" || spec.paths === undefined) {
-    throw new Error(
-      `${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`,
-    );
+    throw new Error(`${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`);
   }
 
   const outputPath = `${SPECS_DIR}/${file.output}`;
   console.log(`Writing ${outputPath}...`);
   await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
-  console.log(
-    `  OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`  OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 async function main() {

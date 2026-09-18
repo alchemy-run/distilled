@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * SpacetimeDB credentials — hand-written.
  *
@@ -11,7 +12,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://maincloud.spacetimedb.com";
 
@@ -20,10 +20,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("SpacetimeDBCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "SpacetimeDBCredentials",
+) {}
 
 /** Layer from a plain token + optional base URL. */
 export const fromApiKey = (config: {
@@ -41,8 +40,7 @@ export const fromApiKey = (config: {
 /** Anonymous requests (no Authorization header). */
 export const fromAnonymous = (config?: {
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> =>
-  fromApiKey({ apiKey: "", apiBaseUrl: config?.apiBaseUrl });
+}): Layer.Layer<Credentials> => fromApiKey({ apiKey: "", apiBaseUrl: config?.apiBaseUrl });
 
 /**
  * Reads SPACETIMEDB_TOKEN or SPACETIME_TOKEN (optional — empty is anonymous)
@@ -51,8 +49,7 @@ export const fromAnonymous = (config?: {
 export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
   Credentials,
   Effect.gen(function* () {
-    const apiKey =
-      process.env.SPACETIMEDB_TOKEN ?? process.env.SPACETIME_TOKEN ?? "";
+    const apiKey = process.env.SPACETIMEDB_TOKEN ?? process.env.SPACETIME_TOKEN ?? "";
     const apiBaseUrl =
       process.env.SPACETIMEDB_API_BASE_URL ??
       process.env.SPACETIMEDB_HOST ??

@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * BoatProtocol — hand-written.
  *
@@ -16,13 +19,10 @@
  *             classes, then {@link UnknownBoatError}.
  */
 import * as Effect from "effect/Effect";
-import type * as Layer from "effect/Layer";
-import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownBoatError, BoatParseError } from "./errors.ts";
 
@@ -42,29 +42,22 @@ export type BoatOpError =
 /** Context (requirements) shared by every generated Boat operation. */
 export type BoatOpContext = Credentials | HttpClient.HttpClient;
 
-export const BoatProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>(
-  {
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const BoatProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // The Credentials service holds an effect — resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  unknownError: ({ code, message, body }) =>
+    new UnknownBoatError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    unknownError: ({ code, message, body }) =>
-      new UnknownBoatError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-    parseError: ({ body, cause }) => new BoatParseError({ body, cause }),
-  },
-);
+  parseError: ({ body, cause }) => new BoatParseError({ body, cause }),
+});

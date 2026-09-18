@@ -2991,11 +2991,7 @@
               "state": "ENABLED",
               "type": "MANAGED",
               "computeResources": {
-                "subnets": [
-                  "subnet-220c0e0a",
-                  "subnet-1a95556d",
-                  "subnet-978f6dce"
-                ],
+                "subnets": ["subnet-220c0e0a", "subnet-1a95556d", "subnet-978f6dce"],
                 "tags": {
                   "Name": "Batch Instance - C4OnDemand"
                 },
@@ -3029,11 +3025,7 @@
               "state": "ENABLED",
               "type": "MANAGED",
               "computeResources": {
-                "subnets": [
-                  "subnet-220c0e0a",
-                  "subnet-1a95556d",
-                  "subnet-978f6dce"
-                ],
+                "subnets": ["subnet-220c0e0a", "subnet-1a95556d", "subnet-978f6dce"],
                 "type": "SPOT",
                 "spotIamFleetRole": "arn:aws:iam::012345678910:role/aws-ec2-spot-fleet-role",
                 "tags": {
@@ -3135,12 +3127,7 @@
                       "securityGroups": ["sg-abcde012"]
                     },
                     "instanceRequirements": {
-                      "allowedInstanceTypes": [
-                        "m5.large",
-                        "m5.xlarge",
-                        "m6i.large",
-                        "m6i.xlarge"
-                      ]
+                      "allowedInstanceTypes": ["m5.large", "m5.xlarge", "m6i.large", "m6i.xlarge"]
                     },
                     "capacityOptionType": "SPOT"
                   }
@@ -4280,11 +4267,7 @@
                     "maxvCpus": 128,
                     "desiredvCpus": 48,
                     "instanceTypes": ["p2"],
-                    "subnets": [
-                      "subnet-220c0e0a",
-                      "subnet-1a95556d",
-                      "subnet-978f6dce"
-                    ],
+                    "subnets": ["subnet-220c0e0a", "subnet-1a95556d", "subnet-978f6dce"],
                     "securityGroupIds": ["sg-cf5093b2"],
                     "ec2KeyPair": "id_rsa",
                     "instanceRole": "ecsInstanceRole",

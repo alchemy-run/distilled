@@ -41,10 +41,8 @@ const MANUAL_SPEC_DIR = path.join(ROOT, "manual-specs");
 const DIST_SERVICES = path.join(DISTILLED, "packages/cloudflare/src/services");
 const DIST_PATCHES = path.join(DISTILLED, "packages/cloudflare/patches");
 
-const upperFirst = (s: string): string =>
-  s.charAt(0).toUpperCase() + s.slice(1);
-const lowerFirst = (s: string): string =>
-  s.charAt(0).toLowerCase() + s.slice(1);
+const upperFirst = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1);
+const lowerFirst = (s: string): string => s.charAt(0).toLowerCase() + s.slice(1);
 const normPath = (p: string): string => p.replace(/\{[^}]+\}/g, "{}");
 
 // ============================================================================
@@ -68,10 +66,7 @@ const distilledOps = new Map<string, DistilledOp>(); // key: METHOD normPath
 /** distilled service → merged camelCase→wire pairs from its encodeKeys calls */
 const serviceDicts = new Map<string, Record<string, string>>();
 /** `${service}:${ReqName}` → header members {semantic name, wire header name} */
-const headerRenamesForReq = new Map<
-  string,
-  Array<{ member: string; wire: string }>
->();
+const headerRenamesForReq = new Map<string, Array<{ member: string; wire: string }>>();
 
 let dupRoutes = 0;
 for (const file of fs.readdirSync(DIST_SERVICES)) {
@@ -107,9 +102,7 @@ for (const file of fs.readdirSync(DIST_SERVICES)) {
     if (best.size) {
       serviceDicts.set(
         service,
-        Object.fromEntries(
-          [...best.entries()].sort().map(([c, { wire }]) => [c, wire]),
-        ),
+        Object.fromEntries([...best.entries()].sort().map(([c, { wire }]) => [c, wire])),
       );
     }
   }
@@ -153,10 +146,7 @@ for (const file of fs.readdirSync(DIST_SERVICES)) {
     /export const (\w+): API\.PaginatedOperationMethod<[\s\S]*?pagination:\s*(\{[\s\S]*?\})\s*as const/g;
   for (const m of src.matchAll(pagRe)) {
     try {
-      paginationFor.set(
-        m[1],
-        new Function(`return (${m[2]})`)() as Record<string, unknown>,
-      );
+      paginationFor.set(m[1], new Function(`return (${m[2]})`)() as Record<string, unknown>);
     } catch {
       console.warn(`⚠️  unparsable pagination config: ${service}/${m[1]}`);
     }
@@ -208,9 +198,7 @@ for (const file of fs.readdirSync(DIST_SERVICES)) {
             errors = parsed.errors;
           }
         } catch {
-          console.warn(
-            `⚠️  unparsable distilled patch: ${service}/${exportName}.json`,
-          );
+          console.warn(`⚠️  unparsable distilled patch: ${service}/${exportName}.json`);
         }
       }
     }
@@ -263,9 +251,7 @@ const opAliases = new Map<string, Array<{ alias: string; target: string }>>();
 for (const file of fs.readdirSync(SMITHY_DIR)) {
   if (!file.endsWith(".json") || file === "cloudflare.protocols.json") continue;
   const resource = file.replace(/\.json$/, "");
-  const model = JSON.parse(
-    fs.readFileSync(path.join(SMITHY_DIR, file), "utf8"),
-  );
+  const model = JSON.parse(fs.readFileSync(path.join(SMITHY_DIR, file), "utf8"));
   const shapes: Record<string, any> = model.shapes;
   const shapeNames = new Set(Object.keys(shapes).map((id) => id.split("#")[1]));
 
@@ -317,11 +303,7 @@ for (const file of fs.readdirSync(SMITHY_DIR)) {
     // --- Renames: operation + Request/Response shapes -----------------------
     if (!isDuplicate && ourOpName !== wantOpName) {
       // Skip the rename if the target names already exist as different shapes.
-      const wanted = [
-        wantOpName,
-        `${wantOpName}Request`,
-        `${wantOpName}Response`,
-      ];
+      const wanted = [wantOpName, `${wantOpName}Request`, `${wantOpName}Response`];
       if (wanted.some((n) => shapeNames.has(n))) {
         collisions++;
       } else {
@@ -421,9 +403,7 @@ for (const file of fs.readdirSync(SMITHY_DIR)) {
     // (`storageClass`). Rename our member key to distilled's, matched by the
     // shared wire header name. generate.ts derives the TS member name from the
     // key and keeps the httpHeader trait, so the header still serializes right.
-    const headerRenames = headerRenamesForReq.get(
-      `${dist.service}:${wantOpName}`,
-    );
+    const headerRenames = headerRenamesForReq.get(`${dist.service}:${wantOpName}`);
     if (headerRenames && reqShapeId) {
       const inputShape = shapes[def.input?.target as string];
       const members = inputShape?.members as Record<string, any> | undefined;
@@ -431,9 +411,7 @@ for (const file of fs.readdirSync(SMITHY_DIR)) {
         const seen = new Set<string>();
         for (const { member, wire } of headerRenames) {
           const oldKey = Object.keys(members).find(
-            (k) =>
-              members[k]?.traits?.["smithy.api#httpHeader"] === wire &&
-              !seen.has(k),
+            (k) => members[k]?.traits?.["smithy.api#httpHeader"] === wire && !seen.has(k),
           );
           if (!oldKey || oldKey === member || members[member]) continue;
           seen.add(oldKey);
@@ -522,8 +500,7 @@ console.log(
 // ----------------------------------------------------------------------------
 
 const addRoute = (into: Set<string>, http: any): void => {
-  if (http?.method && http?.uri)
-    into.add(`${http.method} ${normPath(http.uri)}`);
+  if (http?.method && http?.uri) into.add(`${http.method} ${normPath(http.uri)}`);
 };
 
 /** `METHOD normPath` keys of operations we hand-author rather than derive */
@@ -556,9 +533,7 @@ if (fs.existsSync(MANUAL_SPEC_DIR)) {
     if (!file.endsWith(".json")) continue;
     let model: any;
     try {
-      model = JSON.parse(
-        fs.readFileSync(path.join(MANUAL_SPEC_DIR, file), "utf8"),
-      );
+      model = JSON.parse(fs.readFileSync(path.join(MANUAL_SPEC_DIR, file), "utf8"));
     } catch {
       continue;
     }
@@ -579,9 +554,7 @@ if (missing.length === 0) {
   console.log(
     `\n⚠️  ${missing.length} distilled route(s) absent from our models and from patches/**.manual.json —`,
   );
-  console.log(
-    `   docs-absent endpoints that will NOT be generated until hand-authored:`,
-  );
+  console.log(`   docs-absent endpoints that will NOT be generated until hand-authored:`);
   for (const [key, op] of missing) {
     console.log(`   • ${op.service}.${op.exportName}  ${key}`);
   }
@@ -645,10 +618,7 @@ for (const [service, votes] of serviceVotes) {
   }
 }
 let metadataCount = 0;
-const metadataResources = new Set([
-  ...resourceDicts.keys(),
-  ...opAliases.keys(),
-]);
+const metadataResources = new Set([...resourceDicts.keys(), ...opAliases.keys()]);
 for (const resource of [...metadataResources].sort()) {
   const dict = resourceDicts.get(resource);
   const aliasList = opAliases.get(resource);

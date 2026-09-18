@@ -24,10 +24,9 @@ export interface Config {
   readonly region?: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("GCPCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "GCPCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   accessToken: EffectConfig.String("GOOGLE_ACCESS_TOKEN"),

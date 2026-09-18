@@ -38,8 +38,7 @@ const mintFixture = (apiKey: string) =>
         }
         if (
           request.method !== "POST" ||
-          request.url !==
-            "https://api.sprites.dev/v1/organizations/mint-test/tokens"
+          request.url !== "https://api.sprites.dev/v1/organizations/mint-test/tokens"
         ) {
           return yield* Effect.die("Unexpected test transport request");
         }
@@ -48,10 +47,7 @@ const mintFixture = (apiKey: string) =>
         if (!attempt) return yield* Effect.die("Unexpected mint attempt");
         yield* Deferred.succeed(attempt.started, undefined);
         const { status, body } = yield* Deferred.await(attempt.response);
-        return HttpClientResponse.fromWeb(
-          request,
-          Response.json(body, { status }),
-        );
+        return HttpClientResponse.fromWeb(request, Response.json(body, { status }));
       }),
     );
     const encode = protocol
@@ -89,9 +85,7 @@ describe("Sprites token mint coordination", () => {
     Effect.runPromise(
       Effect.gen(function* () {
         const fixture = yield* mintFixture("mint-concurrent-fly-secret");
-        const owner = yield* fixture.encode.pipe(
-          Effect.forkChild({ startImmediately: true }),
-        );
+        const owner = yield* fixture.encode.pipe(Effect.forkChild({ startImmediately: true }));
         yield* fixture.started();
         const waiters = yield* Effect.forEach(Array.from({ length: 20 }), () =>
           fixture.encode.pipe(Effect.forkChild({ startImmediately: true })),
@@ -104,20 +98,12 @@ describe("Sprites token mint coordination", () => {
         requests.push(yield* fixture.encode);
         for (const request of requests) {
           expect(request.url).toBe("https://api.sprites.dev/v1/sprites");
-          expect(request.headers.authorization).toBe(
-            "Bearer mint-concurrent-sprites-secret",
-          );
-          expect(JSON.stringify(request)).not.toContain(
-            "mint-concurrent-sprites-secret",
-          );
+          expect(request.headers.authorization).toBe("Bearer mint-concurrent-sprites-secret");
+          expect(JSON.stringify(request)).not.toContain("mint-concurrent-sprites-secret");
         }
-        expect(fixture.mints[0]!.headers.authorization).toBe(
-          "FlyV1 mint-concurrent-fly-secret",
-        );
+        expect(fixture.mints[0]!.headers.authorization).toBe("FlyV1 mint-concurrent-fly-secret");
         for (const request of [...fixture.discoveries, ...fixture.mints]) {
-          expect(JSON.stringify(request)).not.toContain(
-            "mint-concurrent-fly-secret",
-          );
+          expect(JSON.stringify(request)).not.toContain("mint-concurrent-fly-secret");
         }
         expect(fixture.credentialReads()).toBe(22);
         expect(fixture.discoveries).toHaveLength(1);
@@ -129,13 +115,9 @@ describe("Sprites token mint coordination", () => {
     Effect.runPromise(
       Effect.gen(function* () {
         const fixture = yield* mintFixture("mint-retry-fly-secret");
-        const owner = yield* fixture.encode.pipe(
-          Effect.forkChild({ startImmediately: true }),
-        );
+        const owner = yield* fixture.encode.pipe(Effect.forkChild({ startImmediately: true }));
         yield* fixture.started();
-        const waiter = yield* fixture.encode.pipe(
-          Effect.forkChild({ startImmediately: true }),
-        );
+        const waiter = yield* fixture.encode.pipe(Effect.forkChild({ startImmediately: true }));
         expect(fixture.credentialReads()).toBe(2);
         expect(fixture.mints).toHaveLength(1);
         yield* fixture.respond({ message: "synthetic mint failure" }, 500);
@@ -143,18 +125,12 @@ describe("Sprites token mint coordination", () => {
         for (const exit of exits) {
           expect(Exit.isFailure(exit)).toBe(true);
           if (Exit.isFailure(exit)) {
-            expect(Cause.pretty(exit.cause)).toContain(
-              "synthetic mint failure",
-            );
-            expect(Cause.pretty(exit.cause)).not.toContain(
-              "mint-retry-fly-secret",
-            );
+            expect(Cause.pretty(exit.cause)).toContain("synthetic mint failure");
+            expect(Cause.pretty(exit.cause)).not.toContain("mint-retry-fly-secret");
           }
         }
         expect(exits[0]).toEqual(exits[1]);
-        const retry = yield* fixture.encode.pipe(
-          Effect.forkChild({ startImmediately: true }),
-        );
+        const retry = yield* fixture.encode.pipe(Effect.forkChild({ startImmediately: true }));
         yield* fixture.started(1);
         yield* fixture.respond({ token: "mint-retry-sprites-secret" }, 200, 1);
         expect((yield* Fiber.join(retry)).headers.authorization).toBe(
@@ -173,20 +149,12 @@ describe("Sprites token mint coordination", () => {
       Effect.gen(function* () {
         const first = yield* mintFixture("mint-isolation-first");
         const second = yield* mintFixture("mint-isolation-second");
-        const firstFiber = yield* first.encode.pipe(
-          Effect.forkChild({ startImmediately: true }),
-        );
-        const secondFiber = yield* second.encode.pipe(
-          Effect.forkChild({ startImmediately: true }),
-        );
+        const firstFiber = yield* first.encode.pipe(Effect.forkChild({ startImmediately: true }));
+        const secondFiber = yield* second.encode.pipe(Effect.forkChild({ startImmediately: true }));
         yield* first.started();
         yield* second.started();
-        expect(first.mints[0]!.headers.authorization).toBe(
-          "FlyV1 mint-isolation-first",
-        );
-        expect(second.mints[0]!.headers.authorization).toBe(
-          "FlyV1 mint-isolation-second",
-        );
+        expect(first.mints[0]!.headers.authorization).toBe("FlyV1 mint-isolation-first");
+        expect(second.mints[0]!.headers.authorization).toBe("FlyV1 mint-isolation-second");
         yield* second.respond({ token: "sprites-isolation-second" });
         expect((yield* Fiber.join(secondFiber)).headers.authorization).toBe(
           "Bearer sprites-isolation-second",
@@ -195,9 +163,7 @@ describe("Sprites token mint coordination", () => {
         expect((yield* Fiber.join(firstFiber)).headers.authorization).toBe(
           "Bearer sprites-isolation-first",
         );
-        expect((yield* first.encode).headers.authorization).toBe(
-          "Bearer sprites-isolation-first",
-        );
+        expect((yield* first.encode).headers.authorization).toBe("Bearer sprites-isolation-first");
         expect((yield* second.encode).headers.authorization).toBe(
           "Bearer sprites-isolation-second",
         );
@@ -210,13 +176,9 @@ describe("Sprites token mint coordination", () => {
     Effect.runPromise(
       Effect.gen(function* () {
         const fixture = yield* mintFixture("mint-interrupted-waiter");
-        const owner = yield* fixture.encode.pipe(
-          Effect.forkChild({ startImmediately: true }),
-        );
+        const owner = yield* fixture.encode.pipe(Effect.forkChild({ startImmediately: true }));
         yield* fixture.started();
-        const waiter = yield* fixture.encode.pipe(
-          Effect.forkChild({ startImmediately: true }),
-        );
+        const waiter = yield* fixture.encode.pipe(Effect.forkChild({ startImmediately: true }));
         expect(fixture.credentialReads()).toBe(2);
         yield* Fiber.interrupt(waiter);
         expect(Exit.hasInterrupts(yield* Fiber.await(waiter))).toBe(true);
@@ -239,9 +201,7 @@ describe("Sprites token mint coordination", () => {
     Effect.runPromise(
       Effect.gen(function* () {
         const fixture = yield* mintFixture("mint-interrupted-owner");
-        const owner = yield* fixture.encode.pipe(
-          Effect.forkChild({ startImmediately: true }),
-        );
+        const owner = yield* fixture.encode.pipe(Effect.forkChild({ startImmediately: true }));
         yield* fixture.started();
         const waiters = yield* Effect.forEach([0, 1, 2], () =>
           fixture.encode.pipe(Effect.forkChild({ startImmediately: true })),
@@ -252,9 +212,7 @@ describe("Sprites token mint coordination", () => {
         for (const exit of yield* Fiber.awaitAll([owner, ...waiters])) {
           expect(Exit.hasInterrupts(exit)).toBe(true);
         }
-        const retry = yield* fixture.encode.pipe(
-          Effect.forkChild({ startImmediately: true }),
-        );
+        const retry = yield* fixture.encode.pipe(Effect.forkChild({ startImmediately: true }));
         yield* fixture.started(1);
         yield* fixture.respond({ token: "sprites-after-interruption" }, 200, 1);
         expect((yield* Fiber.join(retry)).headers.authorization).toBe(

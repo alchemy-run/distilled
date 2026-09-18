@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Boat
  * Effect SDK.
@@ -12,7 +13,6 @@
  * member renaming or wire dictionaries appear here.
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -100,8 +100,7 @@ runGeneratorCli({
       const output = shapes[shape.output?.target];
       if (!input?.members?.cursor || !output?.members?.pageInfo) continue;
       const itemsEntry = Object.entries<any>(output.members).find(
-        ([name, member]) =>
-          name !== "pageInfo" && shapes[member?.target]?.type === "list",
+        ([name, member]) => name !== "pageInfo" && shapes[member?.target]?.type === "list",
       );
       if (itemsEntry === undefined) continue;
       shape.traits ??= {};

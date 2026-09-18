@@ -46,9 +46,7 @@ const fetchText = async (url: string): Promise<string> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 };
@@ -64,9 +62,7 @@ async function main() {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = (await response.json()) as Record<string, unknown>;
@@ -109,10 +105,7 @@ async function main() {
     },
     docs,
   };
-  await Bun.write(
-    `${DOCS_DIR}/_manifest.json`,
-    JSON.stringify(manifest, null, 2) + "\n",
-  );
+  await Bun.write(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
 
   console.log(
     `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths, ${docs.length} docs`,

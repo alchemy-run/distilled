@@ -36,9 +36,7 @@ async function fetchJson(url: string): Promise<Record<string, unknown>> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return (await response.json()) as Record<string, unknown>;
 }
@@ -51,9 +49,7 @@ async function fetchText(url: string): Promise<string> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 }
@@ -79,14 +75,9 @@ async function main() {
     throw new Error(`${DOCS_INDEX_URL} returned an empty document`);
   }
   console.log(`Writing docs index to ${DOCS_INDEX_PATH}...`);
-  await Bun.write(
-    DOCS_INDEX_PATH,
-    docsIndex.endsWith("\n") ? docsIndex : docsIndex + "\n",
-  );
+  await Bun.write(DOCS_INDEX_PATH, docsIndex.endsWith("\n") ? docsIndex : docsIndex + "\n");
 
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 main().catch((err) => {

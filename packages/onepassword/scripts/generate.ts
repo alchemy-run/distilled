@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * 1Password Connect Effect SDK.
@@ -12,7 +13,6 @@
  * member renaming or wire dictionaries appear here.
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -83,8 +83,7 @@ const onepasswordSpec: SdkSpec = {
 };
 
 runGeneratorCli({
-  description:
-    "Generate the 1Password Connect Effect SDK from the Smithy model",
+  description: "Generate the 1Password Connect Effect SDK from the Smithy model",
   root: `${import.meta.dir}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.

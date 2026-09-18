@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Argo CD credentials — hand-written.
  *
@@ -15,7 +16,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Common local Argo CD listen address (the instance origin, not `/api/v1`). */
 export const DEFAULT_API_BASE_URL = "https://localhost:8080";
@@ -25,10 +25,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ArgocdCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "ArgocdCredentials",
+) {}
 
 /** Layer from a plain bearer token + optional instance URL. */
 export const fromToken = (config: {

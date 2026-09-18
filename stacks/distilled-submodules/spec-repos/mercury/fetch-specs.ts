@@ -31,16 +31,7 @@ const CONCURRENCY = 4;
 const MAX_FAILURE_RATE_FOR_PRUNE = 0.05;
 const USER_AGENT = "distilled.cloud-mercury-spec-mirror";
 
-const HTTP_METHODS = [
-  "get",
-  "put",
-  "post",
-  "delete",
-  "options",
-  "head",
-  "patch",
-  "trace",
-] as const;
+const HTTP_METHODS = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
 
 type HttpMethod = (typeof HTTP_METHODS)[number];
 
@@ -50,9 +41,7 @@ class FetchError extends Error {
     readonly status?: number,
     readonly reason?: unknown,
   ) {
-    super(
-      `${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`,
-    );
+    super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
   }
 }
 
@@ -78,15 +67,8 @@ async function fetchText(url: string, attempts = 8): Promise<string> {
       }
       if (response.status < 500 && response.status !== 429) throw error;
     } catch (cause) {
-      error =
-        cause instanceof FetchError
-          ? cause
-          : new FetchError(url, undefined, cause);
-      if (
-        error.status !== undefined &&
-        error.status < 500 &&
-        error.status !== 429
-      ) {
+      error = cause instanceof FetchError ? cause : new FetchError(url, undefined, cause);
+      if (error.status !== undefined && error.status < 500 && error.status !== 429) {
         throw error;
       }
     }
@@ -169,9 +151,7 @@ function mergeNamed(
     }
     if (JSON.stringify(target[name]) === JSON.stringify(value)) continue;
     const keep =
-      JSON.stringify(value).length > JSON.stringify(target[name]).length
-        ? value
-        : target[name];
+      JSON.stringify(value).length > JSON.stringify(target[name]).length ? value : target[name];
     if (keep !== target[name]) {
       collisions.push(`${kind} ${name}: replacing with a larger definition`);
       target[name] = keep;
@@ -188,16 +168,13 @@ async function mapConcurrent<T, R>(
 ): Promise<R[]> {
   const results = Array.from<R>({ length: items.length });
   let next = 0;
-  const runners = Array.from(
-    { length: Math.min(limit, items.length) },
-    async () => {
-      while (true) {
-        const index = next++;
-        if (index >= items.length) return;
-        results[index] = await worker(items[index]!);
-      }
-    },
-  );
+  const runners = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (true) {
+      const index = next++;
+      if (index >= items.length) return;
+      results[index] = await worker(items[index]!);
+    }
+  });
   await Promise.all(runners);
   return results;
 }
@@ -242,14 +219,9 @@ async function main() {
   console.log(`Fetching ${LLMS_URL}...`);
   const llmsTxt = await fetchText(LLMS_URL);
   if (!llmsTxt.includes("docs.mercury.com") && !llmsTxt.includes("Mercury")) {
-    throw new Error(
-      `${LLMS_URL} did not look like Mercury's docs index — refusing to continue`,
-    );
+    throw new Error(`${LLMS_URL} did not look like Mercury's docs index — refusing to continue`);
   }
-  await writeFile(
-    `${SPECS_DIR}/llms.txt`,
-    llmsTxt.endsWith("\n") ? llmsTxt : `${llmsTxt}\n`,
-  );
+  await writeFile(`${SPECS_DIR}/llms.txt`, llmsTxt.endsWith("\n") ? llmsTxt : `${llmsTxt}\n`);
 
   const pages = pagesFromLlms(llmsTxt);
   if (pages.length === 0) {
@@ -259,9 +231,7 @@ async function main() {
 
   await mkdir(DOCS_DIR, { recursive: true });
 
-  console.log(
-    `\nDownloading ${pages.length} markdown pages (concurrency ${CONCURRENCY})...`,
-  );
+  console.log(`\nDownloading ${pages.length} markdown pages (concurrency ${CONCURRENCY})...`);
 
   type Result =
     | { path: string; ok: true; body: string; localPath: string }
@@ -293,21 +263,16 @@ async function main() {
   const failed = results.filter((r) => !r.ok);
   const failureRate = failed.length / results.length;
   if (kept.length === 0) {
-    throw new Error(
-      `Every Mercury docs page failed to download (${failed.length} failures)`,
-    );
+    throw new Error(`Every Mercury docs page failed to download (${failed.length} failures)`);
   }
   for (const miss of failed) {
     console.warn(`  ⚠️  ${miss.path}: ${miss.error}`);
   }
   console.log(
-    `  ${kept.length} downloaded` +
-      (failed.length > 0 ? `, ${failed.length} failed` : ""),
+    `  ${kept.length} downloaded` + (failed.length > 0 ? `, ${failed.length} failed` : ""),
   );
 
-  const written = new Set(
-    kept.map((page) => relative(DOCS_DIR, page.localPath)),
-  );
+  const written = new Set(kept.map((page) => relative(DOCS_DIR, page.localPath)));
   await writeFile(
     join(DOCS_DIR, "_manifest.json"),
     JSON.stringify(
@@ -333,9 +298,7 @@ async function main() {
       await rm(file);
     }
   } else {
-    console.warn(
-      `  ${failed.length}/${results.length} docs pages failed — skipping prune`,
-    );
+    console.warn(`  ${failed.length}/${results.length} docs pages failed — skipping prune`);
   }
 
   const paths: Record<string, any> = {};
@@ -373,34 +336,12 @@ async function main() {
       }
     }
     mergeNamed(schemas, snippet.components?.schemas, "schema", collisions);
-    mergeNamed(
-      securitySchemes,
-      snippet.components?.securitySchemes,
-      "securityScheme",
-      collisions,
-    );
-    mergeNamed(
-      parameters,
-      snippet.components?.parameters,
-      "parameter",
-      collisions,
-    );
-    mergeNamed(
-      requestBodies,
-      snippet.components?.requestBodies,
-      "requestBody",
-      collisions,
-    );
-    mergeNamed(
-      responses,
-      snippet.components?.responses,
-      "response",
-      collisions,
-    );
+    mergeNamed(securitySchemes, snippet.components?.securitySchemes, "securityScheme", collisions);
+    mergeNamed(parameters, snippet.components?.parameters, "parameter", collisions);
+    mergeNamed(requestBodies, snippet.components?.requestBodies, "requestBody", collisions);
+    mergeNamed(responses, snippet.components?.responses, "response", collisions);
 
-    for (const [pathTemplate, item] of Object.entries<any>(
-      snippet.paths ?? {},
-    )) {
+    for (const [pathTemplate, item] of Object.entries<any>(snippet.paths ?? {})) {
       if (item === null || typeof item !== "object") continue;
       if (!paths[pathTemplate]) paths[pathTemplate] = {};
       for (const method of HTTP_METHODS) {
@@ -460,9 +401,7 @@ async function main() {
     },
     servers: servers ?? [{ url: "https://api.mercury.com/api/v1" }],
     ...(security !== undefined ? { security } : {}),
-    tags: [...tagsByName.entries()]
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([, tag]) => tag),
+    tags: [...tagsByName.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([, tag]) => tag),
     paths: sortedPaths,
     components,
   };
@@ -473,9 +412,7 @@ async function main() {
 
   const c = census(spec);
   if (c.operations === 0) {
-    throw new Error(
-      "assembled OpenAPI has no operations — refusing to write a gutted spec",
-    );
+    throw new Error("assembled OpenAPI has no operations — refusing to write a gutted spec");
   }
 
   await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");

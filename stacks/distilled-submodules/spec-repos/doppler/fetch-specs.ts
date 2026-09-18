@@ -31,16 +31,7 @@ const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
 const CONCURRENCY = 4;
 const MAX_FAILURE_RATE_FOR_PRUNE = 0.05;
 
-const HTTP_METHODS = [
-  "get",
-  "put",
-  "post",
-  "delete",
-  "options",
-  "head",
-  "patch",
-  "trace",
-] as const;
+const HTTP_METHODS = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
 
 type HttpMethod = (typeof HTTP_METHODS)[number];
 
@@ -50,9 +41,7 @@ class FetchError extends Error {
     readonly status?: number,
     readonly reason?: unknown,
   ) {
-    super(
-      `${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`,
-    );
+    super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
   }
 }
 
@@ -79,15 +68,8 @@ async function fetchText(url: string, attempts = 8): Promise<string> {
       // 429 is retried with backoff; other 4xx are gone-for-good.
       if (response.status < 500 && response.status !== 429) throw error;
     } catch (cause) {
-      error =
-        cause instanceof FetchError
-          ? cause
-          : new FetchError(url, undefined, cause);
-      if (
-        error.status !== undefined &&
-        error.status < 500 &&
-        error.status !== 429
-      ) {
+      error = cause instanceof FetchError ? cause : new FetchError(url, undefined, cause);
+      if (error.status !== undefined && error.status < 500 && error.status !== 429) {
         throw error;
       }
     }
@@ -147,16 +129,13 @@ async function mapConcurrent<T, R>(
 ): Promise<R[]> {
   const results = Array.from<R>({ length: items.length });
   let next = 0;
-  const runners = Array.from(
-    { length: Math.min(limit, items.length) },
-    async () => {
-      while (true) {
-        const index = next++;
-        if (index >= items.length) return;
-        results[index] = await worker(items[index]!);
-      }
-    },
-  );
+  const runners = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (true) {
+      const index = next++;
+      if (index >= items.length) return;
+      results[index] = await worker(items[index]!);
+    }
+  });
   await Promise.all(runners);
   return results;
 }
@@ -206,16 +185,11 @@ if (!existsSync(SPECS_DIR)) {
 async function main() {
   console.log(`Fetching ${LLMS_URL}...`);
   const llmsTxt = await fetchText(LLMS_URL);
-  await writeFile(
-    `${SPECS_DIR}/llms.txt`,
-    llmsTxt.endsWith("\n") ? llmsTxt : `${llmsTxt}\n`,
-  );
+  await writeFile(`${SPECS_DIR}/llms.txt`, llmsTxt.endsWith("\n") ? llmsTxt : `${llmsTxt}\n`);
 
   const slugs = extractReferenceSlugs(llmsTxt);
   if (slugs.length === 0) {
-    throw new Error(
-      `${LLMS_URL} listed no /reference/ pages — refusing to continue`,
-    );
+    throw new Error(`${LLMS_URL} listed no /reference/ pages — refusing to continue`);
   }
   console.log(`  ${slugs.length} API reference page(s)`);
 
@@ -232,18 +206,14 @@ async function main() {
     };
   });
 
-  console.log(
-    `\nDownloading ${pages.length} markdown pages (concurrency ${CONCURRENCY})...`,
-  );
+  console.log(`\nDownloading ${pages.length} markdown pages (concurrency ${CONCURRENCY})...`);
 
   const downloaded = await mapConcurrent(pages, CONCURRENCY, async (page) => {
     let markdown: string;
     try {
       markdown = await fetchText(page.markdownUrl);
     } catch (cause) {
-      console.warn(
-        `  Failed to download ${page.markdownUrl} (${cause}) — skipping`,
-      );
+      console.warn(`  Failed to download ${page.markdownUrl} (${cause}) — skipping`);
       return undefined;
     }
     await mkdir(dirname(page.localPath), { recursive: true });
@@ -252,20 +222,13 @@ async function main() {
   });
 
   const kept = downloaded
-    .filter(
-      (page): page is NonNullable<(typeof downloaded)[number]> =>
-        page !== undefined,
-    )
+    .filter((page): page is NonNullable<(typeof downloaded)[number]> => page !== undefined)
     .sort((a, b) => a.slug.localeCompare(b.slug));
   const failed = pages.length - kept.length;
-  console.log(
-    `  ${kept.length} downloaded` + (failed > 0 ? `, ${failed} failed` : ""),
-  );
+  console.log(`  ${kept.length} downloaded` + (failed > 0 ? `, ${failed} failed` : ""));
 
   if (failed / pages.length > MAX_FAILURE_RATE_FOR_PRUNE) {
-    console.warn(
-      `  ${failed}/${pages.length} pages failed — skipping the prune this run`,
-    );
+    console.warn(`  ${failed}/${pages.length} pages failed — skipping the prune this run`);
   } else {
     await prune(new Set(kept.map((page) => page.localPath)));
   }
@@ -288,10 +251,7 @@ async function main() {
   );
 
   const paths: Record<string, any> = {};
-  const claimed = new Map<
-    string,
-    { slug: string; title: string; rank: number }
-  >();
+  const claimed = new Map<string, { slug: string; title: string; rank: number }>();
   let snippets = 0;
   let skipped = 0;
   const collisions: string[] = [];
@@ -303,13 +263,10 @@ async function main() {
       continue;
     }
     snippets++;
-    const title =
-      typeof snippet.info?.title === "string" ? snippet.info.title : "unknown";
+    const title = typeof snippet.info?.title === "string" ? snippet.info.title : "unknown";
     const rank = surfaceRank(title);
 
-    for (const [pathTemplate, item] of Object.entries<any>(
-      snippet.paths ?? {},
-    )) {
+    for (const [pathTemplate, item] of Object.entries<any>(snippet.paths ?? {})) {
       if (item === null || typeof item !== "object") continue;
       if (!paths[pathTemplate]) paths[pathTemplate] = {};
       for (const method of HTTP_METHODS) {
@@ -365,8 +322,7 @@ async function main() {
         bearerAuth: {
           type: "http",
           scheme: "bearer",
-          description:
-            "Doppler API token (CLI, personal, service, service-account, or audit).",
+          description: "Doppler API token (CLI, personal, service, service-account, or audit).",
         },
       },
     },
@@ -378,9 +334,7 @@ async function main() {
 
   const c = census(spec);
   if (c.operations === 0) {
-    throw new Error(
-      "assembled OpenAPI has no operations — refusing to write a gutted spec",
-    );
+    throw new Error("assembled OpenAPI has no operations — refusing to write a gutted spec");
   }
 
   await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");

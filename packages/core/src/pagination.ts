@@ -89,12 +89,7 @@ export interface PaginatedTrait {
   readonly hasNextPage?: string;
 }
 
-export type PaginationStrategy = <
-  Input extends Record<string, unknown>,
-  Output,
-  E,
-  R,
->(
+export type PaginationStrategy = <Input extends Record<string, unknown>, Output, E, R>(
   operation: (input: Input) => Effect.Effect<Output, E, R>,
   input: Input,
   pagination: PaginatedTrait,
@@ -120,9 +115,7 @@ export const isTerminalToken = (token: unknown): boolean =>
  * surface — emits exactly one page.
  */
 export const paginateSingle: PaginationStrategy = (operation, input) =>
-  Stream.make(input).pipe(
-    Stream.mapEffect((requestPayload) => operation(requestPayload)),
-  );
+  Stream.make(input).pipe(Stream.mapEffect((requestPayload) => operation(requestPayload)));
 
 // ============================================================================
 // Page-based Pagination
@@ -133,12 +126,7 @@ export const paginateSingle: PaginationStrategy = (operation, input) =>
  * `outputToken` when it advances; otherwise the page number is incremented,
  * terminating when a page comes back with no items (or no token).
  */
-export const paginatePageNumber = <
-  Input extends Record<string, unknown>,
-  Output,
-  E,
-  R,
->(
+export const paginatePageNumber = <Input extends Record<string, unknown>, Output, E, R>(
   operation: (input: Input) => Effect.Effect<Output, E, R>,
   input: Input,
   pagination: PaginatedTrait,
@@ -146,13 +134,10 @@ export const paginatePageNumber = <
   const inputToken = pagination.inputToken;
   const outputToken = pagination.outputToken;
   if (!inputToken || !outputToken) {
-    return missingPaginationConfig(
-      "Page-number pagination requires inputToken and outputToken",
-    );
+    return missingPaginationConfig("Page-number pagination requires inputToken and outputToken");
   }
   type State = { page: number; done: boolean };
-  const startPage =
-    typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
+  const startPage = typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
 
   return Stream.unfold({ page: startPage, done: false } as State, (state) =>
     Effect.gen(function* () {
@@ -161,10 +146,7 @@ export const paginatePageNumber = <
       const requestPayload = { ...input, [inputToken]: state.page } as Input;
       const response = yield* operation(requestPayload);
 
-      const nextPage = getPath(response, outputToken) as
-        | number
-        | null
-        | undefined;
+      const nextPage = getPath(response, outputToken) as number | null | undefined;
 
       // Some APIs report the CURRENT page at `outputToken` rather than the
       // next one (e.g. Cloudflare's `result_info.page`). Taking that value as
@@ -172,16 +154,11 @@ export const paginatePageNumber = <
       // *advancing* page number; otherwise advance by one and terminate when
       // a page comes back with no items (or the token is absent).
       const items = pagination.items
-        ? (getPath(response, pagination.items) as
-            | readonly unknown[]
-            | undefined)
+        ? (getPath(response, pagination.items) as readonly unknown[] | undefined)
         : undefined;
 
       const nextState: State = {
-        page:
-          typeof nextPage === "number" && nextPage > state.page
-            ? nextPage
-            : state.page + 1,
+        page: typeof nextPage === "number" && nextPage > state.page ? nextPage : state.page + 1,
         done:
           nextPage === null ||
           nextPage === undefined ||
@@ -202,12 +179,7 @@ export const paginatePageNumber = <
  * cursors until one comes back absent or repeats a previously requested cursor.
  * Empty pages still advance when they return a new cursor.
  */
-export const paginateCursor = <
-  Input extends Record<string, unknown>,
-  Output,
-  E,
-  R,
->(
+export const paginateCursor = <Input extends Record<string, unknown>, Output, E, R>(
   operation: (input: Input) => Effect.Effect<Output, E, R>,
   input: Input,
   pagination: PaginatedTrait,
@@ -215,47 +187,37 @@ export const paginateCursor = <
   const inputToken = pagination.inputToken;
   const outputToken = pagination.outputToken;
   if (!inputToken || !outputToken) {
-    return missingPaginationConfig(
-      "Cursor pagination requires inputToken and outputToken",
-    );
+    return missingPaginationConfig("Cursor pagination requires inputToken and outputToken");
   }
   type State = { cursor: string | undefined; done: boolean };
   const startCursor =
-    typeof input[inputToken] === "string"
-      ? (input[inputToken] as string)
-      : undefined;
+    typeof input[inputToken] === "string" ? (input[inputToken] as string) : undefined;
 
   return Stream.suspend(() => {
     // Cursor history belongs to this traversal, not to the reusable stream.
     const requestedCursors = new Set<string>();
-    return Stream.unfold(
-      { cursor: startCursor, done: false } as State,
-      (state) =>
-        Effect.gen(function* () {
-          if (state.done) return undefined;
-          if (state.cursor !== undefined) requestedCursors.add(state.cursor);
+    return Stream.unfold({ cursor: startCursor, done: false } as State, (state) =>
+      Effect.gen(function* () {
+        if (state.done) return undefined;
+        if (state.cursor !== undefined) requestedCursors.add(state.cursor);
 
-          const requestPayload = {
-            ...input,
-            ...(state.cursor ? { [inputToken]: state.cursor } : {}),
-          } as Input;
+        const requestPayload = {
+          ...input,
+          ...(state.cursor ? { [inputToken]: state.cursor } : {}),
+        } as Input;
 
-          const response = yield* operation(requestPayload);
+        const response = yield* operation(requestPayload);
 
-          const nextCursor = getPath(response, outputToken) as
-            | string
-            | null
-            | undefined;
+        const nextCursor = getPath(response, outputToken) as string | null | undefined;
 
-          const nextState: State = {
-            cursor: nextCursor ?? undefined,
-            done:
-              isTerminalToken(nextCursor) ||
-              (nextCursor != null && requestedCursors.has(nextCursor)),
-          };
+        const nextState: State = {
+          cursor: nextCursor ?? undefined,
+          done:
+            isTerminalToken(nextCursor) || (nextCursor != null && requestedCursors.has(nextCursor)),
+        };
 
-          return [response, nextState] as const;
-        }),
+        return [response, nextState] as const;
+      }),
     );
   });
 };
@@ -268,12 +230,7 @@ export const paginateCursor = <
  * Stream of pages using token-based pagination — pass `outputToken` back as
  * `inputToken` until it comes back absent.
  */
-export const paginateToken = <
-  Input extends Record<string, unknown>,
-  Output,
-  E,
-  R,
->(
+export const paginateToken = <Input extends Record<string, unknown>, Output, E, R>(
   operation: (input: Input) => Effect.Effect<Output, E, R>,
   input: Input,
   pagination: PaginatedTrait,
@@ -281,9 +238,7 @@ export const paginateToken = <
   const inputToken = pagination.inputToken;
   const outputToken = pagination.outputToken;
   if (!inputToken || !outputToken) {
-    return missingPaginationConfig(
-      "Token pagination requires inputToken and outputToken",
-    );
+    return missingPaginationConfig("Token pagination requires inputToken and outputToken");
   }
   type State = { token: unknown; done: boolean };
   const startToken = input[inputToken];
@@ -293,9 +248,7 @@ export const paginateToken = <
       if (state.done) return undefined;
 
       const requestPayload =
-        state.token !== undefined
-          ? ({ ...input, [inputToken]: state.token } as Input)
-          : input;
+        state.token !== undefined ? ({ ...input, [inputToken]: state.token } as Input) : input;
 
       const response = yield* operation(requestPayload);
 
@@ -327,12 +280,7 @@ export const paginateToken = <
  * connection that omits `pageInfo` entirely (or returns an empty page) also
  * terminates, so a malformed response can't spin forever.
  */
-export const paginateRelay = <
-  Input extends Record<string, unknown>,
-  Output,
-  E,
-  R,
->(
+export const paginateRelay = <Input extends Record<string, unknown>, Output, E, R>(
   operation: (input: Input) => Effect.Effect<Output, E, R>,
   input: Input,
   pagination: PaginatedTrait,
@@ -340,9 +288,7 @@ export const paginateRelay = <
   const inputToken = pagination.inputToken;
   const outputToken = pagination.outputToken;
   if (!inputToken || !outputToken) {
-    return missingPaginationConfig(
-      "Relay pagination requires inputToken and outputToken",
-    );
+    return missingPaginationConfig("Relay pagination requires inputToken and outputToken");
   }
   // `pageInfo.endCursor` → `pageInfo.hasNextPage` when the trait doesn't say.
   const hasNextPath =
@@ -351,9 +297,7 @@ export const paginateRelay = <
 
   type State = { cursor: string | undefined; done: boolean };
   const startCursor =
-    typeof input[inputToken] === "string"
-      ? (input[inputToken] as string)
-      : undefined;
+    typeof input[inputToken] === "string" ? (input[inputToken] as string) : undefined;
 
   return Stream.unfold({ cursor: startCursor, done: false } as State, (state) =>
     Effect.gen(function* () {
@@ -366,16 +310,12 @@ export const paginateRelay = <
 
       const response = yield* operation(requestPayload);
 
-      const nextCursor = getPath(response, outputToken) as
-        | string
-        | null
-        | undefined;
+      const nextCursor = getPath(response, outputToken) as string | null | undefined;
       const hasNext = getPath(response, hasNextPath) === true;
       // An empty page means the connection is exhausted regardless of what
       // `hasNextPage` claims — re-requesting the same cursor would loop.
       const emptyPage =
-        pagination.items !== undefined &&
-        getItems(response, pagination.items).length === 0;
+        pagination.items !== undefined && getItems(response, pagination.items).length === 0;
       // A connection that keeps returning the same `endCursor` with
       // `hasNextPage: true` (Railway `projects` has done this) would
       // otherwise paginate forever.
@@ -387,8 +327,7 @@ export const paginateRelay = <
 
       const nextState: State = {
         cursor: nextCursor ?? undefined,
-        done:
-          !hasNext || isTerminalToken(nextCursor) || emptyPage || stuckCursor,
+        done: !hasNext || isTerminalToken(nextCursor) || emptyPage || stuckCursor,
       };
 
       return [response, nextState] as const;
@@ -400,11 +339,7 @@ export const paginateRelay = <
  * Shared default pagination dispatcher for SDKs that use generic
  * token/cursor/page traversal.
  */
-export const paginateWithDefaults: PaginationStrategy = (
-  operation,
-  input,
-  pagination,
-) => {
+export const paginateWithDefaults: PaginationStrategy = (operation, input, pagination) => {
   const mode = pagination.mode ?? "token";
 
   switch (mode) {
@@ -439,7 +374,5 @@ export const extractItems = <Output, Item, E, R>(
   itemsPath: string,
 ): Stream.Stream<Item, E, R> =>
   pages.pipe(
-    Stream.flatMap((page) =>
-      Stream.fromIterable(getItems(page, itemsPath) as readonly Item[]),
-    ),
+    Stream.flatMap((page) => Stream.fromIterable(getItems(page, itemsPath) as readonly Item[])),
   );

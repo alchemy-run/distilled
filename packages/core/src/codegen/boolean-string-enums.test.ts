@@ -1,8 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  booleanStringEnums,
-  STRING_ENCODED_TRAIT,
-} from "./boolean-string-enums.ts";
+import { booleanStringEnums, STRING_ENCODED_TRAIT } from "./boolean-string-enums.ts";
 import { generateService } from "./generator.ts";
 
 const boolEnum = {
@@ -46,9 +43,7 @@ describe("booleanStringEnums", () => {
       },
     });
     expect(booleanStringEnums(m)).toEqual({ members: 0, lists: 0 });
-    expect(m.shapes["com.example.x#Response"].members.active.target).toBe(
-      "com.example.x#Flag",
-    );
+    expect(m.shapes["com.example.x#Response"].members.active.target).toBe("com.example.x#Flag");
   });
 
   test("retargets a request-only list's element type", () => {
@@ -65,9 +60,7 @@ describe("booleanStringEnums", () => {
       },
     });
     expect(booleanStringEnums(m)).toEqual({ members: 1, lists: 1 });
-    expect(m.shapes["com.example.x#FlagList"].member.target).toBe(
-      "smithy.api#Boolean",
-    );
+    expect(m.shapes["com.example.x#FlagList"].member.target).toBe("smithy.api#Boolean");
   });
 
   test("leaves a list a response also uses", () => {
@@ -88,9 +81,7 @@ describe("booleanStringEnums", () => {
       },
     });
     expect(booleanStringEnums(m)).toEqual({ members: 0, lists: 0 });
-    expect(m.shapes["com.example.x#FlagList"].member.target).toBe(
-      "com.example.x#Flag",
-    );
+    expect(m.shapes["com.example.x#FlagList"].member.target).toBe("com.example.x#Flag");
   });
 
   test("leaves an enum that is not exactly true/false", () => {
@@ -220,9 +211,7 @@ describe("generateService", () => {
       expect(code).toContain(`as any as S.Codec<${name}>`);
     }
     expect(code).not.toContain("S.Schema<");
-    expect(generateService(input, spec).code).toContain(
-      "as any as S.Schema<Input>",
-    );
+    expect(generateService(input, spec).code).toContain("as any as S.Schema<Input>");
   });
 
   test("emits a boolean piped through T.StringEncoded()", () => {
@@ -261,9 +250,7 @@ describe("generateService", () => {
         },
       },
     );
-    expect(code).toContain(
-      '"verbose": S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),',
-    );
+    expect(code).toContain('"verbose": S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),');
     expect(code).toContain("verbose?: boolean;");
     expect(code).not.toContain('"true" | "false"');
   });
@@ -285,9 +272,7 @@ describe("nested structures", () => {
       "com.example.x#GetThingResponse": {
         type: "structure",
         traits: { "smithy.api#output": {} },
-        members: sharedWithResponse
-          ? { profile: { target: "com.example.x#Profile" } }
-          : {},
+        members: sharedWithResponse ? { profile: { target: "com.example.x#Profile" } } : {},
       },
       "com.example.x#Profile": {
         type: "structure",
@@ -299,8 +284,7 @@ describe("nested structures", () => {
   test("retargets a member of a structure only requests reach", () => {
     const m = nested(false);
     expect(booleanStringEnums(m)).toEqual({ members: 1, lists: 0 });
-    const member =
-      m.shapes["com.example.x#Profile"].members.dynamicMemoryEnabled;
+    const member = m.shapes["com.example.x#Profile"].members.dynamicMemoryEnabled;
     expect(member.target).toBe("smithy.api#Boolean");
     expect(member.traits[STRING_ENCODED_TRAIT]).toEqual({});
   });
@@ -308,8 +292,8 @@ describe("nested structures", () => {
   test("leaves a structure a response also delivers", () => {
     const m = nested(true);
     expect(booleanStringEnums(m)).toEqual({ members: 0, lists: 0 });
-    expect(
-      m.shapes["com.example.x#Profile"].members.dynamicMemoryEnabled.target,
-    ).toBe("com.example.x#Flag");
+    expect(m.shapes["com.example.x#Profile"].members.dynamicMemoryEnabled.target).toBe(
+      "com.example.x#Flag",
+    );
   });
 });

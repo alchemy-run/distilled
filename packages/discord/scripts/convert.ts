@@ -59,9 +59,7 @@ const normalizeEnums = (spec: any): void => {
     "const" in b &&
     // title/description/format are decoration; anything else (properties,
     // nested composition) means this is a real union branch, not a literal.
-    Object.keys(b).every((k) =>
-      ["const", "title", "description", "format", "type"].includes(k),
-    );
+    Object.keys(b).every((k) => ["const", "title", "description", "format", "type"].includes(k));
 
   const walk = (node: any): void => {
     if (node === null || typeof node !== "object") return;
@@ -72,11 +70,7 @@ const normalizeEnums = (spec: any): void => {
     if (Array.isArray(node.enum) && node.enum.length === 0) delete node.enum;
     for (const key of ["oneOf", "anyOf"] as const) {
       const branches = node[key];
-      if (
-        Array.isArray(branches) &&
-        branches.length > 0 &&
-        branches.every(isConstBranch)
-      ) {
+      if (Array.isArray(branches) && branches.length > 0 && branches.every(isConstBranch)) {
         node.enum = branches.map((b: any) => b.const);
         delete node[key];
       }

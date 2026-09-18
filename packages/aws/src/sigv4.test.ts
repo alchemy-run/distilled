@@ -112,9 +112,7 @@ describe("SigV4.sign", () => {
     expect(url.searchParams.get("X-Amz-Credential")).toBe(
       "AKIAIOSFODNN7EXAMPLE/20130524/us-east-1/s3/aws4_request",
     );
-    expect(url.searchParams.get("X-Amz-SignedHeaders")).toBe(
-      "content-type;host",
-    );
+    expect(url.searchParams.get("X-Amz-SignedHeaders")).toBe("content-type;host");
     expect(url.searchParams.get("X-Amz-Security-Token")).toBe("TOK");
     expect(url.searchParams.get("X-Amz-Expires")).toBe("900");
     expect(url.searchParams.get("X-Amz-Signature")).toBe(
@@ -181,15 +179,12 @@ describe("SigV4.sign", () => {
         (scope: SigV4.SigningKeyScope) =>
           Effect.suspend(() =>
             attempts++ === 0
-              ? Effect.fail(
-                  new SigV4.CryptoError({ operation: "hmac", cause: "boom" }),
-                )
+              ? Effect.fail(new SigV4.CryptoError({ operation: "hmac", cause: "boom" }))
               : Cache.get(defaultCache, scope),
           ),
         {
           capacity: 4,
-          timeToLive: (exit) =>
-            Exit.isSuccess(exit) ? Duration.infinity : Duration.zero,
+          timeToLive: (exit) => (Exit.isSuccess(exit) ? Duration.infinity : Duration.zero),
         },
       ),
     );
@@ -204,9 +199,7 @@ describe("SigV4.sign", () => {
     } as const;
     const withCache = Effect.provideService(SigV4.SigningKeyCache, flakyCache);
 
-    const first = await Effect.runPromise(
-      SigV4.sign(request).pipe(Effect.flip, withCache),
-    );
+    const first = await Effect.runPromise(SigV4.sign(request).pipe(Effect.flip, withCache));
     expect(first).toBeInstanceOf(SigV4.CryptoError);
 
     const second = await Effect.runPromise(SigV4.sign(request).pipe(withCache));
@@ -229,9 +222,7 @@ describe("SigV4.sign", () => {
       }),
     );
     const keys = [...new URL(signed.url).searchParams.keys()];
-    expect(keys.indexOf("X-Amz-Security-Token")).toBeGreaterThan(
-      keys.indexOf("X-Amz-Signature"),
-    );
+    expect(keys.indexOf("X-Amz-Security-Token")).toBeGreaterThan(keys.indexOf("X-Amz-Signature"));
   });
 });
 
@@ -246,10 +237,7 @@ describe("Presign", () => {
         region: "us-east-1" as Region.RegionName,
       }),
     ),
-    Layer.succeed(
-      Region.Region,
-      Effect.succeed("us-east-1" as Region.RegionName),
-    ),
+    Layer.succeed(Region.Region, Effect.succeed("us-east-1" as Region.RegionName)),
   );
 
   test("presignS3Url signs and escapes an explicit version and special object key", async () => {
@@ -266,15 +254,9 @@ describe("Presign", () => {
     const parsed = new URL(signed);
     expect(parsed.pathname).toBe("/dir/a%20b%2B%25%3F%23/%E9%9B%AA.txt");
     expect(parsed.hash).toBe("");
-    expect(parsed.searchParams.getAll("versionId")).toEqual([
-      options.versionId,
-    ]);
-    expect(parsed.searchParams.get("response-content-type")).toBe(
-      options.responseContentType,
-    );
-    expect(parsed.search).toContain(
-      "versionId=version%2B%2F%3D+%25%3F%23%26%E9%9B%AA",
-    );
+    expect(parsed.searchParams.getAll("versionId")).toEqual([options.versionId]);
+    expect(parsed.searchParams.get("response-content-type")).toBe(options.responseContentType);
+    expect(parsed.search).toContain("versionId=version%2B%2F%3D+%25%3F%23%26%E9%9B%AA");
 
     const expected = await Effect.runPromise(
       SigV4.sign({
@@ -289,18 +271,12 @@ describe("Presign", () => {
     );
     const signature = parsed.searchParams.get("X-Amz-Signature");
     expect(signature).toMatch(/^[0-9a-f]{64}$/);
-    expect(signature).toBe(
-      new URL(expected.url).searchParams.get("X-Amz-Signature"),
-    );
+    expect(signature).toBe(new URL(expected.url).searchParams.get("X-Amz-Signature"));
     for (const versionId of ["another-version", undefined]) {
       const changed = await Effect.runPromise(
-        Presign.presignS3Url({ ...options, versionId }).pipe(
-          Effect.provide(layer),
-        ),
+        Presign.presignS3Url({ ...options, versionId }).pipe(Effect.provide(layer)),
       );
-      expect(new URL(changed).searchParams.get("X-Amz-Signature")).not.toBe(
-        signature,
-      );
+      expect(new URL(changed).searchParams.get("X-Amz-Signature")).not.toBe(signature);
     }
   });
 
@@ -311,10 +287,7 @@ describe("Presign", () => {
         key: "dir/a b+%.txt",
         versionId: "version+/=",
         datetime,
-      }).pipe(
-        Effect.provide(layer),
-        Effect.provide(Endpoint.of("http://localhost:4566/s3/")),
-      ),
+      }).pipe(Effect.provide(layer), Effect.provide(Endpoint.of("http://localhost:4566/s3/"))),
     );
     const parsed = new URL(signed);
     expect(parsed.origin).toBe("http://localhost:4566");
@@ -346,9 +319,7 @@ describe("Presign", () => {
       Presign.presignS3Url(options).pipe(Effect.provide(layer)),
     );
     const explicitUndefined = await Effect.runPromise(
-      Presign.presignS3Url({ ...options, versionId: undefined }).pipe(
-        Effect.provide(layer),
-      ),
+      Presign.presignS3Url({ ...options, versionId: undefined }).pipe(Effect.provide(layer)),
     );
     const expected = await Effect.runPromise(
       Presign.presignUrl({
@@ -376,12 +347,8 @@ describe("Presign", () => {
     const parsed = new URL(url);
     expect(parsed.host).toBe("examplebucket.s3.us-east-1.amazonaws.com");
     expect(parsed.pathname).toBe("/dir/a%20b.png");
-    expect(parsed.searchParams.get("X-Amz-SignedHeaders")).toBe(
-      "content-type;host",
-    );
+    expect(parsed.searchParams.get("X-Amz-SignedHeaders")).toBe("content-type;host");
     expect(parsed.searchParams.get("X-Amz-Expires")).toBe("60");
-    expect(parsed.searchParams.get("X-Amz-Signature")).toMatch(
-      /^[0-9a-f]{64}$/,
-    );
+    expect(parsed.searchParams.get("X-Amz-Signature")).toMatch(/^[0-9a-f]{64}$/);
   });
 });

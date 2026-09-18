@@ -88,10 +88,7 @@ describe("Query.fn", () => {
           return {
             data: {
               projects: {
-                edges: [
-                  { node: { name: "engine" } },
-                  { node: { name: "bombe" } },
-                ],
+                edges: [{ node: { name: "engine" } }, { node: { name: "bombe" } }],
               },
             },
           };
@@ -193,8 +190,9 @@ describe("Query.fn", () => {
       ),
     ).toEqual({ name: "web", deployment: { id: "d1", status: "SUCCESS" } });
     expect(documents[0]).toMatch(/latestDeployment \{\s+id\s+status/);
-    expect(
-      await Effect.runPromise(program.pipe(Effect.provide(respond(null)))),
-    ).toEqual({ name: "web", deployment: null });
+    expect(await Effect.runPromise(program.pipe(Effect.provide(respond(null))))).toEqual({
+      name: "web",
+      deployment: null,
+    });
   });
 });

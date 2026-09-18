@@ -26,6 +26,7 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
+import * as Category from "@distilled.cloud/core/category";
 import type {
   BadRequest as CoreBadRequest,
   Conflict as CoreConflict,
@@ -35,9 +36,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-
 import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/core/category";
 
 /**
  * Unknown Daytona error — returned when a failed response's HTTP status has

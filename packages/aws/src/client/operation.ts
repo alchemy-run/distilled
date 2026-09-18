@@ -9,11 +9,7 @@ export declare namespace Operation {
 
 export type Instance<T> = T extends new (...args: any) => infer U ? U : T;
 
-export interface Operation<
-  Input extends S.Top = S.Any,
-  Output extends S.Top = S.Top,
-  Error = any,
-> {
+export interface Operation<Input extends S.Top = S.Any, Output extends S.Top = S.Top, Error = any> {
   input: Input;
   output: Output;
   errors: Error[];

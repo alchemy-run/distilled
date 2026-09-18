@@ -22,9 +22,9 @@ const UNSUPPORTED_SERVICES = new Set(["partnercentral-revenue-measurement"]);
 const moduleName = (sdkId: string) => sdkId.toLowerCase().replaceAll(" ", "-");
 
 const sdkIdOf = (model: { shapes?: Record<string, any> }): string => {
-  const shape = Object.values(model.shapes ?? {}).find(
-    (s: any) => s?.type === "service",
-  ) as { traits?: { "aws.api#service"?: { sdkId?: string } } } | undefined;
+  const shape = Object.values(model.shapes ?? {}).find((s: any) => s?.type === "service") as
+    | { traits?: { "aws.api#service"?: { sdkId?: string } } }
+    | undefined;
   const sdkId = shape?.traits?.["aws.api#service"]?.sdkId;
   if (!sdkId) throw new Error("service sdkId not found");
   return sdkId;
@@ -58,36 +58,25 @@ for (const service of services) {
   const versions = fs.readdirSync(base);
   const version = versions[0];
   if (version === undefined) continue;
-  const files = fs
-    .readdirSync(path.join(base, version))
-    .filter((f) => f.endsWith(".json"));
+  const files = fs.readdirSync(path.join(base, version)).filter((f) => f.endsWith(".json"));
   const file = files[0];
   if (file === undefined) continue;
 
-  const model = JSON.parse(
-    fs.readFileSync(path.join(base, version, file), "utf8"),
-  );
+  const model = JSON.parse(fs.readFileSync(path.join(base, version, file), "utf8"));
   const dropped = dropForeignNamespaceShapes(model);
   const sdkId = sdkIdOf(model);
   const patchFileBase = moduleName(sdkId);
   const spec = loadServiceSpecPatch(sdkId, root);
   applyAwsSpecPatches(model, spec, patchFileBase);
-  const hasPatch = fs.existsSync(
-    path.join(root, "patches", `${patchFileBase}.json`),
-  );
+  const hasPatch = fs.existsSync(path.join(root, "patches", `${patchFileBase}.json`));
   if (hasPatch) patched++;
 
   const outName = `${patchFileBase}.json`;
-  fs.writeFileSync(
-    path.join(outDir, outName),
-    `${JSON.stringify(model, null, 2)}\n`,
-  );
+  fs.writeFileSync(path.join(outDir, outName), `${JSON.stringify(model, null, 2)}\n`);
   written++;
   if (dropped > 0) {
     console.log(`   ${outName}: dropped ${dropped} foreign-namespace shape(s)`);
   }
 }
 
-console.log(
-  `✅ ${written} AWS Smithy models (${patched} with patches/) → ${outDir}`,
-);
+console.log(`✅ ${written} AWS Smithy models (${patched} with patches/) → ${outDir}`);

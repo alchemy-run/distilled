@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Chronosphere credentials — hand-written.
  *
@@ -13,7 +14,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
@@ -25,18 +25,15 @@ export interface Config {
   readonly actor?: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ChronosphereCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "ChronosphereCredentials",
+) {}
 
 /** Turn a domain or origin into `https://<host>`. */
 const originFrom = (value: string): string => {
   const trimmed = value.replace(/\/+$/, "");
   if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return trimmed.includes(".")
-    ? `https://${trimmed}`
-    : `https://${trimmed}.chronosphere.io`;
+  return trimmed.includes(".") ? `https://${trimmed}` : `https://${trimmed}.chronosphere.io`;
 };
 
 /** Layer from a plain API token + instance origin. */
@@ -63,8 +60,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
   Credentials,
   Effect.gen(function* () {
     const apiKey = process.env.CHRONOSPHERE_API_TOKEN;
-    const domain =
-      process.env.CHRONOSPHERE_API_BASE_URL ?? process.env.CHRONOSPHERE_DOMAIN;
+    const domain = process.env.CHRONOSPHERE_API_BASE_URL ?? process.env.CHRONOSPHERE_DOMAIN;
 
     if (!apiKey) {
       return yield* new ConfigError({

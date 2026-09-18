@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
  *
@@ -16,7 +17,6 @@
  * and callers loop manually.
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
@@ -46,9 +46,7 @@ const spec: SdkSpec = {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
   memberTsType: (m) =>
-    SENSITIVE_TRAIT in m.traits
-      ? "string | Redacted.Redacted<string>"
-      : undefined,
+    SENSITIVE_TRAIT in m.traits ? "string | Redacted.Redacted<string>" : undefined,
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
@@ -57,8 +55,7 @@ const spec: SdkSpec = {
         )
       : code,
 
-  sourceNote:
-    ".generated-specs (converted from specs/spec-mirror-prisma-postgres)",
+  sourceNote: ".generated-specs (converted from specs/spec-mirror-prisma-postgres)",
 
   // Structural unions (the spec's oneOf database-source variants): a plain
   // TS union + `S.Union([...])` over the named case shapes — Prisma returns

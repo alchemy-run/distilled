@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * PayPal credentials — hand-written.
  *
@@ -11,7 +12,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** PayPal live REST API root. Use `https://api-m.sandbox.paypal.com` for sandbox. */
 export const DEFAULT_API_BASE_URL = "https://api-m.paypal.com";
@@ -23,10 +23,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("PaypalCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "PaypalCredentials",
+) {}
 
 /** Layer from a plain access token + optional base URL. */
 export const fromApiKey = (config: {

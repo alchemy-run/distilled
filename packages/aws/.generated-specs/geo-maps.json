@@ -1077,11 +1077,7 @@
         },
         "aws.protocols#restJson1": {},
         "smithy.api#cors": {
-          "additionalAllowedHeaders": [
-            "x-amz-content-sha256",
-            "x-amz-user-agent",
-            "content-type"
-          ],
+          "additionalAllowedHeaders": ["x-amz-content-sha256", "x-amz-user-agent", "content-type"],
           "additionalExposedHeaders": [
             "age",
             "date",

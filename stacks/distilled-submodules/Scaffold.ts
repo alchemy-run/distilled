@@ -1,6 +1,6 @@
+import { createHash } from "node:crypto";
 import * as Alchemy from "alchemy";
 import * as GitHub from "alchemy/GitHub";
-import { createHash } from "node:crypto";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
 
@@ -41,10 +41,7 @@ const PRESERVED = new Set([".meta/bun.lock"]);
 /** Git's blob object id for `content` — the same hash the tree API returns. */
 const blobSha = (content: string) => {
   const bytes = Buffer.from(content, "utf-8");
-  return createHash("sha1")
-    .update(`blob ${bytes.length}\0`)
-    .update(bytes)
-    .digest("hex");
+  return createHash("sha1").update(`blob ${bytes.length}\0`).update(bytes).digest("hex");
 };
 
 /**
@@ -107,9 +104,7 @@ export interface ScaffoldOutput {
  *
  * @param resolve the desired files for a repository, by repository name.
  */
-export const makeSyncScaffold = (
-  resolve: (repository: string) => ScaffoldFiles,
-) =>
+export const makeSyncScaffold = (resolve: (repository: string) => ScaffoldFiles) =>
   Alchemy.Action(
     "SyncScaffold",
     Effect.gen(function* () {
@@ -117,10 +112,9 @@ export const makeSyncScaffold = (
       // GitHubCredentials — provided at runtime by `GitHub.providers()` — is
       // not one, so it cannot appear there. The cast erases the requirement;
       // it is always satisfied when the stack runs.
-      const credentials =
-        yield* GitHub.GitHubCredentials as unknown as Effect.Effect<
-          Effect.Effect<{ readonly octokit: () => any }>
-        >;
+      const credentials = yield* GitHub.GitHubCredentials as unknown as Effect.Effect<
+        Effect.Effect<{ readonly octokit: () => any }>
+      >;
       const octokit = (yield* credentials).octokit();
 
       const api = <A>(call: () => Promise<A>) =>
@@ -181,9 +175,7 @@ export const makeSyncScaffold = (
         // is created with `autoInit` — it sits next to the scaffold's
         // `readme.md` rather than replacing it. `specs/` is not a managed
         // prefix and collides with nothing, so the payload is never at risk.
-        const managedLower = new Set(
-          Object.keys(files).map((path) => path.toLowerCase()),
-        );
+        const managedLower = new Set(Object.keys(files).map((path) => path.toLowerCase()));
         const deleted = [...existing.keys()]
           .filter(
             (path) =>

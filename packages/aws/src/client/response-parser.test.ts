@@ -3,7 +3,6 @@ import * as Effect from "effect/Effect";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import { isTransientError } from "../category.ts";
 import { InternalError, ParseError } from "../errors.ts";
-import { PutObjectRequest, PutObjectOutput, SlowDown } from "../services/s3.ts";
 import {
   CreateFunctionRequest,
   FunctionConfiguration,
@@ -11,6 +10,7 @@ import {
   LambdaInternalKmsError,
   UpdateFunctionCodeRequest,
 } from "../services/lambda.ts";
+import { PutObjectRequest, PutObjectOutput, SlowDown } from "../services/s3.ts";
 import { makeResponseParser } from "./response-parser.ts";
 
 const parseCreateFunction = makeResponseParser({
@@ -37,10 +37,7 @@ const parsePutObject = makeResponseParser({
 
 const unstructuredBodies = [
   ["HTML", "<html><body>SENSITIVE_SENTINEL</body></html>"],
-  [
-    "HTML doctype",
-    "<!doctype html><html><body>SENSITIVE_SENTINEL</body></html>",
-  ],
+  ["HTML doctype", "<!doctype html><html><body>SENSITIVE_SENTINEL</body></html>"],
   ["JSON", '{"message":"SENSITIVE_SENTINEL"}'],
   ["text", "SENSITIVE_SENTINEL"],
   ["XML without code", "<Error><Message>SENSITIVE_SENTINEL</Message></Error>"],
@@ -71,9 +68,7 @@ describe("REST-XML unstructured server errors", () => {
     }
   }
 
-  for (const [name, body] of unstructuredBodies.filter(
-    ([, body]) => body !== "",
-  )) {
+  for (const [name, body] of unstructuredBodies.filter(([, body]) => body !== "")) {
     test(`malformed 400 ${name} remains a parse error`, async () => {
       const error = await Effect.runPromise(
         parsePutObject({
@@ -113,9 +108,7 @@ const internalKmsMessage = "Internal KMS service error. Try again.";
 describe("Lambda synthetic error parsing", () => {
   test("classifies the observed internal KMS response as retryable", async () => {
     const error = await Effect.runPromise(
-      parseCreateFunction(invalidParameterResponse(internalKmsMessage)).pipe(
-        Effect.flip,
-      ),
+      parseCreateFunction(invalidParameterResponse(internalKmsMessage)).pipe(Effect.flip),
     );
     expect(error).toBeInstanceOf(LambdaInternalKmsError);
     expect(error).toMatchObject({ message: internalKmsMessage });
@@ -124,9 +117,9 @@ describe("Lambda synthetic error parsing", () => {
 
   test("keeps other invalid parameters non-retryable", async () => {
     const error = await Effect.runPromise(
-      parseCreateFunction(
-        invalidParameterResponse("The provided execution role is invalid."),
-      ).pipe(Effect.flip),
+      parseCreateFunction(invalidParameterResponse("The provided execution role is invalid.")).pipe(
+        Effect.flip,
+      ),
     );
     expect(error).toBeInstanceOf(InvalidParameterValueException);
     expect(isTransientError(error)).toBe(false);
@@ -139,9 +132,7 @@ describe("Lambda synthetic error parsing", () => {
       errors: [InvalidParameterValueException],
     });
     const error = await Effect.runPromise(
-      parseUpdateFunctionCode(
-        invalidParameterResponse(internalKmsMessage),
-      ).pipe(Effect.flip),
+      parseUpdateFunctionCode(invalidParameterResponse(internalKmsMessage)).pipe(Effect.flip),
     );
     expect(error).toBeInstanceOf(InvalidParameterValueException);
     expect(isTransientError(error)).toBe(false);

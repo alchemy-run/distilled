@@ -20,9 +20,7 @@ import type {
 
 type Assert<T extends true> = T;
 type HardDeleteBoolean = Assert<
-  DeleteProjectBranchRequest["hard_delete"] extends boolean | undefined
-    ? true
-    : false
+  DeleteProjectBranchRequest["hard_delete"] extends boolean | undefined ? true : false
 >;
 type HardDeleteOptional = Assert<
   {} extends Pick<DeleteProjectBranchRequest, "hard_delete"> ? true : false
@@ -32,22 +30,15 @@ type BinaryInput = Assert<Uint8Array extends Zip ? true : false>;
 type FileInput = Assert<File extends Zip ? true : false>;
 type RejectTextZip = Assert<string extends Zip ? false : true>;
 type Schedule = Extract<TriggerCreateRequest, { type: "schedule" }>;
-type Storage = Extract<
-  TriggerCreateRequest,
-  { type: "storage_object_created" }
->;
+type Storage = Extract<TriggerCreateRequest, { type: "storage_object_created" }>;
 type ScheduleConfigRequired = Assert<
   Schedule extends { schedule: { cron: string } } ? true : false
 >;
 type StorageConfigRequired = Assert<
-  Storage extends { storage_object_created: { bucket_name: string } }
-    ? true
-    : false
+  Storage extends { storage_object_created: { bucket_name: string } } ? true : false
 >;
 type UpdateDiscriminatorRequired = Assert<
-  TriggerUpdateRequest extends { type: "schedule" | "storage_object_created" }
-    ? true
-    : false
+  TriggerUpdateRequest extends { type: "schedule" | "storage_object_created" } ? true : false
 >;
 
 type ServiceFreeSchemas = Assert<
@@ -65,36 +56,23 @@ type ServiceFreeSchemas = Assert<
 
 type StandardEmail = Extract<NeonAuthEmailServerConfig, { type: "standard" }>;
 type SharedEmail = Extract<NeonAuthEmailServerConfig, { type: "shared" }>;
-type StandardEmailResponse = Extract<
-  NeonAuthEmailServerConfigResponse,
-  { type: "standard" }
->;
+type StandardEmailResponse = Extract<NeonAuthEmailServerConfigResponse, { type: "standard" }>;
 type EmailDiscriminators = Assert<
-  [
-    NeonAuthEmailServerConfig["type"],
-    NeonAuthEmailServerConfigResponse["type"],
-  ] extends ["standard" | "shared", "standard" | "shared"]
+  [NeonAuthEmailServerConfig["type"], NeonAuthEmailServerConfigResponse["type"]] extends [
+    "standard" | "shared",
+    "standard" | "shared",
+  ]
     ? true
     : false
 >;
-type StandardEmailExtract = Assert<
-  StandardEmailServer extends StandardEmail ? true : false
->;
-type SharedEmailExtract = Assert<
-  SharedEmailServer extends SharedEmail ? true : false
->;
+type StandardEmailExtract = Assert<StandardEmailServer extends StandardEmail ? true : false>;
+type SharedEmailExtract = Assert<SharedEmailServer extends SharedEmail ? true : false>;
 type StandardEmailResponseExtract = Assert<
   StandardEmailServerResponse extends StandardEmailResponse ? true : false
 >;
-type PartialStandardEmail = Assert<
-  { type: "standard" } extends StandardEmail ? true : false
->;
-type PartialSharedEmail = Assert<
-  { type: "shared" } extends SharedEmail ? true : false
->;
-type EmailDiscriminatorRequired = Assert<
-  {} extends NeonAuthEmailServerConfig ? false : true
->;
+type PartialStandardEmail = Assert<{ type: "standard" } extends StandardEmail ? true : false>;
+type PartialSharedEmail = Assert<{ type: "shared" } extends SharedEmail ? true : false>;
+type EmailDiscriminatorRequired = Assert<{} extends NeonAuthEmailServerConfig ? false : true>;
 type RejectEmailDiscriminator = Assert<
   { type: "unsupported" } extends NeonAuthEmailServerConfig ? false : true
 >;
@@ -105,9 +83,7 @@ type SmtpPasswordInput = Assert<
   Redacted.Redacted<string> extends StandardEmail["password"] ? true : false
 >;
 type SmtpPasswordResponse = Assert<
-  StandardEmailResponse["password"] extends string | Redacted.Redacted<string>
-    ? true
-    : false
+  StandardEmailResponse["password"] extends string | Redacted.Redacted<string> ? true : false
 >;
 type RejectNumericSmtpPassword = Assert<
   Redacted.Redacted<number> extends StandardEmail["password"] ? false : true
@@ -143,21 +119,7 @@ const emailAssertions: [
   SmtpPasswordResponse,
   RejectNumericSmtpPassword,
   ServiceFreeEmailSchemas,
-] = [
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-];
+] = [true, true, true, true, true, true, true, true, true, true, true, true, true];
 
 test("email discriminator and sensitive codec assertions are included in the checked Neon project", () => {
   expect(emailAssertions.every(Boolean)).toBe(true);

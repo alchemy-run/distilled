@@ -32,6 +32,7 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
+import * as Category from "@distilled.cloud/core/category";
 import type {
   BadRequest as CoreBadRequest,
   Conflict as CoreConflict,
@@ -41,7 +42,6 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-
 import {
   BadGateway,
   BadRequest,
@@ -53,7 +53,6 @@ import {
   Unauthorized,
 } from "@distilled.cloud/core/errors";
 import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/core/category";
 
 // ============================================================================
 // Base fields shared by all Coinbase CDP errors
@@ -160,10 +159,10 @@ export class SettlementFailed extends Schema.TaggedError<SettlementFailed>()(
  * Request timed out — the server did not respond in time.
  * errorType: "timed_out"
  */
-export class TimedOut extends Schema.TaggedError<TimedOut>()(
-  "TimedOut",
-  CoinbaseErrorFields,
-).pipe(Category.withTimeoutError, Category.withRetryable()) {}
+export class TimedOut extends Schema.TaggedError<TimedOut>()("TimedOut", CoinbaseErrorFields).pipe(
+  Category.withTimeoutError,
+  Category.withRetryable(),
+) {}
 
 /**
  * Client closed request — the client disconnected before the response.
@@ -571,10 +570,7 @@ export const COINBASE_HTTP_STATUS_MAP = {
  * Maps standard Coinbase `errorType` values to core HTTP error classes.
  * These represent generic error types that map directly to HTTP status codes.
  */
-export const STANDARD_ERROR_TYPE_MAP: Record<
-  string,
-  new (props: any) => unknown
-> = {
+export const STANDARD_ERROR_TYPE_MAP: Record<string, new (props: any) => unknown> = {
   bad_gateway: BadGateway,
   forbidden: Forbidden,
   internal_server_error: InternalServerError,
@@ -763,10 +759,7 @@ export type CoinbaseTypedErrors =
  * Errors any Coinbase operation may surface beyond the core HTTP defaults:
  * the typed CDP errors plus the client-level fallback/decode errors.
  */
-export type ClientErrors =
-  | CoinbaseTypedErrors
-  | UnknownCoinbaseError
-  | CoinbaseParseError;
+export type ClientErrors = CoinbaseTypedErrors | UnknownCoinbaseError | CoinbaseParseError;
 
 /**
  * Default Coinbase operation errors: the shared HTTP status errors from core

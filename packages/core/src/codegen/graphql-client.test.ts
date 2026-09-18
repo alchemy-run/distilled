@@ -70,10 +70,7 @@ const fixture = {
       kind: "OBJECT",
       name: "ProjectConnection",
       fields: [
-        field(
-          "edges",
-          required({ kind: "LIST", ofType: named("ProjectEdge") }),
-        ),
+        field("edges", required({ kind: "LIST", ofType: named("ProjectEdge") })),
         field("pageInfo", required(named("PageInfo"))),
       ],
     },
@@ -110,21 +107,13 @@ describe("GraphQL Query SDK generator", () => {
     const output = generateGraphQLClient(model, options);
     expect(output).toContain("export interface Project");
     expect(output).toContain("export interface User");
-    expect(output).toContain(
-      'export const Project: TypeMeta = { name: "Project", fields: {} };',
-    );
+    expect(output).toContain('export const Project: TypeMeta = { name: "Project", fields: {} };');
     expect(output).toContain("export const Railway = {");
-    expect(output).toContain(
-      'root("query", "me", User, undefined, undefined, globalErrors)',
-    );
+    expect(output).toContain('root("query", "me", User, undefined, undefined, globalErrors)');
     expect(output).toContain('root("query", "project", Project');
     expect(output).toContain('rootConnection("query", "projects", Project');
-    expect(output).toContain(
-      "Query<ReadonlyArray<Project>, RailwayGlobalError>",
-    );
-    expect(output).toContain(
-      'connectionField("projects", Project, { first: "Int" })',
-    );
+    expect(output).toContain("Query<ReadonlyArray<Project>, RailwayGlobalError>");
+    expect(output).toContain('connectionField("projects", Project, { first: "Int" })');
     expect(output).toContain('root("mutation", "projectCreate", Project');
     // Nullable GraphQL types include null; non-null ones do not.
     expect(output).toContain("readonly name: string | null;");
@@ -132,9 +121,7 @@ describe("GraphQL Query SDK generator", () => {
     expect(output).toContain("Query<Project | null, RailwayGlobalError>");
     expect(output).toContain("args?: { readonly first?: number | null }");
     expect(output).toContain('from "@distilled.cloud/core/graphql"');
-    expect(() =>
-      new Bun.Transpiler({ loader: "ts" }).transformSync(output),
-    ).not.toThrow();
+    expect(() => new Bun.Transpiler({ loader: "ts" }).transformSync(output)).not.toThrow();
   });
 
   test("emits error classes and scopes them to roots", () => {
@@ -180,17 +167,11 @@ describe("GraphQL Query SDK generator", () => {
     expect(output).toContain(
       'errorSpec(RailwayRateLimited, "RailwayRateLimited", [{"code":"RATE_LIMITED"}], { retryable: true, global: true })',
     );
-    expect(output).toContain(
-      "export type RailwayGlobalError = RailwayRateLimited;",
-    );
-    expect(output).toContain(
-      "Query<Project, RailwayNotFound | RailwayGlobalError>",
-    );
+    expect(output).toContain("export type RailwayGlobalError = RailwayRateLimited;");
+    expect(output).toContain("Query<Project, RailwayNotFound | RailwayGlobalError>");
     expect(output).toContain("[RailwayNotFoundSpec, ...globalErrors]");
     expect(output).toContain("Query<User, RailwayGlobalError>");
-    expect(() =>
-      new Bun.Transpiler({ loader: "ts" }).transformSync(output),
-    ).not.toThrow();
+    expect(() => new Bun.Transpiler({ loader: "ts" }).transformSync(output)).not.toThrow();
   });
 
   test("unknown coordinates fail validateGraphQLModel", () => {
@@ -203,9 +184,7 @@ describe("GraphQL Query SDK generator", () => {
     expect(() => validateGraphQLModel(model)).toThrow(
       "Project.id: unknown GraphQL error MissingError",
     );
-    expect(() => graphqlTypeString({ kind: "NON_NULL" })).toThrow(
-      "Incomplete GraphQL NON_NULL",
-    );
+    expect(() => graphqlTypeString({ kind: "NON_NULL" })).toThrow("Incomplete GraphQL NON_NULL");
   });
 
   test("SDL round-trip through convert still produces a model", () => {

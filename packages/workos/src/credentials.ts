@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * WorkOS credentials — hand-written.
  *
@@ -10,7 +11,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
  * WorkOS production API base URL.
@@ -25,10 +25,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("WorkosCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "WorkosCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   apiKey: EffectConfig.String("WORKOS_API_KEY"),

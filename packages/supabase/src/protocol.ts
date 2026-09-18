@@ -1,3 +1,19 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  type ConfigError,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+} from "@distilled.cloud/core/errors";
+import {
+  buildRequest,
+  getAnn,
+  mapKeys,
+  matchTypedError,
+} from "@distilled.cloud/core/protocol-http";
+import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * SupabaseProtocol — hand-written.
  *
@@ -26,32 +42,13 @@
  *             for unmapped 5xx, UnknownSupabaseError fallback.
  */
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import type * as AST from "effect/SchemaAST";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as HttpClientRequestModule from "effect/http/HttpClientRequest";
-import * as API from "@distilled.cloud/core/api";
-import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
-import {
-  buildRequest,
-  getAnn,
-  mapKeys,
-  matchTypedError,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import {
-  type ConfigError,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-} from "@distilled.cloud/core/errors";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type * as HttpClientResponse from "effect/http/HttpClientResponse";
+import * as Layer from "effect/Layer";
+import type * as AST from "effect/SchemaAST";
 import { Credentials, formatHeaders, type Config } from "./credentials.ts";
 import {
   type DefaultErrors,
@@ -66,10 +63,7 @@ import {
  * SupabaseOpError, SupabaseOpContext>` explicitly so the compiler never
  * infers these back out of the schema generics.
  */
-export type SupabaseOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type SupabaseOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated Supabase operation. */
 export type SupabaseOpContext = Credentials | HttpClient.HttpClient;
@@ -78,8 +72,7 @@ export type SupabaseOpContext = Credentials | HttpClient.HttpClient;
 // Supabase failures are real typed errors that an operation re-surfaces via
 // its `errors: [...]` list. Fail with the instance and erase the error type
 // here; `API.make`'s signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // The protocol layer is memoized per process by `API.make` (see
 // `OperationConfig.protocol`), so the build must not capture credentials —
@@ -105,9 +98,10 @@ const toUrlEncodedBody = (
   if (body._tag !== "Uint8Array" || !/json/i.test(body.contentType ?? "")) {
     return request;
   }
-  const parsed = JSON.parse(
-    new TextDecoder().decode(body.body as Uint8Array),
-  ) as Record<string, unknown>;
+  const parsed = JSON.parse(new TextDecoder().decode(body.body as Uint8Array)) as Record<
+    string,
+    unknown
+  >;
   const entries: Array<[string, string]> = [];
   for (const [k, v] of Object.entries(parsed)) {
     if (v === undefined || v === null) continue;
@@ -116,13 +110,7 @@ const toUrlEncodedBody = (
   return HttpClientRequestModule.bodyUrlParams(request, entries);
 };
 
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
@@ -133,8 +121,7 @@ const encode = ({
       headers: formatHeaders(creds),
     });
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
-    return (http as { contentType?: string } | undefined)?.contentType ===
-      "form-urlencoded"
+    return (http as { contentType?: string } | undefined)?.contentType === "form-urlencoded"
       ? toUrlEncodedBody(request)
       : request;
   });
@@ -191,18 +178,15 @@ const decode = ({
       const effectiveStatus = status === 406 ? 404 : status;
 
       // 2. Per-operation typed error (matcher metadata on the class).
-      const typed = matchTypedError(
-        errorClasses,
-        effectiveStatus,
-        [{ message }],
-        { body: nonJson ? text : json, headers },
-      );
+      const typed = matchTypedError(errorClasses, effectiveStatus, [{ message }], {
+        body: nonJson ? text : json,
+        headers,
+      });
       if (typed !== undefined) return yield* fail(typed);
 
       // 3. HTTP-status classes from the shared core map (retryAfter only
       //    stamps on retryable statuses).
-      const StatusErrorClass =
-        HTTP_STATUS_MAP[effectiveStatus as keyof typeof HTTP_STATUS_MAP];
+      const StatusErrorClass = HTTP_STATUS_MAP[effectiveStatus as keyof typeof HTTP_STATUS_MAP];
       if (StatusErrorClass) {
         return yield* fail(
           new StatusErrorClass({
@@ -244,8 +228,7 @@ export const SupabaseProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

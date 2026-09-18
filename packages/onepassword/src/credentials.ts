@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * 1Password Connect credentials — hand-written.
  *
@@ -11,7 +12,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "http://localhost:8080/v1";
 
@@ -20,10 +20,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("OnepasswordCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "OnepasswordCredentials",
+) {}
 
 /** Layer from a Connect token + optional base URL. */
 export const fromApiKey = (config: {
@@ -65,10 +64,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
     return {
       apiKey: Redacted.make(apiKey),
       apiBaseUrl:
-        explicitBase ??
-        (host !== undefined
-          ? connectHostToBaseUrl(host)
-          : DEFAULT_API_BASE_URL),
+        explicitBase ?? (host !== undefined ? connectHostToBaseUrl(host) : DEFAULT_API_BASE_URL),
     };
   }).pipe(Effect.orDie),
 );

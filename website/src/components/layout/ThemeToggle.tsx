@@ -1,5 +1,5 @@
-import { MoonIcon, SunIcon } from "../ui/Icons.tsx";
 import { toggleTheme } from "../../lib/theme.ts";
+import { MoonIcon, SunIcon } from "../ui/Icons.tsx";
 
 export const ThemeToggle = () => (
   <button

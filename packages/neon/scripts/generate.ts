@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Neon
  * Effect SDK.
@@ -14,11 +15,7 @@
  * here.
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
-import {
-  JSON_PRELUDE,
-  TS_JSON_PRELUDE,
-} from "@distilled.cloud/core/codegen/prelude";
+import { JSON_PRELUDE, TS_JSON_PRELUDE } from "@distilled.cloud/core/codegen/prelude";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";

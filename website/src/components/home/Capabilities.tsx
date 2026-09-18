@@ -5,19 +5,12 @@ import { revealOnScroll } from "../../lib/dom.ts";
 import { Code } from "../ui/Code.tsx";
 import { SectionHead } from "../ui/Section.tsx";
 
-const Cap = (props: {
-  index: number;
-  title: string;
-  code: string;
-  children: JSX.Element;
-}) => (
+const Cap = (props: { index: number; title: string; code: string; children: JSX.Element }) => (
   <article
     class="reveal-item panel flex min-w-0 flex-col gap-3 px-[1.6rem] pt-6 pb-[1.6rem] hover:border-line-2"
     style={{ "--i": props.index }}
   >
-    <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">
-      {props.title}
-    </h3>
+    <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">{props.title}</h3>
     <Code
       src={props.code}
       class="my-[0.2rem] rounded-lg border border-line bg-bg px-[0.9rem] py-3 leading-[1.6]"
@@ -34,11 +27,7 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
     // ["AWS call incl. SigV4, p50", props.bench.awsP50],
   ];
   return (
-    <section
-      class="rule py-section"
-      id="features"
-      aria-labelledby="features-title"
-    >
+    <section class="rule py-section" id="features" aria-labelledby="features-title">
       <SectionHead
         id="features-title"
         title={
@@ -47,19 +36,14 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
           </>
         }
       >
-        Every operation returns an Effect, requests go through Effect's
-        HttpClient, and inputs and outputs are Effect Schemas. Distilled's core
-        gives you everything you want from an Effect-first SDK: typed error
-        categories, retry policies, pagination as Effect Streams, and a span per
-        request. Every SDK is built on the same core with the same naming
-        patterns, so once you've used one, the rest feel familiar.
+        Every operation returns an Effect, requests go through Effect's HttpClient, and inputs and
+        outputs are Effect Schemas. Distilled's core gives you everything you want from an
+        Effect-first SDK: typed error categories, retry policies, pagination as Effect Streams, and
+        a span per request. Every SDK is built on the same core with the same naming patterns, so
+        once you've used one, the rest feel familiar.
       </SectionHead>
 
-      <div
-        class="grid grid-cols-1 gap-3 md:grid-cols-2"
-        data-reveal
-        ref={revealOnScroll}
-      >
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-2" data-reveal ref={revealOnScroll}>
         <Cap
           index={0}
           title="Typed errors"
@@ -71,10 +55,9 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
   Effect.«f:catchIf»(«f:isThrottlingError», () => backOff),
 )`}
         >
-          Match an exact error or a whole category with the Effect functions you
-          already know, like <code>Effect.catchTags</code> and{" "}
-          <code>Effect.catchIf</code>. Each SDK is patched with the errors and
-          details its API spec never documents, so nothing comes back as{" "}
+          Match an exact error or a whole category with the Effect functions you already know, like{" "}
+          <code>Effect.catchTags</code> and <code>Effect.catchIf</code>. Each SDK is patched with
+          the errors and details its API spec never documents, so nothing comes back as{" "}
           <code>unknown</code> and your types stay accurate.
         </Cap>
 
@@ -95,8 +78,8 @@ write.«f:pipe»(Effect.«f:retry»({
   schedule: Schedule.«f:exponential»("250 millis"),
 }))`}
         >
-          The API's own <code>Retry-After</code> is respected, and you can
-          define your own retry policies and stack them.
+          The API's own <code>Retry-After</code> is respected, and you can define your own retry
+          policies and stack them.
         </Cap>
 
         <Cap
@@ -116,13 +99,12 @@ write.«f:pipe»(Effect.«f:retry»({
 )`}
         >
           <span class="block">
-            Every paginated operation has <code>.items()</code> and{" "}
-            <code>.pages()</code>, so you pull items from an Effect Stream and
-            pages load as you go.
+            Every paginated operation has <code>.items()</code> and <code>.pages()</code>, so you
+            pull items from an Effect Stream and pages load as you go.
           </span>
           <span class="mt-3 block">
-            Large binary bodies stream in and out without being held in memory.
-            Cancel the Effect and the requests stop.
+            Large binary bodies stream in and out without being held in memory. Cancel the Effect
+            and the requests stop.
           </span>
         </Cap>
 
@@ -143,9 +125,8 @@ write.«f:pipe»(Effect.«f:retry»({
 
 Effect.«f:all»([head, eu]).«f:pipe»(Effect.«f:provide»(AwsLive))`}
         >
-          Your code just calls <code>S3.headObject</code>. Credentials and
-          regions come from layers: provide them once at the root of your
-          program and override them wherever you need to.
+          Your code just calls <code>S3.headObject</code>. Credentials and regions come from layers:
+          provide them once at the root of your program and override them wherever you need to.
         </Cap>
 
         <Cap
@@ -163,8 +144,8 @@ Effect.«f:all»([head, eu]).«f:pipe»(Effect.«f:provide»(AwsLive))`}
   }
 })`}
         >
-          GraphQL queries are abstracted away, just reference the fields you
-          need and a query is generated at runtime.
+          GraphQL queries are abstracted away, just reference the fields you need and a query is
+          generated at runtime.
         </Cap>
 
         <Cap
@@ -179,8 +160,7 @@ program.«f:pipe»(
   })),
 )`}
         >
-          Operations are ordinary Effects, so they get Effect's built-in
-          OpenTelemetry support.
+          Operations are ordinary Effects, so they get Effect's built-in OpenTelemetry support.
         </Cap>
 
         <Cap
@@ -196,19 +176,17 @@ Neon.«f:getProject»({ project_id }).«f:pipe»(
   Effect.«f:catchTag»(«s:"NeonParseError"», (e) => ...),
 )`}
         >
-          Responses are lenient by default and come back as the API sent them.
-          Provide one layer and every SDK in your program checks each response
-          against its schema. When an API changes shape, the call fails with a
-          typed <code>ParseError</code> instead of handing you the wrong type.
+          Responses are lenient by default and come back as the API sent them. Provide one layer and
+          every SDK in your program checks each response against its schema. When an API changes
+          shape, the call fails with a typed <code>ParseError</code> instead of handing you the
+          wrong type.
         </Cap>
 
         <article
           class="reveal-item panel flex min-w-0 flex-col gap-3 px-[1.6rem] pt-6 pb-[1.6rem] hover:border-line-2"
           style={{ "--i": 7 }}
         >
-          <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">
-            Per-operation imports
-          </h3>
+          <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">Per-operation imports</h3>
           <Code
             src={`«m:// the bundle keeps getObject — not the other 111 S3 ops»
 «k:import» { getObject } «k:from» «s:"@distilled.cloud/aws/s3"»`}
@@ -229,13 +207,9 @@ Neon.«f:getProject»({ project_id }).«f:pipe»(
             </For>
           </dl>
           <p class="m-0 text-[0.93rem] text-pretty text-fg-2">
-            Every operation is its own export, so the bundler keeps only the
-            ones you call — 1 of 112 S3 operations survives in the measured
-            build. Runs on Node, Bun and Workers.{" "}
-            <A
-              class="ml-1.5 inline-block whitespace-nowrap text-accent"
-              href="/bench"
-            >
+            Every operation is its own export, so the bundler keeps only the ones you call — 1 of
+            112 S3 operations survives in the measured build. Runs on Node, Bun and Workers.{" "}
+            <A class="ml-1.5 inline-block whitespace-nowrap text-accent" href="/bench">
               See all the numbers →
             </A>
           </p>

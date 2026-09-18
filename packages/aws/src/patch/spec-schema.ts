@@ -160,10 +160,7 @@ export type ServiceSpec = typeof ServiceSpec.Type;
 export const loadServiceSpecPatch = Effect.fn(function* (serviceSdkId: string) {
   const fs = yield* FileSystem.FileSystem;
   const p = yield* Path.Path;
-  const specPath = p.join(
-    "spec",
-    `${serviceSdkId.toLowerCase().replaceAll(" ", "-")}.json`,
-  );
+  const specPath = p.join("spec", `${serviceSdkId.toLowerCase().replaceAll(" ", "-")}.json`);
   return yield* fs.readFileString(specPath).pipe(
     Effect.flatMap(S.decodeUnknownEffect(S.fromJsonString(ServiceSpec))),
     Effect.catch(() => Effect.succeed({ operations: {} } as ServiceSpec)),

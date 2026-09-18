@@ -92,19 +92,14 @@ async function fetchResponse(url: string): Promise<Response> {
   console.log(`Fetching ${url}...`);
   const response = await fetch(url, { headers });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return response;
 }
 
 async function main() {
   const specUrl = rawUrl("public/openapi3.json");
-  const spec = (await (await fetchResponse(specUrl)).json()) as Record<
-    string,
-    unknown
-  >;
+  const spec = (await (await fetchResponse(specUrl)).json()) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid JSON, but it is not an OpenAPI document.

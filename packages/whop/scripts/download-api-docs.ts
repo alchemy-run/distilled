@@ -77,8 +77,7 @@ const fetchText = (url: string): Effect.Effect<string, FetchError> =>
       }
       return await res.text();
     },
-    catch: (cause) =>
-      cause instanceof FetchError ? cause : new FetchError({ url, cause }),
+    catch: (cause) => (cause instanceof FetchError ? cause : new FetchError({ url, cause })),
   });
 
 // ============================================================================
@@ -145,8 +144,7 @@ const extractFromSitemap = (xml: string, origin: string): string[] => {
  * The fence uses FOUR backticks (its payload contains three-backtick
  * examples), and is always the last block on the page.
  */
-const OPENAPI_FENCE =
-  /^````yaml (\/openapi\/(\S+))((?: \S+)*)\n[\s\S]*?^````[ \t]*$/gm;
+const OPENAPI_FENCE = /^````yaml (\/openapi\/(\S+))((?: \S+)*)\n[\s\S]*?^````[ \t]*$/gm;
 
 const stripOpenApiFence = (
   markdown: string,
@@ -200,16 +198,13 @@ const downloadPage = (
       // slugs) and retrying it only slows the run down.
       Effect.retry({
         times: 3,
-        while: (err: FetchError) =>
-          err.status === undefined || err.status >= 500,
+        while: (err: FetchError) => err.status === undefined || err.status >= 500,
         schedule: Schedule.exponential(500),
       }),
       Effect.map((text) => ({ ok: true as const, text })),
       Effect.catch((err) => {
         const detail =
-          err.status !== undefined
-            ? `HTTP ${err.status}`
-            : `${err.cause ?? "network error"}`;
+          err.status !== undefined ? `HTTP ${err.status}` : `${err.cause ?? "network error"}`;
         return Console.warn(
           `⚠️  Failed to download ${entry.markdownUrl} (${detail}) — skipping`,
         ).pipe(Effect.as({ ok: false as const }));
@@ -219,10 +214,7 @@ const downloadPage = (
     if (!result.ok) return "failed" as const;
 
     yield* fs.makeDirectory(path.dirname(entry.localPath), { recursive: true });
-    yield* fs.writeFileString(
-      entry.localPath,
-      stripOpenApiFence(result.text).text,
-    );
+    yield* fs.writeFileString(entry.localPath, stripOpenApiFence(result.text).text);
     return "saved" as const;
   });
 
@@ -249,9 +241,7 @@ const downloadApiDocs = Command.make(
     ),
     limit: Flag.Int("limit").pipe(
       Flag.withDefault(0),
-      Flag.withDescription(
-        "Only download the first N pages (0 = all). For testing.",
-      ),
+      Flag.withDescription("Only download the first N pages (0 = all). For testing."),
     ),
     force: Flag.Boolean("force").pipe(
       Flag.withDefault(false),
@@ -276,21 +266,16 @@ const downloadApiDocs = Command.make(
       const sitemapUrl = `${config.origin}/sitemap.xml`;
       yield* Console.log(`\n📥 Fetching ${llmsUrl} and ${sitemapUrl} ...`);
 
-      const [llmsTxt, sitemapXml] = yield* Effect.all(
-        [fetchText(llmsUrl), fetchText(sitemapUrl)],
-        { concurrency: 2 },
-      );
+      const [llmsTxt, sitemapXml] = yield* Effect.all([fetchText(llmsUrl), fetchText(sitemapUrl)], {
+        concurrency: 2,
+      });
 
       const fromLlms = new Set(extractFromLlmsTxt(llmsTxt, config.origin));
-      const fromSitemap = new Set(
-        extractFromSitemap(sitemapXml, config.origin),
-      );
+      const fromSitemap = new Set(extractFromSitemap(sitemapXml, config.origin));
       const pagePaths = [...new Set([...fromLlms, ...fromSitemap])].sort();
 
       const onlyLlms = [...fromLlms].filter((p) => !fromSitemap.has(p)).length;
-      const onlySitemap = [...fromSitemap].filter(
-        (p) => !fromLlms.has(p),
-      ).length;
+      const onlySitemap = [...fromSitemap].filter((p) => !fromLlms.has(p)).length;
       yield* Console.log(
         `   llms.txt ${fromLlms.size}, sitemap ${fromSitemap.size} → ` +
           `${pagePaths.length} unique (${onlyLlms} only in llms.txt, ${onlySitemap} only in the sitemap)`,
@@ -307,19 +292,14 @@ const downloadApiDocs = Command.make(
           pagePath,
           pageUrl,
           markdownUrl: `${pageUrl}.md`,
-          localPath: path.join(
-            outDir,
-            ...`${pagePath.replace(/^\//, "")}.md`.split("/"),
-          ),
+          localPath: path.join(outDir, ...`${pagePath.replace(/^\//, "")}.md`.split("/")),
           indexes,
         };
       });
 
       if (config.limit > 0) {
         entries = entries.slice(0, config.limit);
-        yield* Console.log(
-          `   --limit set: only downloading ${entries.length} pages.`,
-        );
+        yield* Console.log(`   --limit set: only downloading ${entries.length} pages.`);
       }
 
       yield* fs.makeDirectory(outDir, { recursive: true });
@@ -340,20 +320,16 @@ const downloadApiDocs = Command.make(
           2,
         ) + "\n",
       );
-      yield* Console.log(
-        `   Wrote manifest: ${path.join(outDir, "_manifest.json")}`,
-      );
+      yield* Console.log(`   Wrote manifest: ${path.join(outDir, "_manifest.json")}`);
 
       // 3. Download every markdown page, warning + continuing on failure.
       yield* Console.log(
         `\n⬇️  Downloading ${entries.length} markdown pages (concurrency ${config.concurrency}) ...\n`,
       );
 
-      const results = yield* Effect.forEach(
-        entries,
-        (entry) => downloadPage(entry, config.force),
-        { concurrency: config.concurrency },
-      );
+      const results = yield* Effect.forEach(entries, (entry) => downloadPage(entry, config.force), {
+        concurrency: config.concurrency,
+      });
 
       const saved = results.filter((r) => r === "saved").length;
       const skipped = results.filter((r) => r === "skipped").length;

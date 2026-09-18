@@ -68,9 +68,7 @@ async function main() {
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${file.url}: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${file.url}: ${response.status} ${response.statusText}`);
     }
 
     const spec = (await response.json()) as Record<string, unknown>;
@@ -91,8 +89,7 @@ async function main() {
     // produces no diff.
     await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
 
-    const version =
-      typeof spec.openapi === "string" ? spec.openapi : spec.swagger;
+    const version = typeof spec.openapi === "string" ? spec.openapi : spec.swagger;
     console.log(
       `  ${file.output}: OpenAPI ${version} — ${Object.keys(spec.paths as object).length} paths`,
     );

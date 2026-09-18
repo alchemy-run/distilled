@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Archil credentials — hand-written.
  *
@@ -10,20 +11,17 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
-export const DEFAULT_API_BASE_URL =
-  "https://control.green.us-east-1.aws.prod.archil.com";
+export const DEFAULT_API_BASE_URL = "https://control.green.us-east-1.aws.prod.archil.com";
 
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ArchilCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "ArchilCredentials",
+) {}
 
 /** Layer from a plain API key + optional base URL. */
 export const fromApiKey = (config: {
