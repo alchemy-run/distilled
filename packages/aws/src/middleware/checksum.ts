@@ -1,5 +1,5 @@
 import type { Checksum } from "@smithy/types";
-import { toBase64 } from "@smithy/util-base64";
+import { toBase64 } from "../util/base64.ts";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 import type { Request as ProtocolRequest } from "../client/request.ts";
