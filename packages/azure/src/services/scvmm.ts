@@ -3228,9 +3228,9 @@ export interface HardwareProfileUpdate {
   /** Gets or sets the number of vCPUs for the vm. */
   cpuCount?: number;
   /** Gets or sets a value indicating whether to enable processor compatibility mode for live migration of VMs. */
-  limitCpuForMigration?: LimitCpuForMigration | (string & {});
+  limitCpuForMigration?: boolean;
   /** Gets or sets a value indicating whether to enable dynamic memory or not. */
-  dynamicMemoryEnabled?: DynamicMemoryEnabled | (string & {});
+  dynamicMemoryEnabled?: boolean;
   /** Gets or sets the max dynamic memory for the vm. */
   dynamicMemoryMaxMB?: number;
   /** Gets or sets the min dynamic memory for the vm. */
@@ -3240,8 +3240,8 @@ export const HardwareProfileUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     memoryMB: S.optional(S.Number),
     cpuCount: S.optional(S.Number),
-    limitCpuForMigration: S.optional(LimitCpuForMigration),
-    dynamicMemoryEnabled: S.optional(DynamicMemoryEnabled),
+    limitCpuForMigration: S.optional(S.Boolean.pipe(T.StringEncoded())),
+    dynamicMemoryEnabled: S.optional(S.Boolean.pipe(T.StringEncoded())),
     dynamicMemoryMaxMB: S.optional(S.Number),
     dynamicMemoryMinMB: S.optional(S.Number),
   }),
@@ -3777,7 +3777,7 @@ export interface VirtualDiskInput {
   /** The QoS policy for the disk. */
   storageQoSPolicy?: StorageQosPolicyDetails;
   /** Gets or sets a value indicating diff disk. */
-  createDiffDisk?: CreateDiffDisk | (string & {});
+  createDiffDisk?: boolean;
 }
 export const VirtualDiskInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3790,7 +3790,7 @@ export const VirtualDiskInput = /*@__PURE__*/ S.suspend(() =>
     vhdType: S.optional(S.String),
     templateDiskId: S.optional(S.String),
     storageQoSPolicy: S.optional(StorageQosPolicyDetails),
-    createDiffDisk: S.optional(CreateDiffDisk),
+    createDiffDisk: S.optional(S.Boolean.pipe(T.StringEncoded())),
   }),
 ).annotate({
   identifier: "VirtualDiskInput",

@@ -6454,7 +6454,7 @@ export interface ViewPropertiesInput {
   /** Chart type of the main view in Cost Analysis. Required. */
   chart?: ChartType | (string & {});
   /** Show costs accumulated over time. */
-  accumulated?: AccumulatedType | (string & {});
+  accumulated?: boolean;
   /** Metric to use when displaying costs. */
   metric?: MetricType | (string & {});
   /** List of KPIs to show in Cost Analysis UI. */
@@ -6470,7 +6470,7 @@ export const ViewPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     dateRange: S.optional(S.String),
     query: S.optional(ReportConfigDefinition),
     chart: S.optional(ChartType),
-    accumulated: S.optional(AccumulatedType),
+    accumulated: S.optional(S.Boolean.pipe(T.StringEncoded())),
     metric: S.optional(MetricType),
     kpis: S.optional(ViewPropertiesInputKpisList),
     pivots: S.optional(ViewPropertiesInputPivotsList),

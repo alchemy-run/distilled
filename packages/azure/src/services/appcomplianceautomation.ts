@@ -2792,7 +2792,7 @@ export interface WebhookPropertiesInput {
   /** Webhook status. */
   status?: WebhookStatus | (string & {});
   /** whether to send notification under any event. */
-  sendAllEvents?: SendAllEvents | (string & {});
+  sendAllEvents?: boolean;
   /** under which event notification should be sent. */
   events?: WebhookPropertiesInputEventsList;
   /** webhook payload url */
@@ -2802,20 +2802,20 @@ export interface WebhookPropertiesInput {
   /** webhook secret token. If not set, this field value is null; otherwise, please set a string value. */
   webhookKey?: string;
   /** whether to update webhookKey. */
-  updateWebhookKey?: UpdateWebhookKey | (string & {});
+  updateWebhookKey?: boolean;
   /** whether to enable ssl verification */
-  enableSslVerification?: EnableSslVerification | (string & {});
+  enableSslVerification?: boolean;
 }
 export const WebhookPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(WebhookStatus),
-    sendAllEvents: S.optional(SendAllEvents),
+    sendAllEvents: S.optional(S.Boolean.pipe(T.StringEncoded())),
     events: S.optional(WebhookPropertiesInputEventsList),
     payloadUrl: S.optional(S.String),
     contentType: S.optional(ContentType),
     webhookKey: S.optional(S.String),
-    updateWebhookKey: S.optional(UpdateWebhookKey),
-    enableSslVerification: S.optional(EnableSslVerification),
+    updateWebhookKey: S.optional(S.Boolean.pipe(T.StringEncoded())),
+    enableSslVerification: S.optional(S.Boolean.pipe(T.StringEncoded())),
   }),
 ).annotate({
   identifier: "WebhookPropertiesInput",
