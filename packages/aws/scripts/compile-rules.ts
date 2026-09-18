@@ -765,20 +765,21 @@ export const generateRuleSetCode = (
 
   // First, generate the body lines so we can check which params are actually used
   const bodyLines: string[] = [];
+  const helpers: string[] = [];
   // Helper functions for compact output
   // Use `unknown` for url/message since params are destructured as unknown
   if (typed) {
-    bodyLines.push(
+    helpers.push(
       `  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({ type: "endpoint" as const, endpoint: { url: u as string, properties: p, headers: h } });`,
     );
-    bodyLines.push(
+    helpers.push(
       `  const err = (m: unknown): T.EndpointResolverResult => ({ type: "error" as const, message: m as string });`,
     );
   } else {
-    bodyLines.push(
+    helpers.push(
       `  const e = (u, p = {}, h = {}) => ({ type: "endpoint", endpoint: { url: u, properties: p, headers: h } });`,
     );
-    bodyLines.push(`  const err = (m) => ({ type: "error", message: m });`);
+    helpers.push(`  const err = (m) => ({ type: "error", message: m });`);
   }
 
   // Emit hoisted factory functions for repeated property patterns
@@ -795,7 +796,13 @@ export const generateRuleSetCode = (
     bodyLines.push(`  return err("No matching endpoint rule");`);
   }
 
-  const bodyCode = bodyLines.join("\n");
+  const ruleCode = bodyLines.join("\n");
+  const bodyCode = [
+    ...helpers.filter((_, index) =>
+      new RegExp(`\\b${index === 0 ? "e" : "err"}\\(`).test(ruleCode),
+    ),
+    ruleCode,
+  ].join("\n");
 
   // Now build the destructuring, prefixing unused params with _
   const paramDestructure = paramEntries
@@ -811,7 +818,7 @@ export const generateRuleSetCode = (
     })
     .join(", ");
 
-  lines.push(`(p, _) => {`);
+  lines.push(/\b_\./.test(bodyCode) ? `(p, _) => {` : `(p) => {`);
   lines.push(`  const { ${paramDestructure} } = p;`);
   lines.push(bodyCode);
   lines.push(`}`);

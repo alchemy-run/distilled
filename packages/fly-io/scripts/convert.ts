@@ -185,7 +185,7 @@ await runOpenApiConvert({
   const op = model.shapes["com.flyio.sprites#ListSprites"];
   if (op?.type === "operation") {
     op.traits = {
-      ...(op.traits ?? {}),
+      ...op.traits,
       "smithy.api#paginated": {
         inputToken: "continuation_token",
         outputToken: "next_continuation_token",
@@ -293,7 +293,7 @@ await finalizeConvert({
       for (const [name, member] of Object.entries(def.members ?? {}) as any[]) {
         if (name === "password" || name === "publicUrl") {
           member.traits = {
-            ...(member.traits ?? {}),
+            ...member.traits,
             "smithy.api#sensitive": {},
           };
           n++;

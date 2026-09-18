@@ -4,7 +4,6 @@ import * as S from "@distilled.cloud/core/schema";
 import { CloudflareError, CloudflareRateLimited } from "../errors.ts";
 import { cloudflarePaginate, ResultInfo } from "../pagination.ts";
 import {
-  CloudflareProtocol,
   CloudflarePaginatedProtocol,
   type CloudflareOpError,
   type CloudflareOpContext,
@@ -135,9 +134,7 @@ export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListNamespacesRequest",
-}) as any as S.Schema<ListNamespacesRequest>;
+).annotate({ identifier: "ListNamespacesRequest" }) as any as S.Schema<ListNamespacesRequest>;
 
 export interface NamespacesListResultItem {
   id?: string | null;
@@ -154,9 +151,7 @@ export const NamespacesListResultItem = /*@__PURE__*/ S.suspend(() =>
     script: S.optional(S.NullOr(S.String)),
     useSqlite: S.optional(S.NullOr(S.Boolean).pipe(T.Body("use_sqlite"))),
   }),
-).annotate({
-  identifier: "NamespacesListResultItem",
-}) as any as S.Schema<NamespacesListResultItem>;
+).annotate({ identifier: "NamespacesListResultItem" }) as any as S.Schema<NamespacesListResultItem>;
 
 export type NamespacesListResultList = Array<NamespacesListResultItem>;
 export const NamespacesListResultList = /*@__PURE__*/ S.Array(
@@ -174,9 +169,7 @@ export const ListNamespacesResponse = /*@__PURE__*/ S.suspend(() =>
     result: NamespacesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListNamespacesResponse",
-}) as any as S.Schema<ListNamespacesResponse>;
+).annotate({ identifier: "ListNamespacesResponse" }) as any as S.Schema<ListNamespacesResponse>;
 
 export type ListNamespaceObjectsError =
   | NamespaceNotFound

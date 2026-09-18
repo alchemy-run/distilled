@@ -1,10 +1,4 @@
-import {
-  enumDecl,
-  operationConst,
-  suspendConst,
-  suspendRef,
-  PURE,
-} from "@distilled.cloud/core/codegen/emit";
+import { operationConst, suspendConst, suspendRef, PURE } from "@distilled.cloud/core/codegen/emit";
 import { errorCategories, type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 /**
  * AWS provider spec for the shared smithy→SDK compiler
@@ -36,7 +30,7 @@ import { errorCategories, type SdkSpec } from "@distilled.cloud/core/codegen/gen
  * - `header`/`postProcess` own the service consts (svc/auth/proto/ver/ns/
  *   rules via compile-rules) and conditional-import placeholder pruning.
  */
-import { cyclicShapeIds, reachableFrom, shapeDeps } from "@distilled.cloud/core/codegen/graph";
+import { cyclicShapeIds } from "@distilled.cloud/core/codegen/graph";
 import { mergePaginated } from "@distilled.cloud/core/codegen/pagination";
 import { generateRuleSetCode, type RuleSetObject } from "./compile-rules.ts";
 import type { SmithyModel, ServiceShape } from "./model-schema.ts";
@@ -117,7 +111,7 @@ export const applyAwsSpecPatches = (
       }
       const errShape = shapes[entry[0]];
       errShape.traits = {
-        ...(errShape.traits ?? {}),
+        ...errShape.traits,
         "smithy.api#httpError": status,
       };
     }
@@ -149,7 +143,7 @@ export const applyAwsSpecPatches = (
       for (const [memberName, memberOverride] of Object.entries(override.members)) {
         const member = shape.members?.[memberName];
         if (member === undefined) continue;
-        member.traits = { ...(member.traits ?? {}) };
+        member.traits = { ...member.traits };
         if (memberOverride.optional === true) {
           delete member.traits["smithy.api#required"];
         } else if (memberOverride.optional === false) {
@@ -283,7 +277,7 @@ export const applyAwsSpecPatches = (
         ([id, s]) => id.split("#")[1] === errorName && s.type === "structure",
       )?.[1];
       if (shape === undefined) continue;
-      shape.members = { ...(shape.members ?? {}) };
+      shape.members = { ...shape.members };
       for (const [memberName, patch] of Object.entries(members)) {
         const traits: Record<string, unknown> = {};
         if (patch.optional !== false) {
@@ -1072,7 +1066,6 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
   // outright, so a model has to be able to say so.
   const sigV2ServiceName: string | undefined = serviceShape.traits?.["aws.auth#sigv2"]?.name;
   const version: string = serviceShape.version ?? "";
-  const patchFileBase = sdkId.toLowerCase().replaceAll(" ", "-");
 
   const serviceXmlNamespace = (
     serviceShape.traits?.["smithy.api#xmlNamespace"] as { uri: string } | undefined

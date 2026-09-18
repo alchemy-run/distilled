@@ -239,7 +239,6 @@ export class GraphQLRequestError extends Data.TaggedError("GraphQLRequestError")
   readonly message: string;
 }> {}
 export type ClientError = GraphQLTransportError | GraphQLDecodeError | GraphQLRequestError;
-type IssueOf<E> = E extends GraphQLFailure<infer I> ? I : never;
 /** True only when every issue has an allowed tag; mixed failures are never hidden. */
 export const isErrorTag = (error: unknown, tags: string | readonly string[]): boolean => {
   const allowed = typeof tags === "string" ? [tags] : tags;
@@ -299,7 +298,7 @@ export interface CompiledQuery extends GraphQLRequest {
 }
 const object = (value: unknown): value is Record<string, any> =>
   value !== null && typeof value === "object" && !Array.isArray(value);
-const named = (ref: string): string => ref.replace(/[\[\]!]/g, "");
+const named = (ref: string): string => ref.replace(/[[\]!]/g, "");
 const nameNode = (value: string) => ({ kind: Kind.NAME, value }) as const;
 const requestError = (message: string): never => {
   throw new GraphQLRequestError({ message });

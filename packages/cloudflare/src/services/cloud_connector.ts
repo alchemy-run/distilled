@@ -4,7 +4,6 @@ import * as S from "@distilled.cloud/core/schema";
 import { CloudflareError, CloudflareRateLimited } from "../errors.ts";
 import { cloudflarePaginate, ResultInfo } from "../pagination.ts";
 import {
-  CloudflareProtocol,
   CloudflarePaginatedProtocol,
   type CloudflareOpError,
   type CloudflareOpContext,
@@ -20,12 +19,7 @@ export class CloudConnectorRulesNotFound
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        code: 10003,
-        message: { includes: "could not find entrypoint ruleset" },
-      },
-    ],
+    [{ code: 10003, message: { includes: "could not find entrypoint ruleset" } }],
   ) {}
 
 export class Forbidden
@@ -44,16 +38,8 @@ export interface ListRulesRequest {
 export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/cloud_connector/rules",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/cloud_connector/rules", code: 200 })),
+).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 
 export interface RulesListResultItemParameters {
   /** Host to perform Cloud Connection to */
@@ -94,9 +80,7 @@ export const RulesListResultItem = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(S.NullOr(RulesListResultItemParameters)),
     provider: S.optional(S.NullOr(RulesListResultItemProvider)),
   }),
-).annotate({
-  identifier: "RulesListResultItem",
-}) as any as S.Schema<RulesListResultItem>;
+).annotate({ identifier: "RulesListResultItem" }) as any as S.Schema<RulesListResultItem>;
 
 export type RulesListResultList = Array<RulesListResultItem>;
 export const RulesListResultList = /*@__PURE__*/ S.Array(
@@ -114,9 +98,7 @@ export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }),
-).annotate({
-  identifier: "ListRulesResponse",
-}) as any as S.Schema<ListRulesResponse>;
+).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 
 export interface RulesUpdateRequestRulesItemParameters {
   /** Host to perform Cloud Connection to */
@@ -175,13 +157,7 @@ export const PutRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
     rules: S.optional(RulesUpdateRequestRulesList.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/zones/{zone_id}/cloud_connector/rules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/cloud_connector/rules", code: 200 })),
 ).annotate({ identifier: "PutRuleRequest" }) as any as S.Schema<PutRuleRequest>;
 
 export type RulesUpdateResultItemParameters = RulesListResultItemParameters;
@@ -214,9 +190,7 @@ export const RulesUpdateResultItem = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(S.NullOr(RulesListResultItemParameters)),
     provider: S.optional(S.NullOr(RulesUpdateResultItemProvider)),
   }),
-).annotate({
-  identifier: "RulesUpdateResultItem",
-}) as any as S.Schema<RulesUpdateResultItem>;
+).annotate({ identifier: "RulesUpdateResultItem" }) as any as S.Schema<RulesUpdateResultItem>;
 
 export type RulesUpdateResultList = Array<RulesUpdateResultItem>;
 export const RulesUpdateResultList = /*@__PURE__*/ S.Array(
@@ -234,9 +208,7 @@ export const PutRuleResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesUpdateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }),
-).annotate({
-  identifier: "PutRuleResponse",
-}) as any as S.Schema<PutRuleResponse>;
+).annotate({ identifier: "PutRuleResponse" }) as any as S.Schema<PutRuleResponse>;
 
 export type ListRulesError = Forbidden | CloudConnectorRulesNotFound | CloudflareOpError;
 /** Retrieves the Cloud Connector rules configured for a zone. Rules define how traffic is routed to cloud services. */

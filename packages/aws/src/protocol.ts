@@ -220,7 +220,7 @@ const encode = ({
 
     // Build full URL with query string
     const queryString = Object.entries(resolvedRequest.query)
-      .filter(([_, v]) => v !== undefined)
+      .filter(([, v]) => v !== undefined)
       .flatMap(([k, v]) => {
         // Handle arrays as repeated query parameters (e.g., tagKeys=A&tagKeys=B)
         if (Array.isArray(v)) {

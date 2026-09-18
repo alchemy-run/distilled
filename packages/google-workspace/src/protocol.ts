@@ -75,7 +75,7 @@ const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effe
  * 3986 unreserved (`A-Za-z0-9-._~`) and reserved (`:/?#[]@!$&'()*+,;=`)
  * sets. Used for `{+param}` path tokens (ported from the distilled core).
  */
-const RFC3986_NEEDS_ENCODING = /[^A-Za-z0-9\-._~:/?#\[\]@!$&'()*+,;=]/g;
+const RFC3986_NEEDS_ENCODING = /[^A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=]/g;
 const encodeReserved = (v: string): string => v.replace(RFC3986_NEEDS_ENCODING, encodeURIComponent);
 
 /** Serialize one query member: arrays as repeated `k=v`, scalars stringified. */
