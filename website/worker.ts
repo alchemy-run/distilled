@@ -1,4 +1,4 @@
-import type { WorkerEnv } from "../alchemy.run.ts";
+import type { WorkerEnv } from "./alchemy.run.ts";
 
 // Minimal `HTMLRewriter` shape — the workers runtime exposes it as a
 // global, but we don't pull in `@cloudflare/workers-types`, so declare

@@ -75,11 +75,6 @@ jobs:
       - name: Run Typecheck
         run: pnpm --filter "./stacks/*" run typecheck
 
-      # website/ is a workspace member but is not under stacks/* and is not
-      # in the root tsconfig project references (so `tsc -b` never sees it).
-      - name: Typecheck website
-        run: pnpm --filter "./website" run typecheck
-
       # The mirror manifest, the fetch scripts, `.gitmodules` and packages/
       # have to agree, and the same rule runs at deploy time inside the stack
       # — but a deploy only happens after merge. Checking it here means a PR
@@ -88,6 +83,45 @@ jobs:
       # for local iteration only.
       - name: Check spec mirrors
         run: pnpm specs:check
+
+  website:
+    name: Website (typecheck & static build)
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm & Bun
+        uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
+        with:
+          cache: true
+          install: false
+
+      - name: Install Node 24
+        run: pnpm runtime set node 24 -g
+
+      # Same filter website.yml deploys with, so a lockfile problem that would
+      # break the deploy fails here instead.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter "./website..."
+
+      # website/ is a workspace member but is not under stacks/* and is not
+      # in the root tsconfig project references (so `tsc -b` never sees it).
+      - name: Typecheck
+        run: pnpm --filter "./website" run typecheck
+
+      # The site reads the package catalogue, patch counts and benchmark
+      # results from the repo while it builds, so a change to any of them can
+      # break prerendering — which would otherwise only surface after merge,
+      # in the main.distilled.cloud deploy. An internal PR labelled
+      # `deploy-website` runs this exact build in website.yml to produce its
+      # preview, so skip the duplicate there.
+      - name: Build
+        if: >-
+          github.event_name != 'pull_request' ||
+          github.event.pull_request.head.repo.full_name != github.repository ||
+          !contains(github.event.pull_request.labels.*.name, 'deploy-website')
+        run: pnpm --filter "./website" run build
 
   format:
     name: Check formatting

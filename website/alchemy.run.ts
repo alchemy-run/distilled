@@ -33,8 +33,8 @@ const Website = Cloudflare.Website.StaticSite(
 
     return {
       name,
-      command: "bun run build",
-      main: "./src/worker.ts",
+      command: "pnpm run build",
+      main: "./worker.ts",
       outdir: "dist",
       version: previewParent
         ? {
@@ -52,17 +52,18 @@ const Website = Cloudflare.Website.StaticSite(
           : stack.stage === "main"
             ? { name: "main.distilled.cloud" }
             : undefined,
-      // Everything build.ts reads: a change to any of these must rebuild,
+      // Everything the build reads: a change to any of these must rebuild,
       // since the package list, patch stats and bench numbers are all
-      // computed at build time.
+      // computed at build time (see build/site-data.ts). The Alchemy usage
+      // list is fetched from GitHub on every build, so it needs no entry.
       memo: {
         include: [
           "src/**",
           "public/**",
-          "scripts/**",
-          "data/**",
-          "assets/**",
+          "build/**",
           "package.json",
+          "vite.config.ts",
+          "tsconfig.json",
           "../pnpm-lock.yaml",
           "../packages/*/package.json",
           "../packages/*/patches/**",
@@ -77,8 +78,8 @@ const Website = Cloudflare.Website.StaticSite(
         runWorkerFirst: true,
       },
       dev: {
-        command: "bun run preview",
-        url: "http://localhost:4173",
+        command: "pnpm run dev:site",
+        url: "http://localhost:3000",
       },
     } satisfies Cloudflare.Website.StaticSiteProps<{}>;
   }),
