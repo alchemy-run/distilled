@@ -322,6 +322,11 @@ export const restXmlProtocol: Protocol = (
     deserializeError: Effect.fn(function* (response: Response) {
       // Read body as text
       const bodyText = yield* readStreamAsText(response.body);
+      const serverFailure = response.status >= 500 && response.status < 600;
+      const unstructuredError = (message: string) =>
+        serverFailure
+          ? Effect.succeed({ errorCode: "InternalError", data: {} })
+          : Effect.fail(new ParseError({ message }));
 
       if (!bodyText) {
         // S3 HEAD requests and some other operations return empty body on error
@@ -338,7 +343,8 @@ export const restXmlProtocol: Protocol = (
           503: "ServiceUnavailable",
         };
         const errorCode =
-          statusCodeMap[response.status] ?? `HttpError${response.status}`;
+          statusCodeMap[response.status] ??
+          (serverFailure ? "InternalError" : `HttpError${response.status}`);
         return { errorCode, data: {} };
       }
 
@@ -350,9 +356,9 @@ export const restXmlProtocol: Protocol = (
           return htmlError;
         }
         // HTML response without parseable error - don't try XML parsing
-        return yield* new ParseError({
-          message: `Could not parse HTML error response: ${bodyText}`,
-        });
+        return yield* unstructuredError(
+          `Could not parse HTML error response: ${bodyText}`,
+        );
       }
 
       // Parse XML body
@@ -378,17 +384,17 @@ export const restXmlProtocol: Protocol = (
       }
 
       if (!errorContent) {
-        return yield* new ParseError({
-          message: `Could not find Error element in XML response: ${bodyText}`,
-        });
+        return yield* unstructuredError(
+          `Could not find Error element in XML response: ${bodyText}`,
+        );
       }
 
       // Extract error code from <Code> element
       const rawErrorCode = errorContent.Code;
       if (typeof rawErrorCode !== "string") {
-        return yield* new ParseError({
-          message: `No Code element found in error response: ${bodyText}`,
-        });
+        return yield* unstructuredError(
+          `No Code element found in error response: ${bodyText}`,
+        );
       }
 
       const errorCode = sanitizeErrorCode(rawErrorCode);
