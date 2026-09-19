@@ -8445,7 +8445,8 @@ export const authOidc: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type AuthorizeCliAuthError = DopplerOpError | Conflict;
+export type AuthorizeCliAuthError = Conflict | DopplerOpError;
+/** Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go. */
 export const authorizeCliAuth: API.OperationMethod<
   AuthorizeCliAuthRequest,
   AuthorizeCliAuthResponse,
@@ -8458,6 +8459,7 @@ export const authorizeCliAuth: API.OperationMethod<
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
 }));
+
 export type CloneConfigError = DopplerOpError;
 /** Clone Create a new branch config by cloning another. This duplicates a branch config and all its secrets. */
 export const cloneConfig: API.OperationMethod<
@@ -8973,6 +8975,7 @@ export const enableWebhook: API.OperationMethod<
 }));
 
 export type GenerateCliAuthError = DopplerOpError;
+/** Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go. */
 export const generateCliAuth: API.OperationMethod<
   GenerateCliAuthRequest,
   GenerateCliAuthResponse,
@@ -8985,6 +8988,7 @@ export const generateCliAuth: API.OperationMethod<
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
 }));
+
 export type GetChangeRequestPolicyError = DopplerOpError;
 /** Retrieve Fetch an existing change request policy */
 export const getChangeRequestPolicy: API.OperationMethod<
@@ -9826,6 +9830,7 @@ export const revokeAuth: API.OperationMethod<
 }));
 
 export type RevokeCliAuthError = DopplerOpError;
+/** Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go. */
 export const revokeCliAuth: API.OperationMethod<
   RevokeCliAuthRequest,
   RevokeCliAuthResponse,
@@ -9838,6 +9843,7 @@ export const revokeCliAuth: API.OperationMethod<
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
 }));
+
 export type SecretsNamesError = DopplerOpError;
 /** List Names Secret Names */
 export const secretsNames: API.OperationMethod<

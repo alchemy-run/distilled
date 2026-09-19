@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test";
 import { generateService } from "./generator.ts";
 
-test("per-operation overrides fall back to declarative emission", () => {
+test("operationDecl.overrides swaps protocol and context per operation", () => {
   const { code } = generateService(
     {
       smithy: "2.0",
@@ -10,11 +10,11 @@ test("per-operation overrides fall back to declarative emission", () => {
           type: "service",
           version: "1",
           operations: [
-            { target: "example#Public" },
+            { target: "example#Login" },
             { target: "example#FetchThing" },
           ],
         },
-        "example#Public": {
+        "example#Login": {
           type: "operation",
           input: { target: "example#Request" },
           output: { target: "smithy.api#Unit" },
@@ -34,14 +34,17 @@ test("per-operation overrides fall back to declarative emission", () => {
         commonErrorClasses: [],
         protocol: "Protocol",
         retry: "Retry.Retry",
+        overrides: (ctx) =>
+          ctx.opName === "Login"
+            ? { protocol: "PublicProtocol", contextType: "PublicContext" }
+            : undefined,
       },
-      operation: (ctx) =>
-        ctx.opName === "Public"
-          ? "export const publicOperation = anonymous;"
-          : undefined,
     },
   );
-  expect(code).toContain("export const publicOperation = anonymous;");
-  expect(code).toContain("export const fetchThing:");
-  expect(code).toContain("protocol: Protocol");
+  const login = code.slice(code.indexOf("export const login:"));
+  const fetchThing = code.slice(code.indexOf("export const fetchThing:"));
+  expect(login).toContain("PublicContext");
+  expect(login).toContain("protocol: PublicProtocol");
+  expect(fetchThing).toContain("  Context\n");
+  expect(fetchThing).toContain("protocol: Protocol");
 });

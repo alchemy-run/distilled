@@ -19,6 +19,13 @@ const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
+/** Operations served without credentials — see `DopplerPublicProtocol`. */
+const PUBLIC_OPERATIONS = new Set([
+  "GenerateCliAuth",
+  "AuthorizeCliAuth",
+  "RevokeCliAuth",
+]);
+
 /** Doppler's provider spec for the shared smithy→SDK compiler. */
 const dopplerSpec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
@@ -70,23 +77,15 @@ const dopplerSpec: SdkSpec = {
     commonErrorClasses: ["UnknownDopplerError"],
     protocol: "DopplerProtocol",
     retry: "Retry.Retry",
-  },
-
-  operation: (ctx) => {
-    if (
-      !["GenerateCliAuth", "AuthorizeCliAuth", "RevokeCliAuth"].includes(
-        ctx.opName,
-      )
-    )
-      return undefined;
-    return `export type ${ctx.opName}Error = ${["DopplerOpError", ...ctx.errorNames].join(" | ")};
-export const ${ctx.exportName}: API.OperationMethod<${ctx.inputName}, ${ctx.outputTsType}, ${ctx.opName}Error, DopplerPublicOpContext> = /*@__PURE__*/ API.make(() => ({
-  input: ${ctx.inputName},
-  output: ${ctx.outputSchema},
-  errors: [${[...ctx.errorNames, "UnknownDopplerError"].join(", ")}],
-  protocol: DopplerPublicProtocol,
-  retry: Retry.Retry,
-}));`;
+    // The browser-login endpoints are public (`security: []` in the
+    // OpenAPI patch); they must never resolve or send a bearer token.
+    overrides: (ctx) =>
+      PUBLIC_OPERATIONS.has(ctx.opName)
+        ? {
+            protocol: "DopplerPublicProtocol",
+            contextType: "DopplerPublicOpContext",
+          }
+        : undefined,
   },
 
   sourceNote: ".generated-specs (specs/distilled-spec-doppler)",
