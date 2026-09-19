@@ -206,6 +206,35 @@ export class QueueNotFound
     [{ code: 11000 }],
   ) {}
 
+export class SuperSlurperJobOperationFailed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SuperSlurperJobOperationFailed>()(
+      "SuperSlurperJobOperationFailed",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ status: 500, message: "Internal Server Error" }],
+  ) {}
+
+export class SuperSlurperPreconnectivityFailed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SuperSlurperPreconnectivityFailed>()(
+      "SuperSlurperPreconnectivityFailed",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [
+      {
+        status: 403,
+        message: "Preconnectivity failed, please verify tokens and try again",
+      },
+    ],
+  ) {}
+
 export interface AbortAllSuperSlurperJobRequest {
   accountId: string;
 }
@@ -5126,7 +5155,9 @@ export const abortAllSuperSlurperJob: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type AbortSuperSlurperJobError = CloudflareOpError;
+export type AbortSuperSlurperJobError =
+  | SuperSlurperJobOperationFailed
+  | CloudflareOpError;
 /** Cancels a specific R2 Super Slurper migration job. Any objects in the middle of a transfer will finish, but no new objects will start transferring. */
 export const abortSuperSlurperJob: API.OperationMethod<
   AbortSuperSlurperJobRequest,
@@ -5136,7 +5167,11 @@ export const abortSuperSlurperJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AbortSuperSlurperJobRequest,
   output: AbortSuperSlurperJobResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    SuperSlurperJobOperationFailed,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -5191,7 +5226,9 @@ export const createBucketDomainCustom: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateSuperSlurperJobError = CloudflareOpError;
+export type CreateSuperSlurperJobError =
+  | SuperSlurperPreconnectivityFailed
+  | CloudflareOpError;
 /** Creates a new R2 Super Slurper migration job to transfer objects from a source bucket (e.g. S3, GCS, R2) to R2. */
 export const createSuperSlurperJob: API.OperationMethod<
   CreateSuperSlurperJobRequest,
@@ -5201,7 +5238,11 @@ export const createSuperSlurperJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSuperSlurperJobRequest,
   output: CreateSuperSlurperJobResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    SuperSlurperPreconnectivityFailed,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -5558,7 +5599,9 @@ export const getBucketSippy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetSuperSlurperJobError = CloudflareOpError;
+export type GetSuperSlurperJobError =
+  | SuperSlurperJobOperationFailed
+  | CloudflareOpError;
 /** Retrieves detailed status and configuration for a specific R2 Super Slurper migration job. */
 export const getSuperSlurperJob: API.OperationMethod<
   GetSuperSlurperJobRequest,
@@ -5568,7 +5611,11 @@ export const getSuperSlurperJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSuperSlurperJobRequest,
   output: GetSuperSlurperJobResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    SuperSlurperJobOperationFailed,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -5747,7 +5794,9 @@ export const patchBucket: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type PauseSuperSlurperJobError = CloudflareOpError;
+export type PauseSuperSlurperJobError =
+  | SuperSlurperJobOperationFailed
+  | CloudflareOpError;
 /** Pauses a running R2 Super Slurper migration job. The job can be resumed later to continue transferring. */
 export const pauseSuperSlurperJob: API.OperationMethod<
   PauseSuperSlurperJobRequest,
@@ -5757,7 +5806,11 @@ export const pauseSuperSlurperJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PauseSuperSlurperJobRequest,
   output: PauseSuperSlurperJobResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    SuperSlurperJobOperationFailed,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -5901,7 +5954,9 @@ export const putBucketSippy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ResumeSuperSlurperJobError = CloudflareOpError;
+export type ResumeSuperSlurperJobError =
+  | SuperSlurperJobOperationFailed
+  | CloudflareOpError;
 /** Resumes a paused R2 Super Slurper migration job, continuing the transfer from where it stopped. */
 export const resumeSuperSlurperJob: API.OperationMethod<
   ResumeSuperSlurperJobRequest,
@@ -5911,7 +5966,11 @@ export const resumeSuperSlurperJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResumeSuperSlurperJobRequest,
   output: ResumeSuperSlurperJobResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    SuperSlurperJobOperationFailed,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
