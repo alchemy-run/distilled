@@ -431,18 +431,26 @@ export const getSetup: API.OperationMethod<
 
 export type ListFindingsForRepoError = Forbidden | NotFound | GithubOpError;
 /** List code quality findings for a repository Lists code quality findings for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories. */
-export const listFindingsForRepo: API.OperationMethod<
+export const listFindingsForRepo: API.PaginatedOperationMethod<
   ListFindingsForRepoRequest,
   ListFindingsForRepoResponse,
   ListFindingsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodeQualityFinding
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFindingsForRepoRequest,
   output: ListFindingsForRepoResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type UpdateSetupError =
   | Forbidden

@@ -4238,18 +4238,25 @@ export type GetStargazerHistoryForRepoError =
   | UnprocessableEntity
   | GithubOpError;
 /** Get repository star history Returns repository stars grouped by calendar weeks, most recent first. Pages move backward toward the repository's creation week, and weeks within a page are ordered newest to oldest, so concatenating pages produces one continuous series. Weeks without stars contain zero counts. Week and day boundaries are not guaranteed to align with UTC. The `days` array contains the number of stars created on each day of the week, starting on Sunday. */
-export const getStargazerHistoryForRepo: API.OperationMethod<
+export const getStargazerHistoryForRepo: API.PaginatedOperationMethod<
   GetStargazerHistoryForRepoRequest,
   GetStargazerHistoryForRepoResponse,
   GetStargazerHistoryForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  StargazerHistory
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetStargazerHistoryForRepoRequest,
   output: GetStargazerHistoryForRepoResponse,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetThreadError = Forbidden | GithubOpError;
 /** Get a thread Gets information about a notification thread. */
@@ -4285,191 +4292,275 @@ export const getThreadSubscriptionForAuthenticatedUser: API.OperationMethod<
 
 export type ListEventsForAuthenticatedUserError = GithubOpError;
 /** List events for the authenticated user If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events. _Optional_: use the fine-grained token with following permission set to view private events: "Events" user permissions (read). > [!NOTE] > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h. */
-export const listEventsForAuthenticatedUser: API.OperationMethod<
+export const listEventsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListEventsForAuthenticatedUserRequest,
   ListEventsForAuthenticatedUserResponse,
   ListEventsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Event
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEventsForAuthenticatedUserRequest,
   output: ListEventsForAuthenticatedUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListNotificationsForAuthenticatedUserError =
   | Forbidden
   | UnprocessableEntity
   | GithubOpError;
 /** List notifications for the authenticated user List all notifications for the current user, sorted by most recently updated. */
-export const listNotificationsForAuthenticatedUser: API.OperationMethod<
+export const listNotificationsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListNotificationsForAuthenticatedUserRequest,
   ListNotificationsForAuthenticatedUserResponse,
   ListNotificationsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Thread
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNotificationsForAuthenticatedUserRequest,
   output: ListNotificationsForAuthenticatedUserResponse,
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListOrgEventsForAuthenticatedUserError = GithubOpError;
 /** List organization events for the authenticated user This is the user's organization dashboard. You must be authenticated as the user to view this. > [!NOTE] > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h. */
-export const listOrgEventsForAuthenticatedUser: API.OperationMethod<
+export const listOrgEventsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListOrgEventsForAuthenticatedUserRequest,
   ListOrgEventsForAuthenticatedUserResponse,
   ListOrgEventsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Event
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgEventsForAuthenticatedUserRequest,
   output: ListOrgEventsForAuthenticatedUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPublicEventsError = Forbidden | GithubOpError;
 /** List public events > [!NOTE] > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h. */
-export const listPublicEvents: API.OperationMethod<
+export const listPublicEvents: API.PaginatedOperationMethod<
   ListPublicEventsRequest,
   ListPublicEventsResponse,
   ListPublicEventsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Event
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPublicEventsRequest,
   output: ListPublicEventsResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPublicEventsForRepoNetworkError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List public events for a network of repositories > [!NOTE] > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h. */
-export const listPublicEventsForRepoNetwork: API.OperationMethod<
+export const listPublicEventsForRepoNetwork: API.PaginatedOperationMethod<
   ListPublicEventsForRepoNetworkRequest,
   ListPublicEventsForRepoNetworkResponse,
   ListPublicEventsForRepoNetworkError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Event
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPublicEventsForRepoNetworkRequest,
   output: ListPublicEventsForRepoNetworkResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPublicEventsForUserError = GithubOpError;
 /** List public events for a user > [!NOTE] > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h. */
-export const listPublicEventsForUser: API.OperationMethod<
+export const listPublicEventsForUser: API.PaginatedOperationMethod<
   ListPublicEventsForUserRequest,
   ListPublicEventsForUserResponse,
   ListPublicEventsForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Event
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPublicEventsForUserRequest,
   output: ListPublicEventsForUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPublicOrgEventsError = GithubOpError;
 /** List public organization events > [!NOTE] > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h. */
-export const listPublicOrgEvents: API.OperationMethod<
+export const listPublicOrgEvents: API.PaginatedOperationMethod<
   ListPublicOrgEventsRequest,
   ListPublicOrgEventsResponse,
   ListPublicOrgEventsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Event
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPublicOrgEventsRequest,
   output: ListPublicOrgEventsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListReceivedEventsForUserError = GithubOpError;
 /** List events received by the authenticated user These are events that you've received by watching repositories and following users. If you are authenticated as the given user, you will see private events. Otherwise, you'll only see public events. > [!NOTE] > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h. */
-export const listReceivedEventsForUser: API.OperationMethod<
+export const listReceivedEventsForUser: API.PaginatedOperationMethod<
   ListReceivedEventsForUserRequest,
   ListReceivedEventsForUserResponse,
   ListReceivedEventsForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Event
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReceivedEventsForUserRequest,
   output: ListReceivedEventsForUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListReceivedPublicEventsForUserError = GithubOpError;
 /** List public events received by a user > [!NOTE] > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h. */
-export const listReceivedPublicEventsForUser: API.OperationMethod<
+export const listReceivedPublicEventsForUser: API.PaginatedOperationMethod<
   ListReceivedPublicEventsForUserRequest,
   ListReceivedPublicEventsForUserResponse,
   ListReceivedPublicEventsForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Event
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReceivedPublicEventsForUserRequest,
   output: ListReceivedPublicEventsForUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoEventsError = GithubOpError;
 /** List repository events > [!NOTE] > This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h. */
-export const listRepoEvents: API.OperationMethod<
+export const listRepoEvents: API.PaginatedOperationMethod<
   ListRepoEventsRequest,
   ListRepoEventsResponse,
   ListRepoEventsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Event
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoEventsRequest,
   output: ListRepoEventsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoNotificationsForAuthenticatedUserError = GithubOpError;
 /** List repository notifications for the authenticated user Lists all notifications for the current user in the specified repository. */
-export const listRepoNotificationsForAuthenticatedUser: API.OperationMethod<
+export const listRepoNotificationsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListRepoNotificationsForAuthenticatedUserRequest,
   ListRepoNotificationsForAuthenticatedUserResponse,
   ListRepoNotificationsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Thread
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoNotificationsForAuthenticatedUserRequest,
   output: ListRepoNotificationsForAuthenticatedUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListReposStarredByAuthenticatedUserError =
   | Forbidden
   | GithubOpError;
 /** List repositories starred by the authenticated user Lists repositories the authenticated user has starred. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.star+json`**: Includes a timestamp of when the star was created. */
-export const listReposStarredByAuthenticatedUser: API.OperationMethod<
+export const listReposStarredByAuthenticatedUser: API.PaginatedOperationMethod<
   ListReposStarredByAuthenticatedUserRequest,
   ListReposStarredByAuthenticatedUserResponse,
   ListReposStarredByAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Repository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReposStarredByAuthenticatedUserRequest,
   output: ListReposStarredByAuthenticatedUserResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListReposStarredByUserError = GithubOpError;
 /** List repositories starred by a user Lists repositories a user has starred. If the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), this endpoint returns an empty list unless the request is authenticated as that user. A request authenticated as the specified user returns starred repositories visible to the token even if the token has no OAuth scopes. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.star+json`**: Includes a timestamp of when the star was created. */
@@ -4488,18 +4579,25 @@ export const listReposStarredByUser: API.OperationMethod<
 
 export type ListReposWatchedByUserError = GithubOpError;
 /** List repositories watched by a user Lists repositories a user is watching. */
-export const listReposWatchedByUser: API.OperationMethod<
+export const listReposWatchedByUser: API.PaginatedOperationMethod<
   ListReposWatchedByUserRequest,
   ListReposWatchedByUserResponse,
   ListReposWatchedByUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReposWatchedByUserRequest,
   output: ListReposWatchedByUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListStargazersForRepoError = UnprocessableEntity | GithubOpError;
 /** List stargazers Lists the people that have starred the repository. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.star+json`**: Includes a timestamp of when the star was created. */
@@ -4520,33 +4618,47 @@ export type ListWatchedReposForAuthenticatedUserError =
   | Forbidden
   | GithubOpError;
 /** List repositories watched by the authenticated user Lists repositories the authenticated user is watching. */
-export const listWatchedReposForAuthenticatedUser: API.OperationMethod<
+export const listWatchedReposForAuthenticatedUser: API.PaginatedOperationMethod<
   ListWatchedReposForAuthenticatedUserRequest,
   ListWatchedReposForAuthenticatedUserResponse,
   ListWatchedReposForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListWatchedReposForAuthenticatedUserRequest,
   output: ListWatchedReposForAuthenticatedUserResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListWatchersForRepoError = GithubOpError;
 /** List watchers Lists the people watching the specified repository. */
-export const listWatchersForRepo: API.OperationMethod<
+export const listWatchersForRepo: API.PaginatedOperationMethod<
   ListWatchersForRepoRequest,
   ListWatchersForRepoResponse,
   ListWatchersForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListWatchersForRepoRequest,
   output: ListWatchersForRepoResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type MarkThreadAsDoneError = GithubOpError;
 /** Mark a thread as done Marks a thread as "done." Marking a thread as "done" is equivalent to marking a notification in your notification inbox on GitHub as done: https://github.com/notifications. */

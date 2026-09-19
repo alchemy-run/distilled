@@ -592,18 +592,25 @@ export const getCampaignSummary: API.OperationMethod<
 
 export type ListOrgCampaignsError = NotFound | GithubOpError;
 /** List campaigns for an organization Lists campaigns in an organization. The authenticated user must be an owner or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. */
-export const listOrgCampaigns: API.OperationMethod<
+export const listOrgCampaigns: API.PaginatedOperationMethod<
   ListOrgCampaignsRequest,
   ListOrgCampaignsResponse,
   ListOrgCampaignsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CampaignSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgCampaignsRequest,
   output: ListOrgCampaignsResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type UpdateCampaignError =
   | BadRequest

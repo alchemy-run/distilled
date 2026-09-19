@@ -187,7 +187,13 @@
           "uri": "/orgs/{org}/settings/network-configurations",
           "code": 200
         },
-        "smithy.api#documentation": "List hosted compute network configurations for an organization\n\nLists all hosted compute network configurations configured in an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `read:network_configurations` scope to use this endpoint."
+        "smithy.api#documentation": "List hosted compute network configurations for an organization\n\nLists all hosted compute network configurations configured in an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `read:network_configurations` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "network_configurations",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.hosted_compute#CreateNetworkConfigurationForOrgRequestComputeService": {

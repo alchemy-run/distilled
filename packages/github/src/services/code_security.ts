@@ -2895,33 +2895,49 @@ export type GetConfigurationsForEnterpriseError =
   | NotFound
   | GithubOpError;
 /** Get code security configurations for an enterprise Lists all code security configurations available in an enterprise. The authenticated user must be an administrator of the enterprise in order to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `read:enterprise` scope to use this endpoint. */
-export const getConfigurationsForEnterprise: API.OperationMethod<
+export const getConfigurationsForEnterprise: API.PaginatedOperationMethod<
   GetConfigurationsForEnterpriseRequest,
   GetConfigurationsForEnterpriseResponse,
   GetConfigurationsForEnterpriseError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodeSecurityConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetConfigurationsForEnterpriseRequest,
   output: GetConfigurationsForEnterpriseResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetConfigurationsForOrgError = Forbidden | NotFound | GithubOpError;
 /** Get code security configurations for an organization Lists all code security configurations available in an organization. The authenticated user must be an administrator or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint. */
-export const getConfigurationsForOrg: API.OperationMethod<
+export const getConfigurationsForOrg: API.PaginatedOperationMethod<
   GetConfigurationsForOrgRequest,
   GetConfigurationsForOrgResponse,
   GetConfigurationsForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodeSecurityConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetConfigurationsForOrgRequest,
   output: GetConfigurationsForOrgResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetDefaultConfigurationsError =
   | Forbidden
@@ -2961,36 +2977,52 @@ export type GetRepositoriesForConfigurationError =
   | NotFound
   | GithubOpError;
 /** Get repositories associated with a code security configuration Lists the repositories associated with a code security configuration in an organization. The authenticated user must be an administrator or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint. */
-export const getRepositoriesForConfiguration: API.OperationMethod<
+export const getRepositoriesForConfiguration: API.PaginatedOperationMethod<
   GetRepositoriesForConfigurationRequest,
   GetRepositoriesForConfigurationResponse,
   GetRepositoriesForConfigurationError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodeSecurityConfigurationRepositories
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetRepositoriesForConfigurationRequest,
   output: GetRepositoriesForConfigurationResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetRepositoriesForEnterpriseConfigurationError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** Get repositories associated with an enterprise code security configuration Lists the repositories associated with an enterprise code security configuration in an organization. The authenticated user must be an administrator of the enterprise in order to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `read:enterprise` scope to use this endpoint. */
-export const getRepositoriesForEnterpriseConfiguration: API.OperationMethod<
+export const getRepositoriesForEnterpriseConfiguration: API.PaginatedOperationMethod<
   GetRepositoriesForEnterpriseConfigurationRequest,
   GetRepositoriesForEnterpriseConfigurationResponse,
   GetRepositoriesForEnterpriseConfigurationError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodeSecurityConfigurationRepositories
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetRepositoriesForEnterpriseConfigurationRequest,
   output: GetRepositoriesForEnterpriseConfigurationResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetSingleConfigurationForEnterpriseError =
   | Forbidden

@@ -2377,63 +2377,93 @@ export const getScanHistory: API.OperationMethod<
 
 export type ListAlertsForOrgError = NotFound | GithubOpError;
 /** List secret scanning alerts for an organization Lists secret scanning alerts for eligible repositories in an organization, from newest to oldest. The authenticated user must be an administrator or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
-export const listAlertsForOrg: API.OperationMethod<
+export const listAlertsForOrg: API.PaginatedOperationMethod<
   ListAlertsForOrgRequest,
   ListAlertsForOrgResponse,
   ListAlertsForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  OrganizationSecretScanningAlert
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAlertsForOrgRequest,
   output: ListAlertsForOrgResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    inputTokens: ["page", "after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAlertsForRepoError = NotFound | GithubOpError;
 /** List secret scanning alerts for a repository Lists secret scanning alerts for an eligible repository, from newest to oldest. The authenticated user must be an administrator for the repository or for the organization that owns the repository to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
-export const listAlertsForRepo: API.OperationMethod<
+export const listAlertsForRepo: API.PaginatedOperationMethod<
   ListAlertsForRepoRequest,
   ListAlertsForRepoResponse,
   ListAlertsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SecretScanningAlert
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAlertsForRepoRequest,
   output: ListAlertsForRepoResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    inputTokens: ["page", "after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListLocationsForAlertError = NotFound | GithubOpError;
 /** List locations for a secret scanning alert Lists all locations for a given secret scanning alert for an eligible repository. The authenticated user must be an administrator for the repository or for the organization that owns the repository to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
-export const listLocationsForAlert: API.OperationMethod<
+export const listLocationsForAlert: API.PaginatedOperationMethod<
   ListLocationsForAlertRequest,
   ListLocationsForAlertResponse,
   ListLocationsForAlertError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SecretScanningLocation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListLocationsForAlertRequest,
   output: ListLocationsForAlertResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListOrgCustomPatternsError = Forbidden | NotFound | GithubOpError;
 /** List organization custom patterns Lists secret scanning custom patterns for an organization. Personal access tokens (classic) need the `read:org` scope to use this endpoint. */
-export const listOrgCustomPatterns: API.OperationMethod<
+export const listOrgCustomPatterns: API.PaginatedOperationMethod<
   ListOrgCustomPatternsRequest,
   ListOrgCustomPatternsResponse,
   ListOrgCustomPatternsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SecretScanningCustomPattern
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgCustomPatternsRequest,
   output: ListOrgCustomPatternsResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+  } as const,
+})) as any;
 
 export type ListOrgPatternConfigsError = Forbidden | NotFound | GithubOpError;
 /** List organization pattern configurations Lists the secret scanning pattern configurations for an organization. Personal access tokens (classic) need the `read:org` scope to use this endpoint. */
@@ -2452,18 +2482,25 @@ export const listOrgPatternConfigs: API.OperationMethod<
 
 export type ListRepoCustomPatternsError = Forbidden | NotFound | GithubOpError;
 /** List repository custom patterns Lists secret scanning custom patterns for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
-export const listRepoCustomPatterns: API.OperationMethod<
+export const listRepoCustomPatterns: API.PaginatedOperationMethod<
   ListRepoCustomPatternsRequest,
   ListRepoCustomPatternsResponse,
   ListRepoCustomPatternsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SecretScanningCustomPattern
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoCustomPatternsRequest,
   output: ListRepoCustomPatternsResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+  } as const,
+})) as any;
 
 export type UpdateAlertError =
   | BadRequest

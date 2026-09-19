@@ -640,7 +640,13 @@
           "uri": "/organizations/{org}/settings/billing/budgets",
           "code": 200
         },
-        "smithy.api#documentation": "Get all budgets for an organization\n\nGets all budgets for an organization. The authenticated user must be an organization admin or billing manager.\nEach page returns up to 100 budgets."
+        "smithy.api#documentation": "Get all budgets for an organization\n\nGets all budgets for an organization. The authenticated user must be an organization admin or billing manager.\nEach page returns up to 100 budgets.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "budgets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.billing#CreateOrganizationBudgetRequestBudgetAlertingAlertRecipientsList": {

@@ -1972,63 +1972,91 @@ export const getSuite: API.OperationMethod<
 
 export type ListAnnotationsError = GithubOpError;
 /** List check run annotations Lists annotations for a check run using the annotation `id`. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository. */
-export const listAnnotations: API.OperationMethod<
+export const listAnnotations: API.PaginatedOperationMethod<
   ListAnnotationsRequest,
   ListAnnotationsResponse,
   ListAnnotationsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CheckAnnotation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAnnotationsRequest,
   output: ListAnnotationsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForRefError = GithubOpError;
 /** List check runs for a Git reference Lists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name. > [!NOTE] > The endpoints to manage checks only look for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array. If there are more than 1000 check suites on a single git reference, this endpoint will limit check runs to the 1000 most recent check suites. To iterate over all possible check runs, use the [List check suites for a Git reference](https://docs.github.com/rest/reference/checks#list-check-suites-for-a-git-reference) endpoint and provide the `check_suite_id` parameter to the [List check runs in a check suite](https://docs.github.com/rest/reference/checks#list-check-runs-in-a-check-suite) endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository. */
-export const listForRef: API.OperationMethod<
+export const listForRef: API.PaginatedOperationMethod<
   ListForRefRequest,
   ListForRefResponse,
   ListForRefError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CheckRun
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForRefRequest,
   output: ListForRefResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "check_runs",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForSuiteError = GithubOpError;
 /** List check runs in a check suite Lists check runs for a check suite using its `id`. > [!NOTE] > The endpoints to manage checks only look for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository. */
-export const listForSuite: API.OperationMethod<
+export const listForSuite: API.PaginatedOperationMethod<
   ListForSuiteRequest,
   ListForSuiteResponse,
   ListForSuiteError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CheckRun
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForSuiteRequest,
   output: ListForSuiteResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "check_runs",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSuitesForRefError = GithubOpError;
 /** List check suites for a Git reference Lists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name. > [!NOTE] > The endpoints to manage checks only look for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository. */
-export const listSuitesForRef: API.OperationMethod<
+export const listSuitesForRef: API.PaginatedOperationMethod<
   ListSuitesForRefRequest,
   ListSuitesForRefResponse,
   ListSuitesForRefError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CheckSuite
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSuitesForRefRequest,
   output: ListSuitesForRefResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "check_suites",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type RerequestSuiteError = GithubOpError;
 /** Rerequest a check suite Triggers GitHub to rerequest an existing check suite, without pushing new code to a repository. This endpoint will trigger the [`check_suite` webhook](https://docs.github.com/webhooks/event-payloads/#check_suite) event with the action `rerequested`. When a check suite is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared. */

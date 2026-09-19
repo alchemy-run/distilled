@@ -57,6 +57,24 @@
       "worker": "./src/services/index.ts",
       "default": "./lib/services/index.js"
     },
+    "./Webhooks": {
+      "types": "./lib/webhooks.d.ts",
+      "bun": "./src/webhooks.ts",
+      "worker": "./src/webhooks.ts",
+      "default": "./lib/webhooks.js"
+    },
+    "./WebhookEventNames": {
+      "types": "./lib/webhook-event-names.d.ts",
+      "bun": "./src/webhook-event-names.ts",
+      "worker": "./src/webhook-event-names.ts",
+      "default": "./lib/webhook-event-names.js"
+    },
+    "./WebhookEvents": {
+      "types": "./lib/webhook-events.d.ts",
+      "bun": "./src/webhook-events.ts",
+      "worker": "./src/webhook-events.ts",
+      "default": "./lib/webhook-events.js"
+    },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",

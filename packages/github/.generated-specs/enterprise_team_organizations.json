@@ -173,7 +173,13 @@
           "uri": "/enterprises/{enterprise}/teams/{enterprise_team}/organizations",
           "code": 200
         },
-        "smithy.api#documentation": "Get organization assignments\n\nGet all organizations assigned to an enterprise team"
+        "smithy.api#documentation": "Get organization assignments\n\nGet all organizations assigned to an enterprise team",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.enterprise_team_organizations#BulkAddRequestOrganizationSlugsList": {
