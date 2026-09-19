@@ -1,4 +1,3 @@
-import * as ini from "@smithy/shared-ini-file-loader";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -27,6 +26,7 @@ import {
   type ResolvedCredentials,
 } from "./credentials.ts";
 import { parseIni, parseSSOSessionData } from "./util/parse-ini.ts";
+import { getHomeDir, parseKnownFiles } from "./util/shared-config.ts";
 
 export * from "./auth.browser.ts";
 
@@ -103,9 +103,7 @@ export const makeAuthService = () =>
     const loadProfile = Effect.fn(function* (profileName: string) {
       const profiles: {
         [profileName: string]: AwsProfileConfig;
-      } = yield* Effect.promise(() =>
-        ini.parseKnownFiles({ profile: profileName }),
-      );
+      } = yield* Effect.promise(parseKnownFiles);
 
       const profile = profiles[profileName];
 
@@ -116,7 +114,7 @@ export const makeAuthService = () =>
         });
       }
 
-      const awsDir = path.join(ini.getHomeDir(), ".aws");
+      const awsDir = path.join(getHomeDir(), ".aws");
       const configPath = path.join(awsDir, "config");
 
       // A profile is an SSO profile in one of two config formats:
@@ -194,7 +192,7 @@ export const makeAuthService = () =>
     });
 
     const loadProfileCredentials = Effect.fn(function* (profileName: string) {
-      const awsDir = path.join(ini.getHomeDir(), ".aws");
+      const awsDir = path.join(getHomeDir(), ".aws");
       const cachePath = path.join(awsDir, "sso", "cache");
 
       const profile = yield* loadProfile(profileName);
