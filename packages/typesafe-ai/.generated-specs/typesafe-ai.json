@@ -1,0 +1,856 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.typesafe.ai#SystemOneRequestStateCase1Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#SystemOneRequestStateCase2List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#SystemOneRequestState": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.typesafe.ai#SystemOneRequestStateCase1Map"
+        },
+        "Case2": {
+          "target": "com.typesafe.ai#SystemOneRequestStateCase2List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The content all questions in this request refer to."
+      }
+    },
+    "com.typesafe.ai#Question": {
+      "type": "union",
+      "members": {
+        "NoulQuestion": {
+          "target": "com.typesafe.ai#NoulQuestion"
+        },
+        "ChoiceQuestion": {
+          "target": "com.typesafe.ai#ChoiceQuestion"
+        },
+        "ScoreQuestion": {
+          "target": "com.typesafe.ai#ScoreQuestion"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A question about the supplied content."
+      }
+    },
+    "com.typesafe.ai#NoulQuestion": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a yes/no question or statement.",
+            "smithy.api#required": {}
+          }
+        },
+        "instructions": {
+          "target": "com.typesafe.ai#NoulQuestionInstructions",
+          "traits": {
+            "smithy.api#documentation": "The yes/no question or statement to evaluate.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "criteria": {
+          "target": "com.typesafe.ai#NoulCriteria",
+          "traits": {
+            "smithy.api#documentation": "Criteria clarifying what counts as a yes or no answer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A yes/no question or statement, answered with the probability of yes or true."
+      }
+    },
+    "com.typesafe.ai#NoulQuestionInstructionsCase1Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#NoulQuestionInstructionsCase2List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#NoulQuestionInstructions": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.typesafe.ai#NoulQuestionInstructionsCase1Map"
+        },
+        "Case2": {
+          "target": "com.typesafe.ai#NoulQuestionInstructionsCase2List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The yes/no question or statement to evaluate."
+      }
+    },
+    "com.typesafe.ai#NoulCriteria": {
+      "type": "structure",
+      "members": {
+        "true": {
+          "target": "com.typesafe.ai#NoulCriteriaTrue",
+          "traits": {
+            "smithy.api#documentation": "What counts as a yes answer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "false": {
+          "target": "com.typesafe.ai#NoulCriteriaFalse",
+          "traits": {
+            "smithy.api#documentation": "What counts as a no answer.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Criteria defining what counts as a yes or no answer."
+      }
+    },
+    "com.typesafe.ai#NoulCriteriaTrueCase1Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#NoulCriteriaTrueCase2List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#NoulCriteriaTrue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.typesafe.ai#NoulCriteriaTrueCase1Map"
+        },
+        "Case2": {
+          "target": "com.typesafe.ai#NoulCriteriaTrueCase2List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What counts as a yes answer."
+      }
+    },
+    "com.typesafe.ai#NoulCriteriaFalseCase1Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#NoulCriteriaFalseCase2List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#NoulCriteriaFalse": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.typesafe.ai#NoulCriteriaFalseCase1Map"
+        },
+        "Case2": {
+          "target": "com.typesafe.ai#NoulCriteriaFalseCase2List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What counts as a no answer."
+      }
+    },
+    "com.typesafe.ai#ChoiceQuestion": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a question that selects one of the choices in criteria.",
+            "smithy.api#required": {}
+          }
+        },
+        "instructions": {
+          "target": "com.typesafe.ai#ChoiceQuestionInstructions",
+          "traits": {
+            "smithy.api#documentation": "What the model should decide when choosing an option.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "criteria": {
+          "target": "com.typesafe.ai#ChoiceQuestionCriteriaMap",
+          "traits": {
+            "smithy.api#documentation": "Choice names and descriptions of when each applies. A choice without a description is interpreted by its name alone.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A question that selects one option from the choices you define."
+      }
+    },
+    "com.typesafe.ai#ChoiceQuestionInstructionsCase1Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ChoiceQuestionInstructionsCase2List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ChoiceQuestionInstructions": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.typesafe.ai#ChoiceQuestionInstructionsCase1Map"
+        },
+        "Case2": {
+          "target": "com.typesafe.ai#ChoiceQuestionInstructionsCase2List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the model should decide when choosing an option."
+      }
+    },
+    "com.typesafe.ai#ChoiceQuestionCriteriaValueCase1Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ChoiceQuestionCriteriaValueCase2List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ChoiceQuestionCriteriaValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.typesafe.ai#ChoiceQuestionCriteriaValueCase1Map"
+        },
+        "Case2": {
+          "target": "com.typesafe.ai#ChoiceQuestionCriteriaValueCase2List"
+        }
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ChoiceQuestionCriteriaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.typesafe.ai#ChoiceQuestionCriteriaValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Choice names and descriptions of when each applies. A choice without a description is interpreted by its name alone."
+      }
+    },
+    "com.typesafe.ai#ScoreQuestion": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a question that rates the content using the levels in criteria.",
+            "smithy.api#required": {}
+          }
+        },
+        "instructions": {
+          "target": "com.typesafe.ai#ScoreQuestionInstructions",
+          "traits": {
+            "smithy.api#documentation": "What the model should rate.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "criteria": {
+          "target": "com.typesafe.ai#ScoreQuestionCriteriaList",
+          "traits": {
+            "smithy.api#documentation": "Ordered descriptions of the score levels. Each description's position determines its score, starting at zero.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A question that assigns a score using an ordered rubric."
+      }
+    },
+    "com.typesafe.ai#ScoreQuestionInstructionsCase1Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ScoreQuestionInstructionsCase2List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ScoreQuestionInstructions": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.typesafe.ai#ScoreQuestionInstructionsCase1Map"
+        },
+        "Case2": {
+          "target": "com.typesafe.ai#ScoreQuestionInstructionsCase2List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the model should rate."
+      }
+    },
+    "com.typesafe.ai#ScoreQuestionCriteriaItemCase1Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ScoreQuestionCriteriaItemCase2List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ScoreQuestionCriteriaItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.typesafe.ai#ScoreQuestionCriteriaItemCase1Map"
+        },
+        "Case2": {
+          "target": "com.typesafe.ai#ScoreQuestionCriteriaItemCase2List"
+        }
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ScoreQuestionCriteriaList": {
+      "type": "list",
+      "member": {
+        "target": "com.typesafe.ai#ScoreQuestionCriteriaItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered descriptions of the score levels. Each description's position determines its score, starting at zero."
+      }
+    },
+    "com.typesafe.ai#SystemOneRequestQuestionsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.typesafe.ai#Question"
+      },
+      "traits": {
+        "smithy.api#documentation": "Questions to ask about the content, each with a name you choose. The response uses those names to identify the answers."
+      }
+    },
+    "com.typesafe.ai#SystemOneRequest": {
+      "type": "structure",
+      "members": {
+        "state": {
+          "target": "com.typesafe.ai#SystemOneRequestState",
+          "traits": {
+            "smithy.api#documentation": "The content all questions in this request refer to.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name or alias of the model to use. Available names are returned by GET /v1/models.",
+            "smithy.api#required": {}
+          }
+        },
+        "questions": {
+          "target": "com.typesafe.ai#SystemOneRequestQuestionsMap",
+          "traits": {
+            "smithy.api#documentation": "Questions to ask about the content, each with a name you choose. The response uses those names to identify the answers.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.typesafe.ai#SystemOneResponse": {
+      "type": "structure",
+      "members": {
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the model that answered the questions. May differ from the alias supplied in the request.",
+            "smithy.api#required": {}
+          }
+        },
+        "answers": {
+          "target": "com.typesafe.ai#SystemOneResponseAnswersMap",
+          "traits": {
+            "smithy.api#documentation": "Answers keyed by the question names supplied in the request. Each answer's type matches its question's type.",
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "com.typesafe.ai#Usage",
+          "traits": {
+            "smithy.api#documentation": "Input and output token counts for this evaluation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Answers grouped by question name, with the model used and token usage."
+      }
+    },
+    "com.typesafe.ai#Answer": {
+      "type": "union",
+      "members": {
+        "NoulAnswer": {
+          "target": "com.typesafe.ai#NoulAnswer"
+        },
+        "ScoreAnswer": {
+          "target": "com.typesafe.ai#ScoreAnswer"
+        },
+        "ChoiceAnswer": {
+          "target": "com.typesafe.ai#ChoiceAnswer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An answer whose type matches the corresponding question."
+      }
+    },
+    "com.typesafe.ai#NoulAnswer": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a yes/no answer.",
+            "smithy.api#required": {}
+          }
+        },
+        "noul": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Probability of a yes answer or a true statement, from 0 to 1. Values near 1 favor yes or true, values near 0 favor no or false, and values near 0.5 indicate uncertainty.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The probability of a yes answer or a true statement."
+      }
+    },
+    "com.typesafe.ai#ScoreAnswer": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a rating against the requested score levels.",
+            "smithy.api#required": {}
+          }
+        },
+        "score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Expected score: the probability-weighted average of the rubric levels. May fall between integer levels.",
+            "smithy.api#required": {}
+          }
+        },
+        "confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Confidence in the score, from 0 to 1. Higher values indicate greater certainty; use lower values to flag uncertain ratings for review.",
+            "smithy.api#required": {}
+          }
+        },
+        "legend": {
+          "target": "com.typesafe.ai#ScoreAnswerLegendMap",
+          "traits": {
+            "smithy.api#documentation": "The requested criteria mapped to their score levels, so you can interpret the score.",
+            "smithy.api#required": {}
+          }
+        },
+        "probabilities": {
+          "target": "com.typesafe.ai#ScoreAnswerProbabilitiesMap",
+          "traits": {
+            "smithy.api#documentation": "Probability of each score level, from 0 to 1, using the same keys as legend. Shows how likely the alternatives are; values sum to approximately 1.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An expected score with its rubric, confidence, and score-level probabilities."
+      }
+    },
+    "com.typesafe.ai#ScoreAnswerLegendValueCase1Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ScoreAnswerLegendValueCase2List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ScoreAnswerLegendValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.typesafe.ai#ScoreAnswerLegendValueCase1Map"
+        },
+        "Case2": {
+          "target": "com.typesafe.ai#ScoreAnswerLegendValueCase2List"
+        }
+      },
+      "traits": {}
+    },
+    "com.typesafe.ai#ScoreAnswerLegendMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.typesafe.ai#ScoreAnswerLegendValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "The requested criteria mapped to their score levels, so you can interpret the score."
+      }
+    },
+    "com.typesafe.ai#ScoreAnswerProbabilitiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "Probability of each score level, from 0 to 1, using the same keys as legend. Shows how likely the alternatives are; values sum to approximately 1."
+      }
+    },
+    "com.typesafe.ai#ChoiceAnswer": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies a selection from the requested choices.",
+            "smithy.api#required": {}
+          }
+        },
+        "choice": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the choice with the highest probability among the question's criteria.",
+            "smithy.api#required": {}
+          }
+        },
+        "confidence": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Confidence in the selected choice, from 0 to 1. Higher values indicate greater certainty; use lower values to flag uncertain selections for review.",
+            "smithy.api#required": {}
+          }
+        },
+        "probabilities": {
+          "target": "com.typesafe.ai#ChoiceAnswerProbabilitiesMap",
+          "traits": {
+            "smithy.api#documentation": "Probability of each choice in criteria, keyed by choice name, from 0 to 1. Shows how likely the alternatives are; values sum to approximately 1.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The selected choice, confidence, and probabilities for a choice question."
+      }
+    },
+    "com.typesafe.ai#ChoiceAnswerProbabilitiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "Probability of each choice in criteria, keyed by choice name, from 0 to 1. Shows how likely the alternatives are; values sum to approximately 1."
+      }
+    },
+    "com.typesafe.ai#SystemOneResponseAnswersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.typesafe.ai#Answer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Answers keyed by the question names supplied in the request. Each answer's type matches its question's type."
+      }
+    },
+    "com.typesafe.ai#Usage": {
+      "type": "structure",
+      "members": {
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of billable input tokens used to evaluate the request.",
+            "smithy.api#required": {}
+          }
+        },
+        "output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of output tokens used to answer the questions. Output tokens are currently free of charge.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Token usage for the request."
+      }
+    },
+    "com.typesafe.ai#SystemOne": {
+      "type": "operation",
+      "input": {
+        "target": "com.typesafe.ai#SystemOneRequest"
+      },
+      "output": {
+        "target": "com.typesafe.ai#SystemOneResponse"
+      },
+      "errors": [
+        {
+          "target": "com.typesafe.ai#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/systemone",
+          "code": 200
+        },
+        "smithy.api#documentation": "Systemone\n\nAnswer one or more questions about the content supplied in `state`.\n\nYou can mix question types in one request. Answers use the same names as the\nquestions, so you can match each result to its question. The response also includes\nthe model used and token usage."
+      }
+    },
+    "com.typesafe.ai#ModelMetadataList": {
+      "type": "structure",
+      "members": {
+        "models": {
+          "target": "com.typesafe.ai#ModelMetadataListModelsList",
+          "traits": {
+            "smithy.api#documentation": "Available models and aliases. Use a model's name in POST /v1/systemone requests.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Models and aliases available to the authenticated account."
+      }
+    },
+    "com.typesafe.ai#ModelMetadata": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model name or alias accepted by the request's model field.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description of the model and its capabilities.",
+            "smithy.api#required": {}
+          }
+        },
+        "release_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model release date, formatted as YYYY-MM-DD.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A model or model alias available to the authenticated account."
+      }
+    },
+    "com.typesafe.ai#ModelMetadataListModelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.typesafe.ai#ModelMetadata"
+      },
+      "traits": {
+        "smithy.api#documentation": "Available models and aliases. Use a model's name in POST /v1/systemone requests."
+      }
+    },
+    "com.typesafe.ai#ListModels": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.typesafe.ai#ModelMetadataList"
+      },
+      "errors": [
+        {
+          "target": "com.typesafe.ai#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/models",
+          "code": 200
+        },
+        "smithy.api#documentation": "Models V1\n\nList the models and aliases available to the authenticated account.\n\nPass a returned model name as `model` in a POST /v1/systemone request."
+      }
+    },
+    "com.typesafe.ai#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.typesafe.ai#TypesafeAi": {
+      "type": "service",
+      "version": "0.2.0",
+      "operations": [
+        {
+          "target": "com.typesafe.ai#SystemOne"
+        },
+        {
+          "target": "com.typesafe.ai#ListModels"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "TypeSafe",
+        "smithy.api#documentation": "Ask yes/no questions, evaluate statements, select choices, or assign ratings to your content. Send your API key in the Authorization header as `Bearer <API_KEY>`. Use GET /v1/models to discover available model names."
+      }
+    }
+  }
+}

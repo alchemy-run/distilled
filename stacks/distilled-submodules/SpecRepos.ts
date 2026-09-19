@@ -122,6 +122,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "trigger-dev" },
   { package: "turbopuffer" },
   { package: "turso" },
+  { package: "typesafe-ai" },
   { package: "typesense" },
   { package: "unkey" },
   { package: "vanta" },
