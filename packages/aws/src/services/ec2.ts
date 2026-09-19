@@ -108,6 +108,26 @@ export class CidrConflict
   extends /*@__PURE__*/ S.TaggedError<CidrConflict>()("CidrConflict", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
   }).pipe(C.withConflictError) {}
+export class ClientVpnAuthorizationRuleLimitExceeded
+  extends /*@__PURE__*/ S.TaggedError<ClientVpnAuthorizationRuleLimitExceeded>()(
+    "ClientVpnAuthorizationRuleLimitExceeded",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ).pipe(C.withThrottlingError) {}
+export class ClientVpnEndpointAssociationExists
+  extends /*@__PURE__*/ S.TaggedError<ClientVpnEndpointAssociationExists>()(
+    "ClientVpnEndpointAssociationExists",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
+export class ClientVpnEndpointLimitExceeded
+  extends /*@__PURE__*/ S.TaggedError<ClientVpnEndpointLimitExceeded>()(
+    "ClientVpnEndpointLimitExceeded",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ).pipe(C.withThrottlingError) {}
+export class ClientVpnRouteLimitExceeded
+  extends /*@__PURE__*/ S.TaggedError<ClientVpnRouteLimitExceeded>()(
+    "ClientVpnRouteLimitExceeded",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ).pipe(C.withThrottlingError) {}
 export class DeclarativePoliciesAccessDenied
   extends /*@__PURE__*/ S.TaggedError<DeclarativePoliciesAccessDenied>()(
     "DeclarativePoliciesAccessDenied",
@@ -260,9 +280,59 @@ export class InvalidCidrNotFound
     "InvalidCidr.NotFound",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
+export class InvalidClientVpnActiveAssociationNotFound
+  extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnActiveAssociationNotFound>()(
+    "InvalidClientVpnActiveAssociationNotFound",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
+export class InvalidClientVpnAssociationIdNotFound
+  extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnAssociationIdNotFound>()(
+    "InvalidClientVpnAssociationIdNotFound",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
+export class InvalidClientVpnDuplicateAssociationException
+  extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnDuplicateAssociationException>()(
+    "InvalidClientVpnDuplicateAssociationException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
+export class InvalidClientVpnDuplicateAuthorizationRule
+  extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnDuplicateAuthorizationRule>()(
+    "InvalidClientVpnDuplicateAuthorizationRule",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
+export class InvalidClientVpnDuplicateRoute
+  extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnDuplicateRoute>()(
+    "InvalidClientVpnDuplicateRoute",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
+export class InvalidClientVpnEndpointAuthorizationRuleNotFound
+  extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnEndpointAuthorizationRuleNotFound>()(
+    "InvalidClientVpnEndpointAuthorizationRuleNotFound",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
 export class InvalidClientVpnEndpointIdNotFound
   extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnEndpointIdNotFound>()(
     "InvalidClientVpnEndpointId.NotFound",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
+export class InvalidClientVpnRouteNotFound
+  extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnRouteNotFound>()(
+    "InvalidClientVpnRouteNotFound",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
+export class InvalidClientVpnSubnetIdDuplicateAz
+  extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnSubnetIdDuplicateAz>()(
+    "InvalidClientVpnSubnetId.DuplicateAz",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
+export class InvalidClientVpnSubnetIdNotFound
+  extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnSubnetIdNotFound>()(
+    "InvalidClientVpnSubnetId.NotFound",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+  ) {}
+export class InvalidClientVpnSubnetIdOverlappingCidr
+  extends /*@__PURE__*/ S.TaggedError<InvalidClientVpnSubnetIdOverlappingCidr>()(
+    "InvalidClientVpnSubnetId.OverlappingCidr",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidConnectionNotification
@@ -78412,6 +78482,13 @@ export const associateCapacityReservationBillingOwner: API.OperationMethod<
 export type AssociateClientVpnTargetNetworkError =
   | RequestLimitExceeded
   | InvalidSubnetIDMalformed
+  | InvalidClientVpnEndpointIdNotFound
+  | ClientVpnEndpointAssociationExists
+  | InvalidClientVpnDuplicateAssociationException
+  | InvalidClientVpnSubnetIdDuplicateAz
+  | InvalidClientVpnSubnetIdOverlappingCidr
+  | InvalidClientVpnSubnetIdNotFound
+  | IncorrectState
   | MissingParameter
   | UnauthorizedOperation
   | CommonErrors;
@@ -78431,6 +78508,13 @@ export const associateClientVpnTargetNetwork: API.OperationMethod<
   errors: [
     RequestLimitExceeded,
     InvalidSubnetIDMalformed,
+    InvalidClientVpnEndpointIdNotFound,
+    ClientVpnEndpointAssociationExists,
+    InvalidClientVpnDuplicateAssociationException,
+    InvalidClientVpnSubnetIdDuplicateAz,
+    InvalidClientVpnSubnetIdOverlappingCidr,
+    InvalidClientVpnSubnetIdNotFound,
+    IncorrectState,
     MissingParameter,
     UnauthorizedOperation,
   ],
@@ -79202,6 +79286,11 @@ export const attachVpnGateway: API.OperationMethod<
 export type AuthorizeClientVpnIngressError =
   | RequestLimitExceeded
   | MissingParameter
+  | InvalidClientVpnEndpointIdNotFound
+  | InvalidClientVpnDuplicateAuthorizationRule
+  | ClientVpnAuthorizationRuleLimitExceeded
+  | InvalidParameterValue
+  | IncorrectState
   | UnauthorizedOperation
   | CommonErrors;
 /**
@@ -79217,7 +79306,16 @@ export const authorizeClientVpnIngress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AuthorizeClientVpnIngressRequest,
   output: AuthorizeClientVpnIngressResult,
-  errors: [RequestLimitExceeded, MissingParameter, UnauthorizedOperation],
+  errors: [
+    RequestLimitExceeded,
+    MissingParameter,
+    InvalidClientVpnEndpointIdNotFound,
+    InvalidClientVpnDuplicateAuthorizationRule,
+    ClientVpnAuthorizationRuleLimitExceeded,
+    InvalidParameterValue,
+    IncorrectState,
+    UnauthorizedOperation,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeClientVpnIngress",
@@ -80176,6 +80274,9 @@ export const createCarrierGateway: API.OperationMethod<
 export type CreateClientVpnEndpointError =
   | RequestLimitExceeded
   | MissingParameter
+  | InvalidParameterValue
+  | InvalidVpcIDNotFound
+  | ClientVpnEndpointLimitExceeded
   | UnauthorizedOperation
   | CommonErrors;
 /**
@@ -80191,7 +80292,14 @@ export const createClientVpnEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateClientVpnEndpointRequest,
   output: CreateClientVpnEndpointResult,
-  errors: [RequestLimitExceeded, MissingParameter, UnauthorizedOperation],
+  errors: [
+    RequestLimitExceeded,
+    MissingParameter,
+    InvalidParameterValue,
+    InvalidVpcIDNotFound,
+    ClientVpnEndpointLimitExceeded,
+    UnauthorizedOperation,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClientVpnEndpoint",
@@ -80200,6 +80308,11 @@ export const createClientVpnEndpoint: API.OperationMethod<
 export type CreateClientVpnRouteError =
   | RequestLimitExceeded
   | InvalidClientVpnEndpointIdNotFound
+  | InvalidClientVpnDuplicateRoute
+  | InvalidClientVpnActiveAssociationNotFound
+  | ClientVpnRouteLimitExceeded
+  | InvalidParameterValue
+  | IncorrectState
   | UnauthorizedOperation
   | CommonErrors;
 /**
@@ -80217,6 +80330,11 @@ export const createClientVpnRoute: API.OperationMethod<
   errors: [
     RequestLimitExceeded,
     InvalidClientVpnEndpointIdNotFound,
+    InvalidClientVpnDuplicateRoute,
+    InvalidClientVpnActiveAssociationNotFound,
+    ClientVpnRouteLimitExceeded,
+    InvalidParameterValue,
+    IncorrectState,
     UnauthorizedOperation,
   ],
   protocol: AwsProtocol,
@@ -83650,6 +83768,8 @@ export const deleteCarrierGateway: API.OperationMethod<
 export type DeleteClientVpnEndpointError =
   | RequestLimitExceeded
   | InvalidClientVpnEndpointIdNotFound
+  | IncorrectState
+  | DependencyViolation
   | UnauthorizedOperation
   | CommonErrors;
 /**
@@ -83667,6 +83787,8 @@ export const deleteClientVpnEndpoint: API.OperationMethod<
   errors: [
     RequestLimitExceeded,
     InvalidClientVpnEndpointIdNotFound,
+    IncorrectState,
+    DependencyViolation,
     UnauthorizedOperation,
   ],
   protocol: AwsProtocol,
@@ -83677,6 +83799,8 @@ export const deleteClientVpnEndpoint: API.OperationMethod<
 export type DeleteClientVpnRouteError =
   | RequestLimitExceeded
   | InvalidClientVpnEndpointIdNotFound
+  | InvalidClientVpnRouteNotFound
+  | IncorrectState
   | UnauthorizedOperation
   | CommonErrors;
 /**
@@ -83696,6 +83820,8 @@ export const deleteClientVpnRoute: API.OperationMethod<
   errors: [
     RequestLimitExceeded,
     InvalidClientVpnEndpointIdNotFound,
+    InvalidClientVpnRouteNotFound,
+    IncorrectState,
     UnauthorizedOperation,
   ],
   protocol: AwsProtocol,
@@ -94068,6 +94194,8 @@ export const disassociateCapacityReservationBillingOwner: API.OperationMethod<
 export type DisassociateClientVpnTargetNetworkError =
   | RequestLimitExceeded
   | InvalidClientVpnEndpointIdNotFound
+  | InvalidClientVpnAssociationIdNotFound
+  | IncorrectState
   | MissingParameter
   | UnauthorizedOperation
   | CommonErrors;
@@ -94094,6 +94222,8 @@ export const disassociateClientVpnTargetNetwork: API.OperationMethod<
   errors: [
     RequestLimitExceeded,
     InvalidClientVpnEndpointIdNotFound,
+    InvalidClientVpnAssociationIdNotFound,
+    IncorrectState,
     MissingParameter,
     UnauthorizedOperation,
   ],
@@ -98115,6 +98245,8 @@ export const modifyCapacityReservationFleet: API.OperationMethod<
 export type ModifyClientVpnEndpointError =
   | RequestLimitExceeded
   | InvalidClientVpnEndpointIdNotFound
+  | InvalidParameterValue
+  | IncorrectState
   | UnauthorizedOperation
   | CommonErrors;
 /**
@@ -98131,6 +98263,8 @@ export const modifyClientVpnEndpoint: API.OperationMethod<
   errors: [
     RequestLimitExceeded,
     InvalidClientVpnEndpointIdNotFound,
+    InvalidParameterValue,
+    IncorrectState,
     UnauthorizedOperation,
   ],
   protocol: AwsProtocol,
@@ -102073,6 +102207,9 @@ export const restoreVolumeFromRecycleBin: API.OperationMethod<
 export type RevokeClientVpnIngressError =
   | RequestLimitExceeded
   | MissingParameter
+  | InvalidClientVpnEndpointIdNotFound
+  | InvalidClientVpnEndpointAuthorizationRuleNotFound
+  | IncorrectState
   | UnauthorizedOperation
   | CommonErrors;
 /**
@@ -102086,7 +102223,14 @@ export const revokeClientVpnIngress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RevokeClientVpnIngressRequest,
   output: RevokeClientVpnIngressResult,
-  errors: [RequestLimitExceeded, MissingParameter, UnauthorizedOperation],
+  errors: [
+    RequestLimitExceeded,
+    MissingParameter,
+    InvalidClientVpnEndpointIdNotFound,
+    InvalidClientVpnEndpointAuthorizationRuleNotFound,
+    IncorrectState,
+    UnauthorizedOperation,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeClientVpnIngress",
