@@ -5910,7 +5910,12 @@
         },
         "smithy.api#documentation": "Cancels a specific R2 Super Slurper migration job. Any objects in the middle of a transfer will finish, but no new objects will start transferring.",
         "smithy.api#idempotent": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed"
+        }
+      ]
     },
     "com.cloudflare.r2#AbortSuperSlurperJobRequest": {
       "type": "structure",
@@ -6207,7 +6212,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Creates a new R2 Super Slurper migration job to transfer objects from a source bucket (e.g. S3, GCS, R2) to R2."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.r2#SuperSlurperPreconnectivityFailed"
+        }
+      ]
     },
     "com.cloudflare.r2#CreateSuperSlurperJobRequest": {
       "type": "structure",
@@ -7524,7 +7534,12 @@
         },
         "smithy.api#documentation": "Retrieves detailed status and configuration for a specific R2 Super Slurper migration job.",
         "smithy.api#readonly": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed"
+        }
+      ]
     },
     "com.cloudflare.r2#GetSuperSlurperJobRequest": {
       "type": "structure",
@@ -8346,7 +8361,12 @@
         },
         "smithy.api#documentation": "Pauses a running R2 Super Slurper migration job. The job can be resumed later to continue transferring.",
         "smithy.api#idempotent": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed"
+        }
+      ]
     },
     "com.cloudflare.r2#PauseSuperSlurperJobRequest": {
       "type": "structure",
@@ -8982,7 +9002,12 @@
         },
         "smithy.api#documentation": "Resumes a paused R2 Super Slurper migration job, continuing the transfer from where it stopped.",
         "smithy.api#idempotent": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed"
+        }
+      ]
     },
     "com.cloudflare.r2#ResumeSuperSlurperJobRequest": {
       "type": "structure",
@@ -9647,6 +9672,46 @@
             "smithy.api#documentation": "Storage class of the object (`Standard` or `InfrequentAccess`)."
           }
         }
+      }
+    },
+    "com.cloudflare.r2#SuperSlurperJobOperationFailed": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "server",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 500,
+            "message": "Internal Server Error"
+          }
+        ]
+      }
+    },
+    "com.cloudflare.r2#SuperSlurperPreconnectivityFailed": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": "Preconnectivity failed, please verify tokens and try again"
+          }
+        ]
       }
     }
   }
