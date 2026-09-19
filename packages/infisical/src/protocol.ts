@@ -49,9 +49,10 @@ export const InfisicalProtocol: Layer.Layer<API.Protocol> =
       return yield* resolve;
     }),
     baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
+    headers: (creds) =>
+      creds.apiKey === undefined
+        ? {}
+        : { Authorization: `Bearer ${Redacted.value(creds.apiKey)}` },
     // Infisical's error body is `{ message: string }` — the factory's default
     // lenient envelope covers it.
     unknownError: ({ code, message, body }) =>
