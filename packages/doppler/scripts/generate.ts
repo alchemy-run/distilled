@@ -72,16 +72,38 @@ const dopplerSpec: SdkSpec = {
     retry: "Retry.Retry",
   },
 
+  operation: (ctx) => {
+    if (
+      !["GenerateCliAuth", "AuthorizeCliAuth", "RevokeCliAuth"].includes(
+        ctx.opName,
+      )
+    )
+      return undefined;
+    return `export type ${ctx.opName}Error = ${["DopplerOpError", ...ctx.errorNames].join(" | ")};
+export const ${ctx.exportName}: API.OperationMethod<${ctx.inputName}, ${ctx.outputTsType}, ${ctx.opName}Error, DopplerPublicOpContext> = /*@__PURE__*/ API.make(() => ({
+  input: ${ctx.inputName},
+  output: ${ctx.outputSchema},
+  errors: [${[...ctx.errorNames, "UnknownDopplerError"].join(", ")}],
+  protocol: DopplerPublicProtocol,
+  retry: Retry.Retry,
+}));`;
+  },
+
   sourceNote: ".generated-specs (specs/distilled-spec-doppler)",
 
   // Sensitive member types reference Redacted; pull the import in when used.
-  postProcess: (code) =>
-    code.includes("Redacted.Redacted<")
+  postProcess: (source) => {
+    const code = source.replace(
+      `  DopplerProtocol,`,
+      `  DopplerProtocol,\n  DopplerPublicProtocol,\n  type DopplerPublicOpContext,`,
+    );
+    return code.includes("Redacted.Redacted<")
       ? code.replace(
           `import * as S from "@distilled.cloud/core/schema";\n`,
           `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
         )
-      : code,
+      : code;
+  },
 };
 
 runGeneratorCli({

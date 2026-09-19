@@ -6,6 +6,8 @@ import * as C from "@distilled.cloud/core/category";
 import * as T from "../traits.ts";
 import {
   DopplerProtocol,
+  DopplerPublicProtocol,
+  type DopplerPublicOpContext,
   type DopplerOpError,
   type DopplerOpContext,
 } from "../protocol.ts";
@@ -368,6 +370,32 @@ export const AuthOidcResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AuthOidcResponse",
 }) as any as S.Schema<AuthOidcResponse>;
+
+export interface AuthorizeCliAuthRequest {
+  code: string | Redacted.Redacted<string>;
+}
+export const AuthorizeCliAuthRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.String.pipe(T.SensitiveValue({})),
+  }).pipe(T.Http({ method: "POST", uri: "/v3/auth/cli/authorize", code: 200 })),
+).annotate({
+  identifier: "AuthorizeCliAuthRequest",
+}) as any as S.Schema<AuthorizeCliAuthRequest>;
+
+export interface AuthorizeCliAuthResponse {
+  token: string | Redacted.Redacted<string>;
+  name: string;
+  dashboard_url: string;
+}
+export const AuthorizeCliAuthResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    token: S.String.pipe(T.SensitiveValue({})),
+    name: S.String,
+    dashboard_url: S.String,
+  }),
+).annotate({
+  identifier: "AuthorizeCliAuthResponse",
+}) as any as S.Schema<AuthorizeCliAuthResponse>;
 
 export interface CloneConfigRequest {
   /** Unique identifier for the project object. */
@@ -1329,10 +1357,55 @@ export const CreateIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateIntegrationRequest",
 }) as any as S.Schema<CreateIntegrationRequest>;
 
+export interface CreateIntegrationResponseIntegrationFederationCase0 {
+  kind: string;
+  /** The IAM principal to grant roles to. */
+  principal: string;
+}
+export const CreateIntegrationResponseIntegrationFederationCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      kind: S.String,
+      principal: S.String,
+    }),
+  ).annotate({
+    identifier: "CreateIntegrationResponseIntegrationFederationCase0",
+  }) as any as S.Schema<CreateIntegrationResponseIntegrationFederationCase0>;
+
+export interface CreateIntegrationResponseIntegrationFederationCase1 {
+  kind: string;
+  /** The issuer to enter on the app registration's federated credential. */
+  issuer: string;
+  /** The subject identifier to enter on the federated credential. */
+  subject: string;
+  /** The audience to enter on the federated credential. */
+  audience: string;
+}
+export const CreateIntegrationResponseIntegrationFederationCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      kind: S.String,
+      issuer: S.String,
+      subject: S.String,
+      audience: S.String,
+    }),
+  ).annotate({
+    identifier: "CreateIntegrationResponseIntegrationFederationCase1",
+  }) as any as S.Schema<CreateIntegrationResponseIntegrationFederationCase1>;
+
+/** The keyless federation identity Doppler presents to your cloud, or null if this connection does not use keyless authentication. Grant this identity access after creating the connection. */
+export type CreateIntegrationResponseIntegrationFederation =
+  | CreateIntegrationResponseIntegrationFederationCase0
+  | CreateIntegrationResponseIntegrationFederationCase1;
+export const CreateIntegrationResponseIntegrationFederation =
+  S.Unknown as any as S.Schema<CreateIntegrationResponseIntegrationFederation>;
+
 export interface CreateIntegrationResponseIntegration {
   slug?: string;
   name?: string;
   type?: string;
+  /** The keyless federation identity Doppler presents to your cloud, or null if this connection does not use keyless authentication. Grant this identity access after creating the connection. */
+  federation?: CreateIntegrationResponseIntegrationFederation | null;
 }
 export const CreateIntegrationResponseIntegration = /*@__PURE__*/ S.suspend(
   () =>
@@ -1340,6 +1413,9 @@ export const CreateIntegrationResponseIntegration = /*@__PURE__*/ S.suspend(
       slug: S.optional(S.String),
       name: S.optional(S.String),
       type: S.optional(S.String),
+      federation: S.optional(
+        S.NullOr(CreateIntegrationResponseIntegrationFederation),
+      ),
     }),
 ).annotate({
   identifier: "CreateIntegrationResponseIntegration",
@@ -1952,9 +2028,9 @@ export const DownloadSecretRequestNameTransformer = S.String;
 
 export interface DownloadSecretRequest {
   /** Unique identifier for the project object. Not required if using a Service Token. */
-  project: string;
+  project?: string;
   /** Name of the config object. Not required if using a Service Token. */
-  config: string;
+  config?: string;
   format?: DownloadSecretRequestFormat | (string & {});
   /** Transform secret names to a different case */
   name_transformer?: DownloadSecretRequestNameTransformer | (string & {});
@@ -1967,8 +2043,8 @@ export interface DownloadSecretRequest {
 }
 export const DownloadSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    project: S.String.pipe(T.Query()),
-    config: S.String.pipe(T.Query()),
+    project: S.optional(S.String.pipe(T.Query())),
+    config: S.optional(S.String.pipe(T.Query())),
     format: S.optional(DownloadSecretRequestFormat.pipe(T.Query())),
     name_transformer: S.optional(
       DownloadSecretRequestNameTransformer.pipe(T.Query()),
@@ -1987,19 +2063,17 @@ export const DownloadSecretRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DownloadSecretRequest",
 }) as any as S.Schema<DownloadSecretRequest>;
 
-export interface DownloadSecretResponse {
-  STRIPE?: string;
-  ALGOLIA?: string;
-  DATABASE?: string;
-  USER?: string;
-}
+export type DownloadSecretResponseBodyMap = {
+  [key: string]: string | undefined;
+};
+export const DownloadSecretResponseBodyMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<DownloadSecretResponseBodyMap>;
+
+export type DownloadSecretResponse = DownloadSecretResponseBodyMap;
 export const DownloadSecretResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    STRIPE: S.optional(S.String),
-    ALGOLIA: S.optional(S.String),
-    DATABASE: S.optional(S.String),
-    USER: S.optional(S.String),
-  }),
+  DownloadSecretResponseBodyMap.pipe(T.RawResponseRoot()),
 ).annotate({
   identifier: "DownloadSecretResponse",
 }) as any as S.Schema<DownloadSecretResponse>;
@@ -2113,6 +2187,39 @@ export const EnableWebhookResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "EnableWebhookResponse",
 }) as any as S.Schema<EnableWebhookResponse>;
+
+export interface GenerateCliAuthRequest {
+  hostname: string;
+  /** CLI version in vMAJOR.MINOR.PATCH format. Other formats, including prerelease suffixes, are rejected. */
+  version: string;
+  os: string;
+  arch: string;
+}
+export const GenerateCliAuthRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hostname: S.String.pipe(T.Query()),
+    version: S.String.pipe(T.Query()),
+    os: S.String.pipe(T.Query()),
+    arch: S.String.pipe(T.Query()),
+  }).pipe(T.Http({ method: "GET", uri: "/v3/auth/cli/generate/2", code: 200 })),
+).annotate({
+  identifier: "GenerateCliAuthRequest",
+}) as any as S.Schema<GenerateCliAuthRequest>;
+
+export interface GenerateCliAuthResponse {
+  code: string;
+  polling_code: string | Redacted.Redacted<string>;
+  auth_url: string;
+}
+export const GenerateCliAuthResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.String,
+    polling_code: S.String.pipe(T.SensitiveValue({})),
+    auth_url: S.String,
+  }),
+).annotate({
+  identifier: "GenerateCliAuthResponse",
+}) as any as S.Schema<GenerateCliAuthResponse>;
 
 export interface GetChangeRequestPolicyRequest {
   /** Unique id of the policy */
@@ -2333,17 +2440,49 @@ export const GetIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetIntegrationRequest",
 }) as any as S.Schema<GetIntegrationRequest>;
 
-export type GetIntegrationResponseIntegration =
-  CreateIntegrationResponseIntegration;
-export const GetIntegrationResponseIntegration =
-  CreateIntegrationResponseIntegration;
+export type GetIntegrationResponseIntegrationFederationCase0 =
+  CreateIntegrationResponseIntegrationFederationCase0;
+export const GetIntegrationResponseIntegrationFederationCase0 =
+  CreateIntegrationResponseIntegrationFederationCase0;
+
+export type GetIntegrationResponseIntegrationFederationCase1 =
+  CreateIntegrationResponseIntegrationFederationCase1;
+export const GetIntegrationResponseIntegrationFederationCase1 =
+  CreateIntegrationResponseIntegrationFederationCase1;
+
+/** The keyless federation identity Doppler presents to your cloud, or null if this connection does not use keyless authentication. Grant this identity access after creating the connection. */
+export type GetIntegrationResponseIntegrationFederation =
+  | CreateIntegrationResponseIntegrationFederationCase0
+  | CreateIntegrationResponseIntegrationFederationCase1;
+export const GetIntegrationResponseIntegrationFederation =
+  S.Unknown as any as S.Schema<GetIntegrationResponseIntegrationFederation>;
+
+export interface GetIntegrationResponseIntegration {
+  slug?: string;
+  name?: string;
+  type?: string;
+  /** The keyless federation identity Doppler presents to your cloud, or null if this connection does not use keyless authentication. Grant this identity access after creating the connection. */
+  federation?: GetIntegrationResponseIntegrationFederation | null;
+}
+export const GetIntegrationResponseIntegration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    slug: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    federation: S.optional(
+      S.NullOr(GetIntegrationResponseIntegrationFederation),
+    ),
+  }),
+).annotate({
+  identifier: "GetIntegrationResponseIntegration",
+}) as any as S.Schema<GetIntegrationResponseIntegration>;
 
 export interface GetIntegrationResponse {
-  integration?: CreateIntegrationResponseIntegration;
+  integration?: GetIntegrationResponseIntegration;
 }
 export const GetIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    integration: S.optional(CreateIntegrationResponseIntegration),
+    integration: S.optional(GetIntegrationResponseIntegration),
   }),
 ).annotate({
   identifier: "GetIntegrationResponse",
@@ -6222,6 +6361,24 @@ export const RevokeAuthResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RevokeAuthResponse",
 }) as any as S.Schema<RevokeAuthResponse>;
 
+export interface RevokeCliAuthRequest {
+  token: string | Redacted.Redacted<string>;
+}
+export const RevokeCliAuthRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    token: S.String.pipe(T.SensitiveValue({})),
+  }).pipe(T.Http({ method: "POST", uri: "/v3/auth/cli/revoke", code: 200 })),
+).annotate({
+  identifier: "RevokeCliAuthRequest",
+}) as any as S.Schema<RevokeCliAuthRequest>;
+
+export type RevokeCliAuthResponse = unknown;
+export const RevokeCliAuthResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "RevokeCliAuthResponse",
+}) as any as S.Schema<RevokeCliAuthResponse>;
+
 export interface SecretsNamesRequest {
   /** Unique identifier for the project object. */
   project: string;
@@ -8288,6 +8445,19 @@ export const authOidc: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type AuthorizeCliAuthError = DopplerOpError | Conflict;
+export const authorizeCliAuth: API.OperationMethod<
+  AuthorizeCliAuthRequest,
+  AuthorizeCliAuthResponse,
+  AuthorizeCliAuthError,
+  DopplerPublicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AuthorizeCliAuthRequest,
+  output: AuthorizeCliAuthResponse,
+  errors: [Conflict, UnknownDopplerError],
+  protocol: DopplerPublicProtocol,
+  retry: Retry.Retry,
+}));
 export type CloneConfigError = DopplerOpError;
 /** Clone Create a new branch config by cloning another. This duplicates a branch config and all its secrets. */
 export const cloneConfig: API.OperationMethod<
@@ -8802,6 +8972,19 @@ export const enableWebhook: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GenerateCliAuthError = DopplerOpError;
+export const generateCliAuth: API.OperationMethod<
+  GenerateCliAuthRequest,
+  GenerateCliAuthResponse,
+  GenerateCliAuthError,
+  DopplerPublicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GenerateCliAuthRequest,
+  output: GenerateCliAuthResponse,
+  errors: [UnknownDopplerError],
+  protocol: DopplerPublicProtocol,
+  retry: Retry.Retry,
+}));
 export type GetChangeRequestPolicyError = DopplerOpError;
 /** Retrieve Fetch an existing change request policy */
 export const getChangeRequestPolicy: API.OperationMethod<
@@ -9642,6 +9825,19 @@ export const revokeAuth: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type RevokeCliAuthError = DopplerOpError;
+export const revokeCliAuth: API.OperationMethod<
+  RevokeCliAuthRequest,
+  RevokeCliAuthResponse,
+  RevokeCliAuthError,
+  DopplerPublicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RevokeCliAuthRequest,
+  output: RevokeCliAuthResponse,
+  errors: [UnknownDopplerError],
+  protocol: DopplerPublicProtocol,
+  retry: Retry.Retry,
+}));
 export type SecretsNamesError = DopplerOpError;
 /** List Names Secret Names */
 export const secretsNames: API.OperationMethod<

@@ -2473,7 +2473,6 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "project",
-            "smithy.api#required": {},
             "smithy.api#documentation": "Unique identifier for the project object. Not required if using a Service Token."
           }
         },
@@ -2481,7 +2480,6 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "config",
-            "smithy.api#required": {},
             "smithy.api#documentation": "Name of the config object. Not required if using a Service Token."
           }
         },
@@ -2524,20 +2522,25 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#DownloadSecretResponseBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.doppler.api#DownloadSecretResponse": {
       "type": "structure",
       "members": {
-        "STRIPE": {
-          "target": "smithy.api#String"
-        },
-        "ALGOLIA": {
-          "target": "smithy.api#String"
-        },
-        "DATABASE": {
-          "target": "smithy.api#String"
-        },
-        "USER": {
-          "target": "smithy.api#String"
+        "body": {
+          "target": "com.doppler.api#DownloadSecretResponseBodyMap",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -3898,6 +3901,72 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#CreateIntegrationResponseIntegrationFederationCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "principal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IAM principal to grant roles to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#CreateIntegrationResponseIntegrationFederationCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issuer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The issuer to enter on the app registration's federated credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subject identifier to enter on the federated credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "audience": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The audience to enter on the federated credential.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#CreateIntegrationResponseIntegrationFederation": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.doppler.api#CreateIntegrationResponseIntegrationFederationCase0"
+        },
+        "Case1": {
+          "target": "com.doppler.api#CreateIntegrationResponseIntegrationFederationCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The keyless federation identity Doppler presents to your cloud, or null if this connection does not use keyless authentication. Grant this identity access after creating the connection."
+      }
+    },
     "com.doppler.api#CreateIntegrationResponseIntegration": {
       "type": "structure",
       "members": {
@@ -3909,6 +3978,13 @@
         },
         "type": {
           "target": "smithy.api#String"
+        },
+        "federation": {
+          "target": "com.doppler.api#CreateIntegrationResponseIntegrationFederation",
+          "traits": {
+            "smithy.api#documentation": "The keyless federation identity Doppler presents to your cloud, or null if this connection does not use keyless authentication. Grant this identity access after creating the connection.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -3962,6 +4038,72 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#GetIntegrationResponseIntegrationFederationCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "principal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IAM principal to grant roles to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#GetIntegrationResponseIntegrationFederationCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issuer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The issuer to enter on the app registration's federated credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The subject identifier to enter on the federated credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "audience": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The audience to enter on the federated credential.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#GetIntegrationResponseIntegrationFederation": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.doppler.api#GetIntegrationResponseIntegrationFederationCase0"
+        },
+        "Case1": {
+          "target": "com.doppler.api#GetIntegrationResponseIntegrationFederationCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The keyless federation identity Doppler presents to your cloud, or null if this connection does not use keyless authentication. Grant this identity access after creating the connection."
+      }
+    },
     "com.doppler.api#GetIntegrationResponseIntegration": {
       "type": "structure",
       "members": {
@@ -3973,6 +4115,13 @@
         },
         "type": {
           "target": "smithy.api#String"
+        },
+        "federation": {
+          "target": "com.doppler.api#GetIntegrationResponseIntegrationFederation",
+          "traits": {
+            "smithy.api#documentation": "The keyless federation identity Doppler presents to your cloud, or null if this connection does not use keyless authentication. Grant this identity access after creating the connection.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -13298,6 +13447,198 @@
         "smithy.api#documentation": "Workplace User\n\nGet a specific user in a workplace"
       }
     },
+    "com.doppler.api#GenerateCliAuthRequest": {
+      "type": "structure",
+      "members": {
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "hostname",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "CLI version in vMAJOR.MINOR.PATCH format. Other formats, including prerelease suffixes, are rejected."
+          }
+        },
+        "os": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "os",
+            "smithy.api#required": {}
+          }
+        },
+        "arch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "arch",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.doppler.api#GenerateCliAuthResponse": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "polling_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "auth_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.doppler.api#GenerateCliAuth": {
+      "type": "operation",
+      "input": {
+        "target": "com.doppler.api#GenerateCliAuthRequest"
+      },
+      "output": {
+        "target": "com.doppler.api#GenerateCliAuthResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/auth/cli/generate/2",
+          "code": 200
+        },
+        "smithy.api#documentation": "Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go."
+      }
+    },
+    "com.doppler.api#AuthorizeCliAuthRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.doppler.api#AuthorizeCliAuthResponse": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dashboard_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.doppler.api#AuthorizeCliAuth": {
+      "type": "operation",
+      "input": {
+        "target": "com.doppler.api#AuthorizeCliAuthRequest"
+      },
+      "output": {
+        "target": "com.doppler.api#AuthorizeCliAuthResponse"
+      },
+      "errors": [
+        {
+          "target": "com.doppler.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/auth/cli/authorize",
+          "code": 200
+        },
+        "smithy.api#documentation": "Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go."
+      }
+    },
+    "com.doppler.api#RevokeCliAuthRequest": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.doppler.api#RevokeCliAuthResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.doppler.api#RevokeCliAuth": {
+      "type": "operation",
+      "input": {
+        "target": "com.doppler.api#RevokeCliAuthRequest"
+      },
+      "output": {
+        "target": "com.doppler.api#RevokeCliAuthResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/auth/cli/revoke",
+          "code": 200
+        },
+        "smithy.api#documentation": "Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go."
+      }
+    },
     "com.doppler.api#BadRequest": {
       "type": "structure",
       "members": {},
@@ -13724,6 +14065,15 @@
         },
         {
           "target": "com.doppler.api#AuditGetUser"
+        },
+        {
+          "target": "com.doppler.api#GenerateCliAuth"
+        },
+        {
+          "target": "com.doppler.api#AuthorizeCliAuth"
+        },
+        {
+          "target": "com.doppler.api#RevokeCliAuth"
         }
       ],
       "traits": {

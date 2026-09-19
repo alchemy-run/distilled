@@ -415,8 +415,8 @@ export interface SdkSpec {
      */
     readonly extraConfig?: (ctx: OperationEmit) => string[];
   };
-  /** Full override of operation const emission. */
-  readonly operation?: (ctx: OperationEmit) => string;
+  /** Override operation const emission; return undefined to use operationDecl. */
+  readonly operation?: (ctx: OperationEmit) => string | undefined;
 
   /**
    * Module header override. The default builds the banner + imports from
@@ -1115,58 +1115,58 @@ export const generateService = (
     return fannedOut ? tsRef(id) : undefined;
   };
 
-  const emitOperation =
-    spec.operation ??
-    ((ctx: OperationEmit): string => {
-      const decl = spec.operationDecl;
-      if (!decl) {
-        throw new Error("SdkSpec needs either operationDecl or operation");
-      }
-      const errList = [...ctx.errorNames, ...decl.commonErrorClasses];
-      const paginated = ctx.pagination !== undefined;
-      const itemTsType = paginated
-        ? paginatedItemTsType(
-            ctx.op.def.__output,
-            paginatedItemsPath.get(ctx.op.id) ?? "",
-          )
-        : undefined;
-      const typeAnnotation =
-        `API.${paginated ? "PaginatedOperationMethod" : "OperationMethod"}<\n` +
-        `  ${ctx.inputName},\n` +
-        `  ${ctx.outputTsType},\n` +
-        `  ${ctx.opName}Error,\n` +
-        `  ${decl.contextType}` +
-        (itemTsType ? `,\n  ${itemTsType}\n` : `\n`) +
-        `>`;
-      const config =
-        `{\n` +
-        `  input: ${ctx.inputName},\n` +
-        `  output: ${ctx.outputSchema},\n` +
-        `  errors: [${errList.join(", ")}],\n` +
-        `  protocol: ${(paginated && opProfile.get(ctx.op.id)?.protocol) || decl.protocol},\n` +
-        `  retry: ${decl.retry},\n` +
-        (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
-        (paginated
-          ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n`
-          : "") +
-        `}`;
-      return [
-        errorUnionAlias(ctx.opName, ctx.errorNames, decl.commonErrorType),
-        ...(ctx.doc ? [`/** ${ctx.doc} */`] : []),
-        operationConst({
-          exportName: ctx.exportName,
-          typeAnnotation,
-          factory: paginated ? "API.makePaginated" : "API.make",
-          pure,
-          extraArg: paginated ? opProfile.get(ctx.op.id)?.strategy : undefined,
-          config,
-          // `makePaginated` infers the items element from the structural
-          // fallback; an explicit item type needs the same `as any as`
-          // idiom the schema consts use.
-          castToAnnotation: itemTsType !== undefined,
-        }),
-      ].join("\n");
-    });
+  const emitDefaultOperation = (ctx: OperationEmit): string => {
+    const decl = spec.operationDecl;
+    if (!decl) {
+      throw new Error("SdkSpec needs either operationDecl or operation");
+    }
+    const errList = [...ctx.errorNames, ...decl.commonErrorClasses];
+    const paginated = ctx.pagination !== undefined;
+    const itemTsType = paginated
+      ? paginatedItemTsType(
+          ctx.op.def.__output,
+          paginatedItemsPath.get(ctx.op.id) ?? "",
+        )
+      : undefined;
+    const typeAnnotation =
+      `API.${paginated ? "PaginatedOperationMethod" : "OperationMethod"}<\n` +
+      `  ${ctx.inputName},\n` +
+      `  ${ctx.outputTsType},\n` +
+      `  ${ctx.opName}Error,\n` +
+      `  ${decl.contextType}` +
+      (itemTsType ? `,\n  ${itemTsType}\n` : `\n`) +
+      `>`;
+    const config =
+      `{\n` +
+      `  input: ${ctx.inputName},\n` +
+      `  output: ${ctx.outputSchema},\n` +
+      `  errors: [${errList.join(", ")}],\n` +
+      `  protocol: ${(paginated && opProfile.get(ctx.op.id)?.protocol) || decl.protocol},\n` +
+      `  retry: ${decl.retry},\n` +
+      (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
+      (paginated
+        ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n`
+        : "") +
+      `}`;
+    return [
+      errorUnionAlias(ctx.opName, ctx.errorNames, decl.commonErrorType),
+      ...(ctx.doc ? [`/** ${ctx.doc} */`] : []),
+      operationConst({
+        exportName: ctx.exportName,
+        typeAnnotation,
+        factory: paginated ? "API.makePaginated" : "API.make",
+        pure,
+        extraArg: paginated ? opProfile.get(ctx.op.id)?.strategy : undefined,
+        config,
+        // `makePaginated` infers the items element from the structural
+        // fallback; an explicit item type needs the same `as any as`
+        // idiom the schema consts use.
+        castToAnnotation: itemTsType !== undefined,
+      }),
+    ].join("\n");
+  };
+  const emitOperation = (ctx: OperationEmit) =>
+    spec.operation?.(ctx) ?? emitDefaultOperation(ctx);
 
   for (const op of selected) {
     const opName = local(op.id);
