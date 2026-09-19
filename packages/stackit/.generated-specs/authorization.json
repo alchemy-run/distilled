@@ -1,0 +1,1163 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.authorization#ListPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resourceType"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#ListPermissionsResponse": {
+      "type": "structure",
+      "members": {
+        "permissions": {
+          "target": "com.stackit.authorization#ListPermissionsResponsePermissionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#Permission": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ListPermissionsResponsePermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#Permission"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ListPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#ListPermissionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#ListPermissionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/permissions",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get available permissions\n\nGet available permissions"
+      }
+    },
+    "com.stackit.authorization#ListUserMembershipsRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resourceType"
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resourceId"
+          }
+        },
+        "parentResourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "parentResourceId"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#ListUserMembershipsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.authorization#ListUserMembershipsResponseItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#UserMembership": {
+      "type": "structure",
+      "members": {
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ListUserMembershipsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#UserMembership"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ListUserMemberships": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#ListUserMembershipsRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#ListUserMembershipsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/users/{email}/memberships",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List memberships of a user\n\nList memberships of a user. An administrative access is needed to list any user's memberships, while the user can do it on his/her own email. You can use filters to scope the request to a project/folder/organization. In this case -if caller is not the subject-, owner permissions are required. Because of hierarchical role bindings, the user might have permissions on more resources."
+      }
+    },
+    "com.stackit.authorization#ListUserPermissionsRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ListUserPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resource"
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "resourceType"
+          }
+        },
+        "permissions": {
+          "target": "com.stackit.authorization#ListUserPermissionsRequestPermissionsList",
+          "traits": {
+            "smithy.api#httpQuery": "permissions"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#ListUserPermissionsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.authorization#ListUserPermissionsResponseItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#UserPermission": {
+      "type": "structure",
+      "members": {
+        "permissions": {
+          "target": "com.stackit.authorization#UserPermissionPermissionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ExistingPermission": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#UserPermissionPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#ExistingPermission"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ListUserPermissionsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#UserPermission"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ListUserPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#ListUserPermissionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#ListUserPermissionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/users/{email}/permissions",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List permissions of a user\n\nList permissions of a user. An administrative access is needed to list any user's permissions, while the user can do it on his/her own email. Lists every resource of the given type where the user has any effective permissions. When requested, also lists why the permission is present."
+      }
+    },
+    "com.stackit.authorization#Member": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#AddMembersRequestMembersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#Member"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#AddMembersRequest": {
+      "type": "structure",
+      "members": {
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "members": {
+          "target": "com.stackit.authorization#AddMembersRequestMembersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#MembersResponse": {
+      "type": "structure",
+      "members": {
+        "members": {
+          "target": "com.stackit.authorization#MembersResponseMembersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "writtenAt": {
+          "target": "com.stackit.authorization#Zookie"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#MembersResponseMembersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#Member"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#Zookie": {
+      "type": "structure",
+      "members": {
+        "zookie": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#AddMembers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#AddMembersRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#MembersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/{resourceId}/members",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Add members to a resource\n\nAdd members to the given resource with specified roles."
+      }
+    },
+    "com.stackit.authorization#RemoveMembersRequestMembersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#Member"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#RemoveMembersRequest": {
+      "type": "structure",
+      "members": {
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "forceRemove": {
+          "target": "smithy.api#Boolean"
+        },
+        "members": {
+          "target": "com.stackit.authorization#RemoveMembersRequestMembersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#RemoveMembers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#RemoveMembersRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#MembersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/{resourceId}/members/remove",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Remove members from a resource\n\nRemove members from the given resource with specified roles."
+      }
+    },
+    "com.stackit.authorization#ListMembersRequest": {
+      "type": "structure",
+      "members": {
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "subject"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#ListMembersResponse": {
+      "type": "structure",
+      "members": {
+        "members": {
+          "target": "com.stackit.authorization#ListMembersResponseMembersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ListMembersResponseMembersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#Member"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ListMembers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#ListMembersRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#ListMembersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/{resourceType}/{resourceId}/members",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get members to a resource\n\nList members of the given resource."
+      }
+    },
+    "com.stackit.authorization#ListRolesRequest": {
+      "type": "structure",
+      "members": {
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#RolesResponse": {
+      "type": "structure",
+      "members": {
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "roles": {
+          "target": "com.stackit.authorization#RolesResponseRolesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#Role": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.stackit.authorization#RolePermissionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#RolePermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#Permission"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#RolesResponseRolesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#Role"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#ListRoles": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#ListRolesRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#RolesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/{resourceType}/{resourceId}/roles",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get roles and permissions of a resource\n\nGet roles and permissions of a resource"
+      }
+    },
+    "com.stackit.authorization#PermissionRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#AddRoleRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#PermissionRequest"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#AddRoleRequest": {
+      "type": "structure",
+      "members": {
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.stackit.authorization#AddRoleRequestPermissionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#AddCustomRoleResponse": {
+      "type": "structure",
+      "members": {
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.stackit.authorization#Role",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#AddRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#AddRoleRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#AddCustomRoleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/{resourceType}/{resourceId}/roles",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Add a new role\n\nAdd new, user specified roles to a resource, and bind permissions to them. Permissions are predefined."
+      }
+    },
+    "com.stackit.authorization#GetRoleRequest": {
+      "type": "structure",
+      "members": {
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "roleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#GetRoleResponse": {
+      "type": "structure",
+      "members": {
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.stackit.authorization#Role",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#GetRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#GetRoleRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#GetRoleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/{resourceType}/{resourceId}/roles/{roleId}",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get an existing role\n\nGet a custom role by ID."
+      }
+    },
+    "com.stackit.authorization#UpdateRoleRequestPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.authorization#PermissionRequest"
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#UpdateRoleRequest": {
+      "type": "structure",
+      "members": {
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "roleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "permissions": {
+          "target": "com.stackit.authorization#UpdateRoleRequestPermissionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#UpdateRoleResponse": {
+      "type": "structure",
+      "members": {
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.stackit.authorization#Role",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#UpdateRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#UpdateRoleRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#UpdateRoleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/{resourceType}/{resourceId}/roles/{roleId}",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update an existing role\n\nUpdate a custom role by ID."
+      }
+    },
+    "com.stackit.authorization#DeleteRoleRequest": {
+      "type": "structure",
+      "members": {
+        "resourceType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "roleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "etag"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.authorization#DeleteRoleResponse": {
+      "type": "structure",
+      "members": {
+        "writtenAt": {
+          "target": "com.stackit.authorization#Zookie",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.authorization#DeleteRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.authorization#DeleteRoleRequest"
+      },
+      "output": {
+        "target": "com.stackit.authorization#DeleteRoleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.authorization#BadRequest"
+        },
+        {
+          "target": "com.stackit.authorization#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/{resourceType}/{resourceId}/roles/{roleId}",
+          "code": 200,
+          "baseUrl": "https://authorization.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete an existing role\n\nDelete a custom role by ID."
+      }
+    },
+    "com.stackit.authorization#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.authorization#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.authorization#Authorization": {
+      "type": "service",
+      "version": "2.0",
+      "operations": [
+        {
+          "target": "com.stackit.authorization#ListPermissions"
+        },
+        {
+          "target": "com.stackit.authorization#ListUserMemberships"
+        },
+        {
+          "target": "com.stackit.authorization#ListUserPermissions"
+        },
+        {
+          "target": "com.stackit.authorization#AddMembers"
+        },
+        {
+          "target": "com.stackit.authorization#RemoveMembers"
+        },
+        {
+          "target": "com.stackit.authorization#ListMembers"
+        },
+        {
+          "target": "com.stackit.authorization#ListRoles"
+        },
+        {
+          "target": "com.stackit.authorization#AddRole"
+        },
+        {
+          "target": "com.stackit.authorization#GetRole"
+        },
+        {
+          "target": "com.stackit.authorization#UpdateRole"
+        },
+        {
+          "target": "com.stackit.authorization#DeleteRole"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Membership API",
+        "smithy.api#documentation": "The Membership API is used to manage memberships, roles and permissions of STACKIT resources, like projects, folders, organizations and other resources."
+      }
+    }
+  }
+}

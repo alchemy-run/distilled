@@ -393,3 +393,8 @@
 	url = https://github.com/distilled-mirror/spec-mirror-cloudflare.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/stackit/specs/spec-mirror-stackit"]
+	path = packages/stackit/specs/spec-mirror-stackit
+	url = https://github.com/distilled-mirror/spec-mirror-stackit.git
+	ignore = dirty
+	shallow = true

@@ -1,0 +1,2357 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.alb_waf#ListCustomRuleGroupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "page_size specifies how many rule configurations should be returned on this page. Must be a positive number <= 1000"
+          }
+        },
+        "pageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageId",
+            "smithy.api#documentation": "page_id is a page identifier returned by the previous response and is used to request the next page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#ListCustomRuleGroupResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.alb_waf#ListCustomRuleGroupResponseItemsList"
+        },
+        "nextPageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Continue token from the ListCustomRuleGroupResponse with Limit option"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ListCustomRuleGroupResponse returns a list of Custom Rule Group responses."
+      }
+    },
+    "com.stackit.alb_waf#GetCustomRuleGroupResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom rule group configuration name.",
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.stackit.alb_waf#GetCustomRuleGroupResponseRulesList",
+          "traits": {
+            "smithy.api#documentation": "Enriched rules containing auto-generated IDs and computed severity values.",
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "com.stackit.alb_waf#CRGUsage"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response payload delivering the detailed CRG configuration name and it's rule content."
+      }
+    },
+    "com.stackit.alb_waf#GetCustomRule": {
+      "type": "structure",
+      "members": {
+        "behavior": {
+          "target": "com.stackit.alb_waf#GetBehavior",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.stackit.alb_waf#GetCustomRuleConditionsList",
+          "traits": {
+            "smithy.api#documentation": "[HINT] Order matters! First condition match triggers execution.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A clear description explaining the threat vector or criteria addressed by this rule."
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Backend auto-allocated unique rule ID within the valid 1-99999 threshold.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#GetBehavior": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.stackit.alb_waf#Action",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "log": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Determines whether an entry should be generated in the security ledger upon a rule hit.",
+            "smithy.api#required": {}
+          }
+        },
+        "logMsg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom notification message string mapped to underlying logdata contexts."
+          }
+        },
+        "severity": {
+          "target": "com.stackit.alb_waf#Severity",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#Action": {
+      "type": "enum",
+      "members": {
+        "ACTION_DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTION_DENY"
+          }
+        },
+        "ACTION_PASS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTION_PASS"
+          }
+        },
+        "ACTION_ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTION_ALLOW"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The protective stance action. ACTION_DENY forces a 403 status response code."
+      }
+    },
+    "com.stackit.alb_waf#Severity": {
+      "type": "enum",
+      "members": {
+        "SEVERITY_EMERGENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEVERITY_EMERGENCY"
+          }
+        },
+        "SEVERITY_ALERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEVERITY_ALERT"
+          }
+        },
+        "SEVERITY_CRITICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEVERITY_CRITICAL"
+          }
+        },
+        "SEVERITY_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEVERITY_ERROR"
+          }
+        },
+        "SEVERITY_WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEVERITY_WARNING"
+          }
+        },
+        "SEVERITY_NOTICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEVERITY_NOTICE"
+          }
+        },
+        "SEVERITY_INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEVERITY_INFO"
+          }
+        },
+        "SEVERITY_DEBUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEVERITY_DEBUG"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Severity classification metric used by internal analytics graphs."
+      }
+    },
+    "com.stackit.alb_waf#Condition": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.stackit.alb_waf#ConditionOperator",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "transformations": {
+          "target": "com.stackit.alb_waf#ConditionTransformationsList",
+          "traits": {
+            "smithy.api#documentation": "[HINT] Ordered processing adjustments applied to clean inputs before match checking."
+          }
+        },
+        "variable": {
+          "target": "com.stackit.alb_waf#ConditionVariable",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#ConditionOperator": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.stackit.alb_waf#Operator",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text or rule regex pattern arguments applied inside the operator execution loop."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#Operator": {
+      "type": "enum",
+      "members": {
+        "OPERATOR_BEGINS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_BEGINS_WITH"
+          }
+        },
+        "OPERATOR_CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_CONTAINS"
+          }
+        },
+        "OPERATOR_ENDS_WITH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_ENDS_WITH"
+          }
+        },
+        "OPERATOR_EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_EQ"
+          }
+        },
+        "OPERATOR_GE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_GE"
+          }
+        },
+        "OPERATOR_GT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_GT"
+          }
+        },
+        "OPERATOR_IP_MATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_IP_MATCH"
+          }
+        },
+        "OPERATOR_LE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_LE"
+          }
+        },
+        "OPERATOR_LT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_LT"
+          }
+        },
+        "OPERATOR_RX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_RX"
+          }
+        },
+        "OPERATOR_STREQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_STREQ"
+          }
+        },
+        "OPERATOR_STRMATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_STRMATCH"
+          }
+        },
+        "OPERATOR_VALIDATE_SCHEMA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_VALIDATE_SCHEMA"
+          }
+        },
+        "OPERATOR_VALIDATE_URL_ENCODING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_VALIDATE_URL_ENCODING"
+          }
+        },
+        "OPERATOR_VALIDATE_UTF8_ENCODING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_VALIDATE_UTF8_ENCODING"
+          }
+        },
+        "OPERATOR_WITHIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATOR_WITHIN"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The operational evaluation type definition macro."
+      }
+    },
+    "com.stackit.alb_waf#Transformation": {
+      "type": "enum",
+      "members": {
+        "TRANSFORMATION_LENGTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TRANSFORMATION_LENGTH"
+          }
+        },
+        "TRANSFORMATION_LOWERCASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TRANSFORMATION_LOWERCASE"
+          }
+        },
+        "TRANSFORMATION_NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TRANSFORMATION_NONE"
+          }
+        },
+        "TRANSFORMATION_TRIM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TRANSFORMATION_TRIM"
+          }
+        },
+        "TRANSFORMATION_UPPERCASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TRANSFORMATION_UPPERCASE"
+          }
+        },
+        "TRANSFORMATION_UTF8_TO_UNICODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TRANSFORMATION_UTF8_TO_UNICODE"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#ConditionTransformationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb_waf#Transformation"
+      },
+      "traits": {
+        "smithy.api#documentation": "[HINT] Ordered processing adjustments applied to clean inputs before match checking."
+      }
+    },
+    "com.stackit.alb_waf#ConditionVariable": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.stackit.alb_waf#Variable",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional key element context for map variables (e.g., matching a 'Host' header key)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#Variable": {
+      "type": "enum",
+      "members": {
+        "VARIABLE_ARGS_GET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_ARGS_GET"
+          }
+        },
+        "VARIABLE_ARGS_POST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_ARGS_POST"
+          }
+        },
+        "VARIABLE_FULL_REQUEST_LENGTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_FULL_REQUEST_LENGTH"
+          }
+        },
+        "VARIABLE_MATCHED_VAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_MATCHED_VAR"
+          }
+        },
+        "VARIABLE_QUERY_STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_QUERY_STRING"
+          }
+        },
+        "VARIABLE_REMOTE_ADDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REMOTE_ADDR"
+          }
+        },
+        "VARIABLE_REMOTE_PORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REMOTE_PORT"
+          }
+        },
+        "VARIABLE_REQUEST_BASENAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REQUEST_BASENAME"
+          }
+        },
+        "VARIABLE_REQUEST_BODY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REQUEST_BODY"
+          }
+        },
+        "VARIABLE_REQUEST_BODY_LENGTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REQUEST_BODY_LENGTH"
+          }
+        },
+        "VARIABLE_REQUEST_COOKIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REQUEST_COOKIES"
+          }
+        },
+        "VARIABLE_REQUEST_HEADERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REQUEST_HEADERS"
+          }
+        },
+        "VARIABLE_REQUEST_HEADERS_NAMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REQUEST_HEADERS_NAMES"
+          }
+        },
+        "VARIABLE_REQUEST_METHOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REQUEST_METHOD"
+          }
+        },
+        "VARIABLE_REQUEST_PROTOCOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REQUEST_PROTOCOL"
+          }
+        },
+        "VARIABLE_REQUEST_URI_RAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_REQUEST_URI_RAW"
+          }
+        },
+        "VARIABLE_RESPONSE_BODY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_RESPONSE_BODY"
+          }
+        },
+        "VARIABLE_RESPONSE_CONTENT_LENGTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_RESPONSE_CONTENT_LENGTH"
+          }
+        },
+        "VARIABLE_RESPONSE_HEADERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_RESPONSE_HEADERS"
+          }
+        },
+        "VARIABLE_RESPONSE_HEADERS_NAMES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_RESPONSE_HEADERS_NAMES"
+          }
+        },
+        "VARIABLE_RESPONSE_PROTOCOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_RESPONSE_PROTOCOL"
+          }
+        },
+        "VARIABLE_RESPONSE_STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VARIABLE_RESPONSE_STATUS"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The targeted validation engine variable macro."
+      }
+    },
+    "com.stackit.alb_waf#GetCustomRuleConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb_waf#Condition"
+      },
+      "traits": {
+        "smithy.api#documentation": "[HINT] Order matters! First condition match triggers execution."
+      }
+    },
+    "com.stackit.alb_waf#GetCustomRuleGroupResponseRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb_waf#GetCustomRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Enriched rules containing auto-generated IDs and computed severity values."
+      }
+    },
+    "com.stackit.alb_waf#CRGUsage": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of WAF configurations actively using this rule group."
+          }
+        },
+        "items": {
+          "target": "com.stackit.alb_waf#CRGUsageItemsList",
+          "traits": {
+            "smithy.api#documentation": "List of individual WAF configuration names that bind this rule group."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Tracking metrics for CRG resource utilization"
+      }
+    },
+    "com.stackit.alb_waf#CRGUsageItemsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of individual WAF configuration names that bind this rule group."
+      }
+    },
+    "com.stackit.alb_waf#ListCustomRuleGroupResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb_waf#GetCustomRuleGroupResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#ListCustomRuleGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#ListCustomRuleGroupRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#ListCustomRuleGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/custom-rule-groups",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List of CRG configurations\n\nList all existing Custom Rule Groups that are stored in the project."
+      }
+    },
+    "com.stackit.alb_waf#CreateCustomRule": {
+      "type": "structure",
+      "members": {
+        "behavior": {
+          "target": "com.stackit.alb_waf#Behavior",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.stackit.alb_waf#CreateCustomRuleConditionsList",
+          "traits": {
+            "smithy.api#documentation": "[HINT] Order matters! First condition match triggers execution.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A clear description explaining the threat vector or criteria addressed by this rule."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#Behavior": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.stackit.alb_waf#Action",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "log": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Determines whether an entry should be generated in the security ledger upon a rule hit."
+          }
+        },
+        "logMsg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom notification message string mapped to underlying logdata contexts."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#CreateCustomRuleConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb_waf#Condition"
+      },
+      "traits": {
+        "smithy.api#documentation": "[HINT] Order matters! First condition match triggers execution."
+      }
+    },
+    "com.stackit.alb_waf#CreateCustomRuleGroupRequestRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb_waf#CreateCustomRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "The collection of custom rule group SecLang parameters forming this execution group."
+      }
+    },
+    "com.stackit.alb_waf#CreateCustomRuleGroupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom rule group name.",
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.stackit.alb_waf#CreateCustomRuleGroupRequestRulesList",
+          "traits": {
+            "smithy.api#documentation": "The collection of custom rule group SecLang parameters forming this execution group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#CreateCustomRuleGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#CreateCustomRuleGroupRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#GetCustomRuleGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/custom-rule-groups",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a CRG configuration\n\nCreates a structured rule configuration using the abstract CRG. It can be referenced by any number of WAF configurations in the same project."
+      }
+    },
+    "com.stackit.alb_waf#GetCustomRuleGroupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#GetCustomRuleGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#GetCustomRuleGroupRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#GetCustomRuleGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        },
+        {
+          "target": "com.stackit.alb_waf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/custom-rule-groups/{name}",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieve a CRG configuration\n\nRetrieves the specified SecLang custom rule configuration (CRG) structure."
+      }
+    },
+    "com.stackit.alb_waf#UpdateCustomRuleGroupRequestRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb_waf#CreateCustomRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "The collection of custom rule group SecLang parameters forming this execution group. Replaces the existing rules atomically."
+      }
+    },
+    "com.stackit.alb_waf#UpdateCustomRuleGroupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.stackit.alb_waf#UpdateCustomRuleGroupRequestRulesList",
+          "traits": {
+            "smithy.api#documentation": "The collection of custom rule group SecLang parameters forming this execution group. Replaces the existing rules atomically.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#UpdateCustomRuleGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#UpdateCustomRuleGroupRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#GetCustomRuleGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{region}/custom-rule-groups/{name}",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update a CRG configuration\n\nReplaces the rules array of an existing CRG. The CRG name is immutable and used as the resource key. Send the complete desired rule set; per-rule partial merge is not supported."
+      }
+    },
+    "com.stackit.alb_waf#DeleteCustomRuleGroupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#DeleteCustomRuleGroupResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.alb_waf#DeleteCustomRuleGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#DeleteCustomRuleGroupRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#DeleteCustomRuleGroupResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/custom-rule-groups/{name}",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a CRG configuration\n\nTo delete a custom rule group configuration this endpoint is used, but it is only possible to delete it if no WAF configuration is referencing it."
+      }
+    },
+    "com.stackit.alb_waf#ListManagedRuleSetsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "page_size specifies how many rule configurations should be returned on this page. Must be a positive number <= 1000"
+          }
+        },
+        "pageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageId",
+            "smithy.api#documentation": "page_id is a page identifier returned by the previous response and is used to request the next page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#ListManagedRuleSetResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.alb_waf#ListManagedRuleSetResponseItemsList"
+        },
+        "nextPageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Continue token from the ListManagedRuleSetResponse with Limit option"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ListManagedRuleSetResponse returns a list of rule configuration responses."
+      }
+    },
+    "com.stackit.alb_waf#GetLimitedManagedRuleSetResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Managed rule set configuration name.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.alb_waf#Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "com.stackit.alb_waf#MRSUsage"
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Managed rule set version.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#Type": {
+      "type": "enum",
+      "members": {
+        "TYPE_OWASP_CRS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_OWASP_CRS"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set the managed rule set type."
+      }
+    },
+    "com.stackit.alb_waf#MRSUsage": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of WAFs using this Managed Rule Set."
+          }
+        },
+        "items": {
+          "target": "com.stackit.alb_waf#MRSUsageItemsList",
+          "traits": {
+            "smithy.api#documentation": "List of WAFs that use this Managed Rule Set."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#MRSUsageItemsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of WAFs that use this Managed Rule Set."
+      }
+    },
+    "com.stackit.alb_waf#ListManagedRuleSetResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb_waf#GetLimitedManagedRuleSetResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#ListManagedRuleSets": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#ListManagedRuleSetsRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#ListManagedRuleSetResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/managed-rule-sets",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List of MRS configurations\n\nList all existing managed rule set (MRS) configurations that are stored in the project."
+      }
+    },
+    "com.stackit.alb_waf#CreateManagedRuleSetRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Managed rule set configuration name.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.alb_waf#Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#GetManagedRuleSetResponse": {
+      "type": "structure",
+      "members": {
+        "groups": {
+          "target": "com.stackit.alb_waf#GetManagedRuleSetResponseGroupsMap",
+          "traits": {
+            "smithy.api#documentation": "Inventory of all available Managed Rule Set groups and their current configuration. The key is the unique Group ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Managed rule set configuration name.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.alb_waf#Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "com.stackit.alb_waf#MRSUsage"
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Managed rule set version.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "GetManagedRuleSetResponse returns rule configuration name and it's rules."
+      }
+    },
+    "com.stackit.alb_waf#MRSRuleGroup": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of what this group covers.",
+            "smithy.api#required": {}
+          }
+        },
+        "groupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name for the rule group.",
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.stackit.alb_waf#MRSRuleGroupRulesMap"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "RuleGroup represents a collection of rules associated with a specific group."
+      }
+    },
+    "com.stackit.alb_waf#MRSRule": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of what this rule covers.",
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.stackit.alb_waf#Mode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "severity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Impact level.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Rule represents an individual security or validation rule."
+      }
+    },
+    "com.stackit.alb_waf#Mode": {
+      "type": "enum",
+      "members": {
+        "MODE_ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MODE_ENABLED"
+          }
+        },
+        "MODE_DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MODE_DISABLED"
+          }
+        },
+        "MODE_LOG_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MODE_LOG_ONLY"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current mode of the rule."
+      }
+    },
+    "com.stackit.alb_waf#MRSRuleGroupRulesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.stackit.alb_waf#MRSRule"
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#GetManagedRuleSetResponseGroupsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.stackit.alb_waf#MRSRuleGroup"
+      },
+      "traits": {
+        "smithy.api#documentation": "Inventory of all available Managed Rule Set groups and their current configuration. The key is the unique Group ID."
+      }
+    },
+    "com.stackit.alb_waf#CreateManagedRuleSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#CreateManagedRuleSetRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#GetManagedRuleSetResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/managed-rule-sets",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a MRS configuration\n\nWith this endpoint a managed rule set (MRS) configuration is created and stored in this project. Currently it is only possible to enable it. This rule configuration is supposed to be referenced by a WAF configuration. It can be referenced by any number of WAF configurations in the same project."
+      }
+    },
+    "com.stackit.alb_waf#GetManagedRuleSetRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#GetManagedRuleSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#GetManagedRuleSetRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#GetManagedRuleSetResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        },
+        {
+          "target": "com.stackit.alb_waf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/managed-rule-sets/{name}",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieve a MRS configuration\n\nTo retrieve an existing managed rule set (MRS) configuration this endpoint can be used."
+      }
+    },
+    "com.stackit.alb_waf#PatchMRSRuleGroup": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.stackit.alb_waf#PatchMRSRuleGroupRulesMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#PatchMRSRule": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.stackit.alb_waf#Mode"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#PatchMRSRuleGroupRulesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.stackit.alb_waf#PatchMRSRule"
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#PatchManagedRuleSetRequestGroupsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.stackit.alb_waf#PatchMRSRuleGroup"
+      },
+      "traits": {
+        "smithy.api#documentation": "Map of Managed Rule Set groups to be patched. The key is the Group ID (e.g., 942 for SQL Injection). Only provided rules within the group will be updated; others remain unchanged."
+      }
+    },
+    "com.stackit.alb_waf#PatchManagedRuleSetRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "groups": {
+          "target": "com.stackit.alb_waf#PatchManagedRuleSetRequestGroupsMap",
+          "traits": {
+            "smithy.api#documentation": "Map of Managed Rule Set groups to be patched. The key is the Group ID (e.g., 942 for SQL Injection). Only provided rules within the group will be updated; others remain unchanged.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#PatchManagedRuleSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#PatchManagedRuleSetRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#GetManagedRuleSetResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        },
+        {
+          "target": "com.stackit.alb_waf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{region}/managed-rule-sets/{name}",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Granularly update a MRS configuration\n\nAccepts the same structure as the GET response. Only fields provided with values will be updated."
+      }
+    },
+    "com.stackit.alb_waf#DeleteManagedRuleSetRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#DeleteManagedRuleSetResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.alb_waf#DeleteManagedRuleSet": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#DeleteManagedRuleSetRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#DeleteManagedRuleSetResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/managed-rule-sets/{name}",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a MRS configuration\n\nTo delete a managed rule set (MRS) configuration this endpoint is used, but it is only possible to delete it if no WAF configuration is referencing it."
+      }
+    },
+    "com.stackit.alb_waf#GetQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#GetQuotaResponse": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project identifier"
+          }
+        },
+        "quotas": {
+          "target": "com.stackit.alb_waf#Quotas",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#Quotas": {
+      "type": "structure",
+      "members": {
+        "customRuleGroup": {
+          "target": "com.stackit.alb_waf#CRGConfigQuota",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "managedRuleSet": {
+          "target": "com.stackit.alb_waf#MRSConfigQuota",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "webApplicationFirewall": {
+          "target": "com.stackit.alb_waf#WAFConfigQuota",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Quotas holds the specific quota elements for different resources"
+      }
+    },
+    "com.stackit.alb_waf#CRGConfigQuota": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of custom rule groups in this project."
+          }
+        },
+        "usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of custom rule groups that are currently existing in this project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "CRG quotas holds the limit and usage for CRG resources"
+      }
+    },
+    "com.stackit.alb_waf#MRSConfigQuota": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of Managed Rule Set configurations in this project."
+          }
+        },
+        "usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of Managed Rule Set configurations that are currently existing in this project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "MRS Config quota holds the limit and usage for Managed Rule Set configuration resources"
+      }
+    },
+    "com.stackit.alb_waf#WAFConfigQuota": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of Web Application Firewall configurations in this project."
+          }
+        },
+        "usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of Web Application Firewall configurations that are currently existing in this project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "WAF Config quota holds the limit and usage for Web Application Firewall configuration resources"
+      }
+    },
+    "com.stackit.alb_waf#GetQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#GetQuotaRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#GetQuotaResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/quotas",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get the quota for WAF resources in a project.\n\nRetrieves the configured WAF resource quotas for the project. Limit can be changed via service request."
+      }
+    },
+    "com.stackit.alb_waf#ListWAFRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "page_size specifies how many WAFs should be returned on this page. Must be a positive number <= 1000"
+          }
+        },
+        "pageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageId",
+            "smithy.api#documentation": "page_id is a page identifier returned by the previous response and is used to request the next page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#ListWAFResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.alb_waf#ListWAFResponseItemsList"
+        },
+        "nextPageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Continue token from the ListWAFResponse with Limit option"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ListWAFResponse returns a list of WAF responses."
+      }
+    },
+    "com.stackit.alb_waf#GetWAFResponse": {
+      "type": "structure",
+      "members": {
+        "customRuleGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the CRG configuration for that WAF."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.alb_waf#GetWAFResponseLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per WAF.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "managedRuleSetName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the managed rule set configuration for that WAF."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WAF name",
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "com.stackit.alb_waf#WAFUsage"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "GetWAFResponse returns detailed information about the WAF, which includes the identifying name, references to MRS/CRG and usage."
+      }
+    },
+    "com.stackit.alb_waf#GetWAFResponseLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per WAF.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.alb_waf#WAFUsage": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of listeners using this WAF configuration."
+          }
+        },
+        "items": {
+          "target": "com.stackit.alb_waf#WAFUsageItemsList",
+          "traits": {
+            "smithy.api#documentation": "List of Application Load Balancers with their associated listeners that use this WAF configuration."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#WAFUsageItem": {
+      "type": "structure",
+      "members": {
+        "listenerNames": {
+          "target": "com.stackit.alb_waf#WAFUsageItemListenerNamesList",
+          "traits": {
+            "smithy.api#documentation": "The list of listener names in this Load Balancer, that are using the WAF."
+          }
+        },
+        "loadBalancerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the Load Balancer.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#WAFUsageItemListenerNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of listener names in this Load Balancer, that are using the WAF."
+      }
+    },
+    "com.stackit.alb_waf#WAFUsageItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb_waf#WAFUsageItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Application Load Balancers with their associated listeners that use this WAF configuration."
+      }
+    },
+    "com.stackit.alb_waf#ListWAFResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb_waf#GetWAFResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.alb_waf#ListWAF": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#ListWAFRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#ListWAFResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/wafs",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List of WAF configurations\n\nTo list all WAF configurations stored in a project, use this endpoint."
+      }
+    },
+    "com.stackit.alb_waf#CreateWAFRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per WAF.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.alb_waf#CreateWAFRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "customRuleGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the CRG configuration for that WAF."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.alb_waf#CreateWAFRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per WAF.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "managedRuleSetName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the managed rule set configuration for that WAF."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WAF name",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#CreateWAF": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#CreateWAFRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#GetWAFResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/wafs",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a WAF configuration\n\nThis endpoint will create and store a WAF configuration in a project. The name of this WAF configuration is supposed to be used in the listener of an Application Load Balancer, which will activate this configuration and in addition it is possible to enable the managed rule set. This WAF configuration can be used by any number of Application Load Balancers in the same project. The configuration has a reference to a rule configuration. This rule configuration has to exist when trying to create a WAF configuration. Later other configuration references will be added to this object."
+      }
+    },
+    "com.stackit.alb_waf#GetWAFRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#GetWAF": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#GetWAFRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#GetWAFResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        },
+        {
+          "target": "com.stackit.alb_waf#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/wafs/{name}",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieve a WAF configuration\n\nThis endpoint will return the specified WAF configuration."
+      }
+    },
+    "com.stackit.alb_waf#UpdateWAFRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per WAF.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.alb_waf#UpdateWAFRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "customRuleGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the CRG configuration for that WAF."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.alb_waf#UpdateWAFRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per WAF.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "managedRuleSetName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the managed rule set configuration for that WAF."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#UpdateWAF": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#UpdateWAFRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#GetWAFResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        },
+        {
+          "target": "com.stackit.alb_waf#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{region}/wafs/{name}",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update a WAF configuration\n\nThe update endpoint will update a stored WAF configuration in project and also for all the Load Balancers that have it referenced."
+      }
+    },
+    "com.stackit.alb_waf#DeleteWAFRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb_waf#DeleteWAFResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.alb_waf#DeleteWAF": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb_waf#DeleteWAFRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb_waf#DeleteWAFResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb_waf#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb_waf#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/wafs/{name}",
+          "code": 200,
+          "baseUrl": "https://alb-waf.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a WAF configuration\n\nThis will delete the specified WAF configuration, but only if it is not used by any Application Load Balancer in the project."
+      }
+    },
+    "com.stackit.alb_waf#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.alb_waf#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.alb_waf#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.alb_waf#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.alb_waf#AlbWaf": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.alb_waf#ListCustomRuleGroup"
+        },
+        {
+          "target": "com.stackit.alb_waf#CreateCustomRuleGroup"
+        },
+        {
+          "target": "com.stackit.alb_waf#GetCustomRuleGroup"
+        },
+        {
+          "target": "com.stackit.alb_waf#UpdateCustomRuleGroup"
+        },
+        {
+          "target": "com.stackit.alb_waf#DeleteCustomRuleGroup"
+        },
+        {
+          "target": "com.stackit.alb_waf#ListManagedRuleSets"
+        },
+        {
+          "target": "com.stackit.alb_waf#CreateManagedRuleSet"
+        },
+        {
+          "target": "com.stackit.alb_waf#GetManagedRuleSet"
+        },
+        {
+          "target": "com.stackit.alb_waf#PatchManagedRuleSet"
+        },
+        {
+          "target": "com.stackit.alb_waf#DeleteManagedRuleSet"
+        },
+        {
+          "target": "com.stackit.alb_waf#GetQuota"
+        },
+        {
+          "target": "com.stackit.alb_waf#ListWAF"
+        },
+        {
+          "target": "com.stackit.alb_waf#CreateWAF"
+        },
+        {
+          "target": "com.stackit.alb_waf#GetWAF"
+        },
+        {
+          "target": "com.stackit.alb_waf#UpdateWAF"
+        },
+        {
+          "target": "com.stackit.alb_waf#DeleteWAF"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Application Load Balancer Web Application Firewall API",
+        "smithy.api#documentation": "Generate a Web Application Firewall (WAF) to use with Application Load Balancers (ALB). The name of the WAF configuration is used in the listener of the ALB. This will activate the WAF for that listener. A WAF can have a Managed Rule Set (MRS) and or a Custom Rule Group (CRG). To create a WAF one first needs to create all the configurations that are referenced in the WAF configuration. Once all configurations are created and referenced in the WAF configuration it can be used with an ALB."
+      }
+    }
+  }
+}

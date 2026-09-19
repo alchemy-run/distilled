@@ -1,0 +1,2199 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.alb#ListCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#ListCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.alb#ListCredentialsResponseCredentialsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#CredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The credentials reference can be used for observability of the Application Load Balancer."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credential name"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the Credential"
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username used for the STACKIT Observability instance"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#ListCredentialsResponseCredentialsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#CredentialsResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#ListCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#ListCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#ListCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/credentials",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all credentials in a project.\n\nLists the stored Observability credentials."
+      }
+    },
+    "com.stackit.alb#CreateCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credential name"
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid password used for an existing STACKIT Observability instance, which is used during basic auth.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid username used for an existing STACKIT Observability instance, which is used during basic auth."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#CreateCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credential": {
+          "target": "com.stackit.alb#CredentialsResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#CreateCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#CreateCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#CreateCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/credentials",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create credentials for observability of the Application Load Balancer\n\nCreated credentials can be stored and used for the load balancer observability. For example, when using STACKIT\n Observability, credentials first must be created for that STACKIT Observability instance (by using their API or the\n STACKIT Portal) and then can be provided to the load balancer by storing them with this endpoint."
+      }
+    },
+    "com.stackit.alb#GetCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#GetCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credential": {
+          "target": "com.stackit.alb#CredentialsResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#GetCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#GetCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#GetCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        },
+        {
+          "target": "com.stackit.alb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/credentials/{credentialsRef}",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a single credential reference in a project.\n\nGets the stored Observability credentials."
+      }
+    },
+    "com.stackit.alb#UpdateCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credential name"
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid password used for an existing STACKIT Observability instance, which is used during basic auth.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid username used for an existing STACKIT Observability instance, which is used during basic auth."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#UpdateCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credential": {
+          "target": "com.stackit.alb#CredentialsResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#UpdateCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#UpdateCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#UpdateCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        },
+        {
+          "target": "com.stackit.alb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/credentials/{credentialsRef}",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update credentials for observability in a project.\n\nUpdates the stored Observability credentials."
+      }
+    },
+    "com.stackit.alb#DeleteCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#DeleteCredentialsResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.alb#DeleteCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#DeleteCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#DeleteCredentialsResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/credentials/{credentialsRef}",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a single credential in a project.\n\nDeletes the stored Observability credentials."
+      }
+    },
+    "com.stackit.alb#ListLoadBalancersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "page_size specifies how many Application Load Balancers should be returned on this page. Must be a positive number <= 1000"
+          }
+        },
+        "pageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageId",
+            "smithy.api#documentation": "page_id is a page identifier returned by the previous response and is used to request the next page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#ListLoadBalancersResponse": {
+      "type": "structure",
+      "members": {
+        "loadBalancers": {
+          "target": "com.stackit.alb#ListLoadBalancersResponseLoadBalancersList"
+        },
+        "nextPageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Continue token from the ListLoadBalancerResponse with Limit option"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#LoadBalancer": {
+      "type": "structure",
+      "members": {
+        "disableTargetSecurityGroupAssignment": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable target security group assignemt to allow targets outside of the given network. Connectivity to targets need to be ensured by the customer, including routing and Security Groups (targetSecurityGroup can be assigned). Not changeable after creation."
+          }
+        },
+        "errors": {
+          "target": "com.stackit.alb#LoadBalancerErrorsList",
+          "traits": {
+            "smithy.api#documentation": "Reports all errors a Application Load Balancer has."
+          }
+        },
+        "externalAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external IP address where this Application Load Balancer is exposed. Not changeable after creation."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.alb#LoadBalancerLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per ALB.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "listeners": {
+          "target": "com.stackit.alb#LoadBalancerListenersList",
+          "traits": {
+            "smithy.api#documentation": "There is a maximum listener count of 20.\n\n"
+          }
+        },
+        "loadBalancerSecurityGroup": {
+          "target": "com.stackit.alb#SecurityGroup",
+          "traits": {
+            "smithy.api#documentation": "Security Group permitting network traffic from the LoadBalancer to the targets. Useful when disableTargetSecurityGroupAssignment=true to manually assign target security groups to targets."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application Load Balancer name. Not changeable after creation."
+          }
+        },
+        "networks": {
+          "target": "com.stackit.alb#LoadBalancerNetworksList",
+          "traits": {
+            "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+          }
+        },
+        "options": {
+          "target": "com.stackit.alb#LoadBalancerOptions"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan configures the size of the Application Load Balancer. Currently supported plan is p10. This list can change in the future where plan ids will be removed and new plans by added. That is the reason this is not an enum."
+          }
+        },
+        "privateAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transient private Application Load Balancer IP address that can change any time."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the LoadBalancer."
+          }
+        },
+        "status": {
+          "target": "com.stackit.alb#LoadBalancerStatus"
+        },
+        "targetPools": {
+          "target": "com.stackit.alb#LoadBalancerTargetPoolsList",
+          "traits": {
+            "smithy.api#documentation": "List of all target pools which will be used in the Application Load Balancer. Limited to 20."
+          }
+        },
+        "targetSecurityGroup": {
+          "target": "com.stackit.alb#SecurityGroup",
+          "traits": {
+            "smithy.api#documentation": "Security Group that allows the targets to receive traffic from the LoadBalancer. Useful when disableTargetSecurityGroupAssignment=true to manually assign target security groups to targets."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application Load Balancer resource version.\nMust be empty or unset for creating Application Load Balancers, non-empty for updating. Semantics:\nWhile retrieving, this is the current version of this Application Load Balancer resource that changes during updates. On updates this field specified the Application Load Balancer version you calculated your update for instead of the future version to enable concurrency safe updates. Update calls will then report the new version in their result as you would see with a Application Load Balancer retrieval call later. There exist no total order of the version, so you can only compare it for equality, but not for less/greater than another version. Since the creation of Application Load Balancer is always intended to create the first version of it, there should be no existing version. That's why this field must by empty of not present in that case."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#LoadBalancerError": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error description contains additional helpful user information to fix the error state of the Application Load Balancer. For example the IP 45.135.247.139 does not exist in the project, then the description will report: Floating IP \"45.135.247.139\" could not be found."
+          }
+        },
+        "type": {
+          "target": "com.stackit.alb#LoadBalancerErrorType",
+          "traits": {
+            "smithy.api#documentation": "The error type specifies which part of the Application Load Balancer encountered the error. I.e. the API will not check if a provided public IP is actually available in the project. Instead the Application Load Balancer with try to use the provided IP and if not available reports TYPE_FIP_NOT_CONFIGURED error."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#LoadBalancerErrorType": {
+      "type": "enum",
+      "members": {
+        "TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_UNSPECIFIED"
+          }
+        },
+        "TYPE_INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_INTERNAL"
+          }
+        },
+        "TYPE_QUOTA_SECGROUP_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_QUOTA_SECGROUP_EXCEEDED"
+          }
+        },
+        "TYPE_QUOTA_SECGROUPRULE_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_QUOTA_SECGROUPRULE_EXCEEDED"
+          }
+        },
+        "TYPE_PORT_NOT_CONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_PORT_NOT_CONFIGURED"
+          }
+        },
+        "TYPE_FIP_NOT_CONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_FIP_NOT_CONFIGURED"
+          }
+        },
+        "TYPE_TARGET_NOT_ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_TARGET_NOT_ACTIVE"
+          }
+        },
+        "TYPE_METRICS_MISCONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_METRICS_MISCONFIGURED"
+          }
+        },
+        "TYPE_LOGS_MISCONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_LOGS_MISCONFIGURED"
+          }
+        },
+        "TYPE_FIP_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_FIP_NOT_FOUND"
+          }
+        },
+        "TYPE_IP_EXHAUSTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_IP_EXHAUSTED"
+          }
+        },
+        "TYPE_DNS_NOT_CONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_DNS_NOT_CONFIGURED"
+          }
+        },
+        "TYPE_VM_PORT_NOT_CONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_VM_PORT_NOT_CONFIGURED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The error type specifies which part of the Application Load Balancer encountered the error. I.e. the API will not check if a provided public IP is actually available in the project. Instead the Application Load Balancer with try to use the provided IP and if not available reports TYPE_FIP_NOT_CONFIGURED error."
+      }
+    },
+    "com.stackit.alb#LoadBalancerErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#LoadBalancerError"
+      },
+      "traits": {
+        "smithy.api#documentation": "Reports all errors a Application Load Balancer has."
+      }
+    },
+    "com.stackit.alb#LoadBalancerLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per ALB.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.alb#Listener": {
+      "type": "structure",
+      "members": {
+        "http": {
+          "target": "com.stackit.alb#ProtocolOptionsHTTP"
+        },
+        "https": {
+          "target": "com.stackit.alb#ProtocolOptionsHTTPS"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique listener name."
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Port number on which the listener receives incoming traffic."
+          }
+        },
+        "protocol": {
+          "target": "com.stackit.alb#ListenerProtocol",
+          "traits": {
+            "smithy.api#documentation": "Protocol is the highest network protocol we understand to load balance. Currently PROTOCOL_HTTP and PROTOCOL_HTTPS are supported."
+          }
+        },
+        "wafConfigName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Enable Web Application Firewall (WAF), referenced by name. See \"Application Load Balancer - Web Application Firewall API\" for more information."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#ProtocolOptionsHTTP": {
+      "type": "structure",
+      "members": {
+        "hosts": {
+          "target": "com.stackit.alb#ProtocolOptionsHTTPHostsList",
+          "traits": {
+            "smithy.api#documentation": "Defines routing rules grouped by hostname."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for handling HTTP traffic on this listener."
+      }
+    },
+    "com.stackit.alb#HostConfig": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hostname to match. Supports wildcards (e.g. *.example.com)."
+          }
+        },
+        "rules": {
+          "target": "com.stackit.alb#HostConfigRulesList",
+          "traits": {
+            "smithy.api#documentation": "Routing rules under the specified host, matched by path prefix."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#Rule": {
+      "type": "structure",
+      "members": {
+        "cookiePersistence": {
+          "target": "com.stackit.alb#CookiePersistence"
+        },
+        "headers": {
+          "target": "com.stackit.alb#RuleHeadersList",
+          "traits": {
+            "smithy.api#documentation": "Headers for the rule."
+          }
+        },
+        "path": {
+          "target": "com.stackit.alb#Path"
+        },
+        "queryParameters": {
+          "target": "com.stackit.alb#RuleQueryParametersList",
+          "traits": {
+            "smithy.api#documentation": "Query parameters for the rule."
+          }
+        },
+        "targetPool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference target pool by target pool name."
+          }
+        },
+        "webSocket": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If enabled, when client sends an HTTP request with and Upgrade header, indicating the desire to establish a Websocket connection, \nif backend server supports WebSocket, it responds with HTTP 101 status code, switching protocols from HTTP to WebSocket.\nHence the client and the server can exchange data in real-time using one long-lived TCP connection."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#CookiePersistence": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cookie is the name of the cookie to use."
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "TTL specifies the time-to-live for the cookie.\nThe default value is 0s, and it acts as a session cookie, expiring when the client session ends.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "CookiePersistence contains the cookie-based session persistence configuration."
+      }
+    },
+    "com.stackit.alb#HttpHeader": {
+      "type": "structure",
+      "members": {
+        "exactMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exact match for the header value."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Header name."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#RuleHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#HttpHeader"
+      },
+      "traits": {
+        "smithy.api#documentation": "Headers for the rule."
+      }
+    },
+    "com.stackit.alb#Path": {
+      "type": "structure",
+      "members": {
+        "exactMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exact path match. Only a request path exactly equal to the value will match, e.g. '/foo' matches only '/foo', not '/foo/bar' or '/foobar'."
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix path match. Only matches on full segment boundaries, e.g. '/foo' matches '/foo' and '/foo/bar' but NOT '/foobar'."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Path match. Optional. Contains either an exact or prefix match. If not set, defaults to root path '/' of prefix type. Cannot be set if 'path_prefix' is used. Prefer using this field over 'path_prefix'."
+      }
+    },
+    "com.stackit.alb#QueryParameter": {
+      "type": "structure",
+      "members": {
+        "exactMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exact match for the parameter value."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parameter name."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#RuleQueryParametersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#QueryParameter"
+      },
+      "traits": {
+        "smithy.api#documentation": "Query parameters for the rule."
+      }
+    },
+    "com.stackit.alb#HostConfigRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#Rule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Routing rules under the specified host, matched by path prefix."
+      }
+    },
+    "com.stackit.alb#ProtocolOptionsHTTPHostsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#HostConfig"
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines routing rules grouped by hostname."
+      }
+    },
+    "com.stackit.alb#ProtocolOptionsHTTPS": {
+      "type": "structure",
+      "members": {
+        "certificateConfig": {
+          "target": "com.stackit.alb#CertificateConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for handling HTTPS traffic on this listener."
+      }
+    },
+    "com.stackit.alb#CertificateConfig": {
+      "type": "structure",
+      "members": {
+        "certificateIds": {
+          "target": "com.stackit.alb#CertificateConfigCertificateIdsList",
+          "traits": {
+            "smithy.api#documentation": "Certificate IDs for TLS termination."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "TLS termination certificate configuration."
+      }
+    },
+    "com.stackit.alb#CertificateConfigCertificateIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Certificate IDs for TLS termination."
+      }
+    },
+    "com.stackit.alb#ListenerProtocol": {
+      "type": "enum",
+      "members": {
+        "PROTOCOL_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_UNSPECIFIED"
+          }
+        },
+        "PROTOCOL_HTTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_HTTP"
+          }
+        },
+        "PROTOCOL_HTTPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_HTTPS"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Protocol is the highest network protocol we understand to load balance. Currently PROTOCOL_HTTP and PROTOCOL_HTTPS are supported."
+      }
+    },
+    "com.stackit.alb#LoadBalancerListenersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#Listener"
+      },
+      "traits": {
+        "smithy.api#documentation": "There is a maximum listener count of 20.\n\n"
+      }
+    },
+    "com.stackit.alb#SecurityGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the security Group"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the security Group"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#Network": {
+      "type": "structure",
+      "members": {
+        "networkId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "STACKIT network ID the Application Load Balancer and/or targets are in."
+          }
+        },
+        "role": {
+          "target": "com.stackit.alb#NetworkRole",
+          "traits": {
+            "smithy.api#documentation": "The role defines how the Application Load Balancer is using the network. Currently only ROLE_LISTENERS_AND_TARGETS is supported."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#NetworkRole": {
+      "type": "enum",
+      "members": {
+        "ROLE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ROLE_UNSPECIFIED"
+          }
+        },
+        "ROLE_LISTENERS_AND_TARGETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ROLE_LISTENERS_AND_TARGETS"
+          }
+        },
+        "ROLE_LISTENERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ROLE_LISTENERS"
+          }
+        },
+        "ROLE_TARGETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ROLE_TARGETS"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The role defines how the Application Load Balancer is using the network. Currently only ROLE_LISTENERS_AND_TARGETS is supported."
+      }
+    },
+    "com.stackit.alb#LoadBalancerNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#Network"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+      }
+    },
+    "com.stackit.alb#LoadBalancerOptions": {
+      "type": "structure",
+      "members": {
+        "accessControl": {
+          "target": "com.stackit.alb#LoadbalancerOptionAccessControl"
+        },
+        "ephemeralAddress": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This option automates the handling of the external IP address for an Application Load Balancer. If set to true a new IP address will be automatically created. It will also be automatically deleted when the Load Balancer is deleted."
+          }
+        },
+        "observability": {
+          "target": "com.stackit.alb#LoadbalancerOptionObservability"
+        },
+        "privateNetworkOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Application Load Balancer is accessible only via a private network ip address. Not changeable after creation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines any optional functionality you want to have enabled on your Application Load Balancer."
+      }
+    },
+    "com.stackit.alb#LoadbalancerOptionAccessControl": {
+      "type": "structure",
+      "members": {
+        "allowedSourceRanges": {
+          "target": "com.stackit.alb#LoadbalancerOptionAccessControlAllowedSourceRangesList",
+          "traits": {
+            "smithy.api#documentation": "Application Load Balancer is accessible only from an IP address in this range. May be combined with `ipBlockListName`; `allowedSourceRanges` is evaluated first, then `ipBlockListName`."
+          }
+        },
+        "ipBlockListName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference to an IP block list by name. Traffic originating from any IP in the referenced list is denied access to the Application Load Balancer. See \"IP Lists API\" for how to manage IP block lists. May be combined with `allowedSourceRanges`; `allowedSourceRanges` is evaluated first, then `ipBlockListName`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use this option to limit the IP ranges that can use the Application Load Balancer.\n `allowed_source_ranges` and `ip_block_list_name` may be set together. When both are set,\n `allowed_source_ranges` is evaluated first, then `ip_block_list_name` is evaluated."
+      }
+    },
+    "com.stackit.alb#LoadbalancerOptionAccessControlAllowedSourceRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Application Load Balancer is accessible only from an IP address in this range. May be combined with `ipBlockListName`; `allowedSourceRanges` is evaluated first, then `ipBlockListName`."
+      }
+    },
+    "com.stackit.alb#LoadbalancerOptionObservability": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "com.stackit.alb#LoadbalancerOptionLogs"
+        },
+        "metrics": {
+          "target": "com.stackit.alb#LoadbalancerOptionMetrics"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "We offer Load Balancer observability via STACKIT Observability or external solutions."
+      }
+    },
+    "com.stackit.alb#LoadbalancerOptionLogs": {
+      "type": "structure",
+      "members": {
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credentials reference for logging. This reference is created via the observability create endpoint and the credential needs to contain the basic auth username and password for the logging solution the push URL points to. Then this enables monitoring via remote write for the Application Load Balancer."
+          }
+        },
+        "pushUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Observability(Logs)/Loki remote write Push URL you want the logs to be shipped to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Observability logs configuration."
+      }
+    },
+    "com.stackit.alb#LoadbalancerOptionMetrics": {
+      "type": "structure",
+      "members": {
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credentials reference for metrics. This reference is created via the observability create endpoint and the credential needs to contain the basic auth username and password for the metrics solution the push URL points to. Then this enables monitoring via remote write for the Application Load Balancer."
+          }
+        },
+        "pushUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Observability(Metrics)/Prometheus remote write push URL you want the metrics to be shipped to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Observability metrics configuration."
+      }
+    },
+    "com.stackit.alb#LoadBalancerStatus": {
+      "type": "enum",
+      "members": {
+        "STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS_UNSPECIFIED"
+          }
+        },
+        "STATUS_PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS_PENDING"
+          }
+        },
+        "STATUS_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS_READY"
+          }
+        },
+        "STATUS_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS_ERROR"
+          }
+        },
+        "STATUS_TERMINATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS_TERMINATING"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#TargetPool": {
+      "type": "structure",
+      "members": {
+        "activeHealthCheck": {
+          "target": "com.stackit.alb#ActiveHealthCheck"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target pool name"
+          }
+        },
+        "targetPort": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number identifying the port where each target listens for traffic."
+          }
+        },
+        "targets": {
+          "target": "com.stackit.alb#TargetPoolTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of all targets which will be used in the pool. Limited to 250."
+          }
+        },
+        "tlsConfig": {
+          "target": "com.stackit.alb#TlsConfig"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#ActiveHealthCheck": {
+      "type": "structure",
+      "members": {
+        "altPort": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Overrides the default port used for health check probes."
+          }
+        },
+        "healthyThreshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Healthy threshold of the health checking"
+          }
+        },
+        "httpHealthChecks": {
+          "target": "com.stackit.alb#HttpHealthChecks"
+        },
+        "interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Interval duration of health checking in seconds"
+          }
+        },
+        "intervalJitter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Interval duration threshold of the health checking in seconds"
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Active health checking timeout duration in seconds"
+          }
+        },
+        "unhealthyThreshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unhealthy threshold of the health checking"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set this to customize active health checks for targets in this pool."
+      }
+    },
+    "com.stackit.alb#HttpHealthChecks": {
+      "type": "structure",
+      "members": {
+        "okStatuses": {
+          "target": "com.stackit.alb#HttpHealthChecksOkStatusesList",
+          "traits": {
+            "smithy.api#documentation": "List of HTTP status codes that indicate a healthy response"
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path to send the health check request to"
+          }
+        },
+        "tls": {
+          "target": "com.stackit.alb#TlsConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Options for the HTTP health checking."
+      }
+    },
+    "com.stackit.alb#HttpHealthChecksOkStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of HTTP status codes that indicate a healthy response"
+      }
+    },
+    "com.stackit.alb#TlsConfig": {
+      "type": "structure",
+      "members": {
+        "customCa": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies a custom Certificate Authority (CA). When provided, the target pool will trust certificates signed by this CA, in addition to any system-trusted CAs. This is useful for scenarios where the target pool needs to communicate with servers using self-signed or internally-issued certificates. Enabled needs to be set to true and skip validation to false for this option."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable TLS (Transport Layer Security) bridging for the connection between Application Load Balancer and targets in this pool. When enabled, public CAs are trusted. Can be used in tandem with the options either custom CA or skip validation or alone."
+          }
+        },
+        "skipCertificateValidation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Bypass certificate validation for TLS bridging in this target pool. This option is insecure and can only be used with public CAs by setting enabled true. Meant to be used for testing purposes only!"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set this to configure TLS settings."
+      }
+    },
+    "com.stackit.alb#Target": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target display name."
+          }
+        },
+        "ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private target IP, which must by unique within a target pool."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#TargetPoolTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#Target"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all targets which will be used in the pool. Limited to 250."
+      }
+    },
+    "com.stackit.alb#LoadBalancerTargetPoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#TargetPool"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all target pools which will be used in the Application Load Balancer. Limited to 20."
+      }
+    },
+    "com.stackit.alb#ListLoadBalancersResponseLoadBalancersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#LoadBalancer"
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#ListLoadBalancers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#ListLoadBalancersRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#ListLoadBalancersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Application Load Balancers in a project.\n\nLists all Application Load Balancers in a project.\n Includes details from creation or updates, along with their status and any error descriptions."
+      }
+    },
+    "com.stackit.alb#CreateLoadBalancerRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per ALB.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.alb#CreateLoadBalancerRequestListenersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#Listener"
+      },
+      "traits": {
+        "smithy.api#documentation": "There is a maximum listener count of 20.\n\n"
+      }
+    },
+    "com.stackit.alb#CreateLoadBalancerRequestNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#Network"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+      }
+    },
+    "com.stackit.alb#CreateLoadBalancerRequestTargetPoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#TargetPool"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all target pools which will be used in the Application Load Balancer. Limited to 20."
+      }
+    },
+    "com.stackit.alb#CreateLoadBalancerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "disableTargetSecurityGroupAssignment": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable target security group assignemt to allow targets outside of the given network. Connectivity to targets need to be ensured by the customer, including routing and Security Groups (targetSecurityGroup can be assigned). Not changeable after creation."
+          }
+        },
+        "externalAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external IP address where this Application Load Balancer is exposed. Not changeable after creation."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.alb#CreateLoadBalancerRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per ALB.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "listeners": {
+          "target": "com.stackit.alb#CreateLoadBalancerRequestListenersList",
+          "traits": {
+            "smithy.api#documentation": "There is a maximum listener count of 20.\n\n"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application Load Balancer name. Not changeable after creation."
+          }
+        },
+        "networks": {
+          "target": "com.stackit.alb#CreateLoadBalancerRequestNetworksList",
+          "traits": {
+            "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+          }
+        },
+        "options": {
+          "target": "com.stackit.alb#LoadBalancerOptions"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan configures the size of the Application Load Balancer. Currently supported plan is p10. This list can change in the future where plan ids will be removed and new plans by added. That is the reason this is not an enum."
+          }
+        },
+        "targetPools": {
+          "target": "com.stackit.alb#CreateLoadBalancerRequestTargetPoolsList",
+          "traits": {
+            "smithy.api#documentation": "List of all target pools which will be used in the Application Load Balancer. Limited to 20."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#CreateLoadBalancer": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#CreateLoadBalancerRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#LoadBalancer"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        },
+        {
+          "target": "com.stackit.alb#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create an Application Load Balancer in a project\n\nCreates an Application Load Balancer.\n The default load balancing algorithm is Maglev, and selecting a different algorithm is currently not supported."
+      }
+    },
+    "com.stackit.alb#GetLoadBalancerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#GetLoadBalancer": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#GetLoadBalancerRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#LoadBalancer"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        },
+        {
+          "target": "com.stackit.alb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers/{name}",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a single Application Load Balancer in a project.\n\nRetrieves details of a specific Application Load Balancer in a project.\n Includes creation and update information, current status, and any error descriptions."
+      }
+    },
+    "com.stackit.alb#UpdateLoadBalancerRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per ALB.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.alb#UpdateLoadBalancerRequestListenersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#Listener"
+      },
+      "traits": {
+        "smithy.api#documentation": "There is a maximum listener count of 20.\n\n"
+      }
+    },
+    "com.stackit.alb#UpdateLoadBalancerRequestNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#Network"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+      }
+    },
+    "com.stackit.alb#UpdateLoadBalancerRequestTargetPoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#TargetPool"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all target pools which will be used in the Application Load Balancer. Limited to 20."
+      }
+    },
+    "com.stackit.alb#UpdateLoadBalancerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "disableTargetSecurityGroupAssignment": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable target security group assignemt to allow targets outside of the given network. Connectivity to targets need to be ensured by the customer, including routing and Security Groups (targetSecurityGroup can be assigned). Not changeable after creation."
+          }
+        },
+        "externalAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external IP address where this Application Load Balancer is exposed. Not changeable after creation."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.alb#UpdateLoadBalancerRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per ALB.\n\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "listeners": {
+          "target": "com.stackit.alb#UpdateLoadBalancerRequestListenersList",
+          "traits": {
+            "smithy.api#documentation": "There is a maximum listener count of 20.\n\n"
+          }
+        },
+        "networks": {
+          "target": "com.stackit.alb#UpdateLoadBalancerRequestNetworksList",
+          "traits": {
+            "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+          }
+        },
+        "options": {
+          "target": "com.stackit.alb#LoadBalancerOptions"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan configures the size of the Application Load Balancer. Currently supported plan is p10. This list can change in the future where plan ids will be removed and new plans by added. That is the reason this is not an enum."
+          }
+        },
+        "targetPools": {
+          "target": "com.stackit.alb#UpdateLoadBalancerRequestTargetPoolsList",
+          "traits": {
+            "smithy.api#documentation": "List of all target pools which will be used in the Application Load Balancer. Limited to 20."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application Load Balancer resource version.\nMust be empty or unset for creating Application Load Balancers, non-empty for updating. Semantics:\nWhile retrieving, this is the current version of this Application Load Balancer resource that changes during updates. On updates this field specified the Application Load Balancer version you calculated your update for instead of the future version to enable concurrency safe updates. Update calls will then report the new version in their result as you would see with a Application Load Balancer retrieval call later. There exist no total order of the version, so you can only compare it for equality, but not for less/greater than another version. Since the creation of Application Load Balancer is always intended to create the first version of it, there should be no existing version. That's why this field must by empty of not present in that case."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#UpdateLoadBalancer": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#UpdateLoadBalancerRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#LoadBalancer"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        },
+        {
+          "target": "com.stackit.alb#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers/{name}",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update a load balancer in a project.\n\nUpdates an existing Application Load Balancer by modifying its listeners and target pools.\n Ensure the resource version is current to maintain concurrency safety.\n The default load balancing algorithm is Maglev, and selecting a different algorithm is currently not supported."
+      }
+    },
+    "com.stackit.alb#DeleteLoadBalancerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#DeleteLoadBalancerResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.alb#DeleteLoadBalancer": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#DeleteLoadBalancerRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#DeleteLoadBalancerResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers/{name}",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a given load balancer in a project.\n\nDeletes the specified Application Load Balancer."
+      }
+    },
+    "com.stackit.alb#UpdateTargetPoolRequestTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#Target"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all targets which will be used in the pool. Limited to 250."
+      }
+    },
+    "com.stackit.alb#UpdateTargetPoolRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "targetPoolName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "activeHealthCheck": {
+          "target": "com.stackit.alb#ActiveHealthCheck"
+        },
+        "targetPort": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number identifying the port where each target listens for traffic."
+          }
+        },
+        "targets": {
+          "target": "com.stackit.alb#UpdateTargetPoolRequestTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of all targets which will be used in the pool. Limited to 250."
+          }
+        },
+        "tlsConfig": {
+          "target": "com.stackit.alb#TlsConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#UpdateTargetPool": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#UpdateTargetPoolRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#TargetPool"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers/{name}/target-pools/{targetPoolName}",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update a single target pool of a load balancer in a project.\n\nReplaces the content of a specific target pool in the Application Load Balancer (useful for adding or removing target servers).\n Only updates the specified target pool, leaving others unchanged.\n Cannot be used to create or rename target pools."
+      }
+    },
+    "com.stackit.alb#GetQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#GetQuotaResponse": {
+      "type": "structure",
+      "members": {
+        "maxCredentials": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of observability credentials that can be stored in this project."
+          }
+        },
+        "maxLoadBalancers": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of load balancing servers in this project."
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project identifier"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region"
+          }
+        },
+        "usedCredentials": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of observability credentials that are currently existing in this project."
+          }
+        },
+        "usedLoadBalancers": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of load balancing servers that are currently existing in this project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#GetQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#GetQuotaRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#GetQuotaResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/quota",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get the quota of Application Load Balancers in a project.\n\nRetrieves the configured Application Load Balancer quota for the project. Limit can be changed via service request."
+      }
+    },
+    "com.stackit.alb#ListPlansRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.alb#ListPlansResponse": {
+      "type": "structure",
+      "members": {
+        "validPlans": {
+          "target": "com.stackit.alb#ListPlansResponseValidPlansList",
+          "traits": {
+            "smithy.api#documentation": "List of available service plans."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#PlanDetails": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description"
+          }
+        },
+        "flavorName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flavor Name"
+          }
+        },
+        "maxConnections": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of concurrent connections per Application Load Balancer VM instance."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan Name"
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan Identifier"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region this Plan is available in"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.alb#ListPlansResponseValidPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.alb#PlanDetails"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of available service plans."
+      }
+    },
+    "com.stackit.alb#ListPlans": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.alb#ListPlansRequest"
+      },
+      "output": {
+        "target": "com.stackit.alb#ListPlansResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.alb#BadRequest"
+        },
+        {
+          "target": "com.stackit.alb#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/regions/{region}/plans",
+          "code": 200,
+          "baseUrl": "https://alb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List available service plans.\n\nLists the configured service plans for a project."
+      }
+    },
+    "com.stackit.alb#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.alb#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.alb#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.alb#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.alb#Alb": {
+      "type": "service",
+      "version": "2.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.alb#ListCredentials"
+        },
+        {
+          "target": "com.stackit.alb#CreateCredentials"
+        },
+        {
+          "target": "com.stackit.alb#GetCredentials"
+        },
+        {
+          "target": "com.stackit.alb#UpdateCredentials"
+        },
+        {
+          "target": "com.stackit.alb#DeleteCredentials"
+        },
+        {
+          "target": "com.stackit.alb#ListLoadBalancers"
+        },
+        {
+          "target": "com.stackit.alb#CreateLoadBalancer"
+        },
+        {
+          "target": "com.stackit.alb#GetLoadBalancer"
+        },
+        {
+          "target": "com.stackit.alb#UpdateLoadBalancer"
+        },
+        {
+          "target": "com.stackit.alb#DeleteLoadBalancer"
+        },
+        {
+          "target": "com.stackit.alb#UpdateTargetPool"
+        },
+        {
+          "target": "com.stackit.alb#GetQuota"
+        },
+        {
+          "target": "com.stackit.alb#ListPlans"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Application Load Balancer API",
+        "smithy.api#documentation": "This API offers an interface to provision and manage Application Load Balancers in your STACKIT project.This solution offers modern L7 load balancing. Current features include TLS, path and prefix based routing aswell as routing based on headers, query parameters and keeping connections persistent with cookies and web sockets.\n\nFor each Application Load Balancer provided, two VMs are deployed in your STACKIT project and are subject to fees."
+      }
+    }
+  }
+}

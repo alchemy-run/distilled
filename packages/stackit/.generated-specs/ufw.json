@@ -1,0 +1,1257 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.ufw#ListFolderContainersRequest": {
+      "type": "structure",
+      "members": {
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal folder UUID"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of items to return in the response. If maximum is exceeded, maximum is used."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "A pagination cursor that represents a position in the dataset. If given, results will be returned from the item after the cursor. If not given, results will be returned from the beginning."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ufw#ListContainersResponse": {
+      "type": "structure",
+      "members": {
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "items": {
+          "target": "com.stackit.ufw#ListContainersResponseItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ContainerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ListContainersResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ufw#ContainerResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ListFolderContainers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ufw#ListFolderContainersRequest"
+      },
+      "output": {
+        "target": "com.stackit.ufw#ListContainersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ufw#BadRequest"
+        },
+        {
+          "target": "com.stackit.ufw#Forbidden"
+        },
+        {
+          "target": "com.stackit.ufw#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/folders/{folderId}/children",
+          "code": 200,
+          "baseUrl": "https://ufw.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get containers from a folder\n\nReturns a list of containers for a specific folder"
+      }
+    },
+    "com.stackit.ufw#ListOrganizationContainersRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal organization UUID"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of items to return in the response. If maximum is exceeded, maximum is used."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "A pagination cursor that represents a position in the dataset. If given, results will be returned from the item after the cursor. If not given, results will be returned from the beginning."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ufw#ListOrganizationContainers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ufw#ListOrganizationContainersRequest"
+      },
+      "output": {
+        "target": "com.stackit.ufw#ListContainersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ufw#BadRequest"
+        },
+        {
+          "target": "com.stackit.ufw#Forbidden"
+        },
+        {
+          "target": "com.stackit.ufw#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/organizations/{organizationId}/children",
+          "code": 200,
+          "baseUrl": "https://ufw.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get containers from an organization\n\nReturns a list of containers for a specific organization"
+      }
+    },
+    "com.stackit.ufw#ListRulesRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ListRulesRequestDirection": {
+      "type": "enum",
+      "members": {
+        "INGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ingress"
+          }
+        },
+        "EGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egress"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ListRulesRequestSortOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ListRulesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.ufw#ListRulesRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "securityGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "securityGroupId",
+            "smithy.api#documentation": "The UUID of the group."
+          }
+        },
+        "product": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "product",
+            "smithy.api#documentation": "The product service (e.g., Load Balancer, Redis)."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "instanceId",
+            "smithy.api#documentation": "The ID of the source, similar to a project ID but for the product service instance."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "The type of the rule (e.g., \"ACL\", \"PublicIP\", \"SecurityRule\")."
+          }
+        },
+        "sourceIP": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "sourceIP",
+            "smithy.api#documentation": "The IP for the rule."
+          }
+        },
+        "portRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "portRange",
+            "smithy.api#documentation": "The port range for the rule."
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "protocol",
+            "smithy.api#documentation": "The protocol for the rule (e.g., \"tcp\", \"udp\")."
+          }
+        },
+        "direction": {
+          "target": "com.stackit.ufw#ListRulesRequestDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "The direction of the rule (e.g., \"ingress\", \"egress\")."
+          }
+        },
+        "etherType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "etherType",
+            "smithy.api#documentation": "The ether type for the rule."
+          }
+        },
+        "sortBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "sortBy",
+            "smithy.api#documentation": "The field to sort the response by."
+          }
+        },
+        "sortOrder": {
+          "target": "com.stackit.ufw#ListRulesRequestSortOrder",
+          "traits": {
+            "smithy.api#httpQuery": "sortOrder",
+            "smithy.api#documentation": "The order to sort the response by."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of items to return in the response. If maximum is exceeded, maximum is used."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "A pagination cursor that represents a position in the dataset. If given, results will be returned from the item after the cursor. If not given, results will be returned from the beginning."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ufw#ListRulesResponse": {
+      "type": "structure",
+      "members": {
+        "errors": {
+          "target": "com.stackit.ufw#ListRulesResponseErrorsList"
+        },
+        "rules": {
+          "target": "com.stackit.ufw#ListRulesResponseRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ListRulesResponseErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#RuleResponse": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "destination": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "direction": {
+          "target": "smithy.api#String"
+        },
+        "errorMessage": {
+          "target": "smithy.api#String"
+        },
+        "etherType": {
+          "target": "smithy.api#String"
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "instanceName": {
+          "target": "smithy.api#String"
+        },
+        "ipRange": {
+          "target": "smithy.api#String"
+        },
+        "offset": {
+          "target": "smithy.api#Integer"
+        },
+        "portRange": {
+          "target": "smithy.api#String"
+        },
+        "product": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#String"
+        },
+        "refId": {
+          "target": "smithy.api#String"
+        },
+        "region": {
+          "target": "smithy.api#String"
+        },
+        "remoteSecurityGroupId": {
+          "target": "smithy.api#String"
+        },
+        "securityGroupId": {
+          "target": "smithy.api#String"
+        },
+        "sourceIP": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "stateful": {
+          "target": "smithy.api#Boolean"
+        },
+        "status": {
+          "target": "com.stackit.ufw#RuleResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "The current state of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.ufw#RuleResponseType",
+          "traits": {
+            "smithy.api#documentation": "The type of the rule (e.g., \"ACL\", \"PublicIP\", \"SecurityRule\").",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#RuleResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Active"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Error"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Pending"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Updating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Deleting"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Creating"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the resource."
+      }
+    },
+    "com.stackit.ufw#RuleResponseType": {
+      "type": "enum",
+      "members": {
+        "ACL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACL"
+          }
+        },
+        "PUBLICIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PublicIP"
+          }
+        },
+        "SECURITYRULE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SecurityRule"
+          }
+        },
+        "SECURITYGROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SecurityGroup"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the rule (e.g., \"ACL\", \"PublicIP\", \"SecurityRule\")."
+      }
+    },
+    "com.stackit.ufw#ListRulesResponseRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.ufw#RuleResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ListRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ufw#ListRulesRequest"
+      },
+      "output": {
+        "target": "com.stackit.ufw#ListRulesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ufw#BadRequest"
+        },
+        {
+          "target": "com.stackit.ufw#Forbidden"
+        },
+        {
+          "target": "com.stackit.ufw#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/rules",
+          "code": 200,
+          "baseUrl": "https://ufw.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get rules for a project\n\nReturns a list of rules for a specific project"
+      }
+    },
+    "com.stackit.ufw#CreateRuleRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#CreateRuleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.ufw#CreateRuleRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description for the rule."
+          }
+        },
+        "direction": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The direction of the traffic, typically \"ingress\" or \"egress\"."
+          }
+        },
+        "etherType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the bound of the rule."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the product, similar to a project ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position in the list."
+          }
+        },
+        "portRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Port range to which the rule applies."
+          }
+        },
+        "product": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source service (e.g., Load Balancer, Redis).",
+            "smithy.api#required": {}
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network protocol (e.g., \"TCP\", \"UDP\", \"ICMP\")."
+          }
+        },
+        "remoteSecurityGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Group."
+          }
+        },
+        "securityGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Group."
+          }
+        },
+        "sourceIP": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IP (CIDR) to which the rule applies.",
+            "smithy.api#required": {}
+          }
+        },
+        "stateful": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the security group rule is stateful or stateless (used only for security groups, default value for them will be true)."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the rule (e.g., \"ACL\", \"PublicIP\", \"SecurityRule\").",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ufw#CreateRuleResponse": {
+      "type": "structure",
+      "members": {
+        "refId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents the uuid of the created rule"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#CreateRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ufw#CreateRuleRequest"
+      },
+      "output": {
+        "target": "com.stackit.ufw#CreateRuleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ufw#BadRequest"
+        },
+        {
+          "target": "com.stackit.ufw#Forbidden"
+        },
+        {
+          "target": "com.stackit.ufw#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/rules",
+          "code": 200,
+          "baseUrl": "https://ufw.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create rule for a project\n\nReturns the created rule for a specific project"
+      }
+    },
+    "com.stackit.ufw#GetRuleRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#GetRuleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.ufw#GetRuleRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT security rule UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ufw#GetRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ufw#GetRuleRequest"
+      },
+      "output": {
+        "target": "com.stackit.ufw#RuleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ufw#BadRequest"
+        },
+        {
+          "target": "com.stackit.ufw#Forbidden"
+        },
+        {
+          "target": "com.stackit.ufw#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/rules/{ruleId}",
+          "code": 200,
+          "baseUrl": "https://ufw.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get rule by UUID for a project\n\nReturns the specific rule"
+      }
+    },
+    "com.stackit.ufw#UpdateRuleRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#UpdateRuleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.ufw#UpdateRuleRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT security rule UUID."
+          }
+        },
+        "direction": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The direction of the traffic, typically \"ingress\" or \"egress\"."
+          }
+        },
+        "etherType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the bound of the rule."
+          }
+        },
+        "portRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Port range to which the rule applies."
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network protocol (e.g., \"TCP\", \"UDP\", \"ICMP\")."
+          }
+        },
+        "securityGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Group."
+          }
+        },
+        "sourceIP": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IP (CIDR) to which the rule applies.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ufw#UpdateRuleResponse": {
+      "type": "structure",
+      "members": {
+        "refId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Represents the uuid of the updated rule"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#UpdateRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ufw#UpdateRuleRequest"
+      },
+      "output": {
+        "target": "com.stackit.ufw#UpdateRuleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ufw#BadRequest"
+        },
+        {
+          "target": "com.stackit.ufw#Forbidden"
+        },
+        {
+          "target": "com.stackit.ufw#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/rules/{ruleId}",
+          "code": 200,
+          "baseUrl": "https://ufw.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update rule by UUID for a project\n\nReturns the updated rule for a specific project"
+      }
+    },
+    "com.stackit.ufw#DeleteRuleRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#DeleteRuleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.ufw#DeleteRuleRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        },
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT security rule UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ufw#DeleteRuleResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Represents if the call was successfully made"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#DeleteRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ufw#DeleteRuleRequest"
+      },
+      "output": {
+        "target": "com.stackit.ufw#DeleteRuleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ufw#BadRequest"
+        },
+        {
+          "target": "com.stackit.ufw#Forbidden"
+        },
+        {
+          "target": "com.stackit.ufw#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/rules/{ruleId}",
+          "code": 200,
+          "baseUrl": "https://ufw.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete rule by UUID for a project\n\nReturns success"
+      }
+    },
+    "com.stackit.ufw#ListProviderOptionsRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ListProviderOptionsRequest": {
+      "type": "structure",
+      "members": {
+        "regionId": {
+          "target": "com.stackit.ufw#ListProviderOptionsRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the resource is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.ufw#ProviderOptionsResponse": {
+      "type": "structure",
+      "members": {
+        "productMeta": {
+          "target": "com.stackit.ufw#ProviderOptionsResponseProductMetaMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "products": {
+          "target": "com.stackit.ufw#ProviderOptionsResponseProductsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "types": {
+          "target": "com.stackit.ufw#ProviderOptionsResponseTypesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ProviderOptionsProductMeta": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.stackit.ufw#ProviderOptionsProductMetaActionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "types": {
+          "target": "com.stackit.ufw#ProviderOptionsProductMetaTypesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ProviderOptionsProductMetaActionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ProviderOptionsProductMetaTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ProviderOptionsResponseProductMetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.stackit.ufw#ProviderOptionsProductMeta"
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ProviderOptionsResponseProductsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ProviderOptionsResponseTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.ufw#ListProviderOptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.ufw#ListProviderOptionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.ufw#ProviderOptionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.ufw#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/regions/{regionId}/provider-options",
+          "code": 200,
+          "baseUrl": "https://ufw.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Provider Options\n\nReturns a list of supported configuration options for this region."
+      }
+    },
+    "com.stackit.ufw#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.ufw#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.ufw#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.ufw#Ufw": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.ufw#ListFolderContainers"
+        },
+        {
+          "target": "com.stackit.ufw#ListOrganizationContainers"
+        },
+        {
+          "target": "com.stackit.ufw#ListRules"
+        },
+        {
+          "target": "com.stackit.ufw#CreateRule"
+        },
+        {
+          "target": "com.stackit.ufw#GetRule"
+        },
+        {
+          "target": "com.stackit.ufw#UpdateRule"
+        },
+        {
+          "target": "com.stackit.ufw#DeleteRule"
+        },
+        {
+          "target": "com.stackit.ufw#ListProviderOptions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Unified Firewall API",
+        "smithy.api#documentation": "API for managing and controlling the STACKIT Unified Firewall."
+      }
+    }
+  }
+}
