@@ -1,0 +1,435 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.usage#ListOrganizationSandboxUsageRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox ID"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (RFC3339)"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End time (RFC3339)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.usage#ModelsUsagePeriod": {
+      "type": "structure",
+      "members": {
+        "cpu": {
+          "target": "smithy.api#Integer"
+        },
+        "diskGB": {
+          "target": "smithy.api#Integer"
+        },
+        "endAt": {
+          "target": "smithy.api#String"
+        },
+        "gpu": {
+          "target": "smithy.api#Integer"
+        },
+        "price": {
+          "target": "smithy.api#Double"
+        },
+        "ramGB": {
+          "target": "smithy.api#Integer"
+        },
+        "startAt": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.usage#ListOrganizationSandboxUsageResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.usage#ModelsUsagePeriod"
+      },
+      "traits": {}
+    },
+    "com.daytona.usage#ListOrganizationSandboxUsageResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.usage#ListOrganizationSandboxUsageResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.usage#ListOrganizationSandboxUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.usage#ListOrganizationSandboxUsageRequest"
+      },
+      "output": {
+        "target": "com.daytona.usage#ListOrganizationSandboxUsageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/{organizationId}/sandbox/{sandboxId}/usage",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox usage periods\n\nReturns individual usage records for a specific sandbox within a time range"
+      }
+    },
+    "com.daytona.usage#GetOrganizationUsageAggregatedRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (RFC3339)"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End time (RFC3339)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.usage#ModelsAggregatedUsage": {
+      "type": "structure",
+      "members": {
+        "firstStart": {
+          "target": "smithy.api#String"
+        },
+        "lastEnd": {
+          "target": "smithy.api#String"
+        },
+        "sandboxCount": {
+          "target": "smithy.api#Integer"
+        },
+        "totalCPUSeconds": {
+          "target": "smithy.api#Integer"
+        },
+        "totalDiskGBSeconds": {
+          "target": "smithy.api#Integer"
+        },
+        "totalGPUSeconds": {
+          "target": "smithy.api#Integer"
+        },
+        "totalPrice": {
+          "target": "smithy.api#Double"
+        },
+        "totalRAMGBSeconds": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.usage#GetOrganizationUsageAggregated": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.usage#GetOrganizationUsageAggregatedRequest"
+      },
+      "output": {
+        "target": "com.daytona.usage#ModelsAggregatedUsage"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/{organizationId}/usage/aggregated",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get aggregated usage\n\nReturns organization-level resource usage totals for a given time period"
+      }
+    },
+    "com.daytona.usage#ListOrganizationUsageChartRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (RFC3339)"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End time (RFC3339)"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "region",
+            "smithy.api#documentation": "Region filter"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.usage#ModelsUsageChartPoint": {
+      "type": "structure",
+      "members": {
+        "cpu": {
+          "target": "smithy.api#Integer"
+        },
+        "cpuPrice": {
+          "target": "smithy.api#Double"
+        },
+        "diskGB": {
+          "target": "smithy.api#Integer"
+        },
+        "diskPrice": {
+          "target": "smithy.api#Double"
+        },
+        "ramGB": {
+          "target": "smithy.api#Integer"
+        },
+        "ramPrice": {
+          "target": "smithy.api#Double"
+        },
+        "time": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.usage#ListOrganizationUsageChartResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.usage#ModelsUsageChartPoint"
+      },
+      "traits": {}
+    },
+    "com.daytona.usage#ListOrganizationUsageChartResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.usage#ListOrganizationUsageChartResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.usage#ListOrganizationUsageChart": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.usage#ListOrganizationUsageChartRequest"
+      },
+      "output": {
+        "target": "com.daytona.usage#ListOrganizationUsageChartResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/{organizationId}/usage/chart",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get usage chart data\n\nReturns resource usage data points for a given time period with auto-scaled resolution"
+      }
+    },
+    "com.daytona.usage#ListOrganizationUsageSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start time (RFC3339)"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End time (RFC3339)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.usage#ModelsSandboxUsage": {
+      "type": "structure",
+      "members": {
+        "firstStart": {
+          "target": "smithy.api#String"
+        },
+        "lastEnd": {
+          "target": "smithy.api#String"
+        },
+        "sandboxId": {
+          "target": "smithy.api#String"
+        },
+        "totalCPUSeconds": {
+          "target": "smithy.api#Integer"
+        },
+        "totalDiskGBSeconds": {
+          "target": "smithy.api#Integer"
+        },
+        "totalGPUSeconds": {
+          "target": "smithy.api#Integer"
+        },
+        "totalPrice": {
+          "target": "smithy.api#Double"
+        },
+        "totalRAMGBSeconds": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.usage#ListOrganizationUsageSandboxResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.usage#ModelsSandboxUsage"
+      },
+      "traits": {}
+    },
+    "com.daytona.usage#ListOrganizationUsageSandboxResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.usage#ListOrganizationUsageSandboxResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.usage#ListOrganizationUsageSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.usage#ListOrganizationUsageSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.usage#ListOrganizationUsageSandboxResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/{organizationId}/usage/sandbox",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get per-sandbox usage\n\nReturns resource usage aggregated per sandbox for a given time period"
+      }
+    },
+    "com.daytona.usage#Usage": {
+      "type": "service",
+      "version": "v0.4.0",
+      "operations": [
+        {
+          "target": "com.daytona.usage#ListOrganizationSandboxUsage"
+        },
+        {
+          "target": "com.daytona.usage#GetOrganizationUsageAggregated"
+        },
+        {
+          "target": "com.daytona.usage#ListOrganizationUsageChart"
+        },
+        {
+          "target": "com.daytona.usage#ListOrganizationUsageSandbox"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Analytics API",
+        "smithy.api#documentation": "Daytona Analytics API - Read-only telemetry and usage data. Authenticated via Daytona API keys or JWT tokens."
+      }
+    }
+  }
+}

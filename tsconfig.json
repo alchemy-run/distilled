@@ -487,6 +487,12 @@
     },
     {
       "path": "./packages/s2/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/daytona/tsconfig.json"
+    },
+    {
+      "path": "./packages/daytona/tsconfig.scripts.json"
     }
   ]
 }
