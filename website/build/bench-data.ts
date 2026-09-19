@@ -95,7 +95,6 @@ const firstOf = async <T>(
 
 export const readRuntimeBench = (
   repoRoot: string,
-  websiteRoot: string,
 ): Promise<RuntimeBench | null> =>
   firstOf<RuntimeBench>(
     [join(repoRoot, "benches", "runtime", "results", "latest.json")],
@@ -104,7 +103,6 @@ export const readRuntimeBench = (
 
 export const readBundleBench = (
   repoRoot: string,
-  websiteRoot: string,
 ): Promise<BundleBench | null> =>
   firstOf<BundleBench>(
     [join(repoRoot, "benches", "bundle", "results", "latest.json")],
