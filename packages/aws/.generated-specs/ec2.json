@@ -20590,6 +20590,9 @@
           "target": "aws.patched#InvalidParameterValue"
         },
         {
+          "target": "aws.patched#InvalidVpcIDNotFound"
+        },
+        {
           "target": "aws.patched#ClientVpnEndpointLimitExceeded"
         },
         {

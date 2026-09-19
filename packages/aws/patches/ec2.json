@@ -1576,6 +1576,7 @@
         "RequestLimitExceeded",
         "MissingParameter",
         "InvalidParameterValue",
+        "InvalidVpcID.NotFound",
         "ClientVpnEndpointLimitExceeded",
         "UnauthorizedOperation"
       ]

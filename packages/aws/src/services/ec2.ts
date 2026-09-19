@@ -80275,6 +80275,7 @@ export type CreateClientVpnEndpointError =
   | RequestLimitExceeded
   | MissingParameter
   | InvalidParameterValue
+  | InvalidVpcIDNotFound
   | ClientVpnEndpointLimitExceeded
   | UnauthorizedOperation
   | CommonErrors;
@@ -80295,6 +80296,7 @@ export const createClientVpnEndpoint: API.OperationMethod<
     RequestLimitExceeded,
     MissingParameter,
     InvalidParameterValue,
+    InvalidVpcIDNotFound,
     ClientVpnEndpointLimitExceeded,
     UnauthorizedOperation,
   ],
