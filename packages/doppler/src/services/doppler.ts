@@ -359,13 +359,13 @@ export const AuthOidcRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AuthOidcRequest>;
 
 export interface AuthOidcResponse {
-  token?: string;
-  expires_at?: string;
+  token: string | Redacted.Redacted<string>;
+  expires_at: string;
 }
 export const AuthOidcResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    token: S.optional(S.String),
-    expires_at: S.optional(S.String),
+    token: S.String.pipe(T.SensitiveValue({})),
+    expires_at: S.String,
   }),
 ).annotate({
   identifier: "AuthOidcResponse",
@@ -8436,12 +8436,12 @@ export const authOidc: API.OperationMethod<
   AuthOidcRequest,
   AuthOidcResponse,
   AuthOidcError,
-  DopplerOpContext
+  DopplerPublicOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: AuthOidcRequest,
   output: AuthOidcResponse,
   errors: [UnknownDopplerError],
-  protocol: DopplerProtocol,
+  protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
 }));
 

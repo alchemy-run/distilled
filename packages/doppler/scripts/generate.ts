@@ -21,6 +21,7 @@ const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 /** Operations served without credentials — see `DopplerPublicProtocol`. */
 const PUBLIC_OPERATIONS = new Set([
+  "AuthOidc",
   "GenerateCliAuth",
   "AuthorizeCliAuth",
   "RevokeCliAuth",
