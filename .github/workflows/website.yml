@@ -136,9 +136,13 @@ jobs:
             --jq '[.state == "open", any(.labels[]; .name == "deploy-website")] | all')"
           echo "active=$active" >> "$GITHUB_OUTPUT"
 
-      # Distilled has a single WEBSITE_CLOUDFLARE_* credential set (no
-      # PROD_/TEST_ split). STACKS_CLOUDFLARE_* is state-store-only and
-      # must not be used here. Generic CLOUDFLARE_* belongs to other tooling.
+      # STACKS_CLOUDFLARE_* is the credential set `stacks/distilled-monorepo`
+      # mints for this repository's CI. The website shares it with
+      # `stacks/distilled-submodules` on purpose: one account means one
+      # `Cloudflare.state()` store, so every stack CI deploys reads and writes
+      # its state in the same place. Generic CLOUDFLARE_* belongs to other
+      # tooling. No zone id is passed — alchemy resolves distilled.cloud by
+      # name, and the minted token carries Zone Read for that.
       - name: Deploy
         if: >-
           github.event_name != 'pull_request' ||
@@ -147,9 +151,8 @@ jobs:
         run: pnpm exec alchemy deploy --stage "$STAGE" --yes
         env:
           PULL_REQUEST: ${{ github.event.number }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.WEBSITE_CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.WEBSITE_CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_ZONE_ID: ${{ secrets.WEBSITE_CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.STACKS_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.STACKS_CLOUDFLARE_ACCOUNT_ID }}
           BUILD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GITHUB_TOKEN: ${{ steps.bot-token.outputs.token }}
 
@@ -160,9 +163,8 @@ jobs:
         working-directory: website
         run: pnpm exec alchemy deploy --stage preview-base --yes
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.WEBSITE_CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.WEBSITE_CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_ZONE_ID: ${{ secrets.WEBSITE_CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.STACKS_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.STACKS_CLOUDFLARE_ACCOUNT_ID }}
           BUILD_SHA: ${{ github.sha }}
 
   cleanup:
@@ -231,7 +233,6 @@ jobs:
         run: pnpm exec alchemy destroy --stage "$STAGE" --yes
         env:
           PULL_REQUEST: ${{ github.event.number }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.WEBSITE_CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.WEBSITE_CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_ZONE_ID: ${{ secrets.WEBSITE_CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.STACKS_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.STACKS_CLOUDFLARE_ACCOUNT_ID }}
           GITHUB_TOKEN: ${{ steps.bot-token.outputs.token }}

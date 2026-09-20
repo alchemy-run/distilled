@@ -152,10 +152,14 @@ Every PR also gets a `Website (typecheck & static build)` job in
 `vite build`. PRs that carry `deploy-website` skip the build step there —
 `website.yml` runs the same build to produce the preview.
 
-Credentials are the repo's existing `WEBSITE_CLOUDFLARE_API_TOKEN`,
-`WEBSITE_CLOUDFLARE_ACCOUNT_ID`, and `WEBSITE_CLOUDFLARE_ZONE_ID`, passed
-through as `CLOUDFLARE_*`. Do not use `STACKS_CLOUDFLARE_*` (state-store
-only) and do not overwrite the generic `CLOUDFLARE_*` secrets.
+Credentials are `STACKS_CLOUDFLARE_API_TOKEN` and
+`STACKS_CLOUDFLARE_ACCOUNT_ID`, passed through as `CLOUDFLARE_*`. They are
+minted by [`stacks/distilled-monorepo`](../stacks/distilled-monorepo) and
+shared with `stacks/distilled-submodules`: one account means one
+`Cloudflare.state()` store for every stack CI deploys. No zone id is passed —
+alchemy resolves `distilled.cloud` by name, and the token carries `Zone Read`.
+Do not overwrite the generic `CLOUDFLARE_*` secrets, which belong to other
+tooling.
 
 PR comments post as the same GitHub App as `release.yml`
 (`ALCHEMY_VERSION_BOT_ID` / `ALCHEMY_VERSION_BOT_PRIVATE_KEY`).
