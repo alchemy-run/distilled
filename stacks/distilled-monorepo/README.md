@@ -41,12 +41,17 @@ it ever reaching a terminal or a CI log.
 | `DISTILLED_REPOS_OWNER` | variable | `DISTILLED_REPOS_OWNER`, default `distilled-mirror` | submodules stack |
 
 The four sourced from the environment cannot be minted through any API, and
-GitHub never hands an existing secret's value back, so a deploy needs the
-originals in hand. One that is missing any of them stops before it touches
-anything and names all of them at once. A value you no longer hold has to be
-rotated at its source — the app's private key under Settings → Developer
-settings → GitHub Apps, the npm tokens on npmjs.com, the webhook in Discord —
-and passed in fresh.
+GitHub never hands an existing secret's value back, so the stack treats each as
+optional: a value present in the environment is written, an absent one leaves
+whatever the repository already holds and is listed under
+`secretsLeftUnchanged` in the deploy's output. Those four resources are also
+`retain`-on-removal, so skipping one deletes nothing. Deploying with none of
+them set is therefore safe, and still converges the repository, the Cloudflare
+token, the app id and the variable.
+
+A value you no longer hold has to be rotated at its source — the app's private
+key under Settings → Developer settings → GitHub Apps, the npm tokens on
+npmjs.com, the webhook in Discord — and passed in fresh.
 
 ### Why `STACKS_` and not `CLOUDFLARE_API_TOKEN`
 
@@ -83,13 +88,28 @@ credentials or changing repository settings:
 
 ```bash
 cd stacks/distilled-monorepo
-ALCHEMY_VERSION_BOT_PRIVATE_KEY="$(cat alchemy-version-bot.pem)" \
-PR_PACKAGE_TOKEN=<npm automation token for PR previews> \
 NPM_TOKEN=<npm publish token> \
 DISCORD_WEBHOOK_URL=<#releases webhook> \
+PR_PACKAGE_TOKEN=<npm automation token for PR previews> \
+ALCHEMY_VERSION_BOT_PRIVATE_KEY="$(cat alchemy-version-bot.pem)" \
 DISTILLED_REPOS_PAT=<org fine-grained PAT> \
   pnpm exec alchemy deploy --stage prod --profile <admin profile>
 ```
+
+Every line above is optional. As of this writing the repository is missing
+`ALCHEMY_VERSION_BOT_ID`, `NPM_TOKEN` and `DISCORD_WEBHOOK_URL`, and the first
+of those needs no input at all — so
+
+```bash
+cd stacks/distilled-monorepo
+NPM_TOKEN=<npm publish token> DISCORD_WEBHOOK_URL=<#releases webhook> \
+  pnpm exec alchemy deploy --stage prod --profile <admin profile>
+```
+
+brings the repository to a complete set. Without `ALCHEMY_VERSION_BOT_ID` the
+`Generate bot token` step of `release.yml`, `pr-package.yml` and `website.yml`
+fails with *the 'client-id' (or deprecated 'app-id') input must be set to a
+non-empty string*.
 
 `DISTILLED_REPOS_PAT` is optional — without it the deploying profile's own
 signed-in GitHub token is stored, which is correct when that profile was signed

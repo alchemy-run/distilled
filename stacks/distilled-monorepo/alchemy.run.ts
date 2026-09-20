@@ -1,6 +1,7 @@
 import * as Alchemy from "alchemy";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as GitHub from "alchemy/GitHub";
+import * as RemovalPolicy from "alchemy/RemovalPolicy";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -31,22 +32,25 @@ import * as Redacted from "effect/Redacted";
  *
  * NEVER deployed from CI. It mints credentials, so it needs privileges no CI
  * run should hold — see the admin-profile warning in the docs above. Deploy
- * it manually, with every externally-sourced credential in the environment:
+ * it manually, with whichever externally-sourced credentials you hold in the
+ * environment:
  *
  * ```sh
  * cd stacks/distilled-monorepo
- * ALCHEMY_VERSION_BOT_PRIVATE_KEY="$(cat alchemy-version-bot.pem)" \
- * PR_PACKAGE_TOKEN=<npm automation token for PR previews> \
  * NPM_TOKEN=<npm publish token> \
  * DISCORD_WEBHOOK_URL=<#releases webhook> \
+ * PR_PACKAGE_TOKEN=<npm automation token for PR previews> \
+ * ALCHEMY_VERSION_BOT_PRIVATE_KEY="$(cat alchemy-version-bot.pem)" \
  * DISTILLED_REPOS_PAT=<org fine-grained PAT> \
  *   pnpm exec alchemy deploy --stage prod --profile <admin profile>
  * ```
  *
- * A deploy missing any of those stops before it mutates anything and names
- * all of them at once. GitHub hands a secret's value back to nobody, so the
- * originals cannot be read out of Actions: a value you no longer hold has to
- * be rotated at its source and passed in fresh.
+ * A bare deploy with none of them set still converges everything else, and
+ * lists the secrets it left alone. That matters because GitHub hands an
+ * existing secret's value back to nobody: requiring all of them would make
+ * every deploy wait on re-fetching credentials that are already in place. A
+ * value you no longer hold has to be rotated at its source and passed in
+ * fresh.
  *
  * The org PAT is the exception, because GitHub has no endpoint for creating
  * PATs at all. It is read from `DISTILLED_REPOS_PAT` when set, otherwise the
@@ -84,8 +88,9 @@ const BotAppId = Config.string("ALCHEMY_VERSION_BOT_ID").pipe(
 );
 
 /**
- * The credentials no API can mint for us, each read as an option so that one
- * deploy can report every missing one instead of failing four times in a row.
+ * The credentials no API can mint for us. Each is read as an option: a value
+ * in the environment is written to Actions, an absent one leaves whatever the
+ * repository already holds untouched and is listed in the deploy's output.
  *
  *   - `ALCHEMY_VERSION_BOT_PRIVATE_KEY` — PEM of the app above. Regenerate it
  *     under Settings → Developer settings → GitHub Apps if it is lost;
@@ -104,6 +109,8 @@ const EXTERNAL_SECRETS = [
   "DISCORD_WEBHOOK_URL",
 ] as const;
 
+type ExternalSecretName = (typeof EXTERNAL_SECRETS)[number];
+
 const ExternalSecrets = Effect.forEach(EXTERNAL_SECRETS, (name) =>
   Config.redacted(name).pipe(
     Config.option,
@@ -118,25 +125,33 @@ export default Alchemy.Stack(
     state: Cloudflare.state(),
   },
   Effect.gen(function* () {
-    // Read every externally-sourced credential before the first resource, so
-    // an incomplete deploy stops with one message naming all of them rather
-    // than converging half the repository and then failing.
     const external = yield* ExternalSecrets;
-    const missing = external
-      .filter(([, value]) => Option.isNone(value))
-      .map(([name]) => name);
-    if (missing.length > 0) {
-      return yield* Effect.die(
-        new Error(
-          `Missing credentials for the distilled-monorepo stack: ${missing.join(", ")}. ` +
-            "Every Actions secret this repository's workflows read is declared here, " +
-            "and GitHub will not hand an existing value back — rotate what you no " +
-            "longer hold at its source and pass it in the environment.",
-        ),
-      );
-    }
-    const secretValue = (name: (typeof EXTERNAL_SECRETS)[number]) =>
-      Option.getOrThrow(external.find(([n]) => n === name)![1]);
+    const unchanged: string[] = [];
+
+    /**
+     * Writes one externally-sourced secret when its value is in the
+     * environment, and records it as untouched when it is not.
+     *
+     * `RemovalPolicy.retain` is what makes skipping safe: a resource that
+     * disappears from the graph is normally deleted, so without it the first
+     * deploy run without (say) `NPM_TOKEN` in the environment would delete
+     * the repository's `NPM_TOKEN`. With it, alchemy drops the state row and
+     * leaves the secret standing.
+     */
+    const externalSecret = (id: string, name: ExternalSecretName) =>
+      Effect.gen(function* () {
+        const value = external.find(([n]) => n === name)![1];
+        if (Option.isNone(value)) {
+          unchanged.push(name);
+          return;
+        }
+        yield* GitHub.Secret(id, {
+          owner: OWNER,
+          repository: NAME,
+          name,
+          value: value.value,
+        }).pipe(RemovalPolicy.retain());
+      });
 
     // `GitHub.Repository` observes the live repository before it creates
     // anything, so an existing repository is adopted and converged rather
@@ -283,38 +298,22 @@ export default Alchemy.Stack(
       value: Redacted.make(yield* BotAppId),
     });
 
-    yield* GitHub.Secret("bot-private-key", {
-      owner: OWNER,
-      repository: NAME,
-      name: "ALCHEMY_VERSION_BOT_PRIVATE_KEY",
-      value: secretValue("ALCHEMY_VERSION_BOT_PRIVATE_KEY"),
-    });
+    yield* externalSecret("bot-private-key", "ALCHEMY_VERSION_BOT_PRIVATE_KEY");
+    yield* externalSecret("pr-package-token", "PR_PACKAGE_TOKEN");
+    yield* externalSecret("npm-token", "NPM_TOKEN");
+    yield* externalSecret("discord-webhook", "DISCORD_WEBHOOK_URL");
 
-    yield* GitHub.Secret("pr-package-token", {
-      owner: OWNER,
-      repository: NAME,
-      name: "PR_PACKAGE_TOKEN",
-      value: secretValue("PR_PACKAGE_TOKEN"),
-    });
-
-    yield* GitHub.Secret("npm-token", {
-      owner: OWNER,
-      repository: NAME,
-      name: "NPM_TOKEN",
-      value: secretValue("NPM_TOKEN"),
-    });
-
-    yield* GitHub.Secret("discord-webhook", {
-      owner: OWNER,
-      repository: NAME,
-      name: "DISCORD_WEBHOOK_URL",
-      value: secretValue("DISCORD_WEBHOOK_URL"),
-    });
+    if (unchanged.length > 0) {
+      yield* Effect.logWarning(
+        `Left these Actions secrets as the repository already had them, because no value was in the environment: ${unchanged.join(", ")}`,
+      );
+    }
 
     return {
       repository: repository.htmlUrl,
       accountId,
       stateTokenName: stateToken.name,
+      secretsLeftUnchanged: unchanged,
     };
   }),
 );
