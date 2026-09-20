@@ -1,0 +1,271 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.webhooks#GetWebhookControllerAppPortalAccessRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.webhooks#WebhookAppPortalAccess": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The authentication token for the Svix consumer app portal",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL to the webhook app portal",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.webhooks#GetWebhookControllerAppPortalAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.webhooks#GetWebhookControllerAppPortalAccessRequest"
+      },
+      "output": {
+        "target": "com.daytona.webhooks#WebhookAppPortalAccess"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhooks/organizations/{organizationId}/app-portal-access",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Svix Consumer App Portal access for an organization"
+      }
+    },
+    "com.daytona.webhooks#GetWebhookControllerInitializationStatusRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.webhooks#WebhookInitializationStatus": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "smithy.api#required": {}
+          }
+        },
+        "svixApplicationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Svix application",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lastError": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error reason for the last initialization attempt",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "retryCount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of times the initialization has been attempted",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the webhook initialization was created",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the webhook initialization was last updated",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.webhooks#GetWebhookControllerInitializationStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.webhooks#GetWebhookControllerInitializationStatusRequest"
+      },
+      "output": {
+        "target": "com.daytona.webhooks#WebhookInitializationStatus"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/webhooks/organizations/{organizationId}/initialization-status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get webhook initialization status for an organization"
+      }
+    },
+    "com.daytona.webhooks#WebhookControllerInitializeWebhooksRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.webhooks#WebhookControllerInitializeWebhooks": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.webhooks#WebhookControllerInitializeWebhooksRequest"
+      },
+      "output": {
+        "target": "com.daytona.webhooks#WebhookInitializationStatus"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhooks/organizations/{organizationId}/initialize",
+          "code": 200
+        },
+        "smithy.api#documentation": "Initialize webhooks for an organization"
+      }
+    },
+    "com.daytona.webhooks#RefreshWebhookControllerEndpointsRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.webhooks#RefreshWebhookControllerEndpoints": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.webhooks#RefreshWebhookControllerEndpointsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/webhooks/organizations/{organizationId}/refresh-endpoints",
+          "code": 200
+        },
+        "smithy.api#documentation": "Refresh cached endpoint presence flag for an organization"
+      }
+    },
+    "com.daytona.webhooks#Webhooks": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.webhooks#GetWebhookControllerAppPortalAccess"
+        },
+        {
+          "target": "com.daytona.webhooks#GetWebhookControllerInitializationStatus"
+        },
+        {
+          "target": "com.daytona.webhooks#WebhookControllerInitializeWebhooks"
+        },
+        {
+          "target": "com.daytona.webhooks#RefreshWebhookControllerEndpoints"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

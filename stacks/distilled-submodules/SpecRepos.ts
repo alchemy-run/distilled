@@ -60,6 +60,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "coolify" },
   { package: "customerio" },
   { package: "datadog" },
+  { package: "daytona" },
   { package: "digitalocean" },
   { package: "discord" },
   { package: "docker" },
