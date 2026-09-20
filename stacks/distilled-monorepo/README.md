@@ -36,7 +36,7 @@ it ever reaching a terminal or a CI log.
 | `ALCHEMY_VERSION_BOT_ID` | secret | public app id, default `3107227` | release, PR package, website |
 | `ALCHEMY_VERSION_BOT_PRIVATE_KEY` | secret | `ALCHEMY_VERSION_BOT_PRIVATE_KEY` | release, PR package, website |
 | `PR_PACKAGE_TOKEN` | secret | `PR_PACKAGE_TOKEN` | PR package |
-| `NPM_TOKEN` | secret | `NPM_TOKEN` | release |
+| `NPM_TOKEN` | secret | `NPM_TOKEN` | release (dist-tags only) |
 | `DISCORD_WEBHOOK_URL` | secret | `DISCORD_WEBHOOK_URL` | release |
 | `DISTILLED_REPOS_OWNER` | variable | `DISTILLED_REPOS_OWNER`, default `distilled-mirror` | submodules stack |
 
@@ -50,8 +50,22 @@ them set is therefore safe, and still converges the repository, the Cloudflare
 token, the app id and the variable.
 
 A value you no longer hold has to be rotated at its source — the app's private
-key under Settings → Developer settings → GitHub Apps, the npm tokens on
+key under Settings → Developer settings → GitHub Apps, the npm token on
 npmjs.com, the webhook in Discord — and passed in fresh.
+
+### What the two publish tokens actually do
+
+Neither is an npm publishing credential.
+
+`NPM_TOKEN` moves dist-tags. Publishing is npm trusted publishing:
+`release.yml` grants `id-token: write`, and `scripts/release/publish.sh` runs
+`pnpm publish` with no credential at all. OIDC does not cover `pnpm dist-tag
+add`, so the token is read only by that path — a `--force-latest` run without
+it still publishes, then warns that the tag has to be moved by hand.
+
+`PR_PACKAGE_TOKEN` is the bearer token the `alchemy-run/actions` `pr-package`
+action uploads preview tarballs to **pkg.ing** with — not npm, and not
+available over OIDC either, since `pr-package.yml` grants no `id-token: write`.
 
 ### Why `STACKS_` and not `CLOUDFLARE_API_TOKEN`
 
@@ -88,28 +102,33 @@ credentials or changing repository settings:
 
 ```bash
 cd stacks/distilled-monorepo
-NPM_TOKEN=<npm publish token> \
 DISCORD_WEBHOOK_URL=<#releases webhook> \
-PR_PACKAGE_TOKEN=<npm automation token for PR previews> \
+NPM_TOKEN=<npm token, dist-tag moves only> \
+PR_PACKAGE_TOKEN=<pkg.ing upload token> \
 ALCHEMY_VERSION_BOT_PRIVATE_KEY="$(cat alchemy-version-bot.pem)" \
 DISTILLED_REPOS_PAT=<org fine-grained PAT> \
   pnpm exec alchemy deploy --stage prod --profile <admin profile>
 ```
 
-Every line above is optional. As of this writing the repository is missing
-`ALCHEMY_VERSION_BOT_ID`, `NPM_TOKEN` and `DISCORD_WEBHOOK_URL`, and the first
-of those needs no input at all — so
+Every line above is optional, so a bare deploy is safe and is enough to fix a
+missing `ALCHEMY_VERSION_BOT_ID` — that one is a public app id with a default
+in `alchemy.run.ts`, not something you supply. Without it the `Generate bot
+token` step of `release.yml`, `pr-package.yml` and `website.yml` fails with
+*the 'client-id' (or deprecated 'app-id') input must be set to a non-empty
+string*.
+
+### Where the values go
+
+Either exported in the shell, as above, or written to a **gitignored `.env` in
+this directory**, which the alchemy CLI loads by default when the command runs
+here (`--env-file <path>` selects another file). The process environment wins
+over `.env` unless `--env-file` is given, in which case the file wins.
 
 ```bash
-cd stacks/distilled-monorepo
-NPM_TOKEN=<npm publish token> DISCORD_WEBHOOK_URL=<#releases webhook> \
-  pnpm exec alchemy deploy --stage prod --profile <admin profile>
+# stacks/distilled-monorepo/.env
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/…
+NPM_TOKEN=npm_…
 ```
-
-brings the repository to a complete set. Without `ALCHEMY_VERSION_BOT_ID` the
-`Generate bot token` step of `release.yml`, `pr-package.yml` and `website.yml`
-fails with *the 'client-id' (or deprecated 'app-id') input must be set to a
-non-empty string*.
 
 `DISTILLED_REPOS_PAT` is optional — without it the deploying profile's own
 signed-in GitHub token is stored, which is correct when that profile was signed

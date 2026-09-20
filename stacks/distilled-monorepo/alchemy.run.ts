@@ -23,8 +23,10 @@ import * as Redacted from "effect/Redacted";
  *   - **The credentials.** Every Actions secret and variable the workflows in
  *     `.github/workflows` read. The Cloudflare token is minted as code and
  *     written straight into this repo's Actions secrets; the values no API
- *     can mint (an npm token, a GitHub App private key, a Discord webhook)
- *     are supplied as environment variables at deploy time.
+ *     can mint (a GitHub App private key, an upload token, a Discord webhook)
+ *     come from the environment at deploy time — either exported in the
+ *     shell, or in a gitignored `.env` beside this file, which the CLI reads
+ *     by default (`--env-file` points at another).
  *
  * What that buys: `.github/workflows/deploy-submodules-stack.yml` can deploy
  * `stacks/distilled-submodules` on every commit to `main`, and
@@ -37,9 +39,9 @@ import * as Redacted from "effect/Redacted";
  *
  * ```sh
  * cd stacks/distilled-monorepo
- * NPM_TOKEN=<npm publish token> \
  * DISCORD_WEBHOOK_URL=<#releases webhook> \
- * PR_PACKAGE_TOKEN=<npm automation token for PR previews> \
+ * NPM_TOKEN=<npm token, dist-tag moves only> \
+ * PR_PACKAGE_TOKEN=<pkg.ing upload token> \
  * ALCHEMY_VERSION_BOT_PRIVATE_KEY="$(cat alchemy-version-bot.pem)" \
  * DISTILLED_REPOS_PAT=<org fine-grained PAT> \
  *   pnpm exec alchemy deploy --stage prod --profile <admin profile>
@@ -95,10 +97,15 @@ const BotAppId = Config.string("ALCHEMY_VERSION_BOT_ID").pipe(
  *   - `ALCHEMY_VERSION_BOT_PRIVATE_KEY` — PEM of the app above. Regenerate it
  *     under Settings → Developer settings → GitHub Apps if it is lost;
  *     generating a new key does not invalidate the old one until you delete it.
- *   - `PR_PACKAGE_TOKEN` — npm token `.github/workflows/pr-package.yml`
- *     publishes preview packages with.
- *   - `NPM_TOKEN` — npm token `scripts/release/publish.sh` falls back to when
- *     OIDC publishing is unavailable.
+ *   - `PR_PACKAGE_TOKEN` — bearer token the `pr-package` action uploads PR
+ *     preview tarballs to pkg.ing with. Not an npm credential, and not an
+ *     OIDC one: `pr-package.yml` grants no `id-token: write`.
+ *   - `NPM_TOKEN` — moves dist-tags only. Publishing is npm trusted
+ *     publishing: `release.yml` grants `id-token: write` and
+ *     `scripts/release/publish.sh` runs `pnpm publish` with no credential.
+ *     `pnpm dist-tag add` is not covered by OIDC, so a `--force-latest` run
+ *     without this token publishes and then warns that the tag needs moving
+ *     by hand.
  *   - `DISCORD_WEBHOOK_URL` — webhook `scripts/release/discord-notify.ts` posts
  *     release announcements to.
  */
