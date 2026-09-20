@@ -433,8 +433,13 @@
         "RequestLimitExceeded",
         "SlowDown",
         "NoSuchBucket",
-        "PermanentRedirect"
+        "PermanentRedirect",
+        "NoSuchVersion",
+        "MethodNotAllowed"
       ]
+    },
+    "getObjectAttributes": {
+      "errors": ["NoSuchVersion", "MethodNotAllowed"]
     },
     "headObject": {
       "errors": [
@@ -442,7 +447,8 @@
         "SlowDown",
         "ParseError",
         "NotFound",
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "MethodNotAllowed"
       ]
     },
     "getObjectAcl": {
@@ -459,7 +465,9 @@
         "SlowDown",
         "NoSuchBucket",
         "NoSuchKey",
-        "PermanentRedirect"
+        "PermanentRedirect",
+        "NoSuchVersion",
+        "MethodNotAllowed"
       ]
     },
     "deleteObjectTagging": {
@@ -467,7 +475,9 @@
         "RequestLimitExceeded",
         "SlowDown",
         "NoSuchKey",
-        "PermanentRedirect"
+        "PermanentRedirect",
+        "NoSuchVersion",
+        "MethodNotAllowed"
       ]
     },
     "putObjectTagging": {
@@ -475,24 +485,50 @@
         "RequestLimitExceeded",
         "SlowDown",
         "NoSuchKey",
-        "PermanentRedirect"
+        "PermanentRedirect",
+        "NoSuchVersion",
+        "MethodNotAllowed"
       ]
     },
     "getObjectRetention": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "InvalidRequest"]
+      "errors": [
+        "RequestLimitExceeded",
+        "SlowDown",
+        "InvalidRequest",
+        "NoSuchKey",
+        "NoSuchVersion",
+        "MethodNotAllowed"
+      ]
     },
     "putObjectRetention": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "InvalidRequest"]
+      "errors": [
+        "RequestLimitExceeded",
+        "SlowDown",
+        "InvalidRequest",
+        "NoSuchKey",
+        "NoSuchVersion",
+        "MethodNotAllowed"
+      ]
     },
     "getObjectLegalHold": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "InvalidRequest"]
+      "errors": [
+        "RequestLimitExceeded",
+        "SlowDown",
+        "InvalidRequest",
+        "NoSuchKey",
+        "NoSuchVersion",
+        "MethodNotAllowed"
+      ]
     },
     "putObjectLegalHold": {
       "errors": [
         "RequestLimitExceeded",
         "SlowDown",
         "MalformedXML",
-        "InvalidRequest"
+        "InvalidRequest",
+        "NoSuchKey",
+        "NoSuchVersion",
+        "MethodNotAllowed"
       ]
     },
     "listMultipartUploads": {
@@ -524,7 +560,10 @@
         "RequestLimitExceeded",
         "SlowDown",
         "NoSuchBucket",
-        "PermanentRedirect"
+        "PermanentRedirect",
+        "NoSuchKey",
+        "NoSuchVersion",
+        "InvalidRequest"
       ]
     },
     "uploadPart": {
@@ -532,11 +571,20 @@
         "RequestLimitExceeded",
         "SlowDown",
         "NoSuchBucket",
-        "PermanentRedirect"
+        "PermanentRedirect",
+        "NoSuchUpload"
       ]
     },
+    "completeMultipartUpload": {
+      "errors": ["NoSuchUpload"]
+    },
     "listParts": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
+      "errors": [
+        "RequestLimitExceeded",
+        "SlowDown",
+        "NoSuchBucket",
+        "NoSuchUpload"
+      ]
     },
     "abortMultipartUpload": {
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "NotFound"]
@@ -555,11 +603,21 @@
         "SlowDown",
         "NoSuchKey",
         "PermanentRedirect",
-        "InvalidObjectState"
+        "InvalidObjectState",
+        "NoSuchVersion",
+        "MethodNotAllowed"
       ]
     },
     "uploadPartCopy": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket"]
+      "errors": [
+        "RequestLimitExceeded",
+        "SlowDown",
+        "NoSuchBucket",
+        "NoSuchUpload",
+        "NoSuchVersion",
+        "NoSuchKey",
+        "InvalidRequest"
+      ]
     },
     "getBucketPolicyStatus": {
       "errors": [
@@ -604,6 +662,26 @@
     }
   },
   "errors": {
+    "NoSuchVersion": {
+      "Message": { "type": "string", "optional": true },
+      "Key": { "type": "string", "optional": true },
+      "VersionId": { "type": "string", "optional": true }
+    },
+    "MethodNotAllowed": {
+      "Message": { "type": "string", "optional": true },
+      "Method": { "type": "string", "optional": true },
+      "ResourceType": { "type": "string", "optional": true },
+      "DeleteMarker": {
+        "type": "boolean",
+        "optional": true,
+        "httpHeader": "x-amz-delete-marker"
+      },
+      "LastModified": {
+        "type": "string",
+        "optional": true,
+        "httpHeader": "last-modified"
+      }
+    },
     "NoSuchBucket": {
       "Message": {
         "type": "string",

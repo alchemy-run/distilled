@@ -3150,6 +3150,16 @@ export class MalformedXML
   extends /*@__PURE__*/ S.TaggedError<MalformedXML>()("MalformedXML", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
   }).pipe(C.withBadRequestError) {}
+export class MethodNotAllowed
+  extends /*@__PURE__*/ S.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    Method: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    DeleteMarker: S.optional(S.Boolean).pipe(
+      T.HttpHeader("x-amz-delete-marker"),
+    ),
+    LastModified: S.optional(S.String).pipe(T.HttpHeader("last-modified")),
+  }) {}
 export class NoSuchAnnotation
   extends /*@__PURE__*/ S.TaggedError<NoSuchAnnotation>()(
     "NoSuchAnnotation",
@@ -3206,6 +3216,12 @@ export class NoSuchUpload
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
+export class NoSuchVersion
+  extends /*@__PURE__*/ S.TaggedError<NoSuchVersion>()("NoSuchVersion", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    Key: S.optional(S.String),
+    VersionId: S.optional(S.String),
+  }) {}
 export class NoSuchWebsiteConfiguration
   extends /*@__PURE__*/ S.TaggedError<NoSuchWebsiteConfiguration>()(
     "NoSuchWebsiteConfiguration",
@@ -13130,7 +13146,7 @@ export const abortMultipartUpload: API.OperationMethod<
   operationName: "AbortMultipartUpload",
 }));
 
-export type CompleteMultipartUploadError = CommonErrors;
+export type CompleteMultipartUploadError = NoSuchUpload | CommonErrors;
 /**
  * Completes a multipart upload by assembling previously uploaded parts.
  *
@@ -13252,7 +13268,7 @@ export const completeMultipartUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CompleteMultipartUploadRequest,
   output: CompleteMultipartUploadOutput,
-  errors: [],
+  errors: [NoSuchUpload],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMultipartUpload",
@@ -13264,6 +13280,9 @@ export type CopyObjectError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | NoSuchKey
+  | NoSuchVersion
+  | InvalidRequest
   | CommonErrors;
 /**
  * Creates a copy of an object that is already stored in Amazon S3.
@@ -13440,6 +13459,9 @@ export const copyObject: API.OperationMethod<
     SlowDown,
     NoSuchBucket,
     PermanentRedirect,
+    NoSuchKey,
+    NoSuchVersion,
+    InvalidRequest,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -15097,6 +15119,8 @@ export type DeleteObjectTaggingError =
   | SlowDown
   | NoSuchKey
   | PermanentRedirect
+  | NoSuchVersion
+  | MethodNotAllowed
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -15127,7 +15151,14 @@ export const deleteObjectTagging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteObjectTaggingRequest,
   output: DeleteObjectTaggingOutput,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchKey, PermanentRedirect],
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchKey,
+    PermanentRedirect,
+    NoSuchVersion,
+    MethodNotAllowed,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectTagging",
@@ -16368,6 +16399,8 @@ export type GetObjectError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | NoSuchVersion
+  | MethodNotAllowed
   | CommonErrors;
 /**
  * Retrieves an object from Amazon S3.
@@ -16516,6 +16549,8 @@ export const getObject: API.OperationMethod<
     SlowDown,
     NoSuchBucket,
     PermanentRedirect,
+    NoSuchVersion,
+    MethodNotAllowed,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -16617,7 +16652,11 @@ export const getObjectAnnotation: API.OperationMethod<
   operationName: "GetObjectAnnotation",
 }));
 
-export type GetObjectAttributesError = NoSuchKey | CommonErrors;
+export type GetObjectAttributesError =
+  | NoSuchKey
+  | NoSuchVersion
+  | MethodNotAllowed
+  | CommonErrors;
 /**
  * Retrieves all of the metadata from an object without returning the object itself. This operation is
  * useful if you're interested only in an object's metadata.
@@ -16766,7 +16805,7 @@ export const getObjectAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetObjectAttributesRequest,
   output: GetObjectAttributesOutput,
-  errors: [NoSuchKey],
+  errors: [NoSuchKey, NoSuchVersion, MethodNotAllowed],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAttributes",
@@ -16776,6 +16815,9 @@ export type GetObjectLegalHoldError =
   | RequestLimitExceeded
   | SlowDown
   | InvalidRequest
+  | NoSuchKey
+  | NoSuchVersion
+  | MethodNotAllowed
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -16798,7 +16840,14 @@ export const getObjectLegalHold: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetObjectLegalHoldRequest,
   output: GetObjectLegalHoldOutput,
-  errors: [RequestLimitExceeded, SlowDown, InvalidRequest],
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    InvalidRequest,
+    NoSuchKey,
+    NoSuchVersion,
+    MethodNotAllowed,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectLegalHold",
@@ -16848,6 +16897,9 @@ export type GetObjectRetentionError =
   | RequestLimitExceeded
   | SlowDown
   | InvalidRequest
+  | NoSuchKey
+  | NoSuchVersion
+  | MethodNotAllowed
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -16870,7 +16922,14 @@ export const getObjectRetention: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetObjectRetentionRequest,
   output: GetObjectRetentionOutput,
-  errors: [RequestLimitExceeded, SlowDown, InvalidRequest],
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    InvalidRequest,
+    NoSuchKey,
+    NoSuchVersion,
+    MethodNotAllowed,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectRetention",
@@ -16882,6 +16941,8 @@ export type GetObjectTaggingError =
   | NoSuchBucket
   | NoSuchKey
   | PermanentRedirect
+  | NoSuchVersion
+  | MethodNotAllowed
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -16923,6 +16984,8 @@ export const getObjectTagging: API.OperationMethod<
     NoSuchBucket,
     NoSuchKey,
     PermanentRedirect,
+    NoSuchVersion,
+    MethodNotAllowed,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -17113,6 +17176,7 @@ export type HeadObjectError =
   | SlowDown
   | ParseError
   | NoSuchBucket
+  | MethodNotAllowed
   | CommonErrors;
 /**
  * The `HEAD` operation retrieves metadata from an object without returning the object
@@ -17230,7 +17294,14 @@ export const headObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: HeadObjectRequest,
   output: HeadObjectOutput,
-  errors: [NotFound, RequestLimitExceeded, SlowDown, ParseError, NoSuchBucket],
+  errors: [
+    NotFound,
+    RequestLimitExceeded,
+    SlowDown,
+    ParseError,
+    NoSuchBucket,
+    MethodNotAllowed,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "HeadObject",
@@ -17900,6 +17971,7 @@ export type ListPartsError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | NoSuchUpload
   | CommonErrors;
 /**
  * Lists the parts that have been uploaded for a specific multipart upload.
@@ -17972,7 +18044,7 @@ export const listParts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPartsRequest,
   output: ListPartsOutput,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchUpload],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListParts",
@@ -19855,6 +19927,9 @@ export type PutObjectLegalHoldError =
   | SlowDown
   | MalformedXML
   | InvalidRequest
+  | NoSuchKey
+  | NoSuchVersion
+  | MethodNotAllowed
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -19873,7 +19948,15 @@ export const putObjectLegalHold: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutObjectLegalHoldRequest,
   output: PutObjectLegalHoldOutput,
-  errors: [RequestLimitExceeded, SlowDown, MalformedXML, InvalidRequest],
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    MalformedXML,
+    InvalidRequest,
+    NoSuchKey,
+    NoSuchVersion,
+    MethodNotAllowed,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectLegalHold",
@@ -19929,6 +20012,9 @@ export type PutObjectRetentionError =
   | RequestLimitExceeded
   | SlowDown
   | InvalidRequest
+  | NoSuchKey
+  | NoSuchVersion
+  | MethodNotAllowed
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -19950,7 +20036,14 @@ export const putObjectRetention: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutObjectRetentionRequest,
   output: PutObjectRetentionOutput,
-  errors: [RequestLimitExceeded, SlowDown, InvalidRequest],
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    InvalidRequest,
+    NoSuchKey,
+    NoSuchVersion,
+    MethodNotAllowed,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectRetention",
@@ -19961,6 +20054,8 @@ export type PutObjectTaggingError =
   | SlowDown
   | NoSuchKey
   | PermanentRedirect
+  | NoSuchVersion
+  | MethodNotAllowed
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -20010,7 +20105,14 @@ export const putObjectTagging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutObjectTaggingRequest,
   output: PutObjectTaggingOutput,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchKey, PermanentRedirect],
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchKey,
+    PermanentRedirect,
+    NoSuchVersion,
+    MethodNotAllowed,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectTagging",
@@ -20133,6 +20235,8 @@ export type RestoreObjectError =
   | NoSuchKey
   | PermanentRedirect
   | InvalidObjectState
+  | NoSuchVersion
+  | MethodNotAllowed
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -20289,6 +20393,8 @@ export const restoreObject: API.OperationMethod<
     NoSuchKey,
     PermanentRedirect,
     InvalidObjectState,
+    NoSuchVersion,
+    MethodNotAllowed,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -20678,6 +20784,7 @@ export type UploadPartError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | NoSuchUpload
   | CommonErrors;
 /**
  * Uploads a part in a multipart upload.
@@ -20827,7 +20934,13 @@ export const uploadPart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UploadPartRequest,
   output: UploadPartOutput,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    PermanentRedirect,
+    NoSuchUpload,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadPart",
@@ -20837,6 +20950,10 @@ export type UploadPartCopyError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | NoSuchUpload
+  | NoSuchVersion
+  | NoSuchKey
+  | InvalidRequest
   | CommonErrors;
 /**
  * Uploads a part by copying data from an existing object as data source. To specify the data source,
@@ -21007,7 +21124,15 @@ export const uploadPartCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UploadPartCopyRequest,
   output: UploadPartCopyOutput,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    NoSuchUpload,
+    NoSuchVersion,
+    NoSuchKey,
+    InvalidRequest,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadPartCopy",
