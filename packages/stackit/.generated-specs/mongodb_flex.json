@@ -1,0 +1,3339 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.mongodb_flex#ListFlavorsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListFlavorsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ListFlavorsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#ListFlavorsResponse": {
+      "type": "structure",
+      "members": {
+        "flavors": {
+          "target": "com.stackit.mongodb_flex#ListFlavorsResponseFlavorsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#InstanceFlavor": {
+      "type": "structure",
+      "members": {
+        "categories": {
+          "target": "com.stackit.mongodb_flex#InstanceFlavorCategoriesList"
+        },
+        "cpu": {
+          "target": "smithy.api#Integer"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "memory": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#InstanceFlavorCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListFlavorsResponseFlavorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#InstanceFlavor"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListFlavors": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ListFlavorsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#ListFlavorsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/flavors",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Flavors\n\nreturns all possible flavors"
+      }
+    },
+    "com.stackit.mongodb_flex#ListInstancesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ListInstancesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "tag",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance tag"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#ListInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer"
+        },
+        "items": {
+          "target": "com.stackit.mongodb_flex#ListInstancesResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#InstanceListInstance": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "com.stackit.mongodb_flex#InstanceListInstanceStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the instance."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#InstanceListInstanceStatus": {
+      "type": "enum",
+      "members": {
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "READY"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROCESSING"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the instance."
+      }
+    },
+    "com.stackit.mongodb_flex#ListInstancesResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#InstanceListInstance"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ListInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#ListInstancesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Instances\n\nlist all instances for a projectID"
+      }
+    },
+    "com.stackit.mongodb_flex#CreateInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ACL": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.mongodb_flex#ACLItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ACLItemsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#CreateInstanceRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels field is not certain/clear"
+      }
+    },
+    "com.stackit.mongodb_flex#CreateInstanceRequestOptionsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#Storage": {
+      "type": "structure",
+      "members": {
+        "class": {
+          "target": "smithy.api#String"
+        },
+        "size": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#CreateInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "acl": {
+          "target": "com.stackit.mongodb_flex#ACL",
+          "traits": {
+            "smithy.api#documentation": "ACL is the Access Control List defining the IP ranges allowed to connect to the database",
+            "smithy.api#required": {}
+          }
+        },
+        "backupSchedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "flavorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.mongodb_flex#CreateInstanceRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels field is not certain/clear"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "options": {
+          "target": "com.stackit.mongodb_flex#CreateInstanceRequestOptionsMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "replicas": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "storage": {
+          "target": "com.stackit.mongodb_flex#Storage",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#CreateInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#CreateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#CreateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create instance\n\nCreate and deploys an instance<br/> Note that the time format for the backupSchedule is in UTC"
+      }
+    },
+    "com.stackit.mongodb_flex#GetInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#GetInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#GetInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#InstanceResponse": {
+      "type": "structure",
+      "members": {
+        "item": {
+          "target": "com.stackit.mongodb_flex#Instance"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#Instance": {
+      "type": "structure",
+      "members": {
+        "acl": {
+          "target": "com.stackit.mongodb_flex#ACL"
+        },
+        "backupSchedule": {
+          "target": "smithy.api#String"
+        },
+        "flavor": {
+          "target": "com.stackit.mongodb_flex#Flavor"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "options": {
+          "target": "com.stackit.mongodb_flex#InstanceOptionsMap"
+        },
+        "replicas": {
+          "target": "smithy.api#Integer"
+        },
+        "status": {
+          "target": "com.stackit.mongodb_flex#InstanceStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the instance."
+          }
+        },
+        "storage": {
+          "target": "com.stackit.mongodb_flex#Storage"
+        },
+        "version": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#Flavor": {
+      "type": "structure",
+      "members": {
+        "cpu": {
+          "target": "smithy.api#Integer"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "memory": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#InstanceOptionsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#InstanceStatus": {
+      "type": "enum",
+      "members": {
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "READY"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROCESSING"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the instance."
+      }
+    },
+    "com.stackit.mongodb_flex#GetInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#GetInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#InstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get instance\n\ngets information of an instance"
+      }
+    },
+    "com.stackit.mongodb_flex#UpdateInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#UpdateInstanceRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels field is not certain/clear"
+      }
+    },
+    "com.stackit.mongodb_flex#UpdateInstanceRequestOptionsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#UpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#UpdateInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "acl": {
+          "target": "com.stackit.mongodb_flex#ACL",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "backupSchedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "flavorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.mongodb_flex#UpdateInstanceRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels field is not certain/clear"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "options": {
+          "target": "com.stackit.mongodb_flex#UpdateInstanceRequestOptionsMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "replicas": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "storage": {
+          "target": "com.stackit.mongodb_flex#Storage",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#UpdateInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "item": {
+          "target": "com.stackit.mongodb_flex#Instance"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#UpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#UpdateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#UpdateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Put endpoint\n\nUpdates a deployment plan<br/> Note that the time format for the backupSchedule is in UTC"
+      }
+    },
+    "com.stackit.mongodb_flex#PartialUpdateInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#PartialUpdateInstanceRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels field is not certain/clear"
+      }
+    },
+    "com.stackit.mongodb_flex#PartialUpdateInstanceRequestOptionsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#PartialUpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#PartialUpdateInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "acl": {
+          "target": "com.stackit.mongodb_flex#ACL"
+        },
+        "backupSchedule": {
+          "target": "smithy.api#String"
+        },
+        "flavorId": {
+          "target": "smithy.api#String"
+        },
+        "labels": {
+          "target": "com.stackit.mongodb_flex#PartialUpdateInstanceRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels field is not certain/clear"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "options": {
+          "target": "com.stackit.mongodb_flex#PartialUpdateInstanceRequestOptionsMap"
+        },
+        "replicas": {
+          "target": "smithy.api#Integer"
+        },
+        "storage": {
+          "target": "com.stackit.mongodb_flex#Storage"
+        },
+        "version": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#PartialUpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#PartialUpdateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#UpdateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Patch endpoint\n\nUpdates a deployment plan<br/> Note that the time format for the backupSchedule is in UTC"
+      }
+    },
+    "com.stackit.mongodb_flex#DeleteInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#DeleteInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#DeleteInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#DeleteInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete instance\n\nremoves an instance"
+      }
+    },
+    "com.stackit.mongodb_flex#ListAdvisorSlowQueriesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListAdvisorSlowQueriesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ListAdvisorSlowQueriesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#HandlersInstancesSlowQueriesResponse": {
+      "type": "structure",
+      "members": {
+        "slowQueries": {
+          "target": "com.stackit.mongodb_flex#HandlersInstancesSlowQueriesResponseSlowQueriesList",
+          "traits": {
+            "smithy.api#documentation": "A list of documents with information about slow queries as detected by the Performance Advisor."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#SlowQuery": {
+      "type": "structure",
+      "members": {
+        "line": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The raw log line pertaining to the slow query."
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The namespace in which the slow query ran."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#HandlersInstancesSlowQueriesResponseSlowQueriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#SlowQuery"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of documents with information about slow queries as detected by the Performance Advisor."
+      }
+    },
+    "com.stackit.mongodb_flex#ListAdvisorSlowQueries": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ListAdvisorSlowQueriesRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#HandlersInstancesSlowQueriesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/advisor/slow-queries",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get slow queries\n\ngets slow queries from the Opsmanager performance advisor"
+      }
+    },
+    "com.stackit.mongodb_flex#ListSuggestedIndexesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListSuggestedIndexesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ListSuggestedIndexesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#HandlersInstancesSuggestedIndexesResponse": {
+      "type": "structure",
+      "members": {
+        "shapes": {
+          "target": "com.stackit.mongodb_flex#HandlersInstancesSuggestedIndexesResponseShapesList",
+          "traits": {
+            "smithy.api#documentation": "Documents with information about the query shapes that are served by the suggested indexes."
+          }
+        },
+        "suggestedIndexes": {
+          "target": "com.stackit.mongodb_flex#HandlersInstancesSuggestedIndexesResponseSuggestedIndexesList",
+          "traits": {
+            "smithy.api#documentation": "Documents with information about the indexes suggested by the Performance Advisor."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#Shape": {
+      "type": "structure",
+      "members": {
+        "avgMs": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Average duration in milliseconds for the queries examined that match this shape."
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of queries examined that match this shape."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique id for this shape. Exists only for the duration of the API request."
+          }
+        },
+        "inefficiencyScore": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Average number of documents read for every document returned by the query."
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The namespace in which the slow query ran."
+          }
+        },
+        "operations": {
+          "target": "com.stackit.mongodb_flex#ShapeOperationsList",
+          "traits": {
+            "smithy.api#documentation": "It represents documents with specific information and log lines for individual queries."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#MongodbatlasOperation": {
+      "type": "structure",
+      "members": {
+        "predicates": {
+          "target": "com.stackit.mongodb_flex#MongodbatlasOperationPredicatesList",
+          "traits": {
+            "smithy.api#documentation": "Documents containing the search criteria used by the query."
+          }
+        },
+        "raw": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raw log line produced by the query."
+          }
+        },
+        "stats": {
+          "target": "com.stackit.mongodb_flex#MongodbatlasStats",
+          "traits": {
+            "smithy.api#documentation": "Query statistics."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#MongodbatlasOperationPredicatesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents containing the search criteria used by the query."
+      }
+    },
+    "com.stackit.mongodb_flex#MongodbatlasStats": {
+      "type": "structure",
+      "members": {
+        "ms": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Duration in milliseconds of the query."
+          }
+        },
+        "nReturned": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of results returned by the query."
+          }
+        },
+        "nScanned": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of documents read by the query."
+          }
+        },
+        "ts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Query timestamp, in seconds since epoch."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ShapeOperationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#MongodbatlasOperation"
+      },
+      "traits": {
+        "smithy.api#documentation": "It represents documents with specific information and log lines for individual queries."
+      }
+    },
+    "com.stackit.mongodb_flex#HandlersInstancesSuggestedIndexesResponseShapesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#Shape"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents with information about the query shapes that are served by the suggested indexes."
+      }
+    },
+    "com.stackit.mongodb_flex#SuggestedIndex": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique id for this suggested index."
+          }
+        },
+        "impact": {
+          "target": "com.stackit.mongodb_flex#SuggestedIndexImpactList",
+          "traits": {
+            "smithy.api#documentation": "List of unique identifiers which correspond the query shapes in this response which pertain to this suggested index."
+          }
+        },
+        "index": {
+          "target": "com.stackit.mongodb_flex#SuggestedIndexIndexList",
+          "traits": {
+            "smithy.api#documentation": "Array of documents that specifies a key in the index and its sort order, ascending or descending."
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Namespace of the suggested index."
+          }
+        },
+        "weight": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Estimated percentage performance improvement that the suggested index would provide."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#SuggestedIndexImpactList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of unique identifiers which correspond the query shapes in this response which pertain to this suggested index."
+      }
+    },
+    "com.stackit.mongodb_flex#SuggestedIndexIndexItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#SuggestedIndexIndexList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#SuggestedIndexIndexItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of documents that specifies a key in the index and its sort order, ascending or descending."
+      }
+    },
+    "com.stackit.mongodb_flex#HandlersInstancesSuggestedIndexesResponseSuggestedIndexesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#SuggestedIndex"
+      },
+      "traits": {
+        "smithy.api#documentation": "Documents with information about the indexes suggested by the Performance Advisor."
+      }
+    },
+    "com.stackit.mongodb_flex#ListSuggestedIndexes": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ListSuggestedIndexesRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#HandlersInstancesSuggestedIndexesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/advisor/suggested-indexes",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get suggested indexes\n\ngets suggested indexes from the Opsmanager performance advisor"
+      }
+    },
+    "com.stackit.mongodb_flex#ListBackupsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListBackupsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ListBackupsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#ListBackupsResponse": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer"
+        },
+        "items": {
+          "target": "com.stackit.mongodb_flex#ListBackupsResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#Backup": {
+      "type": "structure",
+      "members": {
+        "endTime": {
+          "target": "smithy.api#String"
+        },
+        "error": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "labels": {
+          "target": "com.stackit.mongodb_flex#BackupLabelsList"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "options": {
+          "target": "com.stackit.mongodb_flex#BackupOptionsMap"
+        },
+        "size": {
+          "target": "smithy.api#Integer"
+        },
+        "startTime": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#BackupLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#BackupOptionsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListBackupsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#Backup"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListBackups": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ListBackupsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#ListBackupsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/backups",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List backup\n\nList backups of an instance"
+      }
+    },
+    "com.stackit.mongodb_flex#UpdateBackupScheduleRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#UpdateBackupScheduleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#UpdateBackupScheduleRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "backupSchedule": {
+          "target": "smithy.api#String"
+        },
+        "dailySnapshotRetentionDays": {
+          "target": "smithy.api#Integer"
+        },
+        "monthlySnapshotRetentionMonths": {
+          "target": "smithy.api#Integer"
+        },
+        "pointInTimeWindowHours": {
+          "target": "smithy.api#Integer"
+        },
+        "snapshotRetentionDays": {
+          "target": "smithy.api#Integer"
+        },
+        "weeklySnapshotRetentionWeeks": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#BackupSchedule": {
+      "type": "structure",
+      "members": {
+        "backupSchedule": {
+          "target": "smithy.api#String"
+        },
+        "dailySnapshotRetentionDays": {
+          "target": "smithy.api#Integer"
+        },
+        "monthlySnapshotRetentionMonths": {
+          "target": "smithy.api#Integer"
+        },
+        "pointInTimeWindowHours": {
+          "target": "smithy.api#Integer"
+        },
+        "snapshotRetentionDays": {
+          "target": "smithy.api#Integer"
+        },
+        "weeklySnapshotRetentionWeeks": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#UpdateBackupSchedule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#UpdateBackupScheduleRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#BackupSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/backups",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update schedule\n\nUpdates a backup schedule<br/> Note that the time format is in UTC"
+      }
+    },
+    "com.stackit.mongodb_flex#GetBackupRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#GetBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#GetBackupRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "backup id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#GetBackupResponse": {
+      "type": "structure",
+      "members": {
+        "item": {
+          "target": "com.stackit.mongodb_flex#Backup"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#GetBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#GetBackupRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#GetBackupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/backups/{backupId}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get backup\n\nGet details about a specific backup"
+      }
+    },
+    "com.stackit.mongodb_flex#CloneInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#CloneInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#CloneInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#CloneInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "instanceId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#CloneInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#CloneInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#CloneInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/clone",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Clone instance\n\nClone an instance via PIT restore<br/> Note that the Timestamp is a RFC3339 standard and uses by default UTC time format<br/>\nAs an example a valid timestamp look like \"2023-04-20T15:05:15Z\""
+      }
+    },
+    "com.stackit.mongodb_flex#ListMetricsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ListMetricsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "metric": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "metric type"
+          }
+        },
+        "granularity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "granularity",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "granularity"
+          }
+        },
+        "period": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "period",
+            "smithy.api#documentation": "period"
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start",
+            "smithy.api#documentation": "period start"
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "end",
+            "smithy.api#documentation": "period end"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#ListMetricsResponse": {
+      "type": "structure",
+      "members": {
+        "hosts": {
+          "target": "com.stackit.mongodb_flex#ListMetricsResponseHostsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#Host": {
+      "type": "structure",
+      "members": {
+        "hostMetrics": {
+          "target": "com.stackit.mongodb_flex#HostHostMetricsList"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#HostMetric": {
+      "type": "structure",
+      "members": {
+        "datapoints": {
+          "target": "com.stackit.mongodb_flex#HostMetricDatapointsList"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "units": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#DataPoint": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#HostMetricDatapointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#DataPoint"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#HostHostMetricsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#HostMetric"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListMetricsResponseHostsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#Host"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ListMetricsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#ListMetricsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/metrics/{metric}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Metrics\n\nreturns metrics for an instance"
+      }
+    },
+    "com.stackit.mongodb_flex#ListRestoreJobsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListRestoreJobsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ListRestoreJobsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#ListRestoreJobsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.mongodb_flex#ListRestoreJobsResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#RestoreInstanceStatus": {
+      "type": "structure",
+      "members": {
+        "backupID": {
+          "target": "smithy.api#String"
+        },
+        "date": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "instanceId": {
+          "target": "smithy.api#String"
+        },
+        "status": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListRestoreJobsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#RestoreInstanceStatus"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListRestoreJobs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ListRestoreJobsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#ListRestoreJobsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/restores",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List restore jobs\n\nList restore jobs of an instance"
+      }
+    },
+    "com.stackit.mongodb_flex#RestoreInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#RestoreInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#RestoreInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#RestoreInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "item": {
+          "target": "com.stackit.mongodb_flex#RestoreInstanceStatus"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#RestoreInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#RestoreInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#RestoreInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/restores",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Restore instance\n\nRestore an instance based on snapshot"
+      }
+    },
+    "com.stackit.mongodb_flex#ListUsersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListUsersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ListUsersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#ListUsersResponse": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer"
+        },
+        "items": {
+          "target": "com.stackit.mongodb_flex#ListUsersResponseItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "username": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListUsersResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mongodb_flex#ListUser"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ListUsersRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#ListUsersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/users",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Users\n\nlist all users for a mongodb instance"
+      }
+    },
+    "com.stackit.mongodb_flex#CreateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#CreateUserRequestRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.**"
+      }
+    },
+    "com.stackit.mongodb_flex#CreateUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#CreateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "roles": {
+          "target": "com.stackit.mongodb_flex#CreateUserRequestRolesList",
+          "traits": {
+            "smithy.api#documentation": "The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.**",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#CreateUserResponse": {
+      "type": "structure",
+      "members": {
+        "item": {
+          "target": "com.stackit.mongodb_flex#User"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#User": {
+      "type": "structure",
+      "members": {
+        "database": {
+          "target": "smithy.api#String"
+        },
+        "host": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        },
+        "roles": {
+          "target": "com.stackit.mongodb_flex#UserRolesList",
+          "traits": {
+            "smithy.api#documentation": "The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.**"
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String"
+        },
+        "username": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#UserRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.**"
+      }
+    },
+    "com.stackit.mongodb_flex#CreateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#CreateUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#CreateUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/users",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create User\n\ncreate a new user for a mongodb instance"
+      }
+    },
+    "com.stackit.mongodb_flex#GetUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#GetUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#GetUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "user id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#GetUserResponse": {
+      "type": "structure",
+      "members": {
+        "item": {
+          "target": "com.stackit.mongodb_flex#InstanceResponseUser"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#InstanceResponseUser": {
+      "type": "structure",
+      "members": {
+        "database": {
+          "target": "smithy.api#String"
+        },
+        "host": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        },
+        "roles": {
+          "target": "com.stackit.mongodb_flex#InstanceResponseUserRolesList",
+          "traits": {
+            "smithy.api#documentation": "The roles defined for a user. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.**"
+          }
+        },
+        "username": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#InstanceResponseUserRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The roles defined for a user. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.**"
+      }
+    },
+    "com.stackit.mongodb_flex#GetUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#GetUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#GetUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/users/{userId}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get User\n\nget detailed information of a user of a mongodb instance"
+      }
+    },
+    "com.stackit.mongodb_flex#UpdateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#UpdateUserRequestRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.**"
+      }
+    },
+    "com.stackit.mongodb_flex#UpdateUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#UpdateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "user id"
+          }
+        },
+        "database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "roles": {
+          "target": "com.stackit.mongodb_flex#UpdateUserRequestRolesList",
+          "traits": {
+            "smithy.api#documentation": "The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.**",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#UpdateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#UpdateUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/users/{userId}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update User\n\nupdates user for a mongodb instance"
+      }
+    },
+    "com.stackit.mongodb_flex#PartialUpdateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#PartialUpdateUserRequestRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.**"
+      }
+    },
+    "com.stackit.mongodb_flex#PartialUpdateUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#PartialUpdateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "user id"
+          }
+        },
+        "database": {
+          "target": "smithy.api#String"
+        },
+        "roles": {
+          "target": "com.stackit.mongodb_flex#PartialUpdateUserRequestRolesList",
+          "traits": {
+            "smithy.api#documentation": "The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.**"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#PartialUpdateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#PartialUpdateUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/users/{userId}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update User\n\nupdates user for a mongodb instance"
+      }
+    },
+    "com.stackit.mongodb_flex#DeleteUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#DeleteUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#DeleteUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "user id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#DeleteUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#DeleteUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/users/{userId}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete User\n\ndelete mongodb user"
+      }
+    },
+    "com.stackit.mongodb_flex#ResetUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ResetUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ResetUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "user id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#ResetUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ResetUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#User"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/instances/{instanceId}/users/{userId}/reset",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Reset User\n\nresets mongodb user's password"
+      }
+    },
+    "com.stackit.mongodb_flex#ListStoragesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListStoragesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ListStoragesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "flavor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "flavor id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#ListStoragesResponse": {
+      "type": "structure",
+      "members": {
+        "storageClasses": {
+          "target": "com.stackit.mongodb_flex#ListStoragesResponseStorageClassesList"
+        },
+        "storageRange": {
+          "target": "com.stackit.mongodb_flex#StorageRange"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListStoragesResponseStorageClassesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#StorageRange": {
+      "type": "structure",
+      "members": {
+        "max": {
+          "target": "smithy.api#Integer"
+        },
+        "min": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListStorages": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ListStoragesRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#ListStoragesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/storages/{flavor}",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get storage\n\nreturns the storage for a certain flavor"
+      }
+    },
+    "com.stackit.mongodb_flex#ListVersionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project id"
+          }
+        },
+        "region": {
+          "target": "com.stackit.mongodb_flex#ListVersionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mongodb_flex#ListVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.stackit.mongodb_flex#ListVersionsResponseVersionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListVersionsResponseVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mongodb_flex#ListVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mongodb_flex#ListVersionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mongodb_flex#ListVersionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mongodb_flex#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/versions",
+          "code": 200,
+          "baseUrl": "https://mongodb-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get versions\n\nreturns all available versions for creating endpoint"
+      }
+    },
+    "com.stackit.mongodb_flex#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.mongodb_flex#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.mongodb_flex#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.mongodb_flex#MongodbFlex": {
+      "type": "service",
+      "version": "2.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.mongodb_flex#ListFlavors"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#ListInstances"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#CreateInstance"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#GetInstance"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#UpdateInstance"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#PartialUpdateInstance"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#DeleteInstance"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#ListAdvisorSlowQueries"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#ListSuggestedIndexes"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#ListBackups"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#UpdateBackupSchedule"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#GetBackup"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#CloneInstance"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#ListMetrics"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#ListRestoreJobs"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#RestoreInstance"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#ListUsers"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#CreateUser"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#GetUser"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#UpdateUser"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#PartialUpdateUser"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#DeleteUser"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#ResetUser"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#ListStorages"
+        },
+        {
+          "target": "com.stackit.mongodb_flex#ListVersions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT MongoDB Service API",
+        "smithy.api#documentation": "This is the documentation for the STACKIT MongoDB Flex Service API"
+      }
+    }
+  }
+}

@@ -1,0 +1,2139 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.load_balancer#ListCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#ListCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.load_balancer#ListCredentialsResponseCredentialsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#CredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The credentials reference can be used for observability of the Load Balancer."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credential name"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the Credential"
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username used for the STACKIT Observability instance"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#ListCredentialsResponseCredentialsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#CredentialsResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#ListCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#ListCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#ListCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/credentials",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all credentials in a project.\n\nList Credentials"
+      }
+    },
+    "com.stackit.load_balancer#CreateCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credential name"
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid password used for an existing STACKIT Observability instance, which is used during basic auth.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid username used for an existing STACKIT Observability instance, which is used during basic auth."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#CreateCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credential": {
+          "target": "com.stackit.load_balancer#CredentialsResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#CreateCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#CreateCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#CreateCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/credentials",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create credentials for observability of the Load Balancer\n\nCreated credentials can be stored and used for the load balancer observability. For example, when using STACKIT\n Observability, credentials first must be created for that STACKIT Observability instance (by using their API or the\n STACKIT Portal) and then can be provided to the load balancer by storing them with this endpoint."
+      }
+    },
+    "com.stackit.load_balancer#GetCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#GetCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credential": {
+          "target": "com.stackit.load_balancer#CredentialsResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#GetCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#GetCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#GetCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        },
+        {
+          "target": "com.stackit.load_balancer#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/credentials/{credentialsRef}",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a single credential reference in a project.\n\nGet Credentials"
+      }
+    },
+    "com.stackit.load_balancer#UpdateCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credential name"
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid password used for an existing STACKIT Observability instance, which is used during basic auth.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid username used for an existing STACKIT Observability instance, which is used during basic auth."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#UpdateCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credential": {
+          "target": "com.stackit.load_balancer#CredentialsResponse"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#UpdateCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#UpdateCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#UpdateCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        },
+        {
+          "target": "com.stackit.load_balancer#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/credentials/{credentialsRef}",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update credentials for observability in a project.\n\nUpdate Credentials"
+      }
+    },
+    "com.stackit.load_balancer#DeleteCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#DeleteCredentialsResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.load_balancer#DeleteCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#DeleteCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#DeleteCredentialsResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/credentials/{credentialsRef}",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a single credential in a project.\n\nDelete Credential"
+      }
+    },
+    "com.stackit.load_balancer#ListLoadBalancersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "page_size specifies how many load balancers should be returned on this page. Must be a positive number <= 1000"
+          }
+        },
+        "pageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageId",
+            "smithy.api#documentation": "page_id is a page identifier returned by the previous response and is used to request the next page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#ListLoadBalancersResponse": {
+      "type": "structure",
+      "members": {
+        "loadBalancers": {
+          "target": "com.stackit.load_balancer#ListLoadBalancersResponseLoadBalancersList"
+        },
+        "nextPageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Continue token from the ListLoadBalancerResponse with Limit option"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#LoadBalancer2": {
+      "type": "structure",
+      "members": {
+        "disableTargetSecurityGroupAssignment": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable target security group assignemt to allow targets outside of the given network. Connectivity to targets need to be ensured by the customer, including routing and Security Groups (targetSecurityGroup can be assigned). Not changeable after creation."
+          }
+        },
+        "errors": {
+          "target": "com.stackit.load_balancer#LoadBalancerErrorsList",
+          "traits": {
+            "smithy.api#documentation": "Reports all errors a load balancer has."
+          }
+        },
+        "externalAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External load balancer IP address where this load balancer is exposed. Not changeable after creation."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.load_balancer#LoadBalancerLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per LB.\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "listeners": {
+          "target": "com.stackit.load_balancer#LoadBalancerListenersList",
+          "traits": {
+            "smithy.api#documentation": "There is a maximum listener count of 20.\n\nPort and protocol limitations:\n\n- UDP listeners cannot have the same port.\n- TCP-derived listeners cannot have the same port. A TCP-derived listener is any listener that listens on a TCP port. As of now those are: TCP, TCP_PROXY, and PROTOCOL_TLS_PASSTHROUGH. The only exception is, if all listeners for the same port are PROTOCOL_TLS_PASSTHROUGH.\n- PROTOCOL_TLS_PASSTHROUGH listeners cannot have the same port and at least one common domain name.\n- PROTOCOL_TLS_PASSTHROUGH listeners can have the same domain name and different ports though (e.g. ports 443 and 8443 for domain example.com).\n- PROTOCOL_TLS_PASSTHROUGH listeners without a domain name serve as a default listener and you can have only one default listener.\n"
+          }
+        },
+        "loadBalancerSecurityGroup": {
+          "target": "com.stackit.load_balancer#SecurityGroup",
+          "traits": {
+            "smithy.api#documentation": "Security Group permitting network traffic from the LoadBalancer to the targets. Useful when disableTargetSecurityGroupAssignment=true to manually assign target security groups to targets."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Load balancer name. Not changeable after creation."
+          }
+        },
+        "networks": {
+          "target": "com.stackit.load_balancer#LoadBalancerNetworksList",
+          "traits": {
+            "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+          }
+        },
+        "options": {
+          "target": "com.stackit.load_balancer#LoadBalancerOptions"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan configures the size of the Load Balancer. Currently supported plans are p10, p50, p250 and p750. This list can change in the future where plan ids will be removed and new plans by added. That is the reason this is not an enum."
+          }
+        },
+        "privateAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transient private load balancer IP address that can change any time."
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the LoadBalancer"
+          }
+        },
+        "status": {
+          "target": "com.stackit.load_balancer#LoadBalancerStatus"
+        },
+        "targetPools": {
+          "target": "com.stackit.load_balancer#LoadBalancerTargetPoolsList",
+          "traits": {
+            "smithy.api#documentation": "List of all target pools which will be used in the load balancer. Limited to 20."
+          }
+        },
+        "targetSecurityGroup": {
+          "target": "com.stackit.load_balancer#SecurityGroup",
+          "traits": {
+            "smithy.api#documentation": "Security Group that allows the targets to receive traffic from the LoadBalancer. Useful when disableTargetSecurityGroupAssignment=true to manually assign target security groups to targets."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Load balancer resource version.\nMust be empty or unset for creating load balancers, non-empty for updating load balancers. Semantics:\nWhile retrieving load balancers, this is the current version of this load balancer resource that changes during updates of the load balancers. On updates this field specified the load balancer version you calculated your update for instead of the future version to enable concurrency safe updates. Update calls will then report the new version in their result as you would see with a load balancer retrieval call later. There exist no total order of the version, so you can only compare it for equality, but not for less/greater than another version. Since the creation of load balancer is always intended to create the first version of it, there should be no existing version. That's why this field must by empty of not present in that case."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#LoadBalancerError": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error description contains additional helpful user information to fix the error state of the load balancer. For example the IP 45.135.247.139 does not exist in the project, then the description will report: Floating IP \"45.135.247.139\" could not be found or if the IP was deleted then you will get a proper error message."
+          }
+        },
+        "type": {
+          "target": "com.stackit.load_balancer#LoadBalancerErrorType",
+          "traits": {
+            "smithy.api#documentation": "The error type specifies which part of the load balancer encountered the error. I.e. the API will not check if a provided public IP is actually available in the project. Instead the load balancer with try to use the provided IP and if not available reports TYPE_FIP_NOT_CONFIGURED error or TYPE_FIP_NOT_FOUND if the IP was deleted."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#LoadBalancerErrorType": {
+      "type": "enum",
+      "members": {
+        "TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_UNSPECIFIED"
+          }
+        },
+        "TYPE_INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_INTERNAL"
+          }
+        },
+        "TYPE_QUOTA_SECGROUP_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_QUOTA_SECGROUP_EXCEEDED"
+          }
+        },
+        "TYPE_QUOTA_SECGROUPRULE_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_QUOTA_SECGROUPRULE_EXCEEDED"
+          }
+        },
+        "TYPE_PORT_NOT_CONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_PORT_NOT_CONFIGURED"
+          }
+        },
+        "TYPE_FIP_NOT_CONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_FIP_NOT_CONFIGURED"
+          }
+        },
+        "TYPE_TARGET_NOT_ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_TARGET_NOT_ACTIVE"
+          }
+        },
+        "TYPE_METRICS_MISCONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_METRICS_MISCONFIGURED"
+          }
+        },
+        "TYPE_LOGS_MISCONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_LOGS_MISCONFIGURED"
+          }
+        },
+        "TYPE_FIP_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_FIP_NOT_FOUND"
+          }
+        },
+        "TYPE_IP_EXHAUSTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_IP_EXHAUSTED"
+          }
+        },
+        "TYPE_DNS_NOT_CONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_DNS_NOT_CONFIGURED"
+          }
+        },
+        "TYPE_VM_PORT_NOT_CONFIGURED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TYPE_VM_PORT_NOT_CONFIGURED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The error type specifies which part of the load balancer encountered the error. I.e. the API will not check if a provided public IP is actually available in the project. Instead the load balancer with try to use the provided IP and if not available reports TYPE_FIP_NOT_CONFIGURED error or TYPE_FIP_NOT_FOUND if the IP was deleted."
+      }
+    },
+    "com.stackit.load_balancer#LoadBalancerErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#LoadBalancerError"
+      },
+      "traits": {
+        "smithy.api#documentation": "Reports all errors a load balancer has."
+      }
+    },
+    "com.stackit.load_balancer#LoadBalancerLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per LB.\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.load_balancer#Listener": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Will be used to reference a listener and will replace display name in the future. Currently uses <protocol>-<port> as the name if no display name is given."
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Port number where we listen for traffic"
+          }
+        },
+        "protocol": {
+          "target": "com.stackit.load_balancer#ListenerProtocol",
+          "traits": {
+            "smithy.api#documentation": "Protocol is the highest network protocol we understand to load balance. Currently only PROTOCOL_TCP, PROTOCOL_TCP_PROXY and PROTOCOL_TLS_PASSTHROUGH are supported."
+          }
+        },
+        "serverNameIndicators": {
+          "target": "com.stackit.load_balancer#ListenerServerNameIndicatorsList",
+          "traits": {
+            "smithy.api#documentation": "Server Name Indicators config for domains to be routed to the desired target pool for this listener."
+          }
+        },
+        "targetPool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference target pool by target pool name."
+          }
+        },
+        "tcp": {
+          "target": "com.stackit.load_balancer#OptionsTCP"
+        },
+        "udp": {
+          "target": "com.stackit.load_balancer#OptionsUDP"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#ListenerProtocol": {
+      "type": "enum",
+      "members": {
+        "PROTOCOL_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_UNSPECIFIED"
+          }
+        },
+        "PROTOCOL_TCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_TCP"
+          }
+        },
+        "PROTOCOL_UDP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_UDP"
+          }
+        },
+        "PROTOCOL_TCP_PROXY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_TCP_PROXY"
+          }
+        },
+        "PROTOCOL_TLS_PASSTHROUGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_TLS_PASSTHROUGH"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Protocol is the highest network protocol we understand to load balance. Currently only PROTOCOL_TCP, PROTOCOL_TCP_PROXY and PROTOCOL_TLS_PASSTHROUGH are supported."
+      }
+    },
+    "com.stackit.load_balancer#ServerNameIndicator": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain name for this SNI config."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#ListenerServerNameIndicatorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#ServerNameIndicator"
+      },
+      "traits": {
+        "smithy.api#documentation": "Server Name Indicators config for domains to be routed to the desired target pool for this listener."
+      }
+    },
+    "com.stackit.load_balancer#OptionsTCP": {
+      "type": "structure",
+      "members": {
+        "idleTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The connection idle timeout to be used with the protocol. The default value is set to 5 minutes, and the maximum value is one hour."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ProtocolOptionsTCP options to be configured for the PROTOCOL_TCP, PROTOCOL_TCP_PROXY, and PROTOCOL_TLS_PASSTHROUGH protocols. TCP options for the SNI listeners with the same port must be the same."
+      }
+    },
+    "com.stackit.load_balancer#OptionsUDP": {
+      "type": "structure",
+      "members": {
+        "idleTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The connection idle timeout to be used with the protocol. The default value is set to 1 minute, and the maximum value is 2 minutes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ProtocolOptionsUDP options to be configured for the PROTOCOL_UDP protocol."
+      }
+    },
+    "com.stackit.load_balancer#LoadBalancerListenersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#Listener"
+      },
+      "traits": {
+        "smithy.api#documentation": "There is a maximum listener count of 20.\n\nPort and protocol limitations:\n\n- UDP listeners cannot have the same port.\n- TCP-derived listeners cannot have the same port. A TCP-derived listener is any listener that listens on a TCP port. As of now those are: TCP, TCP_PROXY, and PROTOCOL_TLS_PASSTHROUGH. The only exception is, if all listeners for the same port are PROTOCOL_TLS_PASSTHROUGH.\n- PROTOCOL_TLS_PASSTHROUGH listeners cannot have the same port and at least one common domain name.\n- PROTOCOL_TLS_PASSTHROUGH listeners can have the same domain name and different ports though (e.g. ports 443 and 8443 for domain example.com).\n- PROTOCOL_TLS_PASSTHROUGH listeners without a domain name serve as a default listener and you can have only one default listener.\n"
+      }
+    },
+    "com.stackit.load_balancer#SecurityGroup": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the security Group"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the security Group"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#Network": {
+      "type": "structure",
+      "members": {
+        "networkId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Openstack network ID"
+          }
+        },
+        "role": {
+          "target": "com.stackit.load_balancer#NetworkRole",
+          "traits": {
+            "smithy.api#documentation": "The role defines how the load balancer is using the network. Currently only ROLE_LISTENERS_AND_TARGETS is supported."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#NetworkRole": {
+      "type": "enum",
+      "members": {
+        "ROLE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ROLE_UNSPECIFIED"
+          }
+        },
+        "ROLE_LISTENERS_AND_TARGETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ROLE_LISTENERS_AND_TARGETS"
+          }
+        },
+        "ROLE_LISTENERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ROLE_LISTENERS"
+          }
+        },
+        "ROLE_TARGETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ROLE_TARGETS"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The role defines how the load balancer is using the network. Currently only ROLE_LISTENERS_AND_TARGETS is supported."
+      }
+    },
+    "com.stackit.load_balancer#LoadBalancerNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#Network"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+      }
+    },
+    "com.stackit.load_balancer#LoadBalancerOptions": {
+      "type": "structure",
+      "members": {
+        "accessControl": {
+          "target": "com.stackit.load_balancer#LoadbalancerOptionAccessControl"
+        },
+        "ephemeralAddress": {
+          "target": "smithy.api#Boolean"
+        },
+        "observability": {
+          "target": "com.stackit.load_balancer#LoadbalancerOptionObservability"
+        },
+        "privateNetworkOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Load Balancer is accessible only via a private network ip address. Not changeable after creation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines any optional functionality you want to have enabled on your load balancer."
+      }
+    },
+    "com.stackit.load_balancer#LoadbalancerOptionAccessControl": {
+      "type": "structure",
+      "members": {
+        "allowedSourceRanges": {
+          "target": "com.stackit.load_balancer#LoadbalancerOptionAccessControlAllowedSourceRangesList",
+          "traits": {
+            "smithy.api#documentation": "Load Balancer is accessible only from an IP address in this range"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use this option to limit the IP ranges that can use the load balancer."
+      }
+    },
+    "com.stackit.load_balancer#LoadbalancerOptionAccessControlAllowedSourceRangesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Load Balancer is accessible only from an IP address in this range"
+      }
+    },
+    "com.stackit.load_balancer#LoadbalancerOptionObservability": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "com.stackit.load_balancer#LoadbalancerOptionLogs"
+        },
+        "metrics": {
+          "target": "com.stackit.load_balancer#LoadbalancerOptionMetrics"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "We offer Load Balancer observability via STACKIT Observability or external solutions."
+      }
+    },
+    "com.stackit.load_balancer#LoadbalancerOptionLogs": {
+      "type": "structure",
+      "members": {
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credentials reference for logging. This reference is created via the observability create endpoint and the credential needs to contain the basic auth username and password for the logging solution the push URL points to. Then this enables monitoring via remote write for the Load Balancer."
+          }
+        },
+        "pushUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Observability(Logs)/Loki remote write Push URL you want the logs to be shipped to."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#LoadbalancerOptionMetrics": {
+      "type": "structure",
+      "members": {
+        "credentialsRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credentials reference for metrics. This reference is created via the observability create endpoint and the credential needs to contain the basic auth username and password for the metrics solution the push URL points to. Then this enables monitoring via remote write for the Load Balancer."
+          }
+        },
+        "pushUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Observability(Metrics)/Prometheus remote write push URL you want the metrics to be shipped to."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#LoadBalancerStatus": {
+      "type": "enum",
+      "members": {
+        "STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS_UNSPECIFIED"
+          }
+        },
+        "STATUS_PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS_PENDING"
+          }
+        },
+        "STATUS_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS_READY"
+          }
+        },
+        "STATUS_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS_ERROR"
+          }
+        },
+        "STATUS_TERMINATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS_TERMINATING"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#TargetPool": {
+      "type": "structure",
+      "members": {
+        "activeHealthCheck": {
+          "target": "com.stackit.load_balancer#ActiveHealthCheck"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target pool name"
+          }
+        },
+        "sessionPersistence": {
+          "target": "com.stackit.load_balancer#SessionPersistence"
+        },
+        "targetPort": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number identifying the port where each target listens for traffic."
+          }
+        },
+        "targets": {
+          "target": "com.stackit.load_balancer#TargetPoolTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of all targets which will be used in the pool. Limited to 250."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#ActiveHealthCheck": {
+      "type": "structure",
+      "members": {
+        "altPort": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Overrides the default port used for health check probes."
+          }
+        },
+        "healthyThreshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Healthy threshold of the health checking"
+          }
+        },
+        "httpHealthChecks": {
+          "target": "com.stackit.load_balancer#HttpHealthChecks"
+        },
+        "interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Interval duration of health checking in seconds"
+          }
+        },
+        "intervalJitter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Interval duration threshold of the health checking in seconds"
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Active health checking timeout duration in seconds"
+          }
+        },
+        "unhealthyThreshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unhealthy threshold of the health checking"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#HttpHealthChecks": {
+      "type": "structure",
+      "members": {
+        "okStatuses": {
+          "target": "com.stackit.load_balancer#HttpHealthChecksOkStatusesList",
+          "traits": {
+            "smithy.api#documentation": "List of HTTP status codes that indicate a healthy response"
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path to send the health check request to"
+          }
+        },
+        "tls": {
+          "target": "com.stackit.load_balancer#TlsConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Options for the HTTP health checking."
+      }
+    },
+    "com.stackit.load_balancer#HttpHealthChecksOkStatusesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of HTTP status codes that indicate a healthy response"
+      }
+    },
+    "com.stackit.load_balancer#TlsConfig": {
+      "type": "structure",
+      "members": {
+        "customCa": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies a custom Certificate Authority (CA). When provided, the target pool will trust certificates signed by this CA, in addition to any system-trusted CAs. This is useful for scenarios where the target pool needs to communicate with servers using self-signed or internally-issued certificates. Enabled needs to be set to true and skip validation to false for this option."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable TLS (Transport Layer Security) bridging for the connection between Application Load Balancer and targets in this pool. When enabled, public CAs are trusted. Can be used in tandem with the options either custom CA or skip validation or alone."
+          }
+        },
+        "skipCertificateValidation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Bypass certificate validation for TLS bridging in this target pool. This option is insecure and can only be used with public CAs by setting enabled true. Meant to be used for testing purposes only!"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set this to configure TLS settings."
+      }
+    },
+    "com.stackit.load_balancer#SessionPersistence": {
+      "type": "structure",
+      "members": {
+        "useSourceIpAddress": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If enabled then all connections from one source IP address are redirected to the same target. This setting changes the load balancing algorithm to Maglev."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#Target": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target name"
+          }
+        },
+        "ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target IP. Must by unique within a target pool."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#TargetPoolTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#Target"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all targets which will be used in the pool. Limited to 250."
+      }
+    },
+    "com.stackit.load_balancer#LoadBalancerTargetPoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#TargetPool"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all target pools which will be used in the load balancer. Limited to 20."
+      }
+    },
+    "com.stackit.load_balancer#ListLoadBalancersResponseLoadBalancersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#LoadBalancer2"
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#ListLoadBalancers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#ListLoadBalancersRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#ListLoadBalancersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List load balancers in a project.\n\nListLoadBalancer will list load balancers of a project. This contains information set during\n creation or updates for every load balancer in the project. Additionally, it will have information about\n the state of the load balancer in the form of a status field and error description feedback."
+      }
+    },
+    "com.stackit.load_balancer#CreateLoadBalancerRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per LB.\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.load_balancer#ListenerInput": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String"
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Port number where we listen for traffic"
+          }
+        },
+        "protocol": {
+          "target": "com.stackit.load_balancer#ListenerInputProtocol",
+          "traits": {
+            "smithy.api#documentation": "Protocol is the highest network protocol we understand to load balance. Currently only PROTOCOL_TCP, PROTOCOL_TCP_PROXY and PROTOCOL_TLS_PASSTHROUGH are supported."
+          }
+        },
+        "serverNameIndicators": {
+          "target": "com.stackit.load_balancer#ListenerInputServerNameIndicatorsList",
+          "traits": {
+            "smithy.api#documentation": "Server Name Indicators config for domains to be routed to the desired target pool for this listener."
+          }
+        },
+        "targetPool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference target pool by target pool name."
+          }
+        },
+        "tcp": {
+          "target": "com.stackit.load_balancer#OptionsTCP"
+        },
+        "udp": {
+          "target": "com.stackit.load_balancer#OptionsUDP"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#ListenerInputProtocol": {
+      "type": "enum",
+      "members": {
+        "PROTOCOL_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_UNSPECIFIED"
+          }
+        },
+        "PROTOCOL_TCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_TCP"
+          }
+        },
+        "PROTOCOL_UDP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_UDP"
+          }
+        },
+        "PROTOCOL_TCP_PROXY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_TCP_PROXY"
+          }
+        },
+        "PROTOCOL_TLS_PASSTHROUGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTOCOL_TLS_PASSTHROUGH"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Protocol is the highest network protocol we understand to load balance. Currently only PROTOCOL_TCP, PROTOCOL_TCP_PROXY and PROTOCOL_TLS_PASSTHROUGH are supported."
+      }
+    },
+    "com.stackit.load_balancer#ListenerInputServerNameIndicatorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#ServerNameIndicator"
+      },
+      "traits": {
+        "smithy.api#documentation": "Server Name Indicators config for domains to be routed to the desired target pool for this listener."
+      }
+    },
+    "com.stackit.load_balancer#CreateLoadBalancerRequestListenersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#ListenerInput"
+      },
+      "traits": {
+        "smithy.api#documentation": "There is a maximum listener count of 20.\n\nPort and protocol limitations:\n\n- UDP listeners cannot have the same port.\n- TCP-derived listeners cannot have the same port. A TCP-derived listener is any listener that listens on a TCP port. As of now those are: TCP, TCP_PROXY, and PROTOCOL_TLS_PASSTHROUGH. The only exception is, if all listeners for the same port are PROTOCOL_TLS_PASSTHROUGH.\n- PROTOCOL_TLS_PASSTHROUGH listeners cannot have the same port and at least one common domain name.\n- PROTOCOL_TLS_PASSTHROUGH listeners can have the same domain name and different ports though (e.g. ports 443 and 8443 for domain example.com).\n- PROTOCOL_TLS_PASSTHROUGH listeners without a domain name serve as a default listener and you can have only one default listener.\n"
+      }
+    },
+    "com.stackit.load_balancer#CreateLoadBalancerRequestNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#Network"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+      }
+    },
+    "com.stackit.load_balancer#CreateLoadBalancerRequestTargetPoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#TargetPool"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all target pools which will be used in the load balancer. Limited to 20."
+      }
+    },
+    "com.stackit.load_balancer#CreateLoadBalancerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "disableTargetSecurityGroupAssignment": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable target security group assignemt to allow targets outside of the given network. Connectivity to targets need to be ensured by the customer, including routing and Security Groups (targetSecurityGroup can be assigned). Not changeable after creation."
+          }
+        },
+        "externalAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External load balancer IP address where this load balancer is exposed. Not changeable after creation."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.load_balancer#CreateLoadBalancerRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per LB.\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "listeners": {
+          "target": "com.stackit.load_balancer#CreateLoadBalancerRequestListenersList",
+          "traits": {
+            "smithy.api#documentation": "There is a maximum listener count of 20.\n\nPort and protocol limitations:\n\n- UDP listeners cannot have the same port.\n- TCP-derived listeners cannot have the same port. A TCP-derived listener is any listener that listens on a TCP port. As of now those are: TCP, TCP_PROXY, and PROTOCOL_TLS_PASSTHROUGH. The only exception is, if all listeners for the same port are PROTOCOL_TLS_PASSTHROUGH.\n- PROTOCOL_TLS_PASSTHROUGH listeners cannot have the same port and at least one common domain name.\n- PROTOCOL_TLS_PASSTHROUGH listeners can have the same domain name and different ports though (e.g. ports 443 and 8443 for domain example.com).\n- PROTOCOL_TLS_PASSTHROUGH listeners without a domain name serve as a default listener and you can have only one default listener.\n"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Load balancer name. Not changeable after creation."
+          }
+        },
+        "networks": {
+          "target": "com.stackit.load_balancer#CreateLoadBalancerRequestNetworksList",
+          "traits": {
+            "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+          }
+        },
+        "options": {
+          "target": "com.stackit.load_balancer#LoadBalancerOptions"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan configures the size of the Load Balancer. Currently supported plans are p10, p50, p250 and p750. This list can change in the future where plan ids will be removed and new plans by added. That is the reason this is not an enum."
+          }
+        },
+        "targetPools": {
+          "target": "com.stackit.load_balancer#CreateLoadBalancerRequestTargetPoolsList",
+          "traits": {
+            "smithy.api#documentation": "List of all target pools which will be used in the load balancer. Limited to 20."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Load balancer resource version.\nMust be empty or unset for creating load balancers, non-empty for updating load balancers. Semantics:\nWhile retrieving load balancers, this is the current version of this load balancer resource that changes during updates of the load balancers. On updates this field specified the load balancer version you calculated your update for instead of the future version to enable concurrency safe updates. Update calls will then report the new version in their result as you would see with a load balancer retrieval call later. There exist no total order of the version, so you can only compare it for equality, but not for less/greater than another version. Since the creation of load balancer is always intended to create the first version of it, there should be no existing version. That's why this field must by empty of not present in that case."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#CreateLoadBalancer": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#CreateLoadBalancerRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#LoadBalancer2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        },
+        {
+          "target": "com.stackit.load_balancer#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a load balancer in a project\n\nCreate Load Balancer will create a load balancer.\n The default load balancing algorithm is round robin unless useSourceIpAddress in session persistence is enabled for a target pool then it is Maglev."
+      }
+    },
+    "com.stackit.load_balancer#GetLoadBalancerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#GetLoadBalancer": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#GetLoadBalancerRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#LoadBalancer2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        },
+        {
+          "target": "com.stackit.load_balancer#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers/{name}",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a single load balancer in a project.\n\nGet Load Balancer will get a single load balancer of a project. This contains all the information set during\n creation or updates. Additionally, it will have information about the state of the load balancer in the form\n of a status field and error description feedback."
+      }
+    },
+    "com.stackit.load_balancer#UpdateLoadBalancerRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per LB.\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.load_balancer#UpdateLoadBalancerRequestListenersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#ListenerInput"
+      },
+      "traits": {
+        "smithy.api#documentation": "There is a maximum listener count of 20.\n\nPort and protocol limitations:\n\n- UDP listeners cannot have the same port.\n- TCP-derived listeners cannot have the same port. A TCP-derived listener is any listener that listens on a TCP port. As of now those are: TCP, TCP_PROXY, and PROTOCOL_TLS_PASSTHROUGH. The only exception is, if all listeners for the same port are PROTOCOL_TLS_PASSTHROUGH.\n- PROTOCOL_TLS_PASSTHROUGH listeners cannot have the same port and at least one common domain name.\n- PROTOCOL_TLS_PASSTHROUGH listeners can have the same domain name and different ports though (e.g. ports 443 and 8443 for domain example.com).\n- PROTOCOL_TLS_PASSTHROUGH listeners without a domain name serve as a default listener and you can have only one default listener.\n"
+      }
+    },
+    "com.stackit.load_balancer#UpdateLoadBalancerRequestNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#Network"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+      }
+    },
+    "com.stackit.load_balancer#UpdateLoadBalancerRequestTargetPoolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#TargetPool"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all target pools which will be used in the load balancer. Limited to 20."
+      }
+    },
+    "com.stackit.load_balancer#UpdateLoadBalancerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "disableTargetSecurityGroupAssignment": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Disable target security group assignemt to allow targets outside of the given network. Connectivity to targets need to be ensured by the customer, including routing and Security Groups (targetSecurityGroup can be assigned). Not changeable after creation."
+          }
+        },
+        "externalAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External load balancer IP address where this load balancer is exposed. Not changeable after creation."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.load_balancer#UpdateLoadBalancerRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per LB.\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "listeners": {
+          "target": "com.stackit.load_balancer#UpdateLoadBalancerRequestListenersList",
+          "traits": {
+            "smithy.api#documentation": "There is a maximum listener count of 20.\n\nPort and protocol limitations:\n\n- UDP listeners cannot have the same port.\n- TCP-derived listeners cannot have the same port. A TCP-derived listener is any listener that listens on a TCP port. As of now those are: TCP, TCP_PROXY, and PROTOCOL_TLS_PASSTHROUGH. The only exception is, if all listeners for the same port are PROTOCOL_TLS_PASSTHROUGH.\n- PROTOCOL_TLS_PASSTHROUGH listeners cannot have the same port and at least one common domain name.\n- PROTOCOL_TLS_PASSTHROUGH listeners can have the same domain name and different ports though (e.g. ports 443 and 8443 for domain example.com).\n- PROTOCOL_TLS_PASSTHROUGH listeners without a domain name serve as a default listener and you can have only one default listener.\n"
+          }
+        },
+        "networks": {
+          "target": "com.stackit.load_balancer#UpdateLoadBalancerRequestNetworksList",
+          "traits": {
+            "smithy.api#documentation": "List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation."
+          }
+        },
+        "options": {
+          "target": "com.stackit.load_balancer#LoadBalancerOptions"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan configures the size of the Load Balancer. Currently supported plans are p10, p50, p250 and p750. This list can change in the future where plan ids will be removed and new plans by added. That is the reason this is not an enum."
+          }
+        },
+        "targetPools": {
+          "target": "com.stackit.load_balancer#UpdateLoadBalancerRequestTargetPoolsList",
+          "traits": {
+            "smithy.api#documentation": "List of all target pools which will be used in the load balancer. Limited to 20."
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Load balancer resource version.\nMust be empty or unset for creating load balancers, non-empty for updating load balancers. Semantics:\nWhile retrieving load balancers, this is the current version of this load balancer resource that changes during updates of the load balancers. On updates this field specified the load balancer version you calculated your update for instead of the future version to enable concurrency safe updates. Update calls will then report the new version in their result as you would see with a load balancer retrieval call later. There exist no total order of the version, so you can only compare it for equality, but not for less/greater than another version. Since the creation of load balancer is always intended to create the first version of it, there should be no existing version. That's why this field must by empty of not present in that case."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#UpdateLoadBalancer": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#UpdateLoadBalancerRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#LoadBalancer2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        },
+        {
+          "target": "com.stackit.load_balancer#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers/{name}",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update a load balancer in a project.\n\nUpdate Load Balancer allows the change of listeners and target pools of an existing Load Balancer.\n The Load balancer resource version needs to be the current version to ensure concurrency safe updates.\n The default load balancing algorithm is round robin unless useSourceIpAddress in session persistence is enabled for a target pool then it is Maglev."
+      }
+    },
+    "com.stackit.load_balancer#DeleteLoadBalancerRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#DeleteLoadBalancerResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.load_balancer#DeleteLoadBalancer": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#DeleteLoadBalancerRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#DeleteLoadBalancerResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers/{name}",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a given load balancer in a project.\n\nDeleteLoadBalancer will delete a given load balancer."
+      }
+    },
+    "com.stackit.load_balancer#UpdateTargetPoolRequestTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#Target"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all targets which will be used in the pool. Limited to 250."
+      }
+    },
+    "com.stackit.load_balancer#UpdateTargetPoolRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "targetPoolName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "activeHealthCheck": {
+          "target": "com.stackit.load_balancer#ActiveHealthCheck"
+        },
+        "sessionPersistence": {
+          "target": "com.stackit.load_balancer#SessionPersistence"
+        },
+        "targetPort": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number identifying the port where each target listens for traffic."
+          }
+        },
+        "targets": {
+          "target": "com.stackit.load_balancer#UpdateTargetPoolRequestTargetsList",
+          "traits": {
+            "smithy.api#documentation": "List of all targets which will be used in the pool. Limited to 250."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#UpdateTargetPool": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#UpdateTargetPoolRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#TargetPool"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/projects/{projectId}/regions/{region}/load-balancers/{name}/target-pools/{targetPoolName}",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update a single target pool of a load balancer in a project.\n\nReplaceTargetPool will replace a specific target pool of a load balancer with new content.\n Useful to  add/remove target servers. will update a load balancer.\n Only replaces the mentioned target pools and leaves others unchanged.\n Cannot be used to create or rename a target pool."
+      }
+    },
+    "com.stackit.load_balancer#GetQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#GetQuotaResponse": {
+      "type": "structure",
+      "members": {
+        "maxCredentials": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of observability credentials that can be stored in this project."
+          }
+        },
+        "maxLoadBalancers": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of load balancing servers in this project."
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project identifier"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region"
+          }
+        },
+        "usedCredentials": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of observability credentials that are currently existing in this project."
+          }
+        },
+        "usedLoadBalancers": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of load balancing servers that are currently existing in this project."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#GetQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#GetQuotaRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#GetQuotaResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/quota",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get the quota of Network Load Balancers in a project.\n\nRetrieves the configured Network Load Balancer quota for the project. Limit can be changed via service request."
+      }
+    },
+    "com.stackit.load_balancer#ListPlansRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.load_balancer#ListPlansResponse": {
+      "type": "structure",
+      "members": {
+        "validPlans": {
+          "target": "com.stackit.load_balancer#ListPlansResponseValidPlansList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#PlanDetails": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description"
+          }
+        },
+        "flavorName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Flavor Name"
+          }
+        },
+        "maxConnections": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of concurrent connections per load balancer VM instance."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan Name"
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan Identifier"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region this Plan is available in"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#ListPlansResponseValidPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.load_balancer#PlanDetails"
+      },
+      "traits": {}
+    },
+    "com.stackit.load_balancer#ListPlans": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.load_balancer#ListPlansRequest"
+      },
+      "output": {
+        "target": "com.stackit.load_balancer#ListPlansResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.load_balancer#BadRequest"
+        },
+        {
+          "target": "com.stackit.load_balancer#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/regions/{region}/plans",
+          "code": 200,
+          "baseUrl": "https://load-balancer.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List available service plans.\n\nListPlans returns for the configured service plans for a project."
+      }
+    },
+    "com.stackit.load_balancer#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.load_balancer#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.load_balancer#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.load_balancer#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.load_balancer#LoadBalancer": {
+      "type": "service",
+      "version": "2.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.load_balancer#ListCredentials"
+        },
+        {
+          "target": "com.stackit.load_balancer#CreateCredentials"
+        },
+        {
+          "target": "com.stackit.load_balancer#GetCredentials"
+        },
+        {
+          "target": "com.stackit.load_balancer#UpdateCredentials"
+        },
+        {
+          "target": "com.stackit.load_balancer#DeleteCredentials"
+        },
+        {
+          "target": "com.stackit.load_balancer#ListLoadBalancers"
+        },
+        {
+          "target": "com.stackit.load_balancer#CreateLoadBalancer"
+        },
+        {
+          "target": "com.stackit.load_balancer#GetLoadBalancer"
+        },
+        {
+          "target": "com.stackit.load_balancer#UpdateLoadBalancer"
+        },
+        {
+          "target": "com.stackit.load_balancer#DeleteLoadBalancer"
+        },
+        {
+          "target": "com.stackit.load_balancer#UpdateTargetPool"
+        },
+        {
+          "target": "com.stackit.load_balancer#GetQuota"
+        },
+        {
+          "target": "com.stackit.load_balancer#ListPlans"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Network Load Balancer API",
+        "smithy.api#documentation": "This API offers an interface to provision and manage load balancing servers in your STACKIT project. It also has the possibility of pooling target servers for load balancing purposes.\n\nFor each load balancer provided, two VMs are deployed in your OpenStack project subject to a fee."
+      }
+    }
+  }
+}

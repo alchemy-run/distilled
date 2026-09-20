@@ -63,6 +63,12 @@ The REST-XML error decoder now returns the existing `InternalError` classificati
 
 `timeout 240 bun test packages/aws/src/client/response-parser.test.ts --timeout 90000` passed 34 tests (95 assertions), including the existing Lambda error regressions. After the correction, Alchemy's combined live storage run passed all five tests covering native and Effect Functions, RPC-backed local Functions, Workers and Lambda, with eight consecutive typed writes and normal stack cleanup. This passing run does not identify the upstream server fault or prove it cannot recur.
 
+## Main integration (2026-09-20)
+
+Merged main `71455a8c2` into the companion branch. The remaining diff is scoped to Neon, its shared generator/protocol/pagination support, and the S3-compatible storage error correction described above. Incoming Boat, Daytona, STACKIT, Fly, and Cloudflare changes remain main history rather than additions in the PR diff.
+
+The merged regression run exposed strict XML parsing failures before the existing code-less 5xx fallback. The decoder now handles typed `ParseError` only for server-error responses; malformed 4xx responses still fail parsing, structured error codes remain intact, and server-error fallback values retain no response body. Added malformed XML to the same server/client error matrix. All **607 tests across 15 files** passed (845 assertions), and a strict scoped check of the generator, Neon type fixtures, and AWS parser/tests passed. Full SDK CI remains the publication gate.
+
 ## Observed API details
 
 - A missing Function returns `NotFound: function not visible on branch`.

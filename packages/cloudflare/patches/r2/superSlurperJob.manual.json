@@ -1,0 +1,77 @@
+{
+  "description": "Type the live Super Slurper create preconnectivity rejection (403), and get/abort/pause/resume failures (500 Internal Server Error) for an absent 64-character job ID. This generic server error alone is not proof of absence; callers must confirm the exact ID is absent from paginated job history.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#SuperSlurperJobOperationFailed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "com.cloudflare.protocols#errorMatchers": [
+            { "status": 500, "message": "Internal Server Error" }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#SuperSlurperPreconnectivityFailed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": "Preconnectivity failed, please verify tokens and try again"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#CreateSuperSlurperJob/errors",
+      "value": [
+        { "target": "com.cloudflare.r2#SuperSlurperPreconnectivityFailed" }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#GetSuperSlurperJob/errors",
+      "value": [
+        { "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#AbortSuperSlurperJob/errors",
+      "value": [
+        { "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#PauseSuperSlurperJob/errors",
+      "value": [
+        { "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.r2#ResumeSuperSlurperJob/errors",
+      "value": [
+        { "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }
+      ]
+    }
+  ]
+}

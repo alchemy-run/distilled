@@ -393,3 +393,18 @@
 	url = https://github.com/distilled-mirror/spec-mirror-cloudflare.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/stackit/specs/spec-mirror-stackit"]
+	path = packages/stackit/specs/spec-mirror-stackit
+	url = https://github.com/distilled-mirror/spec-mirror-stackit.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/daytona/specs/spec-mirror-daytona"]
+	path = packages/daytona/specs/spec-mirror-daytona
+	url = https://github.com/distilled-mirror/spec-mirror-daytona.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/boat-dev/specs/spec-mirror-boat-dev"]
+	path = packages/boat-dev/specs/spec-mirror-boat-dev
+	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
+	ignore = dirty
+	shallow = true

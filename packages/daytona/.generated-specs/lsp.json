@@ -1,0 +1,555 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.lsp#CompletionContext": {
+      "type": "structure",
+      "members": {
+        "triggerCharacter": {
+          "target": "smithy.api#String"
+        },
+        "triggerKind": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.lsp#LspPosition": {
+      "type": "structure",
+      "members": {
+        "character": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "line": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.lsp#CompletionsRequest": {
+      "type": "structure",
+      "members": {
+        "context": {
+          "target": "com.daytona.lsp#CompletionContext"
+        },
+        "languageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pathToProject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "position": {
+          "target": "com.daytona.lsp#LspPosition",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.lsp#CompletionList": {
+      "type": "structure",
+      "members": {
+        "isIncomplete": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "items": {
+          "target": "com.daytona.lsp#CompletionListItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.lsp#CompletionItem": {
+      "type": "structure",
+      "members": {
+        "detail": {
+          "target": "smithy.api#String"
+        },
+        "documentation": {
+          "target": "smithy.api#Document"
+        },
+        "filterText": {
+          "target": "smithy.api#String"
+        },
+        "insertText": {
+          "target": "smithy.api#String"
+        },
+        "kind": {
+          "target": "smithy.api#Integer"
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sortText": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.lsp#CompletionListItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.lsp#CompletionItem"
+      },
+      "traits": {}
+    },
+    "com.daytona.lsp#Completions": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.lsp#CompletionsRequest"
+      },
+      "output": {
+        "target": "com.daytona.lsp#CompletionList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/lsp/completions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get code completions\n\nGet code completion suggestions from the LSP server"
+      }
+    },
+    "com.daytona.lsp#DidCloseRequest": {
+      "type": "structure",
+      "members": {
+        "languageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pathToProject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.lsp#DidClose": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.lsp#DidCloseRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/lsp/did-close",
+          "code": 200
+        },
+        "smithy.api#documentation": "Notify document closed\n\nNotify the LSP server that a document has been closed"
+      }
+    },
+    "com.daytona.lsp#DidOpenRequest": {
+      "type": "structure",
+      "members": {
+        "languageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pathToProject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.lsp#DidOpen": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.lsp#DidOpenRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/lsp/did-open",
+          "code": 200
+        },
+        "smithy.api#documentation": "Notify document opened\n\nNotify the LSP server that a document has been opened"
+      }
+    },
+    "com.daytona.lsp#DocumentSymbolsRequest": {
+      "type": "structure",
+      "members": {
+        "languageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "languageId",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Language ID (e.g., python, typescript)"
+          }
+        },
+        "pathToProject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pathToProject",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Path to project"
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "uri",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Document URI"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.lsp#LspSymbol": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "com.daytona.lsp#LspLocation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.lsp#LspLocation": {
+      "type": "structure",
+      "members": {
+        "range": {
+          "target": "com.daytona.lsp#LspRange",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.lsp#LspRange": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "com.daytona.lsp#LspPosition",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "com.daytona.lsp#LspPosition",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.lsp#DocumentSymbolsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.lsp#LspSymbol"
+      },
+      "traits": {}
+    },
+    "com.daytona.lsp#DocumentSymbolsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.lsp#DocumentSymbolsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.lsp#DocumentSymbols": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.lsp#DocumentSymbolsRequest"
+      },
+      "output": {
+        "target": "com.daytona.lsp#DocumentSymbolsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/lsp/document-symbols",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get document symbols\n\nGet symbols (functions, classes, etc.) from a document"
+      }
+    },
+    "com.daytona.lsp#StartRequest": {
+      "type": "structure",
+      "members": {
+        "languageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pathToProject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.lsp#Start": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.lsp#StartRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/lsp/start",
+          "code": 200
+        },
+        "smithy.api#documentation": "Start LSP server\n\nStart a Language Server Protocol server for the specified language"
+      }
+    },
+    "com.daytona.lsp#StopRequest": {
+      "type": "structure",
+      "members": {
+        "languageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pathToProject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.lsp#Stop": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.lsp#StopRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/lsp/stop",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stop LSP server\n\nStop a Language Server Protocol server"
+      }
+    },
+    "com.daytona.lsp#WorkspaceSymbolsRequest": {
+      "type": "structure",
+      "members": {
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Search query"
+          }
+        },
+        "languageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "languageId",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Language ID (e.g., python, typescript)"
+          }
+        },
+        "pathToProject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pathToProject",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Path to project"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.lsp#WorkspaceSymbolsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.lsp#LspSymbol"
+      },
+      "traits": {}
+    },
+    "com.daytona.lsp#WorkspaceSymbolsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.lsp#WorkspaceSymbolsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.lsp#WorkspaceSymbols": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.lsp#WorkspaceSymbolsRequest"
+      },
+      "output": {
+        "target": "com.daytona.lsp#WorkspaceSymbolsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/lsp/workspacesymbols",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get workspace symbols\n\nSearch for symbols across the entire workspace"
+      }
+    },
+    "com.daytona.lsp#Lsp": {
+      "type": "service",
+      "version": "v0.0.0-dev",
+      "operations": [
+        {
+          "target": "com.daytona.lsp#Completions"
+        },
+        {
+          "target": "com.daytona.lsp#DidClose"
+        },
+        {
+          "target": "com.daytona.lsp#DidOpen"
+        },
+        {
+          "target": "com.daytona.lsp#DocumentSymbols"
+        },
+        {
+          "target": "com.daytona.lsp#Start"
+        },
+        {
+          "target": "com.daytona.lsp#Stop"
+        },
+        {
+          "target": "com.daytona.lsp#WorkspaceSymbols"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Toolbox API",
+        "smithy.api#documentation": "Daytona Toolbox API. The base URL comes from the sandbox's `toolboxProxyUrl` field (returned in sandbox DTO by the main Daytona API) plus the sandbox ID: `{toolboxProxyUrl}/{sandboxId}/{endpoint}`. Default for Daytona Cloud: `https://proxy.app.daytona.io/toolbox/{sandboxId}`."
+      }
+    }
+  }
+}

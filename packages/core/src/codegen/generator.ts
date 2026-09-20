@@ -360,8 +360,9 @@ export interface SdkSpec {
    * and the schema is `S.Unknown.pipe(T.UnionCases([...case key sets]))` —
    * the protocol discriminates by key-set at decode time (for APIs that
    * return every case's keys with nulls, like Cloudflare's).
+   * `"primitive"`: emit unwrapped unions of primitive or enum values.
    */
-  readonly unionStyle?: "opaque-cases";
+  readonly unionStyle?: "opaque-cases" | "primitive";
   /** Full override of union emission. */
   readonly union?: (ctx: {
     readonly name: string;
@@ -1050,6 +1051,28 @@ export const generateService = (
       });
       if (spec.union) {
         out.push(...spec.union({ name, caseTargets, caseKeys, tsRef }));
+      } else if (
+        spec.unionStyle === "primitive" &&
+        caseTargets.length > 0 &&
+        caseTargets.every(
+          (target) =>
+            ["string", "number", "boolean"].includes(tsRef(target)) ||
+            shapes[target]?.type === "enum" ||
+            shapes[target]?.type === "intEnum",
+        )
+      ) {
+        // Primitive unions keep response enums open to match S.String/S.Number.
+        const primitiveType = (target: string) => {
+          const type = tsRef(target);
+          if (shapes[target]?.type === "enum") return `${type} | (string & {})`;
+          if (shapes[target]?.type === "intEnum")
+            return `${type} | (number & {})`;
+          return type;
+        };
+        out.push(
+          `export type ${name} = ${caseTargets.map(primitiveType).join(" | ")};`,
+          `export const ${name}: S.Codec<${name}> = ${pure}S.Union([${caseTargets.map((t) => ref(t, i)).join(", ")}]);\n`,
+        );
       } else if (spec.unionStyle === "opaque-cases") {
         const disc = unionDiscriminator(caseTargets);
         out.push(

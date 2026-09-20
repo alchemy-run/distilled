@@ -1,0 +1,1213 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.process#RunCodeRequestArgvList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#RunCodeRequestEnvsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#RunCodeRequest": {
+      "type": "structure",
+      "members": {
+        "argv": {
+          "target": "com.daytona.process#RunCodeRequestArgvList"
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "envs": {
+          "target": "com.daytona.process#RunCodeRequestEnvsMap"
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "python, javascript, typescript",
+            "smithy.api#required": {}
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#CodeRunResponse": {
+      "type": "structure",
+      "members": {
+        "artifacts": {
+          "target": "com.daytona.process#CodeRunArtifacts"
+        },
+        "exitCode": {
+          "target": "smithy.api#Integer"
+        },
+        "result": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#CodeRunArtifacts": {
+      "type": "structure",
+      "members": {
+        "charts": {
+          "target": "com.daytona.process#CodeRunArtifactsChartsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#Chart": {
+      "type": "structure",
+      "members": {
+        "elements": {
+          "target": "com.daytona.process#ChartElementsList"
+        },
+        "png": {
+          "target": "smithy.api#String"
+        },
+        "title": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "x_label": {
+          "target": "smithy.api#String"
+        },
+        "x_scale": {
+          "target": "smithy.api#String"
+        },
+        "x_tick_labels": {
+          "target": "com.daytona.process#ChartXTickLabelsList"
+        },
+        "x_ticks": {
+          "target": "com.daytona.process#ChartXTicksList"
+        },
+        "y_label": {
+          "target": "smithy.api#String"
+        },
+        "y_scale": {
+          "target": "smithy.api#String"
+        },
+        "y_tick_labels": {
+          "target": "com.daytona.process#ChartYTickLabelsList"
+        },
+        "y_ticks": {
+          "target": "com.daytona.process#ChartYTicksList"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ChartElement": {
+      "type": "structure",
+      "members": {
+        "angle": {
+          "target": "smithy.api#Double"
+        },
+        "first_quartile": {
+          "target": "smithy.api#Double"
+        },
+        "group": {
+          "target": "smithy.api#String"
+        },
+        "label": {
+          "target": "smithy.api#String"
+        },
+        "max": {
+          "target": "smithy.api#Double"
+        },
+        "median": {
+          "target": "smithy.api#Double"
+        },
+        "min": {
+          "target": "smithy.api#Double"
+        },
+        "outliers": {
+          "target": "com.daytona.process#ChartElementOutliersList"
+        },
+        "png": {
+          "target": "smithy.api#String"
+        },
+        "points": {
+          "target": "com.daytona.process#ChartElementPointsList"
+        },
+        "radius": {
+          "target": "smithy.api#Double"
+        },
+        "third_quartile": {
+          "target": "smithy.api#Double"
+        },
+        "title": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        },
+        "x_label": {
+          "target": "smithy.api#String"
+        },
+        "y_label": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ChartElementOutliersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ChartElementPointsItemList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ChartElementPointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.process#ChartElementPointsItemList"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ChartElementsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.process#ChartElement"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ChartXTickLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ChartXTicksList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ChartYTickLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ChartYTicksList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#CodeRunArtifactsChartsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.process#Chart"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#RunCode": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#RunCodeRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#CodeRunResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process/code-run",
+          "code": 200
+        },
+        "smithy.api#documentation": "Execute code\n\nExecute Python, JavaScript, or TypeScript code and return output, exit code, and artifacts"
+      }
+    },
+    "com.daytona.process#ExecuteCommandRequestEnvsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables to set for the command"
+      }
+    },
+    "com.daytona.process#ExecuteCommandRequest": {
+      "type": "structure",
+      "members": {
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cwd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current working directory"
+          }
+        },
+        "envs": {
+          "target": "com.daytona.process#ExecuteCommandRequestEnvsMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables to set for the command"
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timeout in seconds, defaults to 10 seconds"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#ExecuteResponse": {
+      "type": "structure",
+      "members": {
+        "exitCode": {
+          "target": "smithy.api#Integer"
+        },
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ExecuteCommand": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#ExecuteCommandRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#ExecuteResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process/execute",
+          "code": 200
+        },
+        "smithy.api#documentation": "Execute a command\n\nExecute a shell command and return the output and exit code"
+      }
+    },
+    "com.daytona.process#PtyListResponse": {
+      "type": "structure",
+      "members": {
+        "sessions": {
+          "target": "com.daytona.process#PtyListResponseSessionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#PtySessionInfo": {
+      "type": "structure",
+      "members": {
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cols": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cwd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "envs": {
+          "target": "com.daytona.process#PtySessionInfoEnvsMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lazyStart": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this session uses lazy start",
+            "smithy.api#required": {}
+          }
+        },
+        "rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#PtySessionInfoEnvsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#PtyListResponseSessionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.process#PtySessionInfo"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ListPtySessions": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.process#PtyListResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/pty",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all PTY sessions\n\nGet a list of all active pseudo-terminal sessions"
+      }
+    },
+    "com.daytona.process#CreatePtySessionRequestEnvsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#CreatePtySessionRequest": {
+      "type": "structure",
+      "members": {
+        "cols": {
+          "target": "smithy.api#Integer"
+        },
+        "cwd": {
+          "target": "smithy.api#String"
+        },
+        "envs": {
+          "target": "com.daytona.process#CreatePtySessionRequestEnvsMap"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "lazyStart": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Don't start PTY until first client connects"
+          }
+        },
+        "rows": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#PtyCreateResponse": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#CreatePtySession": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#CreatePtySessionRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#PtyCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process/pty",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new PTY session\n\nCreate a new pseudo-terminal session with specified configuration"
+      }
+    },
+    "com.daytona.process#GetPtySessionRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "PTY session ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#GetPtySession": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#GetPtySessionRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#PtySessionInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/pty/{sessionId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get PTY session information\n\nGet detailed information about a specific pseudo-terminal session"
+      }
+    },
+    "com.daytona.process#DeletePtySessionRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "PTY session ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#GinH": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#DeletePtySessionResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.process#GinH",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.process#DeletePtySession": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#DeletePtySessionRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#DeletePtySessionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/process/pty/{sessionId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a PTY session\n\nDelete a pseudo-terminal session and terminate its process"
+      }
+    },
+    "com.daytona.process#ConnectPtySessionRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "PTY session ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#ConnectPtySession": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#ConnectPtySessionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/pty/{sessionId}/connect",
+          "code": 200
+        },
+        "smithy.api#documentation": "Connect to PTY session via WebSocket\n\nEstablish a WebSocket connection to interact with a pseudo-terminal session"
+      }
+    },
+    "com.daytona.process#ResizePtySessionRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "PTY session ID"
+          }
+        },
+        "cols": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#ResizePtySession": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#ResizePtySessionRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#PtySessionInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process/pty/{sessionId}/resize",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resize a PTY session\n\nResize the terminal dimensions of a pseudo-terminal session"
+      }
+    },
+    "com.daytona.process#Session": {
+      "type": "structure",
+      "members": {
+        "commands": {
+          "target": "com.daytona.process#SessionCommandsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#Command": {
+      "type": "structure",
+      "members": {
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "exitCode": {
+          "target": "smithy.api#Integer"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#SessionCommandsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.process#Command"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ListSessionsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.process#Session"
+      },
+      "traits": {}
+    },
+    "com.daytona.process#ListSessionsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.process#ListSessionsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.process#ListSessions": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.process#ListSessionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/session",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all sessions\n\nGet a list of all active shell sessions"
+      }
+    },
+    "com.daytona.process#CreateSessionRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#CreateSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#CreateSessionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process/session",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new session\n\nCreate a new shell session for command execution"
+      }
+    },
+    "com.daytona.process#GetEntrypointSession": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.process#Session"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/session/entrypoint",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get entrypoint session details\n\nGet details of an entrypoint session including its commands"
+      }
+    },
+    "com.daytona.process#GetEntrypointLogsRequest": {
+      "type": "structure",
+      "members": {
+        "follow": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "follow",
+            "smithy.api#documentation": "Follow logs in real-time (WebSocket only)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#SessionCommandLogsResponse": {
+      "type": "structure",
+      "members": {
+        "output": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "stderr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "stdout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#GetEntrypointLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#GetEntrypointLogsRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#SessionCommandLogsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/session/entrypoint/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get entrypoint logs\n\nGet logs for a sandbox entrypoint session. Returns JSON with separated stdout/stderr for SDK >= 0.161.0, plain text otherwise. Supports WebSocket streaming."
+      }
+    },
+    "com.daytona.process#GetSessionRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Session ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#GetSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#GetSessionRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#Session"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/session/{sessionId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get session details\n\nGet details of a specific session including its commands"
+      }
+    },
+    "com.daytona.process#DeleteSessionRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Session ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#DeleteSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#DeleteSessionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/process/session/{sessionId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a session\n\nDelete an existing shell session"
+      }
+    },
+    "com.daytona.process#GetSessionCommandRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Session ID"
+          }
+        },
+        "commandId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Command ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#GetSessionCommand": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#GetSessionCommandRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#Command"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/session/{sessionId}/command/{commandId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get session command details\n\nGet details of a specific command within a session"
+      }
+    },
+    "com.daytona.process#SendInputRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Session ID"
+          }
+        },
+        "commandId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Command ID"
+          }
+        },
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#SendInput": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#SendInputRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process/session/{sessionId}/command/{commandId}/input",
+          "code": 200
+        },
+        "smithy.api#documentation": "Send input to command\n\nSend input data to a running command in a session for interactive execution"
+      }
+    },
+    "com.daytona.process#GetSessionCommandLogsRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Session ID"
+          }
+        },
+        "commandId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Command ID"
+          }
+        },
+        "follow": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "follow",
+            "smithy.api#documentation": "Follow logs in real-time (WebSocket only)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#GetSessionCommandLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#GetSessionCommandLogsRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#SessionCommandLogsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/session/{sessionId}/command/{commandId}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get session command logs\n\nGet logs for a specific command within a session. Returns JSON with separated stdout/stderr for SDK >= 0.167.0, plain text otherwise. Supports WebSocket streaming."
+      }
+    },
+    "com.daytona.process#SessionExecuteCommandRequest": {
+      "type": "structure",
+      "members": {
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Session ID"
+          }
+        },
+        "async": {
+          "target": "smithy.api#Boolean"
+        },
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "runAsync": {
+          "target": "smithy.api#Boolean"
+        },
+        "suppressInputEcho": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.process#SessionExecuteResponse": {
+      "type": "structure",
+      "members": {
+        "cmdId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "exitCode": {
+          "target": "smithy.api#Integer"
+        },
+        "output": {
+          "target": "smithy.api#String"
+        },
+        "stderr": {
+          "target": "smithy.api#String"
+        },
+        "stdout": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.process#SessionExecuteCommand": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.process#SessionExecuteCommandRequest"
+      },
+      "output": {
+        "target": "com.daytona.process#SessionExecuteResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process/session/{sessionId}/exec",
+          "code": 200
+        },
+        "smithy.api#documentation": "Execute command in session\n\nExecute a command within an existing shell session"
+      }
+    },
+    "com.daytona.process#Process": {
+      "type": "service",
+      "version": "v0.0.0-dev",
+      "operations": [
+        {
+          "target": "com.daytona.process#RunCode"
+        },
+        {
+          "target": "com.daytona.process#ExecuteCommand"
+        },
+        {
+          "target": "com.daytona.process#ListPtySessions"
+        },
+        {
+          "target": "com.daytona.process#CreatePtySession"
+        },
+        {
+          "target": "com.daytona.process#GetPtySession"
+        },
+        {
+          "target": "com.daytona.process#DeletePtySession"
+        },
+        {
+          "target": "com.daytona.process#ConnectPtySession"
+        },
+        {
+          "target": "com.daytona.process#ResizePtySession"
+        },
+        {
+          "target": "com.daytona.process#ListSessions"
+        },
+        {
+          "target": "com.daytona.process#CreateSession"
+        },
+        {
+          "target": "com.daytona.process#GetEntrypointSession"
+        },
+        {
+          "target": "com.daytona.process#GetEntrypointLogs"
+        },
+        {
+          "target": "com.daytona.process#GetSession"
+        },
+        {
+          "target": "com.daytona.process#DeleteSession"
+        },
+        {
+          "target": "com.daytona.process#GetSessionCommand"
+        },
+        {
+          "target": "com.daytona.process#SendInput"
+        },
+        {
+          "target": "com.daytona.process#GetSessionCommandLogs"
+        },
+        {
+          "target": "com.daytona.process#SessionExecuteCommand"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Toolbox API",
+        "smithy.api#documentation": "Daytona Toolbox API. The base URL comes from the sandbox's `toolboxProxyUrl` field (returned in sandbox DTO by the main Daytona API) plus the sandbox ID: `{toolboxProxyUrl}/{sandboxId}/{endpoint}`. Default for Daytona Cloud: `https://proxy.app.daytona.io/toolbox/{sandboxId}`."
+      }
+    }
+  }
+}

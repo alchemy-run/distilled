@@ -2376,6 +2376,7 @@ export type SetQueueAttributesError =
   | QueueDoesNotExist
   | RequestThrottled
   | UnsupportedOperation
+  | InvalidParameterValueException
   | RequestLimitExceeded
   | CommonServiceException
   | MissingRequiredParameterException
@@ -2414,6 +2415,7 @@ export const setQueueAttributes: API.OperationMethod<
     QueueDoesNotExist,
     RequestThrottled,
     UnsupportedOperation,
+    InvalidParameterValueException,
     RequestLimitExceeded,
     CommonServiceException,
     MissingRequiredParameterException,

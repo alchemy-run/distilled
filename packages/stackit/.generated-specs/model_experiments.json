@@ -1,0 +1,1324 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.model_experiments#ListInstancesRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.model_experiments#ListInstancesRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_experiments#ListInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "com.stackit.model_experiments#ListInstancesResponseInstancesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#Instance": {
+      "type": "structure",
+      "members": {
+        "bucketName": {
+          "target": "smithy.api#String"
+        },
+        "deletedExperimentRetention": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "errorMessage": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.model_experiments#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String"
+        },
+        "state": {
+          "target": "com.stackit.model_experiments#InstanceState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#Labels": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Object that represents the labels of an object. Regex for keys: `^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. Providing a `null` value for a key will remove that key. The `stackit-` prefix is reserved and cannot be used for Keys."
+      }
+    },
+    "com.stackit.model_experiments#InstanceState": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "IMPAIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "impaired"
+          }
+        },
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#ListInstancesResponseInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.model_experiments#Instance"
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#ListInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_experiments#ListInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_experiments#ListInstancesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_experiments#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_experiments#Forbidden"
+        },
+        {
+          "target": "com.stackit.model_experiments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://model-experiments.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "list instances in a project\n\nlist instances in a project"
+      }
+    },
+    "com.stackit.model_experiments#CreateInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.model_experiments#CreateInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region id"
+          }
+        },
+        "deletedExperimentRetention": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "labels": {
+          "target": "com.stackit.model_experiments#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_experiments#CreateInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "instance": {
+          "target": "com.stackit.model_experiments#Instance",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#CreateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_experiments#CreateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_experiments#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_experiments#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_experiments#Forbidden"
+        },
+        {
+          "target": "com.stackit.model_experiments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://model-experiments.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create an instance in a project\n\ncreate an instance in a project"
+      }
+    },
+    "com.stackit.model_experiments#GetInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#GetInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.model_experiments#GetInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region id"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_experiments#GetInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "instance": {
+          "target": "com.stackit.model_experiments#Instance",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#GetInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_experiments#GetInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_experiments#GetInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_experiments#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_experiments#Forbidden"
+        },
+        {
+          "target": "com.stackit.model_experiments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://model-experiments.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get an instance in a project\n\nget an instance in a project"
+      }
+    },
+    "com.stackit.model_experiments#PartialUpdateInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#LabelPatch": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Object that represents the labels of an object. Regex for keys: `^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. Providing a `null` value for a key will remove that key. The `stackit-` prefix is reserved and cannot be used for Keys."
+      }
+    },
+    "com.stackit.model_experiments#PartialUpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.model_experiments#PartialUpdateInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region id"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "deletedExperimentRetention": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "labels": {
+          "target": "com.stackit.model_experiments#LabelPatch"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_experiments#PartialUpdateInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "instance": {
+          "target": "com.stackit.model_experiments#Instance",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#PartialUpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_experiments#PartialUpdateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_experiments#PartialUpdateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_experiments#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_experiments#Forbidden"
+        },
+        {
+          "target": "com.stackit.model_experiments#NotFound"
+        },
+        {
+          "target": "com.stackit.model_experiments#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://model-experiments.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "partial update an instance in a project\n\npartial update an instance in a project"
+      }
+    },
+    "com.stackit.model_experiments#DeleteInstanceRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.model_experiments#DeleteInstanceRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region id"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_experiments#DeleteInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "instance": {
+          "target": "com.stackit.model_experiments#Instance",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#DeleteInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_experiments#DeleteInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_experiments#DeleteInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_experiments#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_experiments#Forbidden"
+        },
+        {
+          "target": "com.stackit.model_experiments#NotFound"
+        },
+        {
+          "target": "com.stackit.model_experiments#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://model-experiments.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete an instance in a project\n\ndelete an instance in a project"
+      }
+    },
+    "com.stackit.model_experiments#ListInstanceTokensRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#ListInstanceTokensRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.model_experiments#ListInstanceTokensRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region id"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_experiments#ListInstanceTokensResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "tokens": {
+          "target": "com.stackit.model_experiments#ListInstanceTokensResponseTokensList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#TokenMetadata": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.model_experiments#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.model_experiments#TokenState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "validUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#TokenState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The lifecycle state of the token."
+      }
+    },
+    "com.stackit.model_experiments#ListInstanceTokensResponseTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.model_experiments#TokenMetadata"
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#ListInstanceTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_experiments#ListInstanceTokensRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_experiments#ListInstanceTokensResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_experiments#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_experiments#Forbidden"
+        },
+        {
+          "target": "com.stackit.model_experiments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/tokens",
+          "code": 200,
+          "baseUrl": "https://model-experiments.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "list all auth tokens for an instance\n\nlist all auth tokens for an instance"
+      }
+    },
+    "com.stackit.model_experiments#CreateInstanceTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#CreateInstanceTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.model_experiments#CreateInstanceTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region id"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "labels": {
+          "target": "com.stackit.model_experiments#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ttlDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "time to live duration. Must be valid duration string. Maximum\nallowed duration is 6 months. If not set, defaults to 6 months.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_experiments#CreateInstanceTokenResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "token": {
+          "target": "com.stackit.model_experiments#Token",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#Token": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.model_experiments#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.model_experiments#TokenState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "validUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#CreateInstanceToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_experiments#CreateInstanceTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_experiments#CreateInstanceTokenResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_experiments#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_experiments#Forbidden"
+        },
+        {
+          "target": "com.stackit.model_experiments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/tokens",
+          "code": 200,
+          "baseUrl": "https://model-experiments.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create an auth token for an instance\n\ncreate an auth token for an instance"
+      }
+    },
+    "com.stackit.model_experiments#GetInstanceTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#GetInstanceTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.model_experiments#GetInstanceTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region id"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "tokenId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "token id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_experiments#GetInstanceTokenResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "token": {
+          "target": "com.stackit.model_experiments#TokenMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#GetInstanceToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_experiments#GetInstanceTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_experiments#GetInstanceTokenResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_experiments#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_experiments#Forbidden"
+        },
+        {
+          "target": "com.stackit.model_experiments#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/tokens/{tokenId}",
+          "code": 200,
+          "baseUrl": "https://model-experiments.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get an auth token for an instance\n\nget an auth token for an instance"
+      }
+    },
+    "com.stackit.model_experiments#PartialUpdateInstanceTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#PartialUpdateInstanceTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.model_experiments#PartialUpdateInstanceTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region id"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "tokenId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "token id"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "labels": {
+          "target": "com.stackit.model_experiments#LabelPatch"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_experiments#PartialUpdateInstanceTokenResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "token": {
+          "target": "com.stackit.model_experiments#TokenMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#PartialUpdateInstanceToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_experiments#PartialUpdateInstanceTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_experiments#PartialUpdateInstanceTokenResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_experiments#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_experiments#Forbidden"
+        },
+        {
+          "target": "com.stackit.model_experiments#NotFound"
+        },
+        {
+          "target": "com.stackit.model_experiments#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/tokens/{tokenId}",
+          "code": 200,
+          "baseUrl": "https://model-experiments.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "partial update an auth token for an instance\n\npartial update an auth token for an instance"
+      }
+    },
+    "com.stackit.model_experiments#DeleteInstanceTokenRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#DeleteInstanceTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.model_experiments#DeleteInstanceTokenRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region id"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "instance id"
+          }
+        },
+        "tokenId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "token id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_experiments#DeleteInstanceTokenResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "token": {
+          "target": "com.stackit.model_experiments#TokenMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_experiments#DeleteInstanceToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_experiments#DeleteInstanceTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_experiments#DeleteInstanceTokenResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_experiments#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_experiments#Forbidden"
+        },
+        {
+          "target": "com.stackit.model_experiments#NotFound"
+        },
+        {
+          "target": "com.stackit.model_experiments#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/tokens/{tokenId}",
+          "code": 200,
+          "baseUrl": "https://model-experiments.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete an auth token in an instance\n\ndelete an auth token in an instance"
+      }
+    },
+    "com.stackit.model_experiments#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.model_experiments#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.model_experiments#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.model_experiments#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.model_experiments#ModelExperiments": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.model_experiments#ListInstances"
+        },
+        {
+          "target": "com.stackit.model_experiments#CreateInstance"
+        },
+        {
+          "target": "com.stackit.model_experiments#GetInstance"
+        },
+        {
+          "target": "com.stackit.model_experiments#PartialUpdateInstance"
+        },
+        {
+          "target": "com.stackit.model_experiments#DeleteInstance"
+        },
+        {
+          "target": "com.stackit.model_experiments#ListInstanceTokens"
+        },
+        {
+          "target": "com.stackit.model_experiments#CreateInstanceToken"
+        },
+        {
+          "target": "com.stackit.model_experiments#GetInstanceToken"
+        },
+        {
+          "target": "com.stackit.model_experiments#PartialUpdateInstanceToken"
+        },
+        {
+          "target": "com.stackit.model_experiments#DeleteInstanceToken"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT AI Model Experiments API",
+        "smithy.api#documentation": "This API provides endpoints for the STACKIT AI Model Experiments api"
+      }
+    }
+  }
+}

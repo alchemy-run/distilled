@@ -7074,6 +7074,9 @@
         },
         {
           "target": "com.cloudflare.queues#InvalidRoute"
+        },
+        {
+          "target": "com.cloudflare.queues#QueueHttpPullNotEnabled"
         }
       ]
     },
@@ -7577,6 +7580,26 @@
       "traits": {
         "smithy.api#output": {},
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.queues#QueueHttpPullNotEnabled": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 0,
+            "message": "messages cannot be pulled unless http_pull mode is enabled"
+          }
+        ]
       }
     }
   }

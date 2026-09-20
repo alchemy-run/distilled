@@ -1,0 +1,4699 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.cdn#ListDistributionsRequestSortBy": {
+      "type": "enum",
+      "members": {
+        "ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id"
+          }
+        },
+        "UPDATEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updatedAt"
+          }
+        },
+        "CREATEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "createdAt"
+          }
+        },
+        "ORIGINURL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "originUrl"
+          }
+        },
+        "STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status"
+          }
+        },
+        "ORIGINURLRELATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "originUrlRelated"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#ListDistributionsRequestSortOrder": {
+      "type": "enum",
+      "members": {
+        "ASCENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ascending"
+          }
+        },
+        "DESCENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "descending"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#ListDistributionsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Quantifies how many distributions should be returned on this\npage. Must be a natural number between 1 and 100 (inclusive)\n"
+          }
+        },
+        "withWafStatus": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "withWafStatus",
+            "smithy.api#documentation": "If set, the top level of a distribution contains a `waf` property, which defines the status of the waf. This includes a list of all resolved rules."
+          }
+        },
+        "pageIdentifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageIdentifier",
+            "smithy.api#documentation": "Identifier is returned by the previous response and is used to request the next page.\n\nAs the `pageIdentifier` encodes an element, inserts during pagination will *not* shift the result.\nSo a scenario like:\n- Start listing first page\n- Insert new element\n- Start listing second page\nwill *never* result in an element from the first page to get \"pushed\" to the second page, like it could\noccur with basic limit + offset pagination.\n\nThe identifier should be treated as an opaque string and never modified. Only pass values returned by the API.\n"
+          }
+        },
+        "sortBy": {
+          "target": "com.stackit.cdn#ListDistributionsRequestSortBy",
+          "traits": {
+            "smithy.api#httpQuery": "sortBy",
+            "smithy.api#documentation": "The following sort options exist. We default to `createdAt`\n- `id` - Sort by distribution Id using String comparison\n- `updatedAt` - Sort by when the distribution configuration was last modified,\n  for example by changing the regions or response headers\n- `createdAt` - Sort by when the distribution was initially created.\n- `originUrl` - Sort by originUrl using String comparison\n- `status` - Sort by distribution status, using String comparison\n- `originUrlRelated` - The originUrl is segmented and reversed before sorting. E.g. `www.example.com` is converted to `com.example.www` for sorting. This way, distributions pointing to the same domain trees are grouped next to each other.\n"
+          }
+        },
+        "sortOrder": {
+          "target": "com.stackit.cdn#ListDistributionsRequestSortOrder",
+          "traits": {
+            "smithy.api#httpQuery": "sortOrder"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#ListDistributionsResponse": {
+      "type": "structure",
+      "members": {
+        "distributions": {
+          "target": "com.stackit.cdn#ListDistributionsResponseDistributionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageIdentifier": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#Distribution": {
+      "type": "structure",
+      "members": {
+        "config": {
+          "target": "com.stackit.cdn#Config",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RFC3339 string defining when the distribution was created",
+            "smithy.api#required": {}
+          }
+        },
+        "domains": {
+          "target": "com.stackit.cdn#DistributionDomainsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "errors": {
+          "target": "com.stackit.cdn#DistributionErrorsList",
+          "traits": {
+            "smithy.api#documentation": "This object may be present if, and only if the distribution has encountered an error state.\n"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.cdn#DistributionStatus",
+          "traits": {
+            "smithy.api#documentation": "- `CREATING`: The distribution was just created.\n  All the relevant resources are created in the background. Once fully reconciled,\n  this switches to `ACTIVE`. If there are any issues, the status changes to\n  `ERROR`. You can look at the `errors` array to get more infos.\n- `ACTIVE`: The usual state. The desired configuration is synced, there are no errors\n- `UPDATING`: The state when there is a discrepancy between the desired and\n  actual configuration state. This occurs right after an update. Will switch to\n  `ACTIVE` or `ERROR`, depending on if synchronizing succeeds or not.\n- `DELETING`: The state right after a delete request was received. The distribution will stay in this status\n  until all resources have been successfully removed, or until we encounter an `ERROR` state.\n\n  **NOTE:** You can keep fetching the distribution while it is deleting.\n  After successful deletion, trying to get a distribution will return a 404 Not Found response\n- `ERROR`: The error state. Look at the `errors` array for more info.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "RFC3339 string which returns the last time the distribution configuration was modified.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "waf": {
+          "target": "com.stackit.cdn#DistributionWaf",
+          "traits": {
+            "smithy.api#documentation": "For this property to be present two pre-conditions must be met:\n- the WAF was enabled at least once\n- the query parameter ?withWafStatus is truthy\n\nThis property contains the waf Status. At this point in time, this contains all resolved rules.\nRules are split into 3 groups:\n- enabledRules\n- logOnlyRules\n- disabledRules\n\n**Do note that the global waf mode (Disabled, LogOnly, Enabled) is *NOT* reflected in this list!**\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#Config": {
+      "type": "structure",
+      "members": {
+        "backend": {
+          "target": "com.stackit.cdn#ConfigBackend",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "blockedCountries": {
+          "target": "com.stackit.cdn#ConfigBlockedCountriesList",
+          "traits": {
+            "smithy.api#documentation": "Restricts access to your content based on country.\nWe use the ISO 3166-1 alpha-2 standard for country codes (e.g. DE, ES, GB).\nThis setting blocks users from the specified countries.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "blockedIps": {
+          "target": "com.stackit.cdn#ConfigBlockedIpsList",
+          "traits": {
+            "smithy.api#documentation": "Restricts access to your content by specifying a list of blocked IPv4 addresses.\nThis feature enhances security and privacy by preventing these addresses from accessing your distribution.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "cacheConfig": {
+          "target": "com.stackit.cdn#CacheConfig",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "defaultCacheDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sets the default cache duration for the distribution.\nThe default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response.\nWe use ISO8601 duration format for cache duration (e.g. P1DT2H30M)\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "forwardHostHeader": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enabling this allows the 'Host' header to be passed through to the origin.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.cdn#ConfigLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are key-value string pairs that can be attached to a distribution."
+          }
+        },
+        "logSink": {
+          "target": "com.stackit.cdn#ConfigLogSink"
+        },
+        "monthlyLimitBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sets the monthly limit of bandwidth in bytes that the pullzone is allowed to use.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "optimizer": {
+          "target": "com.stackit.cdn#Optimizer"
+        },
+        "redirects": {
+          "target": "com.stackit.cdn#RedirectConfig"
+        },
+        "regions": {
+          "target": "com.stackit.cdn#ConfigRegionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "stripResponseCookies": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable this to prevent origin-level cookies from being forwarded to the end user.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "tls": {
+          "target": "com.stackit.cdn#TlsConfig",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "waf": {
+          "target": "com.stackit.cdn#WafConfig",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#HttpBackend": {
+      "type": "structure",
+      "members": {
+        "geofencing": {
+          "target": "com.stackit.cdn#HttpBackendGeofencingMap",
+          "traits": {
+            "smithy.api#documentation": "An object mapping multiple alternative origins to country codes.\n\nAny request from one of those country codes will route to the alternative origin. Do note that\ncountry codes may only be used once. You cannot have a country be assigned to multiple alternative origins.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "originRequestHeaders": {
+          "target": "com.stackit.cdn#HttpBackendOriginRequestHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Headers that will be sent with every request to the configured origin.\n\n**WARNING**: Do not store sensitive values in the headers.\nThe configuration is stored as plain text.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "originUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The origin of the content that should be made available through the CDN.\nNote that the path and query parameters are ignored. Ports are allowed. If no protocol is provided, `https` is assumed.\nSo `www.example.com:1234/somePath?q=123` is normalized to `https://www.example.com:1234`\n",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#HttpBackendType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `http`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#HttpBackendGeofencingValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#HttpBackendGeofencingMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.stackit.cdn#HttpBackendGeofencingValueList"
+      },
+      "traits": {
+        "smithy.api#documentation": "An object mapping multiple alternative origins to country codes.\n\nAny request from one of those country codes will route to the alternative origin. Do note that\ncountry codes may only be used once. You cannot have a country be assigned to multiple alternative origins.\n"
+      }
+    },
+    "com.stackit.cdn#HttpBackendOriginRequestHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Headers that will be sent with every request to the configured origin.\n\n**WARNING**: Do not store sensitive values in the headers.\nThe configuration is stored as plain text.\n"
+      }
+    },
+    "com.stackit.cdn#HttpBackendType": {
+      "type": "enum",
+      "members": {
+        "HTTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "http"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `http`."
+      }
+    },
+    "com.stackit.cdn#BucketBackend": {
+      "type": "structure",
+      "members": {
+        "bucketUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fully qualified URL of your cloud storage bucket (for example, `https://s3.eu-central-1.amazonaws.com/my-bucket`).",
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cloud provider region where your storage bucket is located (for example, `us-west-1` for AWS or `eu01` for STACKIT).",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#BucketBackendType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `bucket`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#BucketBackendType": {
+      "type": "enum",
+      "members": {
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `bucket`."
+      }
+    },
+    "com.stackit.cdn#ConfigBackend": {
+      "type": "union",
+      "members": {
+        "HttpBackend": {
+          "target": "com.stackit.cdn#HttpBackend"
+        },
+        "BucketBackend": {
+          "target": "com.stackit.cdn#BucketBackend"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#ConfigBlockedCountriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restricts access to your content based on country.\nWe use the ISO 3166-1 alpha-2 standard for country codes (e.g. DE, ES, GB).\nThis setting blocks users from the specified countries.\n"
+      }
+    },
+    "com.stackit.cdn#ConfigBlockedIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restricts access to your content by specifying a list of blocked IPv4 addresses.\nThis feature enhances security and privacy by preventing these addresses from accessing your distribution.\n"
+      }
+    },
+    "com.stackit.cdn#CacheConfig": {
+      "type": "structure",
+      "members": {
+        "cacheKeyHeaders": {
+          "target": "com.stackit.cdn#CacheConfigCacheKeyHeadersList",
+          "traits": {
+            "smithy.api#documentation": "HTTP request header names whose values participate in the cache key. Each entry multiplies\nthe number of cache variants by the number of distinct values observed for that header.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "queryStringVaryEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the CDN varies its cache by the request query string. If\n`queryStringVaryParameters` is empty, every unique query-string combination produces its\nown cache entry; if non-empty, only the listed parameters influence the cache key.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "queryStringVaryParameters": {
+          "target": "com.stackit.cdn#CacheConfigQueryStringVaryParametersList",
+          "traits": {
+            "smithy.api#documentation": "Allowlist of query-string parameter names that participate in the cache key when\n`queryStringVaryEnabled` is true. Ignored while `queryStringVaryEnabled` is false, but\nstill stored so it can be re-activated without losing the list.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Groups the cache options that influence how the CDN builds its cache key.\n\n**Cache cardinality warning:** enabling query-string vary produces one cache entry per unique\nquery-string combination (**unbounded** when `queryStringVaryParameters` is empty). Each entry in\n`cacheKeyHeaders` multiplies the number of cache variants by the number of distinct values\nobserved for that header. Use these settings sparingly.\n\n`queryStringVaryParameters` is stored independently of `queryStringVaryEnabled` so that this feature\ncan be toggled on and off without losing the configured allowlist.\nOnly `queryStringVaryEnabled` gates whether the parameter allowlist actually varies the cache.\n\n**Optimizer interaction:** when the Optimizer is enabled, the CDN automatically enables\nquery-string vary for image responses regardless of this setting.\n"
+      }
+    },
+    "com.stackit.cdn#CacheConfigCacheKeyHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "HTTP request header names whose values participate in the cache key. Each entry multiplies\nthe number of cache variants by the number of distinct values observed for that header.\n"
+      }
+    },
+    "com.stackit.cdn#CacheConfigQueryStringVaryParametersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Allowlist of query-string parameter names that participate in the cache key when\n`queryStringVaryEnabled` is true. Ignored while `queryStringVaryEnabled` is false, but\nstill stored so it can be re-activated without losing the list.\n"
+      }
+    },
+    "com.stackit.cdn#ConfigLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are key-value string pairs that can be attached to a distribution."
+      }
+    },
+    "com.stackit.cdn#LokiLogSink": {
+      "type": "structure",
+      "members": {
+        "pushUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fully qualified URL where the CDN should push logs to your Loki instance (for example, `https://loki.example.com/loki/api/v1/push`).",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#LokiLogSinkType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of the log sink.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#LokiLogSinkType": {
+      "type": "enum",
+      "members": {
+        "LOKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "loki"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of the log sink."
+      }
+    },
+    "com.stackit.cdn#OtlpLogSink": {
+      "type": "structure",
+      "members": {
+        "pushUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fully qualified URL where the CDN should push logs to your OTLP endpoint (for example, `https://otlp.example.com/otlp/v1/logs`).",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#OtlpLogSinkType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of the log sink.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#OtlpLogSinkType": {
+      "type": "enum",
+      "members": {
+        "OTLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "otlp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of the log sink."
+      }
+    },
+    "com.stackit.cdn#ConfigLogSink": {
+      "type": "union",
+      "members": {
+        "LokiLogSink": {
+          "target": "com.stackit.cdn#LokiLogSink"
+        },
+        "OtlpLogSink": {
+          "target": "com.stackit.cdn#OtlpLogSink"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#Optimizer": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Determines if the optimizer should be enabled for this distribution and incurs a monthly fee",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optimizer is paid feature, a real-time on the fly image manipulation and optimization service that automatically optimizes your images for faster image delivery.\n"
+      }
+    },
+    "com.stackit.cdn#RedirectConfig": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.stackit.cdn#RedirectConfigRulesList",
+          "traits": {
+            "smithy.api#documentation": "A list of redirect rules. The order of rules matters for evaluation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A wrapper for a list of redirect rules that allows for redirect settings on a distribution."
+      }
+    },
+    "com.stackit.cdn#RedirectRule": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional description for the redirect rule."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A toggle to enable or disable the redirect rule."
+          }
+        },
+        "matchers": {
+          "target": "com.stackit.cdn#RedirectRuleMatchersList",
+          "traits": {
+            "smithy.api#documentation": "A list of matchers that define when this rule should apply. At least one matcher is required.",
+            "smithy.api#required": {}
+          }
+        },
+        "ruleMatchCondition": {
+          "target": "com.stackit.cdn#MatchCondition"
+        },
+        "statusCode": {
+          "target": "com.stackit.cdn#RedirectRuleStatusCode",
+          "traits": {
+            "smithy.api#documentation": "The HTTP status code for the redirect. Must be one of 301, 302, 303, 307, or 308.",
+            "smithy.api#required": {}
+          }
+        },
+        "targetUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target URL to redirect to. Must be a valid URI.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single redirect rule defining a source pattern and a target URL."
+      }
+    },
+    "com.stackit.cdn#Matcher": {
+      "type": "structure",
+      "members": {
+        "valueMatchCondition": {
+          "target": "com.stackit.cdn#MatchCondition"
+        },
+        "values": {
+          "target": "com.stackit.cdn#MatcherValuesList",
+          "traits": {
+            "smithy.api#documentation": "A list of glob patterns to match against the request path. At least one value is required. Examples: \"/shop/*\" or \"*/img/*\"",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A matcher containing a list of string values to compare against the request path."
+      }
+    },
+    "com.stackit.cdn#MatchCondition": {
+      "type": "enum",
+      "members": {
+        "ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ANY"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ALL"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NONE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY."
+      }
+    },
+    "com.stackit.cdn#MatcherValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of glob patterns to match against the request path. At least one value is required. Examples: \"/shop/*\" or \"*/img/*\""
+      }
+    },
+    "com.stackit.cdn#RedirectRuleMatchersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#Matcher"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of matchers that define when this rule should apply. At least one matcher is required."
+      }
+    },
+    "com.stackit.cdn#RedirectRuleStatusCode": {
+      "type": "intEnum",
+      "members": {
+        "_301": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 301
+          }
+        },
+        "_302": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 302
+          }
+        },
+        "_303": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 303
+          }
+        },
+        "_307": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 307
+          }
+        },
+        "_308": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 308
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The HTTP status code for the redirect. Must be one of 301, 302, 303, 307, or 308."
+      }
+    },
+    "com.stackit.cdn#RedirectConfigRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#RedirectRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of redirect rules. The order of rules matters for evaluation."
+      }
+    },
+    "com.stackit.cdn#Region": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EU"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "US"
+          }
+        },
+        "AF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AF"
+          }
+        },
+        "SA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SA"
+          }
+        },
+        "ASIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASIA"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The following regions exist:\n- `EU` - Europe\n- `US` - United States / North America\n- `AF` - Africa\n- `SA` - South America\n- `ASIA` - Asia and Oceania\n"
+      }
+    },
+    "com.stackit.cdn#ConfigRegionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#Region"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#TlsConfig": {
+      "type": "structure",
+      "members": {
+        "enableTls10": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set to true, the distribution will accept connections using TLS 1.0.",
+            "smithy.api#required": {}
+          }
+        },
+        "enableTls11": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set to true, the distribution will accept connections using TLS 1.1.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for TLS protocol versions.\nNote: Enabling older TLS versions (1.0, 1.1) is generally discouraged for security reasons.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfig": {
+      "type": "structure",
+      "members": {
+        "allowedHttpMethods": {
+          "target": "com.stackit.cdn#WafConfigAllowedHttpMethodsList",
+          "traits": {
+            "smithy.api#documentation": "This whitelist restricts which HTTP methods the distribution accepts. Requests using\nnon-whitelisted methods are blocked by the WAF before reaching the origin.\n\nCommon methods: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `HEAD`, `OPTIONS`, `CONNECT`, `TRACE`\n\nValidation ensures:\n1. At least one method is allowed\n2. No duplicate methods (e.g., `GET` appearing twice)\n3. Each method is valid per HTTP standards\n"
+          }
+        },
+        "allowedHttpVersions": {
+          "target": "com.stackit.cdn#WafConfigAllowedHttpVersionsList"
+        },
+        "allowedRequestContentTypes": {
+          "target": "com.stackit.cdn#WafConfigAllowedRequestContentTypesList",
+          "traits": {
+            "smithy.api#documentation": "This allow list restricts which Content-Type headers are accepted in request bodies.\n\nFormat: Must be `type/subtype` with no spaces.\n\nCommon content types:\n- `application/json`\n- `application/x-www-form-urlencoded`\n- `multipart/form-data`\n- `text/html`\n- `text/plain`\n- `application/xml`\n"
+          }
+        },
+        "disabledRuleCollectionIds": {
+          "target": "com.stackit.cdn#WafConfigDisabledRuleCollectionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Collections to mark as disabled\n"
+          }
+        },
+        "disabledRuleGroupIds": {
+          "target": "com.stackit.cdn#WafConfigDisabledRuleGroupIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rule Groups to mark as disabled\n"
+          }
+        },
+        "disabledRuleIds": {
+          "target": "com.stackit.cdn#WafConfigDisabledRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rules that are **explicitly** disabled for this distribution.\n"
+          }
+        },
+        "enabledRuleCollectionIds": {
+          "target": "com.stackit.cdn#WafConfigEnabledRuleCollectionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Collections to mark as enabled\n"
+          }
+        },
+        "enabledRuleGroupIds": {
+          "target": "com.stackit.cdn#WafConfigEnabledRuleGroupIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rule Groups to mark as enabled\n"
+          }
+        },
+        "enabledRuleIds": {
+          "target": "com.stackit.cdn#WafConfigEnabledRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of the WAF rules that are **explicitly** enabled for this distribution.\nIf this rule is in a disabled / log Only RuleGroup or Collection,\nit will be enabled regardless as `enabledRuleIds` overrides those in specificity.\n\nDo note that rules can also be enabled because a Rulegroup or Collection is enabled.\n**DO NOT** use this property to find all active rules. Instead, pass `?withWafStatus=true` as a query parameter\nto `GetDistribution` or `ListDistributions`. This will expose the `waf` Property on distribution Level.\n\nFrom there you can `$.waf.enabledRules.map(e => e.id)` to get a list of all enabled rules.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "logOnlyRuleCollectionIds": {
+          "target": "com.stackit.cdn#WafConfigLogOnlyRuleCollectionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Collections to mark as log Only.\n"
+          }
+        },
+        "logOnlyRuleGroupIds": {
+          "target": "com.stackit.cdn#WafConfigLogOnlyRuleGroupIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rule Groups to mark as log Only.\n"
+          }
+        },
+        "logOnlyRuleIds": {
+          "target": "com.stackit.cdn#WafConfigLogOnlyRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rules that are **explicitly** marked as Log Only for this distribution.\n"
+          }
+        },
+        "mode": {
+          "target": "com.stackit.cdn#WafMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "paranoiaLevel": {
+          "target": "com.stackit.cdn#WafParanoiaLevel"
+        },
+        "type": {
+          "target": "com.stackit.cdn#WafType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration of the WAF of a distribution\n\nA WAF Config always contains a WAF Mode and Type. If a WAF was never enabled, most of the properties are not present.\nTo **enable** the WAF for your Distribution, you must set the `mode` to `ENABLED` or `LOG_ONLY`.\n\nThis causes the other properties to be populated.\n\n## Rules\nThere are 9 properties used to control which Rules are enabled, disabled or set to Log-Only. These properties can be grouped in 3 groups of 3. Each of these groups varies in specificity:\nRules are more specific than Rule Groups, which in turn are more specific than Collections. More specific definitions override more generic definitions.\n\n### Collections\n- `enabledRuleCollectionIds`\n- `disabledRuleCollectionIds`\n- `logOnlyRuleCollectionIds`\nThese are the least specific selectors. As of 2025, only two collections exist:\n  - `@builtin/crs/response`, containing all Rules regarding Responses\n  - `@builtin/crs/request`, containing all Rules regarding Requests\n  More collections may be added in the future\n### Rule Groups\n- `enabledRuleGroupIds`\n- `disabledRuleGroupIds`\n- `logOnlyRuleGroupIds`\nThese are more specific than Collections and will override their selector. You can find all available Rule Groups by calling the\n`ListWafCollections` Operation.\n### Rules\n- `enabledRuleIds`\n- `disabledRuleIds`\n- `logOnlyRuleGds`\nBeing the most specific selectors, these will override both Collection and Rule Group selectors. You can find all available Rule Groups by calling the\n`ListWafCollections` Operation.\n\n### TIP: Review resolved config\nIf you call `GetDistribution` with `?withWafStatus=true`, you get back a resolved WAF Rules Config which contains a `waf` property which you can inspect to see why a Rule is either enabled, disabled or logOnly.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigAllowedHttpMethodsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "This whitelist restricts which HTTP methods the distribution accepts. Requests using\nnon-whitelisted methods are blocked by the WAF before reaching the origin.\n\nCommon methods: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `HEAD`, `OPTIONS`, `CONNECT`, `TRACE`\n\nValidation ensures:\n1. At least one method is allowed\n2. No duplicate methods (e.g., `GET` appearing twice)\n3. Each method is valid per HTTP standards\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigAllowedHttpVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafConfigAllowedRequestContentTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "This allow list restricts which Content-Type headers are accepted in request bodies.\n\nFormat: Must be `type/subtype` with no spaces.\n\nCommon content types:\n- `application/json`\n- `application/x-www-form-urlencoded`\n- `multipart/form-data`\n- `text/html`\n- `text/plain`\n- `application/xml`\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigDisabledRuleCollectionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Collections to mark as disabled\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigDisabledRuleGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rule Groups to mark as disabled\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigDisabledRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rules that are **explicitly** disabled for this distribution.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigEnabledRuleCollectionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Collections to mark as enabled\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigEnabledRuleGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rule Groups to mark as enabled\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigEnabledRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of the WAF rules that are **explicitly** enabled for this distribution.\nIf this rule is in a disabled / log Only RuleGroup or Collection,\nit will be enabled regardless as `enabledRuleIds` overrides those in specificity.\n\nDo note that rules can also be enabled because a Rulegroup or Collection is enabled.\n**DO NOT** use this property to find all active rules. Instead, pass `?withWafStatus=true` as a query parameter\nto `GetDistribution` or `ListDistributions`. This will expose the `waf` Property on distribution Level.\n\nFrom there you can `$.waf.enabledRules.map(e => e.id)` to get a list of all enabled rules.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigLogOnlyRuleCollectionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Collections to mark as log Only.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigLogOnlyRuleGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rule Groups to mark as log Only.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigLogOnlyRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rules that are **explicitly** marked as Log Only for this distribution.\n"
+      }
+    },
+    "com.stackit.cdn#WafMode": {
+      "type": "enum",
+      "members": {
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DISABLED"
+          }
+        },
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENABLED"
+          }
+        },
+        "LOG_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOG_ONLY"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "- `ENABLED`: The WAF actively inspects and blocks malicious requests.\n- `DISABLED`: The WAF is completely off. No inspection occurs.\n- `LOG_ONLY`: The WAF inspects requests and logs matches but never blocks.\n"
+      }
+    },
+    "com.stackit.cdn#WafParanoiaLevel": {
+      "type": "enum",
+      "members": {
+        "L1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "L1"
+          }
+        },
+        "L2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "L2"
+          }
+        },
+        "L3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "L3"
+          }
+        },
+        "L4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "L4"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The paranoia level defines how aggressively the WAF should action on requests.\nIt ranges from `L1` (least strict, lowest chance of false positives) to `L4` (most strict, highest chance of false positives).\nA higher paranoia level is more effective at catching attacks but can also block legitimate traffic.\n"
+      }
+    },
+    "com.stackit.cdn#WafType": {
+      "type": "enum",
+      "members": {
+        "FREE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FREE"
+          }
+        },
+        "PREMIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PREMIUM"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Enable or disable the Premium WAF. Do note that enabling the Premium WAF will cause additional fees.\n\nSome features are gated behind the Premium WAF, like additional, **premium-only rules** and the ability to create **custom rules** (not yet implemented)\n"
+      }
+    },
+    "com.stackit.cdn#Domain": {
+      "type": "structure",
+      "members": {
+        "certificateType": {
+          "target": "com.stackit.cdn#DomainCertificateType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "errors": {
+          "target": "com.stackit.cdn#DomainErrorsList",
+          "traits": {
+            "smithy.api#documentation": "This object is present if the custom domain has errors."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain. If this is a custom domain, you can call the GetCustomDomain Endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.cdn#DomainStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#DomainType",
+          "traits": {
+            "smithy.api#documentation": "Specifies the type of this Domain. Custom Domain can be further queries using the GetCustomDomain Endpoint",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Definition of a custom or managed domain without any certificates or keys"
+      }
+    },
+    "com.stackit.cdn#DomainCertificateType": {
+      "type": "enum",
+      "members": {
+        "MANAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#StatusError": {
+      "type": "structure",
+      "members": {
+        "de": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A german translation string corresponding to the error key. Note that we do not guarantee german translations are present."
+          }
+        },
+        "en": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An english translation string corresponding to the error key. An english translation key is always present.",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "com.stackit.cdn#StatusErrorKey",
+          "traits": {
+            "smithy.api#documentation": "An enum value that describes a Status Error.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#StatusErrorKey": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN"
+          }
+        },
+        "CUSTOM_DOMAIN_CNAME_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CUSTOM_DOMAIN_CNAME_MISSING"
+          }
+        },
+        "CUSTOM_DOMAIN_ALREADY_IN_USE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CUSTOM_DOMAIN_ALREADY_IN_USE"
+          }
+        },
+        "PUBLIC_BETA_QUOTA_REACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PUBLIC_BETA_QUOTA_REACHED"
+          }
+        },
+        "LOG_SINK_INSTANCE_UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOG_SINK_INSTANCE_UNAVAILABLE"
+          }
+        },
+        "EXTERNAL_QUOTA_REACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXTERNAL_QUOTA_REACHED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An enum value that describes a Status Error."
+      }
+    },
+    "com.stackit.cdn#DomainErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#StatusError"
+      },
+      "traits": {
+        "smithy.api#documentation": "This object is present if the custom domain has errors."
+      }
+    },
+    "com.stackit.cdn#DomainStatus": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTIVE"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATING"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETING"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The status of the domain: CREATING indicates that the custom domain is being set up. UPDATING means that requested changes are being applied to the custom domain. ACTIVE means the custom domain is currently configured and active. DELETING means that the domain is in the process of being removed from the distribution. In case the domain has the ERROR state, more information will be available in the errors list."
+      }
+    },
+    "com.stackit.cdn#DomainType": {
+      "type": "enum",
+      "members": {
+        "MANAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "managed"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Specifies the type of this Domain. Custom Domain can be further queries using the GetCustomDomain Endpoint"
+      }
+    },
+    "com.stackit.cdn#DistributionDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#Domain"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#DistributionErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#StatusError"
+      },
+      "traits": {
+        "smithy.api#documentation": "This object may be present if, and only if the distribution has encountered an error state.\n"
+      }
+    },
+    "com.stackit.cdn#DistributionStatus": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTIVE"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATING"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETING"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "- `CREATING`: The distribution was just created.\n  All the relevant resources are created in the background. Once fully reconciled,\n  this switches to `ACTIVE`. If there are any issues, the status changes to\n  `ERROR`. You can look at the `errors` array to get more infos.\n- `ACTIVE`: The usual state. The desired configuration is synced, there are no errors\n- `UPDATING`: The state when there is a discrepancy between the desired and\n  actual configuration state. This occurs right after an update. Will switch to\n  `ACTIVE` or `ERROR`, depending on if synchronizing succeeds or not.\n- `DELETING`: The state right after a delete request was received. The distribution will stay in this status\n  until all resources have been successfully removed, or until we encounter an `ERROR` state.\n\n  **NOTE:** You can keep fetching the distribution while it is deleting.\n  After successful deletion, trying to get a distribution will return a 404 Not Found response\n- `ERROR`: The error state. Look at the `errors` array for more info.\n"
+      }
+    },
+    "com.stackit.cdn#WafStatusRuleBlock": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specifies the Id of the Rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.stackit.cdn#WafStatusRuleBlockReason",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafStatusRuleBlockReason": {
+      "type": "union",
+      "members": {
+        "WafStatusRuleBlockReasonNeverDefined": {
+          "target": "com.stackit.cdn#WafStatusRuleBlockReasonNeverDefined"
+        },
+        "WafStatusRuleBlockReasonDirectlyDefined": {
+          "target": "com.stackit.cdn#WafStatusRuleBlockReasonDirectlyDefined"
+        },
+        "WafStatusRuleBlockReasonInvalidWafType": {
+          "target": "com.stackit.cdn#WafStatusRuleBlockReasonInvalidWafType"
+        },
+        "WafStatusRuleBlockReasonInheritedFromCollection": {
+          "target": "com.stackit.cdn#WafStatusRuleBlockReasonInheritedFromCollection"
+        },
+        "WafStatusRuleBlockReasonInheritedFromGroup": {
+          "target": "com.stackit.cdn#WafStatusRuleBlockReasonInheritedFromGroup"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the Reason why a Rule is in the specified state (set to be enabled, disabled or logOnly)."
+      }
+    },
+    "com.stackit.cdn#WafStatusRuleBlockReasonNeverDefined": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is always `neverDefined`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This object only ever shows up in the disabled rules section.\nIf rules are never defined (e.g. no collection, rule group, or the rule itself is ever mentioned), they are implicitly disabled\n"
+      }
+    },
+    "com.stackit.cdn#WafStatusRuleBlockReasonDirectlyDefined": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is always `directlyDefined`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafStatusRuleBlockReasonInvalidWafType": {
+      "type": "structure",
+      "members": {
+        "allowedWafTypes": {
+          "target": "com.stackit.cdn#WafStatusRuleBlockReasonInvalidWafTypeAllowedWafTypesList",
+          "traits": {
+            "smithy.api#documentation": "A list containing all WAF Types which can use this Rule. You must patch you WAF to one of these WAF Types to make use of this rule.\nRules show up with this state if they would have been enabled or logOnly otherwise.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is always `invalidWafType`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafStatusRuleBlockReasonInvalidWafTypeAllowedWafTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#WafType"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list containing all WAF Types which can use this Rule. You must patch you WAF to one of these WAF Types to make use of this rule.\nRules show up with this state if they would have been enabled or logOnly otherwise.\n"
+      }
+    },
+    "com.stackit.cdn#WafStatusRuleBlockReasonInheritedFromCollection": {
+      "type": "structure",
+      "members": {
+        "collectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Collection that caused this rule to be in its current state.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is always `inheritedFromCollection`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafStatusRuleBlockReasonInheritedFromGroup": {
+      "type": "structure",
+      "members": {
+        "groupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Group that caused this rule to be in its current state.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is always `inheritedFromGroup`",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#DistributionWafDisabledRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#WafStatusRuleBlock"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#DistributionWafEnabledRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#WafStatusRuleBlock"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#DistributionWafLogOnlyRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#WafStatusRuleBlock"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#DistributionWaf": {
+      "type": "structure",
+      "members": {
+        "disabledRules": {
+          "target": "com.stackit.cdn#DistributionWafDisabledRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabledRules": {
+          "target": "com.stackit.cdn#DistributionWafEnabledRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "logOnlyRules": {
+          "target": "com.stackit.cdn#DistributionWafLogOnlyRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "For this property to be present two pre-conditions must be met:\n- the WAF was enabled at least once\n- the query parameter ?withWafStatus is truthy\n\nThis property contains the waf Status. At this point in time, this contains all resolved rules.\nRules are split into 3 groups:\n- enabledRules\n- logOnlyRules\n- disabledRules\n\n**Do note that the global waf mode (Disabled, LogOnly, Enabled) is *NOT* reflected in this list!**\n"
+      }
+    },
+    "com.stackit.cdn#ListDistributionsResponseDistributionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#Distribution"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#ListDistributions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#ListDistributionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#ListDistributionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/distributions",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all distributions belonging to a specific project\n\nListDistributions returns a list of all CDN distributions associated with\na given project, ordered by their distribution Id."
+      }
+    },
+    "com.stackit.cdn#HttpBackendCreate": {
+      "type": "structure",
+      "members": {
+        "geofencing": {
+          "target": "com.stackit.cdn#HttpBackendCreateGeofencingMap",
+          "traits": {
+            "smithy.api#documentation": "An object mapping multiple alternative origins to country codes.\n\nAny request from one of those country codes will route to the alternative origin. Do note that\ncountry codes may only be used once. You cannot have a country be assigned to multiple alternative origins.\n"
+          }
+        },
+        "originRequestHeaders": {
+          "target": "com.stackit.cdn#HttpBackendCreateOriginRequestHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Headers that will be sent with every request to the configured origin.\n\n**WARNING**: Do not store sensitive values in the headers.\nThe configuration is stored as plain text.\n"
+          }
+        },
+        "originUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The origin of the content that should be made available through the CDN.\nNote that the path and query parameters are ignored. Ports are allowed. If no protocol is provided, `https` is assumed.\nSo `www.example.com:1234/somePath?q=123` is normalized to `https://www.example.com:1234`\n",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#HttpBackendCreateType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `http`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#HttpBackendCreateGeofencingValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#HttpBackendCreateGeofencingMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.stackit.cdn#HttpBackendCreateGeofencingValueList"
+      },
+      "traits": {
+        "smithy.api#documentation": "An object mapping multiple alternative origins to country codes.\n\nAny request from one of those country codes will route to the alternative origin. Do note that\ncountry codes may only be used once. You cannot have a country be assigned to multiple alternative origins.\n"
+      }
+    },
+    "com.stackit.cdn#HttpBackendCreateOriginRequestHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Headers that will be sent with every request to the configured origin.\n\n**WARNING**: Do not store sensitive values in the headers.\nThe configuration is stored as plain text.\n"
+      }
+    },
+    "com.stackit.cdn#HttpBackendCreateType": {
+      "type": "enum",
+      "members": {
+        "HTTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "http"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `http`."
+      }
+    },
+    "com.stackit.cdn#BucketBackendCreate": {
+      "type": "structure",
+      "members": {
+        "bucketUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fully qualified URL of your cloud storage bucket (for example, `https://s3.eu-central-1.amazonaws.com/my-bucket`).",
+            "smithy.api#required": {}
+          }
+        },
+        "credentials": {
+          "target": "com.stackit.cdn#BucketCredentials",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cloud provider region where your storage bucket is located (for example, `us-west-1` for AWS or `eu01` for STACKIT).",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#BucketBackendCreateType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `bucket`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#BucketCredentials": {
+      "type": "structure",
+      "members": {
+        "accessKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "secretAccessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#BucketBackendCreateType": {
+      "type": "enum",
+      "members": {
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `bucket`."
+      }
+    },
+    "com.stackit.cdn#CreateDistributionRequestBackend": {
+      "type": "union",
+      "members": {
+        "HttpBackendCreate": {
+          "target": "com.stackit.cdn#HttpBackendCreate"
+        },
+        "BucketBackendCreate": {
+          "target": "com.stackit.cdn#BucketBackendCreate"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for the content origin backend."
+      }
+    },
+    "com.stackit.cdn#CreateDistributionRequestBlockedCountriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restricts access to your content based on country.\nWe use the ISO 3166-1 alpha-2 standard for country codes (e.g., DE, ES, GB).\nThis setting blocks users from the specified countries.\n"
+      }
+    },
+    "com.stackit.cdn#CreateDistributionRequestBlockedIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restricts access to your content by specifying a list of blocked IPv4 addresses.\nThis feature enhances security and privacy by preventing these addresses from accessing your distribution.\n"
+      }
+    },
+    "com.stackit.cdn#CacheConfigCreate": {
+      "type": "structure",
+      "members": {
+        "cacheKeyHeaders": {
+          "target": "com.stackit.cdn#CacheConfigCreateCacheKeyHeadersList",
+          "traits": {
+            "smithy.api#documentation": "HTTP request header names whose values participate in the cache key. Each entry multiplies\nthe number of cache variants by the number of distinct values observed for that header.\n"
+          }
+        },
+        "queryStringVaryEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the CDN varies its cache by the request query string. If\n`queryStringVaryParameters` is empty, every unique query-string combination produces its\nown cache entry; if non-empty, only the listed parameters influence the cache key.\n"
+          }
+        },
+        "queryStringVaryParameters": {
+          "target": "com.stackit.cdn#CacheConfigCreateQueryStringVaryParametersList",
+          "traits": {
+            "smithy.api#documentation": "Allowlist of query-string parameter names that participate in the cache key when\n`queryStringVaryEnabled` is true. Ignored while `queryStringVaryEnabled` is false, but\nstill stored so it can be re-activated without losing the list.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Groups the cache options that influence how the CDN builds its cache key on distribution creation.\n\n**Cache cardinality warning:** enabling query-string vary produces one cache entry per unique\nquery-string combination (**unbounded** when `queryStringVaryParameters` is empty). Each entry in\n`cacheKeyHeaders` multiplies the number of cache variants by the number of distinct values\nobserved for that header. Use these settings sparingly.\n\n`queryStringVaryParameters` is stored independently of `queryStringVaryEnabled` so that this feature\ncan be toggled on and off without losing the configured allowlist.\nOnly `queryStringVaryEnabled` gates whether the parameter allowlist actually varies the cache.\n\n**Optimizer interaction:** when the Optimizer is enabled, the CDN automatically enables\nquery-string vary for image responses regardless of this setting.\n"
+      }
+    },
+    "com.stackit.cdn#CacheConfigCreateCacheKeyHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "HTTP request header names whose values participate in the cache key. Each entry multiplies\nthe number of cache variants by the number of distinct values observed for that header.\n"
+      }
+    },
+    "com.stackit.cdn#CacheConfigCreateQueryStringVaryParametersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Allowlist of query-string parameter names that participate in the cache key when\n`queryStringVaryEnabled` is true. Ignored while `queryStringVaryEnabled` is false, but\nstill stored so it can be re-activated without losing the list.\n"
+      }
+    },
+    "com.stackit.cdn#CreateDistributionRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are key-value string pairs that can be attached to a distribution."
+      }
+    },
+    "com.stackit.cdn#LokiLogSinkCreate": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.cdn#LokiLogSinkCredentials",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pushUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fully qualified URL where the CDN should push logs to your Loki instance (for example, `https://loki.example.com/loki/api/v1/push`).",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#LokiLogSinkCreateType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of the log sink. For Grafana Loki, this must be set to `loki`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#LokiLogSinkCredentials": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The password corresponding to your username.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username used to authenticate against your Loki instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The authentication credentials required for the CDN to push logs to your Loki instance."
+      }
+    },
+    "com.stackit.cdn#LokiLogSinkCreateType": {
+      "type": "enum",
+      "members": {
+        "LOKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "loki"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of the log sink. For Grafana Loki, this must be set to `loki`."
+      }
+    },
+    "com.stackit.cdn#OtlpLogSinkCreate": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.cdn#OtlpLogSinkCreateCredentials",
+          "traits": {
+            "smithy.api#documentation": "The authentication credentials required for the CDN to push logs to your OTLP endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "pushUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fully qualified URL where the CDN should push logs to your OTLP endpoint (for example, `https://otlp.example.com/otlp/v1/logs`).",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#OtlpLogSinkCreateType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of the log sink.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#OtlpLogSinkBearerCredentials": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bearer token used to authenticate against your OTLP endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#OtlpLogSinkBearerCredentialsType",
+          "traits": {
+            "smithy.api#documentation": "Defines bearer token authentication.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bearer token authentication credentials for OTLP."
+      }
+    },
+    "com.stackit.cdn#OtlpLogSinkBearerCredentialsType": {
+      "type": "enum",
+      "members": {
+        "BEARER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bearer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines bearer token authentication."
+      }
+    },
+    "com.stackit.cdn#OtlpLogSinkBasicCredentials": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The password corresponding to your username.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#OtlpLogSinkBasicCredentialsType",
+          "traits": {
+            "smithy.api#documentation": "Defines basic authentication.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username used to authenticate against your OTLP endpoint.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Basic authentication credentials for OTLP."
+      }
+    },
+    "com.stackit.cdn#OtlpLogSinkBasicCredentialsType": {
+      "type": "enum",
+      "members": {
+        "BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "basic"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines basic authentication."
+      }
+    },
+    "com.stackit.cdn#OtlpLogSinkCreateCredentials": {
+      "type": "union",
+      "members": {
+        "OtlpLogSinkBearerCredentials": {
+          "target": "com.stackit.cdn#OtlpLogSinkBearerCredentials"
+        },
+        "OtlpLogSinkBasicCredentials": {
+          "target": "com.stackit.cdn#OtlpLogSinkBasicCredentials"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The authentication credentials required for the CDN to push logs to your OTLP endpoint."
+      }
+    },
+    "com.stackit.cdn#OtlpLogSinkCreateType": {
+      "type": "enum",
+      "members": {
+        "OTLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "otlp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of the log sink."
+      }
+    },
+    "com.stackit.cdn#CreateDistributionRequestLogSink": {
+      "type": "union",
+      "members": {
+        "LokiLogSinkCreate": {
+          "target": "com.stackit.cdn#LokiLogSinkCreate"
+        },
+        "OtlpLogSinkCreate": {
+          "target": "com.stackit.cdn#OtlpLogSinkCreate"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#CreateDistributionRequestRegionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#Region"
+      },
+      "traits": {
+        "smithy.api#documentation": "Define in which regions you would like your content to be cached.\n"
+      }
+    },
+    "com.stackit.cdn#CreateDistributionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "backend": {
+          "target": "com.stackit.cdn#CreateDistributionRequestBackend",
+          "traits": {
+            "smithy.api#documentation": "Configuration for the content origin backend.",
+            "smithy.api#required": {}
+          }
+        },
+        "blockedCountries": {
+          "target": "com.stackit.cdn#CreateDistributionRequestBlockedCountriesList",
+          "traits": {
+            "smithy.api#documentation": "Restricts access to your content based on country.\nWe use the ISO 3166-1 alpha-2 standard for country codes (e.g., DE, ES, GB).\nThis setting blocks users from the specified countries.\n"
+          }
+        },
+        "blockedIps": {
+          "target": "com.stackit.cdn#CreateDistributionRequestBlockedIpsList",
+          "traits": {
+            "smithy.api#documentation": "Restricts access to your content by specifying a list of blocked IPv4 addresses.\nThis feature enhances security and privacy by preventing these addresses from accessing your distribution.\n"
+          }
+        },
+        "cacheConfig": {
+          "target": "com.stackit.cdn#CacheConfigCreate"
+        },
+        "defaultCacheDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sets the default cache duration for the distribution.\nThe default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response.\nWe use ISO8601 duration format for cache duration (e.g. P1DT2H30M)\n"
+          }
+        },
+        "forwardHostHeader": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enabling this allows the 'Host' header to be passed through to the origin.\n"
+          }
+        },
+        "intentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "While optional, it is greatly encouraged to provide an `intentId`.\nThis is used to deduplicate requests.\nIf multiple POST-Requests with the same `intentId` for a given `projectId` are received, all but the first request are dropped.\n"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.cdn#CreateDistributionRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are key-value string pairs that can be attached to a distribution."
+          }
+        },
+        "logSink": {
+          "target": "com.stackit.cdn#CreateDistributionRequestLogSink"
+        },
+        "monthlyLimitBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sets the monthly limit of bandwidth in bytes that the pullzone is allowed to use.\n"
+          }
+        },
+        "optimizer": {
+          "target": "com.stackit.cdn#Optimizer"
+        },
+        "redirects": {
+          "target": "com.stackit.cdn#RedirectConfig"
+        },
+        "regions": {
+          "target": "com.stackit.cdn#CreateDistributionRequestRegionsList",
+          "traits": {
+            "smithy.api#documentation": "Define in which regions you would like your content to be cached.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "stripResponseCookies": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable this to prevent origin-level cookies from being forwarded to the end user.\n"
+          }
+        },
+        "tls": {
+          "target": "com.stackit.cdn#TlsConfig"
+        },
+        "waf": {
+          "target": "com.stackit.cdn#WafConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#CreateDistributionResponse": {
+      "type": "structure",
+      "members": {
+        "distribution": {
+          "target": "com.stackit.cdn#Distribution",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#CreateDistribution": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#CreateDistributionRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#CreateDistributionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#BadRequest"
+        },
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/distributions",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create new distribution\n\nCreateDistribution will create a new CDN distribution"
+      }
+    },
+    "com.stackit.cdn#GetDistributionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "withWafStatus": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "withWafStatus",
+            "smithy.api#documentation": "If set, the top level of a distribution contains a `waf` property, which defines the status of the waf. This includes a list of all resolved rules."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#GetDistributionResponse": {
+      "type": "structure",
+      "members": {
+        "distribution": {
+          "target": "com.stackit.cdn#Distribution",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetDistribution": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#GetDistributionRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#GetDistributionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#NotFound"
+        },
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get distribution by Id\n\nThis returns a specific distribution by its Id. If no distribution with the given Id exists the endpoint returns 404. Trying to get a deleted distributions also return 404."
+      }
+    },
+    "com.stackit.cdn#ConfigPatch": {
+      "type": "structure",
+      "members": {
+        "backend": {
+          "target": "com.stackit.cdn#ConfigPatchBackend"
+        },
+        "blockedCountries": {
+          "target": "com.stackit.cdn#ConfigPatchBlockedCountriesList",
+          "traits": {
+            "smithy.api#documentation": "Restricts access to your content based on country.\nWe use the ISO 3166-1 alpha-2 standard for country codes (e.g., DE, ES, GB).\nThis setting blocks users from the specified countries.\n"
+          }
+        },
+        "blockedIps": {
+          "target": "com.stackit.cdn#ConfigPatchBlockedIpsList",
+          "traits": {
+            "smithy.api#documentation": "Restricts access to your content by specifying a list of blocked IPv4 addresses.\nThis feature enhances security and privacy by preventing these addresses from accessing your distribution.\n"
+          }
+        },
+        "cacheConfig": {
+          "target": "com.stackit.cdn#CacheConfigPatch"
+        },
+        "defaultCacheDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sets the default cache duration for the distribution.\nThe default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response.\nWe use ISO8601 duration format for cache duration (e.g. P1DT2H30M)\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "forwardHostHeader": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enabling this allows the 'Host' header to be passed through to the origin.\n"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.cdn#ConfigPatchLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels are key-value string pairs that can be attached to a distribution.\nJSON Merge Patch is supported, meaning setting a key to null will remove it.\n"
+          }
+        },
+        "logSink": {
+          "target": "com.stackit.cdn#ConfigPatchLogSink",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "monthlyLimitBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sets the monthly limit of bandwidth in bytes that the pullzone is allowed to use.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "optimizer": {
+          "target": "com.stackit.cdn#OptimizerPatch"
+        },
+        "redirects": {
+          "target": "com.stackit.cdn#RedirectConfig"
+        },
+        "regions": {
+          "target": "com.stackit.cdn#ConfigPatchRegionsList"
+        },
+        "stripResponseCookies": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable this to prevent origin-level cookies from being forwarded to the end user.\n"
+          }
+        },
+        "tls": {
+          "target": "com.stackit.cdn#TlsConfigPatch"
+        },
+        "waf": {
+          "target": "com.stackit.cdn#WafConfigPatch"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#HttpBackendPatch": {
+      "type": "structure",
+      "members": {
+        "geofencing": {
+          "target": "com.stackit.cdn#HttpBackendPatchGeofencingMap",
+          "traits": {
+            "smithy.api#documentation": "An object mapping multiple alternative origins to country codes.\n\nAny request from one of those country codes will route to the alternative origin. Do note that\ncountry codes may only be used once. You cannot have a country be assigned to multiple alternative origins.\n"
+          }
+        },
+        "originRequestHeaders": {
+          "target": "com.stackit.cdn#HttpBackendPatchOriginRequestHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Headers that will be sent with every request to the configured origin.\n\n**WARNING**: Do not store sensitive values in the headers.\nThe configuration is stored as plain text.\n"
+          }
+        },
+        "originUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The origin of the content that should be made available through the CDN.\nNote that the path and query parameters are ignored. Ports are allowed. If no protocol is provided, `https` is assumed.\nSo `www.example.com:1234/somePath?q=123` is normalized to `https://www.example.com:1234`\n"
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#HttpBackendPatchType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `http`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A partial HTTP Backend"
+      }
+    },
+    "com.stackit.cdn#HttpBackendPatchGeofencingValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#HttpBackendPatchGeofencingMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.stackit.cdn#HttpBackendPatchGeofencingValueList"
+      },
+      "traits": {
+        "smithy.api#documentation": "An object mapping multiple alternative origins to country codes.\n\nAny request from one of those country codes will route to the alternative origin. Do note that\ncountry codes may only be used once. You cannot have a country be assigned to multiple alternative origins.\n"
+      }
+    },
+    "com.stackit.cdn#HttpBackendPatchOriginRequestHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Headers that will be sent with every request to the configured origin.\n\n**WARNING**: Do not store sensitive values in the headers.\nThe configuration is stored as plain text.\n"
+      }
+    },
+    "com.stackit.cdn#HttpBackendPatchType": {
+      "type": "enum",
+      "members": {
+        "HTTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "http"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `http`."
+      }
+    },
+    "com.stackit.cdn#BucketBackendPatch": {
+      "type": "structure",
+      "members": {
+        "bucketUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fully qualified URL of your cloud storage bucket (for example, `https://s3.eu-central-1.amazonaws.com/my-bucket`)."
+          }
+        },
+        "credentials": {
+          "target": "com.stackit.cdn#BucketCredentials"
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cloud provider region where your storage bucket is located (for example, `us-west-1` for AWS or `eu01` for STACKIT)."
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#BucketBackendPatchType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `bucket`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#BucketBackendPatchType": {
+      "type": "enum",
+      "members": {
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of content origin. For this schema, it must be set to `bucket`."
+      }
+    },
+    "com.stackit.cdn#ConfigPatchBackend": {
+      "type": "union",
+      "members": {
+        "HttpBackendPatch": {
+          "target": "com.stackit.cdn#HttpBackendPatch"
+        },
+        "BucketBackendPatch": {
+          "target": "com.stackit.cdn#BucketBackendPatch"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#ConfigPatchBlockedCountriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restricts access to your content based on country.\nWe use the ISO 3166-1 alpha-2 standard for country codes (e.g., DE, ES, GB).\nThis setting blocks users from the specified countries.\n"
+      }
+    },
+    "com.stackit.cdn#ConfigPatchBlockedIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Restricts access to your content by specifying a list of blocked IPv4 addresses.\nThis feature enhances security and privacy by preventing these addresses from accessing your distribution.\n"
+      }
+    },
+    "com.stackit.cdn#CacheConfigPatch": {
+      "type": "structure",
+      "members": {
+        "cacheKeyHeaders": {
+          "target": "com.stackit.cdn#CacheConfigPatchCacheKeyHeadersList",
+          "traits": {
+            "smithy.api#documentation": "HTTP request header names that participate in the cache key. Omit to leave unchanged;\nsend `[]` to clear.\n"
+          }
+        },
+        "queryStringVaryEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the CDN varies its cache by the request query string. Omit to leave unchanged.\n"
+          }
+        },
+        "queryStringVaryParameters": {
+          "target": "com.stackit.cdn#CacheConfigPatchQueryStringVaryParametersList",
+          "traits": {
+            "smithy.api#documentation": "Allowlist of query-string parameter names. Omit to leave unchanged; send `[]` to clear.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "PATCH variant of `CacheConfig`. Follows the standard PATCH conventions for this API:\n\n- Field omitted from the request: current value is left unchanged.\n- Array field sent as `[]`: current list is cleared.\n- `queryStringVaryEnabled` is a plain boolean (non-nullable); omit it to leave unchanged.\n\n`queryStringVaryParameters` is stored independently of `queryStringVaryEnabled`. Sending a\nnon-empty `queryStringVaryParameters` together with `queryStringVaryEnabled=false` is\naccepted: the list is persisted for later re-activation but does not affect the cache while\nthe flag is false.\n"
+      }
+    },
+    "com.stackit.cdn#CacheConfigPatchCacheKeyHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "HTTP request header names that participate in the cache key. Omit to leave unchanged;\nsend `[]` to clear.\n"
+      }
+    },
+    "com.stackit.cdn#CacheConfigPatchQueryStringVaryParametersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Allowlist of query-string parameter names. Omit to leave unchanged; send `[]` to clear.\n"
+      }
+    },
+    "com.stackit.cdn#ConfigPatchLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels are key-value string pairs that can be attached to a distribution.\nJSON Merge Patch is supported, meaning setting a key to null will remove it.\n"
+      }
+    },
+    "com.stackit.cdn#LokiLogSinkPatch": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.cdn#LokiLogSinkCredentials"
+        },
+        "pushUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fully qualified URL where the CDN should push logs to your Loki instance (for example, `https://loki.example.com/loki/api/v1/push`)."
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#LokiLogSinkPatchType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of the log sink. For Grafana Loki, this must be set to `loki`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#LokiLogSinkPatchType": {
+      "type": "enum",
+      "members": {
+        "LOKI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "loki"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of the log sink. For Grafana Loki, this must be set to `loki`."
+      }
+    },
+    "com.stackit.cdn#OtlpLogSinkPatch": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.cdn#OtlpLogSinkPatchCredentials",
+          "traits": {
+            "smithy.api#documentation": "The authentication credentials required for the CDN to push logs to your OTLP endpoint."
+          }
+        },
+        "pushUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The fully qualified URL where the CDN should push logs to your OTLP endpoint (for example, `https://otlp.example.com/otlp/v1/logs`)."
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#OtlpLogSinkPatchType",
+          "traits": {
+            "smithy.api#documentation": "Defines the type of the log sink.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#OtlpLogSinkPatchCredentials": {
+      "type": "union",
+      "members": {
+        "OtlpLogSinkBearerCredentials": {
+          "target": "com.stackit.cdn#OtlpLogSinkBearerCredentials"
+        },
+        "OtlpLogSinkBasicCredentials": {
+          "target": "com.stackit.cdn#OtlpLogSinkBasicCredentials"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The authentication credentials required for the CDN to push logs to your OTLP endpoint."
+      }
+    },
+    "com.stackit.cdn#OtlpLogSinkPatchType": {
+      "type": "enum",
+      "members": {
+        "OTLP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "otlp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the type of the log sink."
+      }
+    },
+    "com.stackit.cdn#ConfigPatchLogSink": {
+      "type": "union",
+      "members": {
+        "LokiLogSinkPatch": {
+          "target": "com.stackit.cdn#LokiLogSinkPatch"
+        },
+        "OtlpLogSinkPatch": {
+          "target": "com.stackit.cdn#OtlpLogSinkPatch"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#OptimizerPatch": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#ConfigPatchRegionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#Region"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#TlsConfigPatch": {
+      "type": "structure",
+      "members": {
+        "enableTls10": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set to true, the distribution will accept connections using TLS 1.0."
+          }
+        },
+        "enableTls11": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set to true, the distribution will accept connections using TLS 1.1."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for TLS protocol versions.\nNote: Enabling older TLS versions (1.0, 1.1) is generally discouraged for security reasons.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigPatch": {
+      "type": "structure",
+      "members": {
+        "allowedHttpMethods": {
+          "target": "com.stackit.cdn#WafConfigPatchAllowedHttpMethodsList"
+        },
+        "allowedHttpVersions": {
+          "target": "com.stackit.cdn#WafConfigPatchAllowedHttpVersionsList"
+        },
+        "allowedRequestContentTypes": {
+          "target": "com.stackit.cdn#WafConfigPatchAllowedRequestContentTypesList"
+        },
+        "disabledRuleCollectionIds": {
+          "target": "com.stackit.cdn#WafConfigPatchDisabledRuleCollectionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Collections to mark as disabled\n"
+          }
+        },
+        "disabledRuleGroupIds": {
+          "target": "com.stackit.cdn#WafConfigPatchDisabledRuleGroupIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rule Groups to mark as disabled\n"
+          }
+        },
+        "disabledRuleIds": {
+          "target": "com.stackit.cdn#WafConfigPatchDisabledRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rules that are **explicitly** disabled for this distribution.\n"
+          }
+        },
+        "enabledRuleCollectionIds": {
+          "target": "com.stackit.cdn#WafConfigPatchEnabledRuleCollectionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Collections to mark as enabled\n"
+          }
+        },
+        "enabledRuleGroupIds": {
+          "target": "com.stackit.cdn#WafConfigPatchEnabledRuleGroupIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rule Groups to mark as enabled\n"
+          }
+        },
+        "enabledRuleIds": {
+          "target": "com.stackit.cdn#WafConfigPatchEnabledRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rules that are **explicitly** enabled for this distribution.\n"
+          }
+        },
+        "logOnlyRuleCollectionIds": {
+          "target": "com.stackit.cdn#WafConfigPatchLogOnlyRuleCollectionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Collections to mark as log Only.\n"
+          }
+        },
+        "logOnlyRuleGroupIds": {
+          "target": "com.stackit.cdn#WafConfigPatchLogOnlyRuleGroupIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rule Groups to mark as log Only.\n"
+          }
+        },
+        "logOnlyRuleIds": {
+          "target": "com.stackit.cdn#WafConfigPatchLogOnlyRuleIdsList",
+          "traits": {
+            "smithy.api#documentation": "Ids of WAF Rules that are **explicitly** marked as Log Only for this distribution.\n"
+          }
+        },
+        "mode": {
+          "target": "com.stackit.cdn#WafMode"
+        },
+        "paranoiaLevel": {
+          "target": "com.stackit.cdn#WafParanoiaLevel"
+        },
+        "type": {
+          "target": "com.stackit.cdn#WafType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Modify the WAF Configuration\n\n## WAF Rules\nYou can modify the set of enabled, disabled and log-only Rules by modifying these 9 properties:\n- enabledRuleIds\n- disabledRuleIds\n- logOnlyRuleIds\n- enabledRuleGroupIds\n- disabledRuleGroupIds\n- logOnlyRuleGroupIds\n- enabledRuleCollectionIds\n- disabledRuleCollectionIds\n- logOnlyRuleCollectionIds\n\nPlease inquire the `WafConfig` Description on how the effective configuration is determined.\n\nFor patching, if an ID is already used in one of the properties, it will be removed (and effectively moved) to the new property.\nIf patching multiple properties with the same ID (e.g. writing `@builtin/crs/response` to `logOnlyRuleCollectionIds` and `enabledRuleCollectionIds`), the request will be rejected with a 400.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigPatchAllowedHttpMethodsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafConfigPatchAllowedHttpVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafConfigPatchAllowedRequestContentTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafConfigPatchDisabledRuleCollectionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Collections to mark as disabled\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigPatchDisabledRuleGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rule Groups to mark as disabled\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigPatchDisabledRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rules that are **explicitly** disabled for this distribution.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigPatchEnabledRuleCollectionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Collections to mark as enabled\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigPatchEnabledRuleGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rule Groups to mark as enabled\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigPatchEnabledRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rules that are **explicitly** enabled for this distribution.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigPatchLogOnlyRuleCollectionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Collections to mark as log Only.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigPatchLogOnlyRuleGroupIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rule Groups to mark as log Only.\n"
+      }
+    },
+    "com.stackit.cdn#WafConfigPatchLogOnlyRuleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ids of WAF Rules that are **explicitly** marked as Log Only for this distribution.\n"
+      }
+    },
+    "com.stackit.cdn#PatchDistributionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "com.stackit.cdn#ConfigPatch"
+        },
+        "intentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "While optional, it is greatly encouraged to provide an `intentId`.\nThis is used to deduplicate requests.\nIf multiple modifying requests with the same `intentId` for a given `projectId` are received, all but the first request are dropped.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#PatchDistributionResponse": {
+      "type": "structure",
+      "members": {
+        "distribution": {
+          "target": "com.stackit.cdn#Distribution",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#PatchDistribution": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#PatchDistributionRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#PatchDistributionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update existing distribution\n\nModify a CDN distribution with a partial update. Only the fields specified in the request will be modified."
+      }
+    },
+    "com.stackit.cdn#DeleteDistributionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "intentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "intentId",
+            "smithy.api#documentation": "While optional, it is greatly encouraged to provide an `intentId`.\nThis is used to deduplicate requests.\nIf multiple DELETE-Requests with the same `intentId` are received, all but the first request are dropped.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#DeleteDistributionResponse": {
+      "type": "structure",
+      "members": {
+        "distribution": {
+          "target": "com.stackit.cdn#Distribution"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#DeleteDistribution": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#DeleteDistributionRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#DeleteDistributionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete distribution\n\nDeleteDistribution accepts a project- and distribution-Id and will delete a distribution."
+      }
+    },
+    "com.stackit.cdn#GetCacheInfoRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "purgePath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "purgePath"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#GetCacheInfoResponse": {
+      "type": "structure",
+      "members": {
+        "history": {
+          "target": "com.stackit.cdn#GetCacheInfoResponseHistoryList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lastPurgeTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Returns the last time the cache was purged by calling the PurgeCache endpoint.\nTime represented as RFC3339 compliant string. If the cache was never purged, this returns `null`\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetCacheInfoResponseHistoryEntry": {
+      "type": "structure",
+      "members": {
+        "occurredAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.cdn#GetCacheInfoResponseHistoryEntryType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetCacheInfoResponseHistoryEntryType": {
+      "type": "enum",
+      "members": {
+        "FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full"
+          }
+        },
+        "GRANULAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "granular"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetCacheInfoResponseHistoryList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#GetCacheInfoResponseHistoryEntry"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetCacheInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#GetCacheInfoRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#GetCacheInfoResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}/cache",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Infos about the Caching State\n\nReturn caching info metadata, which contains the last cache purging time and a history of the most recent *full* purges.\n\nIf (and only if) you provide the path query parameter, the history will also contain granular cache purges.\nThe request will not fail if no data about a path is found."
+      }
+    },
+    "com.stackit.cdn#FindCachePathsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A substring of the search query.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#FindCachePathsResponse": {
+      "type": "structure",
+      "members": {
+        "response": {
+          "target": "com.stackit.cdn#FindCachePathsResponseResponseList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#FindCachePathsResponseEntry": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines one path that was previously used as part of a granular purge",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#FindCachePathsResponseResponseList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#FindCachePathsResponseEntry"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#FindCachePaths": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#FindCachePathsRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#FindCachePathsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}/cache/paths",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Return Paths that were purged\n\nThis returns paths that are present in the cache purging history.\nOnly substrings of the provided input are returned.\nThe response is sorted in descending order by the most recent purge.\n\nSo, assuming you have have the following purged for a distribution\n- `/test/1` at `2025-01-01`\n- `/test/2` at `2025-01-02`\n- `/someOtherPath/1` at `2025-01-03`\n- `/test/1` at `2025-01-04`\n- `/test/3` at `2025-01-05`,\nthis would return the following paths, in the following order, assuming `/te` was the search parameter:\n- `/test/3`\n- `/test/1`\n- `/test/2`"
+      }
+    },
+    "com.stackit.cdn#PurgeCacheRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines an optional path. If this is set, a granular purge is done. If missing, the entire cache is invalidated.\nDuring a granular cache purge, only the provided path is purged.\n\nPlease do not that for example `/some/path` and `/some/path.txt` are considered different paths.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#PurgeCacheResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.cdn#PurgeCache": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#PurgeCacheRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#PurgeCacheResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}/cache/purge",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Clear distribution cache\n\nClear the cache for this distribution.\nAll content, regardless of its staleness, will get refetched from the host."
+      }
+    },
+    "com.stackit.cdn#GetCustomDomainRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#GetCustomDomainResponse": {
+      "type": "structure",
+      "members": {
+        "certificate": {
+          "target": "com.stackit.cdn#GetCustomDomainResponseCertificate",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "customDomain": {
+          "target": "com.stackit.cdn#CustomDomain",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetCustomDomainManagedCertificate": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This is returned when no custom certificate is used. We provision and manage a Let's Encrypt Certificate for you"
+      }
+    },
+    "com.stackit.cdn#GetCustomDomainCustomCertificate": {
+      "type": "structure",
+      "members": {
+        "skipDnsCheck": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Returns if the CNAME Check has been disabled for this Custom Domain. This is usually set for migrations to allow for no downtime.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Whenever a new custom certificate is added the version is increased by 1.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Returned if a custom certificate is used. Response does not contain the certificate or key."
+      }
+    },
+    "com.stackit.cdn#GetCustomDomainResponseCertificate": {
+      "type": "union",
+      "members": {
+        "GetCustomDomainManagedCertificate": {
+          "target": "com.stackit.cdn#GetCustomDomainManagedCertificate"
+        },
+        "GetCustomDomainCustomCertificate": {
+          "target": "com.stackit.cdn#GetCustomDomainCustomCertificate"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#CustomDomain": {
+      "type": "structure",
+      "members": {
+        "errors": {
+          "target": "com.stackit.cdn#CustomDomainErrorsList",
+          "traits": {
+            "smithy.api#documentation": "This object is present if the custom domain has errors."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain. Can be used as input for the GetCustomDomain endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.cdn#DomainStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Definition of a custom domain"
+      }
+    },
+    "com.stackit.cdn#CustomDomainErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#StatusError"
+      },
+      "traits": {
+        "smithy.api#documentation": "This object is present if the custom domain has errors."
+      }
+    },
+    "com.stackit.cdn#GetCustomDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#GetCustomDomainRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#GetCustomDomainResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#NotFound"
+        },
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}/customDomains/{domain}",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieve a specific custom domain\n\nReturns a 200 and the custom domain if this custom domain was associated to this distribution, else 404"
+      }
+    },
+    "com.stackit.cdn#PutCustomDomainManagedCertificate": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This is returned when no custom certificate is used. We provision and manage a Let's Encrypt Certificate for you"
+      }
+    },
+    "com.stackit.cdn#PutCustomDomainCustomCertificate": {
+      "type": "structure",
+      "members": {
+        "certificate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "base64-encoded PEM-encoded certificate",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "base64-encoded PEM encoded key",
+            "smithy.api#required": {}
+          }
+        },
+        "skipDnsCheck": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When adding a new custom domain, we do a check to verify that your Domain\npoints to the managed domain via a CNAME or ALIAS.\nIf this is not the case, the call would usually reject.\n\nThis additional property is an escape hatch to this functionality. It's useful\nfor when you are migrating onto STACKIT CDN. It allows you to migrate without\ndowntime.\n\nBy providing a custom certificate with `skipDnsCheck` set to `true`, we will\nnot check the Record for correctness. Then, once the CDN is set up, you can\nchange the CNAME Record on your DNS and update the Custom Domain entry to\ndisable this check, or switch to a managed certificate.\n\nThis field is optional. If not set, the check is **not** skipped.\n"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Returned if a custom certificate is used. Response does not contain the certificate or key."
+      }
+    },
+    "com.stackit.cdn#PutCustomDomainRequestCertificate": {
+      "type": "union",
+      "members": {
+        "PutCustomDomainManagedCertificate": {
+          "target": "com.stackit.cdn#PutCustomDomainManagedCertificate"
+        },
+        "PutCustomDomainCustomCertificate": {
+          "target": "com.stackit.cdn#PutCustomDomainCustomCertificate"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pass a custom certificate to be served by the CDN when calling the custom domain. Will use a managed certificate when omitted"
+      }
+    },
+    "com.stackit.cdn#PutCustomDomainRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "certificate": {
+          "target": "com.stackit.cdn#PutCustomDomainRequestCertificate",
+          "traits": {
+            "smithy.api#documentation": "Pass a custom certificate to be served by the CDN when calling the custom domain. Will use a managed certificate when omitted"
+          }
+        },
+        "intentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "While optional, it is greatly encouraged to provide an `intentId`.\nThis is used to deduplicate requests.\nIf multiple modifying Requests with the same `intentId` for a given `projectId` are received, all but the first request are dropped.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#PutCustomDomainResponse": {
+      "type": "structure",
+      "members": {
+        "certificate": {
+          "target": "com.stackit.cdn#PutCustomDomainResponseCertificate",
+          "traits": {
+            "smithy.api#documentation": "Pass a custom certificate to be served by the CDN when calling the custom domain. Will use a managed certificate when omitted"
+          }
+        },
+        "customDomain": {
+          "target": "com.stackit.cdn#CustomDomain",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#PutCustomDomainResponseCertificate": {
+      "type": "union",
+      "members": {
+        "GetCustomDomainManagedCertificate": {
+          "target": "com.stackit.cdn#GetCustomDomainManagedCertificate"
+        },
+        "GetCustomDomainCustomCertificate": {
+          "target": "com.stackit.cdn#GetCustomDomainCustomCertificate"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pass a custom certificate to be served by the CDN when calling the custom domain. Will use a managed certificate when omitted"
+      }
+    },
+    "com.stackit.cdn#PutCustomDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#PutCustomDomainRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#PutCustomDomainResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}/customDomains/{domain}",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create or update a custom domain\n\nCreates a new custom domain. If it already exists, this will overwrite the previous custom domain's properties."
+      }
+    },
+    "com.stackit.cdn#DeleteCustomDomainRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "intentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "intentId"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#DeleteCustomDomainResponse": {
+      "type": "structure",
+      "members": {
+        "customDomain": {
+          "target": "com.stackit.cdn#CustomDomain"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Returns the custom domain that was deleted while the deletion has not completed yet. After the deletion was successful the response will be empty."
+      }
+    },
+    "com.stackit.cdn#DeleteCustomDomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#DeleteCustomDomainRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#DeleteCustomDomainResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}/customDomains/{domain}",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a custom domain\n\nRemoves a custom domain"
+      }
+    },
+    "com.stackit.cdn#GetLogsRequestSortBy": {
+      "type": "enum",
+      "members": {
+        "TIMESTAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "timestamp"
+          }
+        },
+        "DATACENTERREGION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataCenterRegion"
+          }
+        },
+        "REQUESTCOUNTRYCODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "requestCountryCode"
+          }
+        },
+        "STATUSCODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "statusCode"
+          }
+        },
+        "CACHEHIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cacheHit"
+          }
+        },
+        "SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size"
+          }
+        },
+        "PATH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "path"
+          }
+        },
+        "HOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "host"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogsRequestSortOrder": {
+      "type": "enum",
+      "members": {
+        "ASCENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ascending"
+          }
+        },
+        "DESCENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "descending"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WAFRuleAction": {
+      "type": "enum",
+      "members": {
+        "BLOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCKED"
+          }
+        },
+        "LOGGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOGGED"
+          }
+        },
+        "ALLOWED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ALLOWED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The action a WAF rule can take based on a request"
+      }
+    },
+    "com.stackit.cdn#GetLogsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your CDN distribution Id"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#documentation": "the start of the time range for which logs should be returned"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#documentation": "the end of the time range for which logs should be returned. If not specified,\n\"now\" is used.\n"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "Quantifies how many log entries should be returned on this\npage. Must be a natural number between 1 and 1000 (inclusive)\n"
+          }
+        },
+        "pageIdentifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageIdentifier",
+            "smithy.api#documentation": "Identifier is returned by the previous response and is used to request the next page.\n\nAs the `pageIdentifier` encodes an element, inserts during pagination will *not* shift the result.\nSo a scenario like:\n- Start listing first page\n- Insert new element\n- Start listing second page\nwill *never* result in an element from the first page to get \"pushed\" to the second page, like it could\noccur with basic limit + offset pagination.\n\nThe identifier should be treated as an opaque string and never modified. Only pass values returned by the API.\n"
+          }
+        },
+        "sortBy": {
+          "target": "com.stackit.cdn#GetLogsRequestSortBy",
+          "traits": {
+            "smithy.api#httpQuery": "sortBy",
+            "smithy.api#documentation": "Sorts the log messages by a specific field. Defaults to `timestamp`.\n\nSupported sort options:\n- `timestamp`\n- `dataCenterRegion`\n- `requestCountryCode`\n- `statusCode`\n- `cacheHit`\n- `size`\n- `path`\n- `host`\n"
+          }
+        },
+        "sortOrder": {
+          "target": "com.stackit.cdn#GetLogsRequestSortOrder",
+          "traits": {
+            "smithy.api#httpQuery": "sortOrder"
+          }
+        },
+        "wafAction": {
+          "target": "com.stackit.cdn#WAFRuleAction",
+          "traits": {
+            "smithy.api#httpQuery": "wafAction",
+            "smithy.api#documentation": "If this is set then only log entries with the chosen WAF rule action/outcome are returned.\nSpecifically, if `ALLOWED` then all requests with no violation are returned. If `BLOCKED` then those where\na WAF rule blocked a request and if `LOGGED` then only those requests where the WAF violation was only logged\nbut the request not blocked\n"
+          }
+        },
+        "dataCenterRegion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dataCenterRegion",
+            "smithy.api#documentation": "Filters by the CDN data center region that served the request. Can be combined with other filters\n"
+          }
+        },
+        "requestCountryCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "requestCountryCode",
+            "smithy.api#documentation": "Filters by the originating country of the user request. Can be combined with other filters\n"
+          }
+        },
+        "statusCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "statusCode",
+            "smithy.api#documentation": "Filters by the HTTP status code returned to the client. Can be combined with other filters\n"
+          }
+        },
+        "cacheHit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "cacheHit",
+            "smithy.api#documentation": "Filters based on whether the request was served from the CDN cache. Can be combined with other filters\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#GetLogsResponse": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "com.stackit.cdn#GetLogsResponseLogsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageIdentifier": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#DistributionLogsRecord": {
+      "type": "structure",
+      "members": {
+        "cacheHit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dataCenterRegion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "requestCountryCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 3166-1 A2 compliant country code",
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "wafViolation": {
+          "target": "com.stackit.cdn#WAFViolation"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WAFViolation": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.stackit.cdn#WAFRuleAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "asn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ASN for the request",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rule specific message explaining the violation",
+            "smithy.api#required": {}
+          }
+        },
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HTTP Method of the request that triggered the violation",
+            "smithy.api#required": {}
+          }
+        },
+        "requestHeaders": {
+          "target": "com.stackit.cdn#WAFViolationRequestHeadersMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the WAF rule that was triggered",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about a violated WAF rule in case the WAF is enabled and a rule was triggered (either in BLOCK or LOG_ONLY mode)"
+      }
+    },
+    "com.stackit.cdn#WAFViolationRequestHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogsResponseLogsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#DistributionLogsRecord"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#GetLogsRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#GetLogsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}/logs",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieve distribution logs"
+      }
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project ID."
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your CDN distribution ID."
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "filter",
+            "smithy.api#documentation": "Optional search string. Will search the **values** for the text input."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponse": {
+      "type": "structure",
+      "members": {
+        "cache": {
+          "target": "com.stackit.cdn#GetLogsSearchFiltersResponseCacheList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dataCenter": {
+          "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlock",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "remoteCountry": {
+          "target": "com.stackit.cdn#GetLogsSearchFiltersResponseRemoteCountryList",
+          "traits": {
+            "smithy.api#documentation": "List of ISO-3166 Alpha2 Country Codes matching the input filter. Response is ordered in ascending order.\n\nFor more Info about the country codes, see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\n",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.cdn#GetLogsSearchFiltersResponseStatusList",
+          "traits": {
+            "smithy.api#documentation": "List of Status Codes matching the input filter. Response is ordered in ascending order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseCacheItem": {
+      "type": "enum",
+      "members": {
+        "HIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HIT"
+          }
+        },
+        "MISS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MISS"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseCacheList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#GetLogsSearchFiltersResponseCacheItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlock": {
+      "type": "structure",
+      "members": {
+        "AF": {
+          "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockAFList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ASIA": {
+          "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockASIAList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "EU": {
+          "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockEUList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "NA": {
+          "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockNAList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "SA": {
+          "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockSAList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Object containing Datacenters to filter for. Each datacenter is grouped to the respective region."
+      }
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockItem": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A datacenter. The `id` defines the key needed to filter against the logs endpoint, while the `displayName` defines a human-readable Name."
+      }
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockAFList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockASIAList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockEUList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockNAList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockSAList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#GetLogsSearchFiltersResponseDatacenterBlockItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseRemoteCountryList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of ISO-3166 Alpha2 Country Codes matching the input filter. Response is ordered in ascending order.\n\nFor more Info about the country codes, see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\n"
+      }
+    },
+    "com.stackit.cdn#GetLogsSearchFiltersResponseStatusList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Status Codes matching the input filter. Response is ordered in ascending order."
+      }
+    },
+    "com.stackit.cdn#GetLogsSearchFilters": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#GetLogsSearchFiltersRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#GetLogsSearchFiltersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#BadRequest"
+        },
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}/logs/searchFilters",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get relevant search filters for this distribution based on user input."
+      }
+    },
+    "com.stackit.cdn#GetStatisticsRequestInterval": {
+      "type": "enum",
+      "members": {
+        "HOURLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hourly"
+          }
+        },
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "YEARLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yearly"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetStatisticsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        },
+        "distributionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "the start of the time range for which statistics should be returned"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#documentation": "the end of the time range for which statistics should be returned. If not specified,\nthe end of the current time interval is used, e.g. next day for daily,\nnext month for monthly, and so on.\n"
+          }
+        },
+        "interval": {
+          "target": "com.stackit.cdn#GetStatisticsRequestInterval",
+          "traits": {
+            "smithy.api#httpQuery": "interval",
+            "smithy.api#documentation": "Over which interval should statistics be aggregated?\ndefaults to hourly resolution\n\n**NOTE**: Intervals are grouped in buckets that start and end based on a day in UTC+0 time.\nSo for the `daily` interval, the group starts (inclusive) and ends (exclusive) at `00:00Z`\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#GetStatisticsResponse": {
+      "type": "structure",
+      "members": {
+        "records": {
+          "target": "com.stackit.cdn#GetStatisticsResponseRecordsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#DistributionStatisticsRecord": {
+      "type": "structure",
+      "members": {
+        "cachedRequests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of cached requests that were served",
+            "smithy.api#required": {}
+          }
+        },
+        "totalRequests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of requests that were served",
+            "smithy.api#required": {}
+          }
+        },
+        "totalTrafficBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total traffic in bytes that occurred during the time interval",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive end of the time interval the statistics refer to",
+            "smithy.api#required": {}
+          }
+        },
+        "regions": {
+          "target": "com.stackit.cdn#DistributionStatisticsRecordRegions",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the time interval the statistics refer to",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Aggregated statistics of a distribution during a time interval"
+      }
+    },
+    "com.stackit.cdn#DistributionStatisticsRecordRegions": {
+      "type": "structure",
+      "members": {
+        "AF": {
+          "target": "com.stackit.cdn#DistributionStatisticsRecordEntry",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ASIA": {
+          "target": "com.stackit.cdn#DistributionStatisticsRecordEntry",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "EU": {
+          "target": "com.stackit.cdn#DistributionStatisticsRecordEntry",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "SA": {
+          "target": "com.stackit.cdn#DistributionStatisticsRecordEntry",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "US": {
+          "target": "com.stackit.cdn#DistributionStatisticsRecordEntry",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mapping of regions to the metrics for this region for the defined time interval\nAll regions are always present. If no traffic was reported for a region, it will\nstill contain 0-filled properties\n"
+      }
+    },
+    "com.stackit.cdn#DistributionStatisticsRecordEntry": {
+      "type": "structure",
+      "members": {
+        "cachedRequests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of cached requests that were served",
+            "smithy.api#required": {}
+          }
+        },
+        "totalRequests": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of requests that were served",
+            "smithy.api#required": {}
+          }
+        },
+        "totalTrafficBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total traffic in bytes that occurred during the time interval",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetStatisticsResponseRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#DistributionStatisticsRecord"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#GetStatistics": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#GetStatisticsRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#GetStatisticsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/distributions/{distributionId}/statistics",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieve the statistics of a distribution\n\nReturns the statistics of the distribution in the given\ntime range. The response is a list of statistics records. Each record aggregates the statistics for its time interval.\nIn case no statistics for a time interval exist, no record is returned.\nThe time range for which statistics should be returned can be configured using query parameters.\n\nTimestamps are assumed to be UTC. This is especially important for the \"buckets\" when you, for example, return daily information. A day always starts and ends at 00:00Z.\n\n**Important Note:** Lower bounds are inclusive, upper bounds are exclusive. If you, for example, want a daily grouped which starts on the 1st Jan and also contains the full 10th Jan day, you would define `2025-01-01T00:00:00Z` as the lower and `2025-01-11T00:00:00Z` as the upper bound.\n\nThe upper bound is optional. If you omit it, the API will use the start of the next interval as the upper bound.\nExample: if `interval` is `hourly`, `from` would default to the start of the next hour, if it's `daily`, `from` would default to the start of the next day, etc."
+      }
+    },
+    "com.stackit.cdn#ListWafCollectionsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Your STACKIT Project Id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cdn#ListWafCollectionsResponse": {
+      "type": "structure",
+      "members": {
+        "collections": {
+          "target": "com.stackit.cdn#ListWafCollectionsResponseCollectionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafRuleCollection": {
+      "type": "structure",
+      "members": {
+        "groups": {
+          "target": "com.stackit.cdn#WafRuleCollectionGroupsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "com.stackit.cdn#LocalizedString",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafRuleGroup": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "com.stackit.cdn#LocalizedString",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "com.stackit.cdn#LocalizedString",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.stackit.cdn#WafRuleGroupRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#LocalizedString": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "LocalizedString is a map from language to string value"
+      }
+    },
+    "com.stackit.cdn#WafRule": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional CoreRuleSet rule Id in case this is a CRS rule"
+          }
+        },
+        "description": {
+          "target": "com.stackit.cdn#LocalizedString",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafRuleGroupRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#WafRule"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#WafRuleCollectionGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#WafRuleGroup"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#ListWafCollectionsResponseCollectionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cdn#WafRuleCollection"
+      },
+      "traits": {}
+    },
+    "com.stackit.cdn#ListWafCollections": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cdn#ListWafCollectionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.cdn#ListWafCollectionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cdn#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/waf/collections",
+          "code": 200,
+          "baseUrl": "https://cdn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all WAF rule collections of the project\n\nReturns all WAF rule collections available to the project"
+      }
+    },
+    "com.stackit.cdn#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.stackit.cdn#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.cdn#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.cdn#Cdn": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.cdn#ListDistributions"
+        },
+        {
+          "target": "com.stackit.cdn#CreateDistribution"
+        },
+        {
+          "target": "com.stackit.cdn#GetDistribution"
+        },
+        {
+          "target": "com.stackit.cdn#PatchDistribution"
+        },
+        {
+          "target": "com.stackit.cdn#DeleteDistribution"
+        },
+        {
+          "target": "com.stackit.cdn#GetCacheInfo"
+        },
+        {
+          "target": "com.stackit.cdn#FindCachePaths"
+        },
+        {
+          "target": "com.stackit.cdn#PurgeCache"
+        },
+        {
+          "target": "com.stackit.cdn#GetCustomDomain"
+        },
+        {
+          "target": "com.stackit.cdn#PutCustomDomain"
+        },
+        {
+          "target": "com.stackit.cdn#DeleteCustomDomain"
+        },
+        {
+          "target": "com.stackit.cdn#GetLogs"
+        },
+        {
+          "target": "com.stackit.cdn#GetLogsSearchFilters"
+        },
+        {
+          "target": "com.stackit.cdn#GetStatistics"
+        },
+        {
+          "target": "com.stackit.cdn#ListWafCollections"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT CDN API",
+        "smithy.api#documentation": "API used to create and manage your CDN distributions."
+      }
+    }
+  }
+}

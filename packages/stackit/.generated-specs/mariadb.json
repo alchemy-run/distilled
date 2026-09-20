@@ -1,0 +1,2090 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.mariadb#ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#ListInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "com.stackit.mariadb#ListInstancesResponseInstancesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#Instance": {
+      "type": "structure",
+      "members": {
+        "cfGuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cfOrganizationGuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cfSpaceGuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dashboardUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "imageUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String"
+        },
+        "lastOperation": {
+          "target": "com.stackit.mariadb#InstanceLastOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "offeringName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "offeringVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "planName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.mariadb#InstanceStatus"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#InstanceLastOperation": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.mariadb#InstanceLastOperationState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.mariadb#InstanceLastOperationType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#InstanceLastOperationState": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in progress"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#InstanceLastOperationType": {
+      "type": "enum",
+      "members": {
+        "CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create"
+          }
+        },
+        "UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update"
+          }
+        },
+        "DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#InstanceStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#ListInstancesResponseInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mariadb#Instance"
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#ListInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#ListInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#ListInstancesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get service instances list\n\nGet a list of available instances"
+      }
+    },
+    "com.stackit.mariadb#InstanceParameters": {
+      "type": "structure",
+      "members": {
+        "enable_monitoring": {
+          "target": "smithy.api#Boolean"
+        },
+        "graphite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If you want to monitor your service with Graphite, you can set the custom parameter graphite. It expects the host and port where the Graphite metrics should be sent to."
+          }
+        },
+        "max_disk_threshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "This component monitors ephemeral and persistent disk usage. If one of these disk usages reaches the default configured threshold of 80%, the a9s Parachute stops all processes on that node."
+          }
+        },
+        "metrics_frequency": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Frequency of metrics being emitted in seconds"
+          }
+        },
+        "metrics_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Depending on your graphite provider, you might need to prefix the metrics with a certain value, like an API key for example."
+          }
+        },
+        "monitoring_instance_id": {
+          "target": "smithy.api#String"
+        },
+        "sgw_acl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma separated list of IP networks in CIDR notation which are allowed to access this instance."
+          }
+        },
+        "syslog": {
+          "target": "com.stackit.mariadb#InstanceParametersSyslogList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#InstanceParametersSyslogList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.stackit.mariadb#InstanceParameters"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#CreateInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#CreateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#CreateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "provision\n\nProvision a service instance."
+      }
+    },
+    "com.stackit.mariadb#GetInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#GetInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#GetInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get a service instance\n\nget a service instance"
+      }
+    },
+    "com.stackit.mariadb#PartialUpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "instanceName": {
+          "target": "smithy.api#String"
+        },
+        "parameters": {
+          "target": "com.stackit.mariadb#InstanceParameters"
+        },
+        "planId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#PartialUpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#PartialUpdateInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "update a service instance\n\nUpdate a service instance. This could be a sgw acl update or a plan upgrade."
+      }
+    },
+    "com.stackit.mariadb#DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#DeleteInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#DeleteInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete service instance\n\nDeprovision a service instance."
+      }
+    },
+    "com.stackit.mariadb#ListBackupsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#ListBackupsResponse": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mariadb#Backup"
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#Backup": {
+      "type": "structure",
+      "members": {
+        "downloadable": {
+          "target": "smithy.api#Boolean"
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer"
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "triggered_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#ListBackupsResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.mariadb#ListBackupsResponse",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.mariadb#ListBackups": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#ListBackupsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#ListBackupsResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get latest backup information for provided instanceId"
+      }
+    },
+    "com.stackit.mariadb#CreateBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#CreateBackupResponseItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#CreateBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#CreateBackupRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#CreateBackupResponseItem"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create a backup"
+      }
+    },
+    "com.stackit.mariadb#UpdateBackupsConfigRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "encryption_key": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#UpdateBackupsConfigResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#UpdateBackupsConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#UpdateBackupsConfigRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#UpdateBackupsConfigResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups-config",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "backups configuration update\n\nUpdate the configuration for backups for your instance."
+      }
+    },
+    "com.stackit.mariadb#DownloadBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Backup id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#DownloadBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#DownloadBackupRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups/{backupId}/download",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "download backup"
+      }
+    },
+    "com.stackit.mariadb#TriggerRestoreRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Backup id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#TriggerRestoreResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#TriggerRestore": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#TriggerRestoreRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#TriggerRestoreResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups/{backupId}/restore",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger a restore"
+      }
+    },
+    "com.stackit.mariadb#ListCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#ListCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credentialsList": {
+          "target": "com.stackit.mariadb#ListCredentialsResponseCredentialsListList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#CredentialsListItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#ListCredentialsResponseCredentialsListList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mariadb#CredentialsListItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#ListCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#ListCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#ListCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get list of credentials ids\n\nget list all credentials ids for instance"
+      }
+    },
+    "com.stackit.mariadb#CreateCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "parameters": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#CredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "raw": {
+          "target": "com.stackit.mariadb#RawCredentials"
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#RawCredentials": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.mariadb#Credentials",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#Credentials": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hosts": {
+          "target": "com.stackit.mariadb#CredentialsHostsList"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        },
+        "uri": {
+          "target": "smithy.api#String"
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#CredentialsHostsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#CreateCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#CreateCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#CredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create new credentials\n\nCreate new service credentials"
+      }
+    },
+    "com.stackit.mariadb#GetCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "credentialsId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Credentials id of credentials to fetch"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#GetCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#GetCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#CredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials/{credentialsId}",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get credentials by id\n\nget a service credentials by credentials id"
+      }
+    },
+    "com.stackit.mariadb#DeleteCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "credentialsId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Id of the credentials being deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#DeleteCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#DeleteCredentialsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials/{credentialsId}",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete credentials by id\n\nDelete a service credentials."
+      }
+    },
+    "com.stackit.mariadb#GetMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#GetMetricsResponse": {
+      "type": "structure",
+      "members": {
+        "cpuIdleTime": {
+          "target": "smithy.api#Integer"
+        },
+        "cpuLoadPercent": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cpuSystemTime": {
+          "target": "smithy.api#Integer"
+        },
+        "cpuUserTime": {
+          "target": "smithy.api#Integer"
+        },
+        "diskEphemeralTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskEphemeralUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskPersistentTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskPersistentUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "load1": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "load15": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "load5": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralActivated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralUsedPercent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralUsedThreshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentActivated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentUsedPercent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentUsedThreshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#GetMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#GetMetricsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#GetMetricsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/metrics",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get latest metrics for cpu load, memory and disk usage"
+      }
+    },
+    "com.stackit.mariadb#TriggerRecreateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#TriggerRecreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#TriggerRecreateRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/recreate",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger a recreate"
+      }
+    },
+    "com.stackit.mariadb#TriggerRestartRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#TriggerRestart": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#TriggerRestartRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/restart",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger a restart"
+      }
+    },
+    "com.stackit.mariadb#ListRestoresRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#ListRestoresResponse": {
+      "type": "structure",
+      "members": {
+        "instanceRestores": {
+          "target": "com.stackit.mariadb#ListRestoresResponseInstanceRestoresList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#Restore": {
+      "type": "structure",
+      "members": {
+        "backup_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "triggered_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#ListRestoresResponseInstanceRestoresList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mariadb#Restore"
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#ListRestores": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#ListRestoresRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#ListRestoresResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/restores",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get latest restore information for provided instanceId"
+      }
+    },
+    "com.stackit.mariadb#ListOfferingsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.mariadb#ListOfferingsResponse": {
+      "type": "structure",
+      "members": {
+        "offerings": {
+          "target": "com.stackit.mariadb#ListOfferingsResponseOfferingsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#Offering": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "documentationUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "imageUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "latest": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lifecycle": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "plans": {
+          "target": "com.stackit.mariadb#OfferingPlansList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "quotaCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "schema": {
+          "target": "com.stackit.mariadb#InstanceSchema"
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#Plan": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "free": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skuName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#OfferingPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mariadb#Plan"
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#InstanceSchema": {
+      "type": "structure",
+      "members": {
+        "create": {
+          "target": "com.stackit.mariadb#Schema",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "update": {
+          "target": "com.stackit.mariadb#Schema",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#Schema": {
+      "type": "structure",
+      "members": {
+        "parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#ListOfferingsResponseOfferingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.mariadb#Offering"
+      },
+      "traits": {}
+    },
+    "com.stackit.mariadb#ListOfferings": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.mariadb#ListOfferingsRequest"
+      },
+      "output": {
+        "target": "com.stackit.mariadb#ListOfferingsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.mariadb#BadRequest"
+        },
+        {
+          "target": "com.stackit.mariadb#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/offerings",
+          "code": 200,
+          "baseUrl": "https://mariadb.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get the service offerings\n\nGet the service offerings that the service broker offers."
+      }
+    },
+    "com.stackit.mariadb#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.mariadb#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.mariadb#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.mariadb#Mariadb": {
+      "type": "service",
+      "version": "2.0",
+      "operations": [
+        {
+          "target": "com.stackit.mariadb#ListInstances"
+        },
+        {
+          "target": "com.stackit.mariadb#CreateInstance"
+        },
+        {
+          "target": "com.stackit.mariadb#GetInstance"
+        },
+        {
+          "target": "com.stackit.mariadb#PartialUpdateInstance"
+        },
+        {
+          "target": "com.stackit.mariadb#DeleteInstance"
+        },
+        {
+          "target": "com.stackit.mariadb#ListBackups"
+        },
+        {
+          "target": "com.stackit.mariadb#CreateBackup"
+        },
+        {
+          "target": "com.stackit.mariadb#UpdateBackupsConfig"
+        },
+        {
+          "target": "com.stackit.mariadb#DownloadBackup"
+        },
+        {
+          "target": "com.stackit.mariadb#TriggerRestore"
+        },
+        {
+          "target": "com.stackit.mariadb#ListCredentials"
+        },
+        {
+          "target": "com.stackit.mariadb#CreateCredentials"
+        },
+        {
+          "target": "com.stackit.mariadb#GetCredentials"
+        },
+        {
+          "target": "com.stackit.mariadb#DeleteCredentials"
+        },
+        {
+          "target": "com.stackit.mariadb#GetMetrics"
+        },
+        {
+          "target": "com.stackit.mariadb#TriggerRecreate"
+        },
+        {
+          "target": "com.stackit.mariadb#TriggerRestart"
+        },
+        {
+          "target": "com.stackit.mariadb#ListRestores"
+        },
+        {
+          "target": "com.stackit.mariadb#ListOfferings"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT MariaDB API",
+        "smithy.api#documentation": "The STACKIT MariaDB API provides endpoints to list service offerings, manage service instances and service credentials within STACKIT portal projects."
+      }
+    }
+  }
+}

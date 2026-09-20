@@ -1,0 +1,1844 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.object_storage#GetServiceStatusRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#ProjectStatus": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.stackit.object_storage#ProjectScope",
+          "traits": {
+            "smithy.api#documentation": "Project Scope",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#ProjectScope": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PUBLIC"
+          }
+        },
+        "SCHWARZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCHWARZ"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The scope of a STACKIT project can be public (default) or\ncan have client specific special requirements."
+      }
+    },
+    "com.stackit.object_storage#GetServiceStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#GetServiceStatusRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#ProjectStatus"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#Forbidden"
+        },
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/project/{projectId}/regions/{region}",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Project\n\nGet project details."
+      }
+    },
+    "com.stackit.object_storage#EnableServiceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#EnableService": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#EnableServiceRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#ProjectStatus"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#Forbidden"
+        },
+        {
+          "target": "com.stackit.object_storage#Conflict"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/project/{projectId}/regions/{region}",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Project\n\nCreate a project. Creation will also be successful if the project\nalready exists, but will not create a duplicate"
+      }
+    },
+    "com.stackit.object_storage#DisableServiceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#DisableService": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#DisableServiceRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#ProjectStatus"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#BadRequest"
+        },
+        {
+          "target": "com.stackit.object_storage#Forbidden"
+        },
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#Conflict"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/project/{projectId}/regions/{region}",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Project\n\nDelete the given project"
+      }
+    },
+    "com.stackit.object_storage#CreateAccessKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "credentials_group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "credentials-group"
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date. Null means never expires.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#CreateAccessKeyResponse": {
+      "type": "structure",
+      "members": {
+        "accessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access key",
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Obfuscated access key",
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration date. Null means never expires.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the pair of access key and secret access key for deletion",
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        },
+        "secretAccessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret access key",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#CreateAccessKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#CreateAccessKeyRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#CreateAccessKeyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#Forbidden"
+        },
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/project/{projectId}/regions/{region}/access-key",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Access Key\n\nCreate an access key for the given project."
+      }
+    },
+    "com.stackit.object_storage#DeleteAccessKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Object storage access key"
+          }
+        },
+        "credentials_group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "credentials-group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#DeleteAccessKeyResponse": {
+      "type": "structure",
+      "members": {
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the pair of access key and secret access key for deletion",
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#DeleteAccessKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#DeleteAccessKeyRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#DeleteAccessKeyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#Forbidden"
+        },
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/project/{projectId}/regions/{region}/access-key/{keyId}",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Access Key\n\nDelete an access key from the given project."
+      }
+    },
+    "com.stackit.object_storage#ListAccessKeysRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "credentials_group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "credentials-group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#ListAccessKeysResponse": {
+      "type": "structure",
+      "members": {
+        "accessKeys": {
+          "target": "com.stackit.object_storage#ListAccessKeysResponseAccessKeysList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#AccessKey": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the pair of access key and secret access key for deletion",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#ListAccessKeysResponseAccessKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.object_storage#AccessKey"
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#ListAccessKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#ListAccessKeysRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#ListAccessKeysResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#Forbidden"
+        },
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/project/{projectId}/regions/{region}/access-keys",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Access Keys\n\nGet a list of access keys for the given project."
+      }
+    },
+    "com.stackit.object_storage#GetBucketRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name has to be dns-conform."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#GetBucketResponse": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "com.stackit.object_storage#Bucket",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#Bucket": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "objectLockEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether S3 Object Lock is enabled for this bucket",
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "urlPathStyle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL in path style",
+            "smithy.api#required": {}
+          }
+        },
+        "urlVirtualHostedStyle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL in virtual hosted style",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#GetBucket": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#GetBucketRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#GetBucketResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#Forbidden"
+        },
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/project/{projectId}/regions/{region}/bucket/{bucketName}",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Bucket\n\nGet information for the given bucket in the project."
+      }
+    },
+    "com.stackit.object_storage#CreateBucketRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name has to be dns-conform."
+          }
+        },
+        "objectLockEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "objectLockEnabled",
+            "smithy.api#documentation": "Enable S3 Object Lock on this bucket. Can only be set at creation time. Requires an active project-level compliance lock."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#CreateBucketResponse": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the bucket",
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#CreateBucket": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#CreateBucketRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#CreateBucketResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#Conflict"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/project/{projectId}/regions/{region}/bucket/{bucketName}",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Bucket\n\nCreate a bucket for the given project. Bucket with the same name cannot already exists in the object storage"
+      }
+    },
+    "com.stackit.object_storage#DeleteBucketRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name has to be dns-conform."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#DeleteBucketResponse": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the bucket",
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#DeleteBucket": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#DeleteBucketRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#DeleteBucketResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/project/{projectId}/regions/{region}/bucket/{bucketName}",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Bucket\n\nDelete a bucket from the given project."
+      }
+    },
+    "com.stackit.object_storage#GetDefaultRetentionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name has to be dns-conform."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#DefaultRetentionResponse": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the bucket",
+            "smithy.api#required": {}
+          }
+        },
+        "days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Retention period in days",
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.stackit.object_storage#RetentionMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#RetentionMode": {
+      "type": "enum",
+      "members": {
+        "COMPLIANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLIANCE"
+          }
+        },
+        "GOVERNANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GOVERNANCE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The retention mode for default retention on a bucket."
+      }
+    },
+    "com.stackit.object_storage#GetDefaultRetention": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#GetDefaultRetentionRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#DefaultRetentionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/project/{projectId}/regions/{region}/bucket/{bucketName}/default-retention",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Default Retention\n\nGet the default retention configuration for a bucket."
+      }
+    },
+    "com.stackit.object_storage#SetDefaultRetentionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name has to be dns-conform."
+          }
+        },
+        "days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Retention period in days",
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "com.stackit.object_storage#RetentionMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#SetDefaultRetention": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#SetDefaultRetentionRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#DefaultRetentionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#BadRequest"
+        },
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/project/{projectId}/regions/{region}/bucket/{bucketName}/default-retention",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Default Retention\n\nSet or update the default retention for a bucket."
+      }
+    },
+    "com.stackit.object_storage#DeleteDefaultRetentionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name has to be dns-conform."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#DeleteDefaultRetentionResponse": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the bucket",
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#DeleteDefaultRetention": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#DeleteDefaultRetentionRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#DeleteDefaultRetentionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/project/{projectId}/regions/{region}/bucket/{bucketName}/default-retention",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Default Retention\n\nRemove the default retention from a bucket. Object Lock itself remains enabled."
+      }
+    },
+    "com.stackit.object_storage#ListBucketsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#ListBucketsResponse": {
+      "type": "structure",
+      "members": {
+        "buckets": {
+          "target": "com.stackit.object_storage#ListBucketsResponseBucketsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#ListBucketsResponseBucketsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.object_storage#Bucket"
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#ListBuckets": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#ListBucketsRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#ListBucketsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#Forbidden"
+        },
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/project/{projectId}/regions/{region}/buckets",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Buckets\n\nGet the list of all buckets in the given project"
+      }
+    },
+    "com.stackit.object_storage#GetComplianceLockRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#ComplianceLockResponse": {
+      "type": "structure",
+      "members": {
+        "maxRetentionDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum retention period in days",
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#GetComplianceLock": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#GetComplianceLockRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#ComplianceLockResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/project/{projectId}/regions/{region}/compliance-lock",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Compliance Lock\n\nGet the project-level compliance lock."
+      }
+    },
+    "com.stackit.object_storage#CreateComplianceLockRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#CreateComplianceLock": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#CreateComplianceLockRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#ComplianceLockResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/project/{projectId}/regions/{region}/compliance-lock",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Compliance Lock\n\nEnable compliance lock for a project."
+      }
+    },
+    "com.stackit.object_storage#DeleteComplianceLockRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#DeleteComplianceLock": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#DeleteComplianceLockRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#ComplianceLockResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/project/{projectId}/regions/{region}/compliance-lock",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Compliance Lock\n\nRemove compliance lock from a project."
+      }
+    },
+    "com.stackit.object_storage#CreateCredentialsGroupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the group holding credentials",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#CreateCredentialsGroupResponse": {
+      "type": "structure",
+      "members": {
+        "credentialsGroup": {
+          "target": "com.stackit.object_storage#CredentialsGroup",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#CredentialsGroup": {
+      "type": "structure",
+      "members": {
+        "credentialsGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the credentials group",
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the group holding credentials",
+            "smithy.api#required": {}
+          }
+        },
+        "urn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Credentials group URN",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#CreateCredentialsGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#CreateCredentialsGroupRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#CreateCredentialsGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#Forbidden"
+        },
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#Conflict"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/project/{projectId}/regions/{region}/credentials-group",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Credentials Group"
+      }
+    },
+    "com.stackit.object_storage#GetCredentialsGroupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "groupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Id of the credentials group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#GetCredentialsGroupResponse": {
+      "type": "structure",
+      "members": {
+        "credentialsGroup": {
+          "target": "com.stackit.object_storage#CredentialsGroupExtended",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#CredentialsGroupExtended": {
+      "type": "structure",
+      "members": {
+        "credentialsGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the credentials group",
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the group holding credentials",
+            "smithy.api#required": {}
+          }
+        },
+        "urn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "StorageGRID group URN",
+            "smithy.api#required": {}
+          }
+        },
+        "userUrn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "StorageGRID user URN",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#GetCredentialsGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#GetCredentialsGroupRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#GetCredentialsGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/project/{projectId}/regions/{region}/credentials-group/{groupId}",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Credentials Group\n\nGet the details of a single credentials group"
+      }
+    },
+    "com.stackit.object_storage#DeleteCredentialsGroupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "groupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Id of the credentials group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#DeleteCredentialsGroupResponse": {
+      "type": "structure",
+      "members": {
+        "credentialsGroupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the credentials group",
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#DeleteCredentialsGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#DeleteCredentialsGroupRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#DeleteCredentialsGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/project/{projectId}/regions/{region}/credentials-group/{groupId}",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Credentials Group\n\nDelete a credentials group inside a project if the project exists and no valid access keys are left in the group."
+      }
+    },
+    "com.stackit.object_storage#ListCredentialsGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#ListCredentialsGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "credentialsGroups": {
+          "target": "com.stackit.object_storage#ListCredentialsGroupsResponseCredentialsGroupsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#ListCredentialsGroupsResponseCredentialsGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.object_storage#CredentialsGroup"
+      },
+      "traits": {}
+    },
+    "com.stackit.object_storage#ListCredentialsGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#ListCredentialsGroupsRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#ListCredentialsGroupsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/project/{projectId}/regions/{region}/credentials-groups",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Credentials Groups\n\nGet credentials groups inside a project if the project exists"
+      }
+    },
+    "com.stackit.object_storage#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.object_storage#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.object_storage#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.stackit.object_storage#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.object_storage#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.object_storage#ObjectStorage": {
+      "type": "service",
+      "version": "2.0.1",
+      "operations": [
+        {
+          "target": "com.stackit.object_storage#GetServiceStatus"
+        },
+        {
+          "target": "com.stackit.object_storage#EnableService"
+        },
+        {
+          "target": "com.stackit.object_storage#DisableService"
+        },
+        {
+          "target": "com.stackit.object_storage#CreateAccessKey"
+        },
+        {
+          "target": "com.stackit.object_storage#DeleteAccessKey"
+        },
+        {
+          "target": "com.stackit.object_storage#ListAccessKeys"
+        },
+        {
+          "target": "com.stackit.object_storage#GetBucket"
+        },
+        {
+          "target": "com.stackit.object_storage#CreateBucket"
+        },
+        {
+          "target": "com.stackit.object_storage#DeleteBucket"
+        },
+        {
+          "target": "com.stackit.object_storage#GetDefaultRetention"
+        },
+        {
+          "target": "com.stackit.object_storage#SetDefaultRetention"
+        },
+        {
+          "target": "com.stackit.object_storage#DeleteDefaultRetention"
+        },
+        {
+          "target": "com.stackit.object_storage#ListBuckets"
+        },
+        {
+          "target": "com.stackit.object_storage#GetComplianceLock"
+        },
+        {
+          "target": "com.stackit.object_storage#CreateComplianceLock"
+        },
+        {
+          "target": "com.stackit.object_storage#DeleteComplianceLock"
+        },
+        {
+          "target": "com.stackit.object_storage#CreateCredentialsGroup"
+        },
+        {
+          "target": "com.stackit.object_storage#GetCredentialsGroup"
+        },
+        {
+          "target": "com.stackit.object_storage#DeleteCredentialsGroup"
+        },
+        {
+          "target": "com.stackit.object_storage#ListCredentialsGroups"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Object Storage API",
+        "smithy.api#documentation": "STACKIT API to manage the Object Storage"
+      }
+    }
+  }
+}

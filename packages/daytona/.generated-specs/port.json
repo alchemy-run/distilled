@@ -1,0 +1,113 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.port#PortList": {
+      "type": "structure",
+      "members": {
+        "ports": {
+          "target": "com.daytona.port#PortListPortsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.port#PortListPortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.daytona.port#GetPorts": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.port#PortList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/port",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get active ports\n\nGet a list of all currently active ports"
+      }
+    },
+    "com.daytona.port#IsPortInUseRequest": {
+      "type": "structure",
+      "members": {
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Port number (3000-9999)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.port#IsPortInUseResponse": {
+      "type": "structure",
+      "members": {
+        "isInUse": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.port#IsPortInUse": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.port#IsPortInUseRequest"
+      },
+      "output": {
+        "target": "com.daytona.port#IsPortInUseResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/port/{port}/in-use",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check if port is in use\n\nCheck if a specific port is currently in use"
+      }
+    },
+    "com.daytona.port#Port": {
+      "type": "service",
+      "version": "v0.0.0-dev",
+      "operations": [
+        {
+          "target": "com.daytona.port#GetPorts"
+        },
+        {
+          "target": "com.daytona.port#IsPortInUse"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Toolbox API",
+        "smithy.api#documentation": "Daytona Toolbox API. The base URL comes from the sandbox's `toolboxProxyUrl` field (returned in sandbox DTO by the main Daytona API) plus the sandbox ID: `{toolboxProxyUrl}/{sandboxId}/{endpoint}`. Default for Daytona Cloud: `https://proxy.app.daytona.io/toolbox/{sandboxId}`."
+      }
+    }
+  }
+}

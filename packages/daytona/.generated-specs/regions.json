@@ -1,0 +1,176 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.regions#Region": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region ID",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region name",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "regionType": {
+          "target": "com.daytona.regions#RegionType",
+          "traits": {
+            "smithy.api#documentation": "The type of the region",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "proxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Proxy URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sshGatewayUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SSH Gateway URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotManagerUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot Manager URL for the region",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "otelEndpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OTel collector endpoint for sandboxes created in this region. When set, sandbox OTel data is sent to this endpoint instead of the Daytona-hosted collector and will not be available in the Daytona analytics API or dashboard.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.regions#RegionType": {
+      "type": "enum",
+      "members": {
+        "SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared"
+          }
+        },
+        "DEDICATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dedicated"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the region"
+      }
+    },
+    "com.daytona.regions#ListSharedRegionsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.regions#Region"
+      },
+      "traits": {}
+    },
+    "com.daytona.regions#ListSharedRegionsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.regions#ListSharedRegionsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.regions#ListSharedRegions": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.regions#ListSharedRegionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/shared-regions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all shared regions"
+      }
+    },
+    "com.daytona.regions#Regions": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.regions#ListSharedRegions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

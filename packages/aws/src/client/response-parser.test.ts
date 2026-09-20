@@ -43,6 +43,7 @@ const unstructuredBodies = [
   ["JSON", '{"message":"SENSITIVE_SENTINEL"}'],
   ["text", "SENSITIVE_SENTINEL"],
   ["XML without code", "<Error><Message>SENSITIVE_SENTINEL</Message></Error>"],
+  ["malformed XML", "<Error><Message>SENSITIVE_SENTINEL"],
   ["empty", ""],
 ] as const;
 

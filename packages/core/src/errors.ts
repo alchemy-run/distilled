@@ -133,7 +133,7 @@ export class ServiceUnavailable extends Schema.TaggedError<ServiceUnavailable>()
 ).pipe(Category.withServerError, Category.withRetryable()) {}
 
 /**
- * GatewayTimeout - Gateway timeout (504).
+ * GatewayTimeout - HTTP request or gateway timeout (408, 504).
  */
 export class GatewayTimeout extends Schema.TaggedError<GatewayTimeout>()(
   "GatewayTimeout",
@@ -163,6 +163,7 @@ export const HTTP_STATUS_MAP = {
   401: Unauthorized,
   403: Forbidden,
   404: NotFound,
+  408: GatewayTimeout,
   409: Conflict,
   422: UnprocessableEntity,
   423: Locked,
@@ -189,7 +190,9 @@ export const DEFAULT_ERROR_STATUSES = new Set([401, 429, 500, 502, 503, 504]);
  * classes (BadRequest/Unauthorized/etc.) would silently retain it as a
  * stale field on the instance and pollute serialized output.
  */
-export const RETRYABLE_HTTP_STATUSES = new Set([423, 429, 500, 502, 503, 504]);
+export const RETRYABLE_HTTP_STATUSES = new Set([
+  408, 423, 429, 500, 502, 503, 504,
+]);
 
 /**
  * All common API error classes.

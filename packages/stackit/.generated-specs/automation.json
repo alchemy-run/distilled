@@ -1,0 +1,1479 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.automation#ListVolumeAutomationsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project Id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The maximum number of items to return. If unspecified or set to 0, at most 100 items will be returned. The maximum value is 100; values above 100 will be coerced to 100."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A page token, received from a previous list call. Provide this to retrieve the subsequent page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.automation#ListAutomationsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.automation#ListAutomationsResponseItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#ListAutomationsItem": {
+      "type": "structure",
+      "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "templateId": {
+          "target": "smithy.api#String"
+        },
+        "triggers": {
+          "target": "com.stackit.automation#AutomationTriggers"
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#AutomationTriggers": {
+      "type": "structure",
+      "members": {
+        "schedule": {
+          "target": "com.stackit.automation#AutomationScheduleTrigger"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#AutomationScheduleTrigger": {
+      "type": "structure",
+      "members": {
+        "rrule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#ListAutomationsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.automation#ListAutomationsItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#ListVolumeAutomations": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.automation#ListVolumeAutomationsRequest"
+      },
+      "output": {
+        "target": "com.stackit.automation#ListAutomationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.automation#BadRequest"
+        },
+        {
+          "target": "com.stackit.automation#Forbidden"
+        },
+        {
+          "target": "com.stackit.automation#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations",
+          "code": 200,
+          "baseUrl": "https://automation-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List volume automations\n\nRetrieves a list of volume automations."
+      }
+    },
+    "com.stackit.automation#VolumeRecoveryPointManagementInput": {
+      "type": "structure",
+      "members": {
+        "inheritVolumeLabels": {
+          "target": "smithy.api#Boolean"
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "recoveryPointLabels": {
+          "target": "com.stackit.automation#VolumeRecoveryPointManagementInputRecoveryPointLabelsMap"
+        },
+        "snapshotRetentionPolicy": {
+          "target": "com.stackit.automation#SnapshotRetentionPolicy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "volumeLabelSelector": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeRecoveryPointManagementInputRecoveryPointLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#SnapshotRetentionPolicy": {
+      "type": "union",
+      "members": {
+        "SnapshotRetentionPolicyCount": {
+          "target": "com.stackit.automation#SnapshotRetentionPolicyCount"
+        },
+        "SnapshotRetentionPolicyIndefinitely": {
+          "target": "com.stackit.automation#SnapshotRetentionPolicyIndefinitely"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#SnapshotRetentionPolicyCount": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.stackit.automation#SnapshotRetentionPolicyCountKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#SnapshotRetentionPolicyCountKind": {
+      "type": "enum",
+      "members": {
+        "COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "count"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#SnapshotRetentionPolicyIndefinitely": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.stackit.automation#SnapshotRetentionPolicyIndefinitelyKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#SnapshotRetentionPolicyIndefinitelyKind": {
+      "type": "enum",
+      "members": {
+        "INDEFINITELY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "indefinitely"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#CreateVolumeAutomationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project Id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "input": {
+          "target": "com.stackit.automation#VolumeRecoveryPointManagementInput"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "templateId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "triggers": {
+          "target": "com.stackit.automation#AutomationTriggers"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.automation#VolumeAutomation": {
+      "type": "structure",
+      "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "com.stackit.automation#VolumeRecoveryPointManagementInput"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "output": {
+          "target": "com.stackit.automation#VolumeOutput"
+        },
+        "templateId": {
+          "target": "smithy.api#String"
+        },
+        "triggers": {
+          "target": "com.stackit.automation#AutomationTriggers"
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeOutput": {
+      "type": "structure",
+      "members": {
+        "steps": {
+          "target": "com.stackit.automation#VolumeOutputStepsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeOutputStep": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "result": {
+          "target": "com.stackit.automation#VolumeOutputStepResult"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeOutputStepResult": {
+      "type": "union",
+      "members": {
+        "GetVolumeIDsResult": {
+          "target": "com.stackit.automation#GetVolumeIDsResult"
+        },
+        "CreateSnapshotsResult": {
+          "target": "com.stackit.automation#CreateSnapshotsResult"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#GetVolumeIDsResult": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "volumeIDs": {
+          "target": "com.stackit.automation#GetVolumeIDsResultVolumeIDsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#GetVolumeIDsResultVolumeIDsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#CreateSnapshotsResult": {
+      "type": "structure",
+      "members": {
+        "createdSnapshotIDs": {
+          "target": "com.stackit.automation#CreateSnapshotsResultCreatedSnapshotIDsList"
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#CreateSnapshotsResultCreatedSnapshotIDsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeOutputStepsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.automation#VolumeOutputStep"
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#CreateVolumeAutomation": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.automation#CreateVolumeAutomationRequest"
+      },
+      "output": {
+        "target": "com.stackit.automation#VolumeAutomation"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.automation#BadRequest"
+        },
+        {
+          "target": "com.stackit.automation#Forbidden"
+        },
+        {
+          "target": "com.stackit.automation#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations",
+          "code": 200,
+          "baseUrl": "https://automation-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create volume automation\n\nCreates a new volume automation"
+      }
+    },
+    "com.stackit.automation#ListVolumeTemplatesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project Id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The maximum number of items to return. If unspecified or set to 0, at most 100 items will be returned. The maximum value is 100; values above 100 will be coerced to 100."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A page token, received from a previous list call. Provide this to retrieve the subsequent page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.automation#ListTemplatesResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.automation#ListTemplatesResponseItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token that can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#Template": {
+      "type": "structure",
+      "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#ListTemplatesResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.automation#Template"
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#ListVolumeTemplates": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.automation#ListVolumeTemplatesRequest"
+      },
+      "output": {
+        "target": "com.stackit.automation#ListTemplatesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.automation#BadRequest"
+        },
+        {
+          "target": "com.stackit.automation#Forbidden"
+        },
+        {
+          "target": "com.stackit.automation#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/templates",
+          "code": 200,
+          "baseUrl": "https://automation-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List volume templates\n\nLists all volume templates for the specified service"
+      }
+    },
+    "com.stackit.automation#GetVolumeTemplateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project Id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "templateId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "templateId Id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.automation#GetVolumeTemplateResponse": {
+      "type": "structure",
+      "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "com.stackit.automation#VolumeTemplateAutomationInput"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output": {
+          "target": "com.stackit.automation#VolumeOutput"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeTemplateAutomationInput": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.stackit.automation#VolumeTemplateAutomationInputKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeTemplateAutomationInputKind": {
+      "type": "enum",
+      "members": {
+        "VOLUMERECOVERYPOINTMANAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VolumeRecoveryPointManagement"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#GetVolumeTemplate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.automation#GetVolumeTemplateRequest"
+      },
+      "output": {
+        "target": "com.stackit.automation#GetVolumeTemplateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.automation#BadRequest"
+        },
+        {
+          "target": "com.stackit.automation#Forbidden"
+        },
+        {
+          "target": "com.stackit.automation#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/templates/{templateId}",
+          "code": 200,
+          "baseUrl": "https://automation-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get volume template\n\nRetrieve detailed information about a volume template"
+      }
+    },
+    "com.stackit.automation#GetVolumeAutomationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project Id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "automationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "automation Id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.automation#GetVolumeAutomation": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.automation#GetVolumeAutomationRequest"
+      },
+      "output": {
+        "target": "com.stackit.automation#VolumeAutomation"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.automation#BadRequest"
+        },
+        {
+          "target": "com.stackit.automation#Forbidden"
+        },
+        {
+          "target": "com.stackit.automation#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
+          "code": 200,
+          "baseUrl": "https://automation-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get volume automation\n\nRetrieves a specific volume automation."
+      }
+    },
+    "com.stackit.automation#PartialUpdateVolumeAutomationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project Id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "automationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "automation Id"
+          }
+        },
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updateMask",
+            "smithy.api#documentation": "A comma-separated list of fully qualified names of fields to be updated. Example: \"name,triggers.schedule.rrule\""
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "input": {
+          "target": "com.stackit.automation#VolumeRecoveryPointManagementInput"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "triggers": {
+          "target": "com.stackit.automation#AutomationTriggers"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.automation#PartialUpdateVolumeAutomation": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.automation#PartialUpdateVolumeAutomationRequest"
+      },
+      "output": {
+        "target": "com.stackit.automation#VolumeAutomation"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.automation#BadRequest"
+        },
+        {
+          "target": "com.stackit.automation#Forbidden"
+        },
+        {
+          "target": "com.stackit.automation#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
+          "code": 200,
+          "baseUrl": "https://automation-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Patch volume automation\n\nPartially updates a specific volume automation. Specify the fields to update in the `updateMask` query parameter."
+      }
+    },
+    "com.stackit.automation#DeleteVolumeAutomationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project Id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "automationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "automation Id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.automation#DeleteVolumeAutomation": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.automation#DeleteVolumeAutomationRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.automation#BadRequest"
+        },
+        {
+          "target": "com.stackit.automation#Forbidden"
+        },
+        {
+          "target": "com.stackit.automation#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
+          "code": 200,
+          "baseUrl": "https://automation-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete volume automation\n\nDeletes a specific volume automation."
+      }
+    },
+    "com.stackit.automation#ListVolumeExecutionsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project Id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "automationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "automation Id"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "The maximum number of items to return. If unspecified or set to 0, at most 100 items will be returned. The maximum value is 100; values above 100 will be coerced to 100."
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageToken",
+            "smithy.api#documentation": "A page token, received from a previous list call. Provide this to retrieve the subsequent page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.automation#ListExecutionsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.automation#ListExecutionsResponseItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#ListExecutionsItem": {
+      "type": "structure",
+      "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.automation#ListExecutionsItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#ListExecutionsItemStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RUNNING"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLETED"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "TERMINATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TERMINATED"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#ListExecutionsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.automation#ListExecutionsItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#ListVolumeExecutions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.automation#ListVolumeExecutionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.automation#ListExecutionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.automation#BadRequest"
+        },
+        {
+          "target": "com.stackit.automation#Forbidden"
+        },
+        {
+          "target": "com.stackit.automation#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions",
+          "code": 200,
+          "baseUrl": "https://automation-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List volume automation executions\n\nGet a list of all executions for a specific volume automation."
+      }
+    },
+    "com.stackit.automation#CreateVolumeExecutionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project Id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "automationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "automation Id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.automation#VolumeExecutionResponse": {
+      "type": "structure",
+      "members": {
+        "automation": {
+          "target": "com.stackit.automation#VolumeExecutionDetails"
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.automation#VolumeExecutionResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeExecutionDetails": {
+      "type": "structure",
+      "members": {
+        "config": {
+          "target": "com.stackit.automation#VolumeExecutionAutomation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output": {
+          "target": "com.stackit.automation#VolumeExecutionOutput"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeExecutionAutomation": {
+      "type": "structure",
+      "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "input": {
+          "target": "com.stackit.automation#VolumeRecoveryPointManagementInput"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "output": {
+          "target": "com.stackit.automation#VolumeOutput"
+        },
+        "templateId": {
+          "target": "smithy.api#String"
+        },
+        "triggers": {
+          "target": "com.stackit.automation#AutomationTriggers"
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeExecutionOutput": {
+      "type": "structure",
+      "members": {
+        "steps": {
+          "target": "com.stackit.automation#VolumeExecutionOutputStepsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeExecutionOutputStep": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "result": {
+          "target": "com.stackit.automation#VolumeOutputStepResult"
+        },
+        "status": {
+          "target": "com.stackit.automation#VolumeExecutionOutputStepStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeExecutionOutputStepStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RUNNING"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "SUCCESSFUL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUCCESSFUL"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeExecutionOutputStepsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.automation#VolumeExecutionOutputStep"
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#VolumeExecutionResponseStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RUNNING"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLETED"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "TERMINATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TERMINATED"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.automation#CreateVolumeExecution": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.automation#CreateVolumeExecutionRequest"
+      },
+      "output": {
+        "target": "com.stackit.automation#VolumeExecutionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.automation#BadRequest"
+        },
+        {
+          "target": "com.stackit.automation#Forbidden"
+        },
+        {
+          "target": "com.stackit.automation#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions",
+          "code": 200,
+          "baseUrl": "https://automation-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create volume automation executions\n\nCreates a new execution for a specific volume automation"
+      }
+    },
+    "com.stackit.automation#GetVolumeExecutionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "project Id"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region"
+          }
+        },
+        "automationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "automation Id"
+          }
+        },
+        "executionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "execution Id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.automation#GetVolumeExecution": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.automation#GetVolumeExecutionRequest"
+      },
+      "output": {
+        "target": "com.stackit.automation#VolumeExecutionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.automation#BadRequest"
+        },
+        {
+          "target": "com.stackit.automation#Forbidden"
+        },
+        {
+          "target": "com.stackit.automation#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions/{executionId}",
+          "code": 200,
+          "baseUrl": "https://automation-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get volume automation execution details\n\nGet details for a specific volume automation execution"
+      }
+    },
+    "com.stackit.automation#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.automation#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.automation#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.automation#Automation": {
+      "type": "service",
+      "version": "1beta.0",
+      "operations": [
+        {
+          "target": "com.stackit.automation#ListVolumeAutomations"
+        },
+        {
+          "target": "com.stackit.automation#CreateVolumeAutomation"
+        },
+        {
+          "target": "com.stackit.automation#ListVolumeTemplates"
+        },
+        {
+          "target": "com.stackit.automation#GetVolumeTemplate"
+        },
+        {
+          "target": "com.stackit.automation#GetVolumeAutomation"
+        },
+        {
+          "target": "com.stackit.automation#PartialUpdateVolumeAutomation"
+        },
+        {
+          "target": "com.stackit.automation#DeleteVolumeAutomation"
+        },
+        {
+          "target": "com.stackit.automation#ListVolumeExecutions"
+        },
+        {
+          "target": "com.stackit.automation#CreateVolumeExecution"
+        },
+        {
+          "target": "com.stackit.automation#GetVolumeExecution"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Automation Service API",
+        "smithy.api#documentation": "API endpoints for automation management ."
+      }
+    }
+  }
+}

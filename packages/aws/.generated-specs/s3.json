@@ -28422,7 +28422,12 @@
           "uri": "/{Bucket}/{Key+}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.s3#NoSuchUpload"
+        }
+      ]
     },
     "com.amazonaws.s3#CompleteMultipartUploadOutput": {
       "type": "structure",
@@ -28941,6 +28946,15 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "com.amazonaws.s3#NoSuchKey"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "com.amazonaws.s3#InvalidRequest"
         }
       ],
       "traits": {
@@ -31948,6 +31962,12 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ]
     },
@@ -35021,6 +35041,12 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ],
       "traits": {
@@ -35508,6 +35534,12 @@
       "errors": [
         {
           "target": "com.amazonaws.s3#NoSuchKey"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ],
       "traits": {
@@ -35747,6 +35779,15 @@
         },
         {
           "target": "com.amazonaws.s3#InvalidRequest"
+        },
+        {
+          "target": "com.amazonaws.s3#NoSuchKey"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ]
     },
@@ -36387,6 +36428,15 @@
         },
         {
           "target": "com.amazonaws.s3#InvalidRequest"
+        },
+        {
+          "target": "com.amazonaws.s3#NoSuchKey"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ]
     },
@@ -36525,6 +36575,12 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ]
     },
@@ -37036,6 +37092,9 @@
         },
         {
           "target": "com.amazonaws.s3#NoSuchBucket"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ],
       "traits": {
@@ -40511,6 +40570,9 @@
         },
         {
           "target": "com.amazonaws.s3#NoSuchBucket"
+        },
+        {
+          "target": "com.amazonaws.s3#NoSuchUpload"
         }
       ]
     },
@@ -45136,6 +45198,15 @@
         },
         {
           "target": "com.amazonaws.s3#InvalidRequest"
+        },
+        {
+          "target": "com.amazonaws.s3#NoSuchKey"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ]
     },
@@ -45863,6 +45934,15 @@
         },
         {
           "target": "com.amazonaws.s3#InvalidRequest"
+        },
+        {
+          "target": "com.amazonaws.s3#NoSuchKey"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ]
     },
@@ -46013,6 +46093,12 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ]
     },
@@ -46924,6 +47010,12 @@
         },
         {
           "target": "com.amazonaws.s3#InvalidObjectState"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "aws.patched#MethodNotAllowed"
         }
       ],
       "traits": {
@@ -48828,6 +48920,9 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "com.amazonaws.s3#NoSuchUpload"
         }
       ]
     },
@@ -48898,6 +48993,18 @@
         },
         {
           "target": "com.amazonaws.s3#NoSuchBucket"
+        },
+        {
+          "target": "com.amazonaws.s3#NoSuchUpload"
+        },
+        {
+          "target": "aws.patched#NoSuchVersion"
+        },
+        {
+          "target": "com.amazonaws.s3#NoSuchKey"
+        },
+        {
+          "target": "com.amazonaws.s3#InvalidRequest"
         }
       ]
     },
@@ -50006,6 +50113,48 @@
     "aws.patched#ObjectLockConfigurationNotFoundError": {
       "type": "structure",
       "members": {},
+      "traits": {}
+    },
+    "aws.patched#NoSuchVersion": {
+      "type": "structure",
+      "members": {
+        "Message": {
+          "target": "smithy.api#String"
+        },
+        "Key": {
+          "target": "smithy.api#String"
+        },
+        "VersionId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "aws.patched#MethodNotAllowed": {
+      "type": "structure",
+      "members": {
+        "Message": {
+          "target": "smithy.api#String"
+        },
+        "Method": {
+          "target": "smithy.api#String"
+        },
+        "ResourceType": {
+          "target": "smithy.api#String"
+        },
+        "DeleteMarker": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-delete-marker"
+          }
+        },
+        "LastModified": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "last-modified"
+          }
+        }
+      },
       "traits": {}
     },
     "aws.patched#RequestError": {
