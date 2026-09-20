@@ -44,6 +44,7 @@ const primitiveUnionModel = (kind: "enum" | "intEnum", request: boolean) => ({
 });
 
 const spec: SdkSpec = {
+  unionStyle: "primitive",
   operationDecl: {
     contextType: "ExampleContext",
     commonErrorType: "ExampleError",
@@ -77,6 +78,36 @@ describe("primitive union generation", () => {
       });
     }
   }
+
+  test("opaque-cases retains its existing primitive union codec", () => {
+    const { code } = generateService(primitiveUnionModel("enum", false), {
+      ...spec,
+      unionStyle: "opaque-cases",
+    });
+    expect(code).toContain("export type Value = Mode | boolean;");
+    expect(code).toContain(
+      "export const Value = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[],[]]));",
+    );
+    expect(code).not.toContain("S.Union([Mode, S.Boolean])");
+  });
+
+  test("primitive union emission requires an explicit style", () => {
+    expect(() =>
+      generateService(primitiveUnionModel("enum", false), {
+        ...spec,
+        unionStyle: undefined,
+      }),
+    ).toThrow("no union emission configured for shape com.example.union#Value");
+  });
+
+  test("primitive style rejects object cases", () => {
+    const model = primitiveUnionModel("enum", false);
+    model.shapes["com.example.union#Value"].members.mode.target =
+      "com.example.union#Request";
+    expect(() => generateService(model, spec)).toThrow(
+      "no union emission configured for shape com.example.union#Value",
+    );
+  });
 
   test("custom union emission retains precedence", () => {
     const { code } = generateService(primitiveUnionModel("enum", false), {
