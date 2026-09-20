@@ -10,9 +10,11 @@
  *   `operations`, `structures`, `errors` and `errorCategories`.
  *
  * "Operations" are the `API.OperationMethod` / `API.PaginatedOperationMethod`
- * exports in the generated services, so the ratio is fixes per 100 SDK calls.
+ * exports in the generated services, plus the `client.operation(…)` exports a
+ * GraphQL package generates into `src/*.ts` instead, so the ratio is fixes per
+ * 100 SDK calls either way.
  */
-import { readdir, readFile, stat } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export interface PatchStats {
@@ -53,17 +55,37 @@ const countDeclarativeAws = (doc: Record<string, unknown>): number => {
   return n;
 };
 
-const countOperations = async (servicesDir: string): Promise<number> => {
-  const re =
-    /^export const [A-Za-z0-9_]+: API\.(?:Paginated)?OperationMethod</gm;
+const REST_OPERATION =
+  /^export const [A-Za-z0-9_]+: API\.(?:Paginated)?OperationMethod</gm;
+const GRAPHQL_OPERATION = /^export const [A-Za-z0-9_]+ = client\.operation\(/gm;
+
+const countMatches = async (files: string[], re: RegExp): Promise<number> => {
   let n = 0;
-  for (const file of await walk(servicesDir)) {
+  for (const file of files) {
     if (!file.endsWith(".ts")) continue;
-    const src = await readFile(file, "utf8");
-    n += src.match(re)?.length ?? 0;
+    n += (await readFile(file, "utf8")).match(re)?.length ?? 0;
   }
   return n;
 };
+
+const listFiles = async (dir: string): Promise<string[]> => {
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+  return entries.filter((e) => e.isFile()).map((e) => join(dir, e.name));
+};
+
+/**
+ * REST packages declare one `API.OperationMethod` per call under
+ * `src/services`; a GraphQL package has no services directory and binds its
+ * operations in the module beside it (`railway/src/graphql.ts`).
+ */
+const countOperations = async (srcDir: string): Promise<number> =>
+  (await countMatches(await walk(join(srcDir, "services")), REST_OPERATION)) +
+  (await countMatches(await listFiles(srcDir), GRAPHQL_OPERATION));
 
 export const readPatchStats = async (
   packagesDir: string,
@@ -101,11 +123,7 @@ export const readPatchStats = async (
     }
   }
 
-  const servicesDir = join(pkgRoot, "src", "services");
-  const hasServices = await stat(servicesDir)
-    .then((s) => s.isDirectory())
-    .catch(() => false);
-  const operations = hasServices ? await countOperations(servicesDir) : 0;
+  const operations = await countOperations(join(pkgRoot, "src"));
 
   return {
     dir,
