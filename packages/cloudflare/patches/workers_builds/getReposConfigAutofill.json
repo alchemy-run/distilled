@@ -1,0 +1,29 @@
+{
+  "description": "Type the HTTP 404, code 12000 response from getReposConfigAutofill as RepositoryConfigNotFound.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#RepositoryConfigNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            { "status": 404, "code": 12000 }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ReposConfigAutofillGet/errors",
+      "value": [
+        { "target": "com.cloudflare.workers_builds#RepositoryConfigNotFound" }
+      ]
+    }
+  ]
+}
