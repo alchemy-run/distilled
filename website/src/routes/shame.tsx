@@ -15,6 +15,8 @@ export default function Shame() {
         description="Which cloud providers ship an API description that needs the most fixing before it can be turned into a working SDK. Ranked by patches per 100 operations."
         social="Providers ranked by how many patches their API description needs before it generates a working SDK."
         path="/shame"
+        card={shame.card}
+        cardAlt={`Distilled Wall of Shame — ${n(totals.fixes)} spec fixes across ${n(totals.patched)} providers.`}
       />
       <Page glow="rose">
         <section

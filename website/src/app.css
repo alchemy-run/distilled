@@ -304,7 +304,13 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    padding-right: 0.04em; /* keep the italic overhang inside the clip box */
+    /* `background-clip: text` clips at the inline box, and Fraunces italic
+       ascenders — the `d` of "distilled" — lean past their advance width, so
+       the box needs padding or the glyph is sliced. The negative margin gives
+       that width back to the layout, keeping the gap before any text that
+       follows the emphasis. */
+    padding-right: 0.16em;
+    margin-right: -0.12em;
   }
 }
 
@@ -613,6 +619,92 @@
   :root[data-theme="dark"] .theme-moon {
     opacity: 0;
     transform: rotate(-60deg) scale(0.6);
+  }
+}
+
+/* ───────────── Provider cards ─────────────
+   Catalogue entries expand in place. The body stays in the DOM so the
+   prerendered HTML carries the numbers either way; `visibility` keeps its
+   links out of the tab order while it is closed, and animating the row is
+   the only way to transition to a height nobody knows in advance. */
+@layer components {
+  /* The card surface lives here rather than in utilities: the pinned state
+     has to beat the hover colours, and a utility would win the layer order
+     however specific the rule here was. */
+  .pkg {
+    border-color: var(--line);
+    background-color: color-mix(in oklab, var(--bg-2) 80%, transparent);
+    transition:
+      border-color var(--dur-1) ease,
+      background-color var(--dur-1) ease,
+      box-shadow var(--dur-1) ease;
+  }
+  .pkg:hover {
+    border-color: color-mix(in oklab, var(--g) 55%, var(--line-2));
+    background-color: var(--bg-2);
+  }
+  .pkg-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--dur-2) var(--ease-soft);
+  }
+  .pkg.is-open .pkg-body {
+    grid-template-rows: 1fr;
+  }
+  .pkg-body > * {
+    overflow: hidden;
+    visibility: hidden;
+    transition: visibility 0s linear var(--dur-2);
+  }
+  .pkg.is-open .pkg-body > * {
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .pkg-caret {
+    transition: transform var(--dur-2) var(--ease-soft);
+  }
+  .pkg.is-open .pkg-caret {
+    transform: rotate(180deg);
+  }
+  /* The provider `/p/<provider>` pins: held in its group's colour, with a
+     couple of ring pulses so the eye lands on it after the scroll. */
+  .pkg.is-pinned {
+    border-color: color-mix(in oklab, var(--g) 75%, var(--line-2));
+    background-color: color-mix(in oklab, var(--g) 11%, var(--bg-2));
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--g) 45%, transparent);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    /* The class is in the prerendered HTML, so nothing changes for a
+       transition to catch: the held colour is eased in by an animation that
+       starts from the plain card and runs as the last pulse fades. */
+    .pkg.is-pinned {
+      animation: pkg-settle var(--dur-1) ease 2.3s backwards;
+    }
+    /* The pulses ride on their own layer, so ending one never wipes the
+       held ring out from under the card. */
+    .pkg.is-pinned::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      animation: pkg-pulse 1.4s var(--ease-soft) 2;
+    }
+  }
+  @keyframes pkg-settle {
+    from {
+      border-color: var(--line);
+      background-color: color-mix(in oklab, var(--bg-2) 80%, transparent);
+      box-shadow: 0 0 0 1px transparent;
+    }
+  }
+  @keyframes pkg-pulse {
+    from {
+      box-shadow: 0 0 0 0 color-mix(in oklab, var(--g) 45%, transparent);
+    }
+    to {
+      box-shadow: 0 0 0 0.7rem transparent;
+    }
   }
 }
 

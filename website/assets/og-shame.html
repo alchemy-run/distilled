@@ -1,0 +1,132 @@
+<!doctype html>
+<!-- Template for public/og/shame.png. `scripts/og.ts` fills the `{{…}}` slots
+     with the current standings; it is not viewable on its own. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{{css}}" />
+    <style>
+      /* Rose glow instead of the brand's amber, matching the page. Only the
+         image is replaced, so the grid's `background-size` still applies. */
+      body {
+        background-image:
+          radial-gradient(
+            70rem 34rem at 80% -10%,
+            rgba(255, 122, 158, 0.2),
+            transparent 70%
+          ),
+          linear-gradient(rgba(42, 38, 33, 0.9) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(42, 38, 33, 0.9) 1px, transparent 1px);
+      }
+      .eyebrow {
+        top: 208px;
+        font-size: 18px;
+        letter-spacing: 0.16em;
+        color: #ff7a9e;
+      }
+      h1 {
+        position: absolute;
+        left: 88px;
+        top: 244px;
+        margin: 0;
+        width: 560px;
+        font-weight: 400;
+        font-size: 76px;
+        line-height: 0.98;
+        letter-spacing: -0.005em;
+      }
+      /* Rose, not the brand's amber: this page is about what the descriptions
+         got wrong. Upright text needs none of the overhang room the italic
+         wordmark leaves, which would read as a space before the full stop. */
+      .grad {
+        padding-right: 0;
+        background-image: linear-gradient(100deg, #ffa8bf, #ff5f8f);
+      }
+      .tags {
+        top: 548px;
+      }
+      /* The podium: worst offenders, in the order the page ranks them. */
+      .board {
+        position: absolute;
+        right: 88px;
+        top: 196px;
+        width: 420px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .board li {
+        display: flex;
+        align-items: baseline;
+        gap: 20px;
+        padding: 22px 0;
+        border-bottom: 1px solid #2a2621;
+      }
+      .board li:first-child {
+        border-top: 1px solid #2a2621;
+      }
+      .rank {
+        font-family: "DejaVu Sans Mono", ui-monospace, monospace;
+        font-size: 20px;
+        color: #ff7a9e;
+      }
+      .who {
+        /* A long provider name truncates rather than shoving its rate off
+           the card. */
+        overflow: hidden;
+        min-width: 0;
+        font-size: 36px;
+        line-height: 1;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #efe8f3;
+      }
+      .per {
+        margin-left: auto;
+        font-family: "DejaVu Sans Mono", ui-monospace, monospace;
+        font-size: 20px;
+        white-space: nowrap;
+        color: #8b8274;
+      }
+      .per b {
+        font-weight: 400;
+        font-size: 24px;
+        color: #ff7a9e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="brand">
+      <svg viewBox="0 0 32 32">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffc384" />
+            <stop offset="0.55" stop-color="#f0a35a" />
+            <stop offset="1" stop-color="#ff7a9e" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M 6.00 6.00 L 12.60 6.00 L 12.60 3.50 L 10.10 3.50 L 10.10 1.00 L 21.90 1.00 L 21.90 3.50 L 19.40 3.50 L 19.40 6.00 L 26.00 6.00 L 26.00 12.60 L 28.50 12.60 L 28.50 10.10 L 31.00 10.10 L 31.00 21.90 L 28.50 21.90 L 28.50 19.40 L 26.00 19.40 L 26.00 26.00 L 19.40 26.00 L 19.40 28.50 L 21.90 28.50 L 21.90 31.00 L 10.10 31.00 L 10.10 28.50 L 12.60 28.50 L 12.60 26.00 L 6.00 26.00 L 6.00 19.40 L 3.50 19.40 L 3.50 21.90 L 1.00 21.90 L 1.00 10.10 L 3.50 10.10 L 3.50 12.60 L 6.00 12.60 Z"
+          fill="none"
+          stroke="url(#g)"
+          stroke-width="1.2"
+          stroke-linejoin="miter"
+        />
+        <circle cx="16" cy="16" r="1.9" fill="#ff7a9e" />
+      </svg>
+      <span>Distilled</span>
+    </div>
+    <p class="mono eyebrow">WALL OF SHAME</p>
+    <!-- Broken by hand: three even lines read as a deliberate stack, where
+         the natural wrap leaves "work." alone on the last one. -->
+    <h1>
+      Some specs<br />arrive <span class="grad">clean</span>.<br />Some need
+      work.
+    </h1>
+    <ol class="board">
+      {{board}}
+    </ol>
+    <p class="mono tags">{{tags}}</p>
+    <p class="mono url">distilled.cloud</p>
+  </body>
+</html>

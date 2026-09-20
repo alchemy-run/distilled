@@ -8,6 +8,7 @@
  * route's client chunk only carries the data it renders; the brand marks are
  * written out once as an SVG sprite and referenced by `<use>`.
  */
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { readAlchemyUsage, type AlchemyUsage } from "./alchemy-usage.ts";
@@ -22,6 +23,27 @@ import { readPatchStats, type PatchStats } from "./patch-stats.ts";
 
 // ───────────── Shapes the pages import ─────────────
 
+/**
+ * A provider's patch record and where it stands, carried alongside the
+ * catalogue entry so an expanded card and a `/p/<provider>` page can show the
+ * same numbers the wall of shame ranks on.
+ */
+export interface ProviderStats {
+  readonly fixes: number;
+  readonly files: number;
+  readonly operations: number;
+  /** Fixes per 100 SDK operations; `null` when there are no operations. */
+  readonly per100: number | null;
+  /** Imported by Alchemy on `main`. */
+  readonly used: boolean;
+  /** Place on the wall of shame, worst first; `null` when never patched. */
+  readonly rank: number | null;
+  /** How many providers are ranked, so `rank` reads as "N of <ranked>". */
+  readonly ranked: number;
+  /** Never patched and Alchemy runs on it — the honour roll. */
+  readonly honour: boolean;
+}
+
 export interface CatalogPackage {
   readonly name: string;
   readonly dir: string;
@@ -30,6 +52,13 @@ export interface CatalogPackage {
   /** Lower-cased haystack for the catalogue filter. */
   readonly search: string;
   readonly hasIcon: boolean;
+  readonly stats: ProviderStats;
+  /**
+   * Social card for this provider. `scripts/og.ts` renders one per provider
+   * into `public/og/` as part of the build; without a browser to render them
+   * that step is skipped, and the generic card stands in.
+   */
+  readonly card: string;
 }
 
 export interface CatalogGroup {
@@ -84,6 +113,8 @@ export interface ShameData {
   readonly honour: ReadonlyArray<RankedPackage>;
   /** Zero patches, no consumer yet. */
   readonly unproven: ReadonlyArray<RankedPackage>;
+  /** Social card carrying the current standings; see `cardOf`. */
+  readonly card: string;
 }
 
 export interface BenchData {
@@ -117,7 +148,7 @@ const ns = (n: number) =>
 
 // ───────────── Brand marks ─────────────
 
-interface BrandIcon {
+export interface BrandIcon {
   readonly viewBox: string;
   /** Trusted SVG markup from `data/brand-icons.json`; fills use currentColor. */
   readonly inner: string;
@@ -125,6 +156,12 @@ interface BrandIcon {
 
 const escapeAttr = (value: string) =>
   value.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
+
+/** Brand marks keyed by `packages/<dir>`; also read by `scripts/og.ts`. */
+export const readBrandIcons = (
+  websiteRoot: string,
+): Promise<Record<string, BrandIcon>> =>
+  readIcons(join(websiteRoot, "build", "data", "brand-icons.json"));
 
 const readIcons = async (file: string): Promise<Record<string, BrandIcon>> => {
   const icons: Record<string, BrandIcon> = {};
@@ -208,6 +245,7 @@ const headlineOf = (
 };
 
 const shameOf = (
+  websiteRoot: string,
   ranked: ReadonlyArray<RankedPackage>,
   alchemy: AlchemyUsage,
 ): ShameData => {
@@ -228,14 +266,23 @@ const shameOf = (
     offenders,
     honour: zeroPatch.filter((s) => s.used),
     unproven: zeroPatch.filter((s) => !s.used),
+    card: cardOf(websiteRoot, "shame"),
   };
 };
 
+/**
+ * Where a rendered social card lives. `scripts/og.ts` writes one PNG per
+ * provider plus the wall of shame's into `public/og/`; that directory is build
+ * output, so fall back to the generic card for any card not yet rendered.
+ */
+const cardOf = (websiteRoot: string, name: string): string =>
+  existsSync(join(websiteRoot, "public", "og", `${name}.png`))
+    ? `/og/${name}.png`
+    : "/og.png";
+
 // ───────────── Entry point ─────────────
 
-export const collectSiteData = async (
-  websiteRoot: string,
-): Promise<SiteData> => {
+const collect = async (websiteRoot: string): Promise<SiteData> => {
   const repoRoot = join(websiteRoot, "..");
   const packagesDir = join(repoRoot, "packages");
   const dataDir = join(websiteRoot, "build", "data");
@@ -243,26 +290,60 @@ export const collectSiteData = async (
   const [packages, alchemy, icons, runtime, bundle] = await Promise.all([
     readPackages(packagesDir),
     readAlchemyUsage(join(dataDir, "alchemy-providers.json")),
-    readIcons(join(dataDir, "brand-icons.json")),
+    readBrandIcons(websiteRoot),
     readRuntimeBench(repoRoot),
     readBundleBench(repoRoot),
   ]);
   const used = new Set(alchemy.used);
 
+  // Nothing is on the honour roll yet — every provider Alchemy runs on has
+  // needed at least one patch — so that treatment has no live example.
+  // `DISTILLED_HONOUR=<dir>` pretends one provider qualifies, consistently
+  // everywhere the numbers are read. For looking at it locally, never CI.
+  const pretend = process.env.DISTILLED_HONOUR;
+
   const stats = await Promise.all(
-    packages.map(async (pkg) => ({
-      ...(await readPatchStats(packagesDir, pkg.dir)),
-      name: pkg.name,
-      short: pkg.short,
-      hasIcon: pkg.dir in icons,
-      used: used.has(pkg.dir),
-    })),
+    packages.map(async (pkg) => {
+      const patch = await readPatchStats(packagesDir, pkg.dir);
+      return {
+        ...patch,
+        ...(pkg.dir === pretend
+          ? {
+              files: 0,
+              fixes: 0,
+              per100: patch.operations > 0 ? 0 : null,
+              ops: {},
+            }
+          : {}),
+        name: pkg.name,
+        short: pkg.short,
+        hasIcon: pkg.dir in icons,
+        used: used.has(pkg.dir) || pkg.dir === pretend,
+      };
+    }),
   );
   // A provider package exposes operations; `core` is the shared runtime and is
   // neither ranked on the wall of shame nor listed in the catalogue.
   const ranked = stats.filter((s) => s.operations > 0);
   const providerDirs = new Set(ranked.map((s) => s.dir));
   const providers = packages.filter((pkg) => providerDirs.has(pkg.dir));
+
+  const shame = shameOf(websiteRoot, ranked, alchemy);
+  const byDir = new Map(ranked.map((s) => [s.dir, s]));
+  const rankOf = new Map(shame.offenders.map((s, i) => [s.dir, i + 1]));
+  const statsOf = (dir: string): ProviderStats => {
+    const s = byDir.get(dir)!;
+    return {
+      fixes: s.fixes,
+      files: s.files,
+      operations: s.operations,
+      per100: s.per100,
+      used: s.used,
+      rank: rankOf.get(dir) ?? null,
+      ranked: shame.offenders.length,
+      honour: s.fixes === 0 && s.used,
+    };
+  };
 
   const groups: CatalogGroup[] = groupPackages(providers).map((group) => ({
     title: group.title,
@@ -275,6 +356,8 @@ export const collectSiteData = async (
         .join(" ")
         .toLowerCase(),
       hasIcon: pkg.dir in icons,
+      stats: statsOf(pkg.dir),
+      card: cardOf(websiteRoot, pkg.dir),
     })),
   }));
 
@@ -286,8 +369,35 @@ export const collectSiteData = async (
       facts: factsOf(ranked),
       bench: headlineOf(runtime, bundle),
     },
-    shame: shameOf(ranked, alchemy),
+    shame,
     bench: { runtime, bundle },
     sprite: spriteOf(icons),
   };
 };
+
+/**
+ * Collected once per build and shared: `vite.config.ts` needs the provider
+ * list to enumerate prerender routes, `plugin.ts` serves the `site:*` modules
+ * and `scripts/og.ts` renders the cards, and walking every generated service
+ * to count operations is far too slow to repeat.
+ */
+const cache = new Map<string, Promise<SiteData>>();
+
+export const collectSiteData = (websiteRoot: string): Promise<SiteData> => {
+  let pending = cache.get(websiteRoot);
+  if (!pending) {
+    pending = collect(websiteRoot);
+    cache.set(websiteRoot, pending);
+  }
+  return pending;
+};
+
+export const invalidateSiteData = () => cache.clear();
+
+/** `packages/<dir>` of every provider in the catalogue, in catalogue order. */
+export const providerDirs = async (
+  websiteRoot: string,
+): Promise<ReadonlyArray<string>> =>
+  (await collectSiteData(websiteRoot)).home.groups.flatMap((group) =>
+    group.packages.map((pkg) => pkg.dir),
+  );

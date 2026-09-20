@@ -13,7 +13,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "build": "vite build && node build/finish.ts",
+    "build": "bun scripts/og.ts --all && vite build && node build/finish.ts",
     "dev:site": "vite dev",
     "preview": "vite preview",
     "deploy": "pnpm exec alchemy deploy",

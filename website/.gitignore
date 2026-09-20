@@ -7,6 +7,11 @@ dist/
 .nitro/
 .output/
 
+# One social card per provider, rendered by `scripts/og.ts --all` during the
+# build. They carry patch counts, which change with every patch, so they are
+# never committed. `public/og.png` — the generic card — is.
+public/og/
+
 # The root .gitignore excludes `lib/` (a package's build output). Here
 # `src/lib/` is source and has to be committed.
 !src/lib/

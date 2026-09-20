@@ -1,13 +1,22 @@
 import { createSignal } from "solid-js";
+import type { CatalogPackage } from "../../../build/site-data.ts";
 import { REPO_URL } from "../../lib/site.ts";
 import { GitHubIcon } from "../ui/Icons.tsx";
 import { CodeSamples } from "./CodeSamples.tsx";
 import { InstallLine } from "./InstallLine.tsx";
 import { SAMPLES } from "./samples.ts";
 
-export const Hero = (props: { providerCount: number }) => {
-  const [active, setActive] = createSignal(0);
-  const pkg = () => SAMPLES[active()]!.pkg;
+export const Hero = (props: {
+  providerCount: number;
+  /** Set on `/p/<provider>`: the install line names this provider instead. */
+  provider?: CatalogPackage;
+}) => {
+  // A pinned provider that also has a code sample stops the carousel on it;
+  // one without a sample leaves the carousel running and only fixes the
+  // install line, since there is no code of its own to show.
+  const sample = SAMPLES.findIndex((s) => s.pkg === props.provider?.short);
+  const [active, setActive] = createSignal(Math.max(0, sample));
+  const pkg = () => props.provider?.short ?? SAMPLES[active()]!.pkg;
   return (
     <section
       class="grid grid-cols-[minmax(0,1fr)] items-center gap-12 pt-[clamp(3rem,8vw,6rem)] pb-[clamp(3rem,7vw,5.5rem)] lg:grid-cols-[minmax(0,11fr)_minmax(0,13fr)] lg:gap-16"
@@ -46,7 +55,7 @@ export const Hero = (props: { providerCount: number }) => {
         <InstallLine pkg={pkg} />
       </div>
 
-      <CodeSamples active={active} onChange={setActive} />
+      <CodeSamples active={active} onChange={setActive} frozen={sample >= 0} />
     </section>
   );
 };

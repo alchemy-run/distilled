@@ -9,7 +9,7 @@
  */
 import { fileURLToPath } from "node:url";
 import type { Plugin } from "vite";
-import { collectSiteData, type SiteData } from "./site-data.ts";
+import { collectSiteData, invalidateSiteData } from "./site-data.ts";
 
 const SPRITE_PATH = "/icons.svg";
 const SLICES = ["home", "shame", "bench"] as const;
@@ -21,17 +21,12 @@ const isSlice = (id: string): id is `site:${Slice}` =>
 const websiteRoot = fileURLToPath(new URL("..", import.meta.url));
 
 export const siteData = (): Plugin => {
-  let cached: Promise<SiteData> | undefined;
-  const load = () => (cached ??= collectSiteData(websiteRoot));
-  const invalidate = () => {
-    cached = undefined;
-  };
+  const load = () => collectSiteData(websiteRoot);
   return {
     name: "distilled:site-data",
-    buildStart: invalidate,
     // In dev, a `pnpm generate` or an edited data file should show on the
     // next reload rather than sticking to the first collection.
-    handleHotUpdate: invalidate,
+    handleHotUpdate: invalidateSiteData,
     resolveId(id) {
       return isSlice(id) ? `\0${id}` : undefined;
     },

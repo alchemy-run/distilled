@@ -118,6 +118,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --filter "./website..."
 
+      # The build renders one social card per provider with a local headless
+      # browser (`website/scripts/og.ts --all`). The runner image ships Chrome;
+      # without any browser the build still succeeds and every provider page
+      # falls back to the generic card, so check here rather than deploy a set
+      # of pages whose cards silently went missing.
+      - name: Check for a headless browser
+        run: google-chrome-stable --version || google-chrome --version
+
       - name: Check current preview state
         if: github.event_name == 'pull_request'
         id: preview-state

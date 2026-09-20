@@ -1,8 +1,10 @@
 import { solidStart } from "@solidjs/start/config";
 import tailwindcss from "@tailwindcss/vite";
+import { fileURLToPath } from "node:url";
 import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 import { siteData } from "./build/plugin.ts";
+import { providerDirs } from "./build/site-data.ts";
 
 /**
  * Static site. Every route is prerendered at build time into `dist/`; no
@@ -13,7 +15,9 @@ import { siteData } from "./build/plugin.ts";
  * at build time — package catalogue, patch stats, benchmarks and Alchemy
  * usage — so every build carries the latest numbers.
  */
-export default defineConfig(({ command, isPreview }) => {
+const websiteRoot = fileURLToPath(new URL(".", import.meta.url));
+
+export default defineConfig(async ({ command, isPreview }) => {
   // `alchemy dev` runs this command as a child of the CLI, which sets
   // `NODE_ENV=production` for itself. Vite keeps an inherited value, so the
   // dev server would come up in production mode and SolidStart would look for
@@ -21,7 +25,24 @@ export default defineConfig(({ command, isPreview }) => {
   // "No entry found in vite manifest for 'src/entry-client.tsx'".
   if (command === "serve" && !isPreview) process.env.NODE_ENV = "development";
 
+  // Reading the catalogue means walking every generated service, so only pay
+  // for it when something is actually being prerendered.
+  const providers = command === "build" ? await providerDirs(websiteRoot) : [];
+
   return {
+    server: {
+      // `alchemy dev` publishes this server through a Cloudflare quick tunnel,
+      // whose hostname is different on every run, and Vite's host check answers
+      // an unknown Host header with "Blocked request". Loopback and IP hosts
+      // stay allowed without being listed; these two suffixes cover quick
+      // tunnels (`*.trycloudflare.com`) and named ones (`*.cfargotunnel.com`).
+      // A tunnel on a custom domain needs its host in DEV_ALLOWED_HOSTS.
+      allowedHosts: [
+        ".trycloudflare.com",
+        ".cfargotunnel.com",
+        ...(process.env.DEV_ALLOWED_HOSTS?.split(",").filter(Boolean) ?? []),
+      ],
+    },
     plugins: [
       siteData(),
       tailwindcss(),
@@ -40,7 +61,11 @@ export default defineConfig(({ command, isPreview }) => {
           ? { output: { dir: "dist", publicDir: "dist" } }
           : {}),
         prerender: {
-          routes: ["/", "/bench", "/shame"],
+          // `/p/<provider>` is the homepage pinned to one provider: its own
+          // social card, its install line and its catalogue entry opened. Each
+          // has to be a real prerendered file — scrapers read the card tags out
+          // of the HTML and never run the client router.
+          routes: ["/", "/bench", "/shame", ...providers.map((d) => `/p/${d}`)],
           crawlLinks: false,
           failOnError: true,
           // `/bench` → `bench.html`, which is how the Cloudflare asset router

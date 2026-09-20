@@ -17,6 +17,8 @@ export const CodeSamples = (props: {
   /** Index of the active sample; owned by the page so the install line follows. */
   active: Accessor<number>;
   onChange: (index: number) => void;
+  /** Start on `active` without auto-advancing, as if that dot were clicked. */
+  frozen?: boolean;
 }) => {
   const [progress, setProgress] = createSignal(0);
   const [morphing, setMorphing] = createSignal(false);
@@ -37,7 +39,7 @@ export const CodeSamples = (props: {
     let startedAt = 0;
     let raf = 0;
     let running = false;
-    let pinned = false;
+    let pinned = props.frozen === true;
 
     const morph = createMorph(layer, {
       duration: 780,

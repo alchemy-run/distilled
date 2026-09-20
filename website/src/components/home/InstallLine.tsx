@@ -1,44 +1,26 @@
-import { createEffect, createSignal, onMount, type Accessor } from "solid-js";
-import { readStorage, writeStorage } from "../../lib/dom.ts";
+import { createEffect, onMount, type Accessor } from "solid-js";
 import { createMorph, type Morph } from "../../lib/morph.ts";
-import { CaretIcon, CheckIcon, CopyIcon } from "../ui/Icons.tsx";
-
-const VERB = { pnpm: "add", npm: "install", bun: "add" } as const;
-type Pm = keyof typeof VERB;
-const isPm = (v: string | null): v is Pm => v !== null && v in VERB;
+import { choosePm, pm, restorePm, VERB, type Pm } from "../../lib/pm.ts";
+import { CopyButton } from "../ui/CopyButton.tsx";
+import { CaretIcon } from "../ui/Icons.tsx";
 
 /**
  * "<pm> <verb> @distilled.cloud/<pkg> effect". The manager comes from the
- * select (remembered in localStorage), the package from the active hero
- * sample; the part after the manager morphs when either changes.
+ * select (remembered in localStorage and shared with the catalogue), the
+ * package from the active hero sample; the part after the manager morphs
+ * when either changes.
  */
 export const InstallLine = (props: { pkg: Accessor<string> }) => {
-  const [pm, setPm] = createSignal<Pm>("pnpm");
-  const [copied, setCopied] = createSignal(false);
   let cmd: HTMLElement | undefined;
   let morph: Morph | undefined;
 
   const text = () => `${VERB[pm()]} @distilled.cloud/${props.pkg()} effect`;
 
   onMount(() => {
-    const stored = readStorage("pm");
-    if (isPm(stored)) setPm(stored);
+    restorePm();
     morph = createMorph(cmd!, { duration: 640 });
     createEffect(() => morph!.set(text()));
   });
-
-  const choose = (next: Pm) => {
-    setPm(next);
-    writeStorage("pm", next);
-  };
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(`${pm()} ${text()}`);
-      setCopied(true);
-    } catch {}
-    setTimeout(() => setCopied(false), 1400);
-  };
 
   return (
     <div
@@ -51,7 +33,7 @@ export const InstallLine = (props: { pkg: Accessor<string> }) => {
           class="w-[calc(var(--pm-ch)*1ch+2.3rem)] cursor-pointer appearance-none rounded-none border-0 bg-transparent py-[0.65rem] pr-6 pl-[0.8rem] font-[inherit] text-accent transition-colors hover:bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] focus-visible:-outline-offset-2"
           aria-label="Package manager"
           value={pm()}
-          onChange={(e) => choose(e.currentTarget.value as Pm)}
+          onChange={(e) => choosePm(e.currentTarget.value as Pm)}
         >
           <option value="pnpm">pnpm</option>
           <option value="npm">npm</option>
@@ -67,17 +49,11 @@ export const InstallLine = (props: { pkg: Accessor<string> }) => {
       >
         {text()}
       </code>
-      <button
-        type="button"
-        class="copy mr-[0.4rem] ml-auto grid size-8 flex-none cursor-pointer place-items-center self-center rounded-md border border-line-2 bg-bg-3 p-0 text-fg-2 transition-[color,border-color] hover:border-fg-3 hover:text-fg"
-        classList={{ "is-copied": copied() }}
-        aria-label="Copy install command"
-        title="Copy"
-        onClick={copy}
-      >
-        <CopyIcon class="copy-icon size-[15px]" />
-        <CheckIcon class="copy-done size-[15px]" />
-      </button>
+      <CopyButton
+        class="mr-[0.4rem] ml-auto self-center"
+        label="Copy install command"
+        text={() => `${pm()} ${text()}`}
+      />
     </div>
   );
 };

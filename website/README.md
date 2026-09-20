@@ -9,8 +9,10 @@ staging, a `preview-base` parent, and opt-in PR versions.
 [SolidStart 2](https://docs.solidjs.com/solid-start) on Vite 8 with
 [Tailwind v4](https://tailwindcss.com), prerendered to plain HTML by Nitro's
 `static` preset. **There is no server.** `pnpm build` writes `dist/` with
-`index.html`, `bench.html`, `shame.html`, hashed assets under `_build/`, and
-the brand-mark sprite `icons.svg`; the Cloudflare Worker in `worker.ts` only
+`index.html`, `bench.html`, `shame.html`, one `p/<provider>.html` per
+provider, hashed assets under `_build/`, a social card per provider under
+`og/`, and the brand-mark sprite `icons.svg`; the Cloudflare Worker in
+`worker.ts` only
 fronts the asset bucket to set headers on mirrors. Client-side JS is there
 for the interactive bits (theme toggle, hero sample morph, package filter,
 bench stage tabs) and the pages are complete without it.
@@ -28,14 +30,15 @@ build/          build-time data: reads the repo, feeds the pages
 src/
   app.tsx, app.css        router shell; theme tokens + Tailwind theme
   entry-server.tsx        the <html> document (build-time only)
-  routes/                 index.tsx, bench.tsx, shame.tsx
+  routes/                 index.tsx, bench.tsx, shame.tsx,
+                          p/[provider].tsx (the homepage, pinned)
   components/layout/      Header, Footer, ThemeToggle, Seo
-  components/home/        Hero, CodeSamples, InstallLine, Capabilities,
+  components/home/        Home, Hero, CodeSamples, InstallLine, Capabilities,
                           Problem, HowItWorks, Catalog, samples.ts
   components/shame/       Offenders, HonourList
   components/bench/       BundleSection, RuntimeSection
-  components/ui/          Section, Stats, Code, BrandMark, Icons
-  lib/                    format, highlight, morph, dom, theme, site
+  components/ui/          Section, Stats, Code, BrandMark, CopyButton, Icons
+  lib/                    format, highlight, morph, dom, theme, site, pm
 worker.ts       Cloudflare Worker: noindex + social-card host on mirrors
 alchemy.run.ts  the stack
 ```
@@ -48,10 +51,11 @@ checkout it was built from:
 
 - **Package catalogue** — every non-private `@distilled.cloud/*` in
   `packages/*/package.json`, grouped by the `GROUPS` table in
-  `build/packages.ts` (an unlisted package lands in "More"). Add a
+  `build/packages.ts` (an unlisted package lands in "More") and searchable by
+  name, directory and the extra words in `SEARCH_HINTS`. Add a
   `{ viewBox, inner }` entry to `build/data/brand-icons.json` keyed by
   `packages/<dir>` to give a new provider a mark; otherwise it gets a
-  monogram.
+  monogram. The `distilled-sdk` skill documents both for new providers.
 - **Patch statistics** (`/shame`, the homepage facts) — fixes per 100 SDK
   operations, computed by `build/patch-stats.ts` from `packages/*/patches`
   and `packages/*/src/services`.
@@ -72,9 +76,41 @@ checkout it was built from:
 `alchemy.run.ts` lists these inputs in `memo.include`, so a change to any of
 them rebuilds and redeploys.
 
-`public/og.png` is rendered from `assets/og.html` by `bun scripts/og.ts`,
-which needs a local Chromium (Playwright's cache or `CHROMIUM=…`). It is
-committed so the site build never needs a browser. Display type is Fraunces
+## Provider pages
+
+`/p/<provider>` is the homepage pinned to one provider: its own social card,
+the hero install line fixed to that package (frozen on its code sample when it
+has one), and its catalogue entry opened, highlighted and scrolled to. Every
+one is prerendered — scrapers read the card tags out of the HTML — and they all
+set `<link rel="canonical">` to `/`, since they are share targets rather than
+79 near-identical pages to index.
+
+## Social cards
+
+`public/og.png` is rendered from `assets/og.html` by `bun scripts/og.ts`, which
+needs a local Chromium (Playwright's cache or `CHROMIUM=…`). It is committed so
+the site build never needs a browser. The card is laid out at 1200×630 and
+rasterized at 2× for high-density displays, so `Seo.tsx` declares 2400×1260 —
+change both together.
+
+`bun scripts/og.ts --all` additionally renders `assets/og-provider.html` once
+per provider into `public/og/`, each carrying that provider's install line,
+operation count and patch record — ranked on the Wall of Shame, zero fixes, or
+the honour roll — plus `assets/og-shame.html` to `public/og/shame.png`, which
+carries the three worst offenders and the running totals. Those numbers change
+with every patch, so the cards are build output (`pnpm build` runs this step;
+`public/og/` is gitignored). Without a browser the step warns, skips, and
+`cardOf` in `build/site-data.ts` falls back to the generic card.
+
+Nothing is on the honour roll yet, so `DISTILLED_HONOUR=<provider>` pretends
+one provider is — zero patches, used in Alchemy — everywhere the numbers are
+read, which is the only way to see that card and that treatment. Local only.
+
+Every page points `og:image` / `og:url` at the host serving it, so mirrors and
+tunnels unfurl their own card rather than production's: prerendered HTML holds
+the production URLs and `worker.ts` rewrites them per request, while the dev
+server has no worker in front of it and `Seo.tsx` reads the host off the
+request. `<link rel="canonical">` always stays on production. Display type is Fraunces
 (OFL) from `@fontsource-variable/fraunces`, imported by `src/app.css` and
 hashed into `_build/` like any other asset; the CSS pins the WONK axis off so
 `l`/`f` keep their plain forms at display sizes.

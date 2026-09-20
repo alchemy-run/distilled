@@ -1,17 +1,5 @@
 import { Show } from "solid-js";
-
-/** Monogram for brands without a mark: first letter, or two for hyphenated names. */
-const monogram = (short: string): string => {
-  const parts = short.split("-").filter(Boolean);
-  const letters =
-    parts.length > 1
-      ? parts
-          .slice(0, 2)
-          .map((p) => p[0])
-          .join("")
-      : short.slice(0, 1);
-  return letters.toUpperCase();
-};
+import { monogram } from "../../lib/monogram.ts";
 
 /**
  * A provider's brand mark from the `/icons.svg` sprite (emitted by
