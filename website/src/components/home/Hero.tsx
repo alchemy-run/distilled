@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import type { CatalogPackage } from "../../../build/site-data.ts";
+import { n } from "../../lib/format.ts";
 import { REPO_URL } from "../../lib/site.ts";
 import { GitHubIcon } from "../ui/Icons.tsx";
 import { CodeSamples } from "./CodeSamples.tsx";
@@ -8,6 +9,8 @@ import { SAMPLES } from "./samples.ts";
 
 export const Hero = (props: {
   providerCount: number;
+  /** Operations across every catalogued provider, summed at build time. */
+  operationCount: number;
   /** Set on `/p/<provider>`: the install line names this provider instead. */
   provider?: CatalogPackage;
 }) => {
@@ -31,10 +34,11 @@ export const Hero = (props: {
           Cloud APIs, <em>distilled</em> into Effect.
         </h1>
         <p class="mb-7 max-w-[34em] text-[clamp(1.05rem,1rem+0.35vw,1.2rem)] text-pretty text-fg-2">
-          Typed, Effect-native TypeScript SDKs for {props.providerCount} cloud
-          providers, generated straight from each one's own API description. No
-          hand-written client to fall behind the API — and when the description
-          is wrong, the fix is a patch, not a fork.
+          Effect-native TypeScript SDKs for {props.providerCount} cloud
+          providers: {n(props.operationCount)} operations, with every input,
+          response and failure typed. Retries, pagination, credentials and
+          tracing come from Effect, so an API you've never used behaves like the
+          ones you already know.
         </p>
         <div class="mb-6 flex flex-wrap gap-3">
           <a
