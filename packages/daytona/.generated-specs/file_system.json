@@ -1,0 +1,827 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.file_system#ListFilesRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#documentation": "Directory path to list (defaults to working directory)"
+          }
+        },
+        "depth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "depth",
+            "smithy.api#documentation": "How many levels deep to list (default: 1, must be >= 1)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#FileInfo": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isDir": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated: ModTime uses Go's time.String() layout which is not a standard format.\nUse ModifiedAt instead, which is serialized as ISO 8601 / RFC 3339.",
+            "smithy.api#required": {}
+          }
+        },
+        "mode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modifiedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full path of the entry"
+          }
+        },
+        "permissions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#ListFilesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.file_system#FileInfo"
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#ListFilesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.file_system#ListFilesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.file_system#ListFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#ListFilesRequest"
+      },
+      "output": {
+        "target": "com.daytona.file_system#ListFilesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/files",
+          "code": 200
+        },
+        "smithy.api#documentation": "List files and directories\n\nList files and directories in the specified path. Use the optional depth\nparameter to list recursively: depth=1 (default) lists the directory's\nentries, depth=2 also includes their children, and so on."
+      }
+    },
+    "com.daytona.file_system#DeleteFileRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "File or directory path to delete"
+          }
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "recursive",
+            "smithy.api#documentation": "Enable recursive deletion for directories"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#DeleteFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#DeleteFileRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/files",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a file or directory\n\nDelete a file or directory at the specified path"
+      }
+    },
+    "com.daytona.file_system#DownloadFilesRequestPathsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#DownloadFilesRequest": {
+      "type": "structure",
+      "members": {
+        "paths": {
+          "target": "com.daytona.file_system#DownloadFilesRequestPathsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#GinH": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#DownloadFilesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.file_system#GinH",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.file_system#DownloadFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#DownloadFilesRequest"
+      },
+      "output": {
+        "target": "com.daytona.file_system#DownloadFilesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files/bulk-download",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download multiple files\n\nDownload multiple files by providing their paths. Successful files are returned as multipart parts named `file`. Per-file failures are returned as multipart parts named `error` with JSON payloads shaped like ErrorResponse."
+      }
+    },
+    "com.daytona.file_system#UploadFiles": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files/bulk-upload",
+          "code": 200
+        },
+        "smithy.api#documentation": "Upload multiple files\n\nUpload multiple files with their destination paths"
+      }
+    },
+    "com.daytona.file_system#DownloadFileRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "File path to download"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#DownloadFileResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.file_system#DownloadFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#DownloadFileRequest"
+      },
+      "output": {
+        "target": "com.daytona.file_system#DownloadFileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/files/download",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download a file\n\nDownload a file by providing its path"
+      }
+    },
+    "com.daytona.file_system#FindInFilesRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Directory path to search in"
+          }
+        },
+        "pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pattern",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Text pattern to search for"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#Match": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "line": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#FindInFilesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.file_system#Match"
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#FindInFilesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.file_system#FindInFilesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.file_system#FindInFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#FindInFilesRequest"
+      },
+      "output": {
+        "target": "com.daytona.file_system#FindInFilesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/files/find",
+          "code": 200
+        },
+        "smithy.api#documentation": "Find text in files\n\nSearch for text pattern within files in a directory"
+      }
+    },
+    "com.daytona.file_system#CreateFolderRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Folder path to create"
+          }
+        },
+        "mode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "mode",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Octal permission mode (default: 0755)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#CreateFolder": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#CreateFolderRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files/folder",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a folder\n\nCreate a folder with the specified path and optional permissions"
+      }
+    },
+    "com.daytona.file_system#GetFileInfoRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "File or directory path"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#GetFileInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#GetFileInfoRequest"
+      },
+      "output": {
+        "target": "com.daytona.file_system#FileInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/files/info",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get file information\n\nGet detailed information about a file or directory"
+      }
+    },
+    "com.daytona.file_system#MoveFileRequest": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source file or directory path"
+          }
+        },
+        "destination": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "destination",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Destination file or directory path"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#MoveFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#MoveFileRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files/move",
+          "code": 200
+        },
+        "smithy.api#documentation": "Move or rename file/directory\n\nMove or rename a file or directory from source to destination"
+      }
+    },
+    "com.daytona.file_system#SetFilePermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "File or directory path"
+          }
+        },
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "owner",
+            "smithy.api#documentation": "Owner (username or UID)"
+          }
+        },
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "group",
+            "smithy.api#documentation": "Group (group name or GID)"
+          }
+        },
+        "mode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "mode",
+            "smithy.api#documentation": "File mode in octal format (e.g., 0755)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#SetFilePermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#SetFilePermissionsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files/permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set file permissions\n\nSet file permissions, ownership, and group for a file or directory"
+      }
+    },
+    "com.daytona.file_system#ReplaceInFilesRequestFilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#ReplaceInFilesRequest": {
+      "type": "structure",
+      "members": {
+        "files": {
+          "target": "com.daytona.file_system#ReplaceInFilesRequestFilesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "newValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#ReplaceResult": {
+      "type": "structure",
+      "members": {
+        "error": {
+          "target": "smithy.api#String"
+        },
+        "file": {
+          "target": "smithy.api#String"
+        },
+        "success": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#ReplaceInFilesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.file_system#ReplaceResult"
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#ReplaceInFilesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.file_system#ReplaceInFilesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.file_system#ReplaceInFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#ReplaceInFilesRequest"
+      },
+      "output": {
+        "target": "com.daytona.file_system#ReplaceInFilesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files/replace",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace text in files\n\nReplace text pattern with new value in multiple files"
+      }
+    },
+    "com.daytona.file_system#SearchFilesRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Directory path to search in"
+          }
+        },
+        "pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pattern",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "File pattern to match (e.g., *.txt, *.go)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#SearchFilesResponse": {
+      "type": "structure",
+      "members": {
+        "files": {
+          "target": "com.daytona.file_system#SearchFilesResponseFilesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#SearchFilesResponseFilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#SearchFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#SearchFilesRequest"
+      },
+      "output": {
+        "target": "com.daytona.file_system#SearchFilesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/files/search",
+          "code": 200
+        },
+        "smithy.api#documentation": "Search files by pattern\n\nSearch for files matching a specific pattern in a directory"
+      }
+    },
+    "com.daytona.file_system#UploadFileRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Destination path for the uploaded file"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.file_system#UploadedFile": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.file_system#UploadFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.file_system#UploadFileRequest"
+      },
+      "output": {
+        "target": "com.daytona.file_system#UploadedFile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files/upload-v2",
+          "code": 200
+        },
+        "smithy.api#documentation": "Upload a file\n\nUpload a file to the specified path. Accepts either multipart/form-data\n(field \"file\") or a raw request body (e.g. application/octet-stream).\nParent directories are created if missing; an existing file is overwritten."
+      }
+    },
+    "com.daytona.file_system#FileSystem": {
+      "type": "service",
+      "version": "v0.0.0-dev",
+      "operations": [
+        {
+          "target": "com.daytona.file_system#ListFiles"
+        },
+        {
+          "target": "com.daytona.file_system#DeleteFile"
+        },
+        {
+          "target": "com.daytona.file_system#DownloadFiles"
+        },
+        {
+          "target": "com.daytona.file_system#UploadFiles"
+        },
+        {
+          "target": "com.daytona.file_system#DownloadFile"
+        },
+        {
+          "target": "com.daytona.file_system#FindInFiles"
+        },
+        {
+          "target": "com.daytona.file_system#CreateFolder"
+        },
+        {
+          "target": "com.daytona.file_system#GetFileInfo"
+        },
+        {
+          "target": "com.daytona.file_system#MoveFile"
+        },
+        {
+          "target": "com.daytona.file_system#SetFilePermissions"
+        },
+        {
+          "target": "com.daytona.file_system#ReplaceInFiles"
+        },
+        {
+          "target": "com.daytona.file_system#SearchFiles"
+        },
+        {
+          "target": "com.daytona.file_system#UploadFile"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Toolbox API",
+        "smithy.api#documentation": "Daytona Toolbox API. The base URL comes from the sandbox's `toolboxProxyUrl` field (returned in sandbox DTO by the main Daytona API) plus the sandbox ID: `{toolboxProxyUrl}/{sandboxId}/{endpoint}`. Default for Daytona Cloud: `https://proxy.app.daytona.io/toolbox/{sandboxId}`."
+      }
+    }
+  }
+}

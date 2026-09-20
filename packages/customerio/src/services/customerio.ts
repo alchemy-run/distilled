@@ -26674,10 +26674,6 @@ export const SendPushRequestSound = S.String;
 export type SendPushRequestCustomDevicePlatform = "ios" | "android";
 export const SendPushRequestCustomDevicePlatform = S.String;
 
-/** If `"true"`, the device is opted-in and can receive push notifications. */
-export type SendPushRequestCustomDeviceAttributesPushEnabled = "true" | "false";
-export const SendPushRequestCustomDeviceAttributesPushEnabled = S.String;
-
 /** Attributes that you can reference to segment your audience—like a person's attributes, but specific to a device. These can be either the attributes defined below or custom key-value attributes. */
 export interface SendPushRequestCustomDeviceAttributes {
   /** The operating system, including the version, on the device. */
@@ -26691,9 +26687,7 @@ export interface SendPushRequestCustomDeviceAttributes {
   /** The device's [IETF language code](/journeys/channels/localization/getting-started/#supported-languages), such as `en-MX` or `es-ES`. */
   device_locale?: string;
   /** If `"true"`, the device is opted-in and can receive push notifications. */
-  push_enabled?:
-    | SendPushRequestCustomDeviceAttributesPushEnabled
-    | (string & {});
+  push_enabled?: boolean;
 }
 export const SendPushRequestCustomDeviceAttributes = /*@__PURE__*/ S.suspend(
   () =>
@@ -26703,9 +26697,7 @@ export const SendPushRequestCustomDeviceAttributes = /*@__PURE__*/ S.suspend(
       app_version: S.optional(S.String),
       cio_sdk_version: S.optional(S.String),
       device_locale: S.optional(S.String),
-      push_enabled: S.optional(
-        SendPushRequestCustomDeviceAttributesPushEnabled,
-      ),
+      push_enabled: S.optional(S.Boolean.pipe(T.StringEncoded())),
     }),
 ).annotate({
   identifier: "SendPushRequestCustomDeviceAttributes",

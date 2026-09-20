@@ -1,0 +1,153 @@
+{
+  "description": "Match fly-go lease envelopes, query TTL and native nonce headers. Native leases guard target mutations, not metadata or Machine creation.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachineLease",
+      "value": {
+        "type": "structure",
+        "members": {
+          "status": { "target": "smithy.api#String" },
+          "data": { "target": "com.flyio.machines#Lease" }
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.flyio.machines#CreateMachineLease/output/target",
+      "value": "com.flyio.machines#MachineLease"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.flyio.machines#GetMachineLease/output/target",
+      "value": "com.flyio.machines#MachineLease"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#CreateMachineLeaseRequest/members/ttl/traits/smithy.api#httpQuery",
+      "value": "ttl"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#CreateMachineLeaseRequest/members/lease_nonce",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "fly-machine-lease-nonce",
+          "smithy.api#documentation": "Existing lease nonce when refreshing; omit to acquire a new lease. Keep the nonce private."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesReleaseLeaseRequest/members/lease_nonce",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "fly-machine-lease-nonce",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Nonce of the lease to release. Keep the nonce private."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#UpdateMachineRequest/members/lease_nonce",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": { "smithy.api#httpHeader": "fly-machine-lease-nonce" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#StartMachineRequest/members/lease_nonce",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": { "smithy.api#httpHeader": "fly-machine-lease-nonce" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#StopMachineRequest/members/lease_nonce",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": { "smithy.api#httpHeader": "fly-machine-lease-nonce" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#DeleteMachineRequest/members/lease_nonce",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": { "smithy.api#httpHeader": "fly-machine-lease-nonce" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#CordonMachineRequest/members/lease_nonce",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": { "smithy.api#httpHeader": "fly-machine-lease-nonce" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#UncordonMachineRequest/members/lease_nonce",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": { "smithy.api#httpHeader": "fly-machine-lease-nonce" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SuspendMachineRequest/members/lease_nonce",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": { "smithy.api#httpHeader": "fly-machine-lease-nonce" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#RestartMachineRequest/members/lease_nonce",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": { "smithy.api#httpHeader": "fly-machine-lease-nonce" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#ExecMachine/errors/-",
+      "value": { "target": "com.flyio.machines#Conflict" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#CreateMachineLease/errors/-",
+      "value": { "target": "com.flyio.machines#Conflict" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#StopMachine/errors/-",
+      "value": { "target": "com.flyio.machines#Conflict" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#CordonMachine/errors/-",
+      "value": { "target": "com.flyio.machines#Conflict" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#UncordonMachine/errors/-",
+      "value": { "target": "com.flyio.machines#Conflict" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SuspendMachine/errors/-",
+      "value": { "target": "com.flyio.machines#Conflict" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#RestartMachine/errors/-",
+      "value": { "target": "com.flyio.machines#Conflict" }
+    }
+  ]
+}

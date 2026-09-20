@@ -1,0 +1,30 @@
+{
+  "description": "Type the observed attached-volume precondition on volume deletion. Match the exact message prefix because the HTTP status was not captured.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumeAttached",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "message": {
+                "includes": "failed_precondition: volume is currently bound to machine:"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#DeleteVolume/errors/-",
+      "value": { "target": "com.flyio.machines#VolumeAttached" }
+    }
+  ]
+}

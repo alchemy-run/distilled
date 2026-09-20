@@ -1,0 +1,222 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.interpreter#ListContextsResponse": {
+      "type": "structure",
+      "members": {
+        "contexts": {
+          "target": "com.daytona.interpreter#ListContextsResponseContextsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.interpreter#InterpreterContext": {
+      "type": "structure",
+      "members": {
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cwd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.interpreter#ListContextsResponseContextsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.interpreter#InterpreterContext"
+      },
+      "traits": {}
+    },
+    "com.daytona.interpreter#ListInterpreterContexts": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.interpreter#ListContextsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/interpreter/context",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all user-created interpreter contexts\n\nReturns information about all user-created interpreter contexts (excludes default context)"
+      }
+    },
+    "com.daytona.interpreter#CreateInterpreterContextRequest": {
+      "type": "structure",
+      "members": {
+        "cwd": {
+          "target": "smithy.api#String"
+        },
+        "language": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.interpreter#CreateInterpreterContext": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.interpreter#CreateInterpreterContextRequest"
+      },
+      "output": {
+        "target": "com.daytona.interpreter#InterpreterContext"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process/interpreter/context",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new interpreter context\n\nCreates a new isolated interpreter context with optional working directory and language"
+      }
+    },
+    "com.daytona.interpreter#DeleteInterpreterContextRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Context ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.interpreter#DeleteInterpreterContextResponseBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.interpreter#DeleteInterpreterContextResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.interpreter#DeleteInterpreterContextResponseBodyMap",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.interpreter#DeleteInterpreterContext": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.interpreter#DeleteInterpreterContextRequest"
+      },
+      "output": {
+        "target": "com.daytona.interpreter#DeleteInterpreterContextResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/process/interpreter/context/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an interpreter context\n\nDeletes an interpreter context and shuts down its worker process"
+      }
+    },
+    "com.daytona.interpreter#ExecuteInterpreterCode": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/process/interpreter/execute",
+          "code": 200
+        },
+        "smithy.api#documentation": "Execute code in an interpreter context\n\nExecutes code in a specified context (or default context if not specified) via WebSocket streaming"
+      }
+    },
+    "com.daytona.interpreter#Interpreter": {
+      "type": "service",
+      "version": "v0.0.0-dev",
+      "operations": [
+        {
+          "target": "com.daytona.interpreter#ListInterpreterContexts"
+        },
+        {
+          "target": "com.daytona.interpreter#CreateInterpreterContext"
+        },
+        {
+          "target": "com.daytona.interpreter#DeleteInterpreterContext"
+        },
+        {
+          "target": "com.daytona.interpreter#ExecuteInterpreterCode"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Toolbox API",
+        "smithy.api#documentation": "Daytona Toolbox API. The base URL comes from the sandbox's `toolboxProxyUrl` field (returned in sandbox DTO by the main Daytona API) plus the sandbox ID: `{toolboxProxyUrl}/{sandboxId}/{endpoint}`. Default for Daytona Cloud: `https://proxy.app.daytona.io/toolbox/{sandboxId}`."
+      }
+    }
+  }
+}

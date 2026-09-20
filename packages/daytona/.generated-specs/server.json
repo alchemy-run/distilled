@@ -1,0 +1,183 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.server#UpdateEnvRequestSetMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Set maps env var names to values applied to the daemon's process env, so\nprocesses spawned after the call (exec, sessions, PTYs) inherit them."
+      }
+    },
+    "com.daytona.server#UpdateEnvRequestUnsetList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Unset lists env var names to remove before Set is applied."
+      }
+    },
+    "com.daytona.server#UpdateEnvRequest": {
+      "type": "structure",
+      "members": {
+        "set": {
+          "target": "com.daytona.server#UpdateEnvRequestSetMap",
+          "traits": {
+            "smithy.api#documentation": "Set maps env var names to values applied to the daemon's process env, so\nprocesses spawned after the call (exec, sessions, PTYs) inherit them."
+          }
+        },
+        "unset": {
+          "target": "com.daytona.server#UpdateEnvRequestUnsetList",
+          "traits": {
+            "smithy.api#documentation": "Unset lists env var names to remove before Set is applied."
+          }
+        },
+        "unsetValuePrefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UnsetValuePrefix removes every env var whose value has this prefix and\nwhose name is not a key of Set, before Set is applied. Used to reconcile\nsecret placeholder vars without the caller knowing the daemon's env."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.server#UpdateEnvResponseBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.server#UpdateEnvResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.server#UpdateEnvResponseBodyMap",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.server#UpdateEnv": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.server#UpdateEnvRequest"
+      },
+      "output": {
+        "target": "com.daytona.server#UpdateEnvResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/env",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update process environment\n\nUpdate the daemon's process environment. Newly spawned processes, sessions and PTYs inherit the change; already-running processes keep their environment."
+      }
+    },
+    "com.daytona.server#InitializeRequest": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.server#InitializeResponseBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.server#InitializeResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.server#InitializeResponseBodyMap",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.server#Initialize": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.server#InitializeRequest"
+      },
+      "output": {
+        "target": "com.daytona.server#InitializeResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/init",
+          "code": 200
+        },
+        "smithy.api#documentation": "Initialize toolbox server\n\nSet the auth token and initialize telemetry for the toolbox server"
+      }
+    },
+    "com.daytona.server#Server": {
+      "type": "service",
+      "version": "v0.0.0-dev",
+      "operations": [
+        {
+          "target": "com.daytona.server#UpdateEnv"
+        },
+        {
+          "target": "com.daytona.server#Initialize"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Toolbox API",
+        "smithy.api#documentation": "Daytona Toolbox API. The base URL comes from the sandbox's `toolboxProxyUrl` field (returned in sandbox DTO by the main Daytona API) plus the sandbox ID: `{toolboxProxyUrl}/{sandboxId}/{endpoint}`. Default for Daytona Cloud: `https://proxy.app.daytona.io/toolbox/{sandboxId}`."
+      }
+    }
+  }
+}

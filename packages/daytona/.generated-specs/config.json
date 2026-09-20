@@ -1,0 +1,438 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.config#DaytonaConfiguration": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Daytona version",
+            "smithy.api#required": {}
+          }
+        },
+        "buildSha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commit sha of the source the app was built from"
+          }
+        },
+        "posthog": {
+          "target": "com.daytona.config#PosthogConfig",
+          "traits": {
+            "smithy.api#documentation": "PostHog configuration"
+          }
+        },
+        "oidc": {
+          "target": "com.daytona.config#OidcConfig",
+          "traits": {
+            "smithy.api#documentation": "OIDC configuration",
+            "smithy.api#required": {}
+          }
+        },
+        "ssoOidc": {
+          "target": "com.daytona.config#SsoOidcConfig",
+          "traits": {
+            "smithy.api#documentation": "OIDC configuration for org-SSO logins (Daytona Auth issuer). Present only when the secondary (org-SSO) issuer is configured; the dashboard uses it as its authority when entered via an organization SSO link."
+          }
+        },
+        "forcedFeatureFlags": {
+          "target": "com.daytona.config#DaytonaConfigurationForcedFeatureFlagsList",
+          "traits": {
+            "smithy.api#documentation": "Feature flags forced on for this deployment regardless of PostHog targeting. Lets environments without PostHog (previews, local dev) enable flag-gated dashboard features."
+          }
+        },
+        "linkedAccountsEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether linked accounts are enabled",
+            "smithy.api#required": {}
+          }
+        },
+        "announcements": {
+          "target": "com.daytona.config#DaytonaConfigurationAnnouncementsMap",
+          "traits": {
+            "smithy.api#documentation": "System announcements",
+            "smithy.api#required": {}
+          }
+        },
+        "pylonAppId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pylon application ID"
+          }
+        },
+        "proxyTemplateUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Proxy template URL",
+            "smithy.api#required": {}
+          }
+        },
+        "proxyToolboxUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Toolbox template URL",
+            "smithy.api#required": {}
+          }
+        },
+        "defaultSnapshot": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default snapshot for sandboxes",
+            "smithy.api#required": {}
+          }
+        },
+        "dashboardUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Dashboard URL",
+            "smithy.api#required": {}
+          }
+        },
+        "maxAutoArchiveInterval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum auto-archive interval in minutes",
+            "smithy.api#required": {}
+          }
+        },
+        "maintananceMode": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether maintenance mode is enabled",
+            "smithy.api#required": {}
+          }
+        },
+        "environment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current environment",
+            "smithy.api#required": {}
+          }
+        },
+        "billingApiUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Billing API URL"
+          }
+        },
+        "analyticsApiUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Analytics API URL"
+          }
+        },
+        "stripePublishableKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stripe publishable key for client-side Stripe.js"
+          }
+        },
+        "sshGatewayCommand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SSH Gateway command"
+          }
+        },
+        "sshGatewayPublicKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base64 encoded SSH Gateway public key"
+          }
+        },
+        "sshGatewayHost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hostname of the SSH Gateway that sandbox SSH connections terminate at"
+          }
+        },
+        "sshGatewayPort": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "TCP port of the SSH Gateway"
+          }
+        },
+        "sshGatewayHostKeys": {
+          "target": "com.daytona.config#DaytonaConfigurationSshGatewayHostKeysList",
+          "traits": {
+            "smithy.api#documentation": "SSH host public keys presented by the SSH Gateway, as OpenSSH public key lines (`<type> <base64>`). To build a known_hosts entry, prefix each with `sshGatewayHost` when `sshGatewayPort` is 22, or with `[sshGatewayHost]:sshGatewayPort` otherwise."
+          }
+        },
+        "sshGatewayHostKeyFingerprints": {
+          "target": "com.daytona.config#DaytonaConfigurationSshGatewayHostKeyFingerprintsList",
+          "traits": {
+            "smithy.api#documentation": "SHA256 fingerprints of sshGatewayHostKeys, in the same order, in `ssh-keygen -lf` format. Compare against the fingerprint published at https://github.com/daytona/.github/blob/main/SECURITY.md#ssh-host-key-verification"
+          }
+        },
+        "rateLimit": {
+          "target": "com.daytona.config#RateLimitConfig",
+          "traits": {
+            "smithy.api#documentation": "Rate limit configuration"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.config#PosthogConfig": {
+      "type": "structure",
+      "members": {
+        "apiKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PostHog API key",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PostHog host URL",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.config#OidcConfig": {
+      "type": "structure",
+      "members": {
+        "issuer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC issuer",
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC client ID",
+            "smithy.api#required": {}
+          }
+        },
+        "audience": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC audience",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "com.daytona.config#OidcConfigProvider",
+          "traits": {
+            "smithy.api#documentation": "Which identity provider the advertised issuer above belongs to. The dashboard needs this because provider-specific logout URLs are not discoverable from the issuer alone: ending an Auth0 session uses its proprietary /v2/logout, which does not exist on WorkOS AuthKit. Anything that branches on provider behaviour must read this rather than pattern-matching the issuer hostname.",
+            "smithy.api#required": {}
+          }
+        },
+        "authApiHostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WorkOS \"Authentication API\" custom domain the dashboard's client-side SDK should call instead of api.workos.com, so the refresh-token cookie is first-party. Present only when the provider is workos and a custom domain is configured (WorkOS production environments only); absent means the SDK runs in devMode and keeps the refresh token in localStorage."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.config#OidcConfigProvider": {
+      "type": "enum",
+      "members": {
+        "AUTH0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auth0"
+          }
+        },
+        "WORKOS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workos"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which identity provider the advertised issuer above belongs to. The dashboard needs this because provider-specific logout URLs are not discoverable from the issuer alone: ending an Auth0 session uses its proprietary /v2/logout, which does not exist on WorkOS AuthKit. Anything that branches on provider behaviour must read this rather than pattern-matching the issuer hostname."
+      }
+    },
+    "com.daytona.config#SsoOidcConfig": {
+      "type": "structure",
+      "members": {
+        "issuer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC issuer for org-SSO logins (Daytona Auth)",
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC client ID for org-SSO logins",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.config#DaytonaConfigurationForcedFeatureFlagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Feature flags forced on for this deployment regardless of PostHog targeting. Lets environments without PostHog (previews, local dev) enable flag-gated dashboard features."
+      }
+    },
+    "com.daytona.config#Announcement": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The announcement text",
+            "smithy.api#required": {}
+          }
+        },
+        "learnMoreUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to learn more about the announcement"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.config#DaytonaConfigurationAnnouncementsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.daytona.config#Announcement"
+      },
+      "traits": {
+        "smithy.api#documentation": "System announcements"
+      }
+    },
+    "com.daytona.config#DaytonaConfigurationSshGatewayHostKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "SSH host public keys presented by the SSH Gateway, as OpenSSH public key lines (`<type> <base64>`). To build a known_hosts entry, prefix each with `sshGatewayHost` when `sshGatewayPort` is 22, or with `[sshGatewayHost]:sshGatewayPort` otherwise."
+      }
+    },
+    "com.daytona.config#DaytonaConfigurationSshGatewayHostKeyFingerprintsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "SHA256 fingerprints of sshGatewayHostKeys, in the same order, in `ssh-keygen -lf` format. Compare against the fingerprint published at https://github.com/daytona/.github/blob/main/SECURITY.md#ssh-host-key-verification"
+      }
+    },
+    "com.daytona.config#RateLimitConfig": {
+      "type": "structure",
+      "members": {
+        "failedAuth": {
+          "target": "com.daytona.config#RateLimitEntry",
+          "traits": {
+            "smithy.api#documentation": "Failed authentication rate limit"
+          }
+        },
+        "authenticated": {
+          "target": "com.daytona.config#RateLimitEntry",
+          "traits": {
+            "smithy.api#documentation": "Authenticated rate limit"
+          }
+        },
+        "sandboxCreate": {
+          "target": "com.daytona.config#RateLimitEntry",
+          "traits": {
+            "smithy.api#documentation": "Sandbox create rate limit"
+          }
+        },
+        "sandboxLifecycle": {
+          "target": "com.daytona.config#RateLimitEntry",
+          "traits": {
+            "smithy.api#documentation": "Sandbox lifecycle rate limit"
+          }
+        },
+        "sandboxList": {
+          "target": "com.daytona.config#RateLimitEntry",
+          "traits": {
+            "smithy.api#documentation": "Sandbox list rate limit"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.config#RateLimitEntry": {
+      "type": "structure",
+      "members": {
+        "ttl": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Rate limit TTL in seconds"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Rate limit max requests"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.config#GetConfigControllerConfig": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.config#DaytonaConfiguration"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/config",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get config"
+      }
+    },
+    "com.daytona.config#Config": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.config#GetConfigControllerConfig"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

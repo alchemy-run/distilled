@@ -1,3 +1,13 @@
+## v1.0.0-rc.12
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **aws,fly-io**: Harden provisioning and token minting &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/615 [<samp>(6287a)</samp>](https://github.com/alchemy-run/distilled/commit/6287ae25c)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v1.0.0-rc.11...HEAD)
+
+---
+
 ## v1.0.0-rc.11
 
 ### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes

@@ -1,0 +1,379 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.volumes#ListVolumesRequest": {
+      "type": "structure",
+      "members": {
+        "includeDeleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeDeleted",
+            "smithy.api#documentation": "Include deleted volumes in the response"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.volumes#VolumeDto": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Volume ID",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Volume name",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.daytona.volumes#VolumeState",
+          "traits": {
+            "smithy.api#documentation": "Volume state",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "lastUsedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last used timestamp",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "errorReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error reason of the volume",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.volumes#VolumeState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "PENDING_CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_create"
+          }
+        },
+        "PENDING_DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_delete"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Volume state"
+      }
+    },
+    "com.daytona.volumes#ListVolumesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.volumes#VolumeDto"
+      },
+      "traits": {}
+    },
+    "com.daytona.volumes#ListVolumesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.volumes#ListVolumesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.volumes#ListVolumes": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.volumes#ListVolumesRequest"
+      },
+      "output": {
+        "target": "com.daytona.volumes#ListVolumesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/volumes",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all volumes"
+      }
+    },
+    "com.daytona.volumes#CreateVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.volumes#CreateVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.volumes#CreateVolumeRequest"
+      },
+      "output": {
+        "target": "com.daytona.volumes#VolumeDto"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/volumes",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new volume"
+      }
+    },
+    "com.daytona.volumes#GetVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the volume"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.volumes#GetVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.volumes#GetVolumeRequest"
+      },
+      "output": {
+        "target": "com.daytona.volumes#VolumeDto"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/volumes/{volumeId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get volume details"
+      }
+    },
+    "com.daytona.volumes#DeleteVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the volume"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.volumes#DeleteVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.volumes#DeleteVolumeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/volumes/{volumeId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete volume"
+      }
+    },
+    "com.daytona.volumes#GetVolumeByNameRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the volume"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.volumes#GetVolumeByName": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.volumes#GetVolumeByNameRequest"
+      },
+      "output": {
+        "target": "com.daytona.volumes#VolumeDto"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/volumes/by-name/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get volume details by name"
+      }
+    },
+    "com.daytona.volumes#Volumes": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.volumes#ListVolumes"
+        },
+        {
+          "target": "com.daytona.volumes#CreateVolume"
+        },
+        {
+          "target": "com.daytona.volumes#GetVolume"
+        },
+        {
+          "target": "com.daytona.volumes#DeleteVolume"
+        },
+        {
+          "target": "com.daytona.volumes#GetVolumeByName"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

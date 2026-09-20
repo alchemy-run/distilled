@@ -1,0 +1,1341 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.runners#ListRunnersRequest": {
+      "type": "structure",
+      "members": {
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "regionId",
+            "smithy.api#documentation": "Filter runners by region ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.runners#Runner": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain of the runner"
+          }
+        },
+        "apiUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API URL of the runner"
+          }
+        },
+        "proxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The proxy URL of the runner"
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The CPU capacity of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The memory capacity of the runner in GiB",
+            "smithy.api#required": {}
+          }
+        },
+        "disk": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The disk capacity of the runner in GiB",
+            "smithy.api#required": {}
+          }
+        },
+        "gpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The GPU capacity of the runner"
+          }
+        },
+        "gpuType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of GPU"
+          }
+        },
+        "sandboxClass": {
+          "target": "com.daytona.runners#SandboxClass",
+          "traits": {
+            "smithy.api#documentation": "The sandbox class supported by this runner"
+          }
+        },
+        "currentCpuUsagePercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current CPU usage percentage"
+          }
+        },
+        "currentMemoryUsagePercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current RAM usage percentage"
+          }
+        },
+        "currentDiskUsagePercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current disk usage percentage"
+          }
+        },
+        "currentAllocatedCpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current allocated CPU"
+          }
+        },
+        "currentAllocatedMemoryGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current allocated memory in GiB"
+          }
+        },
+        "currentAllocatedDiskGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current allocated disk in GiB"
+          }
+        },
+        "currentSnapshotCount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current snapshot count"
+          }
+        },
+        "currentStartedSandboxes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current number of started sandboxes"
+          }
+        },
+        "availabilityScore": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Runner availability score"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.daytona.runners#RunnerState",
+          "traits": {
+            "smithy.api#documentation": "The state of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "lastChecked": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last time the runner was checked"
+          }
+        },
+        "unschedulable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the runner is unschedulable",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.daytona.runners#RunnerTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation timestamp of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update timestamp of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of the runner (deprecated in favor of apiVersion)",
+            "smithy.api#required": {}
+          }
+        },
+        "apiVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The api version of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "runnerClass": {
+          "target": "com.daytona.runners#RunnerClass",
+          "traits": {
+            "smithy.api#documentation": "The class of the runner. Deprecated and always returns \"container\" for backward compatibility - use sandboxClass instead.",
+            "smithy.api#required": {}
+          }
+        },
+        "appVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The app version of the runner"
+          }
+        },
+        "class": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated runner class property"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.runners#SandboxClass": {
+      "type": "enum",
+      "members": {
+        "LINUX_VM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "linux-vm"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        },
+        "WINDOWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "windows"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.runners#RunnerState": {
+      "type": "enum",
+      "members": {
+        "INITIALIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "initializing"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "DECOMMISSIONED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "decommissioned"
+          }
+        },
+        "UNRESPONSIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unresponsive"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The state of the runner"
+      }
+    },
+    "com.daytona.runners#RunnerTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the runner"
+      }
+    },
+    "com.daytona.runners#RunnerClass": {
+      "type": "enum",
+      "members": {
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The class of the runner. Deprecated and always returns \"container\" for backward compatibility - use sandboxClass instead."
+      }
+    },
+    "com.daytona.runners#ListRunnersResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.runners#Runner"
+      },
+      "traits": {}
+    },
+    "com.daytona.runners#ListRunnersResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.runners#ListRunnersResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.runners#ListRunners": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.runners#ListRunnersRequest"
+      },
+      "output": {
+        "target": "com.daytona.runners#ListRunnersResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/runners",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all runners"
+      }
+    },
+    "com.daytona.runners#CreateRunnerRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to associate with the runner"
+      }
+    },
+    "com.daytona.runners#CreateRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.daytona.runners#CreateRunnerRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to associate with the runner"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.runners#CreateRunnerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "apiKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API key for the runner",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.runners#CreateRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.runners#CreateRunnerRequest"
+      },
+      "output": {
+        "target": "com.daytona.runners#CreateRunnerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runners",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create runner"
+      }
+    },
+    "com.daytona.runners#RunnerFull": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain of the runner"
+          }
+        },
+        "apiUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API URL of the runner"
+          }
+        },
+        "proxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The proxy URL of the runner"
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The CPU capacity of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The memory capacity of the runner in GiB",
+            "smithy.api#required": {}
+          }
+        },
+        "disk": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The disk capacity of the runner in GiB",
+            "smithy.api#required": {}
+          }
+        },
+        "gpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The GPU capacity of the runner"
+          }
+        },
+        "gpuType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of GPU"
+          }
+        },
+        "sandboxClass": {
+          "target": "com.daytona.runners#SandboxClass",
+          "traits": {
+            "smithy.api#documentation": "The sandbox class supported by this runner"
+          }
+        },
+        "currentCpuUsagePercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current CPU usage percentage"
+          }
+        },
+        "currentMemoryUsagePercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current RAM usage percentage"
+          }
+        },
+        "currentDiskUsagePercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current disk usage percentage"
+          }
+        },
+        "currentAllocatedCpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current allocated CPU"
+          }
+        },
+        "currentAllocatedMemoryGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current allocated memory in GiB"
+          }
+        },
+        "currentAllocatedDiskGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current allocated disk in GiB"
+          }
+        },
+        "currentSnapshotCount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current snapshot count"
+          }
+        },
+        "currentStartedSandboxes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current number of started sandboxes"
+          }
+        },
+        "availabilityScore": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Runner availability score"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.daytona.runners#RunnerState",
+          "traits": {
+            "smithy.api#documentation": "The state of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "lastChecked": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last time the runner was checked"
+          }
+        },
+        "unschedulable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the runner is unschedulable",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.daytona.runners#RunnerFullTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags associated with the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation timestamp of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update timestamp of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of the runner (deprecated in favor of apiVersion)",
+            "smithy.api#required": {}
+          }
+        },
+        "apiVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The api version of the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "runnerClass": {
+          "target": "com.daytona.runners#RunnerClass",
+          "traits": {
+            "smithy.api#documentation": "The class of the runner. Deprecated and always returns \"container\" for backward compatibility - use sandboxClass instead.",
+            "smithy.api#required": {}
+          }
+        },
+        "appVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The app version of the runner"
+          }
+        },
+        "class": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated runner class property"
+          }
+        },
+        "apiKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API key for the runner",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "regionType": {
+          "target": "com.daytona.runners#RegionType",
+          "traits": {
+            "smithy.api#documentation": "The region type of the runner"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.runners#RunnerFullTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags associated with the runner"
+      }
+    },
+    "com.daytona.runners#RegionType": {
+      "type": "enum",
+      "members": {
+        "SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared"
+          }
+        },
+        "DEDICATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dedicated"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the region"
+      }
+    },
+    "com.daytona.runners#GetInfoForAuthenticatedRunner": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.runners#RunnerFull"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/runners/me",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get info for authenticated runner"
+      }
+    },
+    "com.daytona.runners#GetSnapshotRefsForAuthenticatedRunnerResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.runners#GetSnapshotRefsForAuthenticatedRunnerResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.runners#GetSnapshotRefsForAuthenticatedRunnerResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.runners#GetSnapshotRefsForAuthenticatedRunner": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.runners#GetSnapshotRefsForAuthenticatedRunnerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/runners/me/snapshots",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get snapshot refs for authenticated runner"
+      }
+    },
+    "com.daytona.runners#GetRunnerBySandboxIdRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.runners#GetRunnerBySandboxId": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.runners#GetRunnerBySandboxIdRequest"
+      },
+      "output": {
+        "target": "com.daytona.runners#RunnerFull"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/runners/by-sandbox/{sandboxId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get runner by sandbox ID"
+      }
+    },
+    "com.daytona.runners#GetRunnersBySnapshotRefRequest": {
+      "type": "structure",
+      "members": {
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "ref",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Snapshot ref"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.runners#RunnerSnapshotDto": {
+      "type": "structure",
+      "members": {
+        "runnerSnapshotId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Runner snapshot ID",
+            "smithy.api#required": {}
+          }
+        },
+        "runnerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Runner ID",
+            "smithy.api#required": {}
+          }
+        },
+        "runnerDomain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Runner domain"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.runners#GetRunnersBySnapshotRefResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.runners#RunnerSnapshotDto"
+      },
+      "traits": {}
+    },
+    "com.daytona.runners#GetRunnersBySnapshotRefResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.runners#GetRunnersBySnapshotRefResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.runners#GetRunnersBySnapshotRef": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.runners#GetRunnersBySnapshotRefRequest"
+      },
+      "output": {
+        "target": "com.daytona.runners#GetRunnersBySnapshotRefResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/runners/by-snapshot-ref",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get runners by snapshot ref"
+      }
+    },
+    "com.daytona.runners#GetRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Runner ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.runners#GetRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.runners#GetRunnerRequest"
+      },
+      "output": {
+        "target": "com.daytona.runners#Runner"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/runners/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get runner by ID"
+      }
+    },
+    "com.daytona.runners#DeleteRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Runner ID"
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "Delete the runner without waiting for sandboxes already marked for destruction. Requires the runner to have stopped reporting as ready."
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.runners#DeleteRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.runners#DeleteRunnerRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/runners/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete runner"
+      }
+    },
+    "com.daytona.runners#GetRunnerFullByIdRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Runner ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.runners#GetRunnerFullById": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.runners#GetRunnerFullByIdRequest"
+      },
+      "output": {
+        "target": "com.daytona.runners#RunnerFull"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/runners/{id}/full",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get runner by ID"
+      }
+    },
+    "com.daytona.runners#UpdateRunnerSchedulingRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Runner ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.runners#UpdateRunnerScheduling": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.runners#UpdateRunnerSchedulingRequest"
+      },
+      "output": {
+        "target": "com.daytona.runners#Runner"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/runners/{id}/scheduling",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update runner scheduling status"
+      }
+    },
+    "com.daytona.runners#UpdateRunnerDrainingRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Runner ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.runners#UpdateRunnerDraining": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.runners#UpdateRunnerDrainingRequest"
+      },
+      "output": {
+        "target": "com.daytona.runners#Runner"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/runners/{id}/draining",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update runner draining status"
+      }
+    },
+    "com.daytona.runners#RunnerHealthMetrics": {
+      "type": "structure",
+      "members": {
+        "currentCpuLoadAverage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current CPU load average",
+            "smithy.api#required": {}
+          }
+        },
+        "currentCpuUsagePercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current CPU usage percentage",
+            "smithy.api#required": {}
+          }
+        },
+        "currentMemoryUsagePercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current memory usage percentage",
+            "smithy.api#required": {}
+          }
+        },
+        "currentDiskUsagePercentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current disk usage percentage",
+            "smithy.api#required": {}
+          }
+        },
+        "currentAllocatedCpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Currently allocated CPU cores",
+            "smithy.api#required": {}
+          }
+        },
+        "currentAllocatedMemoryGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Currently allocated memory in GiB",
+            "smithy.api#required": {}
+          }
+        },
+        "currentAllocatedDiskGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Currently allocated disk in GiB",
+            "smithy.api#required": {}
+          }
+        },
+        "currentSnapshotCount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of snapshots currently stored",
+            "smithy.api#required": {}
+          }
+        },
+        "currentStartedSandboxes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of started sandboxes",
+            "smithy.api#required": {}
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total CPU cores on the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "memoryGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total RAM in GiB on the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "diskGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total disk space in GiB on the runner",
+            "smithy.api#required": {}
+          }
+        },
+        "gpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total number of GPUs on the runner"
+          }
+        },
+        "gpuType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GPU model name"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.runners#RunnerServiceHealth": {
+      "type": "structure",
+      "members": {
+        "serviceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the service being checked",
+            "smithy.api#required": {}
+          }
+        },
+        "healthy": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the service is healthy",
+            "smithy.api#required": {}
+          }
+        },
+        "errorReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error reason if the service is unhealthy"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.runners#RunnerHealthcheckRequestServiceHealthList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.runners#RunnerServiceHealth"
+      },
+      "traits": {
+        "smithy.api#documentation": "Health status of individual services on the runner"
+      }
+    },
+    "com.daytona.runners#RunnerHealthcheckRequest": {
+      "type": "structure",
+      "members": {
+        "metrics": {
+          "target": "com.daytona.runners#RunnerHealthMetrics",
+          "traits": {
+            "smithy.api#documentation": "Runner metrics"
+          }
+        },
+        "serviceHealth": {
+          "target": "com.daytona.runners#RunnerHealthcheckRequestServiceHealthList",
+          "traits": {
+            "smithy.api#documentation": "Health status of individual services on the runner"
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Runner domain"
+          }
+        },
+        "proxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Runner proxy URL"
+          }
+        },
+        "apiUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Runner API URL"
+          }
+        },
+        "appVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Runner app version",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.runners#RunnerHealthcheck": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.runners#RunnerHealthcheckRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runners/healthcheck",
+          "code": 200
+        },
+        "smithy.api#documentation": "Runner healthcheck\n\nEndpoint for version 2 runners to send healthcheck and metrics. Updates lastChecked timestamp and runner metrics."
+      }
+    },
+    "com.daytona.runners#Runners": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.runners#ListRunners"
+        },
+        {
+          "target": "com.daytona.runners#CreateRunner"
+        },
+        {
+          "target": "com.daytona.runners#GetInfoForAuthenticatedRunner"
+        },
+        {
+          "target": "com.daytona.runners#GetSnapshotRefsForAuthenticatedRunner"
+        },
+        {
+          "target": "com.daytona.runners#GetRunnerBySandboxId"
+        },
+        {
+          "target": "com.daytona.runners#GetRunnersBySnapshotRef"
+        },
+        {
+          "target": "com.daytona.runners#GetRunner"
+        },
+        {
+          "target": "com.daytona.runners#DeleteRunner"
+        },
+        {
+          "target": "com.daytona.runners#GetRunnerFullById"
+        },
+        {
+          "target": "com.daytona.runners#UpdateRunnerScheduling"
+        },
+        {
+          "target": "com.daytona.runners#UpdateRunnerDraining"
+        },
+        {
+          "target": "com.daytona.runners#RunnerHealthcheck"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

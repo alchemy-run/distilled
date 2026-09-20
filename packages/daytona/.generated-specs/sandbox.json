@@ -1,0 +1,5101 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.sandbox#SandboxState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "RESTORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restoring"
+          }
+        },
+        "DESTROYED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "destroyed"
+          }
+        },
+        "DESTROYING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "destroying"
+          }
+        },
+        "STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "STARTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starting"
+          }
+        },
+        "STOPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopping"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "BUILD_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build_failed"
+          }
+        },
+        "PENDING_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_build"
+          }
+        },
+        "BUILDING_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "building_snapshot"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "PULLING_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pulling_snapshot"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "ARCHIVING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archiving"
+          }
+        },
+        "RESIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resizing"
+          }
+        },
+        "SNAPSHOTTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "snapshotting"
+          }
+        },
+        "FORKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "forking"
+          }
+        },
+        "PAUSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pausing"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "RESUMING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resuming"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#ListSandboxesRequestStatesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#SandboxState"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#ListSandboxesRequestSnapshotsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#ListSandboxesRequestRegionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#SandboxClass": {
+      "type": "enum",
+      "members": {
+        "LINUX_VM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "linux-vm"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        },
+        "WINDOWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "windows"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#ListSandboxesRequestSandboxClassesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#SandboxClass"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#SandboxListSortField": {
+      "type": "enum",
+      "members": {
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "CPU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu"
+          }
+        },
+        "MEMORYGIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "memoryGib"
+          }
+        },
+        "DISKGIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "diskGib"
+          }
+        },
+        "LASTACTIVITYAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lastActivityAt"
+          }
+        },
+        "CREATEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "createdAt"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#SandboxListSortDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#ListSandboxesRequest": {
+      "type": "structure",
+      "members": {
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Pagination cursor from a previous response"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results per page"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "id",
+            "smithy.api#documentation": "Filter by ID prefix (case-insensitive)"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter by name prefix (case-insensitive)"
+          }
+        },
+        "labels": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "labels",
+            "smithy.api#documentation": "JSON encoded labels to filter by"
+          }
+        },
+        "includeErroredDeleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeErroredDeleted",
+            "smithy.api#documentation": "Include results with errored state and deleted desired state"
+          }
+        },
+        "includeWarm": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeWarm",
+            "smithy.api#documentation": "Include unclaimed warm pool sandboxes (excluded by default)"
+          }
+        },
+        "states": {
+          "target": "com.daytona.sandbox#ListSandboxesRequestStatesList",
+          "traits": {
+            "smithy.api#httpQuery": "states",
+            "smithy.api#documentation": "List of states to filter by."
+          }
+        },
+        "snapshots": {
+          "target": "com.daytona.sandbox#ListSandboxesRequestSnapshotsList",
+          "traits": {
+            "smithy.api#httpQuery": "snapshots",
+            "smithy.api#documentation": "List of snapshot names to filter by"
+          }
+        },
+        "regionIds": {
+          "target": "com.daytona.sandbox#ListSandboxesRequestRegionIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "regionIds",
+            "smithy.api#documentation": "List of regions IDs to filter by"
+          }
+        },
+        "sandboxClasses": {
+          "target": "com.daytona.sandbox#ListSandboxesRequestSandboxClassesList",
+          "traits": {
+            "smithy.api#httpQuery": "sandboxClasses",
+            "smithy.api#documentation": "List of sandbox classes to filter by"
+          }
+        },
+        "minCpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "minCpu",
+            "smithy.api#documentation": "Minimum CPU"
+          }
+        },
+        "maxCpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "maxCpu",
+            "smithy.api#documentation": "Maximum CPU"
+          }
+        },
+        "minMemoryGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "minMemoryGiB",
+            "smithy.api#documentation": "Minimum memory in GiB"
+          }
+        },
+        "maxMemoryGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "maxMemoryGiB",
+            "smithy.api#documentation": "Maximum memory in GiB"
+          }
+        },
+        "minDiskGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "minDiskGiB",
+            "smithy.api#documentation": "Minimum disk space in GiB"
+          }
+        },
+        "maxDiskGiB": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "maxDiskGiB",
+            "smithy.api#documentation": "Maximum disk space in GiB"
+          }
+        },
+        "minGpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "minGpu",
+            "smithy.api#documentation": "Minimum GPU"
+          }
+        },
+        "maxGpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "maxGpu",
+            "smithy.api#documentation": "Maximum GPU"
+          }
+        },
+        "isPublic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "isPublic",
+            "smithy.api#documentation": "Filter by public status"
+          }
+        },
+        "isRecoverable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "isRecoverable",
+            "smithy.api#documentation": "Filter by recoverable status"
+          }
+        },
+        "createdAtAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "createdAtAfter",
+            "smithy.api#documentation": "Include items created after this timestamp"
+          }
+        },
+        "createdAtBefore": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "createdAtBefore",
+            "smithy.api#documentation": "Include items created before this timestamp"
+          }
+        },
+        "lastEventAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "lastEventAfter",
+            "smithy.api#documentation": "Include items with last event after this timestamp"
+          }
+        },
+        "lastEventBefore": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "lastEventBefore",
+            "smithy.api#documentation": "Include items with last event before this timestamp"
+          }
+        },
+        "autoDestroyAtAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "autoDestroyAtAfter",
+            "smithy.api#documentation": "Include items scheduled for auto destroy after this timestamp"
+          }
+        },
+        "autoDestroyAtBefore": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "autoDestroyAtBefore",
+            "smithy.api#documentation": "Include items scheduled for auto destroy before this timestamp"
+          }
+        },
+        "sort": {
+          "target": "com.daytona.sandbox#SandboxListSortField",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "Field to sort by"
+          }
+        },
+        "order": {
+          "target": "com.daytona.sandbox#SandboxListSortDirection",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Direction to sort by"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#ListSandboxesResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.daytona.sandbox#ListSandboxesResponseItemsList",
+          "traits": {
+            "smithy.api#documentation": "List of results for the current page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextCursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor for the next page of results",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#SandboxListItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization ID of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target environment for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "runnerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The runner ID of the sandbox"
+          }
+        },
+        "sandboxClass": {
+          "target": "com.daytona.sandbox#SandboxClass",
+          "traits": {
+            "smithy.api#documentation": "The class of the sandbox"
+          }
+        },
+        "state": {
+          "target": "com.daytona.sandbox#SandboxState",
+          "traits": {
+            "smithy.api#documentation": "The state of the sandbox"
+          }
+        },
+        "desiredState": {
+          "target": "com.daytona.sandbox#SandboxDesiredState",
+          "traits": {
+            "smithy.api#documentation": "The desired state of the sandbox"
+          }
+        },
+        "snapshot": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The snapshot used for the sandbox"
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user associated with the project",
+            "smithy.api#required": {}
+          }
+        },
+        "errorReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error reason of the sandbox"
+          }
+        },
+        "recoverable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the sandbox error is recoverable."
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the sandbox http preview is public",
+            "smithy.api#required": {}
+          }
+        },
+        "networkBlockAll": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to block all network access for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "networkAllowList": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of allowed CIDR network addresses for the sandbox"
+          }
+        },
+        "domainAllowList": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of allowed domains for the sandbox"
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The CPU quota for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "gpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The GPU quota for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "spot": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is a spot GPU sandbox. Spot sandboxes may be instantly terminated to free capacity for on-demand GPU sandboxes. Absent on APIs that predate this field; treat as false."
+          }
+        },
+        "spotEvictedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this sandbox was evicted by spot preemption. Set as soon as the sandbox is marked for eviction, so it is already present while the sandbox is still winding down."
+          }
+        },
+        "gpuType": {
+          "target": "com.daytona.sandbox#GpuType",
+          "traits": {
+            "smithy.api#documentation": "The GPU type assigned to the sandbox"
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The memory quota for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "disk": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The disk quota for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.daytona.sandbox#SandboxListItemLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "backupState": {
+          "target": "com.daytona.sandbox#SandboxListItemBackupState",
+          "traits": {
+            "smithy.api#documentation": "The state of the backup"
+          }
+        },
+        "autoStopInterval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Auto-stop interval in minutes (0 means disabled)"
+          }
+        },
+        "autoPauseInterval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Auto-pause interval in minutes (0 means disabled)"
+          }
+        },
+        "autoArchiveInterval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Auto-archive interval in minutes"
+          }
+        },
+        "autoDeleteInterval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Auto-delete interval in minutes (negative value means disabled, 0 means delete immediately upon stopping)"
+          }
+        },
+        "autoDestroyAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the sandbox will be automatically destroyed, regardless of its state (only set when a TTL is configured)"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation timestamp of the sandbox"
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update timestamp of the sandbox"
+          }
+        },
+        "lastActivityAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last activity timestamp of the sandbox"
+          }
+        },
+        "daemonVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of the daemon running in the sandbox"
+          }
+        },
+        "warmPoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the warm pool this sandbox waits in; set only while it is an unclaimed member"
+          }
+        },
+        "toolboxProxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The toolbox proxy URL for the sandbox",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#SandboxDesiredState": {
+      "type": "enum",
+      "members": {
+        "DESTROYED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "destroyed"
+          }
+        },
+        "STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "RESIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resized"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The desired state of the sandbox"
+      }
+    },
+    "com.daytona.sandbox#GpuType": {
+      "type": "enum",
+      "members": {
+        "H100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "H100"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "H200"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RTX-PRO-6000"
+          }
+        },
+        "RTX_4090": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RTX-4090"
+          }
+        },
+        "RTX_5090": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RTX-5090"
+          }
+        },
+        "MI355X": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MI355X"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#SandboxListItemLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the sandbox"
+      }
+    },
+    "com.daytona.sandbox#SandboxListItemBackupState": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "None"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Pending"
+          }
+        },
+        "INPROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "InProgress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Completed"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The state of the backup"
+      }
+    },
+    "com.daytona.sandbox#ListSandboxesResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#SandboxListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of results for the current page"
+      }
+    },
+    "com.daytona.sandbox#ListSandboxes": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#ListSandboxesRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#ListSandboxesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox",
+          "code": 200
+        },
+        "smithy.api#documentation": "List sandboxes\n\nAdvanced filtering and ordering. Eventually consistent."
+      }
+    },
+    "com.daytona.sandbox#CreateSandboxRequestEnvMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables for the sandbox"
+      }
+    },
+    "com.daytona.sandbox#CreateSandboxRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the sandbox"
+      }
+    },
+    "com.daytona.sandbox#CreateSandboxRequestGpuTypeList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#GpuType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Preferred GPU type for the sandbox. Accepts a single value or an ordered preference list — the scheduler tries each in order and pins the sandbox to the first that has capacity."
+      }
+    },
+    "com.daytona.sandbox#SandboxVolume": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID or name of the volume. Resolved to the volume ID on sandbox create.",
+            "smithy.api#required": {}
+          }
+        },
+        "mountPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The mount path for the volume",
+            "smithy.api#required": {}
+          }
+        },
+        "subpath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional subpath within the volume to mount. When specified, only this S3 prefix will be accessible. When omitted, the entire volume is mounted."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#CreateSandboxRequestVolumesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#SandboxVolume"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of volumes to attach to the sandbox"
+      }
+    },
+    "com.daytona.sandbox#CreateBuildInfo": {
+      "type": "structure",
+      "members": {
+        "dockerfileContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Dockerfile content used for the build",
+            "smithy.api#required": {}
+          }
+        },
+        "contextHashes": {
+          "target": "com.daytona.sandbox#CreateBuildInfoContextHashesList",
+          "traits": {
+            "smithy.api#documentation": "The context hashes used for the build"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#CreateBuildInfoContextHashesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The context hashes used for the build"
+      }
+    },
+    "com.daytona.sandbox#CreateSandboxRequestSecretsItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#CreateSandboxRequestSecretsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#CreateSandboxRequestSecretsItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secrets to mount in this sandbox. Each entry maps an env var name to a vault secret name."
+      }
+    },
+    "com.daytona.sandbox#CreateSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the sandbox. If not provided, the sandbox ID will be used as the name"
+          }
+        },
+        "snapshot": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID or name of the snapshot used for the sandbox"
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user associated with the project"
+          }
+        },
+        "env": {
+          "target": "com.daytona.sandbox#CreateSandboxRequestEnvMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables for the sandbox"
+          }
+        },
+        "labels": {
+          "target": "com.daytona.sandbox#CreateSandboxRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the sandbox"
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the sandbox http preview is publicly accessible"
+          }
+        },
+        "networkBlockAll": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to block all network access for the sandbox"
+          }
+        },
+        "networkAllowList": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of allowed CIDR network addresses for the sandbox"
+          }
+        },
+        "domainAllowList": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of allowed domains for the sandbox"
+          }
+        },
+        "outboundProxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Outbound proxy URL to route the sandbox HTTP(S) traffic through (http or https; credentials may be included in the URL). On its own this is convenience routing, not a security boundary: it is applied by injecting the standard HTTP(S)_PROXY environment variables at creation, so a process that clears those variables egresses directly. Combine with domainAllowList to have web-port (80/443) egress transparently redirected through the proxy chain at the network layer, which cannot be bypassed from inside the sandbox."
+          }
+        },
+        "otelEndpointOverride": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OTel collector endpoint override for this sandbox. When set, sandbox OTel data is sent to this endpoint instead of the default collector (the Daytona-hosted collector or the region-configured endpoint) and will not be available in the Daytona analytics API or dashboard."
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target (region) where the sandbox will be created"
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "CPU cores allocated to the sandbox"
+          }
+        },
+        "gpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "GPU units allocated to the sandbox"
+          }
+        },
+        "gpuType": {
+          "target": "com.daytona.sandbox#CreateSandboxRequestGpuTypeList",
+          "traits": {
+            "smithy.api#documentation": "Preferred GPU type for the sandbox. Accepts a single value or an ordered preference list — the scheduler tries each in order and pins the sandbox to the first that has capacity."
+          }
+        },
+        "spot": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "GPU-only. When true, the sandbox may be instantly terminated without notice to free GPU capacity for an on-demand (non-spot) GPU sandbox. Ignored / rejected when the sandbox requests no GPUs."
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory allocated to the sandbox in GB"
+          }
+        },
+        "disk": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Disk space allocated to the sandbox in GB"
+          }
+        },
+        "autoStopInterval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Auto-stop interval in minutes (0 means disabled)"
+          }
+        },
+        "autoPauseInterval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Auto-pause interval in minutes (0 means disabled). Only supported for sandbox classes that support pausing. Not allowed for ephemeral sandboxes. At most one of autoStopInterval and autoPauseInterval may be non-zero. For non-ephemeral sandbox classes that support pausing, defaults to 60 minutes (with auto-stop disabled) when neither interval is provided."
+          }
+        },
+        "autoArchiveInterval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Auto-archive interval in minutes (0 means the maximum interval will be used)"
+          }
+        },
+        "autoDeleteInterval": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Auto-delete interval in minutes (negative value means disabled, 0 means delete immediately upon stopping)"
+          }
+        },
+        "ttlMinutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum time to live in minutes, counted as wall-clock time since creation regardless of sandbox state (0 means disabled). When it elapses the sandbox is destroyed, even if it is stopped, paused, or archived. Subject to the maximum sandbox lifespan configured for the organization region and sandbox class, in which case it also defaults to that maximum and cannot be disabled."
+          }
+        },
+        "volumes": {
+          "target": "com.daytona.sandbox#CreateSandboxRequestVolumesList",
+          "traits": {
+            "smithy.api#documentation": "Array of volumes to attach to the sandbox"
+          }
+        },
+        "buildInfo": {
+          "target": "com.daytona.sandbox#CreateBuildInfo",
+          "traits": {
+            "smithy.api#documentation": "Build information for the sandbox"
+          }
+        },
+        "linkedSandbox": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID or name of an existing sandbox to link the new sandbox to. The new sandbox will be scheduled on the same runner as the linked sandbox so a local network can be established between them. Linked sandboxes must be ephemeral (autoDeleteInterval=0) and cannot themselves be linked to another sandbox. GPU sandboxes cannot participate in links in either direction: a GPU sandbox cannot specify linkedSandbox, and cannot be the link target of another sandbox."
+          }
+        },
+        "secrets": {
+          "target": "com.daytona.sandbox#CreateSandboxRequestSecretsList",
+          "traits": {
+            "smithy.api#documentation": "Secrets to mount in this sandbox. Each entry maps an env var name to a vault secret name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#Sandbox2": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization ID of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "snapshot": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The snapshot used for the sandbox"
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user associated with the project",
+            "smithy.api#required": {}
+          }
+        },
+        "env": {
+          "target": "com.daytona.sandbox#SandboxEnvMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.daytona.sandbox#SandboxLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the sandbox http preview is public",
+            "smithy.api#required": {}
+          }
+        },
+        "networkBlockAll": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to block all network access for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "networkAllowList": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of allowed CIDR network addresses for the sandbox"
+          }
+        },
+        "domainAllowList": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of allowed domains for the sandbox"
+          }
+        },
+        "outboundProxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Outbound proxy URL the sandbox HTTP(S) traffic is routed through. Applied via the HTTP(S)_PROXY environment variables (convenience routing); network-layer enforcement applies only when the sandbox also has a domainAllowList. Only returned on single-sandbox reads — never on list responses."
+          }
+        },
+        "otelEndpointOverride": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OTel collector endpoint override for this sandbox. When set, sandbox OTel data is sent to this endpoint instead of the default collector and is not available in the Daytona analytics API or dashboard. Only returned on single-sandbox reads — never on list responses."
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target environment for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The CPU quota for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "gpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The GPU quota for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "spot": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is a spot GPU sandbox. Spot sandboxes may be instantly terminated to free capacity for on-demand GPU sandboxes. Absent on APIs that predate this field; treat as false."
+          }
+        },
+        "spotEvictedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this sandbox was destroyed by spot preemption. Set only for spot-evicted sandboxes, which stay retrievable by ID for 24 hours after eviction."
+          }
+        },
+        "gpuType": {
+          "target": "com.daytona.sandbox#GpuType",
+          "traits": {
+            "smithy.api#documentation": "The GPU type assigned to the sandbox"
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The memory quota for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "disk": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The disk quota for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.daytona.sandbox#SandboxState",
+          "traits": {
+            "smithy.api#documentation": "The state of the sandbox"
+          }
+        },
+        "desiredState": {
+          "target": "com.daytona.sandbox#SandboxDesiredState",
+          "traits": {
+            "smithy.api#documentation": "The desired state of the sandbox"
+          }
+        },
+        "errorReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error reason of the sandbox"
+          }
+        },
+        "recoverable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the sandbox error is recoverable."
+          }
+        },
+        "warmPoolId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the warm pool this sandbox waits in; set only while it is an unclaimed member."
+          }
+        },
+        "backupState": {
+          "target": "com.daytona.sandbox#SandboxBackupState",
+          "traits": {
+            "smithy.api#documentation": "The state of the backup"
+          }
+        },
+        "backupCreatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation timestamp of the last backup"
+          }
+        },
+        "autoStopInterval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Auto-stop interval in minutes (0 means disabled)"
+          }
+        },
+        "autoPauseInterval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Auto-pause interval in minutes (0 means disabled)"
+          }
+        },
+        "autoArchiveInterval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Auto-archive interval in minutes"
+          }
+        },
+        "autoDeleteInterval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Auto-delete interval in minutes (negative value means disabled, 0 means delete immediately upon stopping)"
+          }
+        },
+        "autoDestroyAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the sandbox will be automatically destroyed, regardless of its state (only set when a TTL is configured)"
+          }
+        },
+        "volumes": {
+          "target": "com.daytona.sandbox#SandboxVolumesList",
+          "traits": {
+            "smithy.api#documentation": "Array of volumes attached to the sandbox"
+          }
+        },
+        "buildInfo": {
+          "target": "com.daytona.sandbox#BuildInfo",
+          "traits": {
+            "smithy.api#documentation": "Build information for the sandbox"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation timestamp of the sandbox"
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update timestamp of the sandbox"
+          }
+        },
+        "lastActivityAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last activity timestamp of the sandbox"
+          }
+        },
+        "sandboxClass": {
+          "target": "com.daytona.sandbox#SandboxSandboxClass",
+          "traits": {
+            "smithy.api#documentation": "The class of the sandbox"
+          }
+        },
+        "daemonVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version of the daemon running in the sandbox"
+          }
+        },
+        "runnerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The runner ID of the sandbox"
+          }
+        },
+        "linkedSandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the sandbox this sandbox is linked to. When set, the sandbox is co-located on the same runner as the linked sandbox."
+          }
+        },
+        "toolboxProxyUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The toolbox proxy URL for the sandbox",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#SandboxEnvMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables for the sandbox"
+      }
+    },
+    "com.daytona.sandbox#SandboxLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the sandbox"
+      }
+    },
+    "com.daytona.sandbox#SandboxBackupState": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "None"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Pending"
+          }
+        },
+        "INPROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "InProgress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Completed"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The state of the backup"
+      }
+    },
+    "com.daytona.sandbox#SandboxVolumesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#SandboxVolume"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of volumes attached to the sandbox"
+      }
+    },
+    "com.daytona.sandbox#BuildInfo": {
+      "type": "structure",
+      "members": {
+        "dockerfileContent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Dockerfile content used for the build"
+          }
+        },
+        "contextHashes": {
+          "target": "com.daytona.sandbox#BuildInfoContextHashesList",
+          "traits": {
+            "smithy.api#documentation": "The context hashes used for the build"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last update timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "snapshotRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The snapshot reference",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#BuildInfoContextHashesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The context hashes used for the build"
+      }
+    },
+    "com.daytona.sandbox#SandboxSandboxClass": {
+      "type": "enum",
+      "members": {
+        "LINUX_VM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "linux-vm"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
+        "ANDROID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "android"
+          }
+        },
+        "WINDOWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "windows"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The class of the sandbox"
+      }
+    },
+    "com.daytona.sandbox#CreateSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#CreateSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new sandbox"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxesForRunnerRequest": {
+      "type": "structure",
+      "members": {
+        "states": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "states",
+            "smithy.api#documentation": "Comma-separated list of sandbox states to filter by"
+          }
+        },
+        "skipReconcilingSandboxes": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "skipReconcilingSandboxes",
+            "smithy.api#documentation": "Skip sandboxes where state differs from desired state"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandboxesForRunnerResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetSandboxesForRunnerResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.sandbox#GetSandboxesForRunnerResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandboxesForRunner": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSandboxesForRunnerRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#GetSandboxesForRunnerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/for-runner",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandboxes for the authenticated runner"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "verbose": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "verbose",
+            "smithy.api#documentation": "Include verbose output"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxIdOrName}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox details\n\nSandboxes destroyed by spot preemption remain retrievable for 24 hours so `spotEvictedAt` can be read."
+      }
+    },
+    "com.daytona.sandbox#DeleteSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#DeleteSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#DeleteSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/sandbox/{sandboxIdOrName}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete sandbox"
+      }
+    },
+    "com.daytona.sandbox#RecoverSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "skipStart": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "skipStart",
+            "smithy.api#documentation": "If true, the sandbox is left in STOPPED after recovery instead of being started."
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#RecoverSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#RecoverSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/recover",
+          "code": 200
+        },
+        "smithy.api#documentation": "Recover sandbox from error state"
+      }
+    },
+    "com.daytona.sandbox#StartSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#StartSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#StartSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/start",
+          "code": 200
+        },
+        "smithy.api#documentation": "Start or resume sandbox\n\nStarts a stopped or archived sandbox, or resumes a paused sandbox. The transition taken depends on the current sandbox state."
+      }
+    },
+    "com.daytona.sandbox#StopSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "Force stop the sandbox using SIGKILL instead of SIGTERM"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#StopSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#StopSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/stop",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stop sandbox"
+      }
+    },
+    "com.daytona.sandbox#PauseSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#PauseSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#PauseSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause sandbox"
+      }
+    },
+    "com.daytona.sandbox#ResizeSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "CPU cores to allocate to the sandbox (minimum: 1)"
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory in GB to allocate to the sandbox (minimum: 1)"
+          }
+        },
+        "disk": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Disk space in GB to allocate to the sandbox (can only be increased)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#ResizeSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#ResizeSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/resize",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resize sandbox resources"
+      }
+    },
+    "com.daytona.sandbox#ReplaceLabelsRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value pairs of labels"
+      }
+    },
+    "com.daytona.sandbox#ReplaceLabelsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "labels": {
+          "target": "com.daytona.sandbox#ReplaceLabelsRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Key-value pairs of labels",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#SandboxLabels": {
+      "type": "structure",
+      "members": {
+        "labels": {
+          "target": "com.daytona.sandbox#SandboxLabelsLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Key-value pairs of labels",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#SandboxLabelsLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value pairs of labels"
+      }
+    },
+    "com.daytona.sandbox#ReplaceLabels": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#ReplaceLabelsRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#SandboxLabels"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/sandbox/{sandboxIdOrName}/labels",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace sandbox labels"
+      }
+    },
+    "com.daytona.sandbox#UpdateSandboxStateRequestState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "RESTORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restoring"
+          }
+        },
+        "DESTROYED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "destroyed"
+          }
+        },
+        "DESTROYING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "destroying"
+          }
+        },
+        "STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "started"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "STARTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starting"
+          }
+        },
+        "STOPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopping"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "BUILD_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build_failed"
+          }
+        },
+        "PENDING_BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending_build"
+          }
+        },
+        "BUILDING_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "building_snapshot"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        },
+        "PULLING_SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pulling_snapshot"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        },
+        "ARCHIVING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archiving"
+          }
+        },
+        "RESIZING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resizing"
+          }
+        },
+        "SNAPSHOTTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "snapshotting"
+          }
+        },
+        "FORKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "forking"
+          }
+        },
+        "PAUSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pausing"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "RESUMING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resuming"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The new state for the sandbox"
+      }
+    },
+    "com.daytona.sandbox#UpdateSandboxStateRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "state": {
+          "target": "com.daytona.sandbox#UpdateSandboxStateRequestState",
+          "traits": {
+            "smithy.api#documentation": "The new state for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "errorReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional error message when reporting an error state"
+          }
+        },
+        "recoverable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the sandbox is recoverable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#UpdateSandboxState": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#UpdateSandboxStateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/sandbox/{sandboxId}/state",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update sandbox state"
+      }
+    },
+    "com.daytona.sandbox#CreateSandboxSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name for the new snapshot",
+            "smithy.api#required": {}
+          }
+        },
+        "includeMemory": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Include the VM's memory in the snapshot. VM sandboxes only. When true the sandbox must be STARTED; when false (default) VM sandboxes must be STOPPED. Container sandboxes do not support memory snapshots."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#CreateSandboxSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#CreateSandboxSnapshotRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/snapshot",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a snapshot from a sandbox"
+      }
+    },
+    "com.daytona.sandbox#ForkSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name for the forked sandbox. If not provided, a unique name will be generated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#ForkSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#ForkSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/fork",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fork a sandbox"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxForksRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "includeDestroyed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeDestroyed"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandboxForksResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetSandboxForksResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.sandbox#GetSandboxForksResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandboxForks": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSandboxForksRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#GetSandboxForksResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxIdOrName}/forks",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox fork children"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxParentRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandboxParent": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSandboxParentRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxIdOrName}/parent",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox fork parent"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxAncestorsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandboxAncestorsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetSandboxAncestorsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.sandbox#GetSandboxAncestorsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandboxAncestors": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSandboxAncestorsRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#GetSandboxAncestorsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxIdOrName}/ancestors",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox fork ancestor chain"
+      }
+    },
+    "com.daytona.sandbox#UpdatePublicStatusRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "isPublic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Public status to set"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#UpdatePublicStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#UpdatePublicStatusRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/public/{isPublic}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update public status"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxSigningKeyRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandboxSigningKeyResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandboxSigningKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSandboxSigningKeyRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#GetSandboxSigningKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxId}/signing-key",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the signing key for a sandbox"
+      }
+    },
+    "com.daytona.sandbox#RotateSigningKeyRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#RotateSigningKeyResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.sandbox#RotateSigningKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#RotateSigningKeyRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#RotateSigningKeyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxId}/signing-key/rotate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rotate the signing key, invalidating all previously signed URLs"
+      }
+    },
+    "com.daytona.sandbox#UpdateLastActivityRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "activityType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional type of interaction that reset the activity timer."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#UpdateLastActivity": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#UpdateLastActivityRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxId}/last-activity",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update sandbox last activity"
+      }
+    },
+    "com.daytona.sandbox#SetAutostopIntervalRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "interval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Auto-stop interval in minutes (0 to disable)"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#SetAutostopInterval": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#SetAutostopIntervalRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/autostop/{interval}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set sandbox auto-stop interval"
+      }
+    },
+    "com.daytona.sandbox#SetAutoPauseIntervalRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "interval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Auto-pause interval in minutes (0 to disable)"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#SetAutoPauseInterval": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#SetAutoPauseIntervalRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/autopause/{interval}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set sandbox auto-pause interval"
+      }
+    },
+    "com.daytona.sandbox#SetTtlRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "ttlMinutes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Maximum time to live in minutes, re-anchored from the current time (0 to disable). When it elapses the sandbox is destroyed, even if it is stopped, paused, or archived"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#SetTtl": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#SetTtlRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/ttl/{ttlMinutes}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set sandbox TTL"
+      }
+    },
+    "com.daytona.sandbox#SetAutoArchiveIntervalRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "interval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Auto-archive interval in minutes (0 means the maximum interval will be used)"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#SetAutoArchiveInterval": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#SetAutoArchiveIntervalRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/autoarchive/{interval}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set sandbox auto-archive interval"
+      }
+    },
+    "com.daytona.sandbox#SetAutoDeleteIntervalRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "interval": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Auto-delete interval in minutes (negative value means disabled, 0 means delete immediately upon stopping)"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#SetAutoDeleteInterval": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#SetAutoDeleteIntervalRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/autodelete/{interval}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set sandbox auto-delete interval"
+      }
+    },
+    "com.daytona.sandbox#UpdateNetworkSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "networkBlockAll": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to block all network access for the sandbox"
+          }
+        },
+        "networkAllowList": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of allowed CIDR network addresses for the sandbox"
+          }
+        },
+        "domainAllowList": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of allowed domains for the sandbox"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#UpdateNetworkSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#UpdateNetworkSettingsRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/network-settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update sandbox network settings\n\nChanges outbound network policy on the runner for a running sandbox (for example block all traffic, restore access, or set a CIDR allow list)."
+      }
+    },
+    "com.daytona.sandbox#UpdateSandboxSecretsRequestSecretsItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#UpdateSandboxSecretsRequestSecretsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#UpdateSandboxSecretsRequestSecretsItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secrets to mount in this sandbox, replacing the previously mounted set. Each entry maps an env var name to a vault secret name. Pass an empty array to detach all secrets."
+      }
+    },
+    "com.daytona.sandbox#UpdateSandboxSecretsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        },
+        "secrets": {
+          "target": "com.daytona.sandbox#UpdateSandboxSecretsRequestSecretsList",
+          "traits": {
+            "smithy.api#documentation": "Secrets to mount in this sandbox, replacing the previously mounted set. Each entry maps an env var name to a vault secret name. Pass an empty array to detach all secrets.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#UpdateSandboxSecrets": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#UpdateSandboxSecretsRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/sandbox/{sandboxIdOrName}/secrets",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update sandbox secrets\n\nReplaces the set of vault secrets mounted in the sandbox. Attached, detached and rotated secrets take effect for outbound requests within seconds. New env vars become visible to processes spawned after the update; a sandbox created without any secrets must be restarted for newly attached secrets to work."
+      }
+    },
+    "com.daytona.sandbox#ArchiveSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#ArchiveSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#ArchiveSandboxRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/archive",
+          "code": 200
+        },
+        "smithy.api#documentation": "Archive sandbox"
+      }
+    },
+    "com.daytona.sandbox#GetPortPreviewUrlRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "port": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Port number to get preview URL for"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#PortPreviewUrl": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Preview url",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access token",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetPortPreviewUrl": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetPortPreviewUrlRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#PortPreviewUrl"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxIdOrName}/ports/{port}/preview-url",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get preview URL for a sandbox port"
+      }
+    },
+    "com.daytona.sandbox#GetSignedPortPreviewUrlRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Port number to get signed preview URL for"
+          }
+        },
+        "expiresInSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "expiresInSeconds",
+            "smithy.api#documentation": "Expiration time in seconds (default: 60 seconds)"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#SignedPortPreviewUrl": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Port number of the signed preview URL",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token of the signed preview URL",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Signed preview url",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetSignedPortPreviewUrl": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSignedPortPreviewUrlRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#SignedPortPreviewUrl"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxIdOrName}/ports/{port}/signed-preview-url",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get signed preview URL for a sandbox port"
+      }
+    },
+    "com.daytona.sandbox#ExpireSignedPortPreviewUrlRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Port number to expire signed preview URL for"
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Token to expire signed preview URL for"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#ExpireSignedPortPreviewUrl": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#ExpireSignedPortPreviewUrlRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/ports/{port}/signed-preview-url/{token}/expire",
+          "code": 200
+        },
+        "smithy.api#documentation": "Expire signed preview URL for a sandbox port"
+      }
+    },
+    "com.daytona.sandbox#GetBuildLogsUrlRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#Url": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL response",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetBuildLogsUrl": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetBuildLogsUrlRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Url"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxIdOrName}/build-logs-url",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get build logs URL"
+      }
+    },
+    "com.daytona.sandbox#CreateSshAccessRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "expiresInMinutes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "expiresInMinutes",
+            "smithy.api#documentation": "Expiration time in minutes (default: 60)"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#SshAccessDto": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the SSH access",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the sandbox this SSH access is for",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SSH access token",
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the SSH access expires",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the SSH access was created",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the SSH access was last updated",
+            "smithy.api#required": {}
+          }
+        },
+        "sshCommand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SSH command to connect to the sandbox",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#CreateSshAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#CreateSshAccessRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#SshAccessDto"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandbox/{sandboxIdOrName}/ssh-access",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create SSH access for sandbox"
+      }
+    },
+    "com.daytona.sandbox#RevokeSshAccessRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxIdOrName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID or name of the sandbox"
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "token",
+            "smithy.api#documentation": "SSH access token to revoke. If not provided, all SSH access for the sandbox will be revoked."
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#RevokeSshAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#RevokeSshAccessRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Sandbox2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/sandbox/{sandboxIdOrName}/ssh-access",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revoke SSH access for sandbox"
+      }
+    },
+    "com.daytona.sandbox#ValidateSshAccessRequest": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "token",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "SSH access token to validate"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#SshAccessValidationDto": {
+      "type": "structure",
+      "members": {
+        "valid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the SSH access token is valid",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the sandbox this SSH access is for",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#ValidateSshAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#ValidateSshAccessRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#SshAccessValidationDto"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/ssh-access/validate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Validate SSH access for sandbox"
+      }
+    },
+    "com.daytona.sandbox#GetToolboxProxyUrlRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#ToolboxProxyUrl": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The toolbox proxy URL for the sandbox",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetToolboxProxyUrl": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetToolboxProxyUrlRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#ToolboxProxyUrl"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxId}/toolbox-proxy-url",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get toolbox proxy URL for a sandbox"
+      }
+    },
+    "com.daytona.sandbox#GetOrganizationBySandboxIdRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#Organization": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization name",
+            "smithy.api#required": {}
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User ID of the organization creator",
+            "smithy.api#required": {}
+          }
+        },
+        "personal": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Personal organization flag",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last update timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "suspended": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Suspended flag",
+            "smithy.api#required": {}
+          }
+        },
+        "suspendedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suspended at",
+            "smithy.api#required": {}
+          }
+        },
+        "suspensionReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suspended reason",
+            "smithy.api#required": {}
+          }
+        },
+        "suspendedUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suspended until",
+            "smithy.api#required": {}
+          }
+        },
+        "suspensionCleanupGracePeriodHours": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Suspension cleanup grace period hours",
+            "smithy.api#required": {}
+          }
+        },
+        "maxCpuPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Max CPU per sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "maxMemoryPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Max memory per sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "maxDiskPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Max disk per sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "secretQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of secrets",
+            "smithy.api#required": {}
+          }
+        },
+        "maxSecretsPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of secrets that can be mounted to a single sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "snapshotDeactivationTimeoutMinutes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Time in minutes before an unused snapshot is deactivated",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxLimitedNetworkEgress": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Sandbox default network block all",
+            "smithy.api#required": {}
+          }
+        },
+        "previewWarningEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the proxy shows the preview URL warning page for this organization",
+            "smithy.api#required": {}
+          }
+        },
+        "ssoEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this organization may configure SSO identity providers",
+            "smithy.api#required": {}
+          }
+        },
+        "scimEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this organization may use SCIM directory sync",
+            "smithy.api#required": {}
+          }
+        },
+        "defaultRegionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default region ID"
+          }
+        },
+        "workosOrgId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the WorkOS organization mirrored from this organization (absent for personal organizations, which are never mirrored)"
+          }
+        },
+        "authenticatedRateLimit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Authenticated rate limit per minute",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sandboxCreateRateLimit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sandbox create rate limit per minute",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sandboxLifecycleRateLimit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sandbox lifecycle rate limit per minute",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "experimentalConfig": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Experimental configuration",
+            "smithy.api#required": {}
+          }
+        },
+        "otelConfig": {
+          "target": "com.daytona.sandbox#OtelConfig",
+          "traits": {
+            "smithy.api#documentation": "OpenTelemetry collection configuration",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "authenticatedRateLimitTtlSeconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Authenticated rate limit TTL in seconds",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sandboxCreateRateLimitTtlSeconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sandbox create rate limit TTL in seconds",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sandboxLifecycleRateLimitTtlSeconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sandbox lifecycle rate limit TTL in seconds",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#OtelConfig": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint",
+            "smithy.api#required": {}
+          }
+        },
+        "headers": {
+          "target": "com.daytona.sandbox#OtelConfigHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Headers",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID the config belongs to"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#OtelConfigHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Headers"
+      }
+    },
+    "com.daytona.sandbox#GetOrganizationBySandboxId": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetOrganizationBySandboxIdRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#Organization"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxId}/organization",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get organization by sandbox ID"
+      }
+    },
+    "com.daytona.sandbox#GetRegionQuotaBySandboxIdRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#RegionQuota": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxClass": {
+          "target": "com.daytona.sandbox#SandboxClass",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalCpuQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalMemoryQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalDiskQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalGpuQuota": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "allowedGpuTypes": {
+          "target": "com.daytona.sandbox#RegionQuotaAllowedGpuTypesList"
+        },
+        "maxCpuPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxMemoryPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxDiskPerSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxDiskPerNonEphemeralSandbox": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxCpuPerGpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "CPU maximum per requested GPU unit for GPU sandboxes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxMemoryPerGpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Memory maximum per requested GPU unit for GPU sandboxes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxDiskPerGpu": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Disk maximum per requested GPU unit for GPU sandboxes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxSandboxLifespan": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum sandbox lifespan in minutes, measured from sandbox creation to its auto-destroy deadline. If null or 0, lifespan is unrestricted. When set, sandboxes created without a TTL default to this lifespan and TTL cannot be disabled.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#RegionQuotaAllowedGpuTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#GpuType"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetRegionQuotaBySandboxId": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetRegionQuotaBySandboxIdRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#RegionQuota"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxId}/region-quota",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get region quota by sandbox ID"
+      }
+    },
+    "com.daytona.sandbox#ResolveSandboxSecretsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox ID"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#ResolveSandboxSecrets200ResponseInner": {
+      "type": "structure",
+      "members": {
+        "env": {
+          "target": "smithy.api#String"
+        },
+        "placeholder": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        },
+        "hosts": {
+          "target": "com.daytona.sandbox#ResolveSandboxSecrets200ResponseInnerHostsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#ResolveSandboxSecrets200ResponseInnerHostsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#ResolveSandboxSecretsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#ResolveSandboxSecrets200ResponseInner"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#ResolveSandboxSecretsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.sandbox#ResolveSandboxSecretsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.sandbox#ResolveSandboxSecrets": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#ResolveSandboxSecretsRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#ResolveSandboxSecretsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxId}/secrets",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resolve sandbox secrets"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxLogsRequestSeveritiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetSandboxLogsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start of time range (ISO 8601)"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End of time range (ISO 8601)"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number (1-indexed)"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of items per page"
+          }
+        },
+        "severities": {
+          "target": "com.daytona.sandbox#GetSandboxLogsRequestSeveritiesList",
+          "traits": {
+            "smithy.api#httpQuery": "severities",
+            "smithy.api#documentation": "Filter by severity levels (DEBUG, INFO, WARN, ERROR)"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Search in log body"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#PaginatedLogs": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.daytona.sandbox#PaginatedLogsItemsList",
+          "traits": {
+            "smithy.api#documentation": "List of log entries",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total number of log entries matching the query",
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current page number",
+            "smithy.api#required": {}
+          }
+        },
+        "totalPages": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total number of pages",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#LogEntry": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the log entry",
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Log message body",
+            "smithy.api#required": {}
+          }
+        },
+        "severityText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Severity level text (e.g., INFO, WARN, ERROR)",
+            "smithy.api#required": {}
+          }
+        },
+        "severityNumber": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Severity level number"
+          }
+        },
+        "serviceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service name that generated the log",
+            "smithy.api#required": {}
+          }
+        },
+        "resourceAttributes": {
+          "target": "com.daytona.sandbox#LogEntryResourceAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Resource attributes from OTEL",
+            "smithy.api#required": {}
+          }
+        },
+        "logAttributes": {
+          "target": "com.daytona.sandbox#LogEntryLogAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Log-specific attributes",
+            "smithy.api#required": {}
+          }
+        },
+        "traceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Associated trace ID if available"
+          }
+        },
+        "spanId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Associated span ID if available"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#LogEntryResourceAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource attributes from OTEL"
+      }
+    },
+    "com.daytona.sandbox#LogEntryLogAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Log-specific attributes"
+      }
+    },
+    "com.daytona.sandbox#PaginatedLogsItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#LogEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of log entries"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSandboxLogsRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#PaginatedLogs"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxId}/telemetry/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox logs\n\nRetrieve OTEL logs for a sandbox within a time range"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxTracesRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start of time range (ISO 8601)"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End of time range (ISO 8601)"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number (1-indexed)"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of items per page"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#PaginatedTraces": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.daytona.sandbox#PaginatedTracesItemsList",
+          "traits": {
+            "smithy.api#documentation": "List of trace summaries",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total number of traces matching the query",
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current page number",
+            "smithy.api#required": {}
+          }
+        },
+        "totalPages": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total number of pages",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#TraceSummary": {
+      "type": "structure",
+      "members": {
+        "traceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique trace identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "rootSpanName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the root span",
+            "smithy.api#required": {}
+          }
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trace start time",
+            "smithy.api#required": {}
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trace end time",
+            "smithy.api#required": {}
+          }
+        },
+        "durationMs": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total duration in milliseconds",
+            "smithy.api#required": {}
+          }
+        },
+        "spanCount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of spans in this trace",
+            "smithy.api#required": {}
+          }
+        },
+        "statusCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status code of the trace"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#PaginatedTracesItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#TraceSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of trace summaries"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxTraces": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSandboxTracesRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#PaginatedTraces"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxId}/telemetry/traces",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox traces\n\nRetrieve OTEL traces for a sandbox within a time range"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxTraceSpansRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "traceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the trace"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#TraceSpan": {
+      "type": "structure",
+      "members": {
+        "traceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trace identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "spanId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Span identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "parentSpanId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent span identifier"
+          }
+        },
+        "spanName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Span name",
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Span start timestamp",
+            "smithy.api#required": {}
+          }
+        },
+        "durationNs": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Span duration in nanoseconds",
+            "smithy.api#required": {}
+          }
+        },
+        "spanAttributes": {
+          "target": "com.daytona.sandbox#TraceSpanSpanAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Span attributes",
+            "smithy.api#required": {}
+          }
+        },
+        "statusCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status code of the span"
+          }
+        },
+        "statusMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Status message"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#TraceSpanSpanAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Span attributes"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxTraceSpansResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#TraceSpan"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetSandboxTraceSpansResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.sandbox#GetSandboxTraceSpansResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.sandbox#GetSandboxTraceSpans": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSandboxTraceSpansRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#GetSandboxTraceSpansResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxId}/telemetry/traces/{traceId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get trace spans\n\nRetrieve all spans for a specific trace"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxMetricsRequestMetricNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#GetSandboxMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the sandbox"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Start of time range (ISO 8601)"
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "End of time range (ISO 8601)"
+          }
+        },
+        "metricNames": {
+          "target": "com.daytona.sandbox#GetSandboxMetricsRequestMetricNamesList",
+          "traits": {
+            "smithy.api#httpQuery": "metricNames",
+            "smithy.api#documentation": "Filter by metric names"
+          }
+        },
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.sandbox#MetricsResponse": {
+      "type": "structure",
+      "members": {
+        "series": {
+          "target": "com.daytona.sandbox#MetricsResponseSeriesList",
+          "traits": {
+            "smithy.api#documentation": "List of metric series",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#MetricSeries": {
+      "type": "structure",
+      "members": {
+        "metricName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the metric",
+            "smithy.api#required": {}
+          }
+        },
+        "dataPoints": {
+          "target": "com.daytona.sandbox#MetricSeriesDataPointsList",
+          "traits": {
+            "smithy.api#documentation": "Data points for this metric",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#MetricDataPoint": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the data point",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Value at this timestamp",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.sandbox#MetricSeriesDataPointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#MetricDataPoint"
+      },
+      "traits": {
+        "smithy.api#documentation": "Data points for this metric"
+      }
+    },
+    "com.daytona.sandbox#MetricsResponseSeriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.sandbox#MetricSeries"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of metric series"
+      }
+    },
+    "com.daytona.sandbox#GetSandboxMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.sandbox#GetSandboxMetricsRequest"
+      },
+      "output": {
+        "target": "com.daytona.sandbox#MetricsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandbox/{sandboxId}/telemetry/metrics",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox metrics\n\nRetrieve OTEL metrics for a sandbox within a time range"
+      }
+    },
+    "com.daytona.sandbox#Sandbox": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.sandbox#ListSandboxes"
+        },
+        {
+          "target": "com.daytona.sandbox#CreateSandbox"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSandboxesForRunner"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSandbox"
+        },
+        {
+          "target": "com.daytona.sandbox#DeleteSandbox"
+        },
+        {
+          "target": "com.daytona.sandbox#RecoverSandbox"
+        },
+        {
+          "target": "com.daytona.sandbox#StartSandbox"
+        },
+        {
+          "target": "com.daytona.sandbox#StopSandbox"
+        },
+        {
+          "target": "com.daytona.sandbox#PauseSandbox"
+        },
+        {
+          "target": "com.daytona.sandbox#ResizeSandbox"
+        },
+        {
+          "target": "com.daytona.sandbox#ReplaceLabels"
+        },
+        {
+          "target": "com.daytona.sandbox#UpdateSandboxState"
+        },
+        {
+          "target": "com.daytona.sandbox#CreateSandboxSnapshot"
+        },
+        {
+          "target": "com.daytona.sandbox#ForkSandbox"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSandboxForks"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSandboxParent"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSandboxAncestors"
+        },
+        {
+          "target": "com.daytona.sandbox#UpdatePublicStatus"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSandboxSigningKey"
+        },
+        {
+          "target": "com.daytona.sandbox#RotateSigningKey"
+        },
+        {
+          "target": "com.daytona.sandbox#UpdateLastActivity"
+        },
+        {
+          "target": "com.daytona.sandbox#SetAutostopInterval"
+        },
+        {
+          "target": "com.daytona.sandbox#SetAutoPauseInterval"
+        },
+        {
+          "target": "com.daytona.sandbox#SetTtl"
+        },
+        {
+          "target": "com.daytona.sandbox#SetAutoArchiveInterval"
+        },
+        {
+          "target": "com.daytona.sandbox#SetAutoDeleteInterval"
+        },
+        {
+          "target": "com.daytona.sandbox#UpdateNetworkSettings"
+        },
+        {
+          "target": "com.daytona.sandbox#UpdateSandboxSecrets"
+        },
+        {
+          "target": "com.daytona.sandbox#ArchiveSandbox"
+        },
+        {
+          "target": "com.daytona.sandbox#GetPortPreviewUrl"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSignedPortPreviewUrl"
+        },
+        {
+          "target": "com.daytona.sandbox#ExpireSignedPortPreviewUrl"
+        },
+        {
+          "target": "com.daytona.sandbox#GetBuildLogsUrl"
+        },
+        {
+          "target": "com.daytona.sandbox#CreateSshAccess"
+        },
+        {
+          "target": "com.daytona.sandbox#RevokeSshAccess"
+        },
+        {
+          "target": "com.daytona.sandbox#ValidateSshAccess"
+        },
+        {
+          "target": "com.daytona.sandbox#GetToolboxProxyUrl"
+        },
+        {
+          "target": "com.daytona.sandbox#GetOrganizationBySandboxId"
+        },
+        {
+          "target": "com.daytona.sandbox#GetRegionQuotaBySandboxId"
+        },
+        {
+          "target": "com.daytona.sandbox#ResolveSandboxSecrets"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSandboxLogs"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSandboxTraces"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSandboxTraceSpans"
+        },
+        {
+          "target": "com.daytona.sandbox#GetSandboxMetrics"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}
