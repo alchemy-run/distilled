@@ -35,10 +35,9 @@ export const Hero = (props: {
         </h1>
         <p class="mb-7 max-w-[34em] text-[clamp(1.05rem,1rem+0.35vw,1.2rem)] text-pretty text-fg-2">
           Effect-native TypeScript SDKs for {props.providerCount} cloud
-          providers: every operation each one publishes —{" "}
-          {n(props.operationCount)} of them — with its inputs, responses and
-          failures typed. Retries, pagination, credentials and tracing come from
-          Effect.
+          providers: {n(props.operationCount)} operations, with every input,
+          response and failure typed. Retries, pagination, credentials and
+          tracing come from Effect.
         </p>
         <div class="mb-6 flex flex-wrap gap-3">
           <a
