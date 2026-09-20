@@ -8527,6 +8527,27 @@
           "target": "aws.patched#InvalidSubnetIDMalformed"
         },
         {
+          "target": "aws.patched#InvalidClientVpnEndpointIdNotFound"
+        },
+        {
+          "target": "aws.patched#ClientVpnEndpointAssociationExists"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnDuplicateAssociationException"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnSubnetIdDuplicateAz"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnSubnetIdOverlappingCidr"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnSubnetIdNotFound"
+        },
+        {
+          "target": "aws.patched#IncorrectState"
+        },
+        {
           "target": "aws.patched#MissingParameter"
         },
         {
@@ -11109,6 +11130,21 @@
         },
         {
           "target": "aws.patched#MissingParameter"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnEndpointIdNotFound"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnDuplicateAuthorizationRule"
+        },
+        {
+          "target": "aws.patched#ClientVpnAuthorizationRuleLimitExceeded"
+        },
+        {
+          "target": "aws.patched#InvalidParameterValue"
+        },
+        {
+          "target": "aws.patched#IncorrectState"
         },
         {
           "target": "aws.patched#UnauthorizedOperation"
@@ -20551,6 +20587,15 @@
           "target": "aws.patched#MissingParameter"
         },
         {
+          "target": "aws.patched#InvalidParameterValue"
+        },
+        {
+          "target": "aws.patched#InvalidVpcIDNotFound"
+        },
+        {
+          "target": "aws.patched#ClientVpnEndpointLimitExceeded"
+        },
+        {
           "target": "aws.patched#UnauthorizedOperation"
         }
       ]
@@ -20760,6 +20805,21 @@
         },
         {
           "target": "aws.patched#InvalidClientVpnEndpointIdNotFound"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnDuplicateRoute"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnActiveAssociationNotFound"
+        },
+        {
+          "target": "aws.patched#ClientVpnRouteLimitExceeded"
+        },
+        {
+          "target": "aws.patched#InvalidParameterValue"
+        },
+        {
+          "target": "aws.patched#IncorrectState"
         },
         {
           "target": "aws.patched#UnauthorizedOperation"
@@ -32708,6 +32768,12 @@
           "target": "aws.patched#InvalidClientVpnEndpointIdNotFound"
         },
         {
+          "target": "aws.patched#IncorrectState"
+        },
+        {
+          "target": "aws.patched#DependencyViolation"
+        },
+        {
           "target": "aws.patched#UnauthorizedOperation"
         }
       ]
@@ -32767,6 +32833,12 @@
         },
         {
           "target": "aws.patched#InvalidClientVpnEndpointIdNotFound"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnRouteNotFound"
+        },
+        {
+          "target": "aws.patched#IncorrectState"
         },
         {
           "target": "aws.patched#UnauthorizedOperation"
@@ -64128,6 +64200,12 @@
         },
         {
           "target": "aws.patched#InvalidClientVpnEndpointIdNotFound"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnAssociationIdNotFound"
+        },
+        {
+          "target": "aws.patched#IncorrectState"
         },
         {
           "target": "aws.patched#MissingParameter"
@@ -109942,6 +110020,12 @@
           "target": "aws.patched#InvalidClientVpnEndpointIdNotFound"
         },
         {
+          "target": "aws.patched#InvalidParameterValue"
+        },
+        {
+          "target": "aws.patched#IncorrectState"
+        },
+        {
           "target": "aws.patched#UnauthorizedOperation"
         }
       ]
@@ -113578,6 +113662,9 @@
         },
         {
           "target": "aws.patched#UnauthorizedOperation"
+        },
+        {
+          "target": "aws.patched#InvalidSecurityGroupRuleIdNotFound"
         }
       ]
     },
@@ -131786,6 +131873,15 @@
         },
         {
           "target": "aws.patched#MissingParameter"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnEndpointIdNotFound"
+        },
+        {
+          "target": "aws.patched#InvalidClientVpnEndpointAuthorizationRuleNotFound"
+        },
+        {
+          "target": "aws.patched#IncorrectState"
         },
         {
           "target": "aws.patched#UnauthorizedOperation"
@@ -155449,6 +155545,11 @@
         "aws.codegen#errorTag": "InvalidIpv4PoolCoipId.Malformed"
       }
     },
+    "aws.patched#ClientVpnEndpointLimitExceeded": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
+    },
     "aws.patched#VerifiedAccessInstanceLimitExceeded": {
       "type": "structure",
       "members": {},
@@ -155639,6 +155740,42 @@
       "traits": {
         "aws.codegen#errorTag": "InvalidCapacityReservationId.Malformed"
       }
+    },
+    "aws.patched#ClientVpnEndpointAssociationExists": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
+    },
+    "aws.patched#InvalidClientVpnDuplicateAssociationException": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
+    },
+    "aws.patched#InvalidClientVpnSubnetIdDuplicateAz": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#errorTag": "InvalidClientVpnSubnetId.DuplicateAz"
+      }
+    },
+    "aws.patched#InvalidClientVpnSubnetIdOverlappingCidr": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#errorTag": "InvalidClientVpnSubnetId.OverlappingCidr"
+      }
+    },
+    "aws.patched#InvalidClientVpnSubnetIdNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#errorTag": "InvalidClientVpnSubnetId.NotFound"
+      }
+    },
+    "aws.patched#InvalidClientVpnAssociationIdNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
     },
     "aws.patched#InvalidCidrNotFound": {
       "type": "structure",
@@ -155886,6 +156023,11 @@
         "aws.codegen#errorTag": "InvalidCapacityManagerDataExportId.NotFound"
       }
     },
+    "aws.patched#InvalidClientVpnRouteNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
+    },
     "aws.patched#InvalidFpgaImageIDMalformed": {
       "type": "structure",
       "members": {},
@@ -155939,6 +156081,21 @@
       "traits": {
         "aws.codegen#errorTag": "InvalidCapacityReservationId.NotFound"
       }
+    },
+    "aws.patched#InvalidClientVpnDuplicateRoute": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
+    },
+    "aws.patched#InvalidClientVpnActiveAssociationNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
+    },
+    "aws.patched#ClientVpnRouteLimitExceeded": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
     },
     "aws.patched#InvalidScheduledInstance": {
       "type": "structure",
@@ -156115,6 +156272,16 @@
       "members": {},
       "traits": {}
     },
+    "aws.patched#InvalidClientVpnDuplicateAuthorizationRule": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
+    },
+    "aws.patched#ClientVpnAuthorizationRuleLimitExceeded": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
+    },
     "aws.patched#CapacityManagerDisabled": {
       "type": "structure",
       "members": {},
@@ -156133,6 +156300,11 @@
       "traits": {
         "aws.codegen#errorTag": "InvalidPurchaseToken.Malformed"
       }
+    },
+    "aws.patched#InvalidClientVpnEndpointAuthorizationRuleNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
     }
   }
 }

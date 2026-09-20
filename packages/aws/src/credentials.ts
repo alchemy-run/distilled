@@ -1,12 +1,12 @@
 import * as BrowserCredentials from "./credentials.browser.ts";
 export * from "./credentials.browser.ts";
 
-import { loadSharedConfigFiles } from "@smithy/shared-ini-file-loader";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { Auth } from "./auth.ts";
 import * as Providers from "./credential-providers/node.ts";
 import type * as Region from "./region.ts";
+import { loadSharedConfigFiles } from "./util/shared-config.ts";
 
 /**
  * The region a node credentials provider authenticated against: the
