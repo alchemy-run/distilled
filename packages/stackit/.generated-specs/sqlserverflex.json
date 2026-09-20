@@ -1,0 +1,4422 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.sqlserverflex#ListFlavorsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#FlavorSort": {
+      "type": "enum",
+      "members": {
+        "INDEX_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index.desc"
+          }
+        },
+        "INDEX_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index.asc"
+          }
+        },
+        "CPU_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu.desc"
+          }
+        },
+        "CPU_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu.asc"
+          }
+        },
+        "FLAVOR_DESCRIPTION_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flavor_description.asc"
+          }
+        },
+        "FLAVOR_DESCRIPTION_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flavor_description.desc"
+          }
+        },
+        "ID_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id.desc"
+          }
+        },
+        "ID_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id.asc"
+          }
+        },
+        "SIZE_MAX_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size_max.desc"
+          }
+        },
+        "SIZE_MAX_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size_max.asc"
+          }
+        },
+        "RAM_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ram.desc"
+          }
+        },
+        "RAM_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ram.asc"
+          }
+        },
+        "SIZE_MIN_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size_min.desc"
+          }
+        },
+        "SIZE_MIN_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size_min.asc"
+          }
+        },
+        "STORAGE_CLASS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "storage_class.asc"
+          }
+        },
+        "STORAGE_CLASS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "storage_class.desc"
+          }
+        },
+        "NODE_TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node_type.asc"
+          }
+        },
+        "NODE_TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node_type.desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListFlavorsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListFlavorsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Number of the page of items list to be returned."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "size",
+            "smithy.api#documentation": "Number of items to be returned on each page."
+          }
+        },
+        "sort": {
+          "target": "com.stackit.sqlserverflex#FlavorSort",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "Sorting of the flavors to be returned on each page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListFlavorsResponse": {
+      "type": "structure",
+      "members": {
+        "flavors": {
+          "target": "com.stackit.sqlserverflex#ListFlavorsResponseFlavorsList",
+          "traits": {
+            "smithy.api#documentation": "List of flavors available for the project.",
+            "smithy.api#required": {}
+          }
+        },
+        "pagination": {
+          "target": "com.stackit.sqlserverflex#Pagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListFlavors": {
+      "type": "structure",
+      "members": {
+        "cpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maxGB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "minGB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nodeType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "storageClasses": {
+          "target": "com.stackit.sqlserverflex#FlavorStorageClasses",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The flavor of the instance containing the technical features."
+      }
+    },
+    "com.stackit.sqlserverflex#FlavorStorageClasses": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#FlavorStorageClassesStorageClass"
+      },
+      "traits": {
+        "smithy.api#documentation": "maximum storage which can be ordered for the flavor in Gigabyte."
+      }
+    },
+    "com.stackit.sqlserverflex#FlavorStorageClassesStorageClass": {
+      "type": "structure",
+      "members": {
+        "class": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maxIoPerSec": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maxThroughInMb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "a storageClass defines how efficient the storage can work"
+      }
+    },
+    "com.stackit.sqlserverflex#ListFlavorsResponseFlavorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#ListFlavors"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of flavors available for the project."
+      }
+    },
+    "com.stackit.sqlserverflex#Pagination": {
+      "type": "structure",
+      "members": {
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalPages": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalRows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListFlavors2": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListFlavorsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListFlavorsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/flavors",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Flavors\n\nGet all available flavors for a project."
+      }
+    },
+    "com.stackit.sqlserverflex#ListInstancesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#InstanceSort": {
+      "type": "enum",
+      "members": {
+        "INDEX_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index.desc"
+          }
+        },
+        "INDEX_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index.asc"
+          }
+        },
+        "ID_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id.desc"
+          }
+        },
+        "ID_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id.asc"
+          }
+        },
+        "IS_DELETABLE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_deletable.desc"
+          }
+        },
+        "IS_DELETABLE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_deletable.asc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name.asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name.desc"
+          }
+        },
+        "STATE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "state.asc"
+          }
+        },
+        "STATE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "state.desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListInstancesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Number of the page of items list to be returned."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "size",
+            "smithy.api#documentation": "Number of items to be returned on each page."
+          }
+        },
+        "sort": {
+          "target": "com.stackit.sqlserverflex#InstanceSort",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "Sorting of the items to be returned on each page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "com.stackit.sqlserverflex#ListInstancesResponseInstancesList",
+          "traits": {
+            "smithy.api#documentation": "List of owned instances and their current status.",
+            "smithy.api#required": {}
+          }
+        },
+        "pagination": {
+          "target": "com.stackit.sqlserverflex#Pagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListInstance": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isDeletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.sqlserverflex#State",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#State": {
+      "type": "enum",
+      "members": {
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "READY"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING"
+          }
+        },
+        "PROGRESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROGRESSING"
+          }
+        },
+        "FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILURE"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN"
+          }
+        },
+        "TERMINATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TERMINATING"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListInstancesResponseInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#ListInstance"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of owned instances and their current status."
+      }
+    },
+    "com.stackit.sqlserverflex#ListInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListInstancesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Instances\n\nList all available instances for your project."
+      }
+    },
+    "com.stackit.sqlserverflex#CreateInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#InstanceEncryption": {
+      "type": "structure",
+      "members": {
+        "kekKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "kekKeyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The keyring identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "kekKeyVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key version",
+            "smithy.api#required": {}
+          }
+        },
+        "serviceAccount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "this defines which key to use for storage encryption"
+      }
+    },
+    "com.stackit.sqlserverflex#Labels": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A dictionary of user-defined key-value pairs used to categorize or organize the resource.\n\n**Rules for Keys:**\n* Must be between 1 and 63 characters long.\n* Must begin and end with an alphanumeric character (`[a-z0-9A-Z]`).\n* May contain dashes (`-`), underscores (`_`), and dots (`.`).\n* **Regex:** `^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`\n* **Restriction:** The prefix `stackit-` is strictly reserved and cannot be used.\n\n**Rules for Values:**\n* Must be between 0 (empty string) and 63 characters long.\n* If not empty, must begin and end with an alphanumeric character.\n* May contain dashes (`-`), underscores (`_`), and dots (`.`).\n* **Regex:** `^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`\n"
+      }
+    },
+    "com.stackit.sqlserverflex#InstanceNetworkAccessScope": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PUBLIC"
+          }
+        },
+        "SNA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SNA"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The network access scope of the instance\n\n⚠️ **Note:** This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected.\n"
+      }
+    },
+    "com.stackit.sqlserverflex#Acl": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IPV4 cidr."
+      }
+    },
+    "com.stackit.sqlserverflex#CreateInstanceRequestNetwork": {
+      "type": "structure",
+      "members": {
+        "accessScope": {
+          "target": "com.stackit.sqlserverflex#InstanceNetworkAccessScope"
+        },
+        "acl": {
+          "target": "com.stackit.sqlserverflex#Acl",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "the network configuration of the instance."
+      }
+    },
+    "com.stackit.sqlserverflex#StorageCreate": {
+      "type": "structure",
+      "members": {
+        "class": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object containing information about the storage size and class."
+      }
+    },
+    "com.stackit.sqlserverflex#InstanceVersion": {
+      "type": "enum",
+      "members": {
+        "_2022": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2022"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The sqlserver version used for the instance."
+      }
+    },
+    "com.stackit.sqlserverflex#CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#CreateInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "backupSchedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "encryption": {
+          "target": "com.stackit.sqlserverflex#InstanceEncryption"
+        },
+        "flavorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sqlserverflex#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "network": {
+          "target": "com.stackit.sqlserverflex#CreateInstanceRequestNetwork",
+          "traits": {
+            "smithy.api#documentation": "the network configuration of the instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "retentionDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "storage": {
+          "target": "com.stackit.sqlserverflex#StorageCreate",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "com.stackit.sqlserverflex#InstanceVersion",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#CreateInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#CreateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#CreateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Instance\n\nCreate a new instance of a sqlserver database instance."
+      }
+    },
+    "com.stackit.sqlserverflex#GetInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#GetInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#GetInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#GetInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "backupSchedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "edition": {
+          "target": "com.stackit.sqlserverflex#InstanceEdition",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "encryption": {
+          "target": "com.stackit.sqlserverflex#InstanceEncryption"
+        },
+        "flavorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isDeletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sqlserverflex#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "network": {
+          "target": "com.stackit.sqlserverflex#InstanceNetwork",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "replicas": {
+          "target": "com.stackit.sqlserverflex#Replicas",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "retentionDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.sqlserverflex#State",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "storage": {
+          "target": "com.stackit.sqlserverflex#Storage",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "com.stackit.sqlserverflex#InstanceVersion",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#InstanceEdition": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Standard"
+          }
+        },
+        "ENTERPRISECORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EnterpriseCore"
+          }
+        },
+        "DEVELOPER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Edition of the MSSQL server instance"
+      }
+    },
+    "com.stackit.sqlserverflex#InstanceNetwork": {
+      "type": "structure",
+      "members": {
+        "accessScope": {
+          "target": "com.stackit.sqlserverflex#InstanceNetworkAccessScope"
+        },
+        "acl": {
+          "target": "com.stackit.sqlserverflex#Acl"
+        },
+        "instanceAddress": {
+          "target": "smithy.api#String"
+        },
+        "routerAddress": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The access configuration of the instance"
+      }
+    },
+    "com.stackit.sqlserverflex#Replicas": {
+      "type": "intEnum",
+      "members": {
+        "_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 1
+          }
+        },
+        "_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 3
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How many replicas the instance should have."
+      }
+    },
+    "com.stackit.sqlserverflex#Storage": {
+      "type": "structure",
+      "members": {
+        "class": {
+          "target": "smithy.api#String"
+        },
+        "size": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object containing information about the storage size and class."
+      }
+    },
+    "com.stackit.sqlserverflex#GetInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#GetInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#GetInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Specific Instance\n\nGet information about a specific available instance"
+      }
+    },
+    "com.stackit.sqlserverflex#UpdateInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#UpdateInstanceRequestNetwork": {
+      "type": "structure",
+      "members": {
+        "acl": {
+          "target": "com.stackit.sqlserverflex#Acl",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "the network configuration of the instance."
+      }
+    },
+    "com.stackit.sqlserverflex#StorageUpdate": {
+      "type": "structure",
+      "members": {
+        "size": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object containing information about the storage size and class."
+      }
+    },
+    "com.stackit.sqlserverflex#UpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#UpdateInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "backupSchedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "flavorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.sqlserverflex#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "network": {
+          "target": "com.stackit.sqlserverflex#UpdateInstanceRequestNetwork",
+          "traits": {
+            "smithy.api#documentation": "the network configuration of the instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "retentionDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "storage": {
+          "target": "com.stackit.sqlserverflex#StorageUpdate",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "com.stackit.sqlserverflex#InstanceVersion",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#UpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#UpdateInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Instance\n\nUpdates an available instance of a sqlserver database\n\n**Please note that any changes applied via PUT or PATCH requests will initiate a reboot of the SQL Server Flex Instance.**"
+      }
+    },
+    "com.stackit.sqlserverflex#PartialUpdateInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#PartialUpdateInstanceRequestNetwork": {
+      "type": "structure",
+      "members": {
+        "acl": {
+          "target": "com.stackit.sqlserverflex#Acl"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "the network configuration of the instance."
+      }
+    },
+    "com.stackit.sqlserverflex#InstanceVersionOpt": {
+      "type": "enum",
+      "members": {
+        "_2022": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2022"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#PartialUpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#PartialUpdateInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "backupSchedule": {
+          "target": "smithy.api#String"
+        },
+        "flavorId": {
+          "target": "smithy.api#String"
+        },
+        "labels": {
+          "target": "com.stackit.sqlserverflex#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "network": {
+          "target": "com.stackit.sqlserverflex#PartialUpdateInstanceRequestNetwork",
+          "traits": {
+            "smithy.api#documentation": "the network configuration of the instance."
+          }
+        },
+        "retentionDays": {
+          "target": "smithy.api#Integer"
+        },
+        "storage": {
+          "target": "com.stackit.sqlserverflex#StorageUpdate"
+        },
+        "version": {
+          "target": "com.stackit.sqlserverflex#InstanceVersionOpt"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#PartialUpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#PartialUpdateInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Instance Partially\n\nUpdate an available instance of a mssql database. No fields are required.\n\n**Please note that any changes applied via PUT or PATCH requests will initiate a reboot of the SQL Server Flex Instance.**"
+      }
+    },
+    "com.stackit.sqlserverflex#DeleteInstanceRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#DeleteInstanceRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#DeleteInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#DeleteInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Instance\n\nDelete an available sqlserver instance."
+      }
+    },
+    "com.stackit.sqlserverflex#ListBackupsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#BackupSort": {
+      "type": "enum",
+      "members": {
+        "END_TIME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_time.desc"
+          }
+        },
+        "END_TIME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_time.asc"
+          }
+        },
+        "INDEX_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index.desc"
+          }
+        },
+        "INDEX_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index.asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name.desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name.asc"
+          }
+        },
+        "RETAINED_UNTIL_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "retained_until.desc"
+          }
+        },
+        "RETAINED_UNTIL_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "retained_until.asc"
+          }
+        },
+        "SIZE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size.desc"
+          }
+        },
+        "SIZE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "size.asc"
+          }
+        },
+        "TYPE_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type.desc"
+          }
+        },
+        "TYPE_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "type.asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListBackupsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListBackupsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Number of the page of items list to be returned."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "size",
+            "smithy.api#documentation": "Number of items to be returned on each page."
+          }
+        },
+        "sort": {
+          "target": "com.stackit.sqlserverflex#BackupSort",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "Sorting of the backups to be returned on each page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListBackupResponse": {
+      "type": "structure",
+      "members": {
+        "backups": {
+          "target": "com.stackit.sqlserverflex#ListBackupResponseBackupsList",
+          "traits": {
+            "smithy.api#documentation": "The list containing the information about the backups.",
+            "smithy.api#required": {}
+          }
+        },
+        "pagination": {
+          "target": "com.stackit.sqlserverflex#Pagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListBackupsResponse": {
+      "type": "structure",
+      "members": {
+        "backups": {
+          "target": "com.stackit.sqlserverflex#ListBackupsResponseBackupsList",
+          "traits": {
+            "smithy.api#documentation": "List of the backups beloning to that database",
+            "smithy.api#required": {}
+          }
+        },
+        "databaseName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database the backups belong to",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListBackup": {
+      "type": "structure",
+      "members": {
+        "completionTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "retainedUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListBackupsResponseBackupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#ListBackup"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of the backups beloning to that database"
+      }
+    },
+    "com.stackit.sqlserverflex#ListBackupResponseBackupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#ListBackupsResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list containing the information about the backups."
+      }
+    },
+    "com.stackit.sqlserverflex#ListBackups": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListBackupsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListBackupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/backups",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List backups\n\nList all backups which are available for a specific instance."
+      }
+    },
+    "com.stackit.sqlserverflex#TriggerBackupRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#TriggerBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#TriggerBackupRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "databaseName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#TriggerBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#TriggerBackupRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/backups/databases/{databaseName}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Trigger backup for a specific Database\n\nTrigger backup for a specific database"
+      }
+    },
+    "com.stackit.sqlserverflex#TriggerRestoreRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#TriggerRestoreRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#TriggerRestoreRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "databaseName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the database."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "restoreDateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#TriggerRestore": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#TriggerRestoreRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/backups/databases/{databaseName}/restores",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Trigger restore for a specific Database\n\nTrigger restore for a specific Database"
+      }
+    },
+    "com.stackit.sqlserverflex#GetBackupRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#GetBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#GetBackupRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the backup."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#GetBackupResponse": {
+      "type": "structure",
+      "members": {
+        "completionTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "retainedUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#GetBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#GetBackupRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#GetBackupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/backups/{backupId}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get specific backup\n\nGet information about a specific backup for an instance."
+      }
+    },
+    "com.stackit.sqlserverflex#ListCollationsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListCollationsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListCollationsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListCollationsResponse": {
+      "type": "structure",
+      "members": {
+        "collations": {
+          "target": "com.stackit.sqlserverflex#ListCollationsResponseCollationsList",
+          "traits": {
+            "smithy.api#documentation": "List of collations available for the instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#DatabaseGetcollation": {
+      "type": "structure",
+      "members": {
+        "collation_name": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListCollationsResponseCollationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#DatabaseGetcollation"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of collations available for the instance."
+      }
+    },
+    "com.stackit.sqlserverflex#ListCollations": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListCollationsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListCollationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/collations",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get database collation list\n\nReturns a list of collations for an instance"
+      }
+    },
+    "com.stackit.sqlserverflex#ListCompatibilitiesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListCompatibilitiesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListCompatibilitiesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListCompatibilityResponse": {
+      "type": "structure",
+      "members": {
+        "compatibilities": {
+          "target": "com.stackit.sqlserverflex#ListCompatibilityResponseCompatibilitiesList",
+          "traits": {
+            "smithy.api#documentation": "List of compatibilities available for a d",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#DatabaseGetcompatibility": {
+      "type": "structure",
+      "members": {
+        "compatibility_level": {
+          "target": "smithy.api#Integer"
+        },
+        "description": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListCompatibilityResponseCompatibilitiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#DatabaseGetcompatibility"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of compatibilities available for a d"
+      }
+    },
+    "com.stackit.sqlserverflex#ListCompatibilities": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListCompatibilitiesRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListCompatibilityResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/compatibility",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get database compatibility list\n\nReturns a list of compatibility levels for creating a new database"
+      }
+    },
+    "com.stackit.sqlserverflex#ListDatabasesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#DatabaseSort": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at.desc"
+          }
+        },
+        "CREATED_AT_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at.asc"
+          }
+        },
+        "DATABASE_ID_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "database_id.desc"
+          }
+        },
+        "DATABASE_ID_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "database_id.asc"
+          }
+        },
+        "DATABASE_NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "database_name.desc"
+          }
+        },
+        "DATABASE_NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "database_name.asc"
+          }
+        },
+        "DATABASE_OWNER_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "database_owner.desc"
+          }
+        },
+        "DATABASE_OWNER_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "database_owner.asc"
+          }
+        },
+        "INDEX_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index.asc"
+          }
+        },
+        "INDEX_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index.desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListDatabasesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListDatabasesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Number of the page of items list to be returned."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "size",
+            "smithy.api#documentation": "Number of items to be returned on each page."
+          }
+        },
+        "sort": {
+          "target": "com.stackit.sqlserverflex#DatabaseSort",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "Sorting of the databases to be returned on each page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListDatabasesResponse": {
+      "type": "structure",
+      "members": {
+        "databases": {
+          "target": "com.stackit.sqlserverflex#ListDatabasesResponseDatabasesList",
+          "traits": {
+            "smithy.api#documentation": "A list containing all databases for the instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "pagination": {
+          "target": "com.stackit.sqlserverflex#Pagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListDatabase": {
+      "type": "structure",
+      "members": {
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListDatabasesResponseDatabasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#ListDatabase"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list containing all databases for the instance."
+      }
+    },
+    "com.stackit.sqlserverflex#ListDatabases": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListDatabasesRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListDatabasesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/databases",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Databases\n\nList available databases for an instance."
+      }
+    },
+    "com.stackit.sqlserverflex#CreateDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#CreateDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#CreateDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "collation": {
+          "target": "smithy.api#String"
+        },
+        "compatibility": {
+          "target": "smithy.api#Integer"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#CreateDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#CreateDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#CreateDatabaseRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#CreateDatabaseResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/databases",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Database\n\nCreate database for a user. Note: The name of a valid user must be provided in the 'options' map field using the key 'owner'"
+      }
+    },
+    "com.stackit.sqlserverflex#GetDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#GetDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#GetDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "databaseName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#GetDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "collationName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "compatibilityLevel": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#GetDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#GetDatabaseRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#GetDatabaseResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/databases/{databaseName}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Database\n\nGet specific available database"
+      }
+    },
+    "com.stackit.sqlserverflex#DeleteDatabaseRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#DeleteDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#DeleteDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "databaseName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#DeleteDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#DeleteDatabaseRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/databases/{databaseName}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Database\n\nDelete database for an instance."
+      }
+    },
+    "com.stackit.sqlserverflex#UpdateInstanceProtectionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#UpdateInstanceProtectionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#UpdateInstanceProtectionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "isDeletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#UpdateInstanceProtectionResponse": {
+      "type": "structure",
+      "members": {
+        "isDeletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#UpdateInstanceProtection": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#UpdateInstanceProtectionRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#UpdateInstanceProtectionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/protections",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Protect Instance\n\nToggle the deletion protection for an instance."
+      }
+    },
+    "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobs": {
+      "type": "structure",
+      "members": {
+        "runningRestores": {
+          "target": "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobsRunningRestoresList",
+          "traits": {
+            "smithy.api#documentation": "List of the currently running Restore jobs",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#BackupRunningRestore": {
+      "type": "structure",
+      "members": {
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "the command that was executed",
+            "smithy.api#required": {}
+          }
+        },
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "the name of the database that is being restored",
+            "smithy.api#required": {}
+          }
+        },
+        "estimated_completion_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "the projected time when the restore should be completed",
+            "smithy.api#required": {}
+          }
+        },
+        "percent_complete": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "the percentage of the current running restore job",
+            "smithy.api#required": {}
+          }
+        },
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "the start time of the current running restore job",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobsRunningRestoresList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#BackupRunningRestore"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of the currently running Restore jobs"
+      }
+    },
+    "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobs2": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobs"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/restore-jobs",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List current running restore jobs\n\nList all currently running restore jobs which are available for a specific instance"
+      }
+    },
+    "com.stackit.sqlserverflex#RestoreDatabaseFromBackupRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#SourceBackup": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.stackit.sqlserverflex#SourceBackupType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Restore from an existing managed backup."
+      }
+    },
+    "com.stackit.sqlserverflex#SourceBackupType": {
+      "type": "enum",
+      "members": {
+        "BACKUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BACKUP"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#SourceExternalS3": {
+      "type": "structure",
+      "members": {
+        "database_owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "logging_guid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Logging guid to have a complete activity log over all sub stored procedures."
+          }
+        },
+        "s3_details": {
+          "target": "com.stackit.sqlserverflex#ExternalS3",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.sqlserverflex#SourceExternalS3Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Restore from an external S3 backup file."
+      }
+    },
+    "com.stackit.sqlserverflex#ExternalS3": {
+      "type": "structure",
+      "members": {
+        "s3_access_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The s3 access key id",
+            "smithy.api#required": {}
+          }
+        },
+        "s3_access_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The s3 access secret",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "s3_bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The s3 bucket address",
+            "smithy.api#required": {}
+          }
+        },
+        "s3_files": {
+          "target": "com.stackit.sqlserverflex#ExternalS3S3FilesList",
+          "traits": {
+            "smithy.api#documentation": "The backup files from which the database should be restored",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The external S3 information"
+      }
+    },
+    "com.stackit.sqlserverflex#S3fileInfo": {
+      "type": "structure",
+      "members": {
+        "file_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The sequence number of the file"
+          }
+        },
+        "file_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The path to the file on the S3 bucket"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ExternalS3S3FilesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#S3fileInfo"
+      },
+      "traits": {
+        "smithy.api#documentation": "The backup files from which the database should be restored"
+      }
+    },
+    "com.stackit.sqlserverflex#SourceExternalS3Type": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL_S3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXTERNAL_S3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#RestoreDatabaseFromBackupRequestSource": {
+      "type": "union",
+      "members": {
+        "SourceBackup": {
+          "target": "com.stackit.sqlserverflex#SourceBackup"
+        },
+        "SourceExternalS3": {
+          "target": "com.stackit.sqlserverflex#SourceExternalS3"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The source of the restore."
+      }
+    },
+    "com.stackit.sqlserverflex#RestoreDatabaseFromBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#RestoreDatabaseFromBackupRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "database_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the database on the instance to be restore.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.stackit.sqlserverflex#RestoreDatabaseFromBackupRequestSource",
+          "traits": {
+            "smithy.api#documentation": "The source of the restore.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#RestoreDatabaseFromBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#RestoreDatabaseFromBackupRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/restores",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a Restore Operation\n\nTriggers a new restore operation for the specified instance.\nThe request body defines the source \n(e.g., internal backup, external S3) and the target database."
+      }
+    },
+    "com.stackit.sqlserverflex#ListRolesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListRolesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListRolesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListRolesResponse": {
+      "type": "structure",
+      "members": {
+        "roles": {
+          "target": "com.stackit.sqlserverflex#ListRolesResponseRolesList",
+          "traits": {
+            "smithy.api#documentation": "List of roles available for an instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListRolesResponseRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of roles available for an instance."
+      }
+    },
+    "com.stackit.sqlserverflex#ListRoles": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListRolesRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListRolesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/roles",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Roles\n\nList available roles for an instance that can be assigned to a user"
+      }
+    },
+    "com.stackit.sqlserverflex#ListUsersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#UserSort": {
+      "type": "enum",
+      "members": {
+        "ID_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id.asc"
+          }
+        },
+        "ID_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "id.desc"
+          }
+        },
+        "INDEX_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index.desc"
+          }
+        },
+        "INDEX_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index.asc"
+          }
+        },
+        "NAME_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name.desc"
+          }
+        },
+        "NAME_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name.asc"
+          }
+        },
+        "STATUS_DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status.desc"
+          }
+        },
+        "STATUS_ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "status.asc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListUsersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListUsersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Number of the page of items list to be returned."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "size",
+            "smithy.api#documentation": "Number of items to be returned on each page."
+          }
+        },
+        "sort": {
+          "target": "com.stackit.sqlserverflex#UserSort",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "Sorting of the users to be returned on each page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListUserResponse": {
+      "type": "structure",
+      "members": {
+        "pagination": {
+          "target": "com.stackit.sqlserverflex#Pagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "users": {
+          "target": "com.stackit.sqlserverflex#ListUserResponseUsersList",
+          "traits": {
+            "smithy.api#documentation": "List of all users inside an instance",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListUserResponseUsersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#ListUser"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of all users inside an instance"
+      }
+    },
+    "com.stackit.sqlserverflex#ListUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListUsersRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/users",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List Users\n\nList available users for an instance."
+      }
+    },
+    "com.stackit.sqlserverflex#CreateUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#CreateUserRequestRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list containing the user roles for the instance. A list with the valid user roles can be retrieved using the List Roles endpoint."
+      }
+    },
+    "com.stackit.sqlserverflex#CreateUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#CreateUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "default_database": {
+          "target": "smithy.api#String"
+        },
+        "roles": {
+          "target": "com.stackit.sqlserverflex#CreateUserRequestRolesList",
+          "traits": {
+            "smithy.api#documentation": "A list containing the user roles for the instance. A list with the valid user roles can be retrieved using the List Roles endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#CreateUserResponse": {
+      "type": "structure",
+      "members": {
+        "default_database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "roles": {
+          "target": "com.stackit.sqlserverflex#CreateUserResponseRolesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#CreateUserResponseRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#CreateUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#CreateUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#CreateUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/users",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create User\n\nCreate user for an instance."
+      }
+    },
+    "com.stackit.sqlserverflex#GetUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#GetUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#GetUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "userId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#GetUserResponse": {
+      "type": "structure",
+      "members": {
+        "default_database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "roles": {
+          "target": "com.stackit.sqlserverflex#GetUserResponseRolesList",
+          "traits": {
+            "smithy.api#documentation": "A list of user roles.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#GetUserResponseRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of user roles."
+      }
+    },
+    "com.stackit.sqlserverflex#GetUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#GetUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#GetUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/users/{userId}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get User\n\nGet a specific available user for an instance."
+      }
+    },
+    "com.stackit.sqlserverflex#DeleteUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#DeleteUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#DeleteUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "userId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#DeleteUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#DeleteUserRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/users/{userId}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete User\n\nDelete an user from a specific instance."
+      }
+    },
+    "com.stackit.sqlserverflex#ResetUserRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ResetUserRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ResetUserRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the instance."
+          }
+        },
+        "userId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ResetUserResponse": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ResetUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ResetUserRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ResetUserResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/users/{userId}/reset",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Reset User\n\nReset an user from an specific instance."
+      }
+    },
+    "com.stackit.sqlserverflex#ListStoragesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListStoragesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListStoragesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        },
+        "flavorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The id of an instance flavor."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListStoragesResponse": {
+      "type": "structure",
+      "members": {
+        "storageClasses": {
+          "target": "com.stackit.sqlserverflex#FlavorStorageClasses",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "storageRange": {
+          "target": "com.stackit.sqlserverflex#FlavorStorageRange",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#FlavorStorageRange": {
+      "type": "structure",
+      "members": {
+        "max": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "min": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "range of maximum and minimum storage which can be ordered for the flavor in Gigabyte."
+      }
+    },
+    "com.stackit.sqlserverflex#ListStorages": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListStoragesRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListStoragesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/storages/{flavorId}",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Storages\n\nGet available storages for a specific flavor"
+      }
+    },
+    "com.stackit.sqlserverflex#ListVersionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#ListVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT project ID."
+          }
+        },
+        "region": {
+          "target": "com.stackit.sqlserverflex#ListVersionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The region which should be addressed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sqlserverflex#ListVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.stackit.sqlserverflex#ListVersionsResponseVersionsList",
+          "traits": {
+            "smithy.api#documentation": "A list containing available sqlserver versions.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sqlserverflex#Version": {
+      "type": "structure",
+      "members": {
+        "beta": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag if the version is a beta version. If set the version may contain bugs and is not fully tested.",
+            "smithy.api#required": {}
+          }
+        },
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp in RFC3339 format which says when the version will no longer be supported by STACKIT.",
+            "smithy.api#required": {}
+          }
+        },
+        "recommend": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Flag if the version is recommend by the STACKIT Team.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sqlserver version used for the instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The version of the sqlserver instance and more details."
+      }
+    },
+    "com.stackit.sqlserverflex#ListVersionsResponseVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sqlserverflex#Version"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list containing available sqlserver versions."
+      }
+    },
+    "com.stackit.sqlserverflex#ListVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sqlserverflex#ListVersionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sqlserverflex#ListVersionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sqlserverflex#BadRequest"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#Forbidden"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/projects/{projectId}/regions/{region}/versions",
+          "code": 200,
+          "baseUrl": "https://mssql-flex-service.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Versions\n\nGet the sqlserver available versions for the project."
+      }
+    },
+    "com.stackit.sqlserverflex#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.sqlserverflex#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.sqlserverflex#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.sqlserverflex#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.stackit.sqlserverflex#Sqlserverflex": {
+      "type": "service",
+      "version": "3.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.sqlserverflex#ListFlavors2"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ListInstances"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#CreateInstance"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#GetInstance"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UpdateInstance"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#PartialUpdateInstance"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#DeleteInstance"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ListBackups"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#TriggerBackup"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#TriggerRestore"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#GetBackup"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ListCollations"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ListCompatibilities"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ListDatabases"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#CreateDatabase"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#GetDatabase"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#DeleteDatabase"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#UpdateInstanceProtection"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobs2"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#RestoreDatabaseFromBackup"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ListRoles"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ListUsers"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#CreateUser"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#GetUser"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#DeleteUser"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ResetUser"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ListStorages"
+        },
+        {
+          "target": "com.stackit.sqlserverflex#ListVersions"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT MSSQL Service API",
+        "smithy.api#documentation": "This is the documentation for the STACKIT MSSQL service"
+      }
+    }
+  }
+}

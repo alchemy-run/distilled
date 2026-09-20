@@ -1,0 +1,1740 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.resource_manager#ListFoldersRequestContainerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ListFoldersRequest": {
+      "type": "structure",
+      "members": {
+        "containerParentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "containerParentId",
+            "smithy.api#documentation": "Identifier of the parent resource container - containerId as well as UUID identifier is supported."
+          }
+        },
+        "containerIds": {
+          "target": "com.stackit.resource_manager#ListFoldersRequestContainerIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "containerIds",
+            "smithy.api#documentation": "List of container identifiers - containerId as well as UUID identifier is supported."
+          }
+        },
+        "member": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "member",
+            "smithy.api#documentation": "E-Mail address of the user for whom the visible resource containers should be filtered."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of projects to return in the response. If not present, an appropriate default will be used. If maximum is exceeded, maximum is used."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The offset of the first item in the collection to return."
+          }
+        },
+        "creation_time_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creation-time-start",
+            "smithy.api#documentation": "A timestamp to specify the beginning of the creationTime from which entries should be returned. If not given, defaults to the beginning of time."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#ListFoldersResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.resource_manager#ListFoldersResponseItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#Labels": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies.\n\n* **Key:** Must match the regex `[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`\n* **Value:** Must match the regex `^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`\n\n> Note: Additional naming restrictions may apply depending on your specific organization.*"
+      }
+    },
+    "com.stackit.resource_manager#Parent": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-friendly identifier of either organization or folder (will replace id).",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of either organization or folder.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.resource_manager#ParentType",
+          "traits": {
+            "smithy.api#documentation": "Container type of parent container.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parent container."
+      }
+    },
+    "com.stackit.resource_manager#ParentType": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ORGANIZATION"
+          }
+        },
+        "FOLDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FOLDER"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Container type of parent container."
+      }
+    },
+    "com.stackit.resource_manager#ListFoldersResponseItemsItem": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique folder identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "creationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the folder was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique folder identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the folder.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent": {
+          "target": "com.stackit.resource_manager#Parent",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the folder was created.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ListFoldersResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.resource_manager#ListFoldersResponseItemsItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ListFolders": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#ListFoldersRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#ListFoldersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#BadRequest"
+        },
+        {
+          "target": "com.stackit.resource_manager#Forbidden"
+        },
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/folders",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get All Folders\n\nReturns all folders and their metadata that: \n- Are children of the specific containerParentId\n- Match the given containerIds\n- User is member of <br />\n\nFilter:\n- Either containerParentId OR containerIds OR member must be passed\n- If containerId and containerParentId are given, both are used for filtering - containers must point to the same parent\n- If member and containerParentId are given, both are used for filtering\n- If member is given, containers must not point to the same container parent\n\nAuthorization & Permissions:\n- When filtering by member: resource-manager.folder.direct.get is evaluated on target folders for the member; if caller differs from target member, system-level resource-manager.folder.get is required.\n- When filtering by containerParentId: resource-manager.folder.list is evaluated on the parent container.\n- When filtering by containerIds: resource-manager.folder.get is evaluated on the parent container of requested folders."
+      }
+    },
+    "com.stackit.resource_manager#Member": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A valid role defined for the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "subject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the user, service account or client.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#CreateFolderRequestMembersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.resource_manager#Member"
+      },
+      "traits": {
+        "smithy.api#documentation": "The initial members assigned to the project. At least one subject needs to be a user, and not a client or service account."
+      }
+    },
+    "com.stackit.resource_manager#CreateFolderRequest": {
+      "type": "structure",
+      "members": {
+        "containerParentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the parent resource container - containerId as well as UUID identifier is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#Labels"
+        },
+        "members": {
+          "target": "com.stackit.resource_manager#CreateFolderRequestMembersList",
+          "traits": {
+            "smithy.api#documentation": "The initial members assigned to the project. At least one subject needs to be a user, and not a client or service account."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the folder matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#FolderResponse": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique, user-friendly identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "creationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the folder was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique folder identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Folder name.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent": {
+          "target": "com.stackit.resource_manager#Parent",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the folder was last modified.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#CreateFolder": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#CreateFolderRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#FolderResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#BadRequest"
+        },
+        {
+          "target": "com.stackit.resource_manager#Forbidden"
+        },
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/folders",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Folder\n\nCreates a new folder within a parent organization or folder.\n\nAuthorization & Permissions:\n- Evaluated on Target Parent Container: resource-manager.folder.create (required permission on the target parent organization or folder to create a folder)."
+      }
+    },
+    "com.stackit.resource_manager#GetFolderDetailsRequest": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Folder identifier - containerId as well as UUID identifier is supported."
+          }
+        },
+        "includeParents": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeParents"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#GetFolderDetailsResponse": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique user-friendly identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "creationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the folder was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "folderId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique folder identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Folder name.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent": {
+          "target": "com.stackit.resource_manager#Parent",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parents": {
+          "target": "com.stackit.resource_manager#ParentList"
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the folder was last modified.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ParentList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.resource_manager#ParentListItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ParentListItemType": {
+      "type": "enum",
+      "members": {
+        "FOLDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FOLDER"
+          }
+        },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ORGANIZATION"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parent container type."
+      }
+    },
+    "com.stackit.resource_manager#ParentListItem": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-friendly identifier of either organization or folder (will replace id).",
+            "smithy.api#required": {}
+          }
+        },
+        "containerParentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-friendly parent identifier of either organization or folder (will replace parentId)."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent container name.",
+            "smithy.api#required": {}
+          }
+        },
+        "parentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the parent resource container."
+          }
+        },
+        "type": {
+          "target": "com.stackit.resource_manager#ParentListItemType",
+          "traits": {
+            "smithy.api#documentation": "Parent container type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#GetFolderDetails": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#GetFolderDetailsRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#GetFolderDetailsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#Forbidden"
+        },
+        {
+          "target": "com.stackit.resource_manager#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/folders/{containerId}",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Folder Details\n\nReturns metadata for a specific folder.\n\nAuthorization & Permissions:\n- Evaluated on Target Folder: resource-manager.folder.get (required primary permission to retrieve folder details).\n- Evaluated on Parent Containers: resource-manager.organization.get and resource-manager.folder.get implicitly to resolve parent hierarchy details."
+      }
+    },
+    "com.stackit.resource_manager#UpdateLabels": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies.\n\nSetting an individual label's value to `null` removes/deletes that label from the resource.\n\n* **Key:** Must match the regex `[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`\n* **Value:** Must match the regex `^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`, or be `null` to delete the label\n\n> Note: Additional naming restrictions may apply depending on your specific organization.*"
+      }
+    },
+    "com.stackit.resource_manager#PartialUpdateFolderRequest": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Folder identifier - containerId as well as UUID identifier is supported."
+          }
+        },
+        "containerParentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New parent identifier for the resource container - containerId as well as UUID identifier is supported."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#UpdateLabels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the resource container matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#PartialUpdateFolder": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#PartialUpdateFolderRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#FolderResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#Forbidden"
+        },
+        {
+          "target": "com.stackit.resource_manager#NotFound"
+        },
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/folders/{containerId}",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Folder\n\nUpdate the folder and its metadata (name, labels, parent container).\n\nAuthorization & Permissions:\n- Evaluated on Target Folder: resource-manager.folder.edit (required permission on the target folder to modify its details, labels, or parent)."
+      }
+    },
+    "com.stackit.resource_manager#DeleteFolderRequest": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Folder identifier - containerId as well as UUID identifier is supported."
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "If true, all nested, empty folders are deleted recursively - if no project is attached!"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#DeleteFolder": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#DeleteFolderRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#NotFound"
+        },
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/folders/{containerId}",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Folder\n\nDelete a folder and its metadata.\n- Folder must not contain active child containers unless force deletion is enabled without attached projects.\n\nAuthorization & Permissions:\n- Evaluated on Target Folder: resource-manager.folder.delete (required permission on the target folder to delete it)."
+      }
+    },
+    "com.stackit.resource_manager#DeleteFolderLabelsRequestKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#DeleteFolderLabelsRequest": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Folder identifier - containerId as well as UUID identifier is supported."
+          }
+        },
+        "keys": {
+          "target": "com.stackit.resource_manager#DeleteFolderLabelsRequestKeysList",
+          "traits": {
+            "smithy.api#httpQuery": "keys",
+            "smithy.api#documentation": "Label name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#DeleteFolderLabels": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#DeleteFolderLabelsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/folders/{containerId}/labels",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Folder Labels\n\nDeletes folder labels by specified keys, or removes all labels if no key is provided.\n\nAuthorization & Permissions:\n- Evaluated on Target Folder: resource-manager.folder.edit (required permission on the target folder to delete its labels)."
+      }
+    },
+    "com.stackit.resource_manager#ListOrganizationsRequestContainerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ListOrganizationsRequest": {
+      "type": "structure",
+      "members": {
+        "containerIds": {
+          "target": "com.stackit.resource_manager#ListOrganizationsRequestContainerIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "containerIds",
+            "smithy.api#documentation": "Organization identifiers - containerId as well as UUID identifier is supported. A combination of both is not allowed."
+          }
+        },
+        "member": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "member",
+            "smithy.api#documentation": "E-Mail address of the user for whom the visible resource containers should be filtered."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of projects to return in the response. If not present, an appropriate default will be used. If maximum is exceeded, maximum is used."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The offset of the first item in the collection to return."
+          }
+        },
+        "creation_time_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creation-time-start",
+            "smithy.api#documentation": "A timestamp to specify the beginning of the creationTime from which entries should be returned. If not given, defaults to the beginning of time."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#ListOrganizationsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.resource_manager#ListOrganizationsResponseItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#LifecycleState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATING"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTIVE"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETING"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INACTIVE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle state of the resource container.\n\n| LIFECYCLE STATE | DESCRIPTION |\n|----------|--------------------|\n| CREATING | The creation process has been triggered. The state remains until resource manager gets notified about successful process completion. |\n| ACTIVE   | Resource container can be fully used. |\n| INACTIVE | Resource container usage has been disabled. |\n| DELETING | The deletion process has been triggered. The state remains until resource manager gets notified about successful process completion. Afterwards, the record will be deleted. |"
+      }
+    },
+    "com.stackit.resource_manager#ListOrganizationsResponseItemsItem": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique, user-friendly identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "creationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the organization was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#Labels"
+        },
+        "lifecycleState": {
+          "target": "com.stackit.resource_manager#LifecycleState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique, organization identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the organization was last modified.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ListOrganizationsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.resource_manager#ListOrganizationsResponseItemsItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ListOrganizations": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#ListOrganizationsRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#ListOrganizationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#BadRequest"
+        },
+        {
+          "target": "com.stackit.resource_manager#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/organizations",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get all organizations of member\n\nReturns all organizations and their metadata accessible to the caller.\n- Filterable by containerIds or member.\n\nAuthorization & Permissions:\n- Evaluated on Target Organizations: resource-manager.organization.list and/or (depending if containerIDs was used in the request) resource-manager.organization.get to filter and list accessible organizations."
+      }
+    },
+    "com.stackit.resource_manager#DeleteOrganizationLabelsRequestKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#DeleteOrganizationLabelsRequest": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization identifier - containerId as well as UUID identifier is supported."
+          }
+        },
+        "keys": {
+          "target": "com.stackit.resource_manager#DeleteOrganizationLabelsRequestKeysList",
+          "traits": {
+            "smithy.api#httpQuery": "keys",
+            "smithy.api#documentation": "Label name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#DeleteOrganizationLabels": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#DeleteOrganizationLabelsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/organizations/{containerId}/labels",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Organization Labels\n\nDeletes organization labels by specified keys, or removes all labels if no key is provided.\n\nAuthorization & Permissions:\n- Evaluated on Target Organization: resource-manager.organization.edit (required permission on the organization to delete labels)."
+      }
+    },
+    "com.stackit.resource_manager#GetOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization identifier - containerId as well as UUID identifier is supported."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#OrganizationResponse": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique, user-friendly identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "creationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the organization was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#Labels"
+        },
+        "lifecycleState": {
+          "target": "com.stackit.resource_manager#LifecycleState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization name.",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique, organization identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the organization was last modified.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#GetOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#GetOrganizationRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#OrganizationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/organizations/{id}",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Organization Details\n\nReturns metadata for a specific organization.\n\nAuthorization & Permissions:\n- Evaluated on Target Organization: resource-manager.organization.get (required permission on the organization to view its details)."
+      }
+    },
+    "com.stackit.resource_manager#PartialUpdateOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization identifier - containerId as well as UUID identifier is supported."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#UpdateLabels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new name of the organization matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#PartialUpdateOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#PartialUpdateOrganizationRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#OrganizationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#NotFound"
+        },
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/organizations/{id}",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Organization\n\nUpdates organization metadata (name, labels).\n\nAuthorization & Permissions:\n- Evaluated on Target Organization: resource-manager.organization.edit (required permission on the organization to update metadata and labels)."
+      }
+    },
+    "com.stackit.resource_manager#ListProjectsRequestContainerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ListProjectsRequest": {
+      "type": "structure",
+      "members": {
+        "containerParentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "containerParentId",
+            "smithy.api#documentation": "Identifier of the parent resource container - containerId as well as UUID identifier is supported."
+          }
+        },
+        "containerIds": {
+          "target": "com.stackit.resource_manager#ListProjectsRequestContainerIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "containerIds",
+            "smithy.api#documentation": "List of container identifiers - containerId as well as UUID identifier is supported."
+          }
+        },
+        "member": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "member",
+            "smithy.api#documentation": "E-Mail address of the user for whom the visible resource containers should be filtered."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The offset of the first item in the collection to return."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of projects to return in the response. If not present, an appropriate default will be used. If maximum is exceeded, maximum is used."
+          }
+        },
+        "creation_time_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "creation-time-start",
+            "smithy.api#documentation": "A timestamp to specify the beginning of the creationTime from which entries should be returned. If not given, defaults to the beginning of time."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#ListProjectsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.resource_manager#ListProjectsResponseItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#Project": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique, user-friendly identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "creationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the project was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#Labels"
+        },
+        "lifecycleState": {
+          "target": "com.stackit.resource_manager#LifecycleState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project name.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent": {
+          "target": "com.stackit.resource_manager#Parent",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique, project identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the project was last modified.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ListProjectsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.resource_manager#Project"
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#ListProjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#ListProjectsRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#ListProjectsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#BadRequest"
+        },
+        {
+          "target": "com.stackit.resource_manager#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get All Projects of a member.\n\nReturns all projects and their metadata that: \n- Are children of the specific containerParentId\n- Match the given containerIds\n- User is member of\n\nFilter:\n- Either containerParentId OR containerIds OR member must be passed\n- If containerId and containerParentId are given, both are used for filtering - containers must point to the same parent\n- If member and containerParentId are given, both are used for filtering\n- If member is given, containers must not point to the same container parent\n\nAuthorization & Permissions:\n- Evaluated on Target Projects: resource-manager.project.get, resource-manager.project.list, or resource-manager.project.direct.get to filter and return accessible projects."
+      }
+    },
+    "com.stackit.resource_manager#CreateProjectLabels": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value string pairs attached to a resource container during creation. Certain labels may be enforced via organizational policies.\n\n* **Key:** Must match the regex `[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`\n* **Value:** Must match the regex `^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`\n* Either a `\"scope\": \"PUBLIC\"` label or a valid `networkArea` label must be provided for project creation.\n* To create a project within a STACKIT Network Area, you must set the label `\"networkArea\": \"<networkAreaID>\"`. \n\n> **Important:** The `networkArea` label is immutable and **cannot be changed** after project creation."
+      }
+    },
+    "com.stackit.resource_manager#CreateProjectRequestMembersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.resource_manager#Member"
+      },
+      "traits": {
+        "smithy.api#documentation": "The initial members assigned to the project. At least one subject needs to be a user, and not a client or service account."
+      }
+    },
+    "com.stackit.resource_manager#CreateProjectRequest": {
+      "type": "structure",
+      "members": {
+        "containerParentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the parent resource container - containerId as well as UUID identifier is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#CreateProjectLabels"
+        },
+        "members": {
+          "target": "com.stackit.resource_manager#CreateProjectRequestMembersList",
+          "traits": {
+            "smithy.api#documentation": "The initial members assigned to the project. At least one subject needs to be a user, and not a client or service account.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project name matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#CreateProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#CreateProjectRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#Project"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#BadRequest"
+        },
+        {
+          "target": "com.stackit.resource_manager#Forbidden"
+        },
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create Project\n\nCreates a new project within a parent container.\n- Creation request returns synchronously, while underlying resource provisioning runs asynchronously.\n- Initial lifecycle state is CREATING until provisioning completes.\n\nAuthorization & Permissions:\n- Evaluated on Target Parent Container: resource-manager.project.create (required permission on the target parent organization or folder to create a project)."
+      }
+    },
+    "com.stackit.resource_manager#DeleteProjectLabelsRequestKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#DeleteProjectLabelsRequest": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier - containerId as well as UUID identifier is supported."
+          }
+        },
+        "keys": {
+          "target": "com.stackit.resource_manager#DeleteProjectLabelsRequestKeysList",
+          "traits": {
+            "smithy.api#httpQuery": "keys",
+            "smithy.api#documentation": "Label name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#DeleteProjectLabels": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#DeleteProjectLabelsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{containerId}/labels",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Project Labels\n\nDeletes project labels by specified keys, or removes all labels if no key is provided.\n\nAuthorization & Permissions:\n- Evaluated on Target Project: resource-manager.project.edit (required permission on the project to delete its labels)."
+      }
+    },
+    "com.stackit.resource_manager#GetProjectRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier - containerId as well as UUID identifier is supported."
+          }
+        },
+        "includeParents": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeParents"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#GetProjectResponse": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "creationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the project was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#Labels"
+        },
+        "lifecycleState": {
+          "target": "com.stackit.resource_manager#LifecycleState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project name.",
+            "smithy.api#required": {}
+          }
+        },
+        "parent": {
+          "target": "com.stackit.resource_manager#Parent",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parents": {
+          "target": "com.stackit.resource_manager#ParentList"
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Globally unique identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp at which the project was last modified.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.resource_manager#GetProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#GetProjectRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#GetProjectResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#Forbidden"
+        },
+        {
+          "target": "com.stackit.resource_manager#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{id}",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get Project Details\n\nReturns the project and its metadata.\n\nAuthorization & Permissions:\n- Evaluated on Target Project: resource-manager.project.get (required primary permission to view project details).\n- Evaluated on Parent Containers: resource-manager.organization.get and resource-manager.folder.get on parent organizations/folders implicitly to resolve and include parent metadata in the response hierarchy."
+      }
+    },
+    "com.stackit.resource_manager#PartialUpdateProjectRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier - containerId as well as UUID identifier is supported."
+          }
+        },
+        "containerParentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New parent identifier for the resource container - containerId as well as UUID identifier is supported."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.resource_manager#UpdateLabels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the resource container matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#PartialUpdateProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#PartialUpdateProjectRequest"
+      },
+      "output": {
+        "target": "com.stackit.resource_manager#Project"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#Forbidden"
+        },
+        {
+          "target": "com.stackit.resource_manager#NotFound"
+        },
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{id}",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Project\n\nUpdates project metadata (name, labels, or parent hierarchy).\n\nAuthorization & Permissions:\n- Evaluated on Target Project: resource-manager.project.edit (required permission on the project to modify its details, labels, or parent)."
+      }
+    },
+    "com.stackit.resource_manager#DeleteProjectRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project identifier - containerId as well as UUID identifier is supported."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.resource_manager#DeleteProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.resource_manager#DeleteProjectRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.resource_manager#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{id}",
+          "code": 200,
+          "baseUrl": "https://resource-manager.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete Project\n\nTriggers the deletion of a project.\n- Request returns synchronously, while deletion process runs asynchronously.\n- Initial lifecycle state is DELETING until workflow completes.\n\nAuthorization & Permissions:\n- Evaluated on Target Project: resource-manager.project.delete (required permission on the project to delete it)."
+      }
+    },
+    "com.stackit.resource_manager#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.resource_manager#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.resource_manager#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.resource_manager#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.resource_manager#ResourceManager": {
+      "type": "service",
+      "version": "2.0",
+      "operations": [
+        {
+          "target": "com.stackit.resource_manager#ListFolders"
+        },
+        {
+          "target": "com.stackit.resource_manager#CreateFolder"
+        },
+        {
+          "target": "com.stackit.resource_manager#GetFolderDetails"
+        },
+        {
+          "target": "com.stackit.resource_manager#PartialUpdateFolder"
+        },
+        {
+          "target": "com.stackit.resource_manager#DeleteFolder"
+        },
+        {
+          "target": "com.stackit.resource_manager#DeleteFolderLabels"
+        },
+        {
+          "target": "com.stackit.resource_manager#ListOrganizations"
+        },
+        {
+          "target": "com.stackit.resource_manager#DeleteOrganizationLabels"
+        },
+        {
+          "target": "com.stackit.resource_manager#GetOrganization"
+        },
+        {
+          "target": "com.stackit.resource_manager#PartialUpdateOrganization"
+        },
+        {
+          "target": "com.stackit.resource_manager#ListProjects"
+        },
+        {
+          "target": "com.stackit.resource_manager#CreateProject"
+        },
+        {
+          "target": "com.stackit.resource_manager#DeleteProjectLabels"
+        },
+        {
+          "target": "com.stackit.resource_manager#GetProject"
+        },
+        {
+          "target": "com.stackit.resource_manager#PartialUpdateProject"
+        },
+        {
+          "target": "com.stackit.resource_manager#DeleteProject"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Resource Manager API",
+        "smithy.api#documentation": "API v2 to manage resource containers - organizations, folders, projects incl. labels\n\n### Resource Management\nSTACKIT resource management handles the terms _Organization_, _Folder_, _Project_, _Label_, and the hierarchical structure between them. Technically, organizations, \nfolders, and projects are _Resource Containers_ to which a _Label_ can be attached to. The STACKIT _Resource Manager_ provides CRUD endpoints to query and to modify the state.\n\n### Organizations\nSTACKIT organizations are the base element to create and to use cloud-resources. An organization is bound to one customer account. Organizations have a lifecycle.\n- Organizations are always the root node in resource hierarchy and do not have a parent\n\n### Projects\nSTACKIT projects are needed to use cloud-resources. Projects serve as wrapper for underlying technical structures and processes. Projects have a lifecycle. Projects compared to folders may have different policies.\n- Projects are optional, but mandatory for cloud-resource usage\n- A project can be created having either an organization, or a folder as parent\n- A project must not have a project as parent\n- Project names under the same parent must not be unique\n- Root organization cannot be changed\n\n### Label\nSTACKIT labels are key-value pairs including a resource container reference. Labels can be defined and attached freely to resource containers by which resources can be organized and queried.\n- Policy-based, immutable labels may exists"
+      }
+    }
+  }
+}

@@ -1,0 +1,972 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.cost#ListCostsForCustomerRequestDepth": {
+      "type": "enum",
+      "members": {
+        "PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project"
+          }
+        },
+        "SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service"
+          }
+        },
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cost#ListCostsForCustomerRequestGranularity": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "YEARLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yearly"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cost#ListCostsForCustomerRequest": {
+      "type": "structure",
+      "members": {
+        "customerAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of a customer account"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Inclusive start date of the selection range. Internally, usages are recorded in UTC. This means all usages starting on and after 00:00:00 UTC on the specified date are included."
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Inclusive end date of the selection range. Internally, usages are recorded in UTC. This means all usages starting up to and including 23:59:59 UTC on the specified date are included."
+          }
+        },
+        "depth": {
+          "target": "com.stackit.cost#ListCostsForCustomerRequestDepth",
+          "traits": {
+            "smithy.api#httpQuery": "depth",
+            "smithy.api#documentation": "Depth of desired cost information. \"project\" provides costs grouped by project, without services. \"service\" provides costs separated on service level."
+          }
+        },
+        "granularity": {
+          "target": "com.stackit.cost#ListCostsForCustomerRequestGranularity",
+          "traits": {
+            "smithy.api#httpQuery": "granularity",
+            "smithy.api#documentation": "Define granularity of costs – Default is \"none\" which does NOT include detailed report data.\n\nIf \"monthly\", \"weekly\" or \"yearly\" is requested, the \"from\" parameter SHOULD be the first day and the \"to\" parameter SHOULD be the last day of that time period.\nIf not, they are normalized accordingly.\n\nIf \"daily\" is requested, the date range defined by \"from\" and \"to\" MUST NOT be longer than 92 days."
+          }
+        },
+        "includeZeroCosts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeZeroCosts",
+            "smithy.api#documentation": "Whether costs of 0 should be included in the response"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cost#ProjectCost": {
+      "type": "union",
+      "members": {
+        "SummarizedProjectCost": {
+          "target": "com.stackit.cost#SummarizedProjectCost"
+        },
+        "ProjectCostWithReports": {
+          "target": "com.stackit.cost#ProjectCostWithReports"
+        },
+        "ProjectCostWithSummarizedServices": {
+          "target": "com.stackit.cost#ProjectCostWithSummarizedServices"
+        },
+        "ProjectCostWithDetailedServices": {
+          "target": "com.stackit.cost#ProjectCostWithDetailedServices"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cost#SummarizedProjectCost": {
+      "type": "structure",
+      "members": {
+        "customerAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total charge (including discounts) for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        },
+        "totalDiscount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total discount for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Summarized costs for a project"
+      }
+    },
+    "com.stackit.cost#ProjectCostWithReports": {
+      "type": "structure",
+      "members": {
+        "customerAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reportData": {
+          "target": "com.stackit.cost#ProjectCostWithReportsReportDataList",
+          "traits": {
+            "smithy.api#documentation": "Detailed project costs which are ONLY included if granularity is provided AND depth is \"project\""
+          }
+        },
+        "totalCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total charge (including discounts) for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        },
+        "totalDiscount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total discount for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Detailed costs for a project"
+      }
+    },
+    "com.stackit.cost#ReportData": {
+      "type": "structure",
+      "members": {
+        "charge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Charge, value in cents",
+            "smithy.api#required": {}
+          }
+        },
+        "discount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Discount, value in cents",
+            "smithy.api#required": {}
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Quantity",
+            "smithy.api#required": {}
+          }
+        },
+        "quantityDecimal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Quantity in decimal format, returned as string to preserve precision.\nNOTE: This field will be removed in future versions and `totalQuantity` will become a decimal.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "timePeriod": {
+          "target": "com.stackit.cost#ReportDataTimePeriod",
+          "traits": {
+            "smithy.api#documentation": "Time period according to desired granularity",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Costs report for a certain period of time"
+      }
+    },
+    "com.stackit.cost#ReportDataTimePeriod": {
+      "type": "structure",
+      "members": {
+        "end": {
+          "target": "smithy.api#String"
+        },
+        "start": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Time period according to desired granularity"
+      }
+    },
+    "com.stackit.cost#ProjectCostWithReportsReportDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cost#ReportData"
+      },
+      "traits": {
+        "smithy.api#documentation": "Detailed project costs which are ONLY included if granularity is provided AND depth is \"project\""
+      }
+    },
+    "com.stackit.cost#ProjectCostWithSummarizedServices": {
+      "type": "structure",
+      "members": {
+        "customerAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "services": {
+          "target": "com.stackit.cost#ProjectCostWithSummarizedServicesServicesList",
+          "traits": {
+            "smithy.api#documentation": "Summarized service costs"
+          }
+        },
+        "totalCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total charge (including discounts) for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        },
+        "totalDiscount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total discount for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Costs for a project including summarized service costs"
+      }
+    },
+    "com.stackit.cost#SummarizedServiceCost": {
+      "type": "structure",
+      "members": {
+        "customerAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total charge (including discounts) for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        },
+        "totalDiscount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total discount for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Summarized costs for a project"
+      }
+    },
+    "com.stackit.cost#ProjectCostWithSummarizedServicesServicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cost#SummarizedServiceCost"
+      },
+      "traits": {
+        "smithy.api#documentation": "Summarized service costs"
+      }
+    },
+    "com.stackit.cost#ProjectCostWithDetailedServices": {
+      "type": "structure",
+      "members": {
+        "customerAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "services": {
+          "target": "com.stackit.cost#ProjectCostWithDetailedServicesServicesList",
+          "traits": {
+            "smithy.api#documentation": "Total discount for all services and the whole requested date range (value in cents). Please see \"depth\" parameter for more details."
+          }
+        },
+        "totalCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total charge (including discounts) for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        },
+        "totalDiscount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total discount for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Detailed costs for a project including service costs"
+      }
+    },
+    "com.stackit.cost#DetailedServiceCost": {
+      "type": "structure",
+      "members": {
+        "reportData": {
+          "target": "com.stackit.cost#DetailedServiceCostReportDataList",
+          "traits": {
+            "smithy.api#documentation": "Detailed service costs which are ONLY included if granularity is provided"
+          }
+        },
+        "serviceCategoryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service category name",
+            "smithy.api#required": {}
+          }
+        },
+        "serviceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the service",
+            "smithy.api#required": {}
+          }
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service key",
+            "smithy.api#required": {}
+          }
+        },
+        "totalCharge": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total charge (including discounts) for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        },
+        "totalDiscount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total discount for all services and the whole requested date range (value in cents)",
+            "smithy.api#required": {}
+          }
+        },
+        "totalQuantity": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total quantity",
+            "smithy.api#required": {}
+          }
+        },
+        "totalQuantityDecimal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Total quantity in decimal format, returned as string to preserve precision.\nNOTE: This field will be removed in future versions and `totalQuantity` will become a decimal.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "unitLabel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label for unit",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Costs for a single service"
+      }
+    },
+    "com.stackit.cost#DetailedServiceCostReportDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cost#ReportData"
+      },
+      "traits": {
+        "smithy.api#documentation": "Detailed service costs which are ONLY included if granularity is provided"
+      }
+    },
+    "com.stackit.cost#ProjectCostWithDetailedServicesServicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cost#DetailedServiceCost"
+      },
+      "traits": {
+        "smithy.api#documentation": "Total discount for all services and the whole requested date range (value in cents). Please see \"depth\" parameter for more details."
+      }
+    },
+    "com.stackit.cost#ListCostsForCustomerResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cost#ProjectCost"
+      },
+      "traits": {}
+    },
+    "com.stackit.cost#ListCostsForCustomerResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.cost#ListCostsForCustomerResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.cost#ListCostsForCustomer": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cost#ListCostsForCustomerRequest"
+      },
+      "output": {
+        "target": "com.stackit.cost#ListCostsForCustomerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cost#BadRequest"
+        },
+        {
+          "target": "com.stackit.cost#Forbidden"
+        },
+        {
+          "target": "com.stackit.cost#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/costs/{customerAccountId}",
+          "code": 200,
+          "baseUrl": "https://cost.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "V3 Costs for all projects\n\nGet costs for all projects in a customer account"
+      }
+    },
+    "com.stackit.cost#ListCostsForResellerRequestDepth": {
+      "type": "enum",
+      "members": {
+        "PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project"
+          }
+        },
+        "SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service"
+          }
+        },
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cost#ListCostsForResellerRequestGranularity": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "YEARLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yearly"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cost#ListCostsForResellerRequest": {
+      "type": "structure",
+      "members": {
+        "customerAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of a customer account"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Inclusive start date of the selection range. Internally, usages are recorded in UTC. This means all usages starting on and after 00:00:00 UTC on the specified date are included."
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Inclusive end date of the selection range. Internally, usages are recorded in UTC. This means all usages starting up to and including 23:59:59 UTC on the specified date are included."
+          }
+        },
+        "depth": {
+          "target": "com.stackit.cost#ListCostsForResellerRequestDepth",
+          "traits": {
+            "smithy.api#httpQuery": "depth",
+            "smithy.api#documentation": "Depth of desired cost information. \"project\" provides costs grouped by project, without services. \"service\" provides costs separated on service level."
+          }
+        },
+        "granularity": {
+          "target": "com.stackit.cost#ListCostsForResellerRequestGranularity",
+          "traits": {
+            "smithy.api#httpQuery": "granularity",
+            "smithy.api#documentation": "Define granularity of costs – Default is \"none\" which does NOT include detailed report data.\n\nIf \"monthly\", \"weekly\" or \"yearly\" is requested, the \"from\" parameter SHOULD be the first day and the \"to\" parameter SHOULD be the last day of that time period.\nIf not, they are normalized accordingly.\n\nIf \"daily\" is requested, the date range defined by \"from\" and \"to\" MUST NOT be longer than 92 days."
+          }
+        },
+        "includeZeroCosts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeZeroCosts",
+            "smithy.api#documentation": "Whether costs of 0 should be included in the response"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cost#ListCostsForResellerResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.cost#ProjectCost"
+      },
+      "traits": {}
+    },
+    "com.stackit.cost#ListCostsForResellerResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.cost#ListCostsForResellerResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.cost#ListCostsForReseller": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cost#ListCostsForResellerRequest"
+      },
+      "output": {
+        "target": "com.stackit.cost#ListCostsForResellerResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cost#BadRequest"
+        },
+        {
+          "target": "com.stackit.cost#Forbidden"
+        },
+        {
+          "target": "com.stackit.cost#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/costs/{customerAccountId}/customers",
+          "code": 200,
+          "baseUrl": "https://cost.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "V3 Costs for all projects of all related sub-customers\n\nGet costs for all projects of all related sub-customer accounts"
+      }
+    },
+    "com.stackit.cost#GetCostsForProjectRequestDepth": {
+      "type": "enum",
+      "members": {
+        "PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project"
+          }
+        },
+        "SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service"
+          }
+        },
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cost#GetCostsForProjectRequestGranularity": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekly"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monthly"
+          }
+        },
+        "YEARLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "yearly"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.cost#GetCostsForProjectRequest": {
+      "type": "structure",
+      "members": {
+        "customerAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of a customer account"
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of a project"
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Inclusive start date of the selection range. Internally, usages are recorded in UTC. This means all usages starting on and after 00:00:00 UTC on the specified date are included."
+          }
+        },
+        "to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Inclusive end date of the selection range. Internally, usages are recorded in UTC. This means all usages starting up to and including 23:59:59 UTC on the specified date are included."
+          }
+        },
+        "depth": {
+          "target": "com.stackit.cost#GetCostsForProjectRequestDepth",
+          "traits": {
+            "smithy.api#httpQuery": "depth",
+            "smithy.api#documentation": "Depth of desired cost information. \"project\" provides costs grouped by project, without services. \"service\" provides costs separated on service level."
+          }
+        },
+        "granularity": {
+          "target": "com.stackit.cost#GetCostsForProjectRequestGranularity",
+          "traits": {
+            "smithy.api#httpQuery": "granularity",
+            "smithy.api#documentation": "Define granularity of costs – Default is \"none\" which does NOT include detailed report data.\n\nIf \"monthly\", \"weekly\" or \"yearly\" is requested, the \"from\" parameter SHOULD be the first day and the \"to\" parameter SHOULD be the last day of that time period.\nIf not, they are normalized accordingly.\n\nIf \"daily\" is requested, the date range defined by \"from\" and \"to\" MUST NOT be longer than 92 days."
+          }
+        },
+        "includeZeroCosts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includeZeroCosts",
+            "smithy.api#documentation": "Whether costs of 0 should be included in the response"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.cost#GetCostsForProjectResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.cost#ProjectCost",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.cost#GetCostsForProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.cost#GetCostsForProjectRequest"
+      },
+      "output": {
+        "target": "com.stackit.cost#GetCostsForProjectResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.cost#BadRequest"
+        },
+        {
+          "target": "com.stackit.cost#Forbidden"
+        },
+        {
+          "target": "com.stackit.cost#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/costs/{customerAccountId}/projects/{projectId}",
+          "code": 200,
+          "baseUrl": "https://cost.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "V3 Costs for a certain project\n\nGet costs for a certain project in a customer account"
+      }
+    },
+    "com.stackit.cost#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.cost#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.cost#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.cost#Cost": {
+      "type": "service",
+      "version": "3.0",
+      "operations": [
+        {
+          "target": "com.stackit.cost#ListCostsForCustomer"
+        },
+        {
+          "target": "com.stackit.cost#ListCostsForReseller"
+        },
+        {
+          "target": "com.stackit.cost#GetCostsForProject"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Cost API",
+        "smithy.api#documentation": "The cost API provides detailed reports on the costs for a customer or project over a certain amount of time"
+      }
+    }
+  }
+}

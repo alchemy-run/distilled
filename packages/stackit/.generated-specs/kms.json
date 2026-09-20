@@ -1,0 +1,3033 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.kms#ListKeyRingsRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#ListKeyRingsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#ListKeyRingsRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#KeyRingList": {
+      "type": "structure",
+      "members": {
+        "keyRings": {
+          "target": "com.stackit.kms#KeyRingListKeyRingsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#KeyRing": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the creation of the key ring was triggered.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple key rings."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name to distinguish multiple key rings.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the key ring.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.kms#KeyRingState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the key ring.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#KeyRingState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the key ring."
+      }
+    },
+    "com.stackit.kms#KeyRingListKeyRingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.kms#KeyRing"
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#ListKeyRings": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#ListKeyRingsRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#KeyRingList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List key rings\n\nReturns a list of all key rings within the project."
+      }
+    },
+    "com.stackit.kms#CreateKeyRingRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#CreateKeyRingRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#CreateKeyRingRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple key rings."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name to distinguish multiple key rings. Valid characters: letters, digits, underscores and hyphens.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#CreateKeyRing": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#CreateKeyRingRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#KeyRing"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create key ring\n\nCreates a new key ring within the project."
+      }
+    },
+    "com.stackit.kms#GetKeyRingRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#GetKeyRingRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#GetKeyRingRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#GetKeyRing": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#GetKeyRingRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#KeyRing"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get key ring\n\nReturns the details for the given key ring."
+      }
+    },
+    "com.stackit.kms#DeleteKeyRingRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#DeleteKeyRingRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#DeleteKeyRingRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#DeleteKeyRing": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#DeleteKeyRingRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete keyring\n\nDeletes the given key ring if it is empty"
+      }
+    },
+    "com.stackit.kms#ListKeysRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#ListKeysRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#ListKeysRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#KeyList": {
+      "type": "structure",
+      "members": {
+        "keys": {
+          "target": "com.stackit.kms#KeyListKeysList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#Key": {
+      "type": "structure",
+      "members": {
+        "access_scope": {
+          "target": "com.stackit.kms#AccessScope",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "com.stackit.kms#Algorithm",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the creation of the key was triggered.",
+            "smithy.api#required": {}
+          }
+        },
+        "deletionDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This date is set when a key is pending deletion and refers to the scheduled date of deletion"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple keys."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name to distinguish multiple keys.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the keys.",
+            "smithy.api#required": {}
+          }
+        },
+        "importOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "States whether versions can be created or only imported.",
+            "smithy.api#required": {}
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique id of the key ring this key is assigned to.",
+            "smithy.api#required": {}
+          }
+        },
+        "protection": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "purpose": {
+          "target": "com.stackit.kms#Purpose",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.kms#KeyState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the key.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#AccessScope": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PUBLIC"
+          }
+        },
+        "SNA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SNA"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The access scope of the key."
+      }
+    },
+    "com.stackit.kms#Algorithm": {
+      "type": "enum",
+      "members": {
+        "AES_256_GCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes_256_gcm"
+          }
+        },
+        "RSA_2048_OAEP_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_2048_oaep_sha256"
+          }
+        },
+        "RSA_3072_OAEP_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_3072_oaep_sha256"
+          }
+        },
+        "RSA_4096_OAEP_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_4096_oaep_sha256"
+          }
+        },
+        "RSA_4096_OAEP_SHA512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_4096_oaep_sha512"
+          }
+        },
+        "HMAC_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hmac_sha256"
+          }
+        },
+        "HMAC_SHA384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hmac_sha384"
+          }
+        },
+        "HMAC_SHA512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hmac_sha512"
+          }
+        },
+        "ECDSA_P256_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecdsa_p256_sha256"
+          }
+        },
+        "ECDSA_P384_SHA384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecdsa_p384_sha384"
+          }
+        },
+        "ECDSA_P521_SHA512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecdsa_p521_sha512"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The algorithm the key material uses."
+      }
+    },
+    "com.stackit.kms#Purpose": {
+      "type": "enum",
+      "members": {
+        "SYMMETRIC_ENCRYPT_DECRYPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "symmetric_encrypt_decrypt"
+          }
+        },
+        "ASYMMETRIC_ENCRYPT_DECRYPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asymmetric_encrypt_decrypt"
+          }
+        },
+        "MESSAGE_AUTHENTICATION_CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "message_authentication_code"
+          }
+        },
+        "ASYMMETRIC_SIGN_VERIFY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asymmetric_sign_verify"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The purpose of the key."
+      }
+    },
+    "com.stackit.kms#KeyState": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        },
+        "NOT_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_available"
+          }
+        },
+        "ERRORS_EXIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errors_exist"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "NO_VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_version"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the key."
+      }
+    },
+    "com.stackit.kms#KeyListKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.kms#Key"
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#ListKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#ListKeysRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#KeyList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List keys\n\nReturns the keys for the given key ring."
+      }
+    },
+    "com.stackit.kms#CreateKeyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#CreateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#CreateKeyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "access_scope": {
+          "target": "com.stackit.kms#AccessScope"
+        },
+        "algorithm": {
+          "target": "com.stackit.kms#Algorithm",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple keys."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name to distinguish multiple keys. Valid characters: letters, digits, underscores and hyphens.",
+            "smithy.api#required": {}
+          }
+        },
+        "importOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "States whether versions can be created or only imported."
+          }
+        },
+        "protection": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "purpose": {
+          "target": "com.stackit.kms#Purpose",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#CreateKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#CreateKeyRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#Key"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create key\n\nCreates a new key for the given key ring."
+      }
+    },
+    "com.stackit.kms#GetKeyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#GetKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#GetKeyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#GetKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#GetKeyRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#Key"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get key\n\nReturns the details for the given key."
+      }
+    },
+    "com.stackit.kms#DeleteKeyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#DeleteKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#DeleteKeyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#DeleteKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#DeleteKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete key\n\nSchedules the deletion of the given key"
+      }
+    },
+    "com.stackit.kms#ImportKeyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#ImportKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#ImportKeyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        },
+        "wrappedKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The wrapped key material that has to be imported. Encoded in base64.",
+            "smithy.api#required": {}
+          }
+        },
+        "wrappingKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique id of the wrapping key the key material has been wrapped with.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#Version": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the creation of the key was triggered.",
+            "smithy.api#required": {}
+          }
+        },
+        "destroyDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scheduled date when a version's key material will be erased completely from the backend"
+          }
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "States whether versions is enabled or disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique id of the key this version is assigned to.",
+            "smithy.api#required": {}
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique id of the key ring the key of this version is assigned to.",
+            "smithy.api#required": {}
+          }
+        },
+        "number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "A sequential number which identifies the key versions.",
+            "smithy.api#required": {}
+          }
+        },
+        "publicKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key of the key version. Only present in asymmetric keys."
+          }
+        },
+        "state": {
+          "target": "com.stackit.kms#VersionState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the key.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#VersionState": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "KEY_MATERIAL_INVALID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "key_material_invalid"
+          }
+        },
+        "KEY_MATERIAL_UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "key_material_unavailable"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "DESTROYED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "destroyed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the key."
+      }
+    },
+    "com.stackit.kms#ImportKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#ImportKeyRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#Version"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/import",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Import key\n\nImports a new version to the given key."
+      }
+    },
+    "com.stackit.kms#RestoreKeyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#RestoreKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#RestoreKeyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#RestoreKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#RestoreKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/restore",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Restore deleted key\n\nRestores the given key from being deleted."
+      }
+    },
+    "com.stackit.kms#RotateKeyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#RotateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#RotateKeyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#RotateKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#RotateKeyRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#Version"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#Forbidden"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/rotate",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Rotate key\n\nRotates the given key."
+      }
+    },
+    "com.stackit.kms#ListVersionsRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#ListVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#ListVersionsRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#VersionList": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.stackit.kms#VersionListVersionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#VersionListVersionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.kms#Version"
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#ListVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#ListVersionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#VersionList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/versions",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List versions\n\nReturns a list of all versions of a given key."
+      }
+    },
+    "com.stackit.kms#GetVersionRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#GetVersionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#GetVersionRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The version number."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#GetVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#GetVersionRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#Version"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/versions/{versionNumber}",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get version\n\nReturns the details for the given version."
+      }
+    },
+    "com.stackit.kms#DecryptRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#DecryptRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#DecryptRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The version number."
+          }
+        },
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The data that has to be decrypted. Encoded in base64.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#DecryptedData": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The decrypted data. Encoded in base64.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#Decrypt": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#DecryptRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#DecryptedData"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/versions/{versionNumber}/decrypt",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Decrypt\n\nDecrypts data using the given key version."
+      }
+    },
+    "com.stackit.kms#DestroyVersionRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#DestroyVersionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#DestroyVersionRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The version number."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#DestroyVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#DestroyVersionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/versions/{versionNumber}/destroy",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Destroy version\n\nRemoves the key material of a version permanently."
+      }
+    },
+    "com.stackit.kms#DisableVersionRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#DisableVersionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#DisableVersionRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The version number."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#DisableVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#DisableVersionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/versions/{versionNumber}/disable",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Disable version\n\nDisables the given version."
+      }
+    },
+    "com.stackit.kms#EnableVersionRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#EnableVersionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#EnableVersionRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The version number."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#EnableVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#EnableVersionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/versions/{versionNumber}/enable",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Enable version\n\nEnables the given version."
+      }
+    },
+    "com.stackit.kms#EncryptRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#EncryptRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#EncryptRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The version number."
+          }
+        },
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The data that has to be encrypted. Encoded in base64.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#EncryptedData": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encrypted data. Encoded in base64.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#Encrypt": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#EncryptRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#EncryptedData"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/versions/{versionNumber}/encrypt",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Encrypt\n\nEncrypts data using the given key version."
+      }
+    },
+    "com.stackit.kms#RestoreVersionRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#RestoreVersionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#RestoreVersionRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The version number."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#RestoreVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#RestoreVersionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/versions/{versionNumber}/restore",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Restore version\n\nRestores the given version from being destroyed"
+      }
+    },
+    "com.stackit.kms#SignRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#SignRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#SignRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The version number."
+          }
+        },
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The data that has to be signed. Encoded in base64.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#SignedData": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The data that was signed. Encoded in base64.",
+            "smithy.api#required": {}
+          }
+        },
+        "signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signature of the data. Encoded in base64.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#Sign": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#SignRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#SignedData"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/versions/{versionNumber}/sign",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Sign\n\nSign data using the given key version as secret."
+      }
+    },
+    "com.stackit.kms#VerifyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#VerifyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#VerifyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "keyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key UUID."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The version number."
+          }
+        },
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The data to be verified. Encoded in base64.",
+            "smithy.api#required": {}
+          }
+        },
+        "signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The signature of the data. Encoded in base64.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#VerifiedData": {
+      "type": "structure",
+      "members": {
+        "valid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether or not the data has a valid signature.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#Verify": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#VerifyRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#VerifiedData"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/keys/{keyId}/versions/{versionNumber}/verify",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Verify\n\nVerify data using the given key version as secret."
+      }
+    },
+    "com.stackit.kms#ListWrappingKeysRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#ListWrappingKeysRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#ListWrappingKeysRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#WrappingKeyList": {
+      "type": "structure",
+      "members": {
+        "wrappingKeys": {
+          "target": "com.stackit.kms#WrappingKeyListWrappingKeysList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#WrappingKey": {
+      "type": "structure",
+      "members": {
+        "access_scope": {
+          "target": "com.stackit.kms#AccessScope",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "algorithm": {
+          "target": "com.stackit.kms#WrappingAlgorithm",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the creation of the wrapping key was triggered.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple wrapping keys."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name to distinguish multiple wrapping keys.",
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the wrapping key will expire.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the wrapping keys.",
+            "smithy.api#required": {}
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique id of the key ring this wrapping key is assigned to.",
+            "smithy.api#required": {}
+          }
+        },
+        "protection": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "publicKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public key of the wrapping key."
+          }
+        },
+        "purpose": {
+          "target": "com.stackit.kms#WrappingPurpose",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.kms#WrappingKeyState",
+          "traits": {
+            "smithy.api#documentation": "The current state of the wrapping key.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#WrappingAlgorithm": {
+      "type": "enum",
+      "members": {
+        "RSA_2048_OAEP_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_2048_oaep_sha256"
+          }
+        },
+        "RSA_3072_OAEP_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_3072_oaep_sha256"
+          }
+        },
+        "RSA_4096_OAEP_SHA256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_4096_oaep_sha256"
+          }
+        },
+        "RSA_4096_OAEP_SHA512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_4096_oaep_sha512"
+          }
+        },
+        "RSA_2048_OAEP_SHA256_AES_256_KEY_WRAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_2048_oaep_sha256_aes_256_key_wrap"
+          }
+        },
+        "RSA_3072_OAEP_SHA256_AES_256_KEY_WRAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_3072_oaep_sha256_aes_256_key_wrap"
+          }
+        },
+        "RSA_4096_OAEP_SHA256_AES_256_KEY_WRAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_4096_oaep_sha256_aes_256_key_wrap"
+          }
+        },
+        "RSA_4096_OAEP_SHA512_AES_256_KEY_WRAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rsa_4096_oaep_sha512_aes_256_key_wrap"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The wrapping algorithm used to wrap the key to import."
+      }
+    },
+    "com.stackit.kms#WrappingPurpose": {
+      "type": "enum",
+      "members": {
+        "WRAP_SYMMETRIC_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrap_symmetric_key"
+          }
+        },
+        "WRAP_ASYMMETRIC_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wrap_asymmetric_key"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The wrapping purpose for the wrapping key."
+      }
+    },
+    "com.stackit.kms#WrappingKeyState": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        },
+        "KEY_MATERIAL_UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "key_material_unavailable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current state of the wrapping key."
+      }
+    },
+    "com.stackit.kms#WrappingKeyListWrappingKeysList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.kms#WrappingKey"
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#ListWrappingKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#ListWrappingKeysRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#WrappingKeyList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/wrappingkeys",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List wrapping keys\n\nReturns the wrapping keys for the given key ring."
+      }
+    },
+    "com.stackit.kms#CreateWrappingKeyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#CreateWrappingKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#CreateWrappingKeyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "access_scope": {
+          "target": "com.stackit.kms#AccessScope"
+        },
+        "algorithm": {
+          "target": "com.stackit.kms#WrappingAlgorithm",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple wrapping keys."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name to distinguish multiple wrapping keys. Valid characters: letters, digits, underscores and hyphens.",
+            "smithy.api#required": {}
+          }
+        },
+        "protection": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "purpose": {
+          "target": "com.stackit.kms#WrappingPurpose",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#CreateWrappingKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#CreateWrappingKeyRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#WrappingKey"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/wrappingkeys",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create wrapping key\n\nCreates a new wrapping key for the given key ring."
+      }
+    },
+    "com.stackit.kms#GetWrappingKeyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#GetWrappingKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#GetWrappingKeyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "wrappingKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The wrapping key UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#GetWrappingKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#GetWrappingKeyRequest"
+      },
+      "output": {
+        "target": "com.stackit.kms#WrappingKey"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/wrappingkeys/{wrappingKeyId}",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get wrapping key\n\nReturns the details for the given wrapping key."
+      }
+    },
+    "com.stackit.kms#DeleteWrappingKeyRequestRegionId": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.kms#DeleteWrappingKeyRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the key ring is part of."
+          }
+        },
+        "regionId": {
+          "target": "com.stackit.kms#DeleteWrappingKeyRequestRegionId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region name the key ring is located in."
+          }
+        },
+        "keyRingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The key ring UUID."
+          }
+        },
+        "wrappingKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The wrapping key UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.kms#DeleteWrappingKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.kms#DeleteWrappingKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.kms#BadRequest"
+        },
+        {
+          "target": "com.stackit.kms#NotFound"
+        },
+        {
+          "target": "com.stackit.kms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/keyrings/{keyRingId}/wrappingkeys/{wrappingKeyId}",
+          "code": 200,
+          "baseUrl": "https://kms.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete wrapping key\n\nDeletes the given wrapping key"
+      }
+    },
+    "com.stackit.kms#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.kms#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.kms#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.kms#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.kms#Kms": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.kms#ListKeyRings"
+        },
+        {
+          "target": "com.stackit.kms#CreateKeyRing"
+        },
+        {
+          "target": "com.stackit.kms#GetKeyRing"
+        },
+        {
+          "target": "com.stackit.kms#DeleteKeyRing"
+        },
+        {
+          "target": "com.stackit.kms#ListKeys"
+        },
+        {
+          "target": "com.stackit.kms#CreateKey"
+        },
+        {
+          "target": "com.stackit.kms#GetKey"
+        },
+        {
+          "target": "com.stackit.kms#DeleteKey"
+        },
+        {
+          "target": "com.stackit.kms#ImportKey"
+        },
+        {
+          "target": "com.stackit.kms#RestoreKey"
+        },
+        {
+          "target": "com.stackit.kms#RotateKey"
+        },
+        {
+          "target": "com.stackit.kms#ListVersions"
+        },
+        {
+          "target": "com.stackit.kms#GetVersion"
+        },
+        {
+          "target": "com.stackit.kms#Decrypt"
+        },
+        {
+          "target": "com.stackit.kms#DestroyVersion"
+        },
+        {
+          "target": "com.stackit.kms#DisableVersion"
+        },
+        {
+          "target": "com.stackit.kms#EnableVersion"
+        },
+        {
+          "target": "com.stackit.kms#Encrypt"
+        },
+        {
+          "target": "com.stackit.kms#RestoreVersion"
+        },
+        {
+          "target": "com.stackit.kms#Sign"
+        },
+        {
+          "target": "com.stackit.kms#Verify"
+        },
+        {
+          "target": "com.stackit.kms#ListWrappingKeys"
+        },
+        {
+          "target": "com.stackit.kms#CreateWrappingKey"
+        },
+        {
+          "target": "com.stackit.kms#GetWrappingKey"
+        },
+        {
+          "target": "com.stackit.kms#DeleteWrappingKey"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Key Management Service API",
+        "smithy.api#documentation": "This API provides endpoints for managing keys and key rings."
+      }
+    }
+  }
+}
