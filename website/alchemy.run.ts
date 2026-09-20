@@ -45,7 +45,16 @@ const Website = Cloudflare.Website.StaticSite(
               : undefined,
           }
         : undefined,
-      workersDev: stack.stage === "prod" ? false : undefined,
+      // A PR version's URL is its aliased preview URL, which only serves
+      // when the *parent* script has workers.dev previews enabled — so
+      // preview-base must enable them. It serves no stable URL of its own:
+      // it exists only to host those versions.
+      workersDev:
+        stack.stage === "prod"
+          ? false
+          : stack.stage === "preview-base"
+            ? { enabled: false, previewsEnabled: true }
+            : undefined,
       domain:
         stack.stage === "prod"
           ? { name: "distilled.cloud" }
