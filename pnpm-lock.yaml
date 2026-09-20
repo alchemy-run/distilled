@@ -688,6 +688,25 @@ importers:
         specifier: 'catalog:'
         version: 26.2.0
 
+  packages/freestyle:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.0-rc.116
+    devDependencies:
+      '@effect/platform-bun':
+        specifier: 'catalog:'
+        version: 4.0.0-rc.116(effect@4.0.0-rc.116)
+      '@types/bun':
+        specifier: 'catalog:'
+        version: 1.3.14
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
   packages/gcp:
     dependencies:
       '@distilled.cloud/core':

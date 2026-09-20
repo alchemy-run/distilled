@@ -1,0 +1,401 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.freestyle.hardware#ListHardwareResponse": {
+      "type": "structure",
+      "members": {
+        "hardwareServers": {
+          "target": "com.freestyle.hardware#ListHardwareResponseHardwareServersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.hardware#HardwareServer": {
+      "type": "structure",
+      "members": {
+        "attached": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The network attachment is converged and the machine is being served.",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dhcpBound": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The machine has taken a DHCP lease — the closest thing to \"it is on\"\nthat the network can see by itself.",
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ipv4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Its address on the private network, when that network carries IPv4.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipv6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Its address on the private network. Every network has IPv6.",
+            "smithy.api#required": {}
+          }
+        },
+        "lastSeen": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the network last saw traffic from it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mac": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The machine's MAC, once it is known.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "powerControl": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this machine's power can be switched through the API. Off\nunless Freestyle has enabled it for the machine."
+          }
+        },
+        "publicIpv6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Its stable public address, when it was given one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The private network the machine is attached to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A physical machine attached to one of your private networks.\n\nFreestyle racks and cables these, so there is no create or delete here —\nwhat the API offers is seeing them and, where it is enabled, controlling\ntheir power."
+      }
+    },
+    "com.freestyle.hardware#ListHardwareResponseHardwareServersList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.hardware#HardwareServer"
+      },
+      "traits": {}
+    },
+    "com.freestyle.hardware#ListHardware": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.freestyle.hardware#ListHardwareResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/hardware",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the physical machines attached to your private networks."
+      }
+    },
+    "com.freestyle.hardware#GetHardwarePowerRequest": {
+      "type": "structure",
+      "members": {
+        "hardwareId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Hardware machine id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.hardware#HardwarePowerState": {
+      "type": "structure",
+      "members": {
+        "cords": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many power cords feed it — why control is all-or-nothing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lastActionAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the power state is unknown, when it is.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "nextAllowedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the next power-cutting action will be accepted. Absent means now.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "on": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Every cord is live. Absent when the power state could not be read —\nwhich is not the same as the machine being off.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "remainingToday": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Power-cutting actions left in the rolling 24-hour budget. Turning power\n**on** does not spend it.",
+            "smithy.api#required": {}
+          }
+        },
+        "supported": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "False when power control is not enabled for this machine; every other\nfield is then absent and every action is refused.",
+            "smithy.api#required": {}
+          }
+        },
+        "watts": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Present draw across the machine's cords, in watts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A machine's power, and what is left of its rate limit."
+      }
+    },
+    "com.freestyle.hardware#GetHardwarePower": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.hardware#GetHardwarePowerRequest"
+      },
+      "output": {
+        "target": "com.freestyle.hardware#HardwarePowerState"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.hardware#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/hardware/{hardwareId}/power",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read a machine's power: whether every cord is live, what it is drawing, and how much of its rate limit is left. Reading is free and never limited."
+      }
+    },
+    "com.freestyle.hardware#HardwarePowerAction": {
+      "type": "enum",
+      "members": {
+        "CYCLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cycle"
+          }
+        },
+        "ON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "on"
+          }
+        },
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What to do to a machine's power.\n\nThe unit is always the whole machine. A machine with redundant supplies\ndraws from several cords, and Freestyle switches all of them together —\nthere is no way to ask for one, because cutting one cord browns a machine\nout rather than powering it off."
+      }
+    },
+    "com.freestyle.hardware#SetHardwarePowerRequest": {
+      "type": "structure",
+      "members": {
+        "hardwareId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Hardware machine id"
+          }
+        },
+        "action": {
+          "target": "com.freestyle.hardware#HardwarePowerAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.hardware#HardwarePowerOutcome": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.freestyle.hardware#HardwarePowerAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "applied": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextAllowedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "remainingToday": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.hardware#SetHardwarePower": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.hardware#SetHardwarePowerRequest"
+      },
+      "output": {
+        "target": "com.freestyle.hardware#HardwarePowerOutcome"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.hardware#BadRequest"
+        },
+        {
+          "target": "com.freestyle.hardware#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/hardware/{hardwareId}/power",
+          "code": 200
+        },
+        "smithy.api#documentation": "Switch a physical machine's power.\n\nThis is a real power outlet, so it is deliberately narrow. The unit is the whole machine: machines with redundant supplies draw from several cords and all of them are switched together, because cutting one browns the machine out instead of powering it off. `cycle` cuts power, holds a few seconds, and restores it — anything running stops immediately, with no chance to shut down cleanly.\n\nHeavily rate limited: one power-cutting action every few minutes and a small daily budget per machine, both reported by `GET /hardware/{hardwareId}/power`. Turning power back **on** is never rationed, only briefly debounced. Exceeding a limit is a 429 whose message says when to come back."
+      }
+    },
+    "com.freestyle.hardware#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.freestyle.hardware#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.freestyle.hardware#Hardware": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.freestyle.hardware#ListHardware"
+        },
+        {
+          "target": "com.freestyle.hardware#GetHardwarePower"
+        },
+        {
+          "target": "com.freestyle.hardware#SetHardwarePower"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Freestyle",
+        "smithy.api#documentation": "# Powerful Virtual Machines\n\nDocumentation: [freestyle.sh/docs](https://freestyle.sh/docs)\n\nFreestyle VMs are full Linux virtual machines designed for long running, complex tasks.\n\n## Key Features\n\n- **Instant Startup**: Freestyle VMs provision in milliseconds, with p99s under 400ms.\n- **Persistence**: Freestyle VMs can run forever, they can be hibernated with their exact memory in place and come back to life weeks later instantly, in that exact state.\n- **Powerful**: Freestyle VMs go up to 64GB of RAM for public tiers and much further for enterprise. Freestyle does high quality hardware virtualization supporting nested virtualization, FUSE, eBPF, full Linux networking and more. If it can run in an EC2, it can run in a Freestyle VM.\n- **Cheaply Snapshottable and Branchable**: Freestyle VMs are instantly and cheaply snapshottable (sub 1ms interruption, sub 50ms to snapshot ready). These snapshots can be used to create new VMs in the exact state of the original VM (memory and disk). This enables powerful workflows like branching, cloning, and rapid recovery from failures.\n\n## When to use Freestyle\n\n- **Long Running Agent Tasks**: When you have tasks that take hours, days, weeks or months to run, Freestyle VMs provide a persistent and powerful environment that your agent can work in to completion.\n- **Failure Prone/Experimental Exploration**: When your tasks involve branching, cloning or need time travel Freestyle VMs are ideal because of their cheap snapshottability and power that makes them great for experiments.\n- **Complex Coding Problems**: When you are tackling advanced coding problems in research or production codebases, poor virtualization and small sandboxes will not cut it. Freestyle VMs provide the necessary resources and environment to handle these challenges effectively.\n- **Multi Tenant Usage Patterns**: Freestyle VMs are intentionally built to be used by agent builders with multiple customers. The slug system allows for keying VMs by their user, the identity system allows for granular acccess control and permissioning, and the VPC system allows for multi-tenant network isolation. \n\n## When not to use it\n\n- **\"Run AI Code\"**: If your exclusively executing short lived Python scripts or other ephemeral tasks the benefits above aren't relevant. Freestyle VMs should still be benchmarked but there may be alternatives better suited.\n- **CPU Intensive CI/CD**: Freestyle VMs run on bare metal on data center CPUs. We also oversubscribe host resources. For workloads that require sustained high CPU usage like building the Linux Kernel or mining crypto prefer cloud providers that offer consumer CPU performance.\n- **Short Lived Tasks**: If your tasks are extremely short lived and do not benefit from persistence or powerful hardware. If your average task takes less than 15 minutes to complete then they are likely cheaply retryable and don't require the reliability and persistence that Freestyle VMs provide.\n- **Sole Application Hosting**: Freestyle VMs are designed as workbenches for development, experimentation and task execution. Not for hosting production applications. Hosting a minecraft server for some friends will work great on Freestyle, but we do not offer autoscaling, load balancers or CDNs and we don't plan to.\n\n## Emerging Use Cases\n\n- **RL Environments**: Freestyle VMs are well-suited for running reinforcement learning environments that require persistent state and complex setups. The ability to snapshot and branch VMs allows researchers to experiment with different strategies and record environment states efficiently.\n- **Auto Research Climbing**: Freestyle VMs are great for auto research as the snapshotting and fan out allows research agents to explore multiple strategies, review past results and iterate efficiently without ever losing progress.\n- **Environments for Development, Testing, Security and Pentesting**: Freestyle VMs are the only sandbox provider that offers full private VPC and networking which allows simulating full applications in production like staging environments. This can be used for testing, iteration, security assesments and penetration testing in a controlled and isolated environment.\n- **Connecting Agents to Production VPCs**: Freestyle VMs VPC system allows for connections to private production VPCs through secure Wireguard tunnels. If you want sandboxed agents to work on your/your users production infrastructure and they have requirements about not going through the public internet, Freestyle VMs provide a secure and compliant solution.\n\n## Private Offers (Enterprise)\n\n- **GPU Sandboxes**: Freestyle offers private GPU sandboxes for enterprise customers, providing direct access to frontier GPU hardware for high performance computing, machine learning and generally the above **Emerging Use Cases**.\n- **Colocated Bare Metal**: For users wanting sandboxes that work with especially weird requirements Freestyle can offer space in our racks for your dedicated bare metal servers. This can be useful for custom GPUs, video processing, or any other specialized hardware needs.\n- **Custom Pricing**: Freestyle can offer spot access, CPU Time billing, node based pricing and more. These deals can be tailored to the specific needs and usage patterns of enterprise customers.\n- **Custom Sandboxing**: Freestyle builds and maintains its own custom virtualization solutions which allows us to virtualize and sandbox workloads in ways that are not possible with standard options. This enables highly specialized and optimized environments for enterprise customers.\n- **Dedicated Support**: Enterprise customers can receive dedicated support from the Freestyle team, ensuring that any issues or custom requirements are addressed promptly and effectively.\n\nFor more information on Enterprise offerings contact our [sales team](https://cal.com/freestyle/enterprise-onboarding?overlayCalendar=true)\n\n### Relevant Links\n\n- [Freestyle Documentation](https://freestyle.sh/docs)\n- [Freestyle Dashboard](https://dash.freestyle.sh) — manage your account and API keys.\n\nAI agents can create their own API key with `npx -y freestyle@latest tokens create \"agent work\" --output json` using an existing CLI login. Run `npx -y freestyle@latest login` first if needed, then use the returned `token` as `FREESTYLE_API_KEY`."
+      }
+    }
+  }
+}
