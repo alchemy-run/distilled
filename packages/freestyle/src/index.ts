@@ -9,16 +9,44 @@
  * `vpcs`, `domains`, `identities`, `firewall`, `hardware`, `tls`,
  * `tunnels`, `backgroundRequests`.
  *
- * The SDK covers the REST surface only. Opening or reattaching a PTY is a
- * WebSocket upgrade (`101`), and file read/write/upload-chunk bodies are
- * `application/octet-stream` — the OpenAPI converter models JSON only, so
- * those operations generate without a binary payload schema.
+ * File read/write/upload-chunk bodies are `application/octet-stream` — the
+ * OpenAPI converter models JSON only, so those operations generate without
+ * a binary payload schema. PTY open/attach are WebSocket upgrades (`101`);
+ * use {@link connectPty} / {@link reconnectPty} instead of the generated
+ * REST stubs.
  *
  * @example
  * ```ts
+ * import * as Effect from "effect/Effect";
+ * import * as Layer from "effect/Layer";
+ * import { FetchHttpClient } from "effect/unstable/http";
  * import * as Freestyle from "@distilled.cloud/freestyle";
  *
- * const { vms } = yield* Freestyle.Services.vms.listVms({});
+ * const Live = Layer.mergeAll(
+ *   FetchHttpClient.layer,
+ *   Freestyle.CredentialsFromEnv, // FREESTYLE_API_KEY
+ *   Freestyle.FreestyleProtocol,
+ * );
+ *
+ * const program = Effect.gen(function* () {
+ *   const vm = yield* Freestyle.Services.vms.createVm({
+ *     firewall: { rules: [] },
+ *   });
+ *   const { stdout } = yield* Freestyle.Services.vms.execVm({
+ *     vmIdOrSlug: vm.id,
+ *     command: "uname -a",
+ *   });
+ *
+ *   const pty = yield* Freestyle.connectPty({
+ *     vmIdOrSlug: vm.id,
+ *     cols: 120,
+ *     rows: 30,
+ *   });
+ *   pty.write("echo hello\\n");
+ *   pty.detach();
+ * });
+ *
+ * program.pipe(Effect.provide(Live), Effect.runPromise);
  * ```
  */
 export * from "./credentials.ts";
@@ -30,5 +58,13 @@ export {
   type FreestyleOpContext,
 } from "./protocol.ts";
 export { paginateOffset } from "./pagination.ts";
+export {
+  connectPty,
+  reconnectPty,
+  PtyError,
+  type ConnectPtyOptions,
+  type ReconnectPtyOptions,
+  type PtySession,
+} from "./pty.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";
