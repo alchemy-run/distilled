@@ -70,6 +70,7 @@ const restSpec = (opts: {
   /** Type httpPayload Blob members as `Uint8Array | string` (Sprites writeFile / exec stdin). */
   blobBody?: boolean;
 }): SdkSpec => ({
+  unionStyle: "primitive",
   nullableTrait: NULLABLE_TRAIT,
   sourceNote: opts.sourceNote,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,

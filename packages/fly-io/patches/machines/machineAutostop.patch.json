@@ -1,0 +1,26 @@
+{
+  "description": "Model autostop's documented string/legacy boolean wire contract; live Machine readback returns true for stop and suspend as a string.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.flyio.machines#FlyMachineServiceAutostop",
+      "path": "/shapes/com.flyio.machines#FlyMachineServiceAutostopMode"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#FlyMachineServiceAutostop",
+      "value": {
+        "type": "union",
+        "members": {
+          "mode": {
+            "target": "com.flyio.machines#FlyMachineServiceAutostopMode"
+          },
+          "legacy": { "target": "smithy.api#Boolean" }
+        },
+        "traits": {
+          "smithy.api#documentation": "Accepts off, stop, or suspend. For backward compatibility, responses encode off as false and stop as true."
+        }
+      }
+    }
+  ]
+}

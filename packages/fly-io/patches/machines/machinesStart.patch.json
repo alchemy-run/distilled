@@ -1,5 +1,5 @@
 {
-  "description": "Type Conflict (409) and the exact observed created-state start precondition on startMachine. The precondition's HTTP status was not captured; match its message only.",
+  "description": "Type Conflict (409), the created-state start precondition (message-only), and the observed replacing-state start precondition (412).",
   "patches": [
     {
       "op": "add",
@@ -32,6 +32,30 @@
       "value": {
         "target": "com.flyio.machines#MachineStartFromCreatedState"
       }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachineReplacing",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 412,
+              "message": "failed_precondition: machine getting replaced, refusing to start"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#StartMachine/errors/-",
+      "value": { "target": "com.flyio.machines#MachineReplacing" }
     }
   ]
 }

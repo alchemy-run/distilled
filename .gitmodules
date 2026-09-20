@@ -396,5 +396,8 @@
 [submodule "packages/daytona/specs/spec-mirror-daytona"]
 	path = packages/daytona/specs/spec-mirror-daytona
 	url = https://github.com/distilled-mirror/spec-mirror-daytona.git
+[submodule "packages/boat-dev/specs/spec-mirror-boat-dev"]
+	path = packages/boat-dev/specs/spec-mirror-boat-dev
+	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
 	ignore = dirty
 	shallow = true

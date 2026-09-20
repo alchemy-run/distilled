@@ -1,0 +1,126 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "note": "Hand-authored Smithy model of the ZeroSSL REST API (https://zerossl.com/documentation/api/). Auth is the account access key sent in the `Authorization: ApiKey` header by the protocol (src/protocol.ts)."
+  },
+  "shapes": {
+    "com.zerossl.api#EabCredentials": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "eab_kid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The EAB key id.",
+            "smithy.api#required": {}
+          }
+        },
+        "eab_hmac_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base64url HMAC key.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.zerossl.api#GenerateEabCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.zerossl.api#EabCredentials"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/acme/eab-credentials",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mint ACME External Account Binding credentials for this account\n\nReturns an EAB key id and HMAC key to bind a new ACME account to this ZeroSSL account (`newAccount` with `externalAccountBinding`). EAB credentials are reusable; store the returned pair securely instead of minting one per issuance."
+      },
+      "errors": [
+        {
+          "target": "com.zerossl.api#InvalidAccessKey"
+        },
+        {
+          "target": "com.zerossl.api#RateLimitExceeded"
+        }
+      ]
+    },
+    "com.zerossl.api#ZeroSsl": {
+      "type": "service",
+      "version": "v1",
+      "operations": [
+        {
+          "target": "com.zerossl.api#GenerateEabCredentials"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "ZeroSSL REST API",
+        "smithy.api#documentation": "Hand-authored from https://zerossl.com/documentation/api/. Auth is the account's access key, sent in the `Authorization: ApiKey` header by the protocol (never modeled as an input). Failures come back as `{ success: false, error: { code, type, info } }`, usually with HTTP 200 \u2014 the protocol treats `success: false` as an error and matches on `error.type`."
+      }
+    },
+    "com.zerossl.api#InvalidAccessKey": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "The access key is missing or wrong (`invalid_access_key`, code 101).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "invalid_access_key"
+          },
+          {
+            "code": 101
+          }
+        ]
+      }
+    },
+    "com.zerossl.api#RateLimitExceeded": {
+      "type": "structure",
+      "members": {
+        "retryAfter": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Retry-After header parsed as an Effect Duration by the protocol."
+          }
+        },
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#retryable": {
+          "throttling": true
+        },
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "includes": "rate_limit"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

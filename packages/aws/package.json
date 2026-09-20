@@ -288,6 +288,12 @@
       "worker": "./src/util/ast.ts",
       "default": "./lib/util/ast.js"
     },
+    "./util/base64": {
+      "types": "./lib/util/base64.d.ts",
+      "bun": "./src/util/base64.ts",
+      "worker": "./src/util/base64.ts",
+      "default": "./lib/util/base64.js"
+    },
     "./util/error": {
       "types": "./lib/util/error.d.ts",
       "bun": "./src/util/error.ts",
@@ -311,6 +317,12 @@
       "bun": "./src/util/serialize-input.ts",
       "worker": "./src/util/serialize-input.ts",
       "default": "./lib/util/serialize-input.js"
+    },
+    "./util/shared-config": {
+      "types": "./lib/util/shared-config.d.ts",
+      "bun": "./src/util/shared-config.ts",
+      "worker": "./src/util/shared-config.ts",
+      "default": "./lib/util/shared-config.js"
     },
     "./util/stream": {
       "types": "./lib/util/stream.d.ts",
@@ -349,12 +361,8 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-aws"
   },
   "dependencies": {
-    "@aws-sdk/types": "catalog:",
     "@distilled.cloud/core": "workspace:*",
-    "@smithy/shared-ini-file-loader": "catalog:",
-    "@smithy/types": "catalog:",
-    "@smithy/util-base64": "catalog:",
-    "fast-xml-parser": "catalog:"
+    "@smithy/types": "catalog:"
   },
   "devDependencies": {
     "@effect/platform-bun": "catalog:",
