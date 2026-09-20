@@ -320,7 +320,7 @@ export const makeRestProtocol = <C>(
         response.status < 300 &&
         getAnn(outputAst, binaryResponseSymbol) !== undefined
       ) {
-        const bytes = yield* response.arrayBuffer as Effect.Effect<ArrayBuffer>;
+        const bytes = yield* response.arrayBuffer.pipe(Effect.orDie);
         return new Uint8Array(bytes);
       }
       // Read as text and parse tolerantly — error pages are often non-JSON.

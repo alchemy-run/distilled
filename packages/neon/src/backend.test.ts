@@ -1,5 +1,7 @@
 import { describe, expect, test, spyOn } from "bun:test";
+import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
@@ -322,6 +324,34 @@ describe("Neon backend wire contracts", () => {
       ),
     );
     expect(result).toEqual(bytes);
+  });
+
+  test("binary body-read failures use the same defect channel as text responses", async () => {
+    const exit = await Effect.runPromiseExit(
+      Neon.getProjectBranchBucketObject({
+        ...scope,
+        bucket_name: "fixture",
+        object_key: "broken.bin",
+      }).pipe(
+        Effect.provide(
+          harness(
+            () =>
+              new Response(
+                new ReadableStream({
+                  start(controller) {
+                    controller.error(new Error("body read failed"));
+                  },
+                }),
+              ),
+          ),
+        ),
+      ),
+    );
+    expect(Exit.isFailure(exit)).toBe(true);
+    if (Exit.isFailure(exit)) {
+      expect(Cause.hasDies(exit.cause)).toBe(true);
+      expect(Cause.hasFails(exit.cause)).toBe(false);
+    }
   });
 
   test("download redirects preserve bytes without forwarding account credentials across origins", async () => {
