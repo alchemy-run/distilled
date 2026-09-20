@@ -13,6 +13,11 @@ import { Problem } from "./Problem.tsx";
 
 const PROVIDERS = home.groups.flatMap((group) => group.packages);
 
+const OPERATIONS = PROVIDERS.reduce(
+  (sum, pkg) => sum + pkg.stats.operations,
+  0,
+);
+
 const HOME_SEO = {
   title: "Distilled — Effect-native SDKs for cloud providers",
   description: `Effect-native TypeScript SDKs for cloud providers, generated from each provider's own API description. Typed errors, streaming pagination, credentials as layers. One package per provider.`,
@@ -66,7 +71,11 @@ export const Home = (props: { provider?: string }) => {
         cardAlt={pinned() ? `Distilled — ${pinned()!.name}` : undefined}
       />
       <Page>
-        <Hero providerCount={home.providerCount} provider={pinned()} />
+        <Hero
+          providerCount={home.providerCount}
+          operationCount={OPERATIONS}
+          provider={pinned()}
+        />
         <Capabilities bench={home.bench} />
         <Problem facts={home.facts} />
         <HowItWorks />
