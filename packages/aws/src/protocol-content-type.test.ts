@@ -1,14 +1,12 @@
 import { describe, expect, test } from "bun:test";
-import * as API from "@distilled.cloud/core/api";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-import type { Operation } from "./client/operation.ts";
-import { makeRequestBuilder } from "./client/request-builder.ts";
+import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import * as Credentials from "./credentials.browser.ts";
 import * as Endpoint from "./endpoint.ts";
-import { AwsProtocol } from "./protocol.ts";
 import type * as Region from "./region.ts";
 import * as S3 from "./services/s3.ts";
 import * as SigV4 from "./sigv4.ts";
@@ -20,43 +18,53 @@ const credentials = {
   region: "us-east-1" as Region.RegionName,
 };
 
-const layer = Layer.mergeAll(
-  AwsProtocol,
-  Layer.succeed(Credentials.Credentials, Effect.succeed(credentials)),
-  Endpoint.of("https://s3.us-east-1.amazonaws.com"),
-);
-
-const multipart = {
-  input: S3.CreateMultipartUploadRequest,
-  output: S3.CreateMultipartUploadOutput,
-  errors: [],
-  operationName: "CreateMultipartUpload",
-} satisfies Operation;
-
-const putObject = {
-  input: S3.PutObjectRequest,
-  output: S3.PutObjectOutput,
-  errors: [],
-  operationName: "PutObject",
-} satisfies Operation;
-
-const serialize = (operation: Operation, input: unknown) =>
+const capture = <A, E>(
+  operation: Effect.Effect<
+    A,
+    E,
+    Credentials.Credentials | HttpClient.HttpClient
+  >,
+) =>
   Effect.gen(function* () {
-    const wire = yield* makeRequestBuilder(operation)(input);
-    const protocol = yield* API.Protocol;
-    const request = yield* protocol.encode({
-      input,
-      inputAst: operation.input.ast,
-      config: operation,
-    });
+    const requests: HttpClientRequest.HttpClientRequest[] = [];
+    const client = HttpClient.make((request) =>
+      Effect.sync(() => {
+        requests.push(request);
+        return HttpClientResponse.fromWeb(
+          request,
+          request.method === "POST"
+            ? new Response(
+                '<InitiateMultipartUploadResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Bucket>examplebucket</Bucket><Key>reports/part.md</Key><UploadId>upload-id</UploadId></InitiateMultipartUploadResult>',
+                { headers: { "content-type": "application/xml" } },
+              )
+            : new Response("", { headers: { etag: '"object-etag"' } }),
+        );
+      }),
+    );
+    yield* operation.pipe(
+      Effect.provide(
+        Layer.mergeAll(
+          Layer.succeed(HttpClient.HttpClient, client),
+          Layer.succeed(Credentials.Credentials, Effect.succeed(credentials)),
+          Endpoint.of("https://s3.us-east-1.amazonaws.com"),
+        ),
+      ),
+    );
+    expect(requests).toHaveLength(1);
+    const request = requests[0]!;
     expect(request.headers["x-amz-date"]).toMatch(/^\d{8}T\d{6}Z$/);
+    const signedHeaderNames = request.headers.authorization
+      .split("SignedHeaders=")[1]!
+      .split(",")[0]!
+      .split(";");
 
-    // Re-sign the serialized input at the protocol's signing time.
+    // Re-sign the exact headers sent to the HTTP transport.
     const signed = yield* SigV4.sign({
-      method: wire.method,
+      method: request.method,
       url: request.url,
-      headers: wire.headers,
-      body: wire.body instanceof ReadableStream ? undefined : wire.body,
+      headers: Object.fromEntries(
+        signedHeaderNames.map((name) => [name, request.headers[name]]),
+      ),
       accessKeyId: Redacted.value(credentials.accessKeyId),
       secretAccessKey: credentials.secretAccessKey,
       sessionToken: credentials.sessionToken,
@@ -68,18 +76,18 @@ const serialize = (operation: Operation, input: unknown) =>
     expect(request.headers.authorization).toBe(signed.headers.authorization);
     expect(request.headers["x-amz-security-token"]).toBe("SESSION+/=");
     expect(request.headers["x-amz-content-sha256"]).toBe("UNSIGNED-PAYLOAD");
-    return { wire, request };
-  }).pipe(Effect.provide(layer));
+    return request;
+  });
 
 const object = { Bucket: "examplebucket", Key: "reports/part.md" };
 
 describe("AwsProtocol Content-Type serialization", () => {
   test("preserves CreateMultipartUpload ContentType with an empty body", async () => {
-    const { wire, request } = await Effect.runPromise(
-      serialize(multipart, { ...object, ContentType: "text/markdown" }),
+    const request = await Effect.runPromise(
+      capture(
+        S3.createMultipartUpload({ ...object, ContentType: "text/markdown" }),
+      ),
     );
-    expect(wire.body).toBeUndefined();
-    expect(wire.headers["Content-Type"]).toBe("text/markdown");
     expect(request.method).toBe("POST");
     expect(new URL(request.url).searchParams.has("uploads")).toBe(true);
     expect(request.body._tag).toBe("Empty");
@@ -95,11 +103,9 @@ describe("AwsProtocol Content-Type serialization", () => {
   });
 
   test("does not add Content-Type when CreateMultipartUpload omits it", async () => {
-    const { wire, request } = await Effect.runPromise(
-      serialize(multipart, object),
+    const request = await Effect.runPromise(
+      capture(S3.createMultipartUpload(object)),
     );
-    expect(wire.body).toBeUndefined();
-    expect(wire.headers["Content-Type"]).toBeUndefined();
     expect(request.body._tag).toBe("Empty");
     expect(request.headers["content-type"]).toBeUndefined();
     expect(request.headers["content-length"]).toBeUndefined();
@@ -115,12 +121,10 @@ describe("AwsProtocol Content-Type serialization", () => {
     ["bytes", new TextEncoder().encode(content)],
   ] as const) {
     test(`preserves modeled Content-Type and ${name} in a regular PutObject body`, async () => {
-      const { request } = await Effect.runPromise(
-        serialize(putObject, {
-          ...object,
-          Body,
-          ContentType: "text/markdown",
-        }),
+      const request = await Effect.runPromise(
+        capture(
+          S3.putObject({ ...object, Body, ContentType: "text/markdown" }),
+        ),
       );
       expect(request.method).toBe("PUT");
       expect(request.body._tag).toBe("Uint8Array");
@@ -137,13 +141,11 @@ describe("AwsProtocol Content-Type serialization", () => {
   }
 
   test("retains the default content type for a regular byte body", async () => {
-    const { wire, request } = await Effect.runPromise(
-      serialize(putObject, {
-        ...object,
-        Body: new TextEncoder().encode(content),
-      }),
+    const request = await Effect.runPromise(
+      capture(
+        S3.putObject({ ...object, Body: new TextEncoder().encode(content) }),
+      ),
     );
-    expect(wire.headers["Content-Type"]).toBeUndefined();
     expect(request.body._tag).toBe("Uint8Array");
     expect(request.headers["content-type"]).toBe("application/octet-stream");
     expect(request.headers["content-length"]).toBe(String(content.length));
