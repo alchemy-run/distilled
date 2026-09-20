@@ -278,6 +278,7 @@ it("REST XML event payloads retain the synchronous raw-text fallback", async () 
   ]);
 });
 
+// Public AWS example keys and a dummy session token; requests use an in-memory HTTP client.
 const credentials = {
   accessKeyId: Redacted.make("AKIAIOSFODNN7EXAMPLE"),
   secretAccessKey: Redacted.make("wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"),
