@@ -466,6 +466,11 @@ const encode = ({
       )(signedRequest.url),
       HttpClientRequest.setHeaders(signedHeaders),
       HttpClientRequest.setBody(httpBody),
+      // Empty bodies clear Content-Type, which S3 also uses for object metadata.
+      (request) =>
+        httpBody._tag === "Empty" && contentType !== undefined
+          ? HttpClientRequest.setHeader(request, "content-type", contentType)
+          : request,
     );
   });
 
