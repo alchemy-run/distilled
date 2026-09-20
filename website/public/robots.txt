@@ -1,0 +1,3 @@
+# https://distilled.cloud — full site is crawlable.
+User-agent: *
+Allow: /

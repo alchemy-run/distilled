@@ -1,6 +1,6 @@
 ---
 name: distilled-sdk
-description: Build or update a distilled SDK for an API provider — sourcing its OpenAPI/Smithy/GraphQL/discovery description, adding the spec mirror that feeds it, generating packages/<provider>, and regenerating an existing one. Use for "create a distilled SDK for <provider>", adding a provider, writing or fixing a fetch-specs.ts, working on stacks/distilled-submodules or a spec-mirror-* repository, or anything about where a package's specs come from.
+description: Build or update a distilled SDK for an API provider — sourcing its OpenAPI/Smithy/GraphQL/discovery description, adding the spec mirror that feeds it, generating packages/<provider>, listing it on distilled.cloud with a category and a logo, and regenerating an existing one. Use for "create a distilled SDK for <provider>", adding a provider, writing or fixing a fetch-specs.ts, giving a provider a catalogue group or brand mark, working on stacks/distilled-submodules or a spec-mirror-* repository, or anything about where a package's specs come from.
 ---
 
 # Building a distilled SDK
@@ -191,7 +191,53 @@ in the index, so a stanza without one is skipped by `pnpm specs:sync` and by
 every `submodule update` — and it becomes a real submodule when you run the
 same command again after the mirror is deployed.
 
-## Step 7 — check
+## Step 7 — list it on the website
+
+The catalogue on distilled.cloud reads `packages/*/package.json` at build
+time, so a new non-private package appears on its own — in the catch-all
+group **More**, with a generated monogram where a logo should be. Two files
+under `website/build/` fix that, and both tolerate a package that is not in
+the tree yet, so the entries belong in the PR that adds the SDK.
+
+**Category** — add `<pkg>` to a group array in `GROUPS`
+(`website/build/packages.ts`). Order within a group does not matter; the
+catalogue sorts each group by package name. While you are there add
+`SEARCH_HINTS[<pkg>]` — extra words the catalogue filter matches on top of the
+npm name and the directory, which it already matches (`neon: "postgres
+serverless"`).
+
+**Logo** — add a `{ viewBox, inner }` entry to
+`website/build/data/brand-icons.json`, keyed by the same `<pkg>`:
+
+```json
+"neon": {
+  "viewBox": "0 0 64 64",
+  "inner": "<path d=\"M63 0.0177…\" fill=\"currentColor\"/>"
+}
+```
+
+- `inner` is the source SVG's children — no `<svg>` wrapper, no `width` or
+  `height`. Keep the source's own `viewBox` or the mark renders cropped.
+- Every fill and stroke must be `currentColor`. Marks are monochrome and
+  inherit the card's colour, which differs between themes and on hover, so a
+  hardcoded hex disappears in one of them.
+- `build/plugin.ts` concatenates the entries into one `/icons.svg` sprite as
+  `<symbol id="i-<pkg>">` and the markup is injected verbatim. Use a source
+  you trust, and rename any internal `id` (clip paths, gradients) — they are
+  global in the sprite and collide across providers.
+- Sources so far are recorded in the file's `_license` entry: svgl.app for
+  most, Simple Icons (CC0) where svgl lacks the brand, official vector files
+  otherwise. Add the provenance there when you introduce a new kind.
+
+Neither is a build failure — "More" and the monogram exist so a new package
+never breaks the site, and plenty of providers still run on a monogram — but a
+provider with both is findable by search and looks finished.
+
+The catalogue only lists packages that export at least one
+`API.OperationMethod`, so a support package (`core`) never shows up and a
+`GROUPS` entry for one would be dead config.
+
+## Step 8 — check
 
 ```sh
 pnpm specs:check     # mirror manifest ↔ spec-repos/ ↔ .gitmodules ↔ packages/
@@ -202,7 +248,7 @@ pnpm format          # generated output is committed formatted
 `pnpm generate` formats at the end for a reason: **never diff regeneration
 results before formatting**, or every file looks changed.
 
-## Step 8 — after merge
+## Step 9 — after merge
 
 The stack deploys on push to `main` and creates `spec-mirror-<pkg>`, seeded
 with your fetch script and a workflow that refetches daily. Then, in a
