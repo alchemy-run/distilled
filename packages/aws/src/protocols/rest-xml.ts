@@ -59,6 +59,8 @@ import {
   deserializePrimitive,
   escapeXml,
   parseXml,
+  parseXmlSync,
+  XmlParseError,
   unwrapArrayValue,
   wrapTag,
 } from "../util/xml.ts";
@@ -258,9 +260,10 @@ export const restXmlProtocol: Protocol = (
             const text = new TextDecoder().decode(payload);
             if (!text) return {};
             try {
-              return parseXml(text);
-            } catch {
-              return { payload: text };
+              return parseXmlSync(text);
+            } catch (error) {
+              if (error instanceof XmlParseError) return { payload: text };
+              throw error;
             }
           };
           result[outputPayloadProp.name] = parseEventStreamToUnion(
@@ -285,7 +288,7 @@ export const restXmlProtocol: Protocol = (
         if (outputPayloadProp.isRawString) {
           result[outputPayloadProp.name] = bodyText;
         } else {
-          const parsed = parseXml(bodyText);
+          const parsed = yield* parseXml(bodyText);
           result[outputPayloadProp.name] = deserializeValue(
             outputPayloadProp.type,
             outputPayloadProp.xmlName
@@ -297,7 +300,7 @@ export const restXmlProtocol: Protocol = (
 
       // Parse body XML for non-payload properties
       if (bodyText && !outputPayloadProp) {
-        const parsed = parseXml(bodyText);
+        const parsed = yield* parseXml(bodyText);
         const rawContent = outputXmlName ? parsed[outputXmlName] : parsed;
 
         if (isUnwrappedOutput && unwrappedPropName) {
@@ -359,7 +362,7 @@ export const restXmlProtocol: Protocol = (
       }
 
       // Parse XML body
-      const parsed = parseXml(bodyText);
+      const parsed = yield* parseXml(bodyText);
 
       // restXml error structure:
       // Default: <ErrorResponse><Error><Code>...</Code><Message>...</Message>...</Error><RequestId>...</RequestId></ErrorResponse>
@@ -546,7 +549,7 @@ function deserializeValue(ast: AST.AST, value: unknown): unknown {
 }
 
 /**
- * Extract text content from fast-xml-parser's format.
+ * Extract text content from the compact XML representation.
  * Handles: { "#text": "value", "@_xmlns": "..." } → "value"
  * Or: { "@_xmlns": "..." } (empty element) → undefined
  */

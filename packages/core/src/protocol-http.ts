@@ -149,6 +149,18 @@ export const mapKeysByDictionary = (
  * TS-cased content still reaches the wire in wire case. Content with no
  * dictionary in scope passes through verbatim.
  */
+/**
+ * Value form for a `StringEncoded()` member: the string spelling of the
+ * value, element-wise for lists. `null` stays `null` — an API that models a
+ * flag as `"true" | "false"` still means "unset" by null, not `"null"`.
+ */
+const stringEncode = (value: unknown): unknown =>
+  value === null
+    ? null
+    : Array.isArray(value)
+      ? value.map(stringEncode)
+      : String(value);
+
 export const mapKeys = (
   ast: AST.AST,
   value: unknown,
@@ -294,7 +306,13 @@ export const mapKeys = (
       consumed.add(from);
       const v = (value as Record<string, unknown>)[from];
       if (v === undefined) continue;
-      out[to] = mapKeys(p.type, v, direction, dict);
+      // A `StringEncoded()` member nested in a body struct (e.g. Azure's
+      // `hardwareProfile.dynamicMemoryEnabled`) stringifies here — the
+      // top-level pass in `buildRequest` only sees the outermost member.
+      out[to] =
+        direction === "encode" && hasPropAnn(p, stringEncodedSymbol)
+          ? stringEncode(v)
+          : mapKeys(p.type, v, direction, dict);
     }
     for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
       if (consumed.has(k) || v === undefined) continue;
@@ -334,18 +352,6 @@ const BODYLESS = new Set(["GET", "HEAD"]);
  * filter matching nothing — the call "succeeds" with zero results and the
  * bug is invisible to the caller.
  */
-/**
- * Value form for a `StringEncoded()` member: the string spelling of the
- * value, element-wise for lists. `null` stays `null` — an API that models a
- * flag as `"true" | "false"` still means "unset" by null, not `"null"`.
- */
-const stringEncode = (value: unknown): unknown =>
-  value === null
-    ? null
-    : Array.isArray(value)
-      ? value.map(stringEncode)
-      : String(value);
-
 const appendQuery = (
   query: URLSearchParams,
   name: string,

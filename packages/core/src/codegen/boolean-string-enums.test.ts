@@ -268,3 +268,48 @@ describe("generateService", () => {
     expect(code).not.toContain('"true" | "false"');
   });
 });
+
+describe("nested structures", () => {
+  const nested = (sharedWithResponse: boolean) =>
+    model({
+      "com.example.x#GetThing": {
+        type: "operation",
+        input: { target: "com.example.x#GetThingRequest" },
+        output: { target: "com.example.x#GetThingResponse" },
+      },
+      "com.example.x#GetThingRequest": {
+        type: "structure",
+        traits: { "smithy.api#input": {} },
+        members: { profile: { target: "com.example.x#Profile" } },
+      },
+      "com.example.x#GetThingResponse": {
+        type: "structure",
+        traits: { "smithy.api#output": {} },
+        members: sharedWithResponse
+          ? { profile: { target: "com.example.x#Profile" } }
+          : {},
+      },
+      "com.example.x#Profile": {
+        type: "structure",
+        members: { dynamicMemoryEnabled: { target: "com.example.x#Flag" } },
+      },
+      "com.example.x#Flag": boolEnum,
+    });
+
+  test("retargets a member of a structure only requests reach", () => {
+    const m = nested(false);
+    expect(booleanStringEnums(m)).toEqual({ members: 1, lists: 0 });
+    const member =
+      m.shapes["com.example.x#Profile"].members.dynamicMemoryEnabled;
+    expect(member.target).toBe("smithy.api#Boolean");
+    expect(member.traits[STRING_ENCODED_TRAIT]).toEqual({});
+  });
+
+  test("leaves a structure a response also delivers", () => {
+    const m = nested(true);
+    expect(booleanStringEnums(m)).toEqual({ members: 0, lists: 0 });
+    expect(
+      m.shapes["com.example.x#Profile"].members.dynamicMemoryEnabled.target,
+    ).toBe("com.example.x#Flag");
+  });
+});

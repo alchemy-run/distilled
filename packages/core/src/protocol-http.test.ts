@@ -19,6 +19,14 @@ const JsonInput = S.Struct({
   flags: S.optional(
     S.Array(S.Boolean).pipe(T.Body("flags"), T.StringEncoded()),
   ),
+  profile: S.optional(
+    S.Struct({
+      nested: S.optional(
+        S.Boolean.pipe(T.Body("nested_flag"), T.StringEncoded()),
+      ),
+      plain: S.optional(S.Boolean.pipe(T.Body("plain_flag"))),
+    }).pipe(T.Body("profile")),
+  ),
 }).pipe(T.Http({ method: "POST", uri: "/things" }));
 
 const jsonBodyOf = (input: unknown): unknown => {
@@ -46,6 +54,12 @@ describe("StringEncoded members", () => {
   test("a list stringifies element-wise", () => {
     expect(jsonBodyOf({ flags: [true, false] })).toEqual({
       flags: ["true", "false"],
+    });
+  });
+
+  test("a member nested in a body struct stringifies too", () => {
+    expect(jsonBodyOf({ profile: { nested: true, plain: true } })).toEqual({
+      profile: { nested_flag: "true", plain_flag: true },
     });
   });
 
