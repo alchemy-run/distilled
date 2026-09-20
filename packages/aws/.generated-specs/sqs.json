@@ -4112,6 +4112,9 @@
           "target": "com.amazonaws.sqs#UnsupportedOperation"
         },
         {
+          "target": "aws.patched#InvalidParameterValueException"
+        },
+        {
           "target": "aws.patched#RequestLimitExceeded"
         },
         {

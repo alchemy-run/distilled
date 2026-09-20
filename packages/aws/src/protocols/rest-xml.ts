@@ -501,18 +501,28 @@ function serializeObject(
 // XML Deserialization
 // =============================================================================
 
+function isStructureAST(ast: AST.AST): boolean {
+  const unwrapped = unwrapUnion(ast);
+  if (unwrapped !== ast) return isStructureAST(unwrapped);
+  if (ast._tag === "Suspend") return isStructureAST(ast.thunk());
+  if (ast.encoding && ast.encoding.length > 0) {
+    return isStructureAST(ast.encoding[0].to);
+  }
+  return ast._tag === "Objects" && ast.indexSignatures.length === 0;
+}
+
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
   if (value == null) return undefined;
-  // Empty strings: preserve for string types, treat as undefined for others
-  if (value === "" && !isStringAST(ast)) return undefined;
 
-  // Handle empty objects (from empty XML elements) - treat as undefined
+  // An empty XML element can represent a present structure, but not a map.
   if (
-    typeof value === "object" &&
-    !Array.isArray(value) &&
-    Object.keys(value as object).length === 0
+    value === "" ||
+    (typeof value === "object" &&
+      !Array.isArray(value) &&
+      Object.keys(value as object).length === 0)
   ) {
-    return undefined;
+    if (isStructureAST(ast)) return {};
+    return value === "" && isStringAST(ast) ? "" : undefined;
   }
 
   if (isArrayAST(ast)) {
@@ -601,7 +611,6 @@ function deserializeObject(
       result[key] = items.map((item) => deserializeValue(elAST, item));
     } else {
       const deserialized = deserializeValue(prop.type, propValue);
-      // Only assign if not undefined (empty XML elements become undefined)
       if (deserialized !== undefined) {
         result[key] = deserialized;
       }
