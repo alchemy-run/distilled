@@ -1,6 +1,6 @@
 ---
 name: distilled-sdk
-description: Build or update a distilled SDK for an API provider — sourcing its OpenAPI/Smithy/GraphQL/discovery description, adding the spec mirror that feeds it, generating packages/<provider>, listing it on distilled.cloud with a category and a logo, and regenerating an existing one. Use for "create a distilled SDK for <provider>", adding a provider, writing or fixing a fetch-specs.ts, giving a provider a catalogue group or brand mark, working on stacks/distilled-submodules or a spec-mirror-* repository, or anything about where a package's specs come from.
+description: Build or update a distilled SDK for an API provider — sourcing its OpenAPI/Smithy/GraphQL/discovery description, adding the spec mirror that feeds it, generating packages/<provider>, listing it on distilled.cloud with a category and a logo, writing the package README and PR with copy-pasteable examples, and regenerating an existing one. Use for "create a distilled SDK for <provider>", adding a provider, writing or fixing a fetch-specs.ts, giving a provider a catalogue group or brand mark, working on stacks/distilled-submodules or a spec-mirror-* repository, or anything about where a package's specs come from.
 ---
 
 # Building a distilled SDK
@@ -237,7 +237,62 @@ The catalogue only lists packages that export at least one
 `API.OperationMethod`, so a support package (`core`) never shows up and a
 `GROUPS` entry for one would be dead config.
 
-## Step 8 — check
+## Step 8 — README, examples, and the PR
+
+A new SDK ships `packages/<pkg>/README.md` and a PR body that a caller can
+paste from. `listX({})` with no Layer, credentials, or HTTP client is not an
+example. Shape the README after [`packages/aws/README.md`](../../../packages/aws/README.md):
+install, a complete Effect program, then auth.
+
+**README** (`packages/<pkg>/README.md`):
+
+```md
+# @distilled.cloud/<pkg>
+
+Effect-native <Name> SDK, generated from <spec URL>.
+
+## Installation
+
+npm install @distilled.cloud/<pkg> effect
+
+## Quick start
+
+<complete program — see below>
+
+## Auth
+
+<env vars the credentials layer actually reads, and the header they become>
+```
+
+The quick-start program must compile against the generated names:
+
+- `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv, <Pkg>Protocol)`
+- at least one real call (`create*` / `exec*` / `get*`, not only `list*`)
+- `Effect.provide` + `Effect.runPromise`
+
+If a generated operation cannot work as REST — WebSocket `101`,
+`application/octet-stream` bodies, SSE — say so and show the hand-written
+helper (or omit that call), never the stub. Keep `src/index.ts`'s `@example`
+the same shortest program.
+
+When credentials exist, run that program live and mention it in the PR
+(`execVm` status 0, PTY `sessionInfo`, …). Delete anything the example created.
+
+**PR** — title `feat(<pkg>): add the <Name> SDK`. Body, in order:
+
+1. One sentence: Effect-native SDK for X, generated from [the spec URL].
+2. Bullets: operation count and service split; auth (env + header + default
+   host); pagination; non-JSON surfaces; wiring (SpecRepos, `.gitmodules`,
+   tsconfig, website, lockfile). Note that `spec-mirror-<pkg>` is created by
+   the distilled-submodules stack on merge to main.
+3. The same complete example as the README.
+4. `Checks: pnpm specs:check` green, `tsc -b packages/<pkg> --noCheck false`
+   green, `DISTILLED_SPECS_LOCAL=1 pnpm generate <pkg>` reproduces output.
+
+Open the PR after step 9. npm trusted publishing (`npm-oidc-setup`) needs a
+logged-in `npm whoami`; skip it and say so when this environment is not.
+
+## Step 9 — check
 
 ```sh
 pnpm specs:check     # mirror manifest ↔ spec-repos/ ↔ .gitmodules ↔ packages/
@@ -248,7 +303,7 @@ pnpm format          # generated output is committed formatted
 `pnpm generate` formats at the end for a reason: **never diff regeneration
 results before formatting**, or every file looks changed.
 
-## Step 9 — after merge
+## Step 10 — after merge
 
 The stack deploys on push to `main` and creates `spec-mirror-<pkg>`, seeded
 with your fetch script and a workflow that refetches daily. Then, in a
