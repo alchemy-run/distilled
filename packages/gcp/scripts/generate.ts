@@ -17,9 +17,9 @@
  *   bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services
  */
 
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import { PURE } from "@distilled.cloud/core/codegen/emit";
+import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { lowerFirst } from "@distilled.cloud/core/codegen/naming";
 
 const ERROR_MATCHERS_TRAIT = "com.gcp.protocols#errorMatchers";
@@ -61,10 +61,7 @@ const makeGcpSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
   shapeOverride: ({ def, name }) => {
     const simple = SIMPLE_SHAPES[def.type as string];
     if (!simple) return undefined;
-    return [
-      `export type ${name} = ${simple[0]};`,
-      `export const ${name} = ${PURE}${simple[1]};\n`,
-    ];
+    return [`export type ${name} = ${simple[0]};`, `export const ${name} = ${PURE}${simple[1]};\n`];
   },
 
   // The standard GCP error envelope fields, declared on every generated 4xx

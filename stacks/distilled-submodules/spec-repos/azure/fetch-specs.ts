@@ -102,10 +102,7 @@ function selectSpecs(allPaths: string[]): Set<string> {
 
     const provider = segments[3];
     if (provider === undefined) continue;
-    if (
-      !provider.startsWith("Microsoft.") &&
-      !provider.startsWith("microsoft.")
-    ) {
+    if (!provider.startsWith("Microsoft.") && !provider.startsWith("microsoft.")) {
       continue;
     }
 
@@ -130,9 +127,7 @@ function selectSpecs(allPaths: string[]): Set<string> {
 
   for (const versions of stables.values()) {
     // Same ordering as the converter: plain lexicographic, last wins.
-    const latest = [...versions.keys()]
-      .sort((a, b) => a.localeCompare(b))
-      .at(-1)!;
+    const latest = [...versions.keys()].sort((a, b) => a.localeCompare(b)).at(-1)!;
     for (const path of versions.get(latest)!) wanted.add(path);
   }
 

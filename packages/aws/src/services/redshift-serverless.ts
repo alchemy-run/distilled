@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Redshift Serverless",
   serviceShapeName: "RedshiftServerless",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://redshift-serverless-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,9 +66,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://redshift-serverless.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://redshift-serverless.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -186,16 +178,13 @@ export interface ConvertRecoveryPointToSnapshotRequest {
   retentionPeriod?: number;
   tags?: Tag[];
 }
-export const ConvertRecoveryPointToSnapshotRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      recoveryPointId: S.String,
-      snapshotName: S.String,
-      retentionPeriod: S.optional(S.Number),
-      tags: S.optional(TagList),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ConvertRecoveryPointToSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recoveryPointId: S.String,
+    snapshotName: S.String,
+    retentionPeriod: S.optional(S.Number),
+    tags: S.optional(TagList),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ConvertRecoveryPointToSnapshotRequest",
 }) as any as S.Schema<ConvertRecoveryPointToSnapshotRequest>;
@@ -232,9 +221,7 @@ export const Snapshot = /*@__PURE__*/ S.suspend(() =>
     namespaceName: S.optional(S.String),
     namespaceArn: S.optional(S.String),
     snapshotName: S.optional(S.String),
-    snapshotCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    snapshotCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     adminUsername: S.optional(S.String),
     status: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
@@ -247,9 +234,7 @@ export const Snapshot = /*@__PURE__*/ S.suspend(() =>
     elapsedTimeInSeconds: S.optional(S.Number),
     snapshotRetentionPeriod: S.optional(S.Number),
     snapshotRemainingDays: S.optional(S.Number),
-    snapshotRetentionStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    snapshotRetentionStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     snapshotArn: S.optional(S.String),
     accountsWithRestoreAccess: S.optional(AccountIdList),
     accountsWithProvisionedRestoreAccess: S.optional(AccountIdList),
@@ -260,8 +245,8 @@ export const Snapshot = /*@__PURE__*/ S.suspend(() =>
 export interface ConvertRecoveryPointToSnapshotResponse {
   snapshot?: Snapshot;
 }
-export const ConvertRecoveryPointToSnapshotResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ snapshot: S.optional(Snapshot) }),
+export const ConvertRecoveryPointToSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ snapshot: S.optional(Snapshot) }),
 ).annotate({
   identifier: "ConvertRecoveryPointToSnapshotResponse",
 }) as any as S.Schema<ConvertRecoveryPointToSnapshotResponse>;
@@ -273,15 +258,12 @@ export interface CreateCustomDomainAssociationRequest {
   customDomainName: string;
   customDomainCertificateArn: string;
 }
-export const CreateCustomDomainAssociationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      workgroupName: S.String,
-      customDomainName: S.String,
-      customDomainCertificateArn: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const CreateCustomDomainAssociationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workgroupName: S.String,
+    customDomainName: S.String,
+    customDomainCertificateArn: S.String,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateCustomDomainAssociationRequest",
 }) as any as S.Schema<CreateCustomDomainAssociationRequest>;
@@ -291,16 +273,15 @@ export interface CreateCustomDomainAssociationResponse {
   customDomainCertificateArn?: string;
   customDomainCertificateExpiryTime?: Date;
 }
-export const CreateCustomDomainAssociationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      customDomainName: S.optional(S.String),
-      workgroupName: S.optional(S.String),
-      customDomainCertificateArn: S.optional(S.String),
-      customDomainCertificateExpiryTime: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-    }),
+export const CreateCustomDomainAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customDomainName: S.optional(S.String),
+    workgroupName: S.optional(S.String),
+    customDomainCertificateArn: S.optional(S.String),
+    customDomainCertificateExpiryTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
 ).annotate({
   identifier: "CreateCustomDomainAssociationResponse",
 }) as any as S.Schema<CreateCustomDomainAssociationResponse>;
@@ -325,9 +306,7 @@ export const CreateEndpointAccessRequest = /*@__PURE__*/ S.suspend(() =>
     workgroupName: S.String,
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     ownerAccount: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEndpointAccessRequest",
 }) as any as S.Schema<CreateEndpointAccessRequest>;
@@ -344,9 +323,7 @@ export const VpcSecurityGroupMembership = /*@__PURE__*/ S.suspend(() =>
   identifier: "VpcSecurityGroupMembership",
 }) as any as S.Schema<VpcSecurityGroupMembership>;
 export type VpcSecurityGroupMembershipList = VpcSecurityGroupMembership[];
-export const VpcSecurityGroupMembershipList = /*@__PURE__*/ S.Array(
-  VpcSecurityGroupMembership,
-);
+export const VpcSecurityGroupMembershipList = /*@__PURE__*/ S.Array(VpcSecurityGroupMembership);
 export interface NetworkInterface {
   networkInterfaceId?: string;
   subnetId?: string;
@@ -396,9 +373,7 @@ export const EndpointAccess = /*@__PURE__*/ S.suspend(() =>
     endpointName: S.optional(S.String),
     endpointStatus: S.optional(S.String),
     workgroupName: S.optional(S.String),
-    endpointCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    endpointCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     port: S.optional(S.Number),
     address: S.optional(S.String),
     subnetIds: S.optional(SubnetIdList),
@@ -453,9 +428,7 @@ export const CreateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
     manageAdminPassword: S.optional(S.Boolean),
     adminPasswordSecretKmsKeyId: S.optional(S.String),
     redshiftIdcApplicationArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateNamespaceRequest",
 }) as any as S.Schema<CreateNamespaceRequest>;
@@ -517,9 +490,7 @@ export const Namespace = /*@__PURE__*/ S.suspend(() =>
     iamRoles: S.optional(IamRoleArnList),
     logExports: S.optional(LogExportList),
     status: S.optional(S.String),
-    creationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     adminPasswordSecretArn: S.optional(S.String),
     adminPasswordSecretKmsKeyId: S.optional(S.String),
     lakehouseRegistrationStatus: S.optional(S.String),
@@ -547,9 +518,7 @@ export const CreateReservationRequest = /*@__PURE__*/ S.suspend(() =>
     capacity: S.Number,
     offeringId: S.String,
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateReservationRequest",
 }) as any as S.Schema<CreateReservationRequest>;
@@ -593,9 +562,7 @@ export const Reservation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reservationId: S.optional(S.String),
     reservationArn: S.optional(S.String),
-    startDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     capacity: S.optional(S.Number),
     offering: S.optional(ReservationOffering),
@@ -618,14 +585,13 @@ export interface CreateSnapshotScheduleActionParameters {
   retentionPeriod?: number;
   tags?: Tag[];
 }
-export const CreateSnapshotScheduleActionParameters = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      namespaceName: S.String,
-      snapshotNamePrefix: S.String,
-      retentionPeriod: S.optional(S.Number),
-      tags: S.optional(TagList),
-    }),
+export const CreateSnapshotScheduleActionParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespaceName: S.String,
+    snapshotNamePrefix: S.String,
+    retentionPeriod: S.optional(S.Number),
+    tags: S.optional(TagList),
+  }),
 ).annotate({
   identifier: "CreateSnapshotScheduleActionParameters",
 }) as any as S.Schema<CreateSnapshotScheduleActionParameters>;
@@ -635,9 +601,7 @@ export type TargetAction = {
 export const TargetAction = /*@__PURE__*/ S.Union([
   S.Struct({ createSnapshot: CreateSnapshotScheduleActionParameters }),
 ]);
-export type Schedule =
-  | { at: Date; cron?: never }
-  | { at?: never; cron: string };
+export type Schedule = { at: Date; cron?: never } | { at?: never; cron: string };
 export const Schedule = /*@__PURE__*/ S.Union([
   S.Struct({ at: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
   S.Struct({ cron: S.String }),
@@ -664,9 +628,7 @@ export const CreateScheduledActionRequest = /*@__PURE__*/ S.suspend(() =>
     scheduledActionDescription: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateScheduledActionRequest",
 }) as any as S.Schema<CreateScheduledActionRequest>;
@@ -725,9 +687,7 @@ export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     snapshotName: S.String,
     retentionPeriod: S.optional(S.Number),
     tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSnapshotRequest",
 }) as any as S.Schema<CreateSnapshotRequest>;
@@ -745,16 +705,13 @@ export interface CreateSnapshotCopyConfigurationRequest {
   snapshotRetentionPeriod?: number;
   destinationKmsKeyId?: string;
 }
-export const CreateSnapshotCopyConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      namespaceName: S.String,
-      destinationRegion: S.String,
-      snapshotRetentionPeriod: S.optional(S.Number),
-      destinationKmsKeyId: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const CreateSnapshotCopyConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespaceName: S.String,
+    destinationRegion: S.String,
+    snapshotRetentionPeriod: S.optional(S.Number),
+    destinationKmsKeyId: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSnapshotCopyConfigurationRequest",
 }) as any as S.Schema<CreateSnapshotCopyConfigurationRequest>;
@@ -781,8 +738,8 @@ export const SnapshotCopyConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface CreateSnapshotCopyConfigurationResponse {
   snapshotCopyConfiguration: SnapshotCopyConfiguration;
 }
-export const CreateSnapshotCopyConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ snapshotCopyConfiguration: SnapshotCopyConfiguration }),
+export const CreateSnapshotCopyConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ snapshotCopyConfiguration: SnapshotCopyConfiguration }),
 ).annotate({
   identifier: "CreateSnapshotCopyConfigurationResponse",
 }) as any as S.Schema<CreateSnapshotCopyConfigurationResponse>;
@@ -803,9 +760,7 @@ export const CreateUsageLimitRequest = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     period: S.optional(S.String),
     breachAction: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateUsageLimitRequest",
 }) as any as S.Schema<CreateUsageLimitRequest>;
@@ -902,9 +857,7 @@ export const CreateWorkgroupRequest = /*@__PURE__*/ S.suspend(() =>
     ipAddressType: S.optional(S.String),
     trackName: S.optional(S.String),
     extraComputeForAutomaticOptimization: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateWorkgroupRequest",
 }) as any as S.Schema<CreateWorkgroupRequest>;
@@ -967,9 +920,7 @@ export const Workgroup = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     endpoint: S.optional(Endpoint),
     publiclyAccessible: S.optional(S.Boolean),
-    creationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     port: S.optional(S.Number),
     customDomainName: S.optional(S.String),
     customDomainCertificateArn: S.optional(S.String),
@@ -999,17 +950,16 @@ export interface DeleteCustomDomainAssociationRequest {
   workgroupName: string;
   customDomainName: string;
 }
-export const DeleteCustomDomainAssociationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ workgroupName: S.String, customDomainName: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DeleteCustomDomainAssociationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ workgroupName: S.String, customDomainName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteCustomDomainAssociationRequest",
 }) as any as S.Schema<DeleteCustomDomainAssociationRequest>;
 export interface DeleteCustomDomainAssociationResponse {}
-export const DeleteCustomDomainAssociationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteCustomDomainAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteCustomDomainAssociationResponse",
 }) as any as S.Schema<DeleteCustomDomainAssociationResponse>;
@@ -1041,9 +991,7 @@ export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
     namespaceName: S.String,
     finalSnapshotName: S.optional(S.String),
     finalSnapshotRetentionPeriod: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteNamespaceRequest",
 }) as any as S.Schema<DeleteNamespaceRequest>;
@@ -1066,9 +1014,7 @@ export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteResourcePolicyRequest",
 }) as any as S.Schema<DeleteResourcePolicyRequest>;
 export interface DeleteResourcePolicyResponse {}
-export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteResourcePolicyResponse",
 }) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteScheduledActionRequest {
@@ -1110,19 +1056,18 @@ export const DeleteSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteSnapshotCopyConfigurationRequest {
   snapshotCopyConfigurationId: string;
 }
-export const DeleteSnapshotCopyConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ snapshotCopyConfigurationId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DeleteSnapshotCopyConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ snapshotCopyConfigurationId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteSnapshotCopyConfigurationRequest",
 }) as any as S.Schema<DeleteSnapshotCopyConfigurationRequest>;
 export interface DeleteSnapshotCopyConfigurationResponse {
   snapshotCopyConfiguration: SnapshotCopyConfiguration;
 }
-export const DeleteSnapshotCopyConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ snapshotCopyConfiguration: SnapshotCopyConfiguration }),
+export const DeleteSnapshotCopyConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ snapshotCopyConfiguration: SnapshotCopyConfiguration }),
 ).annotate({
   identifier: "DeleteSnapshotCopyConfigurationResponse",
 }) as any as S.Schema<DeleteSnapshotCopyConfigurationResponse>;
@@ -1175,9 +1120,7 @@ export const GetCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
     durationSeconds: S.optional(S.Number),
     workgroupName: S.optional(S.String),
     customDomainName: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetCredentialsRequest",
 }) as any as S.Schema<GetCredentialsRequest>;
@@ -1192,9 +1135,7 @@ export const GetCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
     dbUser: S.optional(SensitiveString),
     dbPassword: S.optional(SensitiveString),
     expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    nextRefreshTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    nextRefreshTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "GetCredentialsResponse",
@@ -1265,9 +1206,7 @@ export interface GetIdentityCenterAuthTokenResponse {
 export const GetIdentityCenterAuthTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.optional(SensitiveString),
-    expirationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    expirationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(S.encodeKeys({ token: "Token", expirationTime: "ExpirationTime" })),
 ).annotate({
   identifier: "GetIdentityCenterAuthTokenResponse",
@@ -1311,9 +1250,7 @@ export interface RecoveryPoint {
 export const RecoveryPoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recoveryPointId: S.optional(S.String),
-    recoveryPointCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    recoveryPointCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     totalSizeInMegaBytes: S.optional(S.Number),
     namespaceName: S.optional(S.String),
     workgroupName: S.optional(S.String),
@@ -1417,9 +1354,7 @@ export const GetSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     snapshotName: S.optional(S.String),
     ownerAccount: S.optional(S.String),
     snapshotArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetSnapshotRequest",
 }) as any as S.Schema<GetSnapshotRequest>;
@@ -1582,9 +1517,7 @@ export const ListCustomDomainAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     customDomainName: S.optional(S.String),
     customDomainCertificateArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListCustomDomainAssociationsRequest",
 }) as any as S.Schema<ListCustomDomainAssociationsRequest>;
@@ -1610,12 +1543,11 @@ export interface ListCustomDomainAssociationsResponse {
   nextToken?: string;
   associations?: Association[];
 }
-export const ListCustomDomainAssociationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      associations: S.optional(AssociationList),
-    }),
+export const ListCustomDomainAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    associations: S.optional(AssociationList),
+  }),
 ).annotate({
   identifier: "ListCustomDomainAssociationsResponse",
 }) as any as S.Schema<ListCustomDomainAssociationsResponse>;
@@ -1633,9 +1565,7 @@ export const ListEndpointAccessRequest = /*@__PURE__*/ S.suspend(() =>
     workgroupName: S.optional(S.String),
     vpcId: S.optional(S.String),
     ownerAccount: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEndpointAccessRequest",
 }) as any as S.Schema<ListEndpointAccessRequest>;
@@ -1661,9 +1591,7 @@ export const ListManagedWorkgroupsRequest = /*@__PURE__*/ S.suspend(() =>
     sourceArn: S.optional(S.String),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListManagedWorkgroupsRequest",
 }) as any as S.Schema<ListManagedWorkgroupsRequest>;
@@ -1690,17 +1618,13 @@ export const ManagedWorkgroupListItem = /*@__PURE__*/ S.suspend(() =>
     managedWorkgroupId: S.optional(S.String),
     sourceArn: S.optional(S.String),
     status: S.optional(ManagedWorkgroupStatus),
-    creationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "ManagedWorkgroupListItem",
 }) as any as S.Schema<ManagedWorkgroupListItem>;
 export type ManagedWorkgroups = ManagedWorkgroupListItem[];
-export const ManagedWorkgroups = /*@__PURE__*/ S.Array(
-  ManagedWorkgroupListItem,
-);
+export const ManagedWorkgroups = /*@__PURE__*/ S.Array(ManagedWorkgroupListItem);
 export interface ListManagedWorkgroupsResponse {
   nextToken?: string;
   managedWorkgroups?: ManagedWorkgroupListItem[];
@@ -1721,9 +1645,7 @@ export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListNamespacesRequest",
 }) as any as S.Schema<ListNamespacesRequest>;
@@ -1754,9 +1676,7 @@ export const ListRecoveryPointsRequest = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     namespaceName: S.optional(S.String),
     namespaceArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRecoveryPointsRequest",
 }) as any as S.Schema<ListRecoveryPointsRequest>;
@@ -1782,15 +1702,12 @@ export const ListReservationOfferingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListReservationOfferingsRequest",
 }) as any as S.Schema<ListReservationOfferingsRequest>;
 export type ReservationOfferingsList = ReservationOffering[];
-export const ReservationOfferingsList =
-  /*@__PURE__*/ S.Array(ReservationOffering);
+export const ReservationOfferingsList = /*@__PURE__*/ S.Array(ReservationOffering);
 export interface ListReservationOfferingsResponse {
   reservationOfferingsList: ReservationOffering[];
   nextToken?: string;
@@ -1811,9 +1728,7 @@ export const ListReservationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListReservationsRequest",
 }) as any as S.Schema<ListReservationsRequest>;
@@ -1841,9 +1756,7 @@ export const ListScheduledActionsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     namespaceName: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListScheduledActionsRequest",
 }) as any as S.Schema<ListScheduledActionsRequest>;
@@ -1860,9 +1773,7 @@ export const ScheduledActionAssociation = /*@__PURE__*/ S.suspend(() =>
   identifier: "ScheduledActionAssociation",
 }) as any as S.Schema<ScheduledActionAssociation>;
 export type ScheduledActionsList = ScheduledActionAssociation[];
-export const ScheduledActionsList = /*@__PURE__*/ S.Array(
-  ScheduledActionAssociation,
-);
+export const ScheduledActionsList = /*@__PURE__*/ S.Array(ScheduledActionAssociation);
 export interface ListScheduledActionsResponse {
   nextToken?: string;
   scheduledActions?: ScheduledActionAssociation[];
@@ -1880,32 +1791,26 @@ export interface ListSnapshotCopyConfigurationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListSnapshotCopyConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      namespaceName: S.optional(S.String),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListSnapshotCopyConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespaceName: S.optional(S.String),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSnapshotCopyConfigurationsRequest",
 }) as any as S.Schema<ListSnapshotCopyConfigurationsRequest>;
 export type SnapshotCopyConfigurations = SnapshotCopyConfiguration[];
-export const SnapshotCopyConfigurations = /*@__PURE__*/ S.Array(
-  SnapshotCopyConfiguration,
-);
+export const SnapshotCopyConfigurations = /*@__PURE__*/ S.Array(SnapshotCopyConfiguration);
 export interface ListSnapshotCopyConfigurationsResponse {
   nextToken?: string;
   snapshotCopyConfigurations: SnapshotCopyConfiguration[];
 }
-export const ListSnapshotCopyConfigurationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      snapshotCopyConfigurations: SnapshotCopyConfigurations,
-    }),
+export const ListSnapshotCopyConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    snapshotCopyConfigurations: SnapshotCopyConfigurations,
+  }),
 ).annotate({
   identifier: "ListSnapshotCopyConfigurationsResponse",
 }) as any as S.Schema<ListSnapshotCopyConfigurationsResponse>;
@@ -1927,9 +1832,7 @@ export const ListSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     ownerAccount: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSnapshotsRequest",
 }) as any as S.Schema<ListSnapshotsRequest>;
@@ -1959,9 +1862,7 @@ export const ListTableRestoreStatusRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     namespaceName: S.optional(S.String),
     workgroupName: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTableRestoreStatusRequest",
 }) as any as S.Schema<ListTableRestoreStatusRequest>;
@@ -2006,9 +1907,7 @@ export const ListTracksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTracksRequest",
 }) as any as S.Schema<ListTracksRequest>;
@@ -2035,9 +1934,7 @@ export const ListUsageLimitsRequest = /*@__PURE__*/ S.suspend(() =>
     usageType: S.optional(S.String),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListUsageLimitsRequest",
 }) as any as S.Schema<ListUsageLimitsRequest>;
@@ -2065,9 +1962,7 @@ export const ListWorkgroupsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     ownerAccount: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListWorkgroupsRequest",
 }) as any as S.Schema<ListWorkgroupsRequest>;
@@ -2113,9 +2008,7 @@ export const RestoreFromRecoveryPointRequest = /*@__PURE__*/ S.suspend(() =>
     namespaceName: S.String,
     workgroupName: S.String,
     maintainIntegration: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreFromRecoveryPointRequest",
 }) as any as S.Schema<RestoreFromRecoveryPointRequest>;
@@ -2151,9 +2044,7 @@ export const RestoreFromSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     manageAdminPassword: S.optional(S.Boolean),
     adminPasswordSecretKmsKeyId: S.optional(S.String),
     maintainIntegration: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreFromSnapshotRequest",
 }) as any as S.Schema<RestoreFromSnapshotRequest>;
@@ -2183,30 +2074,27 @@ export interface RestoreTableFromRecoveryPointRequest {
   newTableName: string;
   activateCaseSensitiveIdentifier?: boolean;
 }
-export const RestoreTableFromRecoveryPointRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      namespaceName: S.String,
-      workgroupName: S.String,
-      recoveryPointId: S.String,
-      sourceDatabaseName: S.String,
-      sourceSchemaName: S.optional(S.String),
-      sourceTableName: S.String,
-      targetDatabaseName: S.optional(S.String),
-      targetSchemaName: S.optional(S.String),
-      newTableName: S.String,
-      activateCaseSensitiveIdentifier: S.optional(S.Boolean),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const RestoreTableFromRecoveryPointRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespaceName: S.String,
+    workgroupName: S.String,
+    recoveryPointId: S.String,
+    sourceDatabaseName: S.String,
+    sourceSchemaName: S.optional(S.String),
+    sourceTableName: S.String,
+    targetDatabaseName: S.optional(S.String),
+    targetSchemaName: S.optional(S.String),
+    newTableName: S.String,
+    activateCaseSensitiveIdentifier: S.optional(S.Boolean),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreTableFromRecoveryPointRequest",
 }) as any as S.Schema<RestoreTableFromRecoveryPointRequest>;
 export interface RestoreTableFromRecoveryPointResponse {
   tableRestoreStatus?: TableRestoreStatus;
 }
-export const RestoreTableFromRecoveryPointResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ tableRestoreStatus: S.optional(TableRestoreStatus) }),
+export const RestoreTableFromRecoveryPointResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ tableRestoreStatus: S.optional(TableRestoreStatus) }),
 ).annotate({
   identifier: "RestoreTableFromRecoveryPointResponse",
 }) as any as S.Schema<RestoreTableFromRecoveryPointResponse>;
@@ -2234,9 +2122,7 @@ export const RestoreTableFromSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     targetSchemaName: S.optional(S.String),
     newTableName: S.String,
     activateCaseSensitiveIdentifier: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreTableFromSnapshotRequest",
 }) as any as S.Schema<RestoreTableFromSnapshotRequest>;
@@ -2260,9 +2146,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2279,9 +2163,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateCustomDomainAssociationRequest {
@@ -2289,15 +2171,12 @@ export interface UpdateCustomDomainAssociationRequest {
   customDomainName: string;
   customDomainCertificateArn: string;
 }
-export const UpdateCustomDomainAssociationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      workgroupName: S.String,
-      customDomainName: S.String,
-      customDomainCertificateArn: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const UpdateCustomDomainAssociationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workgroupName: S.String,
+    customDomainName: S.String,
+    customDomainCertificateArn: S.String,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateCustomDomainAssociationRequest",
 }) as any as S.Schema<UpdateCustomDomainAssociationRequest>;
@@ -2307,16 +2186,15 @@ export interface UpdateCustomDomainAssociationResponse {
   customDomainCertificateArn?: string;
   customDomainCertificateExpiryTime?: Date;
 }
-export const UpdateCustomDomainAssociationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      customDomainName: S.optional(S.String),
-      workgroupName: S.optional(S.String),
-      customDomainCertificateArn: S.optional(S.String),
-      customDomainCertificateExpiryTime: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-    }),
+export const UpdateCustomDomainAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customDomainName: S.optional(S.String),
+    workgroupName: S.optional(S.String),
+    customDomainCertificateArn: S.optional(S.String),
+    customDomainCertificateExpiryTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
 ).annotate({
   identifier: "UpdateCustomDomainAssociationResponse",
 }) as any as S.Schema<UpdateCustomDomainAssociationResponse>;
@@ -2328,9 +2206,7 @@ export const UpdateEndpointAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointName: S.String,
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateEndpointAccessRequest",
 }) as any as S.Schema<UpdateEndpointAccessRequest>;
@@ -2361,9 +2237,7 @@ export const UpdateLakehouseConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     lakehouseIdcRegistration: S.optional(S.String),
     lakehouseIdcApplicationArn: S.optional(S.String),
     dryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateLakehouseConfigurationRequest",
 }) as any as S.Schema<UpdateLakehouseConfigurationRequest>;
@@ -2373,14 +2247,13 @@ export interface UpdateLakehouseConfigurationResponse {
   lakehouseRegistrationStatus?: string;
   catalogArn?: string;
 }
-export const UpdateLakehouseConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      namespaceName: S.optional(S.String),
-      lakehouseIdcApplicationArn: S.optional(S.String),
-      lakehouseRegistrationStatus: S.optional(S.String),
-      catalogArn: S.optional(S.String),
-    }),
+export const UpdateLakehouseConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespaceName: S.optional(S.String),
+    lakehouseIdcApplicationArn: S.optional(S.String),
+    lakehouseRegistrationStatus: S.optional(S.String),
+    catalogArn: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "UpdateLakehouseConfigurationResponse",
 }) as any as S.Schema<UpdateLakehouseConfigurationResponse>;
@@ -2418,9 +2291,7 @@ export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
     s3TableNames: S.optional(S3TableNameList),
     s3TableKmsKeyId: S.optional(S.String),
     s3TableGranularity: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateNamespaceRequest",
 }) as any as S.Schema<UpdateNamespaceRequest>;
@@ -2452,9 +2323,7 @@ export const UpdateScheduledActionRequest = /*@__PURE__*/ S.suspend(() =>
     scheduledActionDescription: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateScheduledActionRequest",
 }) as any as S.Schema<UpdateScheduledActionRequest>;
@@ -2474,9 +2343,7 @@ export const UpdateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshotName: S.String,
     retentionPeriod: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateSnapshotRequest",
 }) as any as S.Schema<UpdateSnapshotRequest>;
@@ -2492,22 +2359,19 @@ export interface UpdateSnapshotCopyConfigurationRequest {
   snapshotCopyConfigurationId: string;
   snapshotRetentionPeriod?: number;
 }
-export const UpdateSnapshotCopyConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      snapshotCopyConfigurationId: S.String,
-      snapshotRetentionPeriod: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const UpdateSnapshotCopyConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    snapshotCopyConfigurationId: S.String,
+    snapshotRetentionPeriod: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateSnapshotCopyConfigurationRequest",
 }) as any as S.Schema<UpdateSnapshotCopyConfigurationRequest>;
 export interface UpdateSnapshotCopyConfigurationResponse {
   snapshotCopyConfiguration: SnapshotCopyConfiguration;
 }
-export const UpdateSnapshotCopyConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ snapshotCopyConfiguration: SnapshotCopyConfiguration }),
+export const UpdateSnapshotCopyConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ snapshotCopyConfiguration: SnapshotCopyConfiguration }),
 ).annotate({
   identifier: "UpdateSnapshotCopyConfigurationResponse",
 }) as any as S.Schema<UpdateSnapshotCopyConfigurationResponse>;
@@ -2521,9 +2385,7 @@ export const UpdateUsageLimitRequest = /*@__PURE__*/ S.suspend(() =>
     usageLimitId: S.String,
     amount: S.optional(S.Number),
     breachAction: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateUsageLimitRequest",
 }) as any as S.Schema<UpdateUsageLimitRequest>;
@@ -2565,9 +2427,7 @@ export const UpdateWorkgroupRequest = /*@__PURE__*/ S.suspend(() =>
     pricePerformanceTarget: S.optional(PerformanceTarget),
     trackName: S.optional(S.String),
     extraComputeForAutomaticOptimization: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateWorkgroupRequest",
 }) as any as S.Schema<UpdateWorkgroupRequest>;
@@ -2692,12 +2552,7 @@ export const createNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateNamespaceRequest,
   output: CreateNamespaceResponse,
-  errors: [
-    ConflictException,
-    InternalServerException,
-    TooManyTagsException,
-    ValidationException,
-  ],
+  errors: [ConflictException, InternalServerException, TooManyTagsException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamespace",
@@ -3007,11 +2862,7 @@ export const deleteResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteResourcePolicyRequest,
   output: DeleteResourcePolicyResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -3033,11 +2884,7 @@ export const deleteScheduledAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteScheduledActionRequest,
   output: DeleteScheduledActionResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
@@ -3179,11 +3026,7 @@ export const getCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCredentialsRequest,
   output: GetCredentialsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentials",
@@ -3303,11 +3146,7 @@ export const getNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetNamespaceRequest,
   output: GetNamespaceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamespace",
@@ -3413,11 +3252,7 @@ export const getResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResourcePolicyRequest,
   output: GetResourcePolicyResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
@@ -3439,11 +3274,7 @@ export const getScheduledAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetScheduledActionRequest,
   output: GetScheduledActionResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScheduledAction",
@@ -3465,11 +3296,7 @@ export const getSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSnapshotRequest,
   output: GetSnapshotResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnapshot",
@@ -3574,11 +3401,7 @@ export const getWorkgroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWorkgroupRequest,
   output: GetWorkgroupResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkgroup",
@@ -3684,10 +3507,7 @@ export const listManagedWorkgroups: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListNamespacesError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListNamespacesError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns information about a list of specified namespaces.
  */
@@ -3712,10 +3532,7 @@ export const listNamespaces: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListRecoveryPointsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListRecoveryPointsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns an array of recovery points.
  */
@@ -3887,11 +3704,7 @@ export const listSnapshots: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSnapshotsRequest,
   output: ListSnapshotsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSnapshots",
@@ -3920,11 +3733,7 @@ export const listTableRestoreStatus: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTableRestoreStatusRequest,
   output: ListTableRestoreStatusResponse,
-  errors: [
-    InvalidPaginationException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InvalidPaginationException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTableRestoreStatus",
@@ -4038,10 +3847,7 @@ export const listUsageLimits: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListWorkgroupsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListWorkgroupsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns information about a list of specified workgroups.
  */

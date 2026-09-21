@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "BCM Recommended Actions",
   serviceShapeName: "AWSBillingAndCostManagementRecommendedActions",
@@ -34,9 +34,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -157,9 +155,7 @@ export const ListRecommendedActionsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(RequestFilter),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRecommendedActionsRequest",
 }) as any as S.Schema<ListRecommendedActionsRequest>;
@@ -206,10 +202,7 @@ export type Feature =
 export const Feature = S.String;
 
 export type Context = { [key: string]: string | undefined };
-export const Context = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Context = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type NextStep = string;
 export type NextSteps = string[];
 export const NextSteps = /*@__PURE__*/ S.Array(S.String);
@@ -269,9 +262,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type ListRecommendedActionsError =
   | AccessDeniedException
   | InternalServerException

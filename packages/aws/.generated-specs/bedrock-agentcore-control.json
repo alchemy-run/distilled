@@ -1015,11 +1015,7 @@
             "x-amzn-platform-id",
             "x-amzn-trace-id"
           ],
-          "additionalExposedHeaders": [
-            "x-amzn-errortype",
-            "x-amzn-requestid",
-            "x-amzn-trace-id"
-          ],
+          "additionalExposedHeaders": ["x-amzn-errortype", "x-amzn-requestid", "x-amzn-trace-id"],
           "maxAge": 86400
         },
         "smithy.api#documentation": "<p>Welcome to the Amazon Bedrock AgentCore Control plane API reference. Control plane actions configure, create, modify, and monitor Amazon Web Services resources.</p>",

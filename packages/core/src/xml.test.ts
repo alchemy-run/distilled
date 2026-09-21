@@ -23,17 +23,14 @@ describe("upstream fast-xml-parser validation corpus", () => {
 
 describe("XML object format", () => {
   it("keeps primitives as strings and groups repeated children", () => {
-    assert.deepEqual(
-      parse("<R><x>001</x><x>false</x><x>1e3</x><empty/><empty></empty></R>"),
-      { R: { x: ["001", "false", "1e3"], empty: ["", ""] } },
-    );
+    assert.deepEqual(parse("<R><x>001</x><x>false</x><x>1e3</x><empty/><empty></empty></R>"), {
+      R: { x: ["001", "false", "1e3"], empty: ["", ""] },
+    });
   });
 
   it("preserves namespace names, attributes, and text with attributes", () => {
     assert.deepEqual(
-      parse(
-        '<ns:R xmlns:ns="urn:r"><ns:x ns:id="01">value</ns:x><empty a=""/></ns:R>',
-      ),
+      parse('<ns:R xmlns:ns="urn:r"><ns:x ns:id="01">value</ns:x><empty a=""/></ns:R>'),
       {
         "ns:R": {
           "@_xmlns:ns": "urn:r",
@@ -73,17 +70,15 @@ describe("XML object format", () => {
   });
 
   it("decodes predefined and numeric entities exactly once", () => {
-    assert.deepEqual(
-      parse('<R a="&quot;&apos;&#9;">&amp;&lt;&gt;&#65;&#x1F600;&amp;lt;</R>'),
-      { R: { "@_a": "\"'\t", "#text": "&<>A😀&lt;" } },
-    );
+    assert.deepEqual(parse('<R a="&quot;&apos;&#9;">&amp;&lt;&gt;&#65;&#x1F600;&amp;lt;</R>'), {
+      R: { "@_a": "\"'\t", "#text": "&<>A😀&lt;" },
+    });
   });
 
   it("normalizes literal line endings and attribute whitespace, not character references", () => {
-    assert.deepEqual(
-      parse('<R a="x\r\ny\tz\r&#13;&#10;&#9;">a\r\nb\rc&#13;</R>'),
-      { R: { "@_a": "x y z \r\n\t", "#text": "a\nb\nc\r" } },
-    );
+    assert.deepEqual(parse('<R a="x\r\ny\tz\r&#13;&#10;&#9;">a\r\nb\rc&#13;</R>'), {
+      R: { "@_a": "x y z \r\n\t", "#text": "a\nb\nc\r" },
+    });
   });
 
   it("joins CDATA and text without decoding CDATA entities", () => {
@@ -109,8 +104,7 @@ describe("XML object format", () => {
   });
 
   it("accepts empty HTTP bodies", () => {
-    for (const xml of ["", " \r\n\t", "\uFEFF"])
-      assert.deepEqual(parse(xml), {});
+    for (const xml of ["", " \r\n\t", "\uFEFF"]) assert.deepEqual(parse(xml), {});
   });
 
   it("stores prototype-related names as own data properties", () => {
@@ -122,22 +116,13 @@ describe("XML object format", () => {
     assert.equal(Object.getPrototypeOf(root), null);
     assert.deepEqual(
       JSON.parse(JSON.stringify(root)),
-      JSON.parse(
-        '{"constructor":["one","two"],"__proto__":"safe","toString":""}',
-      ),
+      JSON.parse('{"constructor":["one","two"],"__proto__":"safe","toString":""}'),
     );
     assert.equal(Object.hasOwn(Object.prototype, "safe"), false);
   });
 
   it("round trips escaped strings", () => {
-    for (const text of [
-      ' <tag a="x">&\'😀 ',
-      "",
-      "false",
-      "001",
-      "&#13;",
-      "\t\n",
-    ]) {
+    for (const text of [' <tag a="x">&\'😀 ', "", "false", "001", "&#13;", "\t\n"]) {
       assert.deepEqual(parse(`<R>${escapeXml(text)}</R>`), { R: text });
     }
   });
@@ -242,10 +227,7 @@ describe("malformed and unsupported XML", () => {
 
   it("enforces depth and input length limits", () => {
     assert.doesNotThrow(() => parseXmlSync("<a><b/></a>", { maxDepth: 2 }));
-    assert.throws(
-      () => parseXmlSync("<a><b/></a>", { maxDepth: 1 }),
-      XmlParseError,
-    );
+    assert.throws(() => parseXmlSync("<a><b/></a>", { maxDepth: 1 }), XmlParseError);
     assert.doesNotThrow(() => parseXmlSync("<a/>", { maxLength: 4 }));
     assert.throws(() => parseXmlSync("<a/>", { maxLength: 3 }), XmlParseError);
     assert.throws(() => parseXmlSync("<a/>", { maxDepth: NaN }), XmlParseError);

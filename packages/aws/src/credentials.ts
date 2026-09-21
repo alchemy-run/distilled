@@ -24,10 +24,7 @@ const regionFromEnvOrProfile = BrowserCredentials.regionFromEnv.pipe(
         catch: () => missing,
       }),
       (files) => {
-        const profileName =
-          process.env.AWS_PROFILE ??
-          process.env.AWS_DEFAULT_PROFILE ??
-          "default";
+        const profileName = process.env.AWS_PROFILE ?? process.env.AWS_DEFAULT_PROFILE ?? "default";
         const region = files.configFile?.[profileName]?.region;
         return region === undefined
           ? Effect.fail(
@@ -45,8 +42,7 @@ const regionFromEnvOrProfile = BrowserCredentials.regionFromEnv.pipe(
   ),
 );
 
-export const fromEnv = () =>
-  BrowserCredentials.createLazyProvider(Providers.fromEnv, "env");
+export const fromEnv = () => BrowserCredentials.createLazyProvider(Providers.fromEnv, "env");
 
 export const fromChain = () =>
   BrowserCredentials.createLazyProvider(
@@ -56,30 +52,16 @@ export const fromChain = () =>
   );
 
 export const fromIni = () =>
-  BrowserCredentials.createLazyProvider(
-    Providers.fromIni(),
-    "ini",
-    regionFromEnvOrProfile,
-  );
+  BrowserCredentials.createLazyProvider(Providers.fromIni(), "ini", regionFromEnvOrProfile);
 
 export const fromContainerMetadata = () =>
-  BrowserCredentials.createLazyProvider(
-    Providers.fromContainerMetadata(),
-    "container",
-  );
+  BrowserCredentials.createLazyProvider(Providers.fromContainerMetadata(), "container");
 
 export const fromProcess = () =>
-  BrowserCredentials.createLazyProvider(
-    Providers.fromProcess(),
-    "process",
-    regionFromEnvOrProfile,
-  );
+  BrowserCredentials.createLazyProvider(Providers.fromProcess(), "process", regionFromEnvOrProfile);
 
 export const fromTokenFile = () =>
-  BrowserCredentials.createLazyProvider(
-    Providers.fromTokenFile(),
-    "token-file",
-  );
+  BrowserCredentials.createLazyProvider(Providers.fromTokenFile(), "token-file");
 
 /**
  * Create a lazy, cached SSO credentials provider.

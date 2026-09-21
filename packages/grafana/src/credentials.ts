@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Grafana credentials — hand-written.
  *
@@ -17,7 +18,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Grafana OSS default listen address (the instance origin, not `/api`). */
 export const DEFAULT_API_BASE_URL = "http://localhost:3000";
@@ -28,10 +28,9 @@ export interface Config {
   readonly orgId?: number | string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("GrafanaCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "GrafanaCredentials",
+) {}
 
 /** Layer from a plain service-account token + optional instance URL / org. */
 export const fromApiKey = (config: {

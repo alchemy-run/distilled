@@ -1,15 +1,13 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace(
-  "http://elasticbeanstalk.amazonaws.com/docs/2010-12-01/",
-);
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const ns = T.XmlNamespace("http://elasticbeanstalk.amazonaws.com/docs/2010-12-01/");
 const svc = T.AwsApiService({
   sdkId: "Elastic Beanstalk",
   serviceShapeName: "AWSElasticBeanstalkService",
@@ -29,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -66,9 +60,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elasticbeanstalk-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -76,13 +68,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elasticbeanstalk.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://elasticbeanstalk.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://elasticbeanstalk.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -310,17 +298,7 @@ export const AbortEnvironmentUpdateMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EnvironmentId: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AbortEnvironmentUpdateMessage",
 }) as any as S.Schema<AbortEnvironmentUpdateMessage>;
@@ -335,31 +313,16 @@ export interface ApplyEnvironmentManagedActionRequest {
   EnvironmentId?: string;
   ActionId: string;
 }
-export const ApplyEnvironmentManagedActionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnvironmentName: S.optional(S.String),
-      EnvironmentId: S.optional(S.String),
-      ActionId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ApplyEnvironmentManagedActionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EnvironmentName: S.optional(S.String),
+    EnvironmentId: S.optional(S.String),
+    ActionId: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ApplyEnvironmentManagedActionRequest",
 }) as any as S.Schema<ApplyEnvironmentManagedActionRequest>;
-export type ActionType =
-  | "InstanceRefresh"
-  | "PlatformUpdate"
-  | "Unknown"
-  | (string & {});
+export type ActionType = "InstanceRefresh" | "PlatformUpdate" | "Unknown" | (string & {});
 export const ActionType = S.String;
 
 export interface ApplyEnvironmentManagedActionResult {
@@ -383,42 +346,26 @@ export interface AssociateEnvironmentOperationsRoleMessage {
   EnvironmentName: string;
   OperationsRole: string;
 }
-export const AssociateEnvironmentOperationsRoleMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ EnvironmentName: S.String, OperationsRole: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "AssociateEnvironmentOperationsRoleMessage",
-  }) as any as S.Schema<AssociateEnvironmentOperationsRoleMessage>;
+export const AssociateEnvironmentOperationsRoleMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EnvironmentName: S.String, OperationsRole: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "AssociateEnvironmentOperationsRoleMessage",
+}) as any as S.Schema<AssociateEnvironmentOperationsRoleMessage>;
 export interface AssociateEnvironmentOperationsRoleResponse {}
-export const AssociateEnvironmentOperationsRoleResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "AssociateEnvironmentOperationsRoleResponse",
-  }) as any as S.Schema<AssociateEnvironmentOperationsRoleResponse>;
+export const AssociateEnvironmentOperationsRoleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "AssociateEnvironmentOperationsRoleResponse",
+}) as any as S.Schema<AssociateEnvironmentOperationsRoleResponse>;
 export type DNSCnamePrefix = string;
 export interface CheckDNSAvailabilityMessage {
   CNAMEPrefix: string;
 }
 export const CheckDNSAvailabilityMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CNAMEPrefix: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CheckDNSAvailabilityMessage",
@@ -452,17 +399,7 @@ export const ComposeEnvironmentsMessage = /*@__PURE__*/ S.suspend(() =>
     ApplicationName: S.optional(S.String),
     GroupName: S.optional(S.String),
     VersionLabels: S.optional(VersionLabels),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ComposeEnvironmentsMessage",
 }) as any as S.Schema<ComposeEnvironmentsMessage>;
@@ -486,12 +423,7 @@ export type EnvironmentStatus =
 export const EnvironmentStatus = S.String;
 
 export type AbortableOperationInProgress = boolean;
-export type EnvironmentHealth =
-  | "Green"
-  | "Yellow"
-  | "Red"
-  | "Grey"
-  | (string & {});
+export type EnvironmentHealth = "Green" | "Yellow" | "Red" | "Grey" | (string & {});
 export const EnvironmentHealth = S.String;
 
 export type EnvironmentHealthStatus =
@@ -602,12 +534,8 @@ export const EnvironmentDescription = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     EndpointURL: S.optional(S.String),
     CNAME: S.optional(S.String),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DateUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Status: S.optional(EnvironmentStatus),
     AbortableOperationInProgress: S.optional(S.Boolean),
     Health: S.optional(EnvironmentHealth),
@@ -622,9 +550,7 @@ export const EnvironmentDescription = /*@__PURE__*/ S.suspend(() =>
   identifier: "EnvironmentDescription",
 }) as any as S.Schema<EnvironmentDescription>;
 export type EnvironmentDescriptionsList = EnvironmentDescription[];
-export const EnvironmentDescriptionsList = /*@__PURE__*/ S.Array(
-  EnvironmentDescription,
-);
+export const EnvironmentDescriptionsList = /*@__PURE__*/ S.Array(EnvironmentDescription);
 export type Token = string;
 export interface EnvironmentDescriptionsMessage {
   Environments?: EnvironmentDescription[];
@@ -711,17 +637,7 @@ export const CreateApplicationMessage = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     ResourceLifecycleConfig: S.optional(ApplicationResourceLifecycleConfig),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateApplicationMessage",
 }) as any as S.Schema<CreateApplicationMessage>;
@@ -745,12 +661,8 @@ export const ApplicationDescription = /*@__PURE__*/ S.suspend(() =>
     ApplicationArn: S.optional(S.String),
     ApplicationName: S.optional(S.String),
     Description: S.optional(S.String),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DateUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Versions: S.optional(VersionLabelsList),
     ConfigurationTemplates: S.optional(ConfigurationTemplateNamesList),
     ResourceLifecycleConfig: S.optional(ApplicationResourceLifecycleConfig),
@@ -846,17 +758,7 @@ export const CreateApplicationVersionMessage = /*@__PURE__*/ S.suspend(() =>
     AutoCreateApplication: S.optional(S.Boolean),
     Process: S.optional(S.Boolean),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateApplicationVersionMessage",
 }) as any as S.Schema<CreateApplicationVersionMessage>;
@@ -891,12 +793,8 @@ export const ApplicationVersionDescription = /*@__PURE__*/ S.suspend(() =>
     SourceBuildInformation: S.optional(SourceBuildInformation),
     BuildArn: S.optional(S.String),
     SourceBundle: S.optional(S3Location),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DateUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Status: S.optional(ApplicationVersionStatus),
   }),
 ).annotate({
@@ -905,11 +803,10 @@ export const ApplicationVersionDescription = /*@__PURE__*/ S.suspend(() =>
 export interface ApplicationVersionDescriptionMessage {
   ApplicationVersion?: ApplicationVersionDescription;
 }
-export const ApplicationVersionDescriptionMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationVersion: S.optional(ApplicationVersionDescription),
-    }).pipe(ns),
+export const ApplicationVersionDescriptionMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationVersion: S.optional(ApplicationVersionDescription),
+  }).pipe(ns),
 ).annotate({
   identifier: "ApplicationVersionDescriptionMessage",
 }) as any as S.Schema<ApplicationVersionDescriptionMessage>;
@@ -946,9 +843,7 @@ export const ConfigurationOptionSetting = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfigurationOptionSetting",
 }) as any as S.Schema<ConfigurationOptionSetting>;
 export type ConfigurationOptionSettingsList = ConfigurationOptionSetting[];
-export const ConfigurationOptionSettingsList = /*@__PURE__*/ S.Array(
-  ConfigurationOptionSetting,
-);
+export const ConfigurationOptionSettingsList = /*@__PURE__*/ S.Array(ConfigurationOptionSetting);
 export interface CreateConfigurationTemplateMessage {
   ApplicationName: string;
   TemplateName: string;
@@ -971,25 +866,11 @@ export const CreateConfigurationTemplateMessage = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     OptionSettings: S.optional(ConfigurationOptionSettingsList),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateConfigurationTemplateMessage",
 }) as any as S.Schema<CreateConfigurationTemplateMessage>;
-export type ConfigurationDeploymentStatus =
-  | "deployed"
-  | "pending"
-  | "failed"
-  | (string & {});
+export type ConfigurationDeploymentStatus = "deployed" | "pending" | "failed" | (string & {});
 export const ConfigurationDeploymentStatus = S.String;
 
 export interface ConfigurationSettingsDescription {
@@ -1013,12 +894,8 @@ export const ConfigurationSettingsDescription = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
     DeploymentStatus: S.optional(ConfigurationDeploymentStatus),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DateUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     OptionSettings: S.optional(ConfigurationOptionSettingsList),
   }).pipe(ns),
 ).annotate({
@@ -1072,17 +949,7 @@ export const CreateEnvironmentMessage = /*@__PURE__*/ S.suspend(() =>
     OptionSettings: S.optional(ConfigurationOptionSettingsList),
     OptionsToRemove: S.optional(OptionsSpecifierList),
     OperationsRole: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEnvironmentMessage",
 }) as any as S.Schema<CreateEnvironmentMessage>;
@@ -1104,17 +971,7 @@ export const CreatePlatformVersionRequest = /*@__PURE__*/ S.suspend(() =>
     EnvironmentName: S.optional(S.String),
     OptionSettings: S.optional(ConfigurationOptionSettingsList),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreatePlatformVersionRequest",
 }) as any as S.Schema<CreatePlatformVersionRequest>;
@@ -1193,17 +1050,7 @@ export const CreatePlatformVersionResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePlatformVersionResult>;
 export interface CreateStorageLocationRequest {}
 export const CreateStorageLocationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateStorageLocationRequest",
 }) as any as S.Schema<CreateStorageLocationRequest>;
@@ -1224,17 +1071,7 @@ export const DeleteApplicationMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationName: S.String,
     TerminateEnvByForce: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteApplicationMessage",
 }) as any as S.Schema<DeleteApplicationMessage>;
@@ -1255,17 +1092,7 @@ export const DeleteApplicationVersionMessage = /*@__PURE__*/ S.suspend(() =>
     ApplicationName: S.String,
     VersionLabel: S.String,
     DeleteSourceBundle: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteApplicationVersionMessage",
 }) as any as S.Schema<DeleteApplicationVersionMessage>;
@@ -1281,15 +1108,7 @@ export interface DeleteConfigurationTemplateMessage {
 }
 export const DeleteConfigurationTemplateMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationName: S.String, TemplateName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteConfigurationTemplateMessage",
@@ -1304,25 +1123,16 @@ export interface DeleteEnvironmentConfigurationMessage {
   ApplicationName: string;
   EnvironmentName: string;
 }
-export const DeleteEnvironmentConfigurationMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ ApplicationName: S.String, EnvironmentName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeleteEnvironmentConfigurationMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ApplicationName: S.String, EnvironmentName: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteEnvironmentConfigurationMessage",
 }) as any as S.Schema<DeleteEnvironmentConfigurationMessage>;
 export interface DeleteEnvironmentConfigurationResponse {}
-export const DeleteEnvironmentConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteEnvironmentConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteEnvironmentConfigurationResponse",
 }) as any as S.Schema<DeleteEnvironmentConfigurationResponse>;
@@ -1331,15 +1141,7 @@ export interface DeletePlatformVersionRequest {
 }
 export const DeletePlatformVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PlatformArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeletePlatformVersionRequest",
@@ -1354,17 +1156,7 @@ export const DeletePlatformVersionResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeletePlatformVersionResult>;
 export interface DescribeAccountAttributesRequest {}
 export const DescribeAccountAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeAccountAttributesRequest",
 }) as any as S.Schema<DescribeAccountAttributesRequest>;
@@ -1405,23 +1197,13 @@ export interface DescribeApplicationsMessage {
 }
 export const DescribeApplicationsMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationNames: S.optional(ApplicationNamesList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeApplicationsMessage",
 }) as any as S.Schema<DescribeApplicationsMessage>;
 export type ApplicationDescriptionList = ApplicationDescription[];
-export const ApplicationDescriptionList = /*@__PURE__*/ S.Array(
-  ApplicationDescription,
-);
+export const ApplicationDescriptionList = /*@__PURE__*/ S.Array(ApplicationDescription);
 export interface ApplicationDescriptionsMessage {
   Applications?: ApplicationDescription[];
 }
@@ -1443,17 +1225,7 @@ export const DescribeApplicationVersionsMessage = /*@__PURE__*/ S.suspend(() =>
     VersionLabels: S.optional(VersionLabelsList),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeApplicationVersionsMessage",
 }) as any as S.Schema<DescribeApplicationVersionsMessage>;
@@ -1465,12 +1237,11 @@ export interface ApplicationVersionDescriptionsMessage {
   ApplicationVersions?: ApplicationVersionDescription[];
   NextToken?: string;
 }
-export const ApplicationVersionDescriptionsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationVersions: S.optional(ApplicationVersionDescriptionList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const ApplicationVersionDescriptionsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationVersions: S.optional(ApplicationVersionDescriptionList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "ApplicationVersionDescriptionsMessage",
 }) as any as S.Schema<ApplicationVersionDescriptionsMessage>;
@@ -1490,17 +1261,7 @@ export const DescribeConfigurationOptionsMessage = /*@__PURE__*/ S.suspend(() =>
     SolutionStackName: S.optional(S.String),
     PlatformArn: S.optional(S.String),
     Options: S.optional(OptionsSpecifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeConfigurationOptionsMessage",
 }) as any as S.Schema<DescribeConfigurationOptionsMessage>;
@@ -1512,9 +1273,7 @@ export const ConfigurationOptionValueType = S.String;
 
 export type ConfigurationOptionPossibleValue = string;
 export type ConfigurationOptionPossibleValues = string[];
-export const ConfigurationOptionPossibleValues = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const ConfigurationOptionPossibleValues = /*@__PURE__*/ S.Array(S.String);
 export type OptionRestrictionMinValue = number;
 export type OptionRestrictionMaxValue = number;
 export type OptionRestrictionMaxLength = number;
@@ -1559,8 +1318,7 @@ export const ConfigurationOptionDescription = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ConfigurationOptionDescription",
 }) as any as S.Schema<ConfigurationOptionDescription>;
-export type ConfigurationOptionDescriptionsList =
-  ConfigurationOptionDescription[];
+export type ConfigurationOptionDescriptionsList = ConfigurationOptionDescription[];
 export const ConfigurationOptionDescriptionsList = /*@__PURE__*/ S.Array(
   ConfigurationOptionDescription,
 );
@@ -1583,28 +1341,16 @@ export interface DescribeConfigurationSettingsMessage {
   TemplateName?: string;
   EnvironmentName?: string;
 }
-export const DescribeConfigurationSettingsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationName: S.String,
-      TemplateName: S.optional(S.String),
-      EnvironmentName: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeConfigurationSettingsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    TemplateName: S.optional(S.String),
+    EnvironmentName: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeConfigurationSettingsMessage",
 }) as any as S.Schema<DescribeConfigurationSettingsMessage>;
-export type ConfigurationSettingsDescriptionList =
-  ConfigurationSettingsDescription[];
+export type ConfigurationSettingsDescriptionList = ConfigurationSettingsDescription[];
 export const ConfigurationSettingsDescriptionList = /*@__PURE__*/ S.Array(
   ConfigurationSettingsDescription,
 );
@@ -1631,9 +1377,7 @@ export type EnvironmentHealthAttribute =
 export const EnvironmentHealthAttribute = S.String;
 
 export type EnvironmentHealthAttributes = EnvironmentHealthAttribute[];
-export const EnvironmentHealthAttributes = /*@__PURE__*/ S.Array(
-  EnvironmentHealthAttribute,
-);
+export const EnvironmentHealthAttributes = /*@__PURE__*/ S.Array(EnvironmentHealthAttribute);
 export interface DescribeEnvironmentHealthRequest {
   EnvironmentName?: string;
   EnvironmentId?: string;
@@ -1644,17 +1388,7 @@ export const DescribeEnvironmentHealthRequest = /*@__PURE__*/ S.suspend(() =>
     EnvironmentName: S.optional(S.String),
     EnvironmentId: S.optional(S.String),
     AttributeNames: S.optional(EnvironmentHealthAttributes),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEnvironmentHealthRequest",
 }) as any as S.Schema<DescribeEnvironmentHealthRequest>;
@@ -1758,9 +1492,7 @@ export const DescribeEnvironmentHealthResult = /*@__PURE__*/ S.suspend(() =>
     Causes: S.optional(Causes),
     ApplicationMetrics: S.optional(ApplicationMetrics),
     InstancesHealth: S.optional(InstanceHealthSummary),
-    RefreshedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    RefreshedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
 ).annotate({
   identifier: "DescribeEnvironmentHealthResult",
@@ -1772,27 +1504,16 @@ export interface DescribeEnvironmentManagedActionHistoryRequest {
   NextToken?: string;
   MaxItems?: number;
 }
-export const DescribeEnvironmentManagedActionHistoryRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      EnvironmentId: S.optional(S.String),
-      EnvironmentName: S.optional(S.String),
-      NextToken: S.optional(S.String),
-      MaxItems: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeEnvironmentManagedActionHistoryRequest",
-  }) as any as S.Schema<DescribeEnvironmentManagedActionHistoryRequest>;
+export const DescribeEnvironmentManagedActionHistoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EnvironmentId: S.optional(S.String),
+    EnvironmentName: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    MaxItems: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeEnvironmentManagedActionHistoryRequest",
+}) as any as S.Schema<DescribeEnvironmentManagedActionHistoryRequest>;
 export type FailureType =
   | "UpdateCancelled"
   | "CancellationFailed"
@@ -1804,11 +1525,7 @@ export type FailureType =
   | (string & {});
 export const FailureType = S.String;
 
-export type ActionHistoryStatus =
-  | "Completed"
-  | "Failed"
-  | "Unknown"
-  | (string & {});
+export type ActionHistoryStatus = "Completed" | "Failed" | "Unknown" | (string & {});
 export const ActionHistoryStatus = S.String;
 
 export interface ManagedActionHistoryItem {
@@ -1829,39 +1546,27 @@ export const ManagedActionHistoryItem = /*@__PURE__*/ S.suspend(() =>
     FailureType: S.optional(FailureType),
     Status: S.optional(ActionHistoryStatus),
     FailureDescription: S.optional(S.String),
-    ExecutedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    FinishedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ExecutedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    FinishedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "ManagedActionHistoryItem",
 }) as any as S.Schema<ManagedActionHistoryItem>;
 export type ManagedActionHistoryItems = ManagedActionHistoryItem[];
-export const ManagedActionHistoryItems = /*@__PURE__*/ S.Array(
-  ManagedActionHistoryItem,
-);
+export const ManagedActionHistoryItems = /*@__PURE__*/ S.Array(ManagedActionHistoryItem);
 export interface DescribeEnvironmentManagedActionHistoryResult {
   ManagedActionHistoryItems?: ManagedActionHistoryItem[];
   NextToken?: string;
 }
-export const DescribeEnvironmentManagedActionHistoryResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ManagedActionHistoryItems: S.optional(ManagedActionHistoryItems),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeEnvironmentManagedActionHistoryResult",
-  }) as any as S.Schema<DescribeEnvironmentManagedActionHistoryResult>;
-export type ActionStatus =
-  | "Scheduled"
-  | "Pending"
-  | "Running"
-  | "Unknown"
-  | (string & {});
+export const DescribeEnvironmentManagedActionHistoryResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ManagedActionHistoryItems: S.optional(ManagedActionHistoryItems),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeEnvironmentManagedActionHistoryResult",
+}) as any as S.Schema<DescribeEnvironmentManagedActionHistoryResult>;
+export type ActionStatus = "Scheduled" | "Pending" | "Running" | "Unknown" | (string & {});
 export const ActionStatus = S.String;
 
 export interface DescribeEnvironmentManagedActionsRequest {
@@ -1869,23 +1574,12 @@ export interface DescribeEnvironmentManagedActionsRequest {
   EnvironmentId?: string;
   Status?: ActionStatus;
 }
-export const DescribeEnvironmentManagedActionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnvironmentName: S.optional(S.String),
-      EnvironmentId: S.optional(S.String),
-      Status: S.optional(ActionStatus),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeEnvironmentManagedActionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EnvironmentName: S.optional(S.String),
+    EnvironmentId: S.optional(S.String),
+    Status: S.optional(ActionStatus),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEnvironmentManagedActionsRequest",
 }) as any as S.Schema<DescribeEnvironmentManagedActionsRequest>;
@@ -1902,9 +1596,7 @@ export const ManagedAction = /*@__PURE__*/ S.suspend(() =>
     ActionDescription: S.optional(S.String),
     ActionType: S.optional(ActionType),
     Status: S.optional(ActionStatus),
-    WindowStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    WindowStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "ManagedAction" }) as any as S.Schema<ManagedAction>;
 export type ManagedActions = ManagedAction[];
@@ -1912,8 +1604,8 @@ export const ManagedActions = /*@__PURE__*/ S.Array(ManagedAction);
 export interface DescribeEnvironmentManagedActionsResult {
   ManagedActions?: ManagedAction[];
 }
-export const DescribeEnvironmentManagedActionsResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ ManagedActions: S.optional(ManagedActions) }).pipe(ns),
+export const DescribeEnvironmentManagedActionsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ManagedActions: S.optional(ManagedActions) }).pipe(ns),
 ).annotate({
   identifier: "DescribeEnvironmentManagedActionsResult",
 }) as any as S.Schema<DescribeEnvironmentManagedActionsResult>;
@@ -1925,17 +1617,7 @@ export const DescribeEnvironmentResourcesMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EnvironmentId: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEnvironmentResourcesMessage",
 }) as any as S.Schema<DescribeEnvironmentResourcesMessage>;
@@ -1967,8 +1649,7 @@ export const LaunchConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "LaunchConfiguration",
 }) as any as S.Schema<LaunchConfiguration>;
 export type LaunchConfigurationList = LaunchConfiguration[];
-export const LaunchConfigurationList =
-  /*@__PURE__*/ S.Array(LaunchConfiguration);
+export const LaunchConfigurationList = /*@__PURE__*/ S.Array(LaunchConfiguration);
 export interface LaunchTemplate {
   Id?: string;
 }
@@ -2029,11 +1710,10 @@ export const EnvironmentResourceDescription = /*@__PURE__*/ S.suspend(() =>
 export interface EnvironmentResourceDescriptionsMessage {
   EnvironmentResources?: EnvironmentResourceDescription;
 }
-export const EnvironmentResourceDescriptionsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnvironmentResources: S.optional(EnvironmentResourceDescription),
-    }).pipe(ns),
+export const EnvironmentResourceDescriptionsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EnvironmentResources: S.optional(EnvironmentResourceDescription),
+  }).pipe(ns),
 ).annotate({
   identifier: "EnvironmentResourceDescriptionsMessage",
 }) as any as S.Schema<EnvironmentResourceDescriptionsMessage>;
@@ -2060,34 +1740,15 @@ export const DescribeEnvironmentsMessage = /*@__PURE__*/ S.suspend(() =>
     EnvironmentIds: S.optional(EnvironmentIdList),
     EnvironmentNames: S.optional(EnvironmentNamesList),
     IncludeDeleted: S.optional(S.Boolean),
-    IncludedDeletedBackTo: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    IncludedDeletedBackTo: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEnvironmentsMessage",
 }) as any as S.Schema<DescribeEnvironmentsMessage>;
 export type RequestId = string;
-export type EventSeverity =
-  | "TRACE"
-  | "DEBUG"
-  | "INFO"
-  | "WARN"
-  | "ERROR"
-  | "FATAL"
-  | (string & {});
+export type EventSeverity = "TRACE" | "DEBUG" | "INFO" | "WARN" | "ERROR" | "FATAL" | (string & {});
 export const EventSeverity = S.String;
 
 export type TimeFilterStart = Date;
@@ -2116,23 +1777,11 @@ export const DescribeEventsMessage = /*@__PURE__*/ S.suspend(() =>
     PlatformArn: S.optional(S.String),
     RequestId: S.optional(S.String),
     Severity: S.optional(EventSeverity),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEventsMessage",
 }) as any as S.Schema<DescribeEventsMessage>;
@@ -2151,9 +1800,7 @@ export interface EventDescription {
 }
 export const EventDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    EventDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    EventDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Message: S.optional(S.String),
     ApplicationName: S.optional(S.String),
     VersionLabel: S.optional(S.String),
@@ -2196,9 +1843,7 @@ export type InstancesHealthAttribute =
 export const InstancesHealthAttribute = S.String;
 
 export type InstancesHealthAttributes = InstancesHealthAttribute[];
-export const InstancesHealthAttributes = /*@__PURE__*/ S.Array(
-  InstancesHealthAttribute,
-);
+export const InstancesHealthAttributes = /*@__PURE__*/ S.Array(InstancesHealthAttribute);
 export type NextToken = string;
 export interface DescribeInstancesHealthRequest {
   EnvironmentName?: string;
@@ -2212,17 +1857,7 @@ export const DescribeInstancesHealthRequest = /*@__PURE__*/ S.suspend(() =>
     EnvironmentId: S.optional(S.String),
     AttributeNames: S.optional(InstancesHealthAttributes),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeInstancesHealthRequest",
 }) as any as S.Schema<DescribeInstancesHealthRequest>;
@@ -2275,9 +1910,7 @@ export const Deployment = /*@__PURE__*/ S.suspend(() =>
     VersionLabel: S.optional(S.String),
     DeploymentId: S.optional(S.Number),
     Status: S.optional(S.String),
-    DeploymentTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DeploymentTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 export interface SingleInstanceHealth {
@@ -2298,9 +1931,7 @@ export const SingleInstanceHealth = /*@__PURE__*/ S.suspend(() =>
     HealthStatus: S.optional(S.String),
     Color: S.optional(S.String),
     Causes: S.optional(Causes),
-    LaunchedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LaunchedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ApplicationMetrics: S.optional(ApplicationMetrics),
     System: S.optional(SystemStatus),
     Deployment: S.optional(Deployment),
@@ -2320,9 +1951,7 @@ export interface DescribeInstancesHealthResult {
 export const DescribeInstancesHealthResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     InstanceHealthList: S.optional(InstanceHealthList),
-    RefreshedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    RefreshedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     NextToken: S.optional(S.String),
   }).pipe(ns),
 ).annotate({
@@ -2333,15 +1962,7 @@ export interface DescribePlatformVersionRequest {
 }
 export const DescribePlatformVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PlatformArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribePlatformVersionRequest",
@@ -2357,9 +1978,7 @@ export const PlatformProgrammingLanguage = /*@__PURE__*/ S.suspend(() =>
   identifier: "PlatformProgrammingLanguage",
 }) as any as S.Schema<PlatformProgrammingLanguage>;
 export type PlatformProgrammingLanguages = PlatformProgrammingLanguage[];
-export const PlatformProgrammingLanguages = /*@__PURE__*/ S.Array(
-  PlatformProgrammingLanguage,
-);
+export const PlatformProgrammingLanguages = /*@__PURE__*/ S.Array(PlatformProgrammingLanguage);
 export interface PlatformFramework {
   Name?: string;
   Version?: string;
@@ -2416,12 +2035,8 @@ export const PlatformDescription = /*@__PURE__*/ S.suspend(() =>
     PlatformVersion: S.optional(S.String),
     SolutionStackName: S.optional(S.String),
     PlatformStatus: S.optional(PlatformStatus),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DateUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PlatformCategory: S.optional(S.String),
     Description: S.optional(S.String),
     Maintainer: S.optional(S.String),
@@ -2450,40 +2065,22 @@ export const DescribePlatformVersionResult = /*@__PURE__*/ S.suspend(() =>
 export interface DisassociateEnvironmentOperationsRoleMessage {
   EnvironmentName: string;
 }
-export const DisassociateEnvironmentOperationsRoleMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ EnvironmentName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateEnvironmentOperationsRoleMessage",
-  }) as any as S.Schema<DisassociateEnvironmentOperationsRoleMessage>;
+export const DisassociateEnvironmentOperationsRoleMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EnvironmentName: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DisassociateEnvironmentOperationsRoleMessage",
+}) as any as S.Schema<DisassociateEnvironmentOperationsRoleMessage>;
 export interface DisassociateEnvironmentOperationsRoleResponse {}
-export const DisassociateEnvironmentOperationsRoleResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DisassociateEnvironmentOperationsRoleResponse",
-  }) as any as S.Schema<DisassociateEnvironmentOperationsRoleResponse>;
+export const DisassociateEnvironmentOperationsRoleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DisassociateEnvironmentOperationsRoleResponse",
+}) as any as S.Schema<DisassociateEnvironmentOperationsRoleResponse>;
 export interface ListAvailableSolutionStacksRequest {}
 export const ListAvailableSolutionStacksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAvailableSolutionStacksRequest",
 }) as any as S.Schema<ListAvailableSolutionStacksRequest>;
@@ -2505,19 +2102,16 @@ export const SolutionStackDescription = /*@__PURE__*/ S.suspend(() =>
   identifier: "SolutionStackDescription",
 }) as any as S.Schema<SolutionStackDescription>;
 export type AvailableSolutionStackDetailsList = SolutionStackDescription[];
-export const AvailableSolutionStackDetailsList = /*@__PURE__*/ S.Array(
-  SolutionStackDescription,
-);
+export const AvailableSolutionStackDetailsList = /*@__PURE__*/ S.Array(SolutionStackDescription);
 export interface ListAvailableSolutionStacksResultMessage {
   SolutionStacks?: string[];
   SolutionStackDetails?: SolutionStackDescription[];
 }
-export const ListAvailableSolutionStacksResultMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SolutionStacks: S.optional(AvailableSolutionStackNamesList),
-      SolutionStackDetails: S.optional(AvailableSolutionStackDetailsList),
-    }).pipe(ns),
+export const ListAvailableSolutionStacksResultMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SolutionStacks: S.optional(AvailableSolutionStackNamesList),
+    SolutionStackDetails: S.optional(AvailableSolutionStackDetailsList),
+  }).pipe(ns),
 ).annotate({
   identifier: "ListAvailableSolutionStacksResultMessage",
 }) as any as S.Schema<ListAvailableSolutionStacksResultMessage>;
@@ -2551,17 +2145,7 @@ export const ListPlatformBranchesRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(SearchFilters),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPlatformBranchesRequest",
 }) as any as S.Schema<ListPlatformBranchesRequest>;
@@ -2585,9 +2169,7 @@ export const PlatformBranchSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PlatformBranchSummary",
 }) as any as S.Schema<PlatformBranchSummary>;
 export type PlatformBranchSummaryList = PlatformBranchSummary[];
-export const PlatformBranchSummaryList = /*@__PURE__*/ S.Array(
-  PlatformBranchSummary,
-);
+export const PlatformBranchSummaryList = /*@__PURE__*/ S.Array(PlatformBranchSummary);
 export interface ListPlatformBranchesResult {
   PlatformBranchSummaryList?: PlatformBranchSummary[];
   NextToken?: string;
@@ -2630,17 +2212,7 @@ export const ListPlatformVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(PlatformFilters),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPlatformVersionsRequest",
 }) as any as S.Schema<ListPlatformVersionsRequest>;
@@ -2664,15 +2236,7 @@ export interface ListTagsForResourceMessage {
 }
 export const ListTagsForResourceMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceMessage",
@@ -2699,17 +2263,7 @@ export const RebuildEnvironmentMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EnvironmentId: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RebuildEnvironmentMessage",
 }) as any as S.Schema<RebuildEnvironmentMessage>;
@@ -2732,17 +2286,7 @@ export const RequestEnvironmentInfoMessage = /*@__PURE__*/ S.suspend(() =>
     EnvironmentId: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
     InfoType: EnvironmentInfoType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RequestEnvironmentInfoMessage",
 }) as any as S.Schema<RequestEnvironmentInfoMessage>;
@@ -2760,17 +2304,7 @@ export const RestartAppServerMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EnvironmentId: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestartAppServerMessage",
 }) as any as S.Schema<RestartAppServerMessage>;
@@ -2790,17 +2324,7 @@ export const RetrieveEnvironmentInfoMessage = /*@__PURE__*/ S.suspend(() =>
     EnvironmentId: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
     InfoType: EnvironmentInfoType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RetrieveEnvironmentInfoMessage",
 }) as any as S.Schema<RetrieveEnvironmentInfoMessage>;
@@ -2817,26 +2341,21 @@ export const EnvironmentInfoDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     InfoType: S.optional(EnvironmentInfoType),
     Ec2InstanceId: S.optional(S.String),
-    SampleTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    SampleTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Message: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EnvironmentInfoDescription",
 }) as any as S.Schema<EnvironmentInfoDescription>;
 export type EnvironmentInfoDescriptionList = EnvironmentInfoDescription[];
-export const EnvironmentInfoDescriptionList = /*@__PURE__*/ S.Array(
-  EnvironmentInfoDescription,
-);
+export const EnvironmentInfoDescriptionList = /*@__PURE__*/ S.Array(EnvironmentInfoDescription);
 export interface RetrieveEnvironmentInfoResultMessage {
   EnvironmentInfo?: EnvironmentInfoDescription[];
 }
-export const RetrieveEnvironmentInfoResultMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnvironmentInfo: S.optional(EnvironmentInfoDescriptionList),
-    }).pipe(ns),
+export const RetrieveEnvironmentInfoResultMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EnvironmentInfo: S.optional(EnvironmentInfoDescriptionList),
+  }).pipe(ns),
 ).annotate({
   identifier: "RetrieveEnvironmentInfoResultMessage",
 }) as any as S.Schema<RetrieveEnvironmentInfoResultMessage>;
@@ -2852,17 +2371,7 @@ export const SwapEnvironmentCNAMEsMessage = /*@__PURE__*/ S.suspend(() =>
     SourceEnvironmentName: S.optional(S.String),
     DestinationEnvironmentId: S.optional(S.String),
     DestinationEnvironmentName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SwapEnvironmentCNAMEsMessage",
 }) as any as S.Schema<SwapEnvironmentCNAMEsMessage>;
@@ -2886,17 +2395,7 @@ export const TerminateEnvironmentMessage = /*@__PURE__*/ S.suspend(() =>
     EnvironmentName: S.optional(S.String),
     TerminateResources: S.optional(S.Boolean),
     ForceTerminate: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "TerminateEnvironmentMessage",
 }) as any as S.Schema<TerminateEnvironmentMessage>;
@@ -2908,17 +2407,7 @@ export const UpdateApplicationMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationName: S.String,
     Description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateApplicationMessage",
 }) as any as S.Schema<UpdateApplicationMessage>;
@@ -2926,38 +2415,26 @@ export interface UpdateApplicationResourceLifecycleMessage {
   ApplicationName: string;
   ResourceLifecycleConfig: ApplicationResourceLifecycleConfig;
 }
-export const UpdateApplicationResourceLifecycleMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      ResourceLifecycleConfig: ApplicationResourceLifecycleConfig,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateApplicationResourceLifecycleMessage",
-  }) as any as S.Schema<UpdateApplicationResourceLifecycleMessage>;
+export const UpdateApplicationResourceLifecycleMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    ResourceLifecycleConfig: ApplicationResourceLifecycleConfig,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "UpdateApplicationResourceLifecycleMessage",
+}) as any as S.Schema<UpdateApplicationResourceLifecycleMessage>;
 export interface ApplicationResourceLifecycleDescriptionMessage {
   ApplicationName?: string;
   ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig;
 }
-export const ApplicationResourceLifecycleDescriptionMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.optional(S.String),
-      ResourceLifecycleConfig: S.optional(ApplicationResourceLifecycleConfig),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ApplicationResourceLifecycleDescriptionMessage",
-  }) as any as S.Schema<ApplicationResourceLifecycleDescriptionMessage>;
+export const ApplicationResourceLifecycleDescriptionMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.optional(S.String),
+    ResourceLifecycleConfig: S.optional(ApplicationResourceLifecycleConfig),
+  }).pipe(ns),
+).annotate({
+  identifier: "ApplicationResourceLifecycleDescriptionMessage",
+}) as any as S.Schema<ApplicationResourceLifecycleDescriptionMessage>;
 export interface UpdateApplicationVersionMessage {
   ApplicationName: string;
   VersionLabel: string;
@@ -2968,17 +2445,7 @@ export const UpdateApplicationVersionMessage = /*@__PURE__*/ S.suspend(() =>
     ApplicationName: S.String,
     VersionLabel: S.String,
     Description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateApplicationVersionMessage",
 }) as any as S.Schema<UpdateApplicationVersionMessage>;
@@ -2996,17 +2463,7 @@ export const UpdateConfigurationTemplateMessage = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     OptionSettings: S.optional(ConfigurationOptionSettingsList),
     OptionsToRemove: S.optional(OptionsSpecifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateConfigurationTemplateMessage",
 }) as any as S.Schema<UpdateConfigurationTemplateMessage>;
@@ -3038,17 +2495,7 @@ export const UpdateEnvironmentMessage = /*@__PURE__*/ S.suspend(() =>
     PlatformArn: S.optional(S.String),
     OptionSettings: S.optional(ConfigurationOptionSettingsList),
     OptionsToRemove: S.optional(OptionsSpecifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateEnvironmentMessage",
 }) as any as S.Schema<UpdateEnvironmentMessage>;
@@ -3064,17 +2511,7 @@ export const UpdateTagsForResourceMessage = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String,
     TagsToAdd: S.optional(TagList),
     TagsToRemove: S.optional(TagKeyList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateTagsForResourceMessage",
 }) as any as S.Schema<UpdateTagsForResourceMessage>;
@@ -3090,24 +2527,13 @@ export interface ValidateConfigurationSettingsMessage {
   EnvironmentName?: string;
   OptionSettings: ConfigurationOptionSetting[];
 }
-export const ValidateConfigurationSettingsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationName: S.String,
-      TemplateName: S.optional(S.String),
-      EnvironmentName: S.optional(S.String),
-      OptionSettings: ConfigurationOptionSettingsList,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ValidateConfigurationSettingsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    TemplateName: S.optional(S.String),
+    EnvironmentName: S.optional(S.String),
+    OptionSettings: ConfigurationOptionSettingsList,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ValidateConfigurationSettingsMessage",
 }) as any as S.Schema<ValidateConfigurationSettingsMessage>;
@@ -3136,15 +2562,13 @@ export const ValidationMessagesList = /*@__PURE__*/ S.Array(ValidationMessage);
 export interface ConfigurationSettingsValidationMessages {
   Messages?: ValidationMessage[];
 }
-export const ConfigurationSettingsValidationMessages = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Messages: S.optional(ValidationMessagesList) }).pipe(ns),
+export const ConfigurationSettingsValidationMessages = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Messages: S.optional(ValidationMessagesList) }).pipe(ns),
 ).annotate({
   identifier: "ConfigurationSettingsValidationMessages",
 }) as any as S.Schema<ConfigurationSettingsValidationMessages>;
 export type ExceptionMessage = string;
-export type AbortEnvironmentUpdateError =
-  | InsufficientPrivilegesException
-  | CommonErrors;
+export type AbortEnvironmentUpdateError = InsufficientPrivilegesException | CommonErrors;
 /**
  * Cancels in-progress environment configuration update or application version
  * deployment.
@@ -3180,10 +2604,7 @@ export const applyEnvironmentManagedAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ApplyEnvironmentManagedActionRequest,
   output: ApplyEnvironmentManagedActionResult,
-  errors: [
-    ElasticBeanstalkServiceException,
-    ManagedActionInvalidStateException,
-  ],
+  errors: [ElasticBeanstalkServiceException, ManagedActionInvalidStateException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyEnvironmentManagedAction",
@@ -3256,9 +2677,7 @@ export const composeEnvironments: API.OperationMethod<
   operationName: "ComposeEnvironments",
 }));
 
-export type CreateApplicationError =
-  | TooManyApplicationsException
-  | CommonErrors;
+export type CreateApplicationError = TooManyApplicationsException | CommonErrors;
 /**
  * Creates an application that has one configuration template named `default`
  * and no application versions.
@@ -3443,9 +2862,7 @@ export const createStorageLocation: API.OperationMethod<
   operationName: "CreateStorageLocation",
 }));
 
-export type DeleteApplicationError =
-  | OperationInProgressException
-  | CommonErrors;
+export type DeleteApplicationError = OperationInProgressException | CommonErrors;
 /**
  * Deletes the specified application along with all associated versions and
  * configurations. The application versions will not be deleted from your Amazon S3
@@ -3498,9 +2915,7 @@ export const deleteApplicationVersion: API.OperationMethod<
   operationName: "DeleteApplicationVersion",
 }));
 
-export type DeleteConfigurationTemplateError =
-  | OperationInProgressException
-  | CommonErrors;
+export type DeleteConfigurationTemplateError = OperationInProgressException | CommonErrors;
 /**
  * Deletes the specified configuration template.
  *
@@ -3574,9 +2989,7 @@ export const deletePlatformVersion: API.OperationMethod<
   operationName: "DeletePlatformVersion",
 }));
 
-export type DescribeAccountAttributesError =
-  | InsufficientPrivilegesException
-  | CommonErrors;
+export type DescribeAccountAttributesError = InsufficientPrivilegesException | CommonErrors;
 /**
  * Returns attributes related to AWS Elastic Beanstalk that are associated with the calling AWS
  * account.
@@ -3633,9 +3046,7 @@ export const describeApplicationVersions: API.OperationMethod<
   operationName: "DescribeApplicationVersions",
 }));
 
-export type DescribeConfigurationOptionsError =
-  | TooManyBucketsException
-  | CommonErrors;
+export type DescribeConfigurationOptionsError = TooManyBucketsException | CommonErrors;
 /**
  * Describes the configuration options that are used in a particular configuration
  * template or environment, or that a specified solution stack defines. The description includes
@@ -3656,9 +3067,7 @@ export const describeConfigurationOptions: API.OperationMethod<
   operationName: "DescribeConfigurationOptions",
 }));
 
-export type DescribeConfigurationSettingsError =
-  | TooManyBucketsException
-  | CommonErrors;
+export type DescribeConfigurationSettingsError = TooManyBucketsException | CommonErrors;
 /**
  * Returns a description of the settings for the specified configuration set, that is,
  * either a configuration template or the configuration set associated with a running
@@ -3757,9 +3166,7 @@ export const describeEnvironmentManagedActions: API.OperationMethod<
   operationName: "DescribeEnvironmentManagedActions",
 }));
 
-export type DescribeEnvironmentResourcesError =
-  | InsufficientPrivilegesException
-  | CommonErrors;
+export type DescribeEnvironmentResourcesError = InsufficientPrivilegesException | CommonErrors;
 /**
  * Returns AWS resources for this environment.
  */
@@ -4004,9 +3411,7 @@ export const listTagsForResource: API.OperationMethod<
   operationName: "ListTagsForResource",
 }));
 
-export type RebuildEnvironmentError =
-  | InsufficientPrivilegesException
-  | CommonErrors;
+export type RebuildEnvironmentError = InsufficientPrivilegesException | CommonErrors;
 /**
  * Deletes and recreates all of the AWS resources (for example: the Auto Scaling group,
  * load balancer, etc.) for a specified environment and forces a restart.
@@ -4121,9 +3526,7 @@ export const swapEnvironmentCNAMEs: API.OperationMethod<
   operationName: "SwapEnvironmentCNAMEs",
 }));
 
-export type TerminateEnvironmentError =
-  | InsufficientPrivilegesException
-  | CommonErrors;
+export type TerminateEnvironmentError = InsufficientPrivilegesException | CommonErrors;
 /**
  * Terminates the specified environment.
  */

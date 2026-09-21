@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTSecureTunneling",
   serviceShapeName: "IoTSecuredTunneling",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -52,9 +48,7 @@ const rules = T.EndpointResolver((p, _) => {
               return e(`https://api.iot-tunneling-fips.${Region}.api.aws`);
             }
             if ("aws-cn" === _.getAttr(PartitionResult, "name")) {
-              return e(
-                `https://api.iot-tunneling-fips.${Region}.api.amazonwebservices.com.cn`,
-              );
+              return e(`https://api.iot-tunneling-fips.${Region}.api.amazonwebservices.com.cn`);
             }
             if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
               return e(`https://api.iot-tunneling-fips.${Region}.api.aws`);
@@ -73,9 +67,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.tunneling.iot-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -83,9 +75,7 @@ const rules = T.EndpointResolver((p, _) => {
               return e(`https://api.iot-tunneling.${Region}.api.aws`);
             }
             if ("aws-cn" === _.getAttr(PartitionResult, "name")) {
-              return e(
-                `https://api.iot-tunneling.${Region}.api.amazonwebservices.com.cn`,
-              );
+              return e(`https://api.iot-tunneling.${Region}.api.amazonwebservices.com.cn`);
             }
             if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
               return e(`https://api.iot-tunneling.${Region}.api.aws`);
@@ -94,13 +84,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.tunneling.iot.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://api.tunneling.iot.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://api.tunneling.iot.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -142,22 +128,13 @@ export const CloseTunnelRequest = /*@__PURE__*/ S.suspend(() =>
     tunnelId: S.String.pipe(T.HttpLabel("tunnelId")),
     delete: S.optional(S.Boolean).pipe(T.HttpQuery("delete")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tunnels/{tunnelId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tunnels/{tunnelId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CloseTunnelRequest",
 }) as any as S.Schema<CloseTunnelRequest>;
 export interface CloseTunnelResponse {}
-export const CloseTunnelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CloseTunnelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CloseTunnelResponse",
 }) as any as S.Schema<CloseTunnelResponse>;
 export interface DescribeTunnelRequest {
@@ -165,14 +142,7 @@ export interface DescribeTunnelRequest {
 }
 export const DescribeTunnelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tunnelId: S.String.pipe(T.HttpLabel("tunnelId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tunnels/{tunnelId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tunnels/{tunnelId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeTunnelRequest",
@@ -270,14 +240,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpQuery("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -302,16 +265,7 @@ export const ListTunnelsRequest = /*@__PURE__*/ S.suspend(() =>
     thingName: S.optional(S.String).pipe(T.HttpQuery("thingName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tunnels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/tunnels" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTunnelsRequest",
 }) as any as S.Schema<ListTunnelsRequest>;
@@ -359,16 +313,7 @@ export const OpenTunnelRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
     destinationConfig: S.optional(DestinationConfig),
     timeoutConfig: S.optional(TimeoutConfig),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tunnels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/tunnels" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "OpenTunnelRequest",
 }) as any as S.Schema<OpenTunnelRequest>;
@@ -435,22 +380,13 @@ export interface TagResourceRequest {
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -461,22 +397,13 @@ export interface UntagResourceRequest {
 }
 export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/untag" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/untag" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type ErrorMessage = string;
@@ -588,9 +515,7 @@ export const openTunnel: API.OperationMethod<
   operationName: "OpenTunnel",
 }));
 
-export type RotateTunnelAccessTokenError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type RotateTunnelAccessTokenError = ResourceNotFoundException | CommonErrors;
 /**
  * Revokes the current client access token (CAT) and returns new CAT for clients to
  * use when reconnecting to secure tunneling to access the same tunnel.

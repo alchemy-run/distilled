@@ -1,17 +1,15 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace(
-  "http://directoryservicedata.amazonaws.com/doc/2023-05-31/",
-);
+import * as T from "../traits.ts";
+const ns = T.XmlNamespace("http://directoryservicedata.amazonaws.com/doc/2023-05-31/");
 const svc = T.AwsApiService({
   sdkId: "Directory Service Data",
   serviceShapeName: "DirectoryServiceData",
@@ -31,14 +29,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -61,13 +55,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://ds-data-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://ds-data-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,13 +65,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://ds-data.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://ds-data.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://ds-data.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -188,20 +174,13 @@ export const AddGroupMemberRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AddGroupMemberRequest",
 }) as any as S.Schema<AddGroupMemberRequest>;
 export interface AddGroupMemberResult {}
-export const AddGroupMemberResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const AddGroupMemberResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "AddGroupMemberResult",
 }) as any as S.Schema<AddGroupMemberResult>;
 export type GroupType = "Distribution" | "Security" | (string & {});
 export const GroupType = S.String;
 
-export type GroupScope =
-  | "DomainLocal"
-  | "Global"
-  | "Universal"
-  | "BuiltinLocal"
-  | (string & {});
+export type GroupScope = "DomainLocal" | "Global" | "Universal" | "BuiltinLocal" | (string & {});
 export const GroupScope = S.String;
 
 export type LdapDisplayName = string;
@@ -232,10 +211,7 @@ export const AttributeValue = /*@__PURE__*/ S.Union([
   S.Struct({ SS: StringSetAttributeValue }),
 ]);
 export type Attributes = { [key: string]: AttributeValue | undefined };
-export const Attributes = /*@__PURE__*/ S.Record(
-  S.String,
-  AttributeValue.pipe(S.optional),
-);
+export const Attributes = /*@__PURE__*/ S.Record(S.String, AttributeValue.pipe(S.optional));
 export interface CreateGroupRequest {
   DirectoryId: string;
   SAMAccountName: string;
@@ -253,15 +229,7 @@ export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
     OtherAttributes: S.optional(Attributes),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Groups/CreateGroup" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Groups/CreateGroup" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateGroupRequest",
@@ -304,15 +272,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
     OtherAttributes: S.optional(Attributes),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Users/CreateUser" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Users/CreateUser" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateUserRequest",
@@ -342,23 +302,13 @@ export const DeleteGroupRequest = /*@__PURE__*/ S.suspend(() =>
     SAMAccountName: S.String,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Groups/DeleteGroup" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Groups/DeleteGroup" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteGroupRequest",
 }) as any as S.Schema<DeleteGroupRequest>;
 export interface DeleteGroupResult {}
-export const DeleteGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteGroupResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteGroupResult",
 }) as any as S.Schema<DeleteGroupResult>;
 export interface DeleteUserRequest {
@@ -372,23 +322,13 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
     SAMAccountName: S.String,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Users/DeleteUser" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Users/DeleteUser" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteUserRequest",
 }) as any as S.Schema<DeleteUserRequest>;
 export interface DeleteUserResult {}
-export const DeleteUserResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteUserResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteUserResult",
 }) as any as S.Schema<DeleteUserResult>;
 export type LdapDisplayNameList = string[];
@@ -457,15 +397,7 @@ export const DescribeUserRequest = /*@__PURE__*/ S.suspend(() =>
     OtherAttributes: S.optional(LdapDisplayNameList),
     Realm: S.optional(S.String),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Users/DescribeUser" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Users/DescribeUser" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeUserRequest",
@@ -512,23 +444,13 @@ export const DisableUserRequest = /*@__PURE__*/ S.suspend(() =>
     SAMAccountName: S.String,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Users/DisableUser" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Users/DisableUser" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DisableUserRequest",
 }) as any as S.Schema<DisableUserRequest>;
 export interface DisableUserResult {}
-export const DisableUserResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DisableUserResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DisableUserResult",
 }) as any as S.Schema<DisableUserResult>;
 export type NextToken = string | redacted.Redacted<string>;
@@ -607,15 +529,7 @@ export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Groups/ListGroups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Groups/ListGroups" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListGroupsRequest",
@@ -713,15 +627,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Users/ListUsers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Users/ListUsers" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListUsersRequest",
@@ -878,15 +784,7 @@ export const SearchUsersRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Users/SearchUsers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Users/SearchUsers" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "SearchUsersRequest",
@@ -955,23 +853,13 @@ export const UpdateGroupRequest = /*@__PURE__*/ S.suspend(() =>
     UpdateType: S.optional(UpdateType),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Groups/UpdateGroup" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Groups/UpdateGroup" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateGroupRequest",
 }) as any as S.Schema<UpdateGroupRequest>;
 export interface UpdateGroupResult {}
-export const UpdateGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UpdateGroupResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UpdateGroupResult",
 }) as any as S.Schema<UpdateGroupResult>;
 export interface UpdateUserRequest {
@@ -995,31 +883,17 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
     UpdateType: S.optional(UpdateType),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/Users/UpdateUser" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/Users/UpdateUser" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateUserRequest",
 }) as any as S.Schema<UpdateUserRequest>;
 export interface UpdateUserResult {}
-export const UpdateUserResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UpdateUserResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UpdateUserResult",
 }) as any as S.Schema<UpdateUserResult>;
 export type ExceptionMessage = string;
-export type AccessDeniedReason =
-  | "IAM_AUTH"
-  | "DIRECTORY_AUTH"
-  | "DATA_DISABLED"
-  | (string & {});
+export type AccessDeniedReason = "IAM_AUTH" | "DIRECTORY_AUTH" | "DATA_DISABLED" | (string & {});
 export const AccessDeniedReason = S.String;
 
 export type DirectoryUnavailableReason =

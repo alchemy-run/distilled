@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "ManagedBlockchain Query",
   serviceShapeName: "TietonChainQueryService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://managedblockchain-query-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://managedblockchain-query.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://managedblockchain-query.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -195,9 +187,7 @@ export const BatchGetTokenBalanceInputItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetTokenBalanceInputItem",
 }) as any as S.Schema<BatchGetTokenBalanceInputItem>;
 export type GetTokenBalanceInputList = BatchGetTokenBalanceInputItem[];
-export const GetTokenBalanceInputList = /*@__PURE__*/ S.Array(
-  BatchGetTokenBalanceInputItem,
-);
+export const GetTokenBalanceInputList = /*@__PURE__*/ S.Array(BatchGetTokenBalanceInputItem);
 export interface BatchGetTokenBalanceInput {
   getTokenBalanceInputs?: BatchGetTokenBalanceInputItem[];
 }
@@ -236,9 +226,7 @@ export const BatchGetTokenBalanceOutputItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetTokenBalanceOutputItem",
 }) as any as S.Schema<BatchGetTokenBalanceOutputItem>;
 export type BatchGetTokenBalanceOutputList = BatchGetTokenBalanceOutputItem[];
-export const BatchGetTokenBalanceOutputList = /*@__PURE__*/ S.Array(
-  BatchGetTokenBalanceOutputItem,
-);
+export const BatchGetTokenBalanceOutputList = /*@__PURE__*/ S.Array(BatchGetTokenBalanceOutputItem);
 export type ErrorType = string;
 export interface BatchGetTokenBalanceErrorItem {
   tokenIdentifier?: TokenIdentifier;
@@ -261,9 +249,7 @@ export const BatchGetTokenBalanceErrorItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetTokenBalanceErrorItem",
 }) as any as S.Schema<BatchGetTokenBalanceErrorItem>;
 export type BatchGetTokenBalanceErrors = BatchGetTokenBalanceErrorItem[];
-export const BatchGetTokenBalanceErrors = /*@__PURE__*/ S.Array(
-  BatchGetTokenBalanceErrorItem,
-);
+export const BatchGetTokenBalanceErrors = /*@__PURE__*/ S.Array(BatchGetTokenBalanceErrorItem);
 export interface BatchGetTokenBalanceOutput {
   tokenBalances: BatchGetTokenBalanceOutputItem[];
   errors: BatchGetTokenBalanceErrorItem[];
@@ -290,14 +276,7 @@ export interface GetAssetContractInput {
 }
 export const GetAssetContractInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ contractIdentifier: ContractIdentifier }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-asset-contract" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/get-asset-contract" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetAssetContractInput",
@@ -344,14 +323,7 @@ export const GetTokenBalanceInput = /*@__PURE__*/ S.suspend(() =>
     ownerIdentifier: OwnerIdentifier,
     atBlockchainInstant: S.optional(BlockchainInstant),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-token-balance" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/get-token-balance" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetTokenBalanceInput",
@@ -386,16 +358,7 @@ export const GetTransactionInput = /*@__PURE__*/ S.suspend(() =>
     transactionHash: S.optional(S.String),
     transactionId: S.optional(S.String),
     network: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-transaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/get-transaction" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetTransactionInput",
 }) as any as S.Schema<GetTransactionInput>;
@@ -480,14 +443,7 @@ export const ListAssetContractsInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-asset-contracts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-asset-contracts" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListAssetContractsInput",
@@ -650,9 +606,9 @@ export const ListFilteredTransactionEventsOutput = /*@__PURE__*/ S.suspend(() =>
 export interface OwnerFilter {
   address: string;
 }
-export const OwnerFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ address: S.String }),
-).annotate({ identifier: "OwnerFilter" }) as any as S.Schema<OwnerFilter>;
+export const OwnerFilter = /*@__PURE__*/ S.suspend(() => S.Struct({ address: S.String })).annotate({
+  identifier: "OwnerFilter",
+}) as any as S.Schema<OwnerFilter>;
 export interface TokenFilter {
   network: string;
   contractAddress?: string;
@@ -678,14 +634,7 @@ export const ListTokenBalancesInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-token-balances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-token-balances" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTokenBalancesInput",
@@ -787,14 +736,7 @@ export const ListTransactionsInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     confirmationStatusFilter: S.optional(ConfirmationStatusFilter),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-transactions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-transactions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTransactionsInput",
@@ -818,9 +760,7 @@ export const TransactionOutputItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "TransactionOutputItem",
 }) as any as S.Schema<TransactionOutputItem>;
 export type TransactionOutputList = TransactionOutputItem[];
-export const TransactionOutputList = /*@__PURE__*/ S.Array(
-  TransactionOutputItem,
-);
+export const TransactionOutputList = /*@__PURE__*/ S.Array(TransactionOutputItem);
 export interface ListTransactionsOutput {
   transactions: TransactionOutputItem[];
   nextToken?: string;
@@ -849,9 +789,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type BatchGetTokenBalanceError =
   | AccessDeniedException
   | InternalServerException

@@ -46,10 +46,7 @@ export function makeStreamParser(outputAst: AST.AST): StreamParser | null {
 
       // Return a parser function that handles this event stream property
       return (deserialized) => {
-        if (
-          !deserialized?.[propName] ||
-          !(deserialized[propName] instanceof ReadableStream)
-        ) {
+        if (!deserialized?.[propName] || !(deserialized[propName] instanceof ReadableStream)) {
           return null;
         }
 

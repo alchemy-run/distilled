@@ -52,10 +52,9 @@ export interface Config {
   readonly externalAccountBinding?: ExternalAccountBinding | undefined;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("AcmeCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "AcmeCredentials",
+) {}
 
 /**
  * Credentials from the environment:
@@ -83,24 +82,19 @@ export const CredentialsFromEnv = Layer.succeed(
             "ACME_ACCOUNT_KEY (a private JWK) is required; ACME_DIRECTORY_URL, ACME_ACCOUNT_URL, ACME_EAB_KID and ACME_EAB_HMAC_KEY are optional",
         }),
     ),
-    Effect.map(
-      ({ directoryUrl, accountKey, accountUrl, eabKid, eabHmac }): Config => ({
-        directoryUrl,
-        accountKey,
-        accountUrl: Option.getOrUndefined(accountUrl),
-        externalAccountBinding:
-          Option.isSome(eabKid) && Option.isSome(eabHmac)
-            ? { keyId: eabKid.value, hmacKey: eabHmac.value }
-            : undefined,
-      }),
-    ),
+    Effect.map(({ directoryUrl, accountKey, accountUrl, eabKid, eabHmac }): Config => ({
+      directoryUrl,
+      accountKey,
+      accountUrl: Option.getOrUndefined(accountUrl),
+      externalAccountBinding:
+        Option.isSome(eabKid) && Option.isSome(eabHmac)
+          ? { keyId: eabKid.value, hmacKey: eabHmac.value }
+          : undefined,
+    })),
     Effect.orDie,
   ),
 );
 
 /** A fixed credentials layer (tests, and consumers that manage keys themselves). */
 export const layer = (config: Config | Effect.Effect<Config>) =>
-  Layer.succeed(
-    Credentials,
-    Effect.isEffect(config) ? config : Effect.succeed(config),
-  );
+  Layer.succeed(Credentials, Effect.isEffect(config) ? config : Effect.succeed(config));

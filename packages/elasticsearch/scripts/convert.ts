@@ -19,8 +19,7 @@ await runOpenApiConvert({
   specs: [
     {
       name: "elasticsearch",
-      specPath:
-        "specs/spec-mirror-elasticsearch/specs/elasticsearch-openapi.json",
+      specPath: "specs/spec-mirror-elasticsearch/specs/elasticsearch-openapi.json",
     },
   ],
   // OpenAPI-document patches (flat patches/*.patch.json). The smithy-model

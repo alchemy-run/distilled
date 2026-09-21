@@ -4,10 +4,7 @@ import type { WorkerEnv } from "./alchemy.run.ts";
 // global, but we don't pull in `@cloudflare/workers-types`, so declare
 // just what this file uses.
 declare class HTMLRewriter {
-  on(
-    selector: string,
-    handler: { element(el: HTMLRewriterElement): void },
-  ): HTMLRewriter;
+  on(selector: string, handler: { element(el: HTMLRewriterElement): void }): HTMLRewriter;
   transform(response: Response): Response;
 }
 interface HTMLRewriterElement {
@@ -44,10 +41,7 @@ export default {
       });
     }
     const res = await env.ASSETS.fetch(request);
-    return withoutIndexing(
-      withUtf8Charset(rewriteSocialCardHost(request, res)),
-      canonical,
-    );
+    return withoutIndexing(withUtf8Charset(rewriteSocialCardHost(request, res)), canonical);
   },
 };
 

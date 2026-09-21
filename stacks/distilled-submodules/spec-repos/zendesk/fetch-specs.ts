@@ -80,9 +80,7 @@ const fetchText = async (url: string): Promise<string> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 };
@@ -154,10 +152,7 @@ async function main() {
     openapi: openapiManifest,
     docs,
   };
-  await Bun.write(
-    `${DOCS_DIR}/_manifest.json`,
-    JSON.stringify(manifest, null, 2) + "\n",
-  );
+  await Bun.write(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
 
   const pathCount = openapiManifest.reduce((n, s) => n + s.paths, 0);
   console.log(

@@ -8,10 +8,7 @@
  * expansion), which core's `HttpTrait` doesn't model — the Stripe protocol
  * keys its body encoding on `contentType: "form-urlencoded"`.
  */
-import {
-  Http as CoreHttp,
-  type HttpTrait as CoreHttpTrait,
-} from "@distilled.cloud/core/trait";
+import { Http as CoreHttp, type HttpTrait as CoreHttpTrait } from "@distilled.cloud/core/trait";
 
 export {
   Body,

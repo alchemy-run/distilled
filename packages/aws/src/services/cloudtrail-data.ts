@@ -1,11 +1,11 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import type { Credentials } from "../credentials.ts";
+import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-import type { Credentials } from "../credentials.ts";
-import type { CommonErrors } from "../errors.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudTrail Data",
   serviceShapeName: "CloudTrailDataService",
@@ -25,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,9 +55,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudtrail-data-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,13 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudtrail-data.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloudtrail-data.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloudtrail-data.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -92,20 +82,17 @@ export class ChannelNotFound
     message: S.optional(S.String).pipe(T.ErrorMessage()),
   }) {}
 export class ChannelUnsupportedSchema
-  extends /*@__PURE__*/ S.TaggedError<ChannelUnsupportedSchema>()(
-    "ChannelUnsupportedSchema",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ChannelUnsupportedSchema>()("ChannelUnsupportedSchema", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class DuplicatedAuditEventId
-  extends /*@__PURE__*/ S.TaggedError<DuplicatedAuditEventId>()(
-    "DuplicatedAuditEventId",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<DuplicatedAuditEventId>()("DuplicatedAuditEventId", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidChannelARN
-  extends /*@__PURE__*/ S.TaggedError<InvalidChannelARN>()(
-    "InvalidChannelARN",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidChannelARN>()("InvalidChannelARN", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class UnsupportedOperationException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()(
     "UnsupportedOperationException",
@@ -138,16 +125,7 @@ export const PutAuditEventsRequest = /*@__PURE__*/ S.suspend(() =>
     auditEvents: AuditEvents,
     channelArn: S.String.pipe(T.HttpQuery("channelArn")),
     externalId: S.optional(S.String).pipe(T.HttpQuery("externalId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/PutAuditEvents" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/PutAuditEvents" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutAuditEventsRequest",
 }) as any as S.Schema<PutAuditEventsRequest>;
@@ -161,9 +139,7 @@ export const AuditEventResultEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "AuditEventResultEntry",
 }) as any as S.Schema<AuditEventResultEntry>;
 export type AuditEventResultEntries = AuditEventResultEntry[];
-export const AuditEventResultEntries = /*@__PURE__*/ S.Array(
-  AuditEventResultEntry,
-);
+export const AuditEventResultEntries = /*@__PURE__*/ S.Array(AuditEventResultEntry);
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface ResultErrorEntry {

@@ -28,8 +28,5 @@ import * as Pagination from "@distilled.cloud/core/pagination";
  * Cursor traversal for Slack: follow `response_metadata.next_cursor` until
  * it comes back empty/absent.
  */
-export const slackPaginate: Pagination.PaginationStrategy = (
-  operation,
-  input,
-  pagination,
-) => Pagination.paginateCursor(operation, input, pagination);
+export const slackPaginate: Pagination.PaginationStrategy = (operation, input, pagination) =>
+  Pagination.paginateCursor(operation, input, pagination);

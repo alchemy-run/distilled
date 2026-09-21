@@ -49,9 +49,7 @@ class FetchError extends Error {
     readonly status?: number,
     readonly reason?: unknown,
   ) {
-    super(
-      `${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`,
-    );
+    super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
   }
 }
 
@@ -81,15 +79,8 @@ async function fetchText(url: string, attempts = 8): Promise<string> {
       }
       if (response.status < 500 && response.status !== 429) throw error;
     } catch (cause) {
-      error =
-        cause instanceof FetchError
-          ? cause
-          : new FetchError(url, undefined, cause);
-      if (
-        error.status !== undefined &&
-        error.status < 500 &&
-        error.status !== 429
-      ) {
+      error = cause instanceof FetchError ? cause : new FetchError(url, undefined, cause);
+      if (error.status !== undefined && error.status < 500 && error.status !== 429) {
         throw error;
       }
     }
@@ -128,16 +119,10 @@ function htmlToMarkdown(html: string): string {
     .replace(/<footer[\s\S]*?<\/footer>/gi, "")
     .replace(/<!--[\s\S]*?-->/g, "");
 
-  s = s.replace(
-    /<pre[^>]*>\s*<code[^>]*>([\s\S]*?)<\/code>\s*<\/pre>/gi,
-    (_, code) => {
-      const text = decodeEntities(String(code).replace(/<[^>]+>/g, "")).replace(
-        /\n+$/,
-        "",
-      );
-      return `\n\n\`\`\`\n${text}\n\`\`\`\n\n`;
-    },
-  );
+  s = s.replace(/<pre[^>]*>\s*<code[^>]*>([\s\S]*?)<\/code>\s*<\/pre>/gi, (_, code) => {
+    const text = decodeEntities(String(code).replace(/<[^>]+>/g, "")).replace(/\n+$/, "");
+    return `\n\n\`\`\`\n${text}\n\`\`\`\n\n`;
+  });
 
   s = s.replace(/<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/gi, (_, n, inner) => {
     return `\n\n${"#".repeat(Number(n))} ${stripTags(inner)}\n\n`;
@@ -160,14 +145,8 @@ function htmlToMarkdown(html: string): string {
     return `\n\n${lines.join("\n")}\n\n`;
   });
 
-  s = s.replace(
-    /<li[^>]*>([\s\S]*?)<\/li>/gi,
-    (_, inner) => `- ${stripTags(inner)}\n`,
-  );
-  s = s.replace(
-    /<p[^>]*>([\s\S]*?)<\/p>/gi,
-    (_, inner) => `\n${stripTags(inner)}\n`,
-  );
+  s = s.replace(/<li[^>]*>([\s\S]*?)<\/li>/gi, (_, inner) => `- ${stripTags(inner)}\n`);
+  s = s.replace(/<p[^>]*>([\s\S]*?)<\/p>/gi, (_, inner) => `\n${stripTags(inner)}\n`);
   s = s.replace(/<br\s*\/?>/gi, "\n");
   s = s.replace(/<[^>]+>/g, "");
   s = decodeEntities(s);
@@ -180,11 +159,8 @@ function htmlToMarkdown(html: string): string {
 
 function normalizePath(pathTemplate: string): string {
   return pathTemplate
-    .replace(/[\u200b\u200c\u200d\ufeff]/g, "")
-    .replace(
-      /\{([^}/]+)\}/g,
-      (_, name) => `{${String(name).replace(/^\*/, "")}}`,
-    )
+    .replace(/(?:\u200b|\u200c|\u200d|\ufeff)/g, "")
+    .replace(/\{([^}/]+)\}/g, (_, name) => `{${String(name).replace(/^\*/, "")}}`)
     .replace(/:([A-Za-z_][A-Za-z0-9_]*)/g, "{$1}")
     .replace(/\/+$/, "");
 }
@@ -325,8 +301,7 @@ function assembleOpenApi(): Record<string, unknown> {
             {
               name: "clear",
               in: "query",
-              description:
-                "Whether to clear any existing data when updating an existing database.",
+              description: "Whether to clear any existing data when updating an existing database.",
               schema: { type: "boolean" },
             },
           ],
@@ -354,12 +329,7 @@ function assembleOpenApi(): Record<string, unknown> {
               description: "Database description.",
               ...json({
                 type: "object",
-                required: [
-                  "database_identity",
-                  "owner_identity",
-                  "host_type",
-                  "initial_program",
-                ],
+                required: ["database_identity", "owner_identity", "host_type", "initial_program"],
                 properties: {
                   database_identity: {
                     type: "string",
@@ -367,19 +337,16 @@ function assembleOpenApi(): Record<string, unknown> {
                   },
                   owner_identity: {
                     type: "string",
-                    description:
-                      "The Spacetime identity of the database's owner.",
+                    description: "The Spacetime identity of the database's owner.",
                   },
                   host_type: {
                     type: "string",
-                    description:
-                      'The module host type; currently always "wasm".',
+                    description: 'The module host type; currently always "wasm".',
                     enum: ["wasm"],
                   },
                   initial_program: {
                     type: "string",
-                    description:
-                      "Hash of the WASM module with which the database was initialized.",
+                    description: "Hash of the WASM module with which the database was initialized.",
                   },
                 },
               }),
@@ -505,8 +472,7 @@ function assembleOpenApi(): Record<string, unknown> {
           operationId: "getDatabaseIdentity",
           tags: ["Database"],
           summary: "Get the identity of a database.",
-          description:
-            "Returns a hex string of the specified database's identity.",
+          description: "Returns a hex string of the specified database's identity.",
           responses: {
             "200": {
               description: "Database identity as a hex string.",
@@ -597,8 +563,7 @@ function assembleOpenApi(): Record<string, unknown> {
             {
               name: "follow",
               in: "query",
-              description:
-                "Whether to continue receiving new logs via a stream.",
+              description: "Whether to continue receiving new logs via a stream.",
               schema: { type: "boolean" },
             },
           ],
@@ -631,14 +596,12 @@ function assembleOpenApi(): Record<string, unknown> {
                   required: ["schema", "rows"],
                   properties: {
                     schema: {
-                      description:
-                        "JSON-encoded ProductType of the returned rows.",
+                      description: "JSON-encoded ProductType of the returned rows.",
                     },
                     rows: {
                       type: "array",
                       items: {},
-                      description:
-                        "JSON-encoded ProductValues conforming to schema.",
+                      description: "JSON-encoded ProductValues conforming to schema.",
                     },
                   },
                 },
@@ -675,8 +638,7 @@ function assembleOpenApi(): Record<string, unknown> {
         post: {
           operationId: "createWebsocketToken",
           tags: ["Identity"],
-          summary:
-            "Generate a short-lived access token for use in untrusted contexts.",
+          summary: "Generate a short-lived access token for use in untrusted contexts.",
           description:
             "Generate a short-lived access token which can be used in untrusted contexts, e.g. embedded in URLs. Requires Authorization.",
           security: [{ bearerAuth: [] }],
@@ -727,8 +689,7 @@ function assembleOpenApi(): Record<string, unknown> {
                   identities: {
                     type: "array",
                     items: { type: "string" },
-                    description:
-                      "Identities of databases owned by the path identity.",
+                    description: "Identities of databases owned by the path identity.",
                   },
                 },
               }),
@@ -751,8 +712,7 @@ function assembleOpenApi(): Record<string, unknown> {
               description: "Token is valid but does not match the identity.",
             },
             "401": {
-              description:
-                "Token is invalid, or no Authorization header was sent.",
+              description: "Token is invalid, or no Authorization header was sent.",
             },
           },
         },
@@ -772,16 +732,7 @@ function assembleOpenApi(): Record<string, unknown> {
   };
 }
 
-const HTTP_METHODS = [
-  "get",
-  "put",
-  "post",
-  "delete",
-  "options",
-  "head",
-  "patch",
-  "trace",
-] as const;
+const HTTP_METHODS = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
 
 function census(spec: Record<string, any>) {
   let operations = 0;
@@ -812,10 +763,7 @@ async function main() {
       `${LLMS_URL} did not look like SpacetimeDB's docs index — refusing to continue`,
     );
   }
-  await writeFile(
-    `${SPECS_DIR}/llms.txt`,
-    llmsTxt.endsWith("\n") ? llmsTxt : `${llmsTxt}\n`,
-  );
+  await writeFile(`${SPECS_DIR}/llms.txt`, llmsTxt.endsWith("\n") ? llmsTxt : `${llmsTxt}\n`);
 
   await mkdir(DOCS_DIR, { recursive: true });
 
@@ -829,16 +777,11 @@ async function main() {
     }
     const markdown = htmlToMarkdown(html);
     if (!markdown.includes("/v1/")) {
-      throw new Error(
-        `${url} converted to markdown without /v1/ routes — refusing to continue`,
-      );
+      throw new Error(`${url} converted to markdown without /v1/ routes — refusing to continue`);
     }
     const localPath = join(DOCS_DIR, page.file);
     await mkdir(dirname(localPath), { recursive: true });
-    await writeFile(
-      localPath,
-      markdown.endsWith("\n") ? markdown : `${markdown}\n`,
-    );
+    await writeFile(localPath, markdown.endsWith("\n") ? markdown : `${markdown}\n`);
     kept.push({ page: url, file: page.file, markdown });
   }
 
@@ -863,9 +806,7 @@ async function main() {
     for (const route of extractRoutes(page.markdown)) documented.add(route);
   }
   if (![...documented].some((r) => r.startsWith("POST /v1/database"))) {
-    throw new Error(
-      "HTTP docs snapshot is missing POST /v1/database — refusing to continue",
-    );
+    throw new Error("HTTP docs snapshot is missing POST /v1/database — refusing to continue");
   }
 
   const spec = assembleOpenApi();
@@ -875,9 +816,7 @@ async function main() {
 
   const c = census(spec);
   if (c.operations === 0) {
-    throw new Error(
-      "assembled OpenAPI has no operations — refusing to write a gutted spec",
-    );
+    throw new Error("assembled OpenAPI has no operations — refusing to write a gutted spec");
   }
 
   const covered = new Set(c.keys);
@@ -896,9 +835,7 @@ async function main() {
   console.log(
     `\n  ${OUTPUT_PATH} — OpenAPI ${spec.openapi}, ${c.paths} paths, ${c.operations} operations`,
   );
-  console.log(
-    `  skipped ${SKIPPED_ROUTES.size} non-management routes (WebSocket / HTTP handlers)`,
-  );
+  console.log(`  skipped ${SKIPPED_ROUTES.size} non-management routes (WebSocket / HTTP handlers)`);
   console.log("Done!");
 }
 

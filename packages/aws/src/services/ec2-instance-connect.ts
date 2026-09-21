@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "EC2 Instance Connect",
   serviceShapeName: "AWSEC2InstanceConnectService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://ec2-instance-connect-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://ec2-instance-connect.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://ec2-instance-connect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -87,10 +79,7 @@ export class AuthException
   extends /*@__PURE__*/ S.TaggedError<AuthException>()(
     "AuthException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "Forbidden", httpResponseCode: 403 }),
-      T.HttpError(403),
-    ),
+    T.all(T.AwsQueryError({ code: "Forbidden", httpResponseCode: 403 }), T.HttpError(403)),
   ).pipe(C.withAuthError) {}
 export class EC2InstanceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<EC2InstanceNotFoundException>()(
@@ -141,10 +130,7 @@ export class InvalidArgsException
   extends /*@__PURE__*/ S.TaggedError<InvalidArgsException>()(
     "InvalidArgsException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidArguments", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidArguments", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class SerialConsoleAccessDisabledException
   extends /*@__PURE__*/ S.TaggedError<SerialConsoleAccessDisabledException>()(
@@ -207,10 +193,7 @@ export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
-      T.HttpError(429),
-    ),
+    T.all(T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }), T.HttpError(429)),
   ).pipe(C.withThrottlingError) {}
 export type InstanceId = string;
 export type SerialPort = number;
@@ -220,15 +203,12 @@ export interface SendSerialConsoleSSHPublicKeyRequest {
   SerialPort?: number;
   SSHPublicKey: string;
 }
-export const SendSerialConsoleSSHPublicKeyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      InstanceId: S.String,
-      SerialPort: S.optional(S.Number),
-      SSHPublicKey: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const SendSerialConsoleSSHPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    InstanceId: S.String,
+    SerialPort: S.optional(S.Number),
+    SSHPublicKey: S.String,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendSerialConsoleSSHPublicKeyRequest",
 }) as any as S.Schema<SendSerialConsoleSSHPublicKeyRequest>;
@@ -238,12 +218,11 @@ export interface SendSerialConsoleSSHPublicKeyResponse {
   RequestId?: string;
   Success?: boolean;
 }
-export const SendSerialConsoleSSHPublicKeyResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RequestId: S.optional(S.String),
-      Success: S.optional(S.Boolean),
-    }),
+export const SendSerialConsoleSSHPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RequestId: S.optional(S.String),
+    Success: S.optional(S.Boolean),
+  }),
 ).annotate({
   identifier: "SendSerialConsoleSSHPublicKeyResponse",
 }) as any as S.Schema<SendSerialConsoleSSHPublicKeyResponse>;
@@ -261,9 +240,7 @@ export const SendSSHPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
     InstanceOSUser: S.String,
     SSHPublicKey: S.String,
     AvailabilityZone: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendSSHPublicKeyRequest",
 }) as any as S.Schema<SendSSHPublicKeyRequest>;

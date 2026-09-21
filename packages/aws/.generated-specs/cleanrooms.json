@@ -56,12 +56,7 @@
         "aws.auth#sigv4": {
           "name": "cleanrooms"
         },
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#cors": {
           "additionalAllowedHeaders": [
@@ -72,11 +67,7 @@
             "x-amzn-platform-id",
             "x-amzn-trace-id"
           ],
-          "additionalExposedHeaders": [
-            "x-amzn-errortype",
-            "x-amzn-requestid",
-            "x-amzn-trace-id"
-          ],
+          "additionalExposedHeaders": ["x-amzn-errortype", "x-amzn-requestid", "x-amzn-trace-id"],
           "maxAge": 86400
         },
         "smithy.api#documentation": "<p>Welcome to the <i>Clean Rooms API Reference</i>.</p> <p>Clean Rooms is an Amazon Web Services service that helps multiple parties to join their data together in a secure collaboration workspace. In the collaboration, members who can run queries and jobs and receive results can get insights into the collective datasets without either party getting access to the other party's raw data.</p> <p>To learn more about Clean Rooms concepts, procedures, and best practices, see the <a href=\"https://docs.aws.amazon.com/clean-rooms/latest/userguide/what-is.html\">Clean Rooms User Guide</a>.</p> <p>To learn more about SQL commands, functions, and conditions supported in Clean Rooms, see the <a href=\"https://docs.aws.amazon.com/clean-rooms/latest/sql-reference/sql-reference.html\">Clean Rooms SQL Reference</a>.</p>",

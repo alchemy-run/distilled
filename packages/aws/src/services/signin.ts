@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({ sdkId: "Signin", serviceShapeName: "Signin" });
 const auth = T.AwsAuthSigv4({ name: "signin" });
 const ver = T.ServiceVersion("2023-01-01");
@@ -31,9 +31,7 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = (_0: unknown) => ({
-    authSchemes: [
-      { name: "sigv4", signingName: "signin", signingRegion: `${_0}` },
-    ],
+    authSchemes: [{ name: "sigv4", signingName: "signin", signingRegion: `${_0}` }],
   });
   {
     const PartitionResult = _.partition(Region);
@@ -48,11 +46,7 @@ const rules = T.EndpointResolver((p, _) => {
         return e(`https://signin.${Region}.api.aws`, _p0(Region), {});
       }
       if (_.getAttr(PartitionResult, "name") === "aws-cn") {
-        return e(
-          `https://signin.${Region}.api.amazonwebservices.com.cn`,
-          _p0(Region),
-          {},
-        );
+        return e(`https://signin.${Region}.api.amazonwebservices.com.cn`, _p0(Region), {});
       }
       return e(
         `https://signin.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
@@ -225,21 +219,15 @@ const rules = T.EndpointResolver((p, _) => {
       PartitionResult != null &&
       PartitionResult !== false
     ) {
-      return e(
-        `https://${Region}.signin.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-      );
+      return e(`https://${Region}.signin.${_.getAttr(PartitionResult, "dnsSuffix")}`);
     }
   }
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -283,13 +271,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true && UseDualStack === false) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://signin-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://signin-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -297,13 +281,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://signin.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://signin.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://signin.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -311,15 +291,12 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    {
-      error: S.suspend(() => OAuth2ErrorCode).annotate({
-        identifier: "OAuth2ErrorCode",
-      }),
-      message: S.String.pipe(T.ErrorMessage()),
-    },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
+    error: S.suspend(() => OAuth2ErrorCode).annotate({
+      identifier: "OAuth2ErrorCode",
+    }),
+    message: S.String.pipe(T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
@@ -531,111 +508,106 @@ export type TargetId = string;
 export interface DeleteConsoleAuthorizationConfigurationInput {
   targetId?: string;
 }
-export const DeleteConsoleAuthorizationConfigurationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ targetId: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/delete-console-authorization-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsControlPlane: { value: true } }),
-      ),
+export const DeleteConsoleAuthorizationConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ targetId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/delete-console-authorization-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ IsControlPlane: { value: true } }),
     ),
-  ).annotate({
-    identifier: "DeleteConsoleAuthorizationConfigurationInput",
-  }) as any as S.Schema<DeleteConsoleAuthorizationConfigurationInput>;
+  ),
+).annotate({
+  identifier: "DeleteConsoleAuthorizationConfigurationInput",
+}) as any as S.Schema<DeleteConsoleAuthorizationConfigurationInput>;
 export interface DeleteConsoleAuthorizationConfigurationOutput {
   targetId: string;
   scope: string;
   consoleAuthorizationEnabled: boolean;
 }
-export const DeleteConsoleAuthorizationConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      targetId: S.String,
-      scope: S.String,
-      consoleAuthorizationEnabled: S.Boolean,
-    }),
-  ).annotate({
-    identifier: "DeleteConsoleAuthorizationConfigurationOutput",
-  }) as any as S.Schema<DeleteConsoleAuthorizationConfigurationOutput>;
+export const DeleteConsoleAuthorizationConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetId: S.String,
+    scope: S.String,
+    consoleAuthorizationEnabled: S.Boolean,
+  }),
+).annotate({
+  identifier: "DeleteConsoleAuthorizationConfigurationOutput",
+}) as any as S.Schema<DeleteConsoleAuthorizationConfigurationOutput>;
 export type StatementId = string;
 export type ClientToken = string;
 export interface DeleteResourcePermissionStatementInput {
   statementId: string;
   clientToken?: string;
 }
-export const DeleteResourcePermissionStatementInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      statementId: S.String,
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/delete-resource-permission-statement",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsControlPlane: { value: true } }),
-      ),
+export const DeleteResourcePermissionStatementInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    statementId: S.String,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/delete-resource-permission-statement",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ IsControlPlane: { value: true } }),
     ),
+  ),
 ).annotate({
   identifier: "DeleteResourcePermissionStatementInput",
 }) as any as S.Schema<DeleteResourcePermissionStatementInput>;
 export interface DeleteResourcePermissionStatementOutput {}
-export const DeleteResourcePermissionStatementOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteResourcePermissionStatementOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteResourcePermissionStatementOutput",
 }) as any as S.Schema<DeleteResourcePermissionStatementOutput>;
 export interface GetConsoleAuthorizationConfigurationInput {
   targetId?: string;
 }
-export const GetConsoleAuthorizationConfigurationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ targetId: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/get-console-authorization-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsControlPlane: { value: true } }),
-      ),
+export const GetConsoleAuthorizationConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ targetId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/get-console-authorization-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ IsControlPlane: { value: true } }),
     ),
-  ).annotate({
-    identifier: "GetConsoleAuthorizationConfigurationInput",
-  }) as any as S.Schema<GetConsoleAuthorizationConfigurationInput>;
+  ),
+).annotate({
+  identifier: "GetConsoleAuthorizationConfigurationInput",
+}) as any as S.Schema<GetConsoleAuthorizationConfigurationInput>;
 export interface GetConsoleAuthorizationConfigurationOutput {
   targetId: string;
   scope: string;
   consoleAuthorizationEnabled: boolean;
 }
-export const GetConsoleAuthorizationConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      targetId: S.String,
-      scope: S.String,
-      consoleAuthorizationEnabled: S.Boolean,
-    }),
-  ).annotate({
-    identifier: "GetConsoleAuthorizationConfigurationOutput",
-  }) as any as S.Schema<GetConsoleAuthorizationConfigurationOutput>;
+export const GetConsoleAuthorizationConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetId: S.String,
+    scope: S.String,
+    consoleAuthorizationEnabled: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetConsoleAuthorizationConfigurationOutput",
+}) as any as S.Schema<GetConsoleAuthorizationConfigurationOutput>;
 export interface GetResourcePolicyInput {}
 export const GetResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -653,27 +625,18 @@ export const GetResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetResourcePolicyInput",
 }) as any as S.Schema<GetResourcePolicyInput>;
 export type Principal = { [key: string]: string | undefined };
-export const Principal = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Principal = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type PolicyActions = string[];
 export const PolicyActions = /*@__PURE__*/ S.Array(S.String);
 export type ConditionType = string;
 export type ConditionValues = string[];
 export const ConditionValues = /*@__PURE__*/ S.Array(S.String);
 export type Condition = { [key: string]: string[] | undefined };
-export const Condition = /*@__PURE__*/ S.Record(
-  S.String,
-  ConditionValues.pipe(S.optional),
-);
+export const Condition = /*@__PURE__*/ S.Record(S.String, ConditionValues.pipe(S.optional));
 export type ConditionBlock = {
   [key: string]: { [key: string]: string[] | undefined } | undefined;
 };
-export const ConditionBlock = /*@__PURE__*/ S.Record(
-  S.String,
-  Condition.pipe(S.optional),
-);
+export const ConditionBlock = /*@__PURE__*/ S.Record(S.String, Condition.pipe(S.optional));
 export interface PolicyStatement {
   effect?: string;
   principal?: { [key: string]: string | undefined };
@@ -768,32 +731,31 @@ export interface IntrospectOAuth2TokenWithIAMResponse {
   signinSession?: string;
   resource?: string;
 }
-export const IntrospectOAuth2TokenWithIAMResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      active: S.Boolean,
-      clientId: S.optional(S.String),
-      userId: S.optional(S.String),
-      tokenType: S.optional(S.String),
-      exp: S.optional(S.Number),
-      iat: S.optional(S.Number),
-      nbf: S.optional(S.Number),
-      sub: S.optional(S.String),
-      aud: S.optional(S.String),
-      iss: S.optional(S.String),
-      jti: S.optional(S.String),
-      accountId: S.optional(S.String),
-      signinSession: S.optional(S.String),
-      resource: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        clientId: "client_id",
-        userId: "user_id",
-        tokenType: "token_type",
-        accountId: "account_id",
-        signinSession: "signin_session",
-      }),
-    ),
+export const IntrospectOAuth2TokenWithIAMResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active: S.Boolean,
+    clientId: S.optional(S.String),
+    userId: S.optional(S.String),
+    tokenType: S.optional(S.String),
+    exp: S.optional(S.Number),
+    iat: S.optional(S.Number),
+    nbf: S.optional(S.Number),
+    sub: S.optional(S.String),
+    aud: S.optional(S.String),
+    iss: S.optional(S.String),
+    jti: S.optional(S.String),
+    accountId: S.optional(S.String),
+    signinSession: S.optional(S.String),
+    resource: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      clientId: "client_id",
+      userId: "user_id",
+      tokenType: "token_type",
+      accountId: "account_id",
+      signinSession: "signin_session",
+    }),
+  ),
 ).annotate({
   identifier: "IntrospectOAuth2TokenWithIAMResponse",
 }) as any as S.Schema<IntrospectOAuth2TokenWithIAMResponse>;
@@ -803,22 +765,21 @@ export interface ListResourcePermissionStatementsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListResourcePermissionStatementsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      maxResults: S.optional(S.Number),
-      nextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/list-resource-permission-statements" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsControlPlane: { value: true } }),
-      ),
+export const ListResourcePermissionStatementsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-resource-permission-statements" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ IsControlPlane: { value: true } }),
     ),
+  ),
 ).annotate({
   identifier: "ListResourcePermissionStatementsInput",
 }) as any as S.Schema<ListResourcePermissionStatementsInput>;
@@ -834,59 +795,54 @@ export const PermissionStatementSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PermissionStatementSummary",
 }) as any as S.Schema<PermissionStatementSummary>;
 export type PermissionStatementSummaries = PermissionStatementSummary[];
-export const PermissionStatementSummaries = /*@__PURE__*/ S.Array(
-  PermissionStatementSummary,
-);
+export const PermissionStatementSummaries = /*@__PURE__*/ S.Array(PermissionStatementSummary);
 export interface ListResourcePermissionStatementsOutput {
   permissionStatements: PermissionStatementSummary[];
   nextToken?: string;
 }
-export const ListResourcePermissionStatementsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      permissionStatements: PermissionStatementSummaries,
-      nextToken: S.optional(S.String),
-    }),
+export const ListResourcePermissionStatementsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    permissionStatements: PermissionStatementSummaries,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListResourcePermissionStatementsOutput",
 }) as any as S.Schema<ListResourcePermissionStatementsOutput>;
 export interface PutConsoleAuthorizationConfigurationInput {
   targetId?: string;
 }
-export const PutConsoleAuthorizationConfigurationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ targetId: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/put-console-authorization-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsControlPlane: { value: true } }),
-      ),
+export const PutConsoleAuthorizationConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ targetId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/put-console-authorization-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ IsControlPlane: { value: true } }),
     ),
-  ).annotate({
-    identifier: "PutConsoleAuthorizationConfigurationInput",
-  }) as any as S.Schema<PutConsoleAuthorizationConfigurationInput>;
+  ),
+).annotate({
+  identifier: "PutConsoleAuthorizationConfigurationInput",
+}) as any as S.Schema<PutConsoleAuthorizationConfigurationInput>;
 export interface PutConsoleAuthorizationConfigurationOutput {
   targetId: string;
   scope: string;
   consoleAuthorizationEnabled: boolean;
 }
-export const PutConsoleAuthorizationConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      targetId: S.String,
-      scope: S.String,
-      consoleAuthorizationEnabled: S.Boolean,
-    }),
-  ).annotate({
-    identifier: "PutConsoleAuthorizationConfigurationOutput",
-  }) as any as S.Schema<PutConsoleAuthorizationConfigurationOutput>;
+export const PutConsoleAuthorizationConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetId: S.String,
+    scope: S.String,
+    consoleAuthorizationEnabled: S.Boolean,
+  }),
+).annotate({
+  identifier: "PutConsoleAuthorizationConfigurationOutput",
+}) as any as S.Schema<PutConsoleAuthorizationConfigurationOutput>;
 export type SourceVpc = string;
 export type SourceVpce = string;
 export type VpcSourceIp = string;
@@ -930,8 +886,8 @@ export const PutResourcePermissionStatementInput = /*@__PURE__*/ S.suspend(() =>
 export interface PutResourcePermissionStatementOutput {
   statementId: string;
 }
-export const PutResourcePermissionStatementOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ statementId: S.String }),
+export const PutResourcePermissionStatementOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ statementId: S.String }),
 ).annotate({
   identifier: "PutResourcePermissionStatementOutput",
 }) as any as S.Schema<PutResourcePermissionStatementOutput>;

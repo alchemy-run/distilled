@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Agent",
   serviceShapeName: "AmazonBedrockAgentBuildTimeLambda",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://bedrock-agent-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://bedrock-agent.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://bedrock-agent.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://bedrock-agent.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -147,10 +137,7 @@ export const AgentDescriptor = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AgentDescriptor>;
 export type Name = string;
 export type CollaborationInstruction = string | redacted.Redacted<string>;
-export type RelayConversationHistory =
-  | "TO_COLLABORATOR"
-  | "DISABLED"
-  | (string & {});
+export type RelayConversationHistory = "TO_COLLABORATOR" | "DISABLED" | (string & {});
 export const RelayConversationHistory = S.String;
 
 export type ClientToken = string;
@@ -291,17 +278,12 @@ export const AssociateAgentKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AssociateAgentKnowledgeBaseResponse>;
 export type Instruction = string | redacted.Redacted<string>;
 export type ModelIdentifier = string;
-export type OrchestrationType =
-  | "DEFAULT"
-  | "CUSTOM_ORCHESTRATION"
-  | (string & {});
+export type OrchestrationType = "DEFAULT" | "CUSTOM_ORCHESTRATION" | (string & {});
 export const OrchestrationType = S.String;
 
 export type LambdaArn = string;
 export type OrchestrationExecutor = { lambda: string };
-export const OrchestrationExecutor = /*@__PURE__*/ S.Union([
-  S.Struct({ lambda: S.String }),
-]);
+export const OrchestrationExecutor = /*@__PURE__*/ S.Union([S.Struct({ lambda: S.String })]);
 export interface CustomOrchestration {
   executor?: OrchestrationExecutor;
 }
@@ -316,10 +298,7 @@ export type KmsKeyArn = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type PromptType =
   | "PRE_PROCESSING"
   | "ORCHESTRATION"
@@ -441,11 +420,7 @@ export const MemoryConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "MemoryConfiguration",
 }) as any as S.Schema<MemoryConfiguration>;
-export type AgentCollaboration =
-  | "SUPERVISOR"
-  | "SUPERVISOR_ROUTER"
-  | "DISABLED"
-  | (string & {});
+export type AgentCollaboration = "SUPERVISOR" | "SUPERVISOR_ROUTER" | "DISABLED" | (string & {});
 export const AgentCollaboration = S.String;
 
 export interface CreateAgentRequest {
@@ -482,16 +457,7 @@ export const CreateAgentRequest = /*@__PURE__*/ S.suspend(() =>
     guardrailConfiguration: S.optional(GuardrailConfiguration),
     memoryConfiguration: S.optional(MemoryConfiguration),
     agentCollaboration: S.optional(AgentCollaboration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/agents/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/agents/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAgentRequest",
 }) as any as S.Schema<CreateAgentRequest>;
@@ -557,9 +523,7 @@ export const Agent = /*@__PURE__*/ S.suspend(() =>
     customerEncryptionKeyArn: S.optional(S.String),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    preparedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    preparedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     failureReasons: S.optional(FailureReasons),
     recommendedActions: S.optional(RecommendedActions),
     promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
@@ -625,13 +589,7 @@ export const ActionGroupState = S.String;
 
 export type FunctionDescription = string;
 export type ParameterDescription = string;
-export type Type =
-  | "string"
-  | "number"
-  | "integer"
-  | "boolean"
-  | "array"
-  | (string & {});
+export type Type = "string" | "number" | "integer" | "boolean" | "array" | (string & {});
 export const Type = S.String;
 
 export interface ParameterDetail {
@@ -649,10 +607,7 @@ export const ParameterDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "ParameterDetail",
 }) as any as S.Schema<ParameterDetail>;
 export type ParameterMap = { [key: string]: ParameterDetail | undefined };
-export const ParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  ParameterDetail.pipe(S.optional),
-);
+export const ParameterMap = /*@__PURE__*/ S.Record(S.String, ParameterDetail.pipe(S.optional));
 export type RequireConfirmation = "ENABLED" | "DISABLED" | (string & {});
 export const RequireConfirmation = S.String;
 
@@ -673,9 +628,7 @@ export const Function = /*@__PURE__*/ S.suspend(() =>
 export type Functions = Function[];
 export const Functions = /*@__PURE__*/ S.Array(Function);
 export type FunctionSchema = { functions: Function[] };
-export const FunctionSchema = /*@__PURE__*/ S.Union([
-  S.Struct({ functions: Functions }),
-]);
+export const FunctionSchema = /*@__PURE__*/ S.Union([S.Struct({ functions: Functions })]);
 export interface CreateAgentActionGroupRequest {
   agentId: string;
   agentVersion: string;
@@ -767,17 +720,15 @@ export interface AgentAliasRoutingConfigurationListItem {
   agentVersion?: string;
   provisionedThroughput?: string;
 }
-export const AgentAliasRoutingConfigurationListItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agentVersion: S.optional(S.String),
-      provisionedThroughput: S.optional(S.String),
-    }),
+export const AgentAliasRoutingConfigurationListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agentVersion: S.optional(S.String),
+    provisionedThroughput: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "AgentAliasRoutingConfigurationListItem",
 }) as any as S.Schema<AgentAliasRoutingConfigurationListItem>;
-export type AgentAliasRoutingConfiguration =
-  AgentAliasRoutingConfigurationListItem[];
+export type AgentAliasRoutingConfiguration = AgentAliasRoutingConfigurationListItem[];
 export const AgentAliasRoutingConfiguration = /*@__PURE__*/ S.Array(
   AgentAliasRoutingConfigurationListItem,
 );
@@ -820,17 +771,13 @@ export const AgentAliasHistoryEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     routingConfiguration: S.optional(AgentAliasRoutingConfiguration),
     endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    startDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "AgentAliasHistoryEvent",
 }) as any as S.Schema<AgentAliasHistoryEvent>;
 export type AgentAliasHistoryEvents = AgentAliasHistoryEvent[];
-export const AgentAliasHistoryEvents = /*@__PURE__*/ S.Array(
-  AgentAliasHistoryEvent,
-);
+export const AgentAliasHistoryEvents = /*@__PURE__*/ S.Array(AgentAliasHistoryEvent);
 export type AgentAliasStatus =
   | "CREATING"
   | "PREPARED"
@@ -841,10 +788,7 @@ export type AgentAliasStatus =
   | (string & {});
 export const AgentAliasStatus = S.String;
 
-export type AliasInvocationState =
-  | "ACCEPT_INVOCATIONS"
-  | "REJECT_INVOCATIONS"
-  | (string & {});
+export type AliasInvocationState = "ACCEPT_INVOCATIONS" | "REJECT_INVOCATIONS" | (string & {});
 export const AliasInvocationState = S.String;
 
 export interface AgentAlias {
@@ -953,9 +897,9 @@ export const MediaExtractionConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "MediaExtractionConfiguration",
 }) as any as S.Schema<MediaExtractionConfiguration>;
 export interface DailySchedule {}
-export const DailySchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({ identifier: "DailySchedule" }) as any as S.Schema<DailySchedule>;
+export const DailySchedule = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DailySchedule",
+}) as any as S.Schema<DailySchedule>;
 export type DayOfWeek =
   | "SUNDAY"
   | "MONDAY"
@@ -975,9 +919,9 @@ export const WeeklySchedule = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "WeeklySchedule" }) as any as S.Schema<WeeklySchedule>;
 export type DayOfMonthNumber = number;
 export interface LastDayOfMonth {}
-export const LastDayOfMonth = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({ identifier: "LastDayOfMonth" }) as any as S.Schema<LastDayOfMonth>;
+export const LastDayOfMonth = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "LastDayOfMonth",
+}) as any as S.Schema<LastDayOfMonth>;
 export type DayOfMonth =
   | { dayNumber: number; lastDayOfMonth?: never }
   | { dayNumber?: never; lastDayOfMonth: LastDayOfMonth };
@@ -1008,19 +952,16 @@ export interface ManagedKnowledgeBaseConnectorConfiguration {
   connectorParameters?: any;
   syncSchedule?: SyncSchedule;
 }
-export const ManagedKnowledgeBaseConnectorConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      deletionProtectionConfiguration: S.optional(
-        DeletionProtectionConfiguration,
-      ),
-      mediaExtractionConfiguration: S.optional(MediaExtractionConfiguration),
-      connectorParameters: S.optional(S.Any),
-      syncSchedule: S.optional(SyncSchedule),
-    }),
-  ).annotate({
-    identifier: "ManagedKnowledgeBaseConnectorConfiguration",
-  }) as any as S.Schema<ManagedKnowledgeBaseConnectorConfiguration>;
+export const ManagedKnowledgeBaseConnectorConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deletionProtectionConfiguration: S.optional(DeletionProtectionConfiguration),
+    mediaExtractionConfiguration: S.optional(MediaExtractionConfiguration),
+    connectorParameters: S.optional(S.Any),
+    syncSchedule: S.optional(SyncSchedule),
+  }),
+).annotate({
+  identifier: "ManagedKnowledgeBaseConnectorConfiguration",
+}) as any as S.Schema<ManagedKnowledgeBaseConnectorConfiguration>;
 export type S3BucketArn = string;
 export type S3Prefix = string | redacted.Redacted<string>;
 export type S3Prefixes = (string | redacted.Redacted<string>)[];
@@ -1118,10 +1059,7 @@ export type HttpsUrl = string;
 export type ConfluenceHostType = "SAAS" | (string & {});
 export const ConfluenceHostType = S.String;
 
-export type ConfluenceAuthType =
-  | "BASIC"
-  | "OAUTH2_CLIENT_CREDENTIALS"
-  | (string & {});
+export type ConfluenceAuthType = "BASIC" | "OAUTH2_CLIENT_CREDENTIALS" | (string & {});
 export const ConfluenceAuthType = S.String;
 
 export type SecretArn = string;
@@ -1160,8 +1098,7 @@ export const PatternObjectFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "PatternObjectFilter",
 }) as any as S.Schema<PatternObjectFilter>;
 export type PatternObjectFilterList = PatternObjectFilter[];
-export const PatternObjectFilterList =
-  /*@__PURE__*/ S.Array(PatternObjectFilter);
+export const PatternObjectFilterList = /*@__PURE__*/ S.Array(PatternObjectFilter);
 export interface PatternObjectFilterConfiguration {
   filters: PatternObjectFilter[];
 }
@@ -1327,12 +1264,7 @@ export const ServerSideEncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ServerSideEncryptionConfiguration",
 }) as any as S.Schema<ServerSideEncryptionConfiguration>;
-export type ChunkingStrategy =
-  | "FIXED_SIZE"
-  | "NONE"
-  | "HIERARCHICAL"
-  | "SEMANTIC"
-  | (string & {});
+export type ChunkingStrategy = "FIXED_SIZE" | "NONE" | "HIERARCHICAL" | "SEMANTIC" | (string & {});
 export const ChunkingStrategy = S.String;
 
 export interface FixedSizeChunkingConfiguration {
@@ -1347,13 +1279,12 @@ export const FixedSizeChunkingConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface HierarchicalChunkingLevelConfiguration {
   maxTokens: number;
 }
-export const HierarchicalChunkingLevelConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ maxTokens: S.Number }),
+export const HierarchicalChunkingLevelConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ maxTokens: S.Number }),
 ).annotate({
   identifier: "HierarchicalChunkingLevelConfiguration",
 }) as any as S.Schema<HierarchicalChunkingLevelConfiguration>;
-export type HierarchicalChunkingLevelConfigurations =
-  HierarchicalChunkingLevelConfiguration[];
+export type HierarchicalChunkingLevelConfigurations = HierarchicalChunkingLevelConfiguration[];
 export const HierarchicalChunkingLevelConfigurations = /*@__PURE__*/ S.Array(
   HierarchicalChunkingLevelConfiguration,
 );
@@ -1393,9 +1324,7 @@ export const ChunkingConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     chunkingStrategy: ChunkingStrategy,
     fixedSizeChunkingConfiguration: S.optional(FixedSizeChunkingConfiguration),
-    hierarchicalChunkingConfiguration: S.optional(
-      HierarchicalChunkingConfiguration,
-    ),
+    hierarchicalChunkingConfiguration: S.optional(HierarchicalChunkingConfiguration),
     semanticChunkingConfiguration: S.optional(SemanticChunkingConfiguration),
   }),
 ).annotate({
@@ -1405,9 +1334,9 @@ export type S3BucketUri = string;
 export interface S3Location {
   uri: string;
 }
-export const S3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ uri: S.String }),
-).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
+export const S3Location = /*@__PURE__*/ S.suspend(() => S.Struct({ uri: S.String })).annotate({
+  identifier: "S3Location",
+}) as any as S.Schema<S3Location>;
 export interface IntermediateStorage {
   s3Location: S3Location;
 }
@@ -1509,12 +1438,8 @@ export interface ParsingConfiguration {
 export const ParsingConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parsingStrategy: ParsingStrategy,
-    bedrockFoundationModelConfiguration: S.optional(
-      BedrockFoundationModelConfiguration,
-    ),
-    bedrockDataAutomationConfiguration: S.optional(
-      BedrockDataAutomationConfiguration,
-    ),
+    bedrockFoundationModelConfiguration: S.optional(BedrockFoundationModelConfiguration),
+    bedrockDataAutomationConfiguration: S.optional(BedrockDataAutomationConfiguration),
   }),
 ).annotate({
   identifier: "ParsingConfiguration",
@@ -1522,9 +1447,7 @@ export const ParsingConfiguration = /*@__PURE__*/ S.suspend(() =>
 export type ContextEnrichmentType = "BEDROCK_FOUNDATION_MODEL" | (string & {});
 export const ContextEnrichmentType = S.String;
 
-export type EnrichmentStrategyMethod =
-  | "CHUNK_ENTITY_EXTRACTION"
-  | (string & {});
+export type EnrichmentStrategyMethod = "CHUNK_ENTITY_EXTRACTION" | (string & {});
 export const EnrichmentStrategyMethod = S.String;
 
 export interface EnrichmentStrategyConfiguration {
@@ -1539,15 +1462,14 @@ export interface BedrockFoundationModelContextEnrichmentConfiguration {
   enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration;
   modelArn: string;
 }
-export const BedrockFoundationModelContextEnrichmentConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration,
-      modelArn: S.String,
-    }),
-  ).annotate({
-    identifier: "BedrockFoundationModelContextEnrichmentConfiguration",
-  }) as any as S.Schema<BedrockFoundationModelContextEnrichmentConfiguration>;
+export const BedrockFoundationModelContextEnrichmentConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration,
+    modelArn: S.String,
+  }),
+).annotate({
+  identifier: "BedrockFoundationModelContextEnrichmentConfiguration",
+}) as any as S.Schema<BedrockFoundationModelContextEnrichmentConfiguration>;
 export interface ContextEnrichmentConfiguration {
   type: ContextEnrichmentType;
   bedrockFoundationModelConfiguration?: BedrockFoundationModelContextEnrichmentConfiguration;
@@ -1571,9 +1493,7 @@ export interface VectorIngestionConfiguration {
 export const VectorIngestionConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     chunkingConfiguration: S.optional(ChunkingConfiguration),
-    customTransformationConfiguration: S.optional(
-      CustomTransformationConfiguration,
-    ),
+    customTransformationConfiguration: S.optional(CustomTransformationConfiguration),
     parsingConfiguration: S.optional(ParsingConfiguration),
     contextEnrichmentConfiguration: S.optional(ContextEnrichmentConfiguration),
   }),
@@ -1598,9 +1518,7 @@ export const CreateDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     dataSourceConfiguration: DataSourceConfiguration,
     dataDeletionPolicy: S.optional(DataDeletionPolicy),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
   }).pipe(
     T.all(
@@ -1650,9 +1568,7 @@ export const DataSource = /*@__PURE__*/ S.suspend(() =>
     status: DataSourceStatus,
     description: S.optional(S.String),
     dataSourceConfiguration: DataSourceConfiguration,
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
     dataDeletionPolicy: S.optional(DataDeletionPolicy),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -1693,15 +1609,11 @@ export type FlowNodeType =
 export const FlowNodeType = S.String;
 
 export interface InputFlowNodeConfiguration {}
-export const InputFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const InputFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "InputFlowNodeConfiguration",
 }) as any as S.Schema<InputFlowNodeConfiguration>;
 export interface OutputFlowNodeConfiguration {}
-export const OutputFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const OutputFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "OutputFlowNodeConfiguration",
 }) as any as S.Schema<OutputFlowNodeConfiguration>;
 export type FlowKnowledgeBaseId = string;
@@ -1737,9 +1649,7 @@ export type PromptInferenceConfiguration = {
 export const PromptInferenceConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ text: PromptModelInferenceConfiguration }),
 ]);
-export type VectorSearchRerankingConfigurationType =
-  | "BEDROCK_RERANKING_MODEL"
-  | (string & {});
+export type VectorSearchRerankingConfigurationType = "BEDROCK_RERANKING_MODEL" | (string & {});
 export const VectorSearchRerankingConfigurationType = S.String;
 
 export type BedrockRerankingModelArn = string;
@@ -1754,19 +1664,15 @@ export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
   additionalModelRequestFields?: { [key: string]: any | undefined };
 }
-export const VectorSearchBedrockRerankingModelConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      modelArn: S.String,
-      additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
-    }),
-  ).annotate({
-    identifier: "VectorSearchBedrockRerankingModelConfiguration",
-  }) as any as S.Schema<VectorSearchBedrockRerankingModelConfiguration>;
-export type RerankingMetadataSelectionMode =
-  | "SELECTIVE"
-  | "ALL"
-  | (string & {});
+export const VectorSearchBedrockRerankingModelConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    modelArn: S.String,
+    additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
+  }),
+).annotate({
+  identifier: "VectorSearchBedrockRerankingModelConfiguration",
+}) as any as S.Schema<VectorSearchBedrockRerankingModelConfiguration>;
+export type RerankingMetadataSelectionMode = "SELECTIVE" | "ALL" | (string & {});
 export const RerankingMetadataSelectionMode = S.String;
 
 export interface FieldForReranking {
@@ -1782,11 +1688,10 @@ export const FieldsForReranking = /*@__PURE__*/ S.Array(FieldForReranking);
 export type RerankingMetadataSelectiveModeConfiguration =
   | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: never }
   | { fieldsToInclude?: never; fieldsToExclude: FieldForReranking[] };
-export const RerankingMetadataSelectiveModeConfiguration =
-  /*@__PURE__*/ S.Union([
-    S.Struct({ fieldsToInclude: FieldsForReranking }),
-    S.Struct({ fieldsToExclude: FieldsForReranking }),
-  ]);
+export const RerankingMetadataSelectiveModeConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ fieldsToInclude: FieldsForReranking }),
+  S.Struct({ fieldsToExclude: FieldsForReranking }),
+]);
 export interface MetadataConfigurationForReranking {
   selectionMode: RerankingMetadataSelectionMode;
   selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration;
@@ -1794,9 +1699,7 @@ export interface MetadataConfigurationForReranking {
 export const MetadataConfigurationForReranking = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     selectionMode: RerankingMetadataSelectionMode,
-    selectiveModeConfiguration: S.optional(
-      RerankingMetadataSelectiveModeConfiguration,
-    ),
+    selectiveModeConfiguration: S.optional(RerankingMetadataSelectiveModeConfiguration),
   }),
 ).annotate({
   identifier: "MetadataConfigurationForReranking",
@@ -1806,16 +1709,15 @@ export interface VectorSearchBedrockRerankingConfiguration {
   numberOfRerankedResults?: number;
   metadataConfiguration?: MetadataConfigurationForReranking;
 }
-export const VectorSearchBedrockRerankingConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      modelConfiguration: VectorSearchBedrockRerankingModelConfiguration,
-      numberOfRerankedResults: S.optional(S.Number),
-      metadataConfiguration: S.optional(MetadataConfigurationForReranking),
-    }),
-  ).annotate({
-    identifier: "VectorSearchBedrockRerankingConfiguration",
-  }) as any as S.Schema<VectorSearchBedrockRerankingConfiguration>;
+export const VectorSearchBedrockRerankingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    modelConfiguration: VectorSearchBedrockRerankingModelConfiguration,
+    numberOfRerankedResults: S.optional(S.Number),
+    metadataConfiguration: S.optional(MetadataConfigurationForReranking),
+  }),
+).annotate({
+  identifier: "VectorSearchBedrockRerankingConfiguration",
+}) as any as S.Schema<VectorSearchBedrockRerankingConfiguration>;
 export interface VectorSearchRerankingConfiguration {
   type: VectorSearchRerankingConfigurationType;
   bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration;
@@ -1823,9 +1725,7 @@ export interface VectorSearchRerankingConfiguration {
 export const VectorSearchRerankingConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: VectorSearchRerankingConfigurationType,
-    bedrockRerankingConfiguration: S.optional(
-      VectorSearchBedrockRerankingConfiguration,
-    ),
+    bedrockRerankingConfiguration: S.optional(VectorSearchBedrockRerankingConfiguration),
   }),
 ).annotate({
   identifier: "VectorSearchRerankingConfiguration",
@@ -1847,14 +1747,13 @@ export interface KnowledgeBaseOrchestrationConfiguration {
   additionalModelRequestFields?: { [key: string]: any | undefined };
   performanceConfig?: PerformanceConfiguration;
 }
-export const KnowledgeBaseOrchestrationConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      promptTemplate: S.optional(KnowledgeBasePromptTemplate),
-      inferenceConfig: S.optional(PromptInferenceConfiguration),
-      additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
-      performanceConfig: S.optional(PerformanceConfiguration),
-    }),
+export const KnowledgeBaseOrchestrationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    promptTemplate: S.optional(KnowledgeBasePromptTemplate),
+    inferenceConfig: S.optional(PromptInferenceConfiguration),
+    additionalModelRequestFields: S.optional(AdditionalModelRequestFields),
+    performanceConfig: S.optional(PerformanceConfiguration),
+  }),
 ).annotate({
   identifier: "KnowledgeBaseOrchestrationConfiguration",
 }) as any as S.Schema<KnowledgeBaseOrchestrationConfiguration>;
@@ -1877,9 +1776,7 @@ export const KnowledgeBaseFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() =>
     promptTemplate: S.optional(KnowledgeBasePromptTemplate),
     inferenceConfiguration: S.optional(PromptInferenceConfiguration),
     rerankingConfiguration: S.optional(VectorSearchRerankingConfiguration),
-    orchestrationConfiguration: S.optional(
-      KnowledgeBaseOrchestrationConfiguration,
-    ),
+    orchestrationConfiguration: S.optional(KnowledgeBaseOrchestrationConfiguration),
   }),
 ).annotate({
   identifier: "KnowledgeBaseFlowNodeConfiguration",
@@ -1948,8 +1845,7 @@ export const PromptInputVariable = /*@__PURE__*/ S.suspend(() =>
   identifier: "PromptInputVariable",
 }) as any as S.Schema<PromptInputVariable>;
 export type PromptInputVariablesList = PromptInputVariable[];
-export const PromptInputVariablesList =
-  /*@__PURE__*/ S.Array(PromptInputVariable);
+export const PromptInputVariablesList = /*@__PURE__*/ S.Array(PromptInputVariable);
 export interface TextPromptTemplateConfiguration {
   text: string | redacted.Redacted<string>;
   cachePoint?: CachePointBlock;
@@ -1997,9 +1893,7 @@ export type SystemContentBlocks = SystemContentBlock[];
 export const SystemContentBlocks = /*@__PURE__*/ S.Array(SystemContentBlock);
 export type ToolName = string;
 export type ToolInputSchema = { json: any };
-export const ToolInputSchema = /*@__PURE__*/ S.Union([
-  S.Struct({ json: S.Any }),
-]);
+export const ToolInputSchema = /*@__PURE__*/ S.Union([S.Struct({ json: S.Any })]);
 export interface ToolSpecification {
   name: string;
   description?: string;
@@ -2026,13 +1920,13 @@ export const Tool = /*@__PURE__*/ S.Union([
 export type Tools = Tool[];
 export const Tools = /*@__PURE__*/ S.Array(Tool);
 export interface AutoToolChoice {}
-export const AutoToolChoice = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({ identifier: "AutoToolChoice" }) as any as S.Schema<AutoToolChoice>;
+export const AutoToolChoice = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "AutoToolChoice",
+}) as any as S.Schema<AutoToolChoice>;
 export interface AnyToolChoice {}
-export const AnyToolChoice = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({ identifier: "AnyToolChoice" }) as any as S.Schema<AnyToolChoice>;
+export const AnyToolChoice = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "AnyToolChoice",
+}) as any as S.Schema<AnyToolChoice>;
 export interface SpecificToolChoice {
   name: string;
 }
@@ -2184,15 +2078,11 @@ export const RetrievalFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "RetrievalFlowNodeConfiguration",
 }) as any as S.Schema<RetrievalFlowNodeConfiguration>;
 export interface IteratorFlowNodeConfiguration {}
-export const IteratorFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const IteratorFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "IteratorFlowNodeConfiguration",
 }) as any as S.Schema<IteratorFlowNodeConfiguration>;
 export interface CollectorFlowNodeConfiguration {}
-export const CollectorFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CollectorFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CollectorFlowNodeConfiguration",
 }) as any as S.Schema<CollectorFlowNodeConfiguration>;
 export type InlineCode = string | redacted.Redacted<string>;
@@ -2213,17 +2103,15 @@ export interface LoopFlowNodeConfiguration {
 }
 export const LoopFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    definition: S.suspend(
-      (): S.Schema<FlowDefinition> => FlowDefinition,
-    ).annotate({ identifier: "FlowDefinition" }),
+    definition: S.suspend((): S.Schema<FlowDefinition> => FlowDefinition).annotate({
+      identifier: "FlowDefinition",
+    }),
   }),
 ).annotate({
   identifier: "LoopFlowNodeConfiguration",
 }) as any as S.Schema<LoopFlowNodeConfiguration>;
 export interface LoopInputFlowNodeConfiguration {}
-export const LoopInputFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const LoopInputFlowNodeConfiguration = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "LoopInputFlowNodeConfiguration",
 }) as any as S.Schema<LoopInputFlowNodeConfiguration>;
 export interface LoopControllerFlowNodeConfiguration {
@@ -2542,9 +2430,9 @@ export const FlowNodeConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ collector: CollectorFlowNodeConfiguration }),
   S.Struct({ inlineCode: InlineCodeFlowNodeConfiguration }),
   S.Struct({
-    loop: S.suspend(
-      (): S.Schema<LoopFlowNodeConfiguration> => LoopFlowNodeConfiguration,
-    ).annotate({ identifier: "LoopFlowNodeConfiguration" }),
+    loop: S.suspend((): S.Schema<LoopFlowNodeConfiguration> => LoopFlowNodeConfiguration).annotate({
+      identifier: "LoopFlowNodeConfiguration",
+    }),
   }),
   S.Struct({ loopInput: LoopInputFlowNodeConfiguration }),
   S.Struct({ loopController: LoopControllerFlowNodeConfiguration }),
@@ -2635,8 +2523,8 @@ export const FlowDataConnectionConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface FlowConditionalConnectionConfiguration {
   condition: string;
 }
-export const FlowConditionalConnectionConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ condition: S.String }),
+export const FlowConditionalConnectionConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ condition: S.String }),
 ).annotate({
   identifier: "FlowConditionalConnectionConfiguration",
 }) as any as S.Schema<FlowConditionalConnectionConfiguration>;
@@ -2671,9 +2559,7 @@ export interface FlowDefinition {
 }
 export const FlowDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nodes: S.optional(
-      S.suspend(() => FlowNodes).annotate({ identifier: "FlowNodes" }),
-    ),
+    nodes: S.optional(S.suspend(() => FlowNodes).annotate({ identifier: "FlowNodes" })),
     connections: S.optional(FlowConnections),
   }),
 ).annotate({ identifier: "FlowDefinition" }) as any as S.Schema<FlowDefinition>;
@@ -2695,27 +2581,13 @@ export const CreateFlowRequest = /*@__PURE__*/ S.suspend(() =>
     definition: S.optional(FlowDefinition),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/flows/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/flows/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateFlowRequest",
 }) as any as S.Schema<CreateFlowRequest>;
 export type FlowId = string;
 export type FlowArn = string;
-export type FlowStatus =
-  | "Failed"
-  | "Prepared"
-  | "Preparing"
-  | "NotPrepared"
-  | (string & {});
+export type FlowStatus = "Failed" | "Prepared" | "Preparing" | "NotPrepared" | (string & {});
 export const FlowStatus = S.String;
 
 export interface CreateFlowResponse {
@@ -2751,13 +2623,12 @@ export const CreateFlowResponse = /*@__PURE__*/ S.suspend(() =>
 export interface FlowAliasRoutingConfigurationListItem {
   flowVersion?: string;
 }
-export const FlowAliasRoutingConfigurationListItem = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ flowVersion: S.optional(S.String) }),
+export const FlowAliasRoutingConfigurationListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ flowVersion: S.optional(S.String) }),
 ).annotate({
   identifier: "FlowAliasRoutingConfigurationListItem",
 }) as any as S.Schema<FlowAliasRoutingConfigurationListItem>;
-export type FlowAliasRoutingConfiguration =
-  FlowAliasRoutingConfigurationListItem[];
+export type FlowAliasRoutingConfiguration = FlowAliasRoutingConfigurationListItem[];
 export const FlowAliasRoutingConfiguration = /*@__PURE__*/ S.Array(
   FlowAliasRoutingConfigurationListItem,
 );
@@ -2886,12 +2757,7 @@ export const CreateFlowVersionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateFlowVersionResponse",
 }) as any as S.Schema<CreateFlowVersionResponse>;
 export type KnowledgeBaseRoleArn = string;
-export type KnowledgeBaseType =
-  | "VECTOR"
-  | "KENDRA"
-  | "SQL"
-  | "MANAGED"
-  | (string & {});
+export type KnowledgeBaseType = "VECTOR" | "KENDRA" | "SQL" | "MANAGED" | (string & {});
 export const KnowledgeBaseType = S.String;
 
 export type BedrockEmbeddingModelArn = string;
@@ -2956,9 +2822,7 @@ export interface EmbeddingModelConfiguration {
 }
 export const EmbeddingModelConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bedrockEmbeddingModelConfiguration: S.optional(
-      BedrockEmbeddingModelConfiguration,
-    ),
+    bedrockEmbeddingModelConfiguration: S.optional(BedrockEmbeddingModelConfiguration),
   }),
 ).annotate({
   identifier: "EmbeddingModelConfiguration",
@@ -2978,16 +2842,15 @@ export const SupplementalDataStorageLocation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SupplementalDataStorageLocation",
 }) as any as S.Schema<SupplementalDataStorageLocation>;
-export type SupplementalDataStorageLocations =
-  SupplementalDataStorageLocation[];
+export type SupplementalDataStorageLocations = SupplementalDataStorageLocation[];
 export const SupplementalDataStorageLocations = /*@__PURE__*/ S.Array(
   SupplementalDataStorageLocation,
 );
 export interface SupplementalDataStorageConfiguration {
   storageLocations: SupplementalDataStorageLocation[];
 }
-export const SupplementalDataStorageConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ storageLocations: SupplementalDataStorageLocations }),
+export const SupplementalDataStorageConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ storageLocations: SupplementalDataStorageLocations }),
 ).annotate({
   identifier: "SupplementalDataStorageConfiguration",
 }) as any as S.Schema<SupplementalDataStorageConfiguration>;
@@ -3000,9 +2863,7 @@ export const VectorKnowledgeBaseConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     embeddingModelArn: S.String,
     embeddingModelConfiguration: S.optional(EmbeddingModelConfiguration),
-    supplementalDataStorageConfiguration: S.optional(
-      SupplementalDataStorageConfiguration,
-    ),
+    supplementalDataStorageConfiguration: S.optional(SupplementalDataStorageConfiguration),
   }),
 ).annotate({
   identifier: "VectorKnowledgeBaseConfiguration",
@@ -3021,9 +2882,7 @@ export const ManagedKnowledgeBaseConfiguration = /*@__PURE__*/ S.suspend(() =>
     embeddingModelType: S.optional(EmbeddingModelType),
     embeddingModelArn: S.optional(S.String),
     embeddingModelConfiguration: S.optional(EmbeddingModelConfiguration),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
   }),
 ).annotate({
   identifier: "ManagedKnowledgeBaseConfiguration",
@@ -3040,10 +2899,7 @@ export const KendraKnowledgeBaseConfiguration = /*@__PURE__*/ S.suspend(() =>
 export type QueryEngineType = "REDSHIFT" | (string & {});
 export const QueryEngineType = S.String;
 
-export type RedshiftQueryEngineStorageType =
-  | "REDSHIFT"
-  | "AWS_DATA_CATALOG"
-  | (string & {});
+export type RedshiftQueryEngineStorageType = "REDSHIFT" | "AWS_DATA_CATALOG" | (string & {});
 export const RedshiftQueryEngineStorageType = S.String;
 
 export type AwsDataCatalogTableName = string;
@@ -3052,55 +2908,43 @@ export const AwsDataCatalogTableNames = /*@__PURE__*/ S.Array(S.String);
 export interface RedshiftQueryEngineAwsDataCatalogStorageConfiguration {
   tableNames: string[];
 }
-export const RedshiftQueryEngineAwsDataCatalogStorageConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ tableNames: AwsDataCatalogTableNames }),
-  ).annotate({
-    identifier: "RedshiftQueryEngineAwsDataCatalogStorageConfiguration",
-  }) as any as S.Schema<RedshiftQueryEngineAwsDataCatalogStorageConfiguration>;
+export const RedshiftQueryEngineAwsDataCatalogStorageConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ tableNames: AwsDataCatalogTableNames }),
+).annotate({
+  identifier: "RedshiftQueryEngineAwsDataCatalogStorageConfiguration",
+}) as any as S.Schema<RedshiftQueryEngineAwsDataCatalogStorageConfiguration>;
 export type RedshiftDatabase = string;
 export interface RedshiftQueryEngineRedshiftStorageConfiguration {
   databaseName: string;
 }
-export const RedshiftQueryEngineRedshiftStorageConfiguration =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ databaseName: S.String })).annotate({
-    identifier: "RedshiftQueryEngineRedshiftStorageConfiguration",
-  }) as any as S.Schema<RedshiftQueryEngineRedshiftStorageConfiguration>;
+export const RedshiftQueryEngineRedshiftStorageConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ databaseName: S.String }),
+).annotate({
+  identifier: "RedshiftQueryEngineRedshiftStorageConfiguration",
+}) as any as S.Schema<RedshiftQueryEngineRedshiftStorageConfiguration>;
 export interface RedshiftQueryEngineStorageConfiguration {
   type: RedshiftQueryEngineStorageType;
   awsDataCatalogConfiguration?: RedshiftQueryEngineAwsDataCatalogStorageConfiguration;
   redshiftConfiguration?: RedshiftQueryEngineRedshiftStorageConfiguration;
 }
-export const RedshiftQueryEngineStorageConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      type: RedshiftQueryEngineStorageType,
-      awsDataCatalogConfiguration: S.optional(
-        RedshiftQueryEngineAwsDataCatalogStorageConfiguration,
-      ),
-      redshiftConfiguration: S.optional(
-        RedshiftQueryEngineRedshiftStorageConfiguration,
-      ),
-    }),
+export const RedshiftQueryEngineStorageConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: RedshiftQueryEngineStorageType,
+    awsDataCatalogConfiguration: S.optional(RedshiftQueryEngineAwsDataCatalogStorageConfiguration),
+    redshiftConfiguration: S.optional(RedshiftQueryEngineRedshiftStorageConfiguration),
+  }),
 ).annotate({
   identifier: "RedshiftQueryEngineStorageConfiguration",
 }) as any as S.Schema<RedshiftQueryEngineStorageConfiguration>;
-export type RedshiftQueryEngineStorageConfigurations =
-  RedshiftQueryEngineStorageConfiguration[];
+export type RedshiftQueryEngineStorageConfigurations = RedshiftQueryEngineStorageConfiguration[];
 export const RedshiftQueryEngineStorageConfigurations = /*@__PURE__*/ S.Array(
   RedshiftQueryEngineStorageConfiguration,
 );
-export type RedshiftQueryEngineType =
-  | "SERVERLESS"
-  | "PROVISIONED"
-  | (string & {});
+export type RedshiftQueryEngineType = "SERVERLESS" | "PROVISIONED" | (string & {});
 export const RedshiftQueryEngineType = S.String;
 
 export type WorkgroupArn = string;
-export type RedshiftServerlessAuthType =
-  | "IAM"
-  | "USERNAME_PASSWORD"
-  | (string & {});
+export type RedshiftServerlessAuthType = "IAM" | "USERNAME_PASSWORD" | (string & {});
 export const RedshiftServerlessAuthType = S.String;
 
 export interface RedshiftServerlessAuthConfiguration {
@@ -3128,11 +2972,7 @@ export const RedshiftServerlessConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "RedshiftServerlessConfiguration",
 }) as any as S.Schema<RedshiftServerlessConfiguration>;
 export type RedshiftClusterIdentifier = string;
-export type RedshiftProvisionedAuthType =
-  | "IAM"
-  | "USERNAME_PASSWORD"
-  | "USERNAME"
-  | (string & {});
+export type RedshiftProvisionedAuthType = "IAM" | "USERNAME_PASSWORD" | "USERNAME" | (string & {});
 export const RedshiftProvisionedAuthType = S.String;
 
 export interface RedshiftProvisionedAuthConfiguration {
@@ -3140,13 +2980,12 @@ export interface RedshiftProvisionedAuthConfiguration {
   databaseUser?: string;
   usernamePasswordSecretArn?: string;
 }
-export const RedshiftProvisionedAuthConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      type: RedshiftProvisionedAuthType,
-      databaseUser: S.optional(S.String),
-      usernamePasswordSecretArn: S.optional(S.String),
-    }),
+export const RedshiftProvisionedAuthConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: RedshiftProvisionedAuthType,
+    databaseUser: S.optional(S.String),
+    usernamePasswordSecretArn: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "RedshiftProvisionedAuthConfiguration",
 }) as any as S.Schema<RedshiftProvisionedAuthConfiguration>;
@@ -3198,9 +3037,7 @@ export const QueryGenerationColumn = /*@__PURE__*/ S.suspend(() =>
   identifier: "QueryGenerationColumn",
 }) as any as S.Schema<QueryGenerationColumn>;
 export type QueryGenerationColumns = QueryGenerationColumn[];
-export const QueryGenerationColumns = /*@__PURE__*/ S.Array(
-  QueryGenerationColumn,
-);
+export const QueryGenerationColumns = /*@__PURE__*/ S.Array(QueryGenerationColumn);
 export interface QueryGenerationTable {
   name: string;
   description?: string;
@@ -3218,8 +3055,7 @@ export const QueryGenerationTable = /*@__PURE__*/ S.suspend(() =>
   identifier: "QueryGenerationTable",
 }) as any as S.Schema<QueryGenerationTable>;
 export type QueryGenerationTables = QueryGenerationTable[];
-export const QueryGenerationTables =
-  /*@__PURE__*/ S.Array(QueryGenerationTable);
+export const QueryGenerationTables = /*@__PURE__*/ S.Array(QueryGenerationTable);
 export type NaturalLanguageString = string;
 export type SqlString = string;
 export interface CuratedQuery {
@@ -3291,15 +3127,9 @@ export interface KnowledgeBaseConfiguration {
 export const KnowledgeBaseConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: KnowledgeBaseType,
-    vectorKnowledgeBaseConfiguration: S.optional(
-      VectorKnowledgeBaseConfiguration,
-    ),
-    managedKnowledgeBaseConfiguration: S.optional(
-      ManagedKnowledgeBaseConfiguration,
-    ),
-    kendraKnowledgeBaseConfiguration: S.optional(
-      KendraKnowledgeBaseConfiguration,
-    ),
+    vectorKnowledgeBaseConfiguration: S.optional(VectorKnowledgeBaseConfiguration),
+    managedKnowledgeBaseConfiguration: S.optional(ManagedKnowledgeBaseConfiguration),
+    kendraKnowledgeBaseConfiguration: S.optional(KendraKnowledgeBaseConfiguration),
     sqlKnowledgeBaseConfiguration: S.optional(SqlKnowledgeBaseConfiguration),
   }),
 ).annotate({
@@ -3350,21 +3180,18 @@ export const OpenSearchServerlessConfiguration = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<OpenSearchServerlessConfiguration>;
 export type OpenSearchManagedClusterDomainEndpoint = string;
 export type OpenSearchManagedClusterDomainArn = string;
-export type OpenSearchManagedClusterIndexName =
-  | string
-  | redacted.Redacted<string>;
+export type OpenSearchManagedClusterIndexName = string | redacted.Redacted<string>;
 export interface OpenSearchManagedClusterFieldMapping {
   vectorField: string;
   textField: string;
   metadataField: string;
 }
-export const OpenSearchManagedClusterFieldMapping = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      vectorField: S.String,
-      textField: S.String,
-      metadataField: S.String,
-    }),
+export const OpenSearchManagedClusterFieldMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vectorField: S.String,
+    textField: S.String,
+    metadataField: S.String,
+  }),
 ).annotate({
   identifier: "OpenSearchManagedClusterFieldMapping",
 }) as any as S.Schema<OpenSearchManagedClusterFieldMapping>;
@@ -3374,14 +3201,13 @@ export interface OpenSearchManagedClusterConfiguration {
   vectorIndexName: string | redacted.Redacted<string>;
   fieldMapping: OpenSearchManagedClusterFieldMapping;
 }
-export const OpenSearchManagedClusterConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      domainEndpoint: S.String,
-      domainArn: S.String,
-      vectorIndexName: SensitiveString,
-      fieldMapping: OpenSearchManagedClusterFieldMapping,
-    }),
+export const OpenSearchManagedClusterConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domainEndpoint: S.String,
+    domainArn: S.String,
+    vectorIndexName: SensitiveString,
+    fieldMapping: OpenSearchManagedClusterFieldMapping,
+  }),
 ).annotate({
   identifier: "OpenSearchManagedClusterConfiguration",
 }) as any as S.Schema<OpenSearchManagedClusterConfiguration>;
@@ -3580,16 +3406,10 @@ export interface StorageConfiguration {
 export const StorageConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: KnowledgeBaseStorageType,
-    opensearchServerlessConfiguration: S.optional(
-      OpenSearchServerlessConfiguration,
-    ),
-    opensearchManagedClusterConfiguration: S.optional(
-      OpenSearchManagedClusterConfiguration,
-    ),
+    opensearchServerlessConfiguration: S.optional(OpenSearchServerlessConfiguration),
+    opensearchManagedClusterConfiguration: S.optional(OpenSearchManagedClusterConfiguration),
     pineconeConfiguration: S.optional(PineconeConfiguration),
-    redisEnterpriseCloudConfiguration: S.optional(
-      RedisEnterpriseCloudConfiguration,
-    ),
+    redisEnterpriseCloudConfiguration: S.optional(RedisEnterpriseCloudConfiguration),
     rdsConfiguration: S.optional(RdsConfiguration),
     mongoDbAtlasConfiguration: S.optional(MongoDbAtlasConfiguration),
     neptuneAnalyticsConfiguration: S.optional(NeptuneAnalyticsConfiguration),
@@ -3616,16 +3436,7 @@ export const CreateKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseConfiguration: KnowledgeBaseConfiguration,
     storageConfiguration: S.optional(StorageConfiguration),
     tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/knowledgebases/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/knowledgebases/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateKnowledgeBaseRequest",
 }) as any as S.Schema<CreateKnowledgeBaseRequest>;
@@ -3748,16 +3559,7 @@ export const CreatePromptRequest = /*@__PURE__*/ S.suspend(() =>
     variants: S.optional(PromptVariantList),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prompts/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/prompts/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreatePromptRequest",
 }) as any as S.Schema<CreatePromptRequest>;
@@ -3852,18 +3654,9 @@ export interface DeleteAgentRequest {
 export const DeleteAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
-    skipResourceInUseCheck: S.optional(S.Boolean).pipe(
-      T.HttpQuery("skipResourceInUseCheck"),
-    ),
+    skipResourceInUseCheck: S.optional(S.Boolean).pipe(T.HttpQuery("skipResourceInUseCheck")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/agents/{agentId}/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/agents/{agentId}/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteAgentRequest",
@@ -3888,9 +3681,7 @@ export const DeleteAgentActionGroupRequest = /*@__PURE__*/ S.suspend(() =>
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     actionGroupId: S.String.pipe(T.HttpLabel("actionGroupId")),
-    skipResourceInUseCheck: S.optional(S.Boolean).pipe(
-      T.HttpQuery("skipResourceInUseCheck"),
-    ),
+    skipResourceInUseCheck: S.optional(S.Boolean).pipe(T.HttpQuery("skipResourceInUseCheck")),
   }).pipe(
     T.all(
       T.Http({
@@ -3908,9 +3699,7 @@ export const DeleteAgentActionGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAgentActionGroupRequest",
 }) as any as S.Schema<DeleteAgentActionGroupRequest>;
 export interface DeleteAgentActionGroupResponse {}
-export const DeleteAgentActionGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAgentActionGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAgentActionGroupResponse",
 }) as any as S.Schema<DeleteAgentActionGroupResponse>;
 export interface DeleteAgentAliasRequest {
@@ -3960,9 +3749,7 @@ export const DeleteAgentVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
-    skipResourceInUseCheck: S.optional(S.Boolean).pipe(
-      T.HttpQuery("skipResourceInUseCheck"),
-    ),
+    skipResourceInUseCheck: S.optional(S.Boolean).pipe(T.HttpQuery("skipResourceInUseCheck")),
   }).pipe(
     T.all(
       T.Http({
@@ -4038,9 +3825,7 @@ export interface DeleteFlowRequest {
 export const DeleteFlowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
-    skipResourceInUseCheck: S.optional(S.Boolean).pipe(
-      T.HttpQuery("skipResourceInUseCheck"),
-    ),
+    skipResourceInUseCheck: S.optional(S.Boolean).pipe(T.HttpQuery("skipResourceInUseCheck")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/flows/{flowIdentifier}/" }),
@@ -4105,9 +3890,7 @@ export const DeleteFlowVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     flowVersion: S.String.pipe(T.HttpLabel("flowVersion")),
-    skipResourceInUseCheck: S.optional(S.Boolean).pipe(
-      T.HttpQuery("skipResourceInUseCheck"),
-    ),
+    skipResourceInUseCheck: S.optional(S.Boolean).pipe(T.HttpQuery("skipResourceInUseCheck")),
   }).pipe(
     T.all(
       T.Http({
@@ -4247,22 +4030,18 @@ export const KnowledgeBaseDocumentDetail = /*@__PURE__*/ S.suspend(() =>
     status: DocumentStatus,
     identifier: DocumentIdentifier,
     statusReason: S.optional(S.String),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "KnowledgeBaseDocumentDetail",
 }) as any as S.Schema<KnowledgeBaseDocumentDetail>;
 export type KnowledgeBaseDocumentDetails = KnowledgeBaseDocumentDetail[];
-export const KnowledgeBaseDocumentDetails = /*@__PURE__*/ S.Array(
-  KnowledgeBaseDocumentDetail,
-);
+export const KnowledgeBaseDocumentDetails = /*@__PURE__*/ S.Array(KnowledgeBaseDocumentDetail);
 export interface DeleteKnowledgeBaseDocumentsResponse {
   documentDetails?: KnowledgeBaseDocumentDetail[];
 }
-export const DeleteKnowledgeBaseDocumentsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }),
+export const DeleteKnowledgeBaseDocumentsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }),
 ).annotate({
   identifier: "DeleteKnowledgeBaseDocumentsResponse",
 }) as any as S.Schema<DeleteKnowledgeBaseDocumentsResponse>;
@@ -4305,9 +4084,7 @@ export interface DeleteResourcePolicyRequest {
 export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    expectedRevisionId: S.optional(S.String).pipe(
-      T.HttpQuery("expectedRevisionId"),
-    ),
+    expectedRevisionId: S.optional(S.String).pipe(T.HttpQuery("expectedRevisionId")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/resourcepolicy/{resourceArn}" }),
@@ -4335,74 +4112,17 @@ export interface DisassociateAgentCollaboratorRequest {
   agentVersion: string;
   collaboratorId: string;
 }
-export const DisassociateAgentCollaboratorRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agentId: S.String.pipe(T.HttpLabel("agentId")),
-      agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
-      collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DisassociateAgentCollaboratorRequest",
-}) as any as S.Schema<DisassociateAgentCollaboratorRequest>;
-export interface DisassociateAgentCollaboratorResponse {}
-export const DisassociateAgentCollaboratorResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DisassociateAgentCollaboratorResponse",
-}) as any as S.Schema<DisassociateAgentCollaboratorResponse>;
-export interface DisassociateAgentKnowledgeBaseRequest {
-  agentId: string;
-  agentVersion: string;
-  knowledgeBaseId: string;
-}
-export const DisassociateAgentKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agentId: S.String.pipe(T.HttpLabel("agentId")),
-      agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
-      knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/{knowledgeBaseId}/",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DisassociateAgentKnowledgeBaseRequest",
-}) as any as S.Schema<DisassociateAgentKnowledgeBaseRequest>;
-export interface DisassociateAgentKnowledgeBaseResponse {}
-export const DisassociateAgentKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DisassociateAgentKnowledgeBaseResponse",
-}) as any as S.Schema<DisassociateAgentKnowledgeBaseResponse>;
-export interface GetAgentRequest {
-  agentId: string;
-}
-export const GetAgentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ agentId: S.String.pipe(T.HttpLabel("agentId")) }).pipe(
+export const DisassociateAgentCollaboratorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
+  }).pipe(
     T.all(
-      T.Http({ method: "GET", uri: "/agents/{agentId}/" }),
+      T.Http({
+        method: "DELETE",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/",
+      }),
       svc,
       auth,
       proto,
@@ -4411,14 +4131,60 @@ export const GetAgentRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({
+  identifier: "DisassociateAgentCollaboratorRequest",
+}) as any as S.Schema<DisassociateAgentCollaboratorRequest>;
+export interface DisassociateAgentCollaboratorResponse {}
+export const DisassociateAgentCollaboratorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateAgentCollaboratorResponse",
+}) as any as S.Schema<DisassociateAgentCollaboratorResponse>;
+export interface DisassociateAgentKnowledgeBaseRequest {
+  agentId: string;
+  agentVersion: string;
+  knowledgeBaseId: string;
+}
+export const DisassociateAgentKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/{knowledgeBaseId}/",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateAgentKnowledgeBaseRequest",
+}) as any as S.Schema<DisassociateAgentKnowledgeBaseRequest>;
+export interface DisassociateAgentKnowledgeBaseResponse {}
+export const DisassociateAgentKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateAgentKnowledgeBaseResponse",
+}) as any as S.Schema<DisassociateAgentKnowledgeBaseResponse>;
+export interface GetAgentRequest {
+  agentId: string;
+}
+export const GetAgentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ agentId: S.String.pipe(T.HttpLabel("agentId")) }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/agents/{agentId}/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
   identifier: "GetAgentRequest",
 }) as any as S.Schema<GetAgentRequest>;
 export interface GetAgentResponse {
   agent: Agent;
 }
-export const GetAgentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ agent: Agent }),
-).annotate({
+export const GetAgentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({ agent: Agent })).annotate({
   identifier: "GetAgentResponse",
 }) as any as S.Schema<GetAgentResponse>;
 export interface GetAgentActionGroupRequest {
@@ -4675,14 +4441,7 @@ export const GetFlowRequest = /*@__PURE__*/ S.suspend(() =>
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     includedData: S.optional(IncludedData).pipe(T.HttpQuery("includedData")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/flows/{flowIdentifier}/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/flows/{flowIdentifier}/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetFlowRequest" }) as any as S.Schema<GetFlowRequest>;
 export type NonBlankString = string;
@@ -4692,8 +4451,8 @@ export const FlowValidationSeverity = S.String;
 export interface CyclicConnectionFlowValidationDetails {
   connection: string;
 }
-export const CyclicConnectionFlowValidationDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ connection: S.String }),
+export const CyclicConnectionFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connection: S.String }),
 ).annotate({
   identifier: "CyclicConnectionFlowValidationDetails",
 }) as any as S.Schema<CyclicConnectionFlowValidationDetails>;
@@ -4701,158 +4460,161 @@ export interface DuplicateConnectionsFlowValidationDetails {
   source: string;
   target: string;
 }
-export const DuplicateConnectionsFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ source: S.String, target: S.String }),
-  ).annotate({
-    identifier: "DuplicateConnectionsFlowValidationDetails",
-  }) as any as S.Schema<DuplicateConnectionsFlowValidationDetails>;
+export const DuplicateConnectionsFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ source: S.String, target: S.String }),
+).annotate({
+  identifier: "DuplicateConnectionsFlowValidationDetails",
+}) as any as S.Schema<DuplicateConnectionsFlowValidationDetails>;
 export interface DuplicateConditionExpressionFlowValidationDetails {
   node: string;
   expression: string | redacted.Redacted<string>;
 }
-export const DuplicateConditionExpressionFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ node: S.String, expression: SensitiveString }),
-  ).annotate({
-    identifier: "DuplicateConditionExpressionFlowValidationDetails",
-  }) as any as S.Schema<DuplicateConditionExpressionFlowValidationDetails>;
+export const DuplicateConditionExpressionFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String, expression: SensitiveString }),
+).annotate({
+  identifier: "DuplicateConditionExpressionFlowValidationDetails",
+}) as any as S.Schema<DuplicateConditionExpressionFlowValidationDetails>;
 export interface UnreachableNodeFlowValidationDetails {
   node: string;
 }
-export const UnreachableNodeFlowValidationDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ node: S.String }),
+export const UnreachableNodeFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String }),
 ).annotate({
   identifier: "UnreachableNodeFlowValidationDetails",
 }) as any as S.Schema<UnreachableNodeFlowValidationDetails>;
 export interface UnknownConnectionSourceFlowValidationDetails {
   connection: string;
 }
-export const UnknownConnectionSourceFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ connection: S.String })).annotate({
-    identifier: "UnknownConnectionSourceFlowValidationDetails",
-  }) as any as S.Schema<UnknownConnectionSourceFlowValidationDetails>;
+export const UnknownConnectionSourceFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotate({
+  identifier: "UnknownConnectionSourceFlowValidationDetails",
+}) as any as S.Schema<UnknownConnectionSourceFlowValidationDetails>;
 export interface UnknownConnectionSourceOutputFlowValidationDetails {
   connection: string;
 }
-export const UnknownConnectionSourceOutputFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ connection: S.String })).annotate({
-    identifier: "UnknownConnectionSourceOutputFlowValidationDetails",
-  }) as any as S.Schema<UnknownConnectionSourceOutputFlowValidationDetails>;
+export const UnknownConnectionSourceOutputFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotate({
+  identifier: "UnknownConnectionSourceOutputFlowValidationDetails",
+}) as any as S.Schema<UnknownConnectionSourceOutputFlowValidationDetails>;
 export interface UnknownConnectionTargetFlowValidationDetails {
   connection: string;
 }
-export const UnknownConnectionTargetFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ connection: S.String })).annotate({
-    identifier: "UnknownConnectionTargetFlowValidationDetails",
-  }) as any as S.Schema<UnknownConnectionTargetFlowValidationDetails>;
+export const UnknownConnectionTargetFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotate({
+  identifier: "UnknownConnectionTargetFlowValidationDetails",
+}) as any as S.Schema<UnknownConnectionTargetFlowValidationDetails>;
 export interface UnknownConnectionTargetInputFlowValidationDetails {
   connection: string;
 }
-export const UnknownConnectionTargetInputFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ connection: S.String })).annotate({
-    identifier: "UnknownConnectionTargetInputFlowValidationDetails",
-  }) as any as S.Schema<UnknownConnectionTargetInputFlowValidationDetails>;
+export const UnknownConnectionTargetInputFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotate({
+  identifier: "UnknownConnectionTargetInputFlowValidationDetails",
+}) as any as S.Schema<UnknownConnectionTargetInputFlowValidationDetails>;
 export interface UnknownConnectionConditionFlowValidationDetails {
   connection: string;
 }
-export const UnknownConnectionConditionFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ connection: S.String })).annotate({
-    identifier: "UnknownConnectionConditionFlowValidationDetails",
-  }) as any as S.Schema<UnknownConnectionConditionFlowValidationDetails>;
+export const UnknownConnectionConditionFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotate({
+  identifier: "UnknownConnectionConditionFlowValidationDetails",
+}) as any as S.Schema<UnknownConnectionConditionFlowValidationDetails>;
 export type ErrorMessage = string;
 export interface MalformedConditionExpressionFlowValidationDetails {
   node: string;
   condition: string;
   cause: string;
 }
-export const MalformedConditionExpressionFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ node: S.String, condition: S.String, cause: S.String }),
-  ).annotate({
-    identifier: "MalformedConditionExpressionFlowValidationDetails",
-  }) as any as S.Schema<MalformedConditionExpressionFlowValidationDetails>;
+export const MalformedConditionExpressionFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String, condition: S.String, cause: S.String }),
+).annotate({
+  identifier: "MalformedConditionExpressionFlowValidationDetails",
+}) as any as S.Schema<MalformedConditionExpressionFlowValidationDetails>;
 export interface MalformedNodeInputExpressionFlowValidationDetails {
   node: string;
   input: string;
   cause: string;
 }
-export const MalformedNodeInputExpressionFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ node: S.String, input: S.String, cause: S.String }),
-  ).annotate({
-    identifier: "MalformedNodeInputExpressionFlowValidationDetails",
-  }) as any as S.Schema<MalformedNodeInputExpressionFlowValidationDetails>;
+export const MalformedNodeInputExpressionFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String, cause: S.String }),
+).annotate({
+  identifier: "MalformedNodeInputExpressionFlowValidationDetails",
+}) as any as S.Schema<MalformedNodeInputExpressionFlowValidationDetails>;
 export interface MismatchedNodeInputTypeFlowValidationDetails {
   node: string;
   input: string;
   expectedType: FlowNodeIODataType;
 }
-export const MismatchedNodeInputTypeFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      node: S.String,
-      input: S.String,
-      expectedType: FlowNodeIODataType,
-    }),
-  ).annotate({
-    identifier: "MismatchedNodeInputTypeFlowValidationDetails",
-  }) as any as S.Schema<MismatchedNodeInputTypeFlowValidationDetails>;
+export const MismatchedNodeInputTypeFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    node: S.String,
+    input: S.String,
+    expectedType: FlowNodeIODataType,
+  }),
+).annotate({
+  identifier: "MismatchedNodeInputTypeFlowValidationDetails",
+}) as any as S.Schema<MismatchedNodeInputTypeFlowValidationDetails>;
 export interface MismatchedNodeOutputTypeFlowValidationDetails {
   node: string;
   output: string;
   expectedType: FlowNodeIODataType;
 }
-export const MismatchedNodeOutputTypeFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      node: S.String,
-      output: S.String,
-      expectedType: FlowNodeIODataType,
-    }),
-  ).annotate({
-    identifier: "MismatchedNodeOutputTypeFlowValidationDetails",
-  }) as any as S.Schema<MismatchedNodeOutputTypeFlowValidationDetails>;
+export const MismatchedNodeOutputTypeFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    node: S.String,
+    output: S.String,
+    expectedType: FlowNodeIODataType,
+  }),
+).annotate({
+  identifier: "MismatchedNodeOutputTypeFlowValidationDetails",
+}) as any as S.Schema<MismatchedNodeOutputTypeFlowValidationDetails>;
 export interface IncompatibleConnectionDataTypeFlowValidationDetails {
   connection: string;
 }
-export const IncompatibleConnectionDataTypeFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ connection: S.String })).annotate({
-    identifier: "IncompatibleConnectionDataTypeFlowValidationDetails",
-  }) as any as S.Schema<IncompatibleConnectionDataTypeFlowValidationDetails>;
+export const IncompatibleConnectionDataTypeFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotate({
+  identifier: "IncompatibleConnectionDataTypeFlowValidationDetails",
+}) as any as S.Schema<IncompatibleConnectionDataTypeFlowValidationDetails>;
 export interface MissingConnectionConfigurationFlowValidationDetails {
   connection: string;
 }
-export const MissingConnectionConfigurationFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ connection: S.String })).annotate({
-    identifier: "MissingConnectionConfigurationFlowValidationDetails",
-  }) as any as S.Schema<MissingConnectionConfigurationFlowValidationDetails>;
+export const MissingConnectionConfigurationFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotate({
+  identifier: "MissingConnectionConfigurationFlowValidationDetails",
+}) as any as S.Schema<MissingConnectionConfigurationFlowValidationDetails>;
 export interface MissingDefaultConditionFlowValidationDetails {
   node: string;
 }
-export const MissingDefaultConditionFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ node: S.String })).annotate({
-    identifier: "MissingDefaultConditionFlowValidationDetails",
-  }) as any as S.Schema<MissingDefaultConditionFlowValidationDetails>;
+export const MissingDefaultConditionFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String }),
+).annotate({
+  identifier: "MissingDefaultConditionFlowValidationDetails",
+}) as any as S.Schema<MissingDefaultConditionFlowValidationDetails>;
 export interface MissingEndingNodesFlowValidationDetails {}
-export const MissingEndingNodesFlowValidationDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const MissingEndingNodesFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "MissingEndingNodesFlowValidationDetails",
 }) as any as S.Schema<MissingEndingNodesFlowValidationDetails>;
 export interface MissingNodeConfigurationFlowValidationDetails {
   node: string;
 }
-export const MissingNodeConfigurationFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ node: S.String })).annotate({
-    identifier: "MissingNodeConfigurationFlowValidationDetails",
-  }) as any as S.Schema<MissingNodeConfigurationFlowValidationDetails>;
+export const MissingNodeConfigurationFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String }),
+).annotate({
+  identifier: "MissingNodeConfigurationFlowValidationDetails",
+}) as any as S.Schema<MissingNodeConfigurationFlowValidationDetails>;
 export interface MissingNodeInputFlowValidationDetails {
   node: string;
   input: string;
 }
-export const MissingNodeInputFlowValidationDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ node: S.String, input: S.String }),
+export const MissingNodeInputFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String }),
 ).annotate({
   identifier: "MissingNodeInputFlowValidationDetails",
 }) as any as S.Schema<MissingNodeInputFlowValidationDetails>;
@@ -4860,43 +4622,43 @@ export interface MissingNodeOutputFlowValidationDetails {
   node: string;
   output: string;
 }
-export const MissingNodeOutputFlowValidationDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ node: S.String, output: S.String }),
+export const MissingNodeOutputFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String, output: S.String }),
 ).annotate({
   identifier: "MissingNodeOutputFlowValidationDetails",
 }) as any as S.Schema<MissingNodeOutputFlowValidationDetails>;
 export interface MissingStartingNodesFlowValidationDetails {}
-export const MissingStartingNodesFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "MissingStartingNodesFlowValidationDetails",
-  }) as any as S.Schema<MissingStartingNodesFlowValidationDetails>;
+export const MissingStartingNodesFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "MissingStartingNodesFlowValidationDetails",
+}) as any as S.Schema<MissingStartingNodesFlowValidationDetails>;
 export interface MultipleNodeInputConnectionsFlowValidationDetails {
   node: string;
   input: string;
 }
-export const MultipleNodeInputConnectionsFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ node: S.String, input: S.String }),
-  ).annotate({
-    identifier: "MultipleNodeInputConnectionsFlowValidationDetails",
-  }) as any as S.Schema<MultipleNodeInputConnectionsFlowValidationDetails>;
+export const MultipleNodeInputConnectionsFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String }),
+).annotate({
+  identifier: "MultipleNodeInputConnectionsFlowValidationDetails",
+}) as any as S.Schema<MultipleNodeInputConnectionsFlowValidationDetails>;
 export interface UnfulfilledNodeInputFlowValidationDetails {
   node: string;
   input: string;
 }
-export const UnfulfilledNodeInputFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ node: S.String, input: S.String }),
-  ).annotate({
-    identifier: "UnfulfilledNodeInputFlowValidationDetails",
-  }) as any as S.Schema<UnfulfilledNodeInputFlowValidationDetails>;
+export const UnfulfilledNodeInputFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String }),
+).annotate({
+  identifier: "UnfulfilledNodeInputFlowValidationDetails",
+}) as any as S.Schema<UnfulfilledNodeInputFlowValidationDetails>;
 export interface UnsatisfiedConnectionConditionsFlowValidationDetails {
   connection: string;
 }
-export const UnsatisfiedConnectionConditionsFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ connection: S.String })).annotate({
-    identifier: "UnsatisfiedConnectionConditionsFlowValidationDetails",
-  }) as any as S.Schema<UnsatisfiedConnectionConditionsFlowValidationDetails>;
+export const UnsatisfiedConnectionConditionsFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connection: S.String }),
+).annotate({
+  identifier: "UnsatisfiedConnectionConditionsFlowValidationDetails",
+}) as any as S.Schema<UnsatisfiedConnectionConditionsFlowValidationDetails>;
 export interface UnspecifiedFlowValidationDetails {}
 export const UnspecifiedFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
@@ -4907,8 +4669,8 @@ export interface UnknownNodeInputFlowValidationDetails {
   node: string;
   input: string;
 }
-export const UnknownNodeInputFlowValidationDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ node: S.String, input: S.String }),
+export const UnknownNodeInputFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String, input: S.String }),
 ).annotate({
   identifier: "UnknownNodeInputFlowValidationDetails",
 }) as any as S.Schema<UnknownNodeInputFlowValidationDetails>;
@@ -4916,39 +4678,43 @@ export interface UnknownNodeOutputFlowValidationDetails {
   node: string;
   output: string;
 }
-export const UnknownNodeOutputFlowValidationDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ node: S.String, output: S.String }),
+export const UnknownNodeOutputFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ node: S.String, output: S.String }),
 ).annotate({
   identifier: "UnknownNodeOutputFlowValidationDetails",
 }) as any as S.Schema<UnknownNodeOutputFlowValidationDetails>;
 export interface MissingLoopInputNodeFlowValidationDetails {
   loopNode: string;
 }
-export const MissingLoopInputNodeFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ loopNode: S.String })).annotate({
-    identifier: "MissingLoopInputNodeFlowValidationDetails",
-  }) as any as S.Schema<MissingLoopInputNodeFlowValidationDetails>;
+export const MissingLoopInputNodeFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ loopNode: S.String }),
+).annotate({
+  identifier: "MissingLoopInputNodeFlowValidationDetails",
+}) as any as S.Schema<MissingLoopInputNodeFlowValidationDetails>;
 export interface MissingLoopControllerNodeFlowValidationDetails {
   loopNode: string;
 }
-export const MissingLoopControllerNodeFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ loopNode: S.String })).annotate({
-    identifier: "MissingLoopControllerNodeFlowValidationDetails",
-  }) as any as S.Schema<MissingLoopControllerNodeFlowValidationDetails>;
+export const MissingLoopControllerNodeFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ loopNode: S.String }),
+).annotate({
+  identifier: "MissingLoopControllerNodeFlowValidationDetails",
+}) as any as S.Schema<MissingLoopControllerNodeFlowValidationDetails>;
 export interface MultipleLoopInputNodesFlowValidationDetails {
   loopNode: string;
 }
-export const MultipleLoopInputNodesFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ loopNode: S.String })).annotate({
-    identifier: "MultipleLoopInputNodesFlowValidationDetails",
-  }) as any as S.Schema<MultipleLoopInputNodesFlowValidationDetails>;
+export const MultipleLoopInputNodesFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ loopNode: S.String }),
+).annotate({
+  identifier: "MultipleLoopInputNodesFlowValidationDetails",
+}) as any as S.Schema<MultipleLoopInputNodesFlowValidationDetails>;
 export interface MultipleLoopControllerNodesFlowValidationDetails {
   loopNode: string;
 }
-export const MultipleLoopControllerNodesFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ loopNode: S.String })).annotate({
-    identifier: "MultipleLoopControllerNodesFlowValidationDetails",
-  }) as any as S.Schema<MultipleLoopControllerNodesFlowValidationDetails>;
+export const MultipleLoopControllerNodesFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ loopNode: S.String }),
+).annotate({
+  identifier: "MultipleLoopControllerNodesFlowValidationDetails",
+}) as any as S.Schema<MultipleLoopControllerNodesFlowValidationDetails>;
 export type IncompatibleLoopNodeType =
   | "Input"
   | "Condition"
@@ -4962,23 +4728,22 @@ export interface LoopIncompatibleNodeTypeFlowValidationDetails {
   incompatibleNodeType: IncompatibleLoopNodeType;
   incompatibleNodeName: string;
 }
-export const LoopIncompatibleNodeTypeFlowValidationDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      node: S.String,
-      incompatibleNodeType: IncompatibleLoopNodeType,
-      incompatibleNodeName: S.String,
-    }),
-  ).annotate({
-    identifier: "LoopIncompatibleNodeTypeFlowValidationDetails",
-  }) as any as S.Schema<LoopIncompatibleNodeTypeFlowValidationDetails>;
+export const LoopIncompatibleNodeTypeFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    node: S.String,
+    incompatibleNodeType: IncompatibleLoopNodeType,
+    incompatibleNodeName: S.String,
+  }),
+).annotate({
+  identifier: "LoopIncompatibleNodeTypeFlowValidationDetails",
+}) as any as S.Schema<LoopIncompatibleNodeTypeFlowValidationDetails>;
 export interface InvalidLoopBoundaryFlowValidationDetails {
   connection: string;
   source: string;
   target: string;
 }
-export const InvalidLoopBoundaryFlowValidationDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ connection: S.String, source: S.String, target: S.String }),
+export const InvalidLoopBoundaryFlowValidationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ connection: S.String, source: S.String, target: S.String }),
 ).annotate({
   identifier: "InvalidLoopBoundaryFlowValidationDetails",
 }) as any as S.Schema<InvalidLoopBoundaryFlowValidationDetails>;
@@ -6142,34 +5907,29 @@ export const FlowValidationDetails = /*@__PURE__*/ S.Union([
   S.Struct({ cyclicConnection: CyclicConnectionFlowValidationDetails }),
   S.Struct({ duplicateConnections: DuplicateConnectionsFlowValidationDetails }),
   S.Struct({
-    duplicateConditionExpression:
-      DuplicateConditionExpressionFlowValidationDetails,
+    duplicateConditionExpression: DuplicateConditionExpressionFlowValidationDetails,
   }),
   S.Struct({ unreachableNode: UnreachableNodeFlowValidationDetails }),
   S.Struct({
     unknownConnectionSource: UnknownConnectionSourceFlowValidationDetails,
   }),
   S.Struct({
-    unknownConnectionSourceOutput:
-      UnknownConnectionSourceOutputFlowValidationDetails,
+    unknownConnectionSourceOutput: UnknownConnectionSourceOutputFlowValidationDetails,
   }),
   S.Struct({
     unknownConnectionTarget: UnknownConnectionTargetFlowValidationDetails,
   }),
   S.Struct({
-    unknownConnectionTargetInput:
-      UnknownConnectionTargetInputFlowValidationDetails,
+    unknownConnectionTargetInput: UnknownConnectionTargetInputFlowValidationDetails,
   }),
   S.Struct({
     unknownConnectionCondition: UnknownConnectionConditionFlowValidationDetails,
   }),
   S.Struct({
-    malformedConditionExpression:
-      MalformedConditionExpressionFlowValidationDetails,
+    malformedConditionExpression: MalformedConditionExpressionFlowValidationDetails,
   }),
   S.Struct({
-    malformedNodeInputExpression:
-      MalformedNodeInputExpressionFlowValidationDetails,
+    malformedNodeInputExpression: MalformedNodeInputExpressionFlowValidationDetails,
   }),
   S.Struct({
     mismatchedNodeInputType: MismatchedNodeInputTypeFlowValidationDetails,
@@ -6178,12 +5938,10 @@ export const FlowValidationDetails = /*@__PURE__*/ S.Union([
     mismatchedNodeOutputType: MismatchedNodeOutputTypeFlowValidationDetails,
   }),
   S.Struct({
-    incompatibleConnectionDataType:
-      IncompatibleConnectionDataTypeFlowValidationDetails,
+    incompatibleConnectionDataType: IncompatibleConnectionDataTypeFlowValidationDetails,
   }),
   S.Struct({
-    missingConnectionConfiguration:
-      MissingConnectionConfigurationFlowValidationDetails,
+    missingConnectionConfiguration: MissingConnectionConfigurationFlowValidationDetails,
   }),
   S.Struct({
     missingDefaultCondition: MissingDefaultConditionFlowValidationDetails,
@@ -6196,13 +5954,11 @@ export const FlowValidationDetails = /*@__PURE__*/ S.Union([
   S.Struct({ missingNodeOutput: MissingNodeOutputFlowValidationDetails }),
   S.Struct({ missingStartingNodes: MissingStartingNodesFlowValidationDetails }),
   S.Struct({
-    multipleNodeInputConnections:
-      MultipleNodeInputConnectionsFlowValidationDetails,
+    multipleNodeInputConnections: MultipleNodeInputConnectionsFlowValidationDetails,
   }),
   S.Struct({ unfulfilledNodeInput: UnfulfilledNodeInputFlowValidationDetails }),
   S.Struct({
-    unsatisfiedConnectionConditions:
-      UnsatisfiedConnectionConditionsFlowValidationDetails,
+    unsatisfiedConnectionConditions: UnsatisfiedConnectionConditionsFlowValidationDetails,
   }),
   S.Struct({ unspecified: UnspecifiedFlowValidationDetails }),
   S.Struct({ unknownNodeInput: UnknownNodeInputFlowValidationDetails }),
@@ -6215,8 +5971,7 @@ export const FlowValidationDetails = /*@__PURE__*/ S.Union([
     multipleLoopInputNodes: MultipleLoopInputNodesFlowValidationDetails,
   }),
   S.Struct({
-    multipleLoopControllerNodes:
-      MultipleLoopControllerNodesFlowValidationDetails,
+    multipleLoopControllerNodes: MultipleLoopControllerNodesFlowValidationDetails,
   }),
   S.Struct({
     loopIncompatibleNodeType: LoopIncompatibleNodeTypeFlowValidationDetails,
@@ -6644,19 +6399,11 @@ export const GetResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
-export type MetadataSourceType =
-  | "IN_LINE_ATTRIBUTE"
-  | "S3_LOCATION"
-  | (string & {});
+export type MetadataSourceType = "IN_LINE_ATTRIBUTE" | "S3_LOCATION" | (string & {});
 export const MetadataSourceType = S.String;
 
 export type Key = string | redacted.Redacted<string>;
-export type MetadataValueType =
-  | "BOOLEAN"
-  | "NUMBER"
-  | "STRING"
-  | "STRING_LIST"
-  | (string & {});
+export type MetadataValueType = "BOOLEAN" | "NUMBER" | "STRING" | "STRING_LIST" | (string & {});
 export const MetadataValueType = S.String;
 
 export type NumberValue = number;
@@ -6723,9 +6470,7 @@ export const DocumentAccessControlEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "DocumentAccessControlEntry",
 }) as any as S.Schema<DocumentAccessControlEntry>;
 export type DocumentAccessControlList = DocumentAccessControlEntry[];
-export const DocumentAccessControlList = /*@__PURE__*/ S.Array(
-  DocumentAccessControlEntry,
-);
+export const DocumentAccessControlList = /*@__PURE__*/ S.Array(DocumentAccessControlEntry);
 export interface DocumentMetadata {
   type: MetadataSourceType;
   inlineAttributes?: MetadataAttribute[];
@@ -6822,9 +6567,7 @@ export const KnowledgeBaseDocument = /*@__PURE__*/ S.suspend(() =>
   identifier: "KnowledgeBaseDocument",
 }) as any as S.Schema<KnowledgeBaseDocument>;
 export type KnowledgeBaseDocuments = KnowledgeBaseDocument[];
-export const KnowledgeBaseDocuments = /*@__PURE__*/ S.Array(
-  KnowledgeBaseDocument,
-);
+export const KnowledgeBaseDocuments = /*@__PURE__*/ S.Array(KnowledgeBaseDocument);
 export interface IngestKnowledgeBaseDocumentsRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
@@ -6856,8 +6599,8 @@ export const IngestKnowledgeBaseDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface IngestKnowledgeBaseDocumentsResponse {
   documentDetails?: KnowledgeBaseDocumentDetail[];
 }
-export const IngestKnowledgeBaseDocumentsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }),
+export const IngestKnowledgeBaseDocumentsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ documentDetails: S.optional(KnowledgeBaseDocumentDetails) }),
 ).annotate({
   identifier: "IngestKnowledgeBaseDocumentsResponse",
 }) as any as S.Schema<IngestKnowledgeBaseDocumentsResponse>;
@@ -7039,9 +6782,7 @@ export const AgentCollaboratorSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AgentCollaboratorSummary",
 }) as any as S.Schema<AgentCollaboratorSummary>;
 export type AgentCollaboratorSummaries = AgentCollaboratorSummary[];
-export const AgentCollaboratorSummaries = /*@__PURE__*/ S.Array(
-  AgentCollaboratorSummary,
-);
+export const AgentCollaboratorSummaries = /*@__PURE__*/ S.Array(AgentCollaboratorSummary);
 export interface ListAgentCollaboratorsResponse {
   agentCollaboratorSummaries: AgentCollaboratorSummary[];
   nextToken?: string;
@@ -7099,9 +6840,7 @@ export const AgentKnowledgeBaseSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AgentKnowledgeBaseSummary",
 }) as any as S.Schema<AgentKnowledgeBaseSummary>;
 export type AgentKnowledgeBaseSummaries = AgentKnowledgeBaseSummary[];
-export const AgentKnowledgeBaseSummaries = /*@__PURE__*/ S.Array(
-  AgentKnowledgeBaseSummary,
-);
+export const AgentKnowledgeBaseSummaries = /*@__PURE__*/ S.Array(AgentKnowledgeBaseSummary);
 export interface ListAgentKnowledgeBasesResponse {
   agentKnowledgeBaseSummaries: AgentKnowledgeBaseSummary[];
   nextToken?: string;
@@ -7122,16 +6861,7 @@ export const ListAgentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/agents/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/agents/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAgentsRequest",
 }) as any as S.Schema<ListAgentsRequest>;
@@ -7356,16 +7086,7 @@ export const ListFlowsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/flows/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/flows/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFlowsRequest",
 }) as any as S.Schema<ListFlowsRequest>;
@@ -7482,10 +7203,7 @@ export const IngestionJobFilter = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IngestionJobFilter>;
 export type IngestionJobFilters = IngestionJobFilter[];
 export const IngestionJobFilters = /*@__PURE__*/ S.Array(IngestionJobFilter);
-export type IngestionJobSortByAttribute =
-  | "STATUS"
-  | "STARTED_AT"
-  | (string & {});
+export type IngestionJobSortByAttribute = "STATUS" | "STARTED_AT" | (string & {});
 export const IngestionJobSortByAttribute = S.String;
 
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
@@ -7618,16 +7336,7 @@ export const ListKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/knowledgebases/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/knowledgebases/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListKnowledgeBasesRequest",
 }) as any as S.Schema<ListKnowledgeBasesRequest>;
@@ -7650,8 +7359,7 @@ export const KnowledgeBaseSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "KnowledgeBaseSummary",
 }) as any as S.Schema<KnowledgeBaseSummary>;
 export type KnowledgeBaseSummaries = KnowledgeBaseSummary[];
-export const KnowledgeBaseSummaries =
-  /*@__PURE__*/ S.Array(KnowledgeBaseSummary);
+export const KnowledgeBaseSummaries = /*@__PURE__*/ S.Array(KnowledgeBaseSummary);
 export interface ListKnowledgeBasesResponse {
   knowledgeBaseSummaries: KnowledgeBaseSummary[];
   nextToken?: string;
@@ -7671,21 +7379,10 @@ export interface ListPromptsRequest {
 }
 export const ListPromptsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    promptIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("promptIdentifier"),
-    ),
+    promptIdentifier: S.optional(S.String).pipe(T.HttpQuery("promptIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/prompts/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/prompts/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPromptsRequest",
 }) as any as S.Schema<ListPromptsRequest>;
@@ -7729,14 +7426,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -7754,14 +7444,7 @@ export interface PrepareAgentRequest {
 }
 export const PrepareAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ agentId: S.String.pipe(T.HttpLabel("agentId")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/agents/{agentId}/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/agents/{agentId}/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PrepareAgentRequest",
@@ -7921,22 +7604,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagsMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -7950,22 +7624,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAgentRequest {
@@ -8001,14 +7666,7 @@ export const UpdateAgentRequest = /*@__PURE__*/ S.suspend(() =>
     memoryConfiguration: S.optional(MemoryConfiguration),
     agentCollaboration: S.optional(AgentCollaboration),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/agents/{agentId}/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/agents/{agentId}/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateAgentRequest",
@@ -8209,9 +7867,7 @@ export const UpdateDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     dataSourceConfiguration: DataSourceConfiguration,
     dataDeletionPolicy: S.optional(DataDeletionPolicy),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     vectorIngestionConfiguration: S.optional(VectorIngestionConfiguration),
   }).pipe(
     T.all(
@@ -8254,14 +7910,7 @@ export const UpdateFlowRequest = /*@__PURE__*/ S.suspend(() =>
     definition: S.optional(FlowDefinition),
     flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/flows/{flowIdentifier}/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/flows/{flowIdentifier}/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateFlowRequest",
@@ -8483,9 +8132,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AssociateAgentCollaboratorError =
   | AccessDeniedException
   | ConflictException

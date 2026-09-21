@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Lex Runtime Service",
   serviceShapeName: "AWSDeepSenseRunTimeService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -68,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://runtime.lex-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -78,9 +72,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://runtime.lex.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if ("aws" === _.getAttr(PartitionResult, "name")) {
           return e(`https://runtime.lex.${Region}.amazonaws.com`);
@@ -88,9 +80,7 @@ const rules = T.EndpointResolver((p, _) => {
         if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
           return e(`https://runtime.lex.${Region}.amazonaws.com`);
         }
-        return e(
-          `https://runtime.lex.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://runtime.lex.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -223,9 +213,7 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
     botName: S.String.pipe(T.HttpLabel("botName")),
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
     userId: S.String.pipe(T.HttpLabel("userId")),
-    checkpointLabelFilter: S.optional(S.String).pipe(
-      T.HttpQuery("checkpointLabelFilter"),
-    ),
+    checkpointLabelFilter: S.optional(S.String).pipe(T.HttpQuery("checkpointLabelFilter")),
   }).pipe(
     T.all(
       T.Http({
@@ -244,15 +232,8 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSessionRequest>;
 export type IntentName = string;
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
-export type ConfirmationStatus =
-  | "None"
-  | "Confirmed"
-  | "Denied"
-  | (string & {});
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
+export type ConfirmationStatus = "None" | "Confirmed" | "Denied" | (string & {});
 export const ConfirmationStatus = S.String;
 
 export type DialogActionType =
@@ -264,11 +245,7 @@ export type DialogActionType =
   | (string & {});
 export const DialogActionType = S.String;
 
-export type FulfillmentState =
-  | "Fulfilled"
-  | "Failed"
-  | "ReadyForFulfillment"
-  | (string & {});
+export type FulfillmentState = "Fulfilled" | "Failed" | "ReadyForFulfillment" | (string & {});
 export const FulfillmentState = S.String;
 
 export interface IntentSummary {
@@ -377,14 +354,10 @@ export const GetSessionResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetSessionResponse",
 }) as any as S.Schema<GetSessionResponse>;
-export type SynthesizedJsonAttributesString =
-  | string
-  | redacted.Redacted<string>;
+export type SynthesizedJsonAttributesString = string | redacted.Redacted<string>;
 export type HttpContentType = string;
 export type Accept = string;
-export type SynthesizedJsonActiveContextsString =
-  | string
-  | redacted.Redacted<string>;
+export type SynthesizedJsonActiveContextsString = string | redacted.Redacted<string>;
 export interface PostContentRequest {
   botName: string;
   botAlias: string;
@@ -410,9 +383,7 @@ export const PostContentRequest = /*@__PURE__*/ S.suspend(() =>
     contentType: S.String.pipe(T.HttpHeader("Content-Type")),
     accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
     inputStream: T.StreamingInput.pipe(T.HttpPayload()),
-    activeContexts: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-active-contexts"),
-    ),
+    activeContexts: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-active-contexts")),
   }).pipe(
     T.all(
       T.Http({
@@ -466,51 +437,25 @@ export interface PostContentResponse {
 export const PostContentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    intentName: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-intent-name"),
-    ),
-    nluIntentConfidence: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-nlu-intent-confidence"),
-    ),
-    alternativeIntents: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-alternative-intents"),
-    ),
+    intentName: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-intent-name")),
+    nluIntentConfidence: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-nlu-intent-confidence")),
+    alternativeIntents: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-alternative-intents")),
     slots: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slots")),
-    sessionAttributes: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-session-attributes"),
-    ),
-    sentimentResponse: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-sentiment"),
-    ),
-    message: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-message"),
-    ),
-    encodedMessage: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-encoded-message"),
-    ),
-    messageFormat: S.optional(MessageFormatType).pipe(
-      T.HttpHeader("x-amz-lex-message-format"),
-    ),
-    dialogState: S.optional(DialogState).pipe(
-      T.HttpHeader("x-amz-lex-dialog-state"),
-    ),
-    slotToElicit: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-slot-to-elicit"),
-    ),
-    inputTranscript: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-input-transcript"),
-    ),
+    sessionAttributes: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-attributes")),
+    sentimentResponse: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-sentiment")),
+    message: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-message")),
+    encodedMessage: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-encoded-message")),
+    messageFormat: S.optional(MessageFormatType).pipe(T.HttpHeader("x-amz-lex-message-format")),
+    dialogState: S.optional(DialogState).pipe(T.HttpHeader("x-amz-lex-dialog-state")),
+    slotToElicit: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slot-to-elicit")),
+    inputTranscript: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-input-transcript")),
     encodedInputTranscript: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-encoded-input-transcript"),
     ),
     audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    botVersion: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-bot-version"),
-    ),
+    botVersion: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-bot-version")),
     sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
-    activeContexts: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-active-contexts"),
-    ),
+    activeContexts: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-active-contexts")),
   }),
 ).annotate({
   identifier: "PostContentResponse",
@@ -587,9 +532,7 @@ export const SentimentResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SentimentResponse",
 }) as any as S.Schema<SentimentResponse>;
-export type ContentType =
-  | "application/vnd.amazonaws.card.generic"
-  | (string & {});
+export type ContentType = "application/vnd.amazonaws.card.generic" | (string & {});
 export const ContentType = S.String;
 
 export type StringWithLength = string;
@@ -726,33 +669,17 @@ export interface PutSessionResponse {
 export const PutSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    intentName: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-intent-name"),
-    ),
+    intentName: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-intent-name")),
     slots: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slots")),
-    sessionAttributes: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-session-attributes"),
-    ),
-    message: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-message"),
-    ),
-    encodedMessage: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-encoded-message"),
-    ),
-    messageFormat: S.optional(MessageFormatType).pipe(
-      T.HttpHeader("x-amz-lex-message-format"),
-    ),
-    dialogState: S.optional(DialogState).pipe(
-      T.HttpHeader("x-amz-lex-dialog-state"),
-    ),
-    slotToElicit: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-slot-to-elicit"),
-    ),
+    sessionAttributes: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-attributes")),
+    message: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-message")),
+    encodedMessage: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-encoded-message")),
+    messageFormat: S.optional(MessageFormatType).pipe(T.HttpHeader("x-amz-lex-message-format")),
+    dialogState: S.optional(DialogState).pipe(T.HttpHeader("x-amz-lex-dialog-state")),
+    slotToElicit: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slot-to-elicit")),
     audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
     sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
-    activeContexts: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-active-contexts"),
-    ),
+    activeContexts: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-active-contexts")),
   }),
 ).annotate({
   identifier: "PutSessionResponse",

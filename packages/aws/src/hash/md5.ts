@@ -2,8 +2,8 @@
  * MD5 checksum implementation using Node.js crypto module.
  */
 
-import type { Checksum } from "@smithy/types";
 import * as crypto from "crypto";
+import type { Checksum } from "@smithy/types";
 
 class NodeMd5 implements Checksum {
   private hash = crypto.createHash("md5");

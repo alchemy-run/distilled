@@ -27,13 +27,13 @@
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
-import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/core/codegen/openapi";
 import {
   convertGraphQLToSmithy,
   PRELUDE,
   readIntrospection,
 } from "@distilled.cloud/core/codegen/graphql";
+import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/core/codegen/openapi";
+import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 import {
   applyRfc6902Files,
   finalizeConvert,
@@ -71,9 +71,7 @@ const DEFAULT_ERROR_STATUSES = ["401", "429", "500", "502", "503", "504"];
 // per-operation ones live under `patches/machines/`. OpenAPI pointers target
 // `/v1/…` spec-mirror paths; Smithy pointers apply in finalizeConvert.
 const machinesPatchFiles = [
-  ...(await listRfc6902PatchFiles(patchesRoot)).filter((f) =>
-    f.endsWith(".patch.json"),
-  ),
+  ...(await listRfc6902PatchFiles(patchesRoot)).filter((f) => f.endsWith(".patch.json")),
   ...(await listRfc6902PatchFiles(path.join(patchesRoot, "machines"))),
 ];
 
@@ -94,9 +92,7 @@ await runOpenApiConvert({
             `${applied.errors.length} machines patch operation(s) failed — fix the JSON pointers (paths are /v1/… on the spec-mirror) or delete the patch`,
           );
         }
-        console.log(
-          `   applied ${applied.files} OpenAPI patch file(s) (flat + patches/machines)`,
-        );
+        console.log(`   applied ${applied.files} OpenAPI patch file(s) (flat + patches/machines)`);
       },
     },
   ],
@@ -189,7 +185,7 @@ await runOpenApiConvert({
   const op = model.shapes["com.flyio.sprites#ListSprites"];
   if (op?.type === "operation") {
     op.traits = {
-      ...(op.traits ?? {}),
+      ...op.traits,
       "smithy.api#paginated": {
         inputToken: "continuation_token",
         outputToken: "next_continuation_token",
@@ -201,9 +197,7 @@ await runOpenApiConvert({
     await fs.writeFile(spritesPath, JSON.stringify(model, null, 2) + "\n");
     console.log("   stamped listSprites cursor pagination");
   } else {
-    console.warn(
-      "   ⚠️  com.flyio.sprites#ListSprites not found — pagination not stamped",
-    );
+    console.warn("   ⚠️  com.flyio.sprites#ListSprites not found — pagination not stamped");
   }
 
   // OpenAPI convert only flattens json / form / multipart bodies. Sprites
@@ -232,9 +226,7 @@ await runOpenApiConvert({
     const op = model.shapes[opId];
     const http = op?.traits?.["smithy.api#http"];
     if (http === undefined || typeof http !== "object") {
-      console.warn(
-        `   ⚠️  ${opId} http trait missing — bodyMediaType not stamped`,
-      );
+      console.warn(`   ⚠️  ${opId} http trait missing — bodyMediaType not stamped`);
       return;
     }
     http.bodyMediaType = "application/octet-stream";
@@ -258,9 +250,7 @@ const graphqlTraits = {
 } as const;
 
 const addonsSchema = readIntrospection(
-  JSON.parse(
-    await fs.readFile(path.join(root, "specs/addons/schema.json"), "utf8"),
-  ),
+  JSON.parse(await fs.readFile(path.join(root, "specs/addons/schema.json"), "utf8")),
 );
 
 const addonsResult = convertGraphQLToSmithy({
@@ -286,10 +276,7 @@ const addonsResult = convertGraphQLToSmithy({
 
 const addonsOut = path.join(generatedDir, "addons.json");
 await fs.mkdir(generatedDir, { recursive: true });
-await fs.writeFile(
-  addonsOut,
-  `${JSON.stringify(addonsResult.model, null, 2)}\n`,
-);
+await fs.writeFile(addonsOut, `${JSON.stringify(addonsResult.model, null, 2)}\n`);
 console.log(
   `✅ addons: ${addonsResult.converted} GraphQL operations ` +
     `(${addonsResult.paginated} paginated, ${addonsResult.failed} failed, ` +
@@ -306,14 +293,13 @@ await finalizeConvert({
       for (const [name, member] of Object.entries(def.members ?? {}) as any[]) {
         if (name === "password" || name === "publicUrl") {
           member.traits = {
-            ...(member.traits ?? {}),
+            ...member.traits,
             "smithy.api#sensitive": {},
           };
           n++;
         }
       }
     }
-    if (n)
-      return `stamped smithy.api#sensitive on ${n} add-on secret member(s)`;
+    if (n) return `stamped smithy.api#sensitive on ${n} add-on secret member(s)`;
   },
 });

@@ -56,9 +56,7 @@ const fetchUsage = async (): Promise<string[] | null> => {
   }
 };
 
-export const readAlchemyUsage = async (
-  fallbackFile: string,
-): Promise<AlchemyUsage> => {
+export const readAlchemyUsage = async (fallbackFile: string): Promise<AlchemyUsage> => {
   const live = await fetchUsage();
   if (live) {
     return {

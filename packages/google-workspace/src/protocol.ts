@@ -1,3 +1,16 @@
+import * as API from "@distilled.cloud/core/api";
+import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import type { DefaultErrors } from "@distilled.cloud/core/errors";
+import { getAnn, getProps, hasPropAnn, nameOf } from "@distilled.cloud/core/protocol-http";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import {
+  bodySymbol,
+  headerSymbol,
+  httpBodySymbol,
+  httpSymbol,
+  labelSymbol,
+  querySymbol,
+} from "@distilled.cloud/core/trait";
 /**
  * GoogleWorkspaceProtocol — hand-written.
  *
@@ -32,29 +45,8 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import {
-  getAnn,
-  getProps,
-  hasPropAnn,
-  nameOf,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  bodySymbol,
-  headerSymbol,
-  httpBodySymbol,
-  httpSymbol,
-  labelSymbol,
-  querySymbol,
-} from "@distilled.cloud/core/trait";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import type { DefaultErrors } from "@distilled.cloud/core/errors";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
-import {
-  GoogleWorkspaceParseError,
-  UnknownGoogleWorkspaceError,
-} from "./errors.ts";
+import { GoogleWorkspaceParseError, UnknownGoogleWorkspaceError } from "./errors.ts";
 import type { GoogleWorkspaceHttpTrait } from "./traits.ts";
 
 /**
@@ -76,24 +68,18 @@ export type GoogleWorkspaceOpContext = Credentials | HttpClient.HttpClient;
 // Google Workspace failures are real typed errors that an operation re-surfaces via its
 // `errors: [...]` list. Fail with the instance and erase the error type here;
 // `API.make`'s signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /**
  * RFC 6570 §3.2.3 reserved-expansion: encode everything outside the RFC
  * 3986 unreserved (`A-Za-z0-9-._~`) and reserved (`:/?#[]@!$&'()*+,;=`)
  * sets. Used for `{+param}` path tokens (ported from the distilled core).
  */
-const RFC3986_NEEDS_ENCODING = /[^A-Za-z0-9\-._~:/?#\[\]@!$&'()*+,;=]/g;
-const encodeReserved = (v: string): string =>
-  v.replace(RFC3986_NEEDS_ENCODING, encodeURIComponent);
+const RFC3986_NEEDS_ENCODING = /[^A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=]/g;
+const encodeReserved = (v: string): string => v.replace(RFC3986_NEEDS_ENCODING, encodeURIComponent);
 
 /** Serialize one query member: arrays as repeated `k=v`, scalars stringified. */
-const appendQuery = (
-  query: URLSearchParams,
-  name: string,
-  value: unknown,
-): void => {
+const appendQuery = (query: URLSearchParams, name: string, value: unknown): void => {
   if (Array.isArray(value)) {
     for (const v of value) appendQuery(query, name, v);
   } else if (value !== undefined && value !== null) {
@@ -124,11 +110,7 @@ const extractGoogleErrorEnvelope = (
     status: undefined,
     details: undefined,
   };
-  if (
-    typeof errorBody !== "object" ||
-    errorBody === null ||
-    !("error" in errorBody)
-  ) {
+  if (typeof errorBody !== "object" || errorBody === null || !("error" in errorBody)) {
     return none;
   }
   const err = (errorBody as { error?: unknown }).error;
@@ -165,22 +147,14 @@ type EnvelopeAddenda = {
 // calling fiber's context on every request. The requirement is erased at
 // this boundary (Protocol effects are typed with no requirements) and
 // reintroduced for callers by the generated `GoogleWorkspaceOpContext` annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     // The Credentials service holds an effect — resolving it here (per
     // request) picks up externally-rotated tokens.
     const resolveCredentials = yield* Credentials;
     const creds: Config = yield* resolveCredentials;
 
-    const http = getAnn(inputAst, httpSymbol) as
-      | GoogleWorkspaceHttpTrait
-      | undefined;
+    const http = getAnn(inputAst, httpSymbol) as GoogleWorkspaceHttpTrait | undefined;
     if (!http) {
       throw new Error("operation input is missing the Http() trait");
     }
@@ -229,8 +203,7 @@ const encode = ({
     let request = HttpClientRequest.make(http.method)(url).pipe(
       HttpClientRequest.setHeaders(headers),
     );
-    const body =
-      rawBody !== undefined ? rawBody : hasBodyBag ? bodyBag : undefined;
+    const body = rawBody !== undefined ? rawBody : hasBodyBag ? bodyBag : undefined;
     if (body !== undefined && http.method !== "GET" && http.method !== "HEAD") {
       request = request.pipe(HttpClientRequest.bodyJsonUnsafe(body));
     }
@@ -265,16 +238,14 @@ const decode = ({
     if (status >= 400) {
       const headers = response.headers as Record<string, string | undefined>;
       const envelope = extractGoogleErrorEnvelope(json);
-      const message =
-        envelope.message ?? (nonJson && text ? text : String(status));
+      const message = envelope.message ?? (nonJson && text ? text : String(status));
 
       // Status-map dispatch, exactly like the distilled google-workspace client: the
       // constructed instance shares its `_tag` with the per-service typed
       // error classes (NotFound/Forbidden/BadRequest/Conflict/…), and the
       // envelope's `status` / `details` are tacked on so the per-service
       // narrowed type sees them.
-      const ErrorClass =
-        HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+      const ErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
       if (ErrorClass) {
         const instance = new ErrorClass({
           message,
@@ -309,8 +280,7 @@ export const GoogleWorkspaceProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

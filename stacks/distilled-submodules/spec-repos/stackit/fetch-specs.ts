@@ -109,9 +109,7 @@ async function fetchOk(url: string, accept: string): Promise<Response> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return response;
 }
@@ -122,9 +120,7 @@ async function main() {
     await fetchOk(treeUrl, "application/vnd.github+json")
   ).json()) as GitTreeResponse;
   if (tree.truncated) {
-    throw new Error(
-      `${treeUrl} was truncated — the tree is too large to list without a clone`,
-    );
+    throw new Error(`${treeUrl} was truncated — the tree is too large to list without a clone`);
   }
 
   const chosen = new Map<string, ChosenSpec>();
@@ -147,14 +143,10 @@ async function main() {
   }
 
   if (chosen.size === 0) {
-    throw new Error(
-      `${REPO} tree had no services/<name>/<version>/*.json documents`,
-    );
+    throw new Error(`${REPO} tree had no services/<name>/<version>/*.json documents`);
   }
 
-  const specs = [...chosen.values()].sort((a, b) =>
-    a.slug.localeCompare(b.slug),
-  );
+  const specs = [...chosen.values()].sort((a, b) => a.slug.localeCompare(b.slug));
   const manifest: Array<{
     service: string;
     version: string;
@@ -167,9 +159,10 @@ async function main() {
   for (const spec of specs) {
     const url = rawUrl(spec.path);
     console.log(`Fetching ${url}...`);
-    const doc = (await (
-      await fetchOk(url, "application/json")
-    ).json()) as Record<string, unknown> | null;
+    const doc = (await (await fetchOk(url, "application/json")).json()) as Record<
+      string,
+      unknown
+    > | null;
 
     if (
       doc === null ||

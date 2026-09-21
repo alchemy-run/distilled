@@ -19,10 +19,9 @@ export interface Config {
   readonly project?: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("GoogleWorkspaceCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "GoogleWorkspaceCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   accessToken: EffectConfig.String("GOOGLE_ACCESS_TOKEN"),

@@ -42,16 +42,10 @@ describe("createUserSchema multipart encoding", () => {
   });
 
   test("a boolean becomes the string the multipart endpoint expects", () => {
-    expect(
-      formOf(CreateUserSchemaRequest.ast, input(true)).get(
-        "validation_enabled",
-      ),
-    ).toBe("true");
-    expect(
-      formOf(CreateUserSchemaRequest.ast, input(false)).get(
-        "validation_enabled",
-      ),
-    ).toBe("false");
+    expect(formOf(CreateUserSchemaRequest.ast, input(true)).get("validation_enabled")).toBe("true");
+    expect(formOf(CreateUserSchemaRequest.ast, input(false)).get("validation_enabled")).toBe(
+      "false",
+    );
   });
 
   test("an omitted validationEnabled sends no part", () => {
@@ -70,16 +64,12 @@ describe("createProjectDeployment multipart encoding", () => {
   });
 
   test("commitDirty travels as a boolean string", () => {
-    expect(
-      formOf(CreateProjectDeploymentRequest.ast, input(true)).get(
-        "commit_dirty",
-      ),
-    ).toBe("true");
-    expect(
-      formOf(CreateProjectDeploymentRequest.ast, input(false)).get(
-        "commit_dirty",
-      ),
-    ).toBe("false");
+    expect(formOf(CreateProjectDeploymentRequest.ast, input(true)).get("commit_dirty")).toBe(
+      "true",
+    );
+    expect(formOf(CreateProjectDeploymentRequest.ast, input(false)).get("commit_dirty")).toBe(
+      "false",
+    );
   });
 });
 

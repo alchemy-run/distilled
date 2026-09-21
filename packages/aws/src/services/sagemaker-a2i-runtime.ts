@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker A2I Runtime",
   serviceShapeName: "AmazonSageMakerA2IRuntime",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://a2i-runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://a2i-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://a2i-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -138,9 +130,7 @@ export const DeleteHumanLoopRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteHumanLoopRequest",
 }) as any as S.Schema<DeleteHumanLoopRequest>;
 export interface DeleteHumanLoopResponse {}
-export const DeleteHumanLoopResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteHumanLoopResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteHumanLoopResponse",
 }) as any as S.Schema<DeleteHumanLoopResponse>;
 export interface DescribeHumanLoopRequest {
@@ -191,9 +181,7 @@ export interface DescribeHumanLoopResponse {
 }
 export const DescribeHumanLoopResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     FailureReason: S.optional(S.String),
     FailureCode: S.optional(S.String),
     HumanLoopStatus: S.optional(HumanLoopStatus),
@@ -220,28 +208,17 @@ export interface ListHumanLoopsRequest {
 }
 export const ListHumanLoopsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreationTimeAfter: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("CreationTimeAfter")),
-    CreationTimeBefore: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("CreationTimeBefore")),
-    FlowDefinitionArn: S.optional(S.String).pipe(
-      T.HttpQuery("FlowDefinitionArn"),
+    CreationTimeAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("CreationTimeAfter"),
     ),
+    CreationTimeBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("CreationTimeBefore"),
+    ),
+    FlowDefinitionArn: S.optional(S.String).pipe(T.HttpQuery("FlowDefinitionArn")),
     SortOrder: S.optional(SortOrder).pipe(T.HttpQuery("SortOrder")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/human-loops" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/human-loops" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListHumanLoopsRequest",
 }) as any as S.Schema<ListHumanLoopsRequest>;
@@ -257,9 +234,7 @@ export const HumanLoopSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     HumanLoopName: S.optional(S.String),
     HumanLoopStatus: S.optional(HumanLoopStatus),
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     FailureReason: S.optional(S.String),
     FlowDefinitionArn: S.optional(S.String),
   }),
@@ -315,16 +290,7 @@ export const StartHumanLoopRequest = /*@__PURE__*/ S.suspend(() =>
     FlowDefinitionArn: S.optional(S.String),
     HumanLoopInput: S.optional(HumanLoopInput),
     DataAttributes: S.optional(HumanLoopDataAttributes),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/human-loops" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/human-loops" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartHumanLoopRequest",
 }) as any as S.Schema<StartHumanLoopRequest>;
@@ -341,22 +307,13 @@ export interface StopHumanLoopRequest {
 }
 export const StopHumanLoopRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HumanLoopName: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/human-loops/stop" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/human-loops/stop" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StopHumanLoopRequest",
 }) as any as S.Schema<StopHumanLoopRequest>;
 export interface StopHumanLoopResponse {}
-export const StopHumanLoopResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopHumanLoopResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopHumanLoopResponse",
 }) as any as S.Schema<StopHumanLoopResponse>;
 export type DeleteHumanLoopError =

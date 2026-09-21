@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Events",
   serviceShapeName: "IotColumboService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,13 +52,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://iotevents-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://iotevents-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +62,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://iotevents.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://iotevents.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://iotevents.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -563,16 +551,7 @@ export const CreateAlarmModelRequest = /*@__PURE__*/ S.suspend(() =>
     alarmNotification: S.optional(AlarmNotification),
     alarmEventActions: S.optional(AlarmEventActions),
     alarmCapabilities: S.optional(AlarmCapabilities),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/alarm-models" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/alarm-models" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAlarmModelRequest",
 }) as any as S.Schema<CreateAlarmModelRequest>;
@@ -790,16 +769,7 @@ export const CreateDetectorModelRequest = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.String,
     tags: S.optional(Tags),
     evaluationMethod: S.optional(EvaluationMethod),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector-models" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/detector-models" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDetectorModelRequest",
 }) as any as S.Schema<CreateDetectorModelRequest>;
@@ -858,9 +828,9 @@ export type InputDescription = string;
 export interface Attribute {
   jsonPath: string;
 }
-export const Attribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jsonPath: S.String }),
-).annotate({ identifier: "Attribute" }) as any as S.Schema<Attribute>;
+export const Attribute = /*@__PURE__*/ S.suspend(() => S.Struct({ jsonPath: S.String })).annotate({
+  identifier: "Attribute",
+}) as any as S.Schema<Attribute>;
 export type Attributes = Attribute[];
 export const Attributes = /*@__PURE__*/ S.Array(Attribute);
 export interface InputDefinition {
@@ -883,26 +853,12 @@ export const CreateInputRequest = /*@__PURE__*/ S.suspend(() =>
     inputDescription: S.optional(S.String),
     inputDefinition: InputDefinition,
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/inputs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/inputs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateInputRequest",
 }) as any as S.Schema<CreateInputRequest>;
 export type InputArn = string;
-export type InputStatus =
-  | "CREATING"
-  | "UPDATING"
-  | "ACTIVE"
-  | "DELETING"
-  | (string & {});
+export type InputStatus = "CREATING" | "UPDATING" | "ACTIVE" | "DELETING" | (string & {});
 export const InputStatus = /*@__PURE__*/ S.String;
 
 export interface InputConfiguration {
@@ -953,9 +909,7 @@ export const DeleteAlarmModelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAlarmModelRequest",
 }) as any as S.Schema<DeleteAlarmModelRequest>;
 export interface DeleteAlarmModelResponse {}
-export const DeleteAlarmModelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAlarmModelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAlarmModelResponse",
 }) as any as S.Schema<DeleteAlarmModelResponse>;
 export interface DeleteDetectorModelRequest {
@@ -978,9 +932,7 @@ export const DeleteDetectorModelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDetectorModelRequest",
 }) as any as S.Schema<DeleteDetectorModelRequest>;
 export interface DeleteDetectorModelResponse {}
-export const DeleteDetectorModelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDetectorModelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDetectorModelResponse",
 }) as any as S.Schema<DeleteDetectorModelResponse>;
 export interface DeleteInputRequest {
@@ -988,22 +940,13 @@ export interface DeleteInputRequest {
 }
 export const DeleteInputRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ inputName: S.String.pipe(T.HttpLabel("inputName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/inputs/{inputName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/inputs/{inputName}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteInputRequest",
 }) as any as S.Schema<DeleteInputRequest>;
 export interface DeleteInputResponse {}
-export const DeleteInputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteInputResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteInputResponse",
 }) as any as S.Schema<DeleteInputResponse>;
 export interface DescribeAlarmModelRequest {
@@ -1109,21 +1052,20 @@ export type AnalysisId = string;
 export interface DescribeDetectorModelAnalysisRequest {
   analysisId: string;
 }
-export const DescribeDetectorModelAnalysisRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ analysisId: S.String.pipe(T.HttpLabel("analysisId")) }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/analysis/detector-models/{analysisId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeDetectorModelAnalysisRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisId: S.String.pipe(T.HttpLabel("analysisId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/analysis/detector-models/{analysisId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeDetectorModelAnalysisRequest",
 }) as any as S.Schema<DescribeDetectorModelAnalysisRequest>;
@@ -1133,8 +1075,8 @@ export const AnalysisStatus = /*@__PURE__*/ S.String;
 export interface DescribeDetectorModelAnalysisResponse {
   status?: AnalysisStatus;
 }
-export const DescribeDetectorModelAnalysisResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ status: S.optional(AnalysisStatus) }),
+export const DescribeDetectorModelAnalysisResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ status: S.optional(AnalysisStatus) }),
 ).annotate({
   identifier: "DescribeDetectorModelAnalysisResponse",
 }) as any as S.Schema<DescribeDetectorModelAnalysisResponse>;
@@ -1143,14 +1085,7 @@ export interface DescribeInputRequest {
 }
 export const DescribeInputRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ inputName: S.String.pipe(T.HttpLabel("inputName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/inputs/{inputName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/inputs/{inputName}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeInputRequest",
@@ -1176,14 +1111,7 @@ export const DescribeInputResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeLoggingOptionsRequest {}
 export const DescribeLoggingOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/logging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/logging" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeLoggingOptionsRequest",
@@ -1233,25 +1161,24 @@ export interface GetDetectorModelAnalysisResultsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const GetDetectorModelAnalysisResultsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      analysisId: S.String.pipe(T.HttpLabel("analysisId")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/analysis/detector-models/{analysisId}/results",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetDetectorModelAnalysisResultsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    analysisId: S.String.pipe(T.HttpLabel("analysisId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/analysis/detector-models/{analysisId}/results",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetDetectorModelAnalysisResultsRequest",
 }) as any as S.Schema<GetDetectorModelAnalysisResultsRequest>;
@@ -1270,9 +1197,7 @@ export const AnalysisResultLocation = /*@__PURE__*/ S.suspend(() =>
   identifier: "AnalysisResultLocation",
 }) as any as S.Schema<AnalysisResultLocation>;
 export type AnalysisResultLocations = AnalysisResultLocation[];
-export const AnalysisResultLocations = /*@__PURE__*/ S.Array(
-  AnalysisResultLocation,
-);
+export const AnalysisResultLocations = /*@__PURE__*/ S.Array(AnalysisResultLocation);
 export interface AnalysisResult {
   type?: string;
   level?: AnalysisResultLevel;
@@ -1293,12 +1218,11 @@ export interface GetDetectorModelAnalysisResultsResponse {
   analysisResults?: AnalysisResult[];
   nextToken?: string;
 }
-export const GetDetectorModelAnalysisResultsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      analysisResults: S.optional(AnalysisResults),
-      nextToken: S.optional(S.String),
-    }),
+export const GetDetectorModelAnalysisResultsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    analysisResults: S.optional(AnalysisResults),
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "GetDetectorModelAnalysisResultsResponse",
 }) as any as S.Schema<GetDetectorModelAnalysisResultsResponse>;
@@ -1311,16 +1235,7 @@ export const ListAlarmModelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/alarm-models" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/alarm-models" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAlarmModelsRequest",
 }) as any as S.Schema<ListAlarmModelsRequest>;
@@ -1400,9 +1315,7 @@ export const AlarmModelVersionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AlarmModelVersionSummary",
 }) as any as S.Schema<AlarmModelVersionSummary>;
 export type AlarmModelVersionSummaries = AlarmModelVersionSummary[];
-export const AlarmModelVersionSummaries = /*@__PURE__*/ S.Array(
-  AlarmModelVersionSummary,
-);
+export const AlarmModelVersionSummaries = /*@__PURE__*/ S.Array(AlarmModelVersionSummary);
 export interface ListAlarmModelVersionsResponse {
   alarmModelVersionSummaries?: AlarmModelVersionSummary[];
   nextToken?: string;
@@ -1423,16 +1336,7 @@ export const ListDetectorModelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector-models" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/detector-models" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDetectorModelsRequest",
 }) as any as S.Schema<ListDetectorModelsRequest>;
@@ -1451,8 +1355,7 @@ export const DetectorModelSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DetectorModelSummary",
 }) as any as S.Schema<DetectorModelSummary>;
 export type DetectorModelSummaries = DetectorModelSummary[];
-export const DetectorModelSummaries =
-  /*@__PURE__*/ S.Array(DetectorModelSummary);
+export const DetectorModelSummaries = /*@__PURE__*/ S.Array(DetectorModelSummary);
 export interface ListDetectorModelsResponse {
   detectorModelSummaries?: DetectorModelSummary[];
   nextToken?: string;
@@ -1516,9 +1419,7 @@ export const DetectorModelVersionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DetectorModelVersionSummary",
 }) as any as S.Schema<DetectorModelVersionSummary>;
 export type DetectorModelVersionSummaries = DetectorModelVersionSummary[];
-export const DetectorModelVersionSummaries = /*@__PURE__*/ S.Array(
-  DetectorModelVersionSummary,
-);
+export const DetectorModelVersionSummaries = /*@__PURE__*/ S.Array(DetectorModelVersionSummary);
 export interface ListDetectorModelVersionsResponse {
   detectorModelVersionSummaries?: DetectorModelVersionSummary[];
   nextToken?: string;
@@ -1544,8 +1445,8 @@ export interface IotSiteWiseAssetModelPropertyIdentifier {
   assetModelId: string;
   propertyId: string;
 }
-export const IotSiteWiseAssetModelPropertyIdentifier = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ assetModelId: S.String, propertyId: S.String }),
+export const IotSiteWiseAssetModelPropertyIdentifier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ assetModelId: S.String, propertyId: S.String }),
 ).annotate({
   identifier: "IotSiteWiseAssetModelPropertyIdentifier",
 }) as any as S.Schema<IotSiteWiseAssetModelPropertyIdentifier>;
@@ -1554,9 +1455,7 @@ export interface IotSiteWiseInputIdentifier {
 }
 export const IotSiteWiseInputIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    iotSiteWiseAssetModelPropertyIdentifier: S.optional(
-      IotSiteWiseAssetModelPropertyIdentifier,
-    ),
+    iotSiteWiseAssetModelPropertyIdentifier: S.optional(IotSiteWiseAssetModelPropertyIdentifier),
   }),
 ).annotate({
   identifier: "IotSiteWiseInputIdentifier",
@@ -1583,16 +1482,7 @@ export const ListInputRoutingsRequest = /*@__PURE__*/ S.suspend(() =>
     inputIdentifier: InputIdentifier,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/input-routings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/input-routings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListInputRoutingsRequest",
 }) as any as S.Schema<ListInputRoutingsRequest>;
@@ -1626,16 +1516,7 @@ export const ListInputsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/inputs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/inputs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListInputsRequest",
 }) as any as S.Schema<ListInputsRequest>;
@@ -1676,14 +1557,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpQuery("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1701,22 +1575,13 @@ export interface PutLoggingOptionsRequest {
 }
 export const PutLoggingOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ loggingOptions: LoggingOptions }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/logging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/logging" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutLoggingOptionsRequest",
 }) as any as S.Schema<PutLoggingOptionsRequest>;
 export interface PutLoggingOptionsResponse {}
-export const PutLoggingOptionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutLoggingOptionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutLoggingOptionsResponse",
 }) as any as S.Schema<PutLoggingOptionsResponse>;
 export interface StartDetectorModelAnalysisRequest {
@@ -1752,23 +1617,12 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/tags" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -1781,23 +1635,12 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "DELETE", uri: "/tags" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAlarmModelRequest {
@@ -1899,14 +1742,7 @@ export const UpdateInputRequest = /*@__PURE__*/ S.suspend(() =>
     inputDescription: S.optional(S.String),
     inputDefinition: InputDefinition,
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/inputs/{inputName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/inputs/{inputName}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateInputRequest",

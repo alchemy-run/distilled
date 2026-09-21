@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Personalize Events",
   serviceShapeName: "AmazonPersonalizeEvents",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://personalize-events-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://personalize-events.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://personalize-events.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://personalize-events.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -109,9 +99,7 @@ export type UserId = string | redacted.Redacted<string>;
 export type RecommendationId = string;
 export type ActionImpression = (string | redacted.Redacted<string>)[];
 export const ActionImpression = /*@__PURE__*/ S.Array(SensitiveString);
-export type SynthesizedJsonActionInteractionProperties =
-  | string
-  | redacted.Redacted<string>;
+export type SynthesizedJsonActionInteractionProperties = string | redacted.Redacted<string>;
 export interface ActionInteraction {
   actionId: string | redacted.Redacted<string>;
   userId?: string | redacted.Redacted<string>;
@@ -149,28 +137,17 @@ export const PutActionInteractionsRequest = /*@__PURE__*/ S.suspend(() =>
     trackingId: S.String,
     actionInteractions: ActionInteractionsList,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/action-interactions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/action-interactions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutActionInteractionsRequest",
 }) as any as S.Schema<PutActionInteractionsRequest>;
 export interface PutActionInteractionsResponse {}
-export const PutActionInteractionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutActionInteractionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutActionInteractionsResponse",
 }) as any as S.Schema<PutActionInteractionsResponse>;
 export type Arn = string;
-export type SynthesizedJsonActionProperties =
-  | string
-  | redacted.Redacted<string>;
+export type SynthesizedJsonActionProperties = string | redacted.Redacted<string>;
 export interface Action {
   actionId: string;
   properties?: string | redacted.Redacted<string>;
@@ -186,29 +163,18 @@ export interface PutActionsRequest {
 }
 export const PutActionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ datasetArn: S.String, actions: ActionList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/actions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/actions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutActionsRequest",
 }) as any as S.Schema<PutActionsRequest>;
 export interface PutActionsResponse {}
-export const PutActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutActionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutActionsResponse",
 }) as any as S.Schema<PutActionsResponse>;
 export type FloatType = number;
 export type ItemId = string | redacted.Redacted<string>;
-export type SynthesizedJsonEventPropertiesJSON =
-  | string
-  | redacted.Redacted<string>;
+export type SynthesizedJsonEventPropertiesJSON = string | redacted.Redacted<string>;
 export type Impression = (string | redacted.Redacted<string>)[];
 export const Impression = /*@__PURE__*/ S.Array(SensitiveString);
 export type EventAttributionSource = string;
@@ -258,23 +224,12 @@ export const PutEventsRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.optional(SensitiveString),
     sessionId: S.String,
     eventList: EventList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/events" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/events" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutEventsRequest",
 }) as any as S.Schema<PutEventsRequest>;
 export interface PutEventsResponse {}
-export const PutEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutEventsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutEventsResponse",
 }) as any as S.Schema<PutEventsResponse>;
 export type SynthesizedJsonItemProperties = string | redacted.Redacted<string>;
@@ -293,22 +248,13 @@ export interface PutItemsRequest {
 }
 export const PutItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ datasetArn: S.String, items: ItemList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/items" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/items" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutItemsRequest",
 }) as any as S.Schema<PutItemsRequest>;
 export interface PutItemsResponse {}
-export const PutItemsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutItemsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutItemsResponse",
 }) as any as S.Schema<PutItemsResponse>;
 export type SynthesizedJsonUserProperties = string | redacted.Redacted<string>;
@@ -327,22 +273,13 @@ export interface PutUsersRequest {
 }
 export const PutUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ datasetArn: S.String, users: UserList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/users" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/users" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutUsersRequest",
 }) as any as S.Schema<PutUsersRequest>;
 export interface PutUsersResponse {}
-export const PutUsersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutUsersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutUsersResponse",
 }) as any as S.Schema<PutUsersResponse>;
 export type ErrorMessage = string;
@@ -366,11 +303,7 @@ export const putActionInteractions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutActionInteractionsRequest,
   output: PutActionInteractionsResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActionInteractions",
@@ -393,11 +326,7 @@ export const putActions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutActionsRequest,
   output: PutActionsResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActions",
@@ -439,11 +368,7 @@ export const putItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutItemsRequest,
   output: PutItemsResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutItems",
@@ -466,11 +391,7 @@ export const putUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutUsersRequest,
   output: PutUsersResponse,
-  errors: [
-    InvalidInputException,
-    ResourceInUseException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUsers",

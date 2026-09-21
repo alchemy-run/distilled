@@ -52,9 +52,7 @@ const fetchText = async (url: string, accept: string): Promise<string> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 };
@@ -67,10 +65,7 @@ const writeFile = async (path: string, body: string): Promise<void> => {
 async function main() {
   console.log(`Fetching OpenAPI spec from ${OPENAPI_SPEC_URL}...`);
 
-  const yaml = await fetchText(
-    OPENAPI_SPEC_URL,
-    "application/yaml, text/yaml, text/plain, */*",
-  );
+  const yaml = await fetchText(OPENAPI_SPEC_URL, "application/yaml, text/yaml, text/plain, */*");
   const spec = Bun.YAML.parse(yaml) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page
@@ -86,9 +81,7 @@ async function main() {
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff. YAML dates stringify as ISO strings, which is stable.
   await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   console.log(`Fetching vendor docs index from ${DOCS_LLMS_URL}...`);
   const llms = await fetchText(DOCS_LLMS_URL, "text/plain, text/markdown, */*");
@@ -106,9 +99,7 @@ async function main() {
       "text/markdown, text/plain;q=0.9, text/html;q=0.5, */*;q=0.1",
     );
     if (text.trim().length === 0 || /^\s*<(!DOCTYPE|html)/i.test(text)) {
-      throw new Error(
-        `${doc.url} returned an empty or HTML body — not vendor docs`,
-      );
+      throw new Error(`${doc.url} returned an empty or HTML body — not vendor docs`);
     }
     const outputPath = `${DOCS_DIR}/${doc.output}`;
     console.log(`Writing ${outputPath}...`);

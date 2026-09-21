@@ -7,11 +7,7 @@
  * `servicePath` (from its discovery document), which `scripts/generate.ts`
  * bakes into each operation's `T.Http({ ... baseUrl })` pipe.
  */
-import {
-  httpSymbol,
-  makeAnnotation,
-  type HttpTrait,
-} from "@distilled.cloud/core/trait";
+import { httpSymbol, makeAnnotation, type HttpTrait } from "@distilled.cloud/core/trait";
 
 export {
   Body,
@@ -46,5 +42,4 @@ export interface GoogleWorkspaceHttpTrait extends HttpTrait {
 }
 
 /** Operation-level HTTP binding carrying the Google Workspace per-service base URL. */
-export const Http = (trait: GoogleWorkspaceHttpTrait) =>
-  makeAnnotation(httpSymbol, trait);
+export const Http = (trait: GoogleWorkspaceHttpTrait) => makeAnnotation(httpSymbol, trait);

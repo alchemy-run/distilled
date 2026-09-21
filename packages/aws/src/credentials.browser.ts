@@ -81,9 +81,7 @@ export const fromAwsCredentialIdentity = (
 ): ResolvedCredentials => ({
   accessKeyId: Redacted.make(identity.accessKeyId),
   secretAccessKey: Redacted.make(identity.secretAccessKey),
-  sessionToken: identity.sessionToken
-    ? Redacted.make(identity.sessionToken)
-    : undefined,
+  sessionToken: identity.sessionToken ? Redacted.make(identity.sessionToken) : undefined,
   region,
   expiration: identity.expiration?.getTime(),
 });
@@ -96,9 +94,7 @@ export const fromAwsCredentialIdentity = (
  * caller's fix is the same shape as for a missing key — configure the
  * environment, the profile, or pass it explicitly.
  */
-export class MissingRegion extends Data.TaggedError(
-  "Alchemy::AWS::MissingRegion",
-)<{
+export class MissingRegion extends Data.TaggedError("Alchemy::AWS::MissingRegion")<{
   message: string;
   hints?: ReadonlyArray<string>;
 }> {}
@@ -130,14 +126,10 @@ export type ProviderName =
   | "process"
   | "token-file";
 
-export const providerHints = (
-  provider: ProviderName,
-): ReadonlyArray<string> | undefined => {
+export const providerHints = (provider: ProviderName): ReadonlyArray<string> | undefined => {
   switch (provider) {
     case "env":
-      return [
-        "Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY (and AWS_SESSION_TOKEN if needed).",
-      ];
+      return ["Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY (and AWS_SESSION_TOKEN if needed)."];
     case "ini":
       return ["Check ~/.aws/credentials and ~/.aws/config for the profile."];
     case "chain":
@@ -150,13 +142,9 @@ export const providerHints = (
     case "http":
       return ["Ensure the configured credential endpoint is reachable."];
     case "process":
-      return [
-        "Set AWS_CREDENTIAL_PROCESS to a valid command and ensure it exits successfully.",
-      ];
+      return ["Set AWS_CREDENTIAL_PROCESS to a valid command and ensure it exits successfully."];
     case "token-file":
-      return [
-        "Set AWS_WEB_IDENTITY_TOKEN_FILE and ensure the file is readable.",
-      ];
+      return ["Set AWS_WEB_IDENTITY_TOKEN_FILE and ensure the file is readable."];
     default:
       return;
   }
@@ -185,9 +173,7 @@ export const createCachedCredentialsEffect = <E, R>(
     }
     return Effect.map(resolve, (creds) => {
       cachedCreds = creds;
-      expiresAt = creds.expiration
-        ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS
-        : undefined;
+      expiresAt = creds.expiration ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS : undefined;
       return creds;
     });
   });
@@ -235,9 +221,8 @@ export const fromCredentials = (
 ): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
-    Effect.map(
-      region === undefined ? regionFromEnv : Effect.succeed(region),
-      (resolved) => fromAwsCredentialIdentity(credentials, resolved),
+    Effect.map(region === undefined ? regionFromEnv : Effect.succeed(region), (resolved) =>
+      fromAwsCredentialIdentity(credentials, resolved),
     ),
   );
 
@@ -245,23 +230,15 @@ export const fromHttp = () => createLazyProvider(Providers.fromHttp(), "http");
 
 export const ssoRegion = (region: string) => Layer.succeed(SsoRegion, region);
 
-export class SsoRegion extends Context.Service<SsoRegion, string>()(
-  "AWS::SsoRegion",
-) {}
-export class SsoStartUrl extends Context.Service<SsoStartUrl, string>()(
-  "AWS::SsoStartUrl",
-) {}
+export class SsoRegion extends Context.Service<SsoRegion, string>()("AWS::SsoRegion") {}
+export class SsoStartUrl extends Context.Service<SsoStartUrl, string>()("AWS::SsoStartUrl") {}
 
-export class ProfileNotFound extends Data.TaggedError(
-  "Alchemy::AWS::ProfileNotFound",
-)<{
+export class ProfileNotFound extends Data.TaggedError("Alchemy::AWS::ProfileNotFound")<{
   message: string;
   profile: string;
 }> {}
 
-export class ConflictingSSORegion extends Data.TaggedError(
-  "Alchemy::AWS::ConflictingSSORegion",
-)<{
+export class ConflictingSSORegion extends Data.TaggedError("Alchemy::AWS::ConflictingSSORegion")<{
   message: string;
   ssoRegion: string;
   profile: string;
@@ -275,31 +252,23 @@ export class ConflictingSSOStartUrl extends Data.TaggedError(
   profile: string;
 }> {}
 
-export class InvalidSSOProfile extends Data.TaggedError(
-  "Alchemy::AWS::InvalidSSOProfile",
-)<{
+export class InvalidSSOProfile extends Data.TaggedError("Alchemy::AWS::InvalidSSOProfile")<{
   message: string;
   profile: string;
   missingFields: string[];
 }> {}
 
-export class InvalidSSOToken extends Data.TaggedError(
-  "Alchemy::AWS::InvalidSSOToken",
-)<{
+export class InvalidSSOToken extends Data.TaggedError("Alchemy::AWS::InvalidSSOToken")<{
   message: string;
   sso_session: string;
 }> {}
 
-export class ExpiredSSOToken extends Data.TaggedError(
-  "Alchemy::AWS::ExpiredSSOToken",
-)<{
+export class ExpiredSSOToken extends Data.TaggedError("Alchemy::AWS::ExpiredSSOToken")<{
   message: string;
   profile: string;
 }> {}
 
-export class AwsCredentialProviderError extends Data.TaggedError(
-  "AWS::CredentialProviderError",
-)<{
+export class AwsCredentialProviderError extends Data.TaggedError("AWS::CredentialProviderError")<{
   message: string;
   provider: string;
   cause?: unknown;
@@ -311,9 +280,7 @@ export class AwsCredentialProviderError extends Data.TaggedError(
  * `ForbiddenException` when an IAM Identity Center role assignment is in a
  * stale state.
  */
-export class SsoPortalError extends Data.TaggedError(
-  "Alchemy::AWS::SsoPortalError",
-)<{
+export class SsoPortalError extends Data.TaggedError("Alchemy::AWS::SsoPortalError")<{
   message: string;
   profile: string;
   account_id?: string;

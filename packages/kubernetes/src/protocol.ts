@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * KubernetesProtocol — hand-written.
  *
@@ -25,9 +28,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownKubernetesError } from "./errors.ts";
 
@@ -53,25 +53,24 @@ const statusReason = (body: unknown): string | undefined => {
   return typeof reason === "string" ? reason : undefined;
 };
 
-export const KubernetesProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const KubernetesProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // The Credentials service holds an effect — resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.token)}`,
+  }),
+  // The k8s error body is `v1.Status` — `{ message, reason, code }`. The
+  // factory's default lenient envelope reads `message`/`code`; `reason` is
+  // recovered from the raw body for the unknown fallback below.
+  unknownError: ({ message, body }) =>
+    new UnknownKubernetesError({
+      reason: statusReason(body),
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.token)}`,
-    }),
-    // The k8s error body is `v1.Status` — `{ message, reason, code }`. The
-    // factory's default lenient envelope reads `message`/`code`; `reason` is
-    // recovered from the raw body for the unknown fallback below.
-    unknownError: ({ message, body }) =>
-      new UnknownKubernetesError({
-        reason: statusReason(body),
-        message,
-        body,
-      }),
-  });
+});

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Cost and Usage Report Service",
   serviceShapeName: "AWSOrigamiServiceGatewayService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,27 +52,17 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://cur-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://cur-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://cur.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://cur.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cur.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cur.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -89,10 +75,9 @@ export class DuplicateReportNameException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InternalErrorException
-  extends /*@__PURE__*/ S.TaggedError<InternalErrorException>()(
-    "InternalErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalErrorException>()("InternalErrorException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withServerError) {}
 export class ReportBucketNotVerified
   extends /*@__PURE__*/ S.TaggedError<ReportBucketNotVerified>()(
     "ReportBucketNotVerified",
@@ -108,15 +93,13 @@ export class ReportLimitReachedException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export type ReportName = string;
 export interface DeleteReportDefinitionRequest {
   ReportName: string;
@@ -146,9 +129,7 @@ export const DescribeReportDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeReportDefinitionsRequest",
 }) as any as S.Schema<DescribeReportDefinitionsRequest>;
@@ -204,29 +185,18 @@ export type AWSRegion =
   | (string & {});
 export const AWSRegion = S.String;
 
-export type AdditionalArtifact =
-  | "REDSHIFT"
-  | "QUICKSIGHT"
-  | "ATHENA"
-  | (string & {});
+export type AdditionalArtifact = "REDSHIFT" | "QUICKSIGHT" | "ATHENA" | (string & {});
 export const AdditionalArtifact = S.String;
 
 export type AdditionalArtifactList = AdditionalArtifact[];
 export const AdditionalArtifactList = /*@__PURE__*/ S.Array(AdditionalArtifact);
 export type RefreshClosedReports = boolean;
-export type ReportVersioning =
-  | "CREATE_NEW_REPORT"
-  | "OVERWRITE_REPORT"
-  | (string & {});
+export type ReportVersioning = "CREATE_NEW_REPORT" | "OVERWRITE_REPORT" | (string & {});
 export const ReportVersioning = S.String;
 
 export type BillingViewArn = string;
 export type LastDelivery = string;
-export type LastStatus =
-  | "SUCCESS"
-  | "ERROR_PERMISSIONS"
-  | "ERROR_NO_BUCKET"
-  | (string & {});
+export type LastStatus = "SUCCESS" | "ERROR_PERMISSIONS" | "ERROR_NO_BUCKET" | (string & {});
 export const LastStatus = S.String;
 
 export interface ReportStatus {
@@ -328,9 +298,7 @@ export const ModifyReportDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ModifyReportDefinitionRequest",
 }) as any as S.Schema<ModifyReportDefinitionRequest>;
 export interface ModifyReportDefinitionResponse {}
-export const ModifyReportDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ModifyReportDefinitionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ModifyReportDefinitionResponse",
 }) as any as S.Schema<ModifyReportDefinitionResponse>;
 export interface PutReportDefinitionRequest {
@@ -341,16 +309,12 @@ export const PutReportDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ReportDefinition: ReportDefinition,
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutReportDefinitionRequest",
 }) as any as S.Schema<PutReportDefinitionRequest>;
 export interface PutReportDefinitionResponse {}
-export const PutReportDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutReportDefinitionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutReportDefinitionResponse",
 }) as any as S.Schema<PutReportDefinitionResponse>;
 export interface TagResourceRequest {
@@ -365,9 +329,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -384,9 +346,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type ErrorMessage = string;
@@ -412,9 +372,7 @@ export const deleteReportDefinition: API.OperationMethod<
   operationName: "DeleteReportDefinition",
 }));
 
-export type DescribeReportDefinitionsError =
-  | InternalErrorException
-  | CommonErrors;
+export type DescribeReportDefinitionsError = InternalErrorException | CommonErrors;
 /**
  * Lists the Amazon Web Services Cost and Usage Report available to this account.
  */
@@ -454,11 +412,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalErrorException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalErrorException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -480,11 +434,7 @@ export const modifyReportDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyReportDefinitionRequest,
   output: ModifyReportDefinitionResponse,
-  errors: [
-    InternalErrorException,
-    ValidationException,
-    ReportBucketNotVerified,
-  ],
+  errors: [InternalErrorException, ValidationException, ReportBucketNotVerified],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReportDefinition",
@@ -538,11 +488,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalErrorException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalErrorException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -564,11 +510,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalErrorException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalErrorException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

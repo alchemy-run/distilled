@@ -15,11 +15,7 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  PolarProtocol,
-  type PolarOpError,
-  type PolarOpContext,
-} from "./protocol.ts";
+export { PolarProtocol, type PolarOpError, type PolarOpContext } from "./protocol.ts";
 export { paginatePolar } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";

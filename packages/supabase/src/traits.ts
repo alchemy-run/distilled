@@ -1,3 +1,8 @@
+import {
+  makeAnnotation,
+  httpSymbol,
+  type HttpTrait as CoreHttpTrait,
+} from "@distilled.cloud/core/trait";
 /**
  * Supabase SDK trait surface — hand-written.
  *
@@ -8,11 +13,6 @@
  * from `core/protocol-rest`.
  */
 import type * as Redacted from "effect/Redacted";
-import {
-  makeAnnotation,
-  httpSymbol,
-  type HttpTrait as CoreHttpTrait,
-} from "@distilled.cloud/core/trait";
 
 export {
   Body,

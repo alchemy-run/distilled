@@ -1,6 +1,4 @@
-export const annotationMetaSymbol = Symbol.for(
-  "@distilled.cloud/core/annotation-meta",
-);
+export const annotationMetaSymbol = Symbol.for("@distilled.cloud/core/annotation-meta");
 
 export type Annotatable = {
   annotate(annotations: any): Annotatable;
@@ -24,8 +22,7 @@ export interface Annotation {
  * annotation dictionaries accept both.
  */
 export function makeAnnotation<T>(sym: symbol | string, value: T): Annotation {
-  const fn = <A extends Annotatable>(schema: A): A =>
-    schema.annotate({ [sym]: value }) as A;
+  const fn = <A extends Annotatable>(schema: A): A => schema.annotate({ [sym]: value }) as A;
   (fn as any)[annotationMetaSymbol] = [{ symbol: sym, value }];
   (fn as any)[sym] = value;
   return fn as Annotation;
@@ -59,14 +56,7 @@ export function all(...annotations: Annotation[]): Annotation {
 //#region Generic Http traits
 
 export interface HttpTrait {
-  readonly method:
-    | "GET"
-    | "POST"
-    | "PUT"
-    | "PATCH"
-    | "DELETE"
-    | "HEAD"
-    | "OPTIONS";
+  readonly method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
   /** URI template relative to the service base URL, e.g. `/accounts/{account_id}/foo`. */
   readonly uri: string;
   /** Default success status code (a `ResponseCode()` member can still read the actual code). */
@@ -106,28 +96,21 @@ export const Http = (trait: HttpTrait) => makeAnnotation(httpSymbol, trait);
 
 export const labelSymbol = Symbol.for("@distilled.cloud/core/http/label");
 /** Bind a member to a `{name}` placeholder in the operation's URI template. */
-export const Label = (name?: string) =>
-  makeAnnotation(labelSymbol, name ?? true);
+export const Label = (name?: string) => makeAnnotation(labelSymbol, name ?? true);
 
-export const responseCodeSymbol = Symbol.for(
-  "@distilled.cloud/core/http/response-code",
-);
+export const responseCodeSymbol = Symbol.for("@distilled.cloud/core/http/response-code");
 export const ResponseCode = () => makeAnnotation(responseCodeSymbol, true);
 
 export const headerSymbol = Symbol.for("@distilled.cloud/core/http/header");
-export const Header = (name?: string) =>
-  makeAnnotation(headerSymbol, name ?? true);
+export const Header = (name?: string) => makeAnnotation(headerSymbol, name ?? true);
 
 export const bodySymbol = Symbol.for("@distilled.cloud/core/http/body");
 export const Body = (name?: string) => makeAnnotation(bodySymbol, name ?? true);
 
 export const querySymbol = Symbol.for("@distilled.cloud/core/http/query");
-export const Query = (name?: string) =>
-  makeAnnotation(querySymbol, name ?? true);
+export const Query = (name?: string) => makeAnnotation(querySymbol, name ?? true);
 
-export const deepQuerySymbol = Symbol.for(
-  "@distilled.cloud/core/http/deep-query",
-);
+export const deepQuerySymbol = Symbol.for("@distilled.cloud/core/http/deep-query");
 /**
  * Binds a struct-valued input member to a family of DOTTED query parameters:
  * `{ account: { id, name } }` with `DeepQuery("account")` serializes as
@@ -136,8 +119,7 @@ export const deepQuerySymbol = Symbol.for(
  * Cloudflare zones list `account.id` / `account.name`) while the TS surface
  * keeps the nested-object shape (v0 parity).
  */
-export const DeepQuery = (name?: string) =>
-  makeAnnotation(deepQuerySymbol, name ?? true);
+export const DeepQuery = (name?: string) => makeAnnotation(deepQuerySymbol, name ?? true);
 
 export const httpBodySymbol = Symbol.for("@distilled.cloud/core/http-body");
 /**
@@ -147,9 +129,7 @@ export const httpBodySymbol = Symbol.for("@distilled.cloud/core/http-body");
  */
 export const HttpBody = () => makeAnnotation(httpBodySymbol, true);
 
-export const stringEncodedSymbol = Symbol.for(
-  "@distilled.cloud/core/http/string-encoded",
-);
+export const stringEncodedSymbol = Symbol.for("@distilled.cloud/core/http/string-encoded");
 /**
  * Marks a member the API only accepts as the STRING spelling of its value —
  * `true` travels as `"true"`, `3` as `"3"` — while the TS surface keeps the
@@ -161,9 +141,7 @@ export const stringEncodedSymbol = Symbol.for(
  */
 export const StringEncoded = () => makeAnnotation(stringEncodedSymbol, true);
 
-export const formDataFileSymbol = Symbol.for(
-  "@distilled.cloud/core/form-data-file",
-);
+export const formDataFileSymbol = Symbol.for("@distilled.cloud/core/form-data-file");
 /**
  * Marks an input member holding `File`/`Blob` parts for a multipart upload
  * (`Http({ contentType: "multipart" })`). Each file is appended to the form
@@ -174,9 +152,7 @@ export const FormDataFile = () => makeAnnotation(formDataFileSymbol, true);
 
 //#region Generic JSON traits
 
-export const keyDictionarySymbol = Symbol.for(
-  "@distilled.cloud/core/key-dictionary",
-);
+export const keyDictionarySymbol = Symbol.for("@distilled.cloud/core/key-dictionary");
 /**
  * Deep TS-name→wire-name key dictionary for members whose full structure is
  * not modeled (opaque `Document` content). The protocol renames any matching
@@ -189,10 +165,7 @@ export const keyDictionarySymbol = Symbol.for(
  * wire name used on encode; decode maps every listed spelling back to the
  * TS name.
  */
-export type KeyDictionaryEntries = Record<
-  string,
-  string | ReadonlyArray<string>
->;
+export type KeyDictionaryEntries = Record<string, string | ReadonlyArray<string>>;
 
 export const KeyDictionary = (dict: KeyDictionaryEntries) =>
   makeAnnotation(keyDictionarySymbol, dict);
@@ -224,18 +197,12 @@ export interface UnionDiscriminator {
 export const UnionCases = (
   cases: ReadonlyArray<ReadonlyArray<string>>,
   discriminator?: UnionDiscriminator,
-) =>
-  makeAnnotation(
-    unionCasesSymbol,
-    discriminator ? { cases, discriminator } : { cases },
-  );
+) => makeAnnotation(unionCasesSymbol, discriminator ? { cases, discriminator } : { cases });
 //#endregion
 
 //#region Error matcher traits
 
-export const errorMatchersSymbol = Symbol.for(
-  "@distilled.cloud/core/error-matchers",
-);
+export const errorMatchersSymbol = Symbol.for("@distilled.cloud/core/error-matchers");
 
 /**
  * One wire-matching rule for a typed error class. A matcher matches a wire
@@ -247,9 +214,7 @@ export const errorMatchersSymbol = Symbol.for(
 export interface ErrorMatcher {
   readonly code?: number;
   readonly status?: number;
-  readonly message?:
-    | string
-    | { readonly includes?: string; readonly matches?: string };
+  readonly message?: string | { readonly includes?: string; readonly matches?: string };
 }
 
 /**
@@ -258,17 +223,12 @@ export interface ErrorMatcher {
  * response should surface as (most specific matcher wins; ties break by
  * declaration order — see `matchTypedError` in `core/protocol-http`).
  */
-export const applyErrorMatchers = <C>(
-  cls: C,
-  matchers: ReadonlyArray<ErrorMatcher>,
-): C => {
+export const applyErrorMatchers = <C>(cls: C, matchers: ReadonlyArray<ErrorMatcher>): C => {
   (cls as any)[errorMatchersSymbol] = matchers;
   return cls;
 };
 
 /** Read the matchers stamped on an error class, if any. */
-export const getErrorMatchers = (
-  cls: unknown,
-): ReadonlyArray<ErrorMatcher> | undefined =>
+export const getErrorMatchers = (cls: unknown): ReadonlyArray<ErrorMatcher> | undefined =>
   (cls as any)?.[errorMatchersSymbol];
 //#endregion

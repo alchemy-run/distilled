@@ -35,39 +35,29 @@ import {
 export const getProps = (ast: AST.AST): readonly AST.PropertySignature[] => {
   if (ast._tag === "Objects") return ast.propertySignatures;
   if (ast._tag === "Suspend") return getProps(ast.thunk());
-  if (ast.encoding && ast.encoding.length > 0)
-    return getProps(ast.encoding[0]!.to);
+  if (ast.encoding && ast.encoding.length > 0) return getProps(ast.encoding[0]!.to);
   return [];
 };
 
 export const getAnn = (ast: AST.AST, symbol: symbol): unknown => {
-  const direct = (ast.annotations as Record<symbol, unknown> | undefined)?.[
-    symbol
-  ];
+  const direct = (ast.annotations as Record<symbol, unknown> | undefined)?.[symbol];
   if (direct !== undefined) return direct;
   if (ast._tag === "Suspend") return getAnn(ast.thunk(), symbol);
-  if (ast.encoding && ast.encoding.length > 0)
-    return getAnn(ast.encoding[0]!.to, symbol);
+  if (ast.encoding && ast.encoding.length > 0) return getAnn(ast.encoding[0]!.to, symbol);
   // S.optional → Union[self, Undefined]; descend into the single real member.
   if (ast._tag === "Union") {
     const real = (ast as AST.Union).types.filter(
-      (t) =>
-        t._tag !== "Undefined" &&
-        !(t._tag === "Literal" && (t as any).literal === null),
+      (t) => t._tag !== "Undefined" && !(t._tag === "Literal" && (t as any).literal === null),
     );
     if (real.length === 1) return getAnn(real[0]!, symbol);
   }
   return undefined;
 };
 
-export const getPropAnn = (
-  prop: AST.PropertySignature,
-  symbol: symbol,
-): unknown => getAnn(prop.type, symbol);
-export const hasPropAnn = (
-  prop: AST.PropertySignature,
-  symbol: symbol,
-): boolean => getPropAnn(prop, symbol) !== undefined;
+export const getPropAnn = (prop: AST.PropertySignature, symbol: symbol): unknown =>
+  getAnn(prop.type, symbol);
+export const hasPropAnn = (prop: AST.PropertySignature, symbol: symbol): boolean =>
+  getPropAnn(prop, symbol) !== undefined;
 export const nameOf = (prop: AST.PropertySignature, symbol: symbol): string => {
   const v = getPropAnn(prop, symbol);
   return typeof v === "string" ? v : String(prop.name);
@@ -76,8 +66,7 @@ export const nameOf = (prop: AST.PropertySignature, symbol: symbol): string => {
 /** Resolve wrappers to the real node: Suspend, encoding, optional/null unions. */
 export const resolveNode = (ast: AST.AST): AST.AST => {
   if (ast._tag === "Suspend") return resolveNode(ast.thunk());
-  if (ast.encoding && ast.encoding.length > 0)
-    return resolveNode(ast.encoding[0]!.to);
+  if (ast.encoding && ast.encoding.length > 0) return resolveNode(ast.encoding[0]!.to);
   if (ast._tag === "Union") {
     const real = (ast as AST.Union).types.filter(
       (t) =>
@@ -121,9 +110,7 @@ export const mapKeysByDictionary = (
     direction === "decode"
       ? Object.fromEntries(
           Object.entries(dict).flatMap(([ts, wire]) =>
-            typeof wire === "string"
-              ? [[wire, ts] as const]
-              : wire.map((w) => [w, ts] as const),
+            typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
           ),
         )
       : Object.fromEntries(
@@ -155,11 +142,7 @@ export const mapKeysByDictionary = (
  * flag as `"true" | "false"` still means "unset" by null, not `"null"`.
  */
 const stringEncode = (value: unknown): unknown =>
-  value === null
-    ? null
-    : Array.isArray(value)
-      ? value.map(stringEncode)
-      : String(value);
+  value === null ? null : Array.isArray(value) ? value.map(stringEncode) : String(value);
 
 export const mapKeys = (
   ast: AST.AST,
@@ -167,17 +150,10 @@ export const mapKeys = (
   direction: "encode" | "decode",
   fallback?: KeyDictionaryEntries,
 ): unknown => {
-  if (
-    value === null ||
-    value === undefined ||
-    typeof value !== "object" ||
-    isOpaqueValue(value)
-  ) {
+  if (value === null || value === undefined || typeof value !== "object" || isOpaqueValue(value)) {
     return value;
   }
-  const dict =
-    (getAnn(ast, keyDictionarySymbol) as KeyDictionaryEntries | undefined) ??
-    fallback;
+  const dict = (getAnn(ast, keyDictionarySymbol) as KeyDictionaryEntries | undefined) ?? fallback;
 
   // Discriminated union whose cases the API returns merged (every case's
   // keys present, `null` for the inactive ones). Map wire names, then keep
@@ -196,18 +172,15 @@ export const mapKeys = (
       }
     | undefined;
   if (unionCases && direction === "decode" && !Array.isArray(value)) {
-    const obj = (
-      dict ? mapKeysByDictionary(dict, value, "decode") : value
-    ) as Record<string, unknown>;
-    const present = Object.keys(obj).filter(
-      (k) => obj[k] !== undefined && obj[k] !== null,
-    );
+    const obj = (dict ? mapKeysByDictionary(dict, value, "decode") : value) as Record<
+      string,
+      unknown
+    >;
+    const present = Object.keys(obj).filter((k) => obj[k] !== undefined && obj[k] !== null);
     const disc = unionCases.discriminator;
     const tag = disc ? obj[disc.key] : undefined;
     const tagged = typeof tag === "string" ? disc!.values.indexOf(tag) : -1;
-    let best:
-      | { keys: ReadonlyArray<string>; score: number; matched: number }
-      | undefined;
+    let best: { keys: ReadonlyArray<string>; score: number; matched: number } | undefined;
     if (tagged >= 0) {
       best = { keys: unionCases.cases[tagged]!, score: 0, matched: 0 };
     } else {
@@ -222,9 +195,7 @@ export const mapKeys = (
         const score = matched - excess;
         if (
           matched > 0 &&
-          (!best ||
-            score > best.score ||
-            (score === best.score && matched > best.matched))
+          (!best || score > best.score || (score === best.score && matched > best.matched))
         ) {
           best = { keys, score, matched };
         }
@@ -260,10 +231,8 @@ export const mapKeys = (
       for (const t of arms) {
         if (t._tag !== "Objects") continue;
         let score = 0;
-        for (const p of (t as any)
-          .propertySignatures as readonly AST.PropertySignature[]) {
-          const from =
-            direction === "encode" ? String(p.name) : nameOf(p, bodySymbol);
+        for (const p of (t as any).propertySignatures as readonly AST.PropertySignature[]) {
+          const from = direction === "encode" ? String(p.name) : nameOf(p, bodySymbol);
           if ((value as Record<string, unknown>)[from] !== undefined) score++;
         }
         if (score > bestScore) {
@@ -287,11 +256,8 @@ export const mapKeys = (
   }
 
   if (node._tag === "Objects" && !Array.isArray(value)) {
-    const props = (node as any)
-      .propertySignatures as readonly AST.PropertySignature[];
-    const isigs = (node as any).indexSignatures as
-      | readonly { type: AST.AST }[]
-      | undefined;
+    const props = (node as any).propertySignatures as readonly AST.PropertySignature[];
+    const isigs = (node as any).indexSignatures as readonly { type: AST.AST }[] | undefined;
     if (props.length === 0 && !(isigs && isigs.length)) {
       // opaque object — dictionary fallback or verbatim
       return dict ? mapKeysByDictionary(dict, value, direction) : value;
@@ -352,18 +318,10 @@ const BODYLESS = new Set(["GET", "HEAD"]);
  * filter matching nothing — the call "succeeds" with zero results and the
  * bug is invisible to the caller.
  */
-const appendQuery = (
-  query: URLSearchParams,
-  name: string,
-  value: unknown,
-): void => {
+const appendQuery = (query: URLSearchParams, name: string, value: unknown): void => {
   if (Array.isArray(value)) {
     for (const v of value) appendQuery(query, name, v);
-  } else if (
-    value !== null &&
-    typeof value === "object" &&
-    !(value instanceof Date)
-  ) {
+  } else if (value !== null && typeof value === "object" && !(value instanceof Date)) {
     for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
       if (v !== undefined) appendQuery(query, `${name}.${k}`, v);
     }
@@ -409,10 +367,7 @@ export interface BuildRequestOptions {
  * form-urlencoded bodies: nested objects become `a[b][c]`, arrays index as
  * `a[0]`; null/undefined dropped, booleans as "true"/"false".
  */
-const flattenToFormPairs = (
-  obj: Record<string, unknown>,
-  prefix = "",
-): Array<[string, string]> => {
+const flattenToFormPairs = (obj: Record<string, unknown>, prefix = ""): Array<[string, string]> => {
   const pairs: Array<[string, string]> = [];
   for (const [key, value] of Object.entries(obj)) {
     if (value === undefined || value === null) continue;
@@ -422,20 +377,13 @@ const flattenToFormPairs = (
         const item = value[i];
         if (item === undefined || item === null) continue;
         if (typeof item === "object" && !Array.isArray(item)) {
-          pairs.push(
-            ...flattenToFormPairs(
-              item as Record<string, unknown>,
-              `${fullKey}[${i}]`,
-            ),
-          );
+          pairs.push(...flattenToFormPairs(item as Record<string, unknown>, `${fullKey}[${i}]`));
         } else {
           pairs.push([`${fullKey}[${i}]`, String(item)]);
         }
       }
     } else if (typeof value === "object") {
-      pairs.push(
-        ...flattenToFormPairs(value as Record<string, unknown>, fullKey),
-      );
+      pairs.push(...flattenToFormPairs(value as Record<string, unknown>, fullKey));
     } else {
       pairs.push([fullKey, String(value)]);
     }
@@ -458,9 +406,7 @@ export const buildRequest = ({
   }
   // Root key dictionary: fallback wire mapping for opaque/unknown content
   // the schema doesn't model.
-  const rootDict = getAnn(inputAst, keyDictionarySymbol) as
-    | KeyDictionaryEntries
-    | undefined;
+  const rootDict = getAnn(inputAst, keyDictionarySymbol) as KeyDictionaryEntries | undefined;
 
   const headers: Record<string, string> = { ...baseHeaders };
   const body: Record<string, unknown> = {};
@@ -500,9 +446,7 @@ export const buildRequest = ({
       const base = nameOf(prop, deepQuerySymbol);
       const mapped = mapKeys(prop.type, value, "encode", rootDict);
       if (mapped !== null && typeof mapped === "object") {
-        for (const [k, v] of Object.entries(
-          mapped as Record<string, unknown>,
-        )) {
+        for (const [k, v] of Object.entries(mapped as Record<string, unknown>)) {
           if (v !== undefined && v !== null) {
             appendQuery(query, `${base}.${k}`, v);
           }
@@ -531,8 +475,7 @@ export const buildRequest = ({
   // the key, otherwise `unknownKeyToWire` decides the wire name.
   for (const [key, value] of Object.entries(inputObj)) {
     if (consumed.has(key) || value === undefined) continue;
-    const wire =
-      rootDict?.[key] ?? (unknownKeyToWire ? unknownKeyToWire(key) : key);
+    const wire = rootDict?.[key] ?? (unknownKeyToWire ? unknownKeyToWire(key) : key);
     body[typeof wire === "string" ? wire : wire[0]] = rootDict
       ? mapKeysByDictionary(rootDict, value, "encode")
       : value;
@@ -559,21 +502,15 @@ export const buildRequest = ({
       rawBody !== undefined && typeof rawBody === "object"
         ? (rawBody as Record<string, unknown>)
         : body;
-    const isFileOrBlob = (v: unknown): v is Blob =>
-      v instanceof Blob || v instanceof File;
+    const isFileOrBlob = (v: unknown): v is Blob => v instanceof Blob || v instanceof File;
     for (const [key, value] of Object.entries(parts)) {
       if (value === undefined || value === null) continue;
       if (isFileOrBlob(value)) {
         form.append(key, value, value instanceof File ? value.name : key);
       } else if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
-        const bytes =
-          value instanceof Uint8Array ? new Uint8Array(value).buffer : value;
+        const bytes = value instanceof Uint8Array ? new Uint8Array(value).buffer : value;
         form.append(key, new Blob([bytes]), key);
-      } else if (
-        Array.isArray(value) &&
-        value.length > 0 &&
-        isFileOrBlob(value[0])
-      ) {
+      } else if (Array.isArray(value) && value.length > 0 && isFileOrBlob(value[0])) {
         for (const file of value as Blob[]) {
           if (isFileOrBlob(file)) {
             form.append(
@@ -594,10 +531,7 @@ export const buildRequest = ({
       form.append(filename, f, filename);
     }
     request = request.pipe(HttpClientRequest.bodyFormData(form));
-  } else if (
-    http.contentType === "form-urlencoded" &&
-    !BODYLESS.has(http.method)
-  ) {
+  } else if (http.contentType === "form-urlencoded" && !BODYLESS.has(http.method)) {
     // application/x-www-form-urlencoded with Stripe-style deepObject bracket
     // notation: { shipping: { address: { city } } } → shipping[address][city],
     // arrays indexed ({ expand: ["a"] } → expand[0]=a).
@@ -626,15 +560,11 @@ export const buildRequest = ({
       // JSON parsing. When no bodyMediaType is modeled the header is left
       // untouched (a modeled Content-Type header member rides alongside).
       request = request.pipe(
-        HttpClientRequest.setBody(
-          HttpBody.raw(rawBody, { contentType: http.bodyMediaType }),
-        ),
+        HttpClientRequest.setBody(HttpBody.raw(rawBody, { contentType: http.bodyMediaType })),
       );
     } else if (rawBody instanceof Uint8Array) {
       request = request.pipe(
-        HttpClientRequest.setBody(
-          HttpBody.uint8Array(rawBody, http.bodyMediaType),
-        ),
+        HttpClientRequest.setBody(HttpBody.uint8Array(rawBody, http.bodyMediaType)),
       );
     } else if (http.bodyMediaType) {
       request = request.pipe(
@@ -681,8 +611,7 @@ export const matchesExpression = (
   status: number,
   message: string,
 ): boolean => {
-  if (m.code === undefined && m.status === undefined && m.message === undefined)
-    return false;
+  if (m.code === undefined && m.status === undefined && m.message === undefined) return false;
   if (m.code !== undefined && m.code !== code) return false;
   if (m.status !== undefined && m.status !== status) return false;
   if (m.message !== undefined) {
@@ -692,8 +621,7 @@ export const matchesExpression = (
       const { includes, matches } = m.message;
       if (includes === undefined && matches === undefined) return false;
       if (includes !== undefined && !message.includes(includes)) return false;
-      if (matches !== undefined && !new RegExp(matches).test(message))
-        return false;
+      if (matches !== undefined && !new RegExp(matches).test(message)) return false;
     }
   }
   return true;
@@ -714,9 +642,7 @@ export const matchTypedError = (
   status: number,
   errors: ReadonlyArray<{ code?: number; message: string }>,
 ): unknown | undefined => {
-  let best:
-    | { cls: unknown; specificity: number; code?: number; message: string }
-    | undefined;
+  let best: { cls: unknown; specificity: number; code?: number; message: string } | undefined;
   for (const cls of errorClasses) {
     const matchers = getErrorMatchers(cls);
     if (!matchers) continue;

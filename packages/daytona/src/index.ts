@@ -23,11 +23,7 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  DaytonaProtocol,
-  type DaytonaOpError,
-  type DaytonaOpContext,
-} from "./protocol.ts";
+export { DaytonaProtocol, type DaytonaOpError, type DaytonaOpContext } from "./protocol.ts";
 export { paginateToken } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";

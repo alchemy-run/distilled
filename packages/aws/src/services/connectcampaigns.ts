@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectCampaigns",
   serviceShapeName: "AmazonConnectCampaignService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://connect-campaigns-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://connect-campaigns.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://connect-campaigns.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://connect-campaigns.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -90,9 +80,7 @@ export class AccessDeniedException
     "AccessDeniedException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      xAmzErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
+      xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
     },
     T.HttpError(403),
   ).pipe(C.withAuthError) {}
@@ -101,9 +89,7 @@ export class ConflictException
     "ConflictException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      xAmzErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
+      xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
     },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
@@ -112,9 +98,7 @@ export class InternalServerException
     "InternalServerException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      xAmzErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
+      xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
     },
     T.all(T.HttpError(500), T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -124,9 +108,7 @@ export class InvalidCampaignStateException
     {
       state: S.String,
       message: S.String.pipe(T.ErrorMessage()),
-      xAmzErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
+      xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
     },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
@@ -135,9 +117,7 @@ export class InvalidStateException
     "InvalidStateException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      xAmzErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
+      xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
     },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
@@ -146,9 +126,7 @@ export class ResourceNotFoundException
     "ResourceNotFoundException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      xAmzErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
+      xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
     },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
@@ -157,9 +135,7 @@ export class ServiceQuotaExceededException
     "ServiceQuotaExceededException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      xAmzErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
+      xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
     },
     T.HttpError(402),
   ).pipe(C.withQuotaError) {}
@@ -168,9 +144,7 @@ export class ThrottlingException
     "ThrottlingException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      xAmzErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
+      xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
     },
     T.all(T.HttpError(429), T.Retryable()),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
@@ -179,9 +153,7 @@ export class ValidationException
     "ValidationException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      xAmzErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
+      xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
     },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
@@ -276,10 +248,7 @@ export const OutboundCallConfig = /*@__PURE__*/ S.suspend(() =>
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateCampaignRequest {
   name: string;
   connectInstanceId: string;
@@ -294,16 +263,7 @@ export const CreateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     dialerConfig: DialerConfig,
     outboundCallConfig: OutboundCallConfig,
     tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/campaigns" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/campaigns" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateCampaignRequest",
 }) as any as S.Schema<CreateCampaignRequest>;
@@ -328,22 +288,13 @@ export interface DeleteCampaignRequest {
 }
 export const DeleteCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/campaigns/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/campaigns/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteCampaignRequest",
 }) as any as S.Schema<DeleteCampaignRequest>;
 export interface DeleteCampaignResponse {}
-export const DeleteCampaignResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCampaignResponse",
 }) as any as S.Schema<DeleteCampaignResponse>;
 export interface DeleteConnectInstanceConfigRequest {
@@ -407,14 +358,7 @@ export interface DescribeCampaignRequest {
 }
 export const DescribeCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/campaigns/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/campaigns/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeCampaignRequest",
@@ -452,14 +396,7 @@ export interface GetCampaignStateRequest {
 }
 export const GetCampaignStateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/campaigns/{id}/state" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/campaigns/{id}/state" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetCampaignStateRequest",
@@ -480,14 +417,7 @@ export interface GetCampaignStateBatchRequest {
 }
 export const GetCampaignStateBatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ campaignIds: CampaignIdList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns-state" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/campaigns-state" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetCampaignStateBatchRequest",
@@ -501,8 +431,7 @@ export const SuccessfulCampaignStateResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SuccessfulCampaignStateResponse",
 }) as any as S.Schema<SuccessfulCampaignStateResponse>;
-export type SuccessfulCampaignStateResponseList =
-  SuccessfulCampaignStateResponse[];
+export type SuccessfulCampaignStateResponseList = SuccessfulCampaignStateResponse[];
 export const SuccessfulCampaignStateResponseList = /*@__PURE__*/ S.Array(
   SuccessfulCampaignStateResponse,
 );
@@ -520,9 +449,7 @@ export const FailedCampaignStateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "FailedCampaignStateResponse",
 }) as any as S.Schema<FailedCampaignStateResponse>;
 export type FailedCampaignStateResponseList = FailedCampaignStateResponse[];
-export const FailedCampaignStateResponseList = /*@__PURE__*/ S.Array(
-  FailedCampaignStateResponse,
-);
+export const FailedCampaignStateResponseList = /*@__PURE__*/ S.Array(FailedCampaignStateResponse);
 export interface GetCampaignStateBatchResponse {
   successfulRequests?: SuccessfulCampaignStateResponse[];
   failedRequests?: FailedCampaignStateResponse[];
@@ -598,23 +525,22 @@ export const GetConnectInstanceConfigResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetInstanceOnboardingJobStatusRequest {
   connectInstanceId: string;
 }
-export const GetInstanceOnboardingJobStatusRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/connect-instance/{connectInstanceId}/onboarding",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetInstanceOnboardingJobStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/connect-instance/{connectInstanceId}/onboarding",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetInstanceOnboardingJobStatusRequest",
 }) as any as S.Schema<GetInstanceOnboardingJobStatusRequest>;
@@ -637,13 +563,10 @@ export const InstanceOnboardingJobStatus = /*@__PURE__*/ S.suspend(() =>
 export interface GetInstanceOnboardingJobStatusResponse {
   connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
 }
-export const GetInstanceOnboardingJobStatusResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      connectInstanceOnboardingJobStatus: S.optional(
-        InstanceOnboardingJobStatus,
-      ),
-    }),
+export const GetInstanceOnboardingJobStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectInstanceOnboardingJobStatus: S.optional(InstanceOnboardingJobStatus),
+  }),
 ).annotate({
   identifier: "GetInstanceOnboardingJobStatusResponse",
 }) as any as S.Schema<GetInstanceOnboardingJobStatusResponse>;
@@ -678,14 +601,7 @@ export const ListCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     filters: S.optional(CampaignFilters),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns-summary" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/campaigns-summary" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListCampaignsRequest",
@@ -726,14 +642,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -751,22 +660,13 @@ export interface PauseCampaignRequest {
 }
 export const PauseCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/pause" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/campaigns/{id}/pause" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PauseCampaignRequest",
 }) as any as S.Schema<PauseCampaignRequest>;
 export interface PauseCampaignResponse {}
-export const PauseCampaignResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PauseCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PauseCampaignResponse",
 }) as any as S.Schema<PauseCampaignResponse>;
 export type ClientToken = string;
@@ -774,10 +674,7 @@ export type DestinationPhoneNumber = string | redacted.Redacted<string>;
 export type AttributeName = string;
 export type AttributeValue = string;
 export type Attributes = { [key: string]: string | undefined };
-export const Attributes = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Attributes = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface DialRequest {
   clientToken: string;
   phoneNumber: string | redacted.Redacted<string>;
@@ -859,22 +756,13 @@ export interface ResumeCampaignRequest {
 }
 export const ResumeCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/resume" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/campaigns/{id}/resume" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ResumeCampaignRequest",
 }) as any as S.Schema<ResumeCampaignRequest>;
 export interface ResumeCampaignResponse {}
-export const ResumeCampaignResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ResumeCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ResumeCampaignResponse",
 }) as any as S.Schema<ResumeCampaignResponse>;
 export interface StartCampaignRequest {
@@ -882,22 +770,13 @@ export interface StartCampaignRequest {
 }
 export const StartCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/start" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/campaigns/{id}/start" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartCampaignRequest",
 }) as any as S.Schema<StartCampaignRequest>;
 export interface StartCampaignResponse {}
-export const StartCampaignResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartCampaignResponse",
 }) as any as S.Schema<StartCampaignResponse>;
 export interface StartInstanceOnboardingJobRequest {
@@ -939,22 +818,13 @@ export interface StopCampaignRequest {
 }
 export const StopCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/stop" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/campaigns/{id}/stop" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StopCampaignRequest",
 }) as any as S.Schema<StopCampaignRequest>;
 export interface StopCampaignResponse {}
-export const StopCampaignResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopCampaignResponse",
 }) as any as S.Schema<StopCampaignResponse>;
 export interface TagResourceRequest {
@@ -963,22 +833,13 @@ export interface TagResourceRequest {
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -991,23 +852,12 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "DELETE", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateCampaignDialerConfigRequest {
@@ -1043,22 +893,13 @@ export interface UpdateCampaignNameRequest {
 }
 export const UpdateCampaignNameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")), name: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{id}/name" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/campaigns/{id}/name" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateCampaignNameRequest",
 }) as any as S.Schema<UpdateCampaignNameRequest>;
 export interface UpdateCampaignNameResponse {}
-export const UpdateCampaignNameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateCampaignNameResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateCampaignNameResponse",
 }) as any as S.Schema<UpdateCampaignNameResponse>;
 export interface UpdateCampaignOutboundCallConfigRequest {
@@ -1067,29 +908,28 @@ export interface UpdateCampaignOutboundCallConfigRequest {
   connectSourcePhoneNumber?: string;
   answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
 }
-export const UpdateCampaignOutboundCallConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.String.pipe(T.HttpLabel("id")),
-      connectContactFlowId: S.optional(S.String),
-      connectSourcePhoneNumber: S.optional(S.String),
-      answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/campaigns/{id}/outbound-call-config" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateCampaignOutboundCallConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.HttpLabel("id")),
+    connectContactFlowId: S.optional(S.String),
+    connectSourcePhoneNumber: S.optional(S.String),
+    answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/campaigns/{id}/outbound-call-config" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateCampaignOutboundCallConfigRequest",
 }) as any as S.Schema<UpdateCampaignOutboundCallConfigRequest>;
 export interface UpdateCampaignOutboundCallConfigResponse {}
-export const UpdateCampaignOutboundCallConfigResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const UpdateCampaignOutboundCallConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "UpdateCampaignOutboundCallConfigResponse",
 }) as any as S.Schema<UpdateCampaignOutboundCallConfigResponse>;

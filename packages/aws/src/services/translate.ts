@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveBlob } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Translate",
   serviceShapeName: "AWSShineFrontendService_20170701",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,13 +54,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://translate-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://translate-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://translate.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://translate.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://translate.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -245,9 +233,7 @@ export const CreateParallelDataRequest = /*@__PURE__*/ S.suspend(() =>
     EncryptionKey: S.optional(EncryptionKey),
     ClientToken: S.String.pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateParallelDataRequest",
 }) as any as S.Schema<CreateParallelDataRequest>;
@@ -305,9 +291,7 @@ export const DeleteTerminologyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTerminologyRequest",
 }) as any as S.Schema<DeleteTerminologyRequest>;
 export interface DeleteTerminologyResponse {}
-export const DeleteTerminologyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteTerminologyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTerminologyResponse",
 }) as any as S.Schema<DeleteTerminologyResponse>;
 export type JobId = string;
@@ -492,9 +476,7 @@ export const ParallelDataProperties = /*@__PURE__*/ S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestUpdateAttemptStatus: S.optional(ParallelDataStatus),
-    LatestUpdateAttemptAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestUpdateAttemptAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ParallelDataProperties",
@@ -519,9 +501,7 @@ export const GetParallelDataResponse = /*@__PURE__*/ S.suspend(() =>
     ParallelDataProperties: S.optional(ParallelDataProperties),
     DataLocation: S.optional(ParallelDataDataLocation),
     AuxiliaryDataLocation: S.optional(ParallelDataDataLocation),
-    LatestUpdateAttemptAuxiliaryDataLocation: S.optional(
-      ParallelDataDataLocation,
-    ),
+    LatestUpdateAttemptAuxiliaryDataLocation: S.optional(ParallelDataDataLocation),
   }),
 ).annotate({
   identifier: "GetParallelDataResponse",
@@ -537,9 +517,7 @@ export const GetTerminologyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.String,
     TerminologyDataFormat: S.optional(TerminologyDataFormat),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetTerminologyRequest",
 }) as any as S.Schema<GetTerminologyRequest>;
@@ -640,9 +618,7 @@ export const ImportTerminologyRequest = /*@__PURE__*/ S.suspend(() =>
     TerminologyData: TerminologyData,
     EncryptionKey: S.optional(EncryptionKey),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ImportTerminologyRequest",
 }) as any as S.Schema<ImportTerminologyRequest>;
@@ -684,9 +660,7 @@ export const ListLanguagesRequest = /*@__PURE__*/ S.suspend(() =>
     DisplayLanguageCode: S.optional(DisplayLanguageCode),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListLanguagesRequest",
 }) as any as S.Schema<ListLanguagesRequest>;
@@ -722,16 +696,12 @@ export const ListParallelDataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListParallelDataRequest",
 }) as any as S.Schema<ListParallelDataRequest>;
 export type ParallelDataPropertiesList = ParallelDataProperties[];
-export const ParallelDataPropertiesList = /*@__PURE__*/ S.Array(
-  ParallelDataProperties,
-);
+export const ParallelDataPropertiesList = /*@__PURE__*/ S.Array(ParallelDataProperties);
 export interface ListParallelDataResponse {
   ParallelDataPropertiesList?: ParallelDataProperties[];
   NextToken?: string;
@@ -771,16 +741,12 @@ export const ListTerminologiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTerminologiesRequest",
 }) as any as S.Schema<ListTerminologiesRequest>;
 export type TerminologyPropertiesList = TerminologyProperties[];
-export const TerminologyPropertiesList = /*@__PURE__*/ S.Array(
-  TerminologyProperties,
-);
+export const TerminologyPropertiesList = /*@__PURE__*/ S.Array(TerminologyProperties);
 export interface ListTerminologiesResponse {
   TerminologyPropertiesList?: TerminologyProperties[];
   NextToken?: string;
@@ -803,12 +769,8 @@ export const TextTranslationJobFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmittedBeforeTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SubmittedAfterTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmittedBeforeTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmittedAfterTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "TextTranslationJobFilter",
@@ -823,25 +785,19 @@ export const ListTextTranslationJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(TextTranslationJobFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTextTranslationJobsRequest",
 }) as any as S.Schema<ListTextTranslationJobsRequest>;
 export type TextTranslationJobPropertiesList = TextTranslationJobProperties[];
-export const TextTranslationJobPropertiesList = /*@__PURE__*/ S.Array(
-  TextTranslationJobProperties,
-);
+export const TextTranslationJobPropertiesList = /*@__PURE__*/ S.Array(TextTranslationJobProperties);
 export interface ListTextTranslationJobsResponse {
   TextTranslationJobPropertiesList?: TextTranslationJobProperties[];
   NextToken?: string;
 }
 export const ListTextTranslationJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    TextTranslationJobPropertiesList: S.optional(
-      TextTranslationJobPropertiesList,
-    ),
+    TextTranslationJobPropertiesList: S.optional(TextTranslationJobPropertiesList),
     NextToken: S.optional(S.String),
   }),
 ).annotate({
@@ -871,9 +827,7 @@ export const StartTextTranslationJobRequest = /*@__PURE__*/ S.suspend(() =>
     ParallelDataNames: S.optional(ResourceNameList),
     ClientToken: S.String.pipe(T.IdempotencyToken()),
     Settings: S.optional(TranslationSettings),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartTextTranslationJobRequest",
 }) as any as S.Schema<StartTextTranslationJobRequest>;
@@ -917,9 +871,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type DocumentContent = Uint8Array | redacted.Redacted<Uint8Array>;
@@ -944,15 +896,11 @@ export const TranslateDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     SourceLanguageCode: S.String,
     TargetLanguageCode: S.String,
     Settings: S.optional(TranslationSettings),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "TranslateDocumentRequest",
 }) as any as S.Schema<TranslateDocumentRequest>;
-export type TranslatedDocumentContent =
-  | Uint8Array
-  | redacted.Redacted<Uint8Array>;
+export type TranslatedDocumentContent = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface TranslatedDocument {
   Content: Uint8Array | redacted.Redacted<Uint8Array>;
 }
@@ -1017,9 +965,7 @@ export const TranslateTextRequest = /*@__PURE__*/ S.suspend(() =>
     SourceLanguageCode: S.String,
     TargetLanguageCode: S.String,
     Settings: S.optional(TranslationSettings),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "TranslateTextRequest",
 }) as any as S.Schema<TranslateTextRequest>;
@@ -1056,9 +1002,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateParallelDataRequest {
@@ -1073,9 +1017,7 @@ export const UpdateParallelDataRequest = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     ParallelDataConfig: ParallelDataConfig,
     ClientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateParallelDataRequest",
 }) as any as S.Schema<UpdateParallelDataRequest>;
@@ -1090,9 +1032,7 @@ export const UpdateParallelDataResponse = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(S.String),
     Status: S.optional(ParallelDataStatus),
     LatestUpdateAttemptStatus: S.optional(ParallelDataStatus),
-    LatestUpdateAttemptAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestUpdateAttemptAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "UpdateParallelDataResponse",
@@ -1209,11 +1149,7 @@ export const describeTextTranslationJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeTextTranslationJobRequest,
   output: DescribeTextTranslationJobResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTextTranslationJob",
@@ -1366,11 +1302,7 @@ export const listParallelData: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListParallelDataRequest,
   output: ListParallelDataResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterValueException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, InvalidParameterValueException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListParallelData",
@@ -1399,11 +1331,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterValueException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1426,11 +1354,7 @@ export const listTerminologies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTerminologiesRequest,
   output: ListTerminologiesResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterValueException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, InvalidParameterValueException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTerminologies",
@@ -1539,11 +1463,7 @@ export const stopTextTranslationJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopTextTranslationJobRequest,
   output: StopTextTranslationJobResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTextTranslationJob",

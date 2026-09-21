@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Daytona credentials — hand-written.
  *
@@ -24,7 +25,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Daytona Cloud's platform API root. */
 export const DEFAULT_API_BASE_URL = "https://app.daytona.io/api";
@@ -37,8 +37,7 @@ export const DEFAULT_ANALYTICS_BASE_URL = "https://analytics.app.daytona.io";
  * sandbox (the docs' `{toolboxProxyUrl}/{sandboxId}` form). Pass a fully
  * resolved URL — e.g. a sandbox's `toolboxProxyUrl` — to skip substitution.
  */
-export const DEFAULT_TOOLBOX_BASE_URL =
-  "https://proxy.app.daytona.io/toolbox/{sandboxId}";
+export const DEFAULT_TOOLBOX_BASE_URL = "https://proxy.app.daytona.io/toolbox/{sandboxId}";
 
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
@@ -58,10 +57,9 @@ export interface Config {
   readonly organizationId?: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("DaytonaCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "DaytonaCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   apiKey: EffectConfig.String("DAYTONA_API_KEY"),
@@ -74,12 +72,8 @@ const envConfig = EffectConfig.all({
   toolboxBaseUrl: EffectConfig.String("DAYTONA_TOOLBOX_URL").pipe(
     EffectConfig.withDefault(DEFAULT_TOOLBOX_BASE_URL),
   ),
-  sandboxId: EffectConfig.String("DAYTONA_SANDBOX_ID").pipe(
-    EffectConfig.option,
-  ),
-  organizationId: EffectConfig.String("DAYTONA_ORGANIZATION_ID").pipe(
-    EffectConfig.option,
-  ),
+  sandboxId: EffectConfig.String("DAYTONA_SANDBOX_ID").pipe(EffectConfig.option),
+  organizationId: EffectConfig.String("DAYTONA_ORGANIZATION_ID").pipe(EffectConfig.option),
 });
 
 export const CredentialsFromEnv = Layer.succeed(
@@ -92,21 +86,13 @@ export const CredentialsFromEnv = Layer.succeed(
         }),
     ),
     Effect.map(
-      ({
-        apiKey,
-        apiBaseUrl,
-        analyticsBaseUrl,
-        toolboxBaseUrl,
-        sandboxId,
-        organizationId,
-      }) => ({
+      ({ apiKey, apiBaseUrl, analyticsBaseUrl, toolboxBaseUrl, sandboxId, organizationId }) => ({
         apiKey: Redacted.make(apiKey),
         apiBaseUrl,
         analyticsBaseUrl,
         toolboxBaseUrl,
         sandboxId: sandboxId._tag === "Some" ? sandboxId.value : undefined,
-        organizationId:
-          organizationId._tag === "Some" ? organizationId.value : undefined,
+        organizationId: organizationId._tag === "Some" ? organizationId.value : undefined,
       }),
     ),
     Effect.orDie,

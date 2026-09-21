@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * PrismaProtocol — hand-written.
  *
@@ -22,12 +25,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
-import type { ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
 import { type DefaultErrors, UnknownPrismaError } from "./errors.ts";
 
@@ -37,10 +34,7 @@ import { type DefaultErrors, UnknownPrismaError } from "./errors.ts";
  * PrismaOpError, PrismaOpContext>` explicitly so the compiler
  * never infers these back out of the schema generics.
  */
-export type PrismaOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type PrismaOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated Prisma operation. */
 export type PrismaOpContext = Credentials | HttpClient.HttpClient;
@@ -65,28 +59,27 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return env && { code: env.code, message: env.message };
 };
 
-export const PrismaProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // Resolved per request on the calling fiber — the Credentials service
-    // holds an effect, so rotated tokens are picked up. Its ConfigError
-    // channel is erased at this boundary (Protocol effects carry none) and
-    // reintroduced for callers by `PrismaOpError`.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
-    }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiToken)}`,
-    }),
-    errorEnvelope,
-    unknownError: (info) => {
-      const env = envelopeOf(info.body);
-      return new UnknownPrismaError({
-        code: env?.code,
-        message: env?.message ?? info.message,
-        hint: env?.hint,
-        body: info.body,
-      });
-    },
-  });
+export const PrismaProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // Resolved per request on the calling fiber — the Credentials service
+  // holds an effect, so rotated tokens are picked up. Its ConfigError
+  // channel is erased at this boundary (Protocol effects carry none) and
+  // reintroduced for callers by `PrismaOpError`.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiToken)}`,
+  }),
+  errorEnvelope,
+  unknownError: (info) => {
+    const env = envelopeOf(info.body);
+    return new UnknownPrismaError({
+      code: env?.code,
+      message: env?.message ?? info.message,
+      hint: env?.hint,
+      body: info.body,
+    });
+  },
+});

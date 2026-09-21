@@ -36,9 +36,7 @@ if (!existsSync(SPECS_DIR)) {
 }
 
 async function main() {
-  console.log(
-    `Fetching Forgejo ${FORGEJO_VERSION} swagger template from ${TEMPLATE_URL}...`,
-  );
+  console.log(`Fetching Forgejo ${FORGEJO_VERSION} swagger template from ${TEMPLATE_URL}...`);
 
   const response = await fetch(TEMPLATE_URL, {
     headers: {
@@ -48,9 +46,7 @@ async function main() {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch swagger template: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch swagger template: ${response.status} ${response.statusText}`);
   }
 
   const rendered = (await response.text())

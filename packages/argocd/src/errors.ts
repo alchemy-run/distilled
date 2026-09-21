@@ -27,8 +27,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown Argo CD error — returned when nothing else matches the failure. */
 export class UnknownArgocdError extends Schema.TaggedError<UnknownArgocdError>()(
@@ -41,10 +41,7 @@ export class UnknownArgocdError extends Schema.TaggedError<UnknownArgocdError>()
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper (kept for v0 surface parity). */
-export class ArgocdParseError extends Schema.TaggedError<ArgocdParseError>()(
-  "ArgocdParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class ArgocdParseError extends Schema.TaggedError<ArgocdParseError>()("ArgocdParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}

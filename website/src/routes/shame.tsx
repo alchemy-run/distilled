@@ -30,19 +30,17 @@ export default function Shame() {
             If you're api is on this list: <strong>fix your spec</strong>
           </h2>
           <p class="mb-7 max-w-[34em] text-[clamp(1.05rem,1rem+0.35vw,1.2rem)] text-pretty text-fg-2">
-            Every generated SDK: ours, the vendor's, the one you'd write; is
-            only ever as good as the api spec its built from. Most of these
-            specs aren't generated from the source and regularly drift from the
-            actual implementation. We maintain a list of who we have to patch
-            the most so we can hopefully pressure these providers to fix their
-            source of truth.
+            Every generated SDK: ours, the vendor's, the one you'd write; is only ever as good as
+            the api spec its built from. Most of these specs aren't generated from the source and
+            regularly drift from the actual implementation. We maintain a list of who we have to
+            patch the most so we can hopefully pressure these providers to fix their source of
+            truth.
           </p>
           <p class="mb-7 max-w-[34em] text-base text-pretty text-fg-3 [&_strong]:font-semibold [&_strong]:text-fg-2">
-            Ranked by <strong>fixes per 100 operations</strong>, so a huge API
-            isn't punished for being huge. Providers with no patches at all are
-            in the honour roll below; A <strong>HUGE</strong> thank you to the
-            providers we don't have to patch. Numbers come from{" "}
-            <code>packages/*/patches</code> at build time.
+            Ranked by <strong>fixes per 100 operations</strong>, so a huge API isn't punished for
+            being huge. Providers with no patches at all are in the honour roll below; A{" "}
+            <strong>HUGE</strong> thank you to the providers we don't have to patch. Numbers come
+            from <code>packages/*/patches</code> at build time.
           </p>
         </section>
 
@@ -56,11 +54,7 @@ export default function Shame() {
           ]}
         />
 
-        <section
-          id="honour"
-          class="pb-[clamp(3rem,7vw,5rem)]"
-          aria-labelledby="honour-title"
-        >
+        <section id="honour" class="pb-[clamp(3rem,7vw,5rem)]" aria-labelledby="honour-title">
           <SectionHead
             eyebrow="Honour roll"
             id="honour-title"
@@ -74,9 +68,8 @@ export default function Shame() {
             <a href={ALCHEMY_URL} rel="noopener">
               Alchemy
             </a>{" "}
-            resources today <em>and</em> don't need their spec fixed. The API
-            spec generated a working SDK as published; which is what a spec is
-            supposed to do.
+            resources today <em>and</em> don't need their spec fixed. The API spec generated a
+            working SDK as published; which is what a spec is supposed to do.
           </SectionHead>
           <HonourList
             items={shame.honour}
@@ -84,11 +77,7 @@ export default function Shame() {
           />
         </section>
 
-        <section
-          id="board"
-          class="pb-[clamp(3rem,7vw,5rem)]"
-          aria-labelledby="board-title"
-        >
+        <section id="board" class="pb-[clamp(3rem,7vw,5rem)]" aria-labelledby="board-title">
           <SectionHead
             eyebrow="Worst offenders"
             id="board-title"
@@ -97,10 +86,7 @@ export default function Shame() {
           <Offenders offenders={shame.offenders} />
         </section>
 
-        <section
-          class="pb-[clamp(3rem,7vw,5rem)]"
-          aria-labelledby="unproven-title"
-        >
+        <section class="pb-[clamp(3rem,7vw,5rem)]" aria-labelledby="unproven-title">
           <SectionHead
             eyebrow="Not yet exercised"
             id="unproven-title"
@@ -111,9 +97,9 @@ export default function Shame() {
             }
           >
             {shame.unproven.length} {shame.honour.length > 0 ? "more " : ""}
-            providers have no patches, but no consumer has leaned on them yet. A
-            clean sheet here means <em>untested</em>, not <em>correct</em> —
-            they move up once something real depends on them.
+            providers have no patches, but no consumer has leaned on them yet. A clean sheet here
+            means <em>untested</em>, not <em>correct</em> — they move up once something real depends
+            on them.
           </SectionHead>
           <HonourList items={shame.unproven} muted />
         </section>
@@ -124,31 +110,28 @@ export default function Shame() {
             <a href="https://jsonpatch.com" rel="noopener">
               JSON Patch
             </a>{" "}
-            operation (<code>add</code>, <code>replace</code>,{" "}
-            <code>remove</code>, <code>move</code>, …) in a file under{" "}
-            <code>packages/&lt;provider&gt;/patches/</code>. For AWS, whose
-            patches are declarative, each named operation, structure or error
-            entry counts as one.
+            operation (<code>add</code>, <code>replace</code>, <code>remove</code>,{" "}
+            <code>move</code>, …) in a file under <code>packages/&lt;provider&gt;/patches/</code>.
+            For AWS, whose patches are declarative, each named operation, structure or error entry
+            counts as one.
           </li>
           <li>
-            An <strong>operation</strong> is one generated SDK call — an
-            exported <code>OperationMethod</code> in <code>src/services/</code>.
+            An <strong>operation</strong> is one generated SDK call — an exported{" "}
+            <code>OperationMethod</code> in <code>src/services/</code>.
           </li>
           <li>
-            Patches are how an SDK is kept correct without editing generated
-            code; they survive regeneration. A high count says something about
-            the spec, not the provider's API.
+            Patches are how an SDK is kept correct without editing generated code; they survive
+            regeneration. A high count says something about the spec, not the provider's API.
           </li>
           <li>
             <strong>Used in Alchemy</strong> means an{" "}
             <a href={ALCHEMY_URL} rel="noopener">
               Alchemy resource
             </a>{" "}
-            imports the package on <code>main</code> — read from Alchemy's{" "}
-            <code>package.json</code> at build time (checked{" "}
-            {shame.alchemy.checked}
-            {shame.alchemy.source === "fallback" ? ", cached" : ""}). Zero
-            patches on a package nobody consumes is not counted as clean.
+            imports the package on <code>main</code> — read from Alchemy's <code>package.json</code>{" "}
+            at build time (checked {shame.alchemy.checked}
+            {shame.alchemy.source === "fallback" ? ", cached" : ""}). Zero patches on a package
+            nobody consumes is not counted as clean.
           </li>
           <li>
             Think a count is wrong? Open an issue in{" "}

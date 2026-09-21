@@ -52,20 +52,15 @@ export interface GraphQLOpTrait {
   readonly type: "query" | "mutation";
 }
 
-export const graphqlOpSymbol = Symbol.for(
-  "@distilled.cloud/expo-eas/graphql-op",
-);
+export const graphqlOpSymbol = Symbol.for("@distilled.cloud/expo-eas/graphql-op");
 
 /**
  * Marks an operation's input schema with its GraphQL document. Mirrors
  * `com.expo.graphql#operation` in the Smithy model.
  */
-export const GraphQLOp = (op: GraphQLOpTrait) =>
-  makeAnnotation(graphqlOpSymbol, op);
+export const GraphQLOp = (op: GraphQLOpTrait) => makeAnnotation(graphqlOpSymbol, op);
 
-export const responsePathSymbol = Symbol.for(
-  "@distilled.cloud/expo-eas/response-path",
-);
+export const responsePathSymbol = Symbol.for("@distilled.cloud/expo-eas/response-path");
 
 /**
  * The dotted path under the GraphQL `data` envelope that holds this
@@ -73,8 +68,7 @@ export const responsePathSymbol = Symbol.for(
  * decode and returns the value found there. Mirrors
  * `com.expo.graphql#responsePath` in the Smithy model.
  */
-export const ResponsePath = (path: string) =>
-  makeAnnotation(responsePathSymbol, path);
+export const ResponsePath = (path: string) => makeAnnotation(responsePathSymbol, path);
 
 export const graphqlPayloadRootSymbol = Symbol.for(
   "@distilled.cloud/expo-eas/graphql-payload-root",
@@ -86,5 +80,4 @@ export const graphqlPayloadRootSymbol = Symbol.for(
  * `runtimes` returns a bare connection-less array). Documentation-only at
  * runtime: the protocol always returns `data.<responsePath>` verbatim.
  */
-export const GraphQLPayloadRoot = () =>
-  makeAnnotation(graphqlPayloadRootSymbol, true);
+export const GraphQLPayloadRoot = () => makeAnnotation(graphqlPayloadRootSymbol, true);

@@ -2,10 +2,10 @@ import { expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import * as Schema from "effect/Schema";
 import * as Schedule from "effect/Schedule";
-import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as Schema from "effect/Schema";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import { CredentialsFromEnv } from "./credentials.ts";
 import { Retry } from "./retry.ts";
@@ -26,9 +26,7 @@ const runBackend = (verifyEnvironment: boolean) =>
     Effect.gen(function* () {
       const name = verifyEnvironment ? `${projectName}-env` : projectName;
       const existing = yield* Neon.listProjects({ search: name, limit: 400 });
-      expect(
-        existing.projects.filter((project) => project.name === name),
-      ).toHaveLength(0);
+      expect(existing.projects.filter((project) => project.name === name)).toHaveLength(0);
       const created = yield* Neon.createProject({
         project: { name, region_id: "aws-us-east-2" },
       });
@@ -55,8 +53,7 @@ const runBackend = (verifyEnvironment: boolean) =>
         expect(
           Redacted.isRedacted(credential.api_token) &&
             Redacted.isRedacted(revealed.api_token) &&
-            Redacted.value(credential.api_token) ===
-              Redacted.value(revealed.api_token),
+            Redacted.value(credential.api_token) === Redacted.value(revealed.api_token),
         ).toBe(true);
         expect(
           Redacted.isRedacted(credential.s3_secret_access_key) &&
@@ -74,25 +71,15 @@ const runBackend = (verifyEnvironment: boolean) =>
         expect(revoked?.revoked_at).toBeTruthy();
 
         const target = { ...scope, slug: "sdkprobe" };
-        const missingFunction = yield* Neon.getProjectBranchFunction(
-          target,
-        ).pipe(Effect.flip);
+        const missingFunction = yield* Neon.getProjectBranchFunction(target).pipe(Effect.flip);
         expect(missingFunction._tag).toBe("NotFound");
-        console.log(
-          "Missing Function:",
-          missingFunction._tag,
-          missingFunction.message,
-        );
+        console.log("Missing Function:", missingFunction._tag, missingFunction.message);
         const missingTrigger = yield* Neon.getProjectBranchTrigger({
           ...scope,
           trigger_id: "sdk-missing-trigger",
         }).pipe(Effect.flip);
         expect(missingTrigger._tag).toBe("NotFound");
-        console.log(
-          "Missing Trigger:",
-          missingTrigger._tag,
-          missingTrigger.message,
-        );
+        console.log("Missing Trigger:", missingTrigger._tag, missingTrigger.message);
         const zip = yield* Effect.sync(
           () =>
             new File([Buffer.from(archive, "base64")], "bundle.zip", {
@@ -105,9 +92,7 @@ const runBackend = (verifyEnvironment: boolean) =>
           runtime: "nodejs24",
           environment: JSON.stringify({ DISTILLED_PROBE: "first" }),
         });
-        yield* Schema.decodeUnknownEffect(Neon.NeonFunctionDeployment)(
-          deployed.deployment,
-        );
+        yield* Schema.decodeUnknownEffect(Neon.NeonFunctionDeployment)(deployed.deployment);
         yield* Schema.decodeUnknownEffect(Neon.NeonFunction)(
           (yield* Neon.getProjectBranchFunction(target)).function,
         );
@@ -117,8 +102,7 @@ const runBackend = (verifyEnvironment: boolean) =>
               schedule: Schedule.spaced("3 seconds"),
               times: 8,
               until: ({ function: fn }) =>
-                fn.active_deployment?.id === id ||
-                fn.current_deployment?.status === "failed",
+                fn.active_deployment?.id === id || fn.current_deployment?.status === "failed",
             }),
           );
         const first = (yield* waitFor(deployed.deployment.id)).function;
@@ -148,9 +132,9 @@ const runBackend = (verifyEnvironment: boolean) =>
           ...triggerTarget,
           body: { type: "schedule", name: "sdk-renamed-schedule" },
         });
-        expect(
-          (yield* Neon.getProjectBranchTrigger(triggerTarget)).trigger.name,
-        ).toBe("sdk-renamed-schedule");
+        expect((yield* Neon.getProjectBranchTrigger(triggerTarget)).trigger.name).toBe(
+          "sdk-renamed-schedule",
+        );
         expect(
           (yield* Neon.listProjectBranchTriggers(scope)).triggers.some(
             (item) => item.trigger_id === schedule.trigger.trigger_id,
@@ -194,17 +178,10 @@ const runBackend = (verifyEnvironment: boolean) =>
           .execute(
             HttpClientRequest.put(uploadUrl).pipe(
               HttpClientRequest.setHeaders(presign.headers),
-              HttpClientRequest.bodyUint8Array(
-                bytes,
-                "application/octet-stream",
-              ),
+              HttpClientRequest.bodyUint8Array(bytes, "application/octet-stream"),
             ),
           )
-          .pipe(
-            Effect.mapError(
-              () => new Error("Owned binary fixture upload transport failed"),
-            ),
-          );
+          .pipe(Effect.mapError(() => new Error("Owned binary fixture upload transport failed")));
         expect(uploaded.status).toBe(200);
         expect(yield* Neon.getProjectBranchBucketObject(object)).toEqual(bytes);
         yield* Neon.deleteProjectBranchBucketObject(object);
@@ -241,27 +218,19 @@ const runBackend = (verifyEnvironment: boolean) =>
               schedule: Schedule.spaced("2 seconds"),
               times: 8,
               until: (body) =>
-                typeof body === "object" &&
-                body !== null &&
-                "value" in body &&
-                body.value === null,
+                typeof body === "object" && body !== null && "value" in body && body.value === null,
             }),
           );
           expect(response3).toEqual({ ok: true, value: null });
         }
         yield* Neon.deleteProjectBranchFunction(target);
-      }).pipe(
-        Effect.ensuring(Neon.deleteProject({ project_id }).pipe(Effect.orDie)),
-      );
+      }).pipe(Effect.ensuring(Neon.deleteProject({ project_id }).pipe(Effect.orDie)));
       const after = yield* Neon.listProjects({ search: name, limit: 400 });
-      expect(
-        after.projects.filter((project) => project.name === name),
-      ).toHaveLength(0);
+      expect(after.projects.filter((project) => project.name === name)).toHaveLength(0);
     }).pipe(Effect.timeout("110 seconds"), Effect.provide(live)),
   );
 
-const unavailable =
-  !process.env.NEON_API_KEY || process.env.NEON_SDK_LIVE !== "1";
+const unavailable = !process.env.NEON_API_KEY || process.env.NEON_SDK_LIVE !== "1";
 test.skipIf(unavailable)(
   "isolated backend: credential recovery, native ZIP, deployment metadata and trigger CRUD",
   () => runBackend(false),
@@ -308,9 +277,7 @@ test.skipIf(unavailable || process.env.NEON_SDK_FULL_REDEPLOY !== "1")(
       Effect.gen(function* () {
         const name = `${projectName}-full`;
         const existing = yield* Neon.listProjects({ search: name, limit: 400 });
-        expect(
-          existing.projects.filter((project) => project.name === name),
-        ).toHaveLength(0);
+        expect(existing.projects.filter((project) => project.name === name)).toHaveLength(0);
         const created = yield* Neon.createProject({
           project: { name, region_id: "aws-us-east-2" },
         });
@@ -325,8 +292,7 @@ test.skipIf(unavailable || process.env.NEON_SDK_FULL_REDEPLOY !== "1")(
             slug: "sdkfullprobe",
           };
           const http = yield* HttpClient.HttpClient;
-          const observations: Array<{ code: string; value: string | null }> =
-            [];
+          const observations: Array<{ code: string; value: string | null }> = [];
           for (const fixture of fullRedeployFixtures) {
             const zip = yield* Effect.sync(
               () =>
@@ -358,8 +324,7 @@ test.skipIf(unavailable || process.env.NEON_SDK_FULL_REDEPLOY !== "1")(
               Effect.repeat({
                 schedule: Schedule.spaced("1 second"),
                 times: 8,
-                until: (body) =>
-                  body.code === fixture.code && body.value === fixture.expected,
+                until: (body) => body.code === fixture.code && body.value === fixture.expected,
               }),
             );
             observations.push(body);
@@ -373,18 +338,12 @@ test.skipIf(unavailable || process.env.NEON_SDK_FULL_REDEPLOY !== "1")(
             );
           }
           return observations;
-        }).pipe(
-          Effect.ensuring(
-            Neon.deleteProject({ project_id }).pipe(Effect.orDie),
-          ),
-        );
+        }).pipe(Effect.ensuring(Neon.deleteProject({ project_id }).pipe(Effect.orDie)));
         const remaining = yield* Neon.listProjects({
           search: name,
           limit: 400,
         });
-        expect(
-          remaining.projects.filter((project) => project.name === name),
-        ).toHaveLength(0);
+        expect(remaining.projects.filter((project) => project.name === name)).toHaveLength(0);
         console.log("Full ZIP probe cleanup: zero owned projects remain");
         expect(observations).toEqual(
           fullRedeployFixtures.map((fixture) => ({

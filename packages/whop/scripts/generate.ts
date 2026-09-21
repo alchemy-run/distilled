@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Whop
  * Effect SDK.
@@ -21,7 +22,6 @@
  * exports them camelCased (`Services.checkoutConfigurations.createPlan`).
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -84,8 +84,7 @@ const spec: SdkSpec = {
     },
   },
 
-  sourceNote:
-    ".generated-specs (specs/api-v1-native.json + api-v1-stable.json)",
+  sourceNote: ".generated-specs (specs/api-v1-native.json + api-v1-stable.json)",
 
   operationDecl: {
     contextType: "WhopOpContext",

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Transcribe",
   serviceShapeName: "Transcribe",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -66,9 +62,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://transcribe-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -76,9 +70,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://transcribe.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if (Region === "cn-north-1") {
           return e("https://cn.transcribe.cn-north-1.amazonaws.com.cn");
@@ -86,9 +78,7 @@ const rules = T.EndpointResolver((p, _) => {
         if (Region === "cn-northwest-1") {
           return e("https://cn.transcribe.cn-northwest-1.amazonaws.com.cn");
         }
-        return e(
-          `https://transcribe.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://transcribe.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -223,12 +213,7 @@ export const TranscriptFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "TranscriptFilter",
 }) as any as S.Schema<TranscriptFilter>;
-export type SentimentValue =
-  | "POSITIVE"
-  | "NEGATIVE"
-  | "NEUTRAL"
-  | "MIXED"
-  | (string & {});
+export type SentimentValue = "POSITIVE" | "NEGATIVE" | "NEUTRAL" | "MIXED" | (string & {});
 export const SentimentValue = S.String;
 
 export type SentimentValueList = SentimentValue[];
@@ -409,11 +394,7 @@ export const CreateLanguageModelRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateLanguageModelRequest",
 }) as any as S.Schema<CreateLanguageModelRequest>;
-export type ModelStatus =
-  | "IN_PROGRESS"
-  | "FAILED"
-  | "COMPLETED"
-  | (string & {});
+export type ModelStatus = "IN_PROGRESS" | "FAILED" | "COMPLETED" | (string & {});
 export const ModelStatus = S.String;
 
 export interface CreateLanguageModelResponse {
@@ -597,9 +578,7 @@ export const CreateMedicalVocabularyResponse = /*@__PURE__*/ S.suspend(() =>
     VocabularyName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
     VocabularyState: S.optional(VocabularyState),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FailureReason: S.optional(S.String),
   }),
 ).annotate({
@@ -649,9 +628,7 @@ export const CreateVocabularyResponse = /*@__PURE__*/ S.suspend(() =>
     VocabularyName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
     VocabularyState: S.optional(VocabularyState),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FailureReason: S.optional(S.String),
   }),
 ).annotate({
@@ -702,9 +679,7 @@ export const CreateVocabularyFilterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VocabularyFilterName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "CreateVocabularyFilterResponse",
@@ -759,9 +734,7 @@ export const DeleteCallAnalyticsJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCallAnalyticsJobRequest",
 }) as any as S.Schema<DeleteCallAnalyticsJobRequest>;
 export interface DeleteCallAnalyticsJobResponse {}
-export const DeleteCallAnalyticsJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteCallAnalyticsJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCallAnalyticsJobResponse",
 }) as any as S.Schema<DeleteCallAnalyticsJobResponse>;
 export interface DeleteLanguageModelRequest {
@@ -782,9 +755,7 @@ export const DeleteLanguageModelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteLanguageModelRequest",
 }) as any as S.Schema<DeleteLanguageModelRequest>;
 export interface DeleteLanguageModelResponse {}
-export const DeleteLanguageModelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteLanguageModelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLanguageModelResponse",
 }) as any as S.Schema<DeleteLanguageModelResponse>;
 export type TranscriptionJobName = string;
@@ -811,39 +782,34 @@ export const DeleteMedicalScribeJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMedicalScribeJobRequest",
 }) as any as S.Schema<DeleteMedicalScribeJobRequest>;
 export interface DeleteMedicalScribeJobResponse {}
-export const DeleteMedicalScribeJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteMedicalScribeJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMedicalScribeJobResponse",
 }) as any as S.Schema<DeleteMedicalScribeJobResponse>;
 export interface DeleteMedicalTranscriptionJobRequest {
   MedicalTranscriptionJobName: string;
 }
-export const DeleteMedicalTranscriptionJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MedicalTranscriptionJobName: S.String.pipe(
-        T.HttpLabel("MedicalTranscriptionJobName"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/medicaltranscriptionjobs/{MedicalTranscriptionJobName}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteMedicalTranscriptionJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MedicalTranscriptionJobName: S.String.pipe(T.HttpLabel("MedicalTranscriptionJobName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/medicaltranscriptionjobs/{MedicalTranscriptionJobName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteMedicalTranscriptionJobRequest",
 }) as any as S.Schema<DeleteMedicalTranscriptionJobRequest>;
 export interface DeleteMedicalTranscriptionJobResponse {}
-export const DeleteMedicalTranscriptionJobResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteMedicalTranscriptionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteMedicalTranscriptionJobResponse",
 }) as any as S.Schema<DeleteMedicalTranscriptionJobResponse>;
@@ -870,11 +836,11 @@ export const DeleteMedicalVocabularyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMedicalVocabularyRequest",
 }) as any as S.Schema<DeleteMedicalVocabularyRequest>;
 export interface DeleteMedicalVocabularyResponse {}
-export const DeleteMedicalVocabularyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteMedicalVocabularyResponse",
-}) as any as S.Schema<DeleteMedicalVocabularyResponse>;
+export const DeleteMedicalVocabularyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "DeleteMedicalVocabularyResponse",
+  },
+) as any as S.Schema<DeleteMedicalVocabularyResponse>;
 export interface DeleteTranscriptionJobRequest {
   TranscriptionJobName: string;
 }
@@ -898,9 +864,7 @@ export const DeleteTranscriptionJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTranscriptionJobRequest",
 }) as any as S.Schema<DeleteTranscriptionJobRequest>;
 export interface DeleteTranscriptionJobResponse {}
-export const DeleteTranscriptionJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteTranscriptionJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTranscriptionJobResponse",
 }) as any as S.Schema<DeleteTranscriptionJobResponse>;
 export interface DeleteVocabularyRequest {
@@ -923,9 +887,7 @@ export const DeleteVocabularyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVocabularyRequest",
 }) as any as S.Schema<DeleteVocabularyRequest>;
 export interface DeleteVocabularyResponse {}
-export const DeleteVocabularyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteVocabularyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteVocabularyResponse",
 }) as any as S.Schema<DeleteVocabularyResponse>;
 export interface DeleteVocabularyFilterRequest {
@@ -951,9 +913,7 @@ export const DeleteVocabularyFilterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVocabularyFilterRequest",
 }) as any as S.Schema<DeleteVocabularyFilterRequest>;
 export interface DeleteVocabularyFilterResponse {}
-export const DeleteVocabularyFilterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteVocabularyFilterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteVocabularyFilterResponse",
 }) as any as S.Schema<DeleteVocabularyFilterResponse>;
 export interface DescribeLanguageModelRequest {
@@ -988,9 +948,7 @@ export const LanguageModel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ModelName: S.optional(S.String),
     CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LanguageCode: S.optional(CLMLanguageCode),
     BaseModelName: S.optional(BaseModelName),
     ModelStatus: S.optional(ModelStatus),
@@ -1086,9 +1044,7 @@ export const CallAnalyticsSkippedFeature = /*@__PURE__*/ S.suspend(() =>
   identifier: "CallAnalyticsSkippedFeature",
 }) as any as S.Schema<CallAnalyticsSkippedFeature>;
 export type CallAnalyticsSkippedFeatureList = CallAnalyticsSkippedFeature[];
-export const CallAnalyticsSkippedFeatureList = /*@__PURE__*/ S.Array(
-  CallAnalyticsSkippedFeature,
-);
+export const CallAnalyticsSkippedFeatureList = /*@__PURE__*/ S.Array(CallAnalyticsSkippedFeature);
 export interface CallAnalyticsJobDetails {
   Skipped?: CallAnalyticsSkippedFeature[];
 }
@@ -1137,10 +1093,7 @@ export const VocabularyFilterMethod = S.String;
 export type RedactionType = "PII" | (string & {});
 export const RedactionType = S.String;
 
-export type RedactionOutput =
-  | "redacted"
-  | "redacted_and_unredacted"
-  | (string & {});
+export type RedactionOutput = "redacted" | "redacted_and_unredacted" | (string & {});
 export const RedactionOutput = S.String;
 
 export type PiiEntityType =
@@ -1378,10 +1331,7 @@ export const MedicalScribeSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "MedicalScribeSettings",
 }) as any as S.Schema<MedicalScribeSettings>;
 export type MedicalScribeChannelId = number;
-export type MedicalScribeParticipantRole =
-  | "PATIENT"
-  | "CLINICIAN"
-  | (string & {});
+export type MedicalScribeParticipantRole = "PATIENT" | "CLINICIAN" | (string & {});
 export const MedicalScribeParticipantRole = S.String;
 
 export interface MedicalScribeChannelDefinition {
@@ -1449,9 +1399,7 @@ export interface GetMedicalTranscriptionJobRequest {
 }
 export const GetMedicalTranscriptionJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    MedicalTranscriptionJobName: S.String.pipe(
-      T.HttpLabel("MedicalTranscriptionJobName"),
-    ),
+    MedicalTranscriptionJobName: S.String.pipe(T.HttpLabel("MedicalTranscriptionJobName")),
   }).pipe(
     T.all(
       T.Http({
@@ -1595,9 +1543,7 @@ export const GetMedicalVocabularyResponse = /*@__PURE__*/ S.suspend(() =>
     VocabularyName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
     VocabularyState: S.optional(VocabularyState),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FailureReason: S.optional(S.String),
     DownloadUri: S.optional(S.String),
   }),
@@ -1717,9 +1663,7 @@ export const ToxicityDetectionSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "ToxicityDetectionSettings",
 }) as any as S.Schema<ToxicityDetectionSettings>;
 export type ToxicityDetection = ToxicityDetectionSettings[];
-export const ToxicityDetection = /*@__PURE__*/ S.Array(
-  ToxicityDetectionSettings,
-);
+export const ToxicityDetection = /*@__PURE__*/ S.Array(ToxicityDetectionSettings);
 export interface TranscriptionJob {
   TranscriptionJobName?: string;
   TranscriptionJobStatus?: TranscriptionJobStatus;
@@ -1816,9 +1760,7 @@ export const GetVocabularyResponse = /*@__PURE__*/ S.suspend(() =>
     VocabularyName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
     VocabularyState: S.optional(VocabularyState),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FailureReason: S.optional(S.String),
     DownloadUri: S.optional(S.String),
   }),
@@ -1857,9 +1799,7 @@ export const GetVocabularyFilterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VocabularyFilterName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DownloadUri: S.optional(S.String),
   }),
 ).annotate({
@@ -1876,14 +1816,7 @@ export const ListCallAnalyticsCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/callanalyticscategories" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/callanalyticscategories" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListCallAnalyticsCategoriesRequest",
@@ -1915,14 +1848,7 @@ export const ListCallAnalyticsJobsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/callanalyticsjobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/callanalyticsjobs" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListCallAnalyticsJobsRequest",
@@ -1952,9 +1878,7 @@ export const CallAnalyticsJobSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "CallAnalyticsJobSummary",
 }) as any as S.Schema<CallAnalyticsJobSummary>;
 export type CallAnalyticsJobSummaries = CallAnalyticsJobSummary[];
-export const CallAnalyticsJobSummaries = /*@__PURE__*/ S.Array(
-  CallAnalyticsJobSummary,
-);
+export const CallAnalyticsJobSummaries = /*@__PURE__*/ S.Array(CallAnalyticsJobSummary);
 export interface ListCallAnalyticsJobsResponse {
   Status?: CallAnalyticsJobStatus;
   NextToken?: string;
@@ -1977,22 +1901,11 @@ export interface ListLanguageModelsRequest {
 }
 export const ListLanguageModelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    StatusEquals: S.optional(ModelStatus).pipe(
-      T.HttpQuery("         StatusEquals"),
-    ),
+    StatusEquals: S.optional(ModelStatus).pipe(T.HttpQuery("         StatusEquals")),
     NameContains: S.optional(S.String).pipe(T.HttpQuery("NameContains")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/languagemodels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/languagemodels" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListLanguageModelsRequest",
 }) as any as S.Schema<ListLanguageModelsRequest>;
@@ -2020,14 +1933,7 @@ export const ListMedicalScribeJobsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/medicalscribejobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/medicalscribejobs" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListMedicalScribeJobsRequest",
@@ -2055,9 +1961,7 @@ export const MedicalScribeJobSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "MedicalScribeJobSummary",
 }) as any as S.Schema<MedicalScribeJobSummary>;
 export type MedicalScribeJobSummaries = MedicalScribeJobSummary[];
-export const MedicalScribeJobSummaries = /*@__PURE__*/ S.Array(
-  MedicalScribeJobSummary,
-);
+export const MedicalScribeJobSummaries = /*@__PURE__*/ S.Array(MedicalScribeJobSummary);
 export interface ListMedicalScribeJobsResponse {
   Status?: MedicalScribeJobStatus;
   NextToken?: string;
@@ -2097,10 +2001,7 @@ export const ListMedicalTranscriptionJobsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListMedicalTranscriptionJobsRequest",
 }) as any as S.Schema<ListMedicalTranscriptionJobsRequest>;
-export type OutputLocationType =
-  | "CUSTOMER_BUCKET"
-  | "SERVICE_BUCKET"
-  | (string & {});
+export type OutputLocationType = "CUSTOMER_BUCKET" | "SERVICE_BUCKET" | (string & {});
 export const OutputLocationType = S.String;
 
 export interface MedicalTranscriptionJobSummary {
@@ -2142,15 +2043,12 @@ export interface ListMedicalTranscriptionJobsResponse {
   NextToken?: string;
   MedicalTranscriptionJobSummaries?: MedicalTranscriptionJobSummary[];
 }
-export const ListMedicalTranscriptionJobsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Status: S.optional(TranscriptionJobStatus),
-      NextToken: S.optional(S.String),
-      MedicalTranscriptionJobSummaries: S.optional(
-        MedicalTranscriptionJobSummaries,
-      ),
-    }),
+export const ListMedicalTranscriptionJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Status: S.optional(TranscriptionJobStatus),
+    NextToken: S.optional(S.String),
+    MedicalTranscriptionJobSummaries: S.optional(MedicalTranscriptionJobSummaries),
+  }),
 ).annotate({
   identifier: "ListMedicalTranscriptionJobsResponse",
 }) as any as S.Schema<ListMedicalTranscriptionJobsResponse>;
@@ -2167,14 +2065,7 @@ export const ListMedicalVocabulariesRequest = /*@__PURE__*/ S.suspend(() =>
     StateEquals: S.optional(VocabularyState).pipe(T.HttpQuery("StateEquals")),
     NameContains: S.optional(S.String).pipe(T.HttpQuery("NameContains")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/medicalvocabularies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/medicalvocabularies" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListMedicalVocabulariesRequest",
@@ -2189,9 +2080,7 @@ export const VocabularyInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VocabularyName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     VocabularyState: S.optional(VocabularyState),
   }),
 ).annotate({ identifier: "VocabularyInfo" }) as any as S.Schema<VocabularyInfo>;
@@ -2217,14 +2106,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2251,14 +2133,7 @@ export const ListTranscriptionJobsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/transcriptionjobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/transcriptionjobs" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTranscriptionJobsRequest",
@@ -2302,9 +2177,7 @@ export const TranscriptionJobSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "TranscriptionJobSummary",
 }) as any as S.Schema<TranscriptionJobSummary>;
 export type TranscriptionJobSummaries = TranscriptionJobSummary[];
-export const TranscriptionJobSummaries = /*@__PURE__*/ S.Array(
-  TranscriptionJobSummary,
-);
+export const TranscriptionJobSummaries = /*@__PURE__*/ S.Array(TranscriptionJobSummary);
 export interface ListTranscriptionJobsResponse {
   Status?: TranscriptionJobStatus;
   NextToken?: string;
@@ -2331,16 +2204,7 @@ export const ListVocabulariesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     StateEquals: S.optional(VocabularyState).pipe(T.HttpQuery("StateEquals")),
     NameContains: S.optional(S.String).pipe(T.HttpQuery("NameContains")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/vocabularies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/vocabularies" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListVocabulariesRequest",
 }) as any as S.Schema<ListVocabulariesRequest>;
@@ -2369,14 +2233,7 @@ export const ListVocabularyFiltersRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NameContains: S.optional(S.String).pipe(T.HttpQuery("NameContains")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/vocabularyFilters" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/vocabularyFilters" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListVocabularyFiltersRequest",
@@ -2390,9 +2247,7 @@ export const VocabularyFilterInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VocabularyFilterName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "VocabularyFilterInfo",
@@ -2458,10 +2313,7 @@ export const StartCallAnalyticsJobResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StartCallAnalyticsJobResponse>;
 export type OutputBucketName = string;
 export type KMSEncryptionContextMap = { [key: string]: string | undefined };
-export const KMSEncryptionContextMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const KMSEncryptionContextMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type Pronouns = "HE_HIM" | "SHE_HER" | "THEY_THEM" | (string & {});
 export const Pronouns = S.String;
 
@@ -2548,9 +2400,7 @@ export interface StartMedicalTranscriptionJobRequest {
 }
 export const StartMedicalTranscriptionJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    MedicalTranscriptionJobName: S.String.pipe(
-      T.HttpLabel("MedicalTranscriptionJobName"),
-    ),
+    MedicalTranscriptionJobName: S.String.pipe(T.HttpLabel("MedicalTranscriptionJobName")),
     LanguageCode: LanguageCode,
     MediaSampleRateHertz: S.optional(S.Number),
     MediaFormat: S.optional(MediaFormat),
@@ -2583,9 +2433,8 @@ export const StartMedicalTranscriptionJobRequest = /*@__PURE__*/ S.suspend(() =>
 export interface StartMedicalTranscriptionJobResponse {
   MedicalTranscriptionJob?: MedicalTranscriptionJob;
 }
-export const StartMedicalTranscriptionJobResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ MedicalTranscriptionJob: S.optional(MedicalTranscriptionJob) }),
+export const StartMedicalTranscriptionJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MedicalTranscriptionJob: S.optional(MedicalTranscriptionJob) }),
 ).annotate({
   identifier: "StartMedicalTranscriptionJobResponse",
 }) as any as S.Schema<StartMedicalTranscriptionJobResponse>;
@@ -2676,22 +2525,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagList,
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2705,22 +2545,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateCallAnalyticsCategoryRequest {
@@ -2790,9 +2621,7 @@ export const UpdateMedicalVocabularyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VocabularyName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     VocabularyState: S.optional(VocabularyState),
   }),
 ).annotate({
@@ -2835,9 +2664,7 @@ export const UpdateVocabularyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VocabularyName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     VocabularyState: S.optional(VocabularyState),
   }),
 ).annotate({
@@ -2880,9 +2707,7 @@ export const UpdateVocabularyFilterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VocabularyFilterName: S.optional(S.String),
     LanguageCode: S.optional(LanguageCode),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "UpdateVocabularyFilterResponse",
@@ -3146,11 +2971,7 @@ export const deleteCallAnalyticsJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCallAnalyticsJobRequest,
   output: DeleteCallAnalyticsJobResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCallAnalyticsJob",
@@ -3174,11 +2995,7 @@ export const deleteLanguageModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteLanguageModelRequest,
   output: DeleteLanguageModelResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLanguageModel",
@@ -3202,11 +3019,7 @@ export const deleteMedicalScribeJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteMedicalScribeJobRequest,
   output: DeleteMedicalScribeJobResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMedicalScribeJob",
@@ -3230,11 +3043,7 @@ export const deleteMedicalTranscriptionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteMedicalTranscriptionJobRequest,
   output: DeleteMedicalTranscriptionJobResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMedicalTranscriptionJob",
@@ -3288,11 +3097,7 @@ export const deleteTranscriptionJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteTranscriptionJobRequest,
   output: DeleteTranscriptionJobResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTranscriptionJob",
@@ -3702,11 +3507,7 @@ export const listCallAnalyticsCategories: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCallAnalyticsCategoriesRequest,
   output: ListCallAnalyticsCategoriesResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCallAnalyticsCategories",
@@ -3737,11 +3538,7 @@ export const listCallAnalyticsJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCallAnalyticsJobsRequest,
   output: ListCallAnalyticsJobsResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCallAnalyticsJobs",
@@ -3772,11 +3569,7 @@ export const listLanguageModels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListLanguageModelsRequest,
   output: ListLanguageModelsResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLanguageModels",
@@ -3807,11 +3600,7 @@ export const listMedicalScribeJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListMedicalScribeJobsRequest,
   output: ListMedicalScribeJobsResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMedicalScribeJobs",
@@ -3842,11 +3631,7 @@ export const listMedicalTranscriptionJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListMedicalTranscriptionJobsRequest,
   output: ListMedicalTranscriptionJobsResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMedicalTranscriptionJobs",
@@ -3877,11 +3662,7 @@ export const listMedicalVocabularies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListMedicalVocabulariesRequest,
   output: ListMedicalVocabulariesResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMedicalVocabularies",
@@ -3944,11 +3725,7 @@ export const listTranscriptionJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTranscriptionJobsRequest,
   output: ListTranscriptionJobsResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTranscriptionJobs",
@@ -3979,11 +3756,7 @@ export const listVocabularies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListVocabulariesRequest,
   output: ListVocabulariesResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVocabularies",
@@ -4014,11 +3787,7 @@ export const listVocabularyFilters: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListVocabularyFiltersRequest,
   output: ListVocabularyFiltersResponse,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    LimitExceededException,
-  ],
+  errors: [BadRequestException, InternalFailureException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVocabularyFilters",

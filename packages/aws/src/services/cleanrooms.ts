@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "CleanRooms",
   serviceShapeName: "AWSBastionControlPlaneServiceLambda",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cleanrooms-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cleanrooms.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cleanrooms.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cleanrooms.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -159,29 +149,26 @@ export interface BatchGetCollaborationAnalysisTemplateInput {
   collaborationIdentifier: string;
   analysisTemplateArns: string[];
 }
-export const BatchGetCollaborationAnalysisTemplateInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      analysisTemplateArns: AnalysisTemplateArnList,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/collaborations/{collaborationIdentifier}/batch-analysistemplates",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchGetCollaborationAnalysisTemplateInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    analysisTemplateArns: AnalysisTemplateArnList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/collaborations/{collaborationIdentifier}/batch-analysistemplates",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "BatchGetCollaborationAnalysisTemplateInput",
-  }) as any as S.Schema<BatchGetCollaborationAnalysisTemplateInput>;
+  ),
+).annotate({
+  identifier: "BatchGetCollaborationAnalysisTemplateInput",
+}) as any as S.Schema<BatchGetCollaborationAnalysisTemplateInput>;
 export type AnalysisTemplateIdentifier = string;
 export type UUID = string;
 export type CollaborationArn = string;
@@ -217,9 +204,7 @@ export const AnalysisTemplateArtifact = /*@__PURE__*/ S.suspend(() =>
   identifier: "AnalysisTemplateArtifact",
 }) as any as S.Schema<AnalysisTemplateArtifact>;
 export type AnalysisTemplateArtifactList = AnalysisTemplateArtifact[];
-export const AnalysisTemplateArtifactList = /*@__PURE__*/ S.Array(
-  AnalysisTemplateArtifact,
-);
+export const AnalysisTemplateArtifactList = /*@__PURE__*/ S.Array(AnalysisTemplateArtifact);
 export type RoleArn = string;
 export interface AnalysisTemplateArtifacts {
   entryPoint: AnalysisTemplateArtifact;
@@ -318,9 +303,7 @@ export const AnalysisParameter = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AnalysisParameter>;
 export type AnalysisParameterList = AnalysisParameter[];
 export const AnalysisParameterList = /*@__PURE__*/ S.Array(AnalysisParameter);
-export type AnalysisTemplateValidationType =
-  | "DIFFERENTIAL_PRIVACY"
-  | (string & {});
+export type AnalysisTemplateValidationType = "DIFFERENTIAL_PRIVACY" | (string & {});
 export const AnalysisTemplateValidationType = S.String;
 
 export type AnalysisTemplateValidationStatus =
@@ -333,13 +316,12 @@ export const AnalysisTemplateValidationStatus = S.String;
 export interface AnalysisTemplateValidationStatusReason {
   message: string;
 }
-export const AnalysisTemplateValidationStatusReason = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ message: S.String }),
+export const AnalysisTemplateValidationStatusReason = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ message: S.String }),
 ).annotate({
   identifier: "AnalysisTemplateValidationStatusReason",
 }) as any as S.Schema<AnalysisTemplateValidationStatusReason>;
-export type AnalysisTemplateValidationStatusReasonList =
-  AnalysisTemplateValidationStatusReason[];
+export type AnalysisTemplateValidationStatusReasonList = AnalysisTemplateValidationStatusReason[];
 export const AnalysisTemplateValidationStatusReasonList = /*@__PURE__*/ S.Array(
   AnalysisTemplateValidationStatusReason,
 );
@@ -348,18 +330,16 @@ export interface AnalysisTemplateValidationStatusDetail {
   status: AnalysisTemplateValidationStatus;
   reasons?: AnalysisTemplateValidationStatusReason[];
 }
-export const AnalysisTemplateValidationStatusDetail = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      type: AnalysisTemplateValidationType,
-      status: AnalysisTemplateValidationStatus,
-      reasons: S.optional(AnalysisTemplateValidationStatusReasonList),
-    }),
+export const AnalysisTemplateValidationStatusDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: AnalysisTemplateValidationType,
+    status: AnalysisTemplateValidationStatus,
+    reasons: S.optional(AnalysisTemplateValidationStatusReasonList),
+  }),
 ).annotate({
   identifier: "AnalysisTemplateValidationStatusDetail",
 }) as any as S.Schema<AnalysisTemplateValidationStatusDetail>;
-export type AnalysisTemplateValidationStatusDetailList =
-  AnalysisTemplateValidationStatusDetail[];
+export type AnalysisTemplateValidationStatusDetailList = AnalysisTemplateValidationStatusDetail[];
 export const AnalysisTemplateValidationStatusDetailList = /*@__PURE__*/ S.Array(
   AnalysisTemplateValidationStatusDetail,
 );
@@ -376,10 +356,7 @@ export const ErrorMessageConfiguration = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ErrorMessageConfiguration>;
 export type MaxMembershipInferenceAttackScore = number;
 export type SyntheticDataColumnName = string;
-export type SyntheticDataColumnType =
-  | "CATEGORICAL"
-  | "NUMERICAL"
-  | (string & {});
+export type SyntheticDataColumnType = "CATEGORICAL" | "NUMERICAL" | (string & {});
 export const SyntheticDataColumnType = S.String;
 
 export interface SyntheticDataColumnProperties {
@@ -397,9 +374,7 @@ export const SyntheticDataColumnProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "SyntheticDataColumnProperties",
 }) as any as S.Schema<SyntheticDataColumnProperties>;
 export type ColumnMappingList = SyntheticDataColumnProperties[];
-export const ColumnMappingList = /*@__PURE__*/ S.Array(
-  SyntheticDataColumnProperties,
-);
+export const ColumnMappingList = /*@__PURE__*/ S.Array(SyntheticDataColumnProperties);
 export interface ColumnClassificationDetails {
   columnMapping: SyntheticDataColumnProperties[];
 }
@@ -479,29 +454,28 @@ export interface BatchGetCollaborationAnalysisTemplateError_ {
   code: string;
   message: string;
 }
-export const BatchGetCollaborationAnalysisTemplateError_ =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ arn: S.String, code: S.String, message: S.String }),
-  ).annotate({
-    identifier: "BatchGetCollaborationAnalysisTemplateError",
-  }) as any as S.Schema<BatchGetCollaborationAnalysisTemplateError_>;
+export const BatchGetCollaborationAnalysisTemplateError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ arn: S.String, code: S.String, message: S.String }),
+).annotate({
+  identifier: "BatchGetCollaborationAnalysisTemplateError",
+}) as any as S.Schema<BatchGetCollaborationAnalysisTemplateError_>;
 export type BatchGetCollaborationAnalysisTemplateErrorList =
   BatchGetCollaborationAnalysisTemplateError_[];
-export const BatchGetCollaborationAnalysisTemplateErrorList =
-  /*@__PURE__*/ S.Array(BatchGetCollaborationAnalysisTemplateError_);
+export const BatchGetCollaborationAnalysisTemplateErrorList = /*@__PURE__*/ S.Array(
+  BatchGetCollaborationAnalysisTemplateError_,
+);
 export interface BatchGetCollaborationAnalysisTemplateOutput {
   collaborationAnalysisTemplates: CollaborationAnalysisTemplate[];
   errors: BatchGetCollaborationAnalysisTemplateError_[];
 }
-export const BatchGetCollaborationAnalysisTemplateOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      collaborationAnalysisTemplates: CollaborationAnalysisTemplateList,
-      errors: BatchGetCollaborationAnalysisTemplateErrorList,
-    }),
-  ).annotate({
-    identifier: "BatchGetCollaborationAnalysisTemplateOutput",
-  }) as any as S.Schema<BatchGetCollaborationAnalysisTemplateOutput>;
+export const BatchGetCollaborationAnalysisTemplateOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationAnalysisTemplates: CollaborationAnalysisTemplateList,
+    errors: BatchGetCollaborationAnalysisTemplateErrorList,
+  }),
+).annotate({
+  identifier: "BatchGetCollaborationAnalysisTemplateOutput",
+}) as any as S.Schema<BatchGetCollaborationAnalysisTemplateOutput>;
 export type TableAliasList = string[];
 export const TableAliasList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetSchemaInput {
@@ -510,9 +484,7 @@ export interface BatchGetSchemaInput {
 }
 export const BatchGetSchemaInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
     names: TableAliasList,
   }).pipe(
     T.all(
@@ -551,29 +523,16 @@ export const AnalysisRuleType = S.String;
 
 export type AnalysisRuleTypeList = AnalysisRuleType[];
 export const AnalysisRuleTypeList = /*@__PURE__*/ S.Array(AnalysisRuleType);
-export type AnalysisMethod =
-  | "DIRECT_QUERY"
-  | "DIRECT_JOB"
-  | "MULTIPLE"
-  | (string & {});
+export type AnalysisMethod = "DIRECT_QUERY" | "DIRECT_JOB" | "MULTIPLE" | (string & {});
 export const AnalysisMethod = S.String;
 
-export type SelectedAnalysisMethod =
-  | "DIRECT_QUERY"
-  | "DIRECT_JOB"
-  | (string & {});
+export type SelectedAnalysisMethod = "DIRECT_QUERY" | "DIRECT_JOB" | (string & {});
 export const SelectedAnalysisMethod = S.String;
 
 export type SelectedAnalysisMethods = SelectedAnalysisMethod[];
-export const SelectedAnalysisMethods = /*@__PURE__*/ S.Array(
-  SelectedAnalysisMethod,
-);
+export const SelectedAnalysisMethods = /*@__PURE__*/ S.Array(SelectedAnalysisMethod);
 export type TableDescription = string;
-export type SchemaType =
-  | "TABLE"
-  | "ID_MAPPING_TABLE"
-  | "INTERMEDIATE_TABLE"
-  | (string & {});
+export type SchemaType = "TABLE" | "ID_MAPPING_TABLE" | "INTERMEDIATE_TABLE" | (string & {});
 export const SchemaType = S.String;
 
 export type SchemaStatus = "READY" | "NOT_READY" | (string & {});
@@ -615,12 +574,8 @@ export type SchemaConfiguration = "DIFFERENTIAL_PRIVACY" | (string & {});
 export const SchemaConfiguration = S.String;
 
 export type SchemaConfigurationList = SchemaConfiguration[];
-export const SchemaConfigurationList =
-  /*@__PURE__*/ S.Array(SchemaConfiguration);
-export type AnalysisType =
-  | "DIRECT_ANALYSIS"
-  | "ADDITIONAL_ANALYSIS"
-  | (string & {});
+export const SchemaConfigurationList = /*@__PURE__*/ S.Array(SchemaConfiguration);
+export type AnalysisType = "DIRECT_ANALYSIS" | "ADDITIONAL_ANALYSIS" | (string & {});
 export const AnalysisType = S.String;
 
 export interface SchemaStatusDetail {
@@ -657,9 +612,7 @@ export const IdMappingTableInputSource = /*@__PURE__*/ S.suspend(() =>
   identifier: "IdMappingTableInputSource",
 }) as any as S.Schema<IdMappingTableInputSource>;
 export type IdMappingTableInputSourceList = IdMappingTableInputSource[];
-export const IdMappingTableInputSourceList = /*@__PURE__*/ S.Array(
-  IdMappingTableInputSource,
-);
+export const IdMappingTableInputSourceList = /*@__PURE__*/ S.Array(IdMappingTableInputSource);
 export interface IdMappingTableSchemaTypeProperties {
   idMappingTableInputSource: IdMappingTableInputSource[];
   idMappingTableId?: string;
@@ -675,20 +628,19 @@ export const IdMappingTableSchemaTypeProperties = /*@__PURE__*/ S.suspend(() =>
 export interface IntermediateTableSchemaTypeProperties {
   intermediateTableId: string;
 }
-export const IntermediateTableSchemaTypeProperties = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ intermediateTableId: S.String }),
+export const IntermediateTableSchemaTypeProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ intermediateTableId: S.String }),
 ).annotate({
   identifier: "IntermediateTableSchemaTypeProperties",
 }) as any as S.Schema<IntermediateTableSchemaTypeProperties>;
 export interface ConfiguredTableAssociationSchemaTypeProperties {
   configuredTableAssociationId: string;
 }
-export const ConfiguredTableAssociationSchemaTypeProperties =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ configuredTableAssociationId: S.String }),
-  ).annotate({
-    identifier: "ConfiguredTableAssociationSchemaTypeProperties",
-  }) as any as S.Schema<ConfiguredTableAssociationSchemaTypeProperties>;
+export const ConfiguredTableAssociationSchemaTypeProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ configuredTableAssociationId: S.String }),
+).annotate({
+  identifier: "ConfiguredTableAssociationSchemaTypeProperties",
+}) as any as S.Schema<ConfiguredTableAssociationSchemaTypeProperties>;
 export type SchemaTypeProperties =
   | {
       idMappingTable: IdMappingTableSchemaTypeProperties;
@@ -763,8 +715,7 @@ export const BatchGetSchemaError_ = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetSchemaError",
 }) as any as S.Schema<BatchGetSchemaError_>;
 export type BatchGetSchemaErrorList = BatchGetSchemaError_[];
-export const BatchGetSchemaErrorList =
-  /*@__PURE__*/ S.Array(BatchGetSchemaError_);
+export const BatchGetSchemaErrorList = /*@__PURE__*/ S.Array(BatchGetSchemaError_);
 export interface BatchGetSchemaOutput {
   schemas: Schema[];
   errors: BatchGetSchemaError_[];
@@ -784,18 +735,14 @@ export const SchemaAnalysisRuleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SchemaAnalysisRuleRequest",
 }) as any as S.Schema<SchemaAnalysisRuleRequest>;
 export type SchemaAnalysisRuleRequestList = SchemaAnalysisRuleRequest[];
-export const SchemaAnalysisRuleRequestList = /*@__PURE__*/ S.Array(
-  SchemaAnalysisRuleRequest,
-);
+export const SchemaAnalysisRuleRequestList = /*@__PURE__*/ S.Array(SchemaAnalysisRuleRequest);
 export interface BatchGetSchemaAnalysisRuleInput {
   collaborationIdentifier: string;
   schemaAnalysisRuleRequests: SchemaAnalysisRuleRequest[];
 }
 export const BatchGetSchemaAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
     schemaAnalysisRuleRequests: SchemaAnalysisRuleRequestList,
   }).pipe(
     T.all(
@@ -819,11 +766,7 @@ export const AnalysisRuleColumnList = /*@__PURE__*/ S.Array(S.String);
 export type JoinOperator = string;
 export type JoinOperatorsList = string[];
 export const JoinOperatorsList = /*@__PURE__*/ S.Array(S.String);
-export type AdditionalAnalyses =
-  | "ALLOWED"
-  | "REQUIRED"
-  | "NOT_ALLOWED"
-  | (string & {});
+export type AdditionalAnalyses = "ALLOWED" | "REQUIRED" | "NOT_ALLOWED" | (string & {});
 export const AdditionalAnalyses = S.String;
 
 export interface AnalysisRuleList {
@@ -872,9 +815,7 @@ export const AggregationConstraint = /*@__PURE__*/ S.suspend(() =>
   identifier: "AggregationConstraint",
 }) as any as S.Schema<AggregationConstraint>;
 export type AggregationConstraints = AggregationConstraint[];
-export const AggregationConstraints = /*@__PURE__*/ S.Array(
-  AggregationConstraint,
-);
+export const AggregationConstraints = /*@__PURE__*/ S.Array(AggregationConstraint);
 export interface AnalysisRuleAggregation {
   aggregateColumns: AggregateColumn[];
   joinColumns: string[];
@@ -913,9 +854,7 @@ export const DifferentialPrivacyColumn = /*@__PURE__*/ S.suspend(() =>
   identifier: "DifferentialPrivacyColumn",
 }) as any as S.Schema<DifferentialPrivacyColumn>;
 export type DifferentialPrivacyColumnList = DifferentialPrivacyColumn[];
-export const DifferentialPrivacyColumnList = /*@__PURE__*/ S.Array(
-  DifferentialPrivacyColumn,
-);
+export const DifferentialPrivacyColumnList = /*@__PURE__*/ S.Array(DifferentialPrivacyColumn);
 export interface DifferentialPrivacyConfiguration {
   columns: DifferentialPrivacyColumn[];
 }
@@ -937,13 +876,8 @@ export const OutputColumnThreshold = /*@__PURE__*/ S.suspend(() =>
   identifier: "OutputColumnThreshold",
 }) as any as S.Schema<OutputColumnThreshold>;
 export type OutputColumnThresholdList = OutputColumnThreshold[];
-export const OutputColumnThresholdList = /*@__PURE__*/ S.Array(
-  OutputColumnThreshold,
-);
-export type AllowedAggregateExpressionType =
-  | "COLUMNS_ONLY"
-  | "ANY_EXPRESSION"
-  | (string & {});
+export const OutputColumnThresholdList = /*@__PURE__*/ S.Array(OutputColumnThreshold);
+export type AllowedAggregateExpressionType = "COLUMNS_ONLY" | "ANY_EXPRESSION" | (string & {});
 export const AllowedAggregateExpressionType = S.String;
 
 export interface AggregationThreshold {
@@ -965,8 +899,7 @@ export const AggregationThreshold = /*@__PURE__*/ S.suspend(() =>
   identifier: "AggregationThreshold",
 }) as any as S.Schema<AggregationThreshold>;
 export type AggregationThresholdList = AggregationThreshold[];
-export const AggregationThresholdList =
-  /*@__PURE__*/ S.Array(AggregationThreshold);
+export const AggregationThresholdList = /*@__PURE__*/ S.Array(AggregationThreshold);
 export interface ComparisonControls {
   allowedLiteralComparisonColumns: string[];
   allowedColumnComparisonColumns: string[];
@@ -1070,48 +1003,43 @@ export const AnalysisRulePolicyV1 = /*@__PURE__*/ S.Union([
   S.Struct({ idMappingTable: AnalysisRuleIdMappingTable }),
 ]);
 export type AnalysisRulePolicy = { v1: AnalysisRulePolicyV1 };
-export const AnalysisRulePolicy = /*@__PURE__*/ S.Union([
-  S.Struct({ v1: AnalysisRulePolicyV1 }),
-]);
+export const AnalysisRulePolicy = /*@__PURE__*/ S.Union([S.Struct({ v1: AnalysisRulePolicyV1 })]);
 export interface ConfiguredTableAssociationAnalysisRuleList {
   allowedResultReceivers?: string[];
   allowedAdditionalAnalyses?: string[];
 }
-export const ConfiguredTableAssociationAnalysisRuleList =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      allowedResultReceivers: S.optional(AllowedResultReceivers),
-      allowedAdditionalAnalyses: S.optional(AllowedAdditionalAnalyses),
-    }),
-  ).annotate({
-    identifier: "ConfiguredTableAssociationAnalysisRuleList",
-  }) as any as S.Schema<ConfiguredTableAssociationAnalysisRuleList>;
+export const ConfiguredTableAssociationAnalysisRuleList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedResultReceivers: S.optional(AllowedResultReceivers),
+    allowedAdditionalAnalyses: S.optional(AllowedAdditionalAnalyses),
+  }),
+).annotate({
+  identifier: "ConfiguredTableAssociationAnalysisRuleList",
+}) as any as S.Schema<ConfiguredTableAssociationAnalysisRuleList>;
 export interface ConfiguredTableAssociationAnalysisRuleAggregation {
   allowedResultReceivers?: string[];
   allowedAdditionalAnalyses?: string[];
 }
-export const ConfiguredTableAssociationAnalysisRuleAggregation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      allowedResultReceivers: S.optional(AllowedResultReceivers),
-      allowedAdditionalAnalyses: S.optional(AllowedAdditionalAnalyses),
-    }),
-  ).annotate({
-    identifier: "ConfiguredTableAssociationAnalysisRuleAggregation",
-  }) as any as S.Schema<ConfiguredTableAssociationAnalysisRuleAggregation>;
+export const ConfiguredTableAssociationAnalysisRuleAggregation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedResultReceivers: S.optional(AllowedResultReceivers),
+    allowedAdditionalAnalyses: S.optional(AllowedAdditionalAnalyses),
+  }),
+).annotate({
+  identifier: "ConfiguredTableAssociationAnalysisRuleAggregation",
+}) as any as S.Schema<ConfiguredTableAssociationAnalysisRuleAggregation>;
 export interface ConfiguredTableAssociationAnalysisRuleCustom {
   allowedResultReceivers?: string[];
   allowedAdditionalAnalyses?: string[];
 }
-export const ConfiguredTableAssociationAnalysisRuleCustom =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      allowedResultReceivers: S.optional(AllowedResultReceivers),
-      allowedAdditionalAnalyses: S.optional(AllowedAdditionalAnalyses),
-    }),
-  ).annotate({
-    identifier: "ConfiguredTableAssociationAnalysisRuleCustom",
-  }) as any as S.Schema<ConfiguredTableAssociationAnalysisRuleCustom>;
+export const ConfiguredTableAssociationAnalysisRuleCustom = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedResultReceivers: S.optional(AllowedResultReceivers),
+    allowedAdditionalAnalyses: S.optional(AllowedAdditionalAnalyses),
+  }),
+).annotate({
+  identifier: "ConfiguredTableAssociationAnalysisRuleCustom",
+}) as any as S.Schema<ConfiguredTableAssociationAnalysisRuleCustom>;
 export type ConfiguredTableAssociationAnalysisRulePolicyV1 =
   | {
       list: ConfiguredTableAssociationAnalysisRuleList;
@@ -1128,21 +1056,19 @@ export type ConfiguredTableAssociationAnalysisRulePolicyV1 =
       aggregation?: never;
       custom: ConfiguredTableAssociationAnalysisRuleCustom;
     };
-export const ConfiguredTableAssociationAnalysisRulePolicyV1 =
-  /*@__PURE__*/ S.Union([
-    S.Struct({ list: ConfiguredTableAssociationAnalysisRuleList }),
-    S.Struct({
-      aggregation: ConfiguredTableAssociationAnalysisRuleAggregation,
-    }),
-    S.Struct({ custom: ConfiguredTableAssociationAnalysisRuleCustom }),
-  ]);
+export const ConfiguredTableAssociationAnalysisRulePolicyV1 = /*@__PURE__*/ S.Union([
+  S.Struct({ list: ConfiguredTableAssociationAnalysisRuleList }),
+  S.Struct({
+    aggregation: ConfiguredTableAssociationAnalysisRuleAggregation,
+  }),
+  S.Struct({ custom: ConfiguredTableAssociationAnalysisRuleCustom }),
+]);
 export type ConfiguredTableAssociationAnalysisRulePolicy = {
   v1: ConfiguredTableAssociationAnalysisRulePolicyV1;
 };
-export const ConfiguredTableAssociationAnalysisRulePolicy =
-  /*@__PURE__*/ S.Union([
-    S.Struct({ v1: ConfiguredTableAssociationAnalysisRulePolicyV1 }),
-  ]);
+export const ConfiguredTableAssociationAnalysisRulePolicy = /*@__PURE__*/ S.Union([
+  S.Struct({ v1: ConfiguredTableAssociationAnalysisRulePolicyV1 }),
+]);
 export interface ConsolidatedPolicyList {
   joinColumns: string[];
   allowedJoinOperators?: string[];
@@ -1227,9 +1153,7 @@ export const ConsolidatedPolicyV1 = /*@__PURE__*/ S.Union([
   S.Struct({ custom: ConsolidatedPolicyCustom }),
 ]);
 export type ConsolidatedPolicy = { v1: ConsolidatedPolicyV1 };
-export const ConsolidatedPolicy = /*@__PURE__*/ S.Union([
-  S.Struct({ v1: ConsolidatedPolicyV1 }),
-]);
+export const ConsolidatedPolicy = /*@__PURE__*/ S.Union([S.Struct({ v1: ConsolidatedPolicyV1 })]);
 export interface AnalysisRule {
   collaborationId: string;
   type: AnalysisRuleType;
@@ -1248,9 +1172,7 @@ export const AnalysisRule = /*@__PURE__*/ S.suspend(() =>
     createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     policy: AnalysisRulePolicy,
-    collaborationPolicy: S.optional(
-      ConfiguredTableAssociationAnalysisRulePolicy,
-    ),
+    collaborationPolicy: S.optional(ConfiguredTableAssociationAnalysisRulePolicy),
     consolidatedPolicy: S.optional(ConsolidatedPolicy),
   }),
 ).annotate({ identifier: "AnalysisRule" }) as any as S.Schema<AnalysisRule>;
@@ -1272,8 +1194,7 @@ export const BatchGetSchemaAnalysisRuleError_ = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BatchGetSchemaAnalysisRuleError",
 }) as any as S.Schema<BatchGetSchemaAnalysisRuleError_>;
-export type BatchGetSchemaAnalysisRuleErrorList =
-  BatchGetSchemaAnalysisRuleError_[];
+export type BatchGetSchemaAnalysisRuleErrorList = BatchGetSchemaAnalysisRuleError_[];
 export const BatchGetSchemaAnalysisRuleErrorList = /*@__PURE__*/ S.Array(
   BatchGetSchemaAnalysisRuleError_,
 );
@@ -1293,10 +1214,7 @@ export type MembershipIdentifier = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateAnalysisTemplateInput {
   description?: string;
   membershipIdentifier: string;
@@ -1407,9 +1325,7 @@ export type CustomMLMemberAbility =
 export const CustomMLMemberAbility = S.String;
 
 export type CustomMLMemberAbilities = CustomMLMemberAbility[];
-export const CustomMLMemberAbilities = /*@__PURE__*/ S.Array(
-  CustomMLMemberAbility,
-);
+export const CustomMLMemberAbilities = /*@__PURE__*/ S.Array(CustomMLMemberAbility);
 export interface MLMemberAbilities {
   customMLMemberAbilities: CustomMLMemberAbility[];
 }
@@ -1446,8 +1362,8 @@ export const ModelInferencePaymentConfig = /*@__PURE__*/ S.suspend(() =>
 export interface SyntheticDataGenerationPaymentConfig {
   isResponsible: boolean;
 }
-export const SyntheticDataGenerationPaymentConfig = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ isResponsible: S.Boolean }),
+export const SyntheticDataGenerationPaymentConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ isResponsible: S.Boolean }),
 ).annotate({
   identifier: "SyntheticDataGenerationPaymentConfig",
 }) as any as S.Schema<SyntheticDataGenerationPaymentConfig>;
@@ -1525,10 +1441,7 @@ export const DataEncryptionMetadata = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DataEncryptionMetadata",
 }) as any as S.Schema<DataEncryptionMetadata>;
-export type CollaborationQueryLogStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type CollaborationQueryLogStatus = "ENABLED" | "DISABLED" | (string & {});
 export const CollaborationQueryLogStatus = S.String;
 
 export type CollaborationJobLogStatus = "ENABLED" | "DISABLED" | (string & {});
@@ -1547,9 +1460,7 @@ export type AutoApprovedChangeType =
 export const AutoApprovedChangeType = S.String;
 
 export type AutoApprovedChangeTypeList = AutoApprovedChangeType[];
-export const AutoApprovedChangeTypeList = /*@__PURE__*/ S.Array(
-  AutoApprovedChangeType,
-);
+export const AutoApprovedChangeTypeList = /*@__PURE__*/ S.Array(AutoApprovedChangeType);
 export type SupportedS3Region =
   | "us-west-1"
   | "us-west-2"
@@ -1623,16 +1534,7 @@ export const CreateCollaborationInput = /*@__PURE__*/ S.suspend(() =>
     autoApprovedChangeRequestTypes: S.optional(AutoApprovedChangeTypeList),
     allowedResultRegions: S.optional(AllowedResultRegions),
     isMetricsEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/collaborations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/collaborations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateCollaborationInput",
 }) as any as S.Schema<CreateCollaborationInput>;
@@ -1687,10 +1589,7 @@ export const CreateCollaborationOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateCollaborationOutput",
 }) as any as S.Schema<CreateCollaborationOutput>;
-export type ChangeSpecificationType =
-  | "MEMBER"
-  | "COLLABORATION"
-  | (string & {});
+export type ChangeSpecificationType = "MEMBER" | "COLLABORATION" | (string & {});
 export const ChangeSpecificationType = S.String;
 
 export interface MemberChangeSpecification {
@@ -1742,26 +1641,23 @@ export interface CreateCollaborationChangeRequestInput {
   collaborationIdentifier: string;
   changes: ChangeInput[];
 }
-export const CreateCollaborationChangeRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      changes: ChangeInputList,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/collaborations/{collaborationIdentifier}/changeRequests",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateCollaborationChangeRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    changes: ChangeInputList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/collaborations/{collaborationIdentifier}/changeRequests",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateCollaborationChangeRequestInput",
 }) as any as S.Schema<CreateCollaborationChangeRequestInput>;
@@ -1851,8 +1747,8 @@ export const CollaborationChangeRequest = /*@__PURE__*/ S.suspend(() =>
 export interface CreateCollaborationChangeRequestOutput {
   collaborationChangeRequest: CollaborationChangeRequest;
 }
-export const CreateCollaborationChangeRequestOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ collaborationChangeRequest: CollaborationChangeRequest }),
+export const CreateCollaborationChangeRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ collaborationChangeRequest: CollaborationChangeRequest }),
 ).annotate({
   identifier: "CreateCollaborationChangeRequestOutput",
 }) as any as S.Schema<CreateCollaborationChangeRequestOutput>;
@@ -1866,31 +1762,30 @@ export interface CreateConfiguredAudienceModelAssociationInput {
   tags?: { [key: string]: string | undefined };
   description?: string;
 }
-export const CreateConfiguredAudienceModelAssociationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      configuredAudienceModelArn: S.String,
-      configuredAudienceModelAssociationName: S.String,
-      manageResourcePolicies: S.Boolean,
-      tags: S.optional(TagMap),
-      description: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/memberships/{membershipIdentifier}/configuredaudiencemodelassociations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateConfiguredAudienceModelAssociationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    configuredAudienceModelArn: S.String,
+    configuredAudienceModelAssociationName: S.String,
+    manageResourcePolicies: S.Boolean,
+    tags: S.optional(TagMap),
+    description: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memberships/{membershipIdentifier}/configuredaudiencemodelassociations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "CreateConfiguredAudienceModelAssociationInput",
-  }) as any as S.Schema<CreateConfiguredAudienceModelAssociationInput>;
+  ),
+).annotate({
+  identifier: "CreateConfiguredAudienceModelAssociationInput",
+}) as any as S.Schema<CreateConfiguredAudienceModelAssociationInput>;
 export type ConfiguredAudienceModelAssociationIdentifier = string;
 export type ConfiguredAudienceModelAssociationArn = string;
 export interface ConfiguredAudienceModelAssociation {
@@ -1928,14 +1823,13 @@ export const ConfiguredAudienceModelAssociation = /*@__PURE__*/ S.suspend(() =>
 export interface CreateConfiguredAudienceModelAssociationOutput {
   configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation;
 }
-export const CreateConfiguredAudienceModelAssociationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation,
-    }),
-  ).annotate({
-    identifier: "CreateConfiguredAudienceModelAssociationOutput",
-  }) as any as S.Schema<CreateConfiguredAudienceModelAssociationOutput>;
+export const CreateConfiguredAudienceModelAssociationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation,
+  }),
+).annotate({
+  identifier: "CreateConfiguredAudienceModelAssociationOutput",
+}) as any as S.Schema<CreateConfiguredAudienceModelAssociationOutput>;
 export type CommercialRegion =
   | "us-west-1"
   | "us-west-2"
@@ -2004,9 +1898,7 @@ export const SnowflakeTableSchemaV1 = /*@__PURE__*/ S.suspend(() =>
   identifier: "SnowflakeTableSchemaV1",
 }) as any as S.Schema<SnowflakeTableSchemaV1>;
 export type SnowflakeTableSchemaList = SnowflakeTableSchemaV1[];
-export const SnowflakeTableSchemaList = /*@__PURE__*/ S.Array(
-  SnowflakeTableSchemaV1,
-);
+export const SnowflakeTableSchemaList = /*@__PURE__*/ S.Array(SnowflakeTableSchemaV1);
 export type SnowflakeTableSchema = { v1: SnowflakeTableSchemaV1[] };
 export const SnowflakeTableSchema = /*@__PURE__*/ S.Union([
   S.Struct({ v1: SnowflakeTableSchemaList }),
@@ -2086,28 +1978,16 @@ export const CreateConfiguredTableInput = /*@__PURE__*/ S.suspend(() =>
     selectedAnalysisMethods: S.optional(SelectedAnalysisMethods),
     tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/configuredTables" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/configuredTables" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateConfiguredTableInput",
 }) as any as S.Schema<CreateConfiguredTableInput>;
 export type ConfiguredTableArn = string;
-export type ConfiguredTableAnalysisRuleType =
-  | "AGGREGATION"
-  | "LIST"
-  | "CUSTOM"
-  | (string & {});
+export type ConfiguredTableAnalysisRuleType = "AGGREGATION" | "LIST" | "CUSTOM" | (string & {});
 export const ConfiguredTableAnalysisRuleType = S.String;
 
-export type ConfiguredTableAnalysisRuleTypeList =
-  ConfiguredTableAnalysisRuleType[];
+export type ConfiguredTableAnalysisRuleTypeList = ConfiguredTableAnalysisRuleType[];
 export const ConfiguredTableAnalysisRuleTypeList = /*@__PURE__*/ S.Array(
   ConfiguredTableAnalysisRuleType,
 );
@@ -2170,27 +2050,24 @@ export interface CreateConfiguredTableAnalysisRuleInput {
   analysisRuleType: ConfiguredTableAnalysisRuleType;
   analysisRulePolicy: ConfiguredTableAnalysisRulePolicy;
 }
-export const CreateConfiguredTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      configuredTableIdentifier: S.String.pipe(
-        T.HttpLabel("configuredTableIdentifier"),
-      ),
-      analysisRuleType: ConfiguredTableAnalysisRuleType,
-      analysisRulePolicy: ConfiguredTableAnalysisRulePolicy,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/configuredTables/{configuredTableIdentifier}/analysisRule",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateConfiguredTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredTableIdentifier: S.String.pipe(T.HttpLabel("configuredTableIdentifier")),
+    analysisRuleType: ConfiguredTableAnalysisRuleType,
+    analysisRulePolicy: ConfiguredTableAnalysisRulePolicy,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/configuredTables/{configuredTableIdentifier}/analysisRule",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateConfiguredTableAnalysisRuleInput",
 }) as any as S.Schema<CreateConfiguredTableAnalysisRuleInput>;
@@ -2217,8 +2094,8 @@ export const ConfiguredTableAnalysisRule = /*@__PURE__*/ S.suspend(() =>
 export interface CreateConfiguredTableAnalysisRuleOutput {
   analysisRule: ConfiguredTableAnalysisRule;
 }
-export const CreateConfiguredTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ analysisRule: ConfiguredTableAnalysisRule }),
+export const CreateConfiguredTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisRule: ConfiguredTableAnalysisRule }),
 ).annotate({
   identifier: "CreateConfiguredTableAnalysisRuleOutput",
 }) as any as S.Schema<CreateConfiguredTableAnalysisRuleOutput>;
@@ -2230,28 +2107,27 @@ export interface CreateConfiguredTableAssociationInput {
   roleArn: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateConfiguredTableAssociationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      description: S.optional(S.String),
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      configuredTableIdentifier: S.String,
-      roleArn: S.String,
-      tags: S.optional(TagMap),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/memberships/{membershipIdentifier}/configuredTableAssociations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateConfiguredTableAssociationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    configuredTableIdentifier: S.String,
+    roleArn: S.String,
+    tags: S.optional(TagMap),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memberships/{membershipIdentifier}/configuredTableAssociations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateConfiguredTableAssociationInput",
 }) as any as S.Schema<CreateConfiguredTableAssociationInput>;
@@ -2265,8 +2141,9 @@ export const ConfiguredTableAssociationAnalysisRuleType = S.String;
 
 export type ConfiguredTableAssociationAnalysisRuleTypeList =
   ConfiguredTableAssociationAnalysisRuleType[];
-export const ConfiguredTableAssociationAnalysisRuleTypeList =
-  /*@__PURE__*/ S.Array(ConfiguredTableAssociationAnalysisRuleType);
+export const ConfiguredTableAssociationAnalysisRuleTypeList = /*@__PURE__*/ S.Array(
+  ConfiguredTableAssociationAnalysisRuleType,
+);
 export type ChildResourceType = "INTERMEDIATE_TABLE" | (string & {});
 export const ChildResourceType = S.String;
 
@@ -2325,9 +2202,7 @@ export const ConfiguredTableAssociation = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.String,
     name: S.String,
     description: S.optional(S.String),
-    analysisRuleTypes: S.optional(
-      ConfiguredTableAssociationAnalysisRuleTypeList,
-    ),
+    analysisRuleTypes: S.optional(ConfiguredTableAssociationAnalysisRuleTypeList),
     createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     childResources: S.optional(ChildResourceList),
@@ -2338,8 +2213,8 @@ export const ConfiguredTableAssociation = /*@__PURE__*/ S.suspend(() =>
 export interface CreateConfiguredTableAssociationOutput {
   configuredTableAssociation: ConfiguredTableAssociation;
 }
-export const CreateConfiguredTableAssociationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ configuredTableAssociation: ConfiguredTableAssociation }),
+export const CreateConfiguredTableAssociationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ configuredTableAssociation: ConfiguredTableAssociation }),
 ).annotate({
   identifier: "CreateConfiguredTableAssociationOutput",
 }) as any as S.Schema<CreateConfiguredTableAssociationOutput>;
@@ -2350,31 +2225,30 @@ export interface CreateConfiguredTableAssociationAnalysisRuleInput {
   analysisRuleType: ConfiguredTableAssociationAnalysisRuleType;
   analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy;
 }
-export const CreateConfiguredTableAssociationAnalysisRuleInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      configuredTableAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("configuredTableAssociationIdentifier"),
-      ),
-      analysisRuleType: ConfiguredTableAssociationAnalysisRuleType,
-      analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateConfiguredTableAssociationAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
     ),
-  ).annotate({
-    identifier: "CreateConfiguredTableAssociationAnalysisRuleInput",
-  }) as any as S.Schema<CreateConfiguredTableAssociationAnalysisRuleInput>;
+    analysisRuleType: ConfiguredTableAssociationAnalysisRuleType,
+    analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "CreateConfiguredTableAssociationAnalysisRuleInput",
+}) as any as S.Schema<CreateConfiguredTableAssociationAnalysisRuleInput>;
 export interface ConfiguredTableAssociationAnalysisRule {
   membershipIdentifier: string;
   configuredTableAssociationId: string;
@@ -2384,29 +2258,27 @@ export interface ConfiguredTableAssociationAnalysisRule {
   createTime: Date;
   updateTime: Date;
 }
-export const ConfiguredTableAssociationAnalysisRule = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      membershipIdentifier: S.String,
-      configuredTableAssociationId: S.String,
-      configuredTableAssociationArn: S.String,
-      policy: ConfiguredTableAssociationAnalysisRulePolicy,
-      type: ConfiguredTableAssociationAnalysisRuleType,
-      createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
+export const ConfiguredTableAssociationAnalysisRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String,
+    configuredTableAssociationId: S.String,
+    configuredTableAssociationArn: S.String,
+    policy: ConfiguredTableAssociationAnalysisRulePolicy,
+    type: ConfiguredTableAssociationAnalysisRuleType,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
 ).annotate({
   identifier: "ConfiguredTableAssociationAnalysisRule",
 }) as any as S.Schema<ConfiguredTableAssociationAnalysisRule>;
 export interface CreateConfiguredTableAssociationAnalysisRuleOutput {
   analysisRule: ConfiguredTableAssociationAnalysisRule;
 }
-export const CreateConfiguredTableAssociationAnalysisRuleOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ analysisRule: ConfiguredTableAssociationAnalysisRule }),
-  ).annotate({
-    identifier: "CreateConfiguredTableAssociationAnalysisRuleOutput",
-  }) as any as S.Schema<CreateConfiguredTableAssociationAnalysisRuleOutput>;
+export const CreateConfiguredTableAssociationAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisRule: ConfiguredTableAssociationAnalysisRule }),
+).annotate({
+  identifier: "CreateConfiguredTableAssociationAnalysisRuleOutput",
+}) as any as S.Schema<CreateConfiguredTableAssociationAnalysisRuleOutput>;
 export type IdMappingTableInputReferenceArn = string;
 export interface IdMappingTableInputReferenceConfig {
   inputReferenceArn: string;
@@ -2454,8 +2326,8 @@ export type IdMappingTableArn = string;
 export interface IdMappingTableInputReferenceProperties {
   idMappingTableInputSource: IdMappingTableInputSource[];
 }
-export const IdMappingTableInputReferenceProperties = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ idMappingTableInputSource: IdMappingTableInputSourceList }),
+export const IdMappingTableInputReferenceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ idMappingTableInputSource: IdMappingTableInputSourceList }),
 ).annotate({
   identifier: "IdMappingTableInputReferenceProperties",
 }) as any as S.Schema<IdMappingTableInputReferenceProperties>;
@@ -2506,15 +2378,14 @@ export interface IdNamespaceAssociationInputReferenceConfig {
   inputReferenceArn: string;
   manageResourcePolicies: boolean;
 }
-export const IdNamespaceAssociationInputReferenceConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      inputReferenceArn: S.String,
-      manageResourcePolicies: S.Boolean,
-    }),
-  ).annotate({
-    identifier: "IdNamespaceAssociationInputReferenceConfig",
-  }) as any as S.Schema<IdNamespaceAssociationInputReferenceConfig>;
+export const IdNamespaceAssociationInputReferenceConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inputReferenceArn: S.String,
+    manageResourcePolicies: S.Boolean,
+  }),
+).annotate({
+  identifier: "IdNamespaceAssociationInputReferenceConfig",
+}) as any as S.Schema<IdNamespaceAssociationInputReferenceConfig>;
 export type GenericResourceName = string;
 export interface IdMappingConfig {
   allowUseAsDimensionColumn: boolean;
@@ -2564,15 +2435,14 @@ export interface IdNamespaceAssociationInputReferenceProperties {
   idNamespaceType: IdNamespaceType;
   idMappingWorkflowsSupported: any[];
 }
-export const IdNamespaceAssociationInputReferenceProperties =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      idNamespaceType: IdNamespaceType,
-      idMappingWorkflowsSupported: IdMappingWorkflowsSupported,
-    }),
-  ).annotate({
-    identifier: "IdNamespaceAssociationInputReferenceProperties",
-  }) as any as S.Schema<IdNamespaceAssociationInputReferenceProperties>;
+export const IdNamespaceAssociationInputReferenceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    idNamespaceType: IdNamespaceType,
+    idMappingWorkflowsSupported: IdMappingWorkflowsSupported,
+  }),
+).annotate({
+  identifier: "IdNamespaceAssociationInputReferenceProperties",
+}) as any as S.Schema<IdNamespaceAssociationInputReferenceProperties>;
 export interface IdNamespaceAssociation {
   id: string;
   arn: string;
@@ -2708,18 +2578,13 @@ export const IntermediateTableDependency = /*@__PURE__*/ S.suspend(() =>
   identifier: "IntermediateTableDependency",
 }) as any as S.Schema<IntermediateTableDependency>;
 export type DependencyList = IntermediateTableDependency[];
-export const DependencyList = /*@__PURE__*/ S.Array(
-  IntermediateTableDependency,
-);
+export const DependencyList = /*@__PURE__*/ S.Array(IntermediateTableDependency);
 export type AnalysisIdentifier = string;
 export type PopulateIntermediateTableAnalysisType = "QUERY" | (string & {});
 export const PopulateIntermediateTableAnalysisType = S.String;
 
 export type ParameterMap = { [key: string]: string | undefined };
-export const ParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ParameterMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface InheritedAdditionalAnalysesSource {
   name: string;
   id: string;
@@ -2738,8 +2603,7 @@ export const InheritedAdditionalAnalysesSource = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "InheritedAdditionalAnalysesSource",
 }) as any as S.Schema<InheritedAdditionalAnalysesSource>;
-export type InheritedAdditionalAnalysesSourceList =
-  InheritedAdditionalAnalysesSource[];
+export type InheritedAdditionalAnalysesSourceList = InheritedAdditionalAnalysesSource[];
 export const InheritedAdditionalAnalysesSourceList = /*@__PURE__*/ S.Array(
   InheritedAdditionalAnalysesSource,
 );
@@ -2762,22 +2626,22 @@ export interface InheritedAllowedAdditionalAnalysesSource {
   value: string[];
   sourceAccountId: string;
 }
-export const InheritedAllowedAdditionalAnalysesSource = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      id: S.String,
-      type: BaseTableDependencyType,
-      value: AllowedAdditionalAnalyses,
-      sourceAccountId: S.String,
-    }),
+export const InheritedAllowedAdditionalAnalysesSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    id: S.String,
+    type: BaseTableDependencyType,
+    value: AllowedAdditionalAnalyses,
+    sourceAccountId: S.String,
+  }),
 ).annotate({
   identifier: "InheritedAllowedAdditionalAnalysesSource",
 }) as any as S.Schema<InheritedAllowedAdditionalAnalysesSource>;
 export type InheritedAllowedAdditionalAnalysesSourceList =
   InheritedAllowedAdditionalAnalysesSource[];
-export const InheritedAllowedAdditionalAnalysesSourceList =
-  /*@__PURE__*/ S.Array(InheritedAllowedAdditionalAnalysesSource);
+export const InheritedAllowedAdditionalAnalysesSourceList = /*@__PURE__*/ S.Array(
+  InheritedAllowedAdditionalAnalysesSource,
+);
 export interface InheritedAllowedAdditionalAnalyses {
   value: string[];
   sources: InheritedAllowedAdditionalAnalysesSource[];
@@ -2799,20 +2663,18 @@ export interface InheritedAllowedResultReceiversSource {
   value: string[];
   sourceAccountId: string;
 }
-export const InheritedAllowedResultReceiversSource = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      id: S.String,
-      type: BaseTableDependencyType,
-      value: AccountIdList,
-      sourceAccountId: S.String,
-    }),
+export const InheritedAllowedResultReceiversSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    id: S.String,
+    type: BaseTableDependencyType,
+    value: AccountIdList,
+    sourceAccountId: S.String,
+  }),
 ).annotate({
   identifier: "InheritedAllowedResultReceiversSource",
 }) as any as S.Schema<InheritedAllowedResultReceiversSource>;
-export type InheritedAllowedResultReceiversSourceList =
-  InheritedAllowedResultReceiversSource[];
+export type InheritedAllowedResultReceiversSourceList = InheritedAllowedResultReceiversSource[];
 export const InheritedAllowedResultReceiversSourceList = /*@__PURE__*/ S.Array(
   InheritedAllowedResultReceiversSource,
 );
@@ -2868,14 +2730,13 @@ export interface IntermediateTableInheritedConstraints {
   allowedResultReceivers?: InheritedAllowedResultReceivers;
   disallowedOutputColumns?: InheritedDisallowedOutputColumns;
 }
-export const IntermediateTableInheritedConstraints = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      additionalAnalyses: S.optional(InheritedAdditionalAnalyses),
-      allowedAdditionalAnalyses: S.optional(InheritedAllowedAdditionalAnalyses),
-      allowedResultReceivers: S.optional(InheritedAllowedResultReceivers),
-      disallowedOutputColumns: S.optional(InheritedDisallowedOutputColumns),
-    }),
+export const IntermediateTableInheritedConstraints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    additionalAnalyses: S.optional(InheritedAdditionalAnalyses),
+    allowedAdditionalAnalyses: S.optional(InheritedAllowedAdditionalAnalyses),
+    allowedResultReceivers: S.optional(InheritedAllowedResultReceivers),
+    disallowedOutputColumns: S.optional(InheritedDisallowedOutputColumns),
+  }),
 ).annotate({
   identifier: "IntermediateTableInheritedConstraints",
 }) as any as S.Schema<IntermediateTableInheritedConstraints>;
@@ -2904,8 +2765,7 @@ export const IntermediateTableActiveVersion = /*@__PURE__*/ S.suspend(() =>
 export type IntermediateTableAnalysisRuleType = "CUSTOM" | (string & {});
 export const IntermediateTableAnalysisRuleType = S.String;
 
-export type IntermediateTableAnalysisRuleTypeList =
-  IntermediateTableAnalysisRuleType[];
+export type IntermediateTableAnalysisRuleTypeList = IntermediateTableAnalysisRuleType[];
 export const IntermediateTableAnalysisRuleTypeList = /*@__PURE__*/ S.Array(
   IntermediateTableAnalysisRuleType,
 );
@@ -3018,28 +2878,25 @@ export interface CreateIntermediateTableAnalysisRuleInput {
   analysisRuleType: IntermediateTableAnalysisRuleType;
   analysisRulePolicy: IntermediateTableAnalysisRulePolicy;
 }
-export const CreateIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      intermediateTableIdentifier: S.String.pipe(
-        T.HttpLabel("intermediateTableIdentifier"),
-      ),
-      analysisRuleType: IntermediateTableAnalysisRuleType,
-      analysisRulePolicy: IntermediateTableAnalysisRulePolicy,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    intermediateTableIdentifier: S.String.pipe(T.HttpLabel("intermediateTableIdentifier")),
+    analysisRuleType: IntermediateTableAnalysisRuleType,
+    analysisRulePolicy: IntermediateTableAnalysisRulePolicy,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateIntermediateTableAnalysisRuleInput",
 }) as any as S.Schema<CreateIntermediateTableAnalysisRuleInput>;
@@ -3066,12 +2923,11 @@ export const IntermediateTableAnalysisRule = /*@__PURE__*/ S.suspend(() =>
 export interface CreateIntermediateTableAnalysisRuleOutput {
   analysisRule: IntermediateTableAnalysisRule;
 }
-export const CreateIntermediateTableAnalysisRuleOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ analysisRule: IntermediateTableAnalysisRule }),
-  ).annotate({
-    identifier: "CreateIntermediateTableAnalysisRuleOutput",
-  }) as any as S.Schema<CreateIntermediateTableAnalysisRuleOutput>;
+export const CreateIntermediateTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisRule: IntermediateTableAnalysisRule }),
+).annotate({
+  identifier: "CreateIntermediateTableAnalysisRuleOutput",
+}) as any as S.Schema<CreateIntermediateTableAnalysisRuleOutput>;
 export type MembershipQueryLogStatus = "ENABLED" | "DISABLED" | (string & {});
 export const MembershipQueryLogStatus = S.String;
 
@@ -3101,29 +2957,27 @@ export const ProtectedQueryS3OutputConfiguration = /*@__PURE__*/ S.suspend(() =>
 export type MembershipProtectedQueryOutputConfiguration = {
   s3: ProtectedQueryS3OutputConfiguration;
 };
-export const MembershipProtectedQueryOutputConfiguration =
-  /*@__PURE__*/ S.Union([
-    S.Struct({ s3: ProtectedQueryS3OutputConfiguration }),
-  ]);
+export const MembershipProtectedQueryOutputConfiguration = /*@__PURE__*/ S.Union([
+  S.Struct({ s3: ProtectedQueryS3OutputConfiguration }),
+]);
 export interface MembershipProtectedQueryResultConfiguration {
   outputConfiguration: MembershipProtectedQueryOutputConfiguration;
   roleArn?: string;
 }
-export const MembershipProtectedQueryResultConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      outputConfiguration: MembershipProtectedQueryOutputConfiguration,
-      roleArn: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "MembershipProtectedQueryResultConfiguration",
-  }) as any as S.Schema<MembershipProtectedQueryResultConfiguration>;
+export const MembershipProtectedQueryResultConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    outputConfiguration: MembershipProtectedQueryOutputConfiguration,
+    roleArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MembershipProtectedQueryResultConfiguration",
+}) as any as S.Schema<MembershipProtectedQueryResultConfiguration>;
 export interface ProtectedJobS3OutputConfigurationInput {
   bucket: string;
   keyPrefix?: string;
 }
-export const ProtectedJobS3OutputConfigurationInput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
+export const ProtectedJobS3OutputConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
 ).annotate({
   identifier: "ProtectedJobS3OutputConfigurationInput",
 }) as any as S.Schema<ProtectedJobS3OutputConfigurationInput>;
@@ -3137,15 +2991,14 @@ export interface MembershipProtectedJobResultConfiguration {
   outputConfiguration: MembershipProtectedJobOutputConfiguration;
   roleArn: string;
 }
-export const MembershipProtectedJobResultConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      outputConfiguration: MembershipProtectedJobOutputConfiguration,
-      roleArn: S.String,
-    }),
-  ).annotate({
-    identifier: "MembershipProtectedJobResultConfiguration",
-  }) as any as S.Schema<MembershipProtectedJobResultConfiguration>;
+export const MembershipProtectedJobResultConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    outputConfiguration: MembershipProtectedJobOutputConfiguration,
+    roleArn: S.String,
+  }),
+).annotate({
+  identifier: "MembershipProtectedJobResultConfiguration",
+}) as any as S.Schema<MembershipProtectedJobResultConfiguration>;
 export interface MembershipQueryComputePaymentConfig {
   isResponsible: boolean;
 }
@@ -3157,28 +3010,27 @@ export const MembershipQueryComputePaymentConfig = /*@__PURE__*/ S.suspend(() =>
 export interface MembershipModelTrainingPaymentConfig {
   isResponsible: boolean;
 }
-export const MembershipModelTrainingPaymentConfig = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ isResponsible: S.Boolean }),
+export const MembershipModelTrainingPaymentConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ isResponsible: S.Boolean }),
 ).annotate({
   identifier: "MembershipModelTrainingPaymentConfig",
 }) as any as S.Schema<MembershipModelTrainingPaymentConfig>;
 export interface MembershipModelInferencePaymentConfig {
   isResponsible: boolean;
 }
-export const MembershipModelInferencePaymentConfig = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ isResponsible: S.Boolean }),
+export const MembershipModelInferencePaymentConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ isResponsible: S.Boolean }),
 ).annotate({
   identifier: "MembershipModelInferencePaymentConfig",
 }) as any as S.Schema<MembershipModelInferencePaymentConfig>;
 export interface MembershipSyntheticDataGenerationPaymentConfig {
   isResponsible: boolean;
 }
-export const MembershipSyntheticDataGenerationPaymentConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ isResponsible: S.Boolean }),
-  ).annotate({
-    identifier: "MembershipSyntheticDataGenerationPaymentConfig",
-  }) as any as S.Schema<MembershipSyntheticDataGenerationPaymentConfig>;
+export const MembershipSyntheticDataGenerationPaymentConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ isResponsible: S.Boolean }),
+).annotate({
+  identifier: "MembershipSyntheticDataGenerationPaymentConfig",
+}) as any as S.Schema<MembershipSyntheticDataGenerationPaymentConfig>;
 export interface MembershipMLPaymentConfig {
   modelTraining?: MembershipModelTrainingPaymentConfig;
   modelInference?: MembershipModelInferencePaymentConfig;
@@ -3188,9 +3040,7 @@ export const MembershipMLPaymentConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     modelTraining: S.optional(MembershipModelTrainingPaymentConfig),
     modelInference: S.optional(MembershipModelInferencePaymentConfig),
-    syntheticDataGeneration: S.optional(
-      MembershipSyntheticDataGenerationPaymentConfig,
-    ),
+    syntheticDataGeneration: S.optional(MembershipSyntheticDataGenerationPaymentConfig),
   }),
 ).annotate({
   identifier: "MembershipMLPaymentConfig",
@@ -3233,24 +3083,11 @@ export const CreateMembershipInput = /*@__PURE__*/ S.suspend(() =>
     queryLogStatus: MembershipQueryLogStatus,
     jobLogStatus: S.optional(MembershipJobLogStatus),
     tags: S.optional(TagMap),
-    defaultResultConfiguration: S.optional(
-      MembershipProtectedQueryResultConfiguration,
-    ),
-    defaultJobResultConfiguration: S.optional(
-      MembershipProtectedJobResultConfiguration,
-    ),
+    defaultResultConfiguration: S.optional(MembershipProtectedQueryResultConfiguration),
+    defaultJobResultConfiguration: S.optional(MembershipProtectedJobResultConfiguration),
     paymentConfiguration: S.optional(MembershipPaymentConfiguration),
     isMetricsEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/memberships" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/memberships" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateMembershipInput",
 }) as any as S.Schema<CreateMembershipInput>;
@@ -3291,12 +3128,8 @@ export const Membership = /*@__PURE__*/ S.suspend(() =>
     mlMemberAbilities: S.optional(MLMemberAbilities),
     queryLogStatus: MembershipQueryLogStatus,
     jobLogStatus: S.optional(MembershipJobLogStatus),
-    defaultResultConfiguration: S.optional(
-      MembershipProtectedQueryResultConfiguration,
-    ),
-    defaultJobResultConfiguration: S.optional(
-      MembershipProtectedJobResultConfiguration,
-    ),
+    defaultResultConfiguration: S.optional(MembershipProtectedQueryResultConfiguration),
+    defaultJobResultConfiguration: S.optional(MembershipProtectedJobResultConfiguration),
     paymentConfiguration: MembershipPaymentConfiguration,
     isMetricsEnabled: S.optional(S.Boolean),
   }),
@@ -3309,16 +3142,10 @@ export const CreateMembershipOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateMembershipOutput",
 }) as any as S.Schema<CreateMembershipOutput>;
-export type PrivacyBudgetTemplateAutoRefresh =
-  | "CALENDAR_MONTH"
-  | "NONE"
-  | (string & {});
+export type PrivacyBudgetTemplateAutoRefresh = "CALENDAR_MONTH" | "NONE" | (string & {});
 export const PrivacyBudgetTemplateAutoRefresh = S.String;
 
-export type PrivacyBudgetType =
-  | "DIFFERENTIAL_PRIVACY"
-  | "ACCESS_BUDGET"
-  | (string & {});
+export type PrivacyBudgetType = "DIFFERENTIAL_PRIVACY" | "ACCESS_BUDGET" | (string & {});
 export const PrivacyBudgetType = S.String;
 
 export type Epsilon = number;
@@ -3327,12 +3154,11 @@ export interface DifferentialPrivacyTemplateParametersInput {
   epsilon: number;
   usersNoisePerQuery: number;
 }
-export const DifferentialPrivacyTemplateParametersInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ epsilon: S.Number, usersNoisePerQuery: S.Number }),
-  ).annotate({
-    identifier: "DifferentialPrivacyTemplateParametersInput",
-  }) as any as S.Schema<DifferentialPrivacyTemplateParametersInput>;
+export const DifferentialPrivacyTemplateParametersInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ epsilon: S.Number, usersNoisePerQuery: S.Number }),
+).annotate({
+  identifier: "DifferentialPrivacyTemplateParametersInput",
+}) as any as S.Schema<DifferentialPrivacyTemplateParametersInput>;
 export type AccessBudgetType =
   | "CALENDAR_DAY"
   | "CALENDAR_MONTH"
@@ -3366,12 +3192,11 @@ export interface AccessBudgetsPrivacyTemplateParametersInput {
   budgetParameters: BudgetParameter[];
   resourceArn: string;
 }
-export const AccessBudgetsPrivacyTemplateParametersInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ budgetParameters: BudgetParameters, resourceArn: S.String }),
-  ).annotate({
-    identifier: "AccessBudgetsPrivacyTemplateParametersInput",
-  }) as any as S.Schema<AccessBudgetsPrivacyTemplateParametersInput>;
+export const AccessBudgetsPrivacyTemplateParametersInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ budgetParameters: BudgetParameters, resourceArn: S.String }),
+).annotate({
+  identifier: "AccessBudgetsPrivacyTemplateParametersInput",
+}) as any as S.Schema<AccessBudgetsPrivacyTemplateParametersInput>;
 export type PrivacyBudgetTemplateParametersInput =
   | {
       differentialPrivacy: DifferentialPrivacyTemplateParametersInput;
@@ -3421,22 +3246,20 @@ export interface DifferentialPrivacyTemplateParametersOutput {
   epsilon: number;
   usersNoisePerQuery: number;
 }
-export const DifferentialPrivacyTemplateParametersOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ epsilon: S.Number, usersNoisePerQuery: S.Number }),
-  ).annotate({
-    identifier: "DifferentialPrivacyTemplateParametersOutput",
-  }) as any as S.Schema<DifferentialPrivacyTemplateParametersOutput>;
+export const DifferentialPrivacyTemplateParametersOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ epsilon: S.Number, usersNoisePerQuery: S.Number }),
+).annotate({
+  identifier: "DifferentialPrivacyTemplateParametersOutput",
+}) as any as S.Schema<DifferentialPrivacyTemplateParametersOutput>;
 export interface AccessBudgetsPrivacyTemplateParametersOutput {
   budgetParameters: BudgetParameter[];
   resourceArn: string;
 }
-export const AccessBudgetsPrivacyTemplateParametersOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ budgetParameters: BudgetParameters, resourceArn: S.String }),
-  ).annotate({
-    identifier: "AccessBudgetsPrivacyTemplateParametersOutput",
-  }) as any as S.Schema<AccessBudgetsPrivacyTemplateParametersOutput>;
+export const AccessBudgetsPrivacyTemplateParametersOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ budgetParameters: BudgetParameters, resourceArn: S.String }),
+).annotate({
+  identifier: "AccessBudgetsPrivacyTemplateParametersOutput",
+}) as any as S.Schema<AccessBudgetsPrivacyTemplateParametersOutput>;
 export type PrivacyBudgetTemplateParametersOutput =
   | {
       differentialPrivacy: DifferentialPrivacyTemplateParametersOutput;
@@ -3497,9 +3320,7 @@ export interface DeleteAnalysisTemplateInput {
 export const DeleteAnalysisTemplateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    analysisTemplateIdentifier: S.String.pipe(
-      T.HttpLabel("analysisTemplateIdentifier"),
-    ),
+    analysisTemplateIdentifier: S.String.pipe(T.HttpLabel("analysisTemplateIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -3517,9 +3338,7 @@ export const DeleteAnalysisTemplateInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAnalysisTemplateInput",
 }) as any as S.Schema<DeleteAnalysisTemplateInput>;
 export interface DeleteAnalysisTemplateOutput {}
-export const DeleteAnalysisTemplateOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAnalysisTemplateOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAnalysisTemplateOutput",
 }) as any as S.Schema<DeleteAnalysisTemplateOutput>;
 export interface DeleteCollaborationInput {
@@ -3527,9 +3346,7 @@ export interface DeleteCollaborationInput {
 }
 export const DeleteCollaborationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -3547,51 +3364,47 @@ export const DeleteCollaborationInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCollaborationInput",
 }) as any as S.Schema<DeleteCollaborationInput>;
 export interface DeleteCollaborationOutput {}
-export const DeleteCollaborationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteCollaborationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCollaborationOutput",
 }) as any as S.Schema<DeleteCollaborationOutput>;
 export interface DeleteConfiguredAudienceModelAssociationInput {
   configuredAudienceModelAssociationIdentifier: string;
   membershipIdentifier: string;
 }
-export const DeleteConfiguredAudienceModelAssociationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      configuredAudienceModelAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
-      ),
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/memberships/{membershipIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteConfiguredAudienceModelAssociationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredAudienceModelAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
     ),
-  ).annotate({
-    identifier: "DeleteConfiguredAudienceModelAssociationInput",
-  }) as any as S.Schema<DeleteConfiguredAudienceModelAssociationInput>;
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/memberships/{membershipIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteConfiguredAudienceModelAssociationInput",
+}) as any as S.Schema<DeleteConfiguredAudienceModelAssociationInput>;
 export interface DeleteConfiguredAudienceModelAssociationOutput {}
-export const DeleteConfiguredAudienceModelAssociationOutput =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteConfiguredAudienceModelAssociationOutput",
-  }) as any as S.Schema<DeleteConfiguredAudienceModelAssociationOutput>;
+export const DeleteConfiguredAudienceModelAssociationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteConfiguredAudienceModelAssociationOutput",
+}) as any as S.Schema<DeleteConfiguredAudienceModelAssociationOutput>;
 export interface DeleteConfiguredTableInput {
   configuredTableIdentifier: string;
 }
 export const DeleteConfiguredTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configuredTableIdentifier: S.String.pipe(
-      T.HttpLabel("configuredTableIdentifier"),
-    ),
+    configuredTableIdentifier: S.String.pipe(T.HttpLabel("configuredTableIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -3609,43 +3422,36 @@ export const DeleteConfiguredTableInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConfiguredTableInput",
 }) as any as S.Schema<DeleteConfiguredTableInput>;
 export interface DeleteConfiguredTableOutput {}
-export const DeleteConfiguredTableOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteConfiguredTableOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConfiguredTableOutput",
 }) as any as S.Schema<DeleteConfiguredTableOutput>;
 export interface DeleteConfiguredTableAnalysisRuleInput {
   configuredTableIdentifier: string;
   analysisRuleType: ConfiguredTableAnalysisRuleType;
 }
-export const DeleteConfiguredTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      configuredTableIdentifier: S.String.pipe(
-        T.HttpLabel("configuredTableIdentifier"),
-      ),
-      analysisRuleType: ConfiguredTableAnalysisRuleType.pipe(
-        T.HttpLabel("analysisRuleType"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/configuredTables/{configuredTableIdentifier}/analysisRule/{analysisRuleType}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteConfiguredTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredTableIdentifier: S.String.pipe(T.HttpLabel("configuredTableIdentifier")),
+    analysisRuleType: ConfiguredTableAnalysisRuleType.pipe(T.HttpLabel("analysisRuleType")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/configuredTables/{configuredTableIdentifier}/analysisRule/{analysisRuleType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteConfiguredTableAnalysisRuleInput",
 }) as any as S.Schema<DeleteConfiguredTableAnalysisRuleInput>;
 export interface DeleteConfiguredTableAnalysisRuleOutput {}
-export const DeleteConfiguredTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteConfiguredTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteConfiguredTableAnalysisRuleOutput",
 }) as any as S.Schema<DeleteConfiguredTableAnalysisRuleOutput>;
@@ -3653,32 +3459,31 @@ export interface DeleteConfiguredTableAssociationInput {
   configuredTableAssociationIdentifier: string;
   membershipIdentifier: string;
 }
-export const DeleteConfiguredTableAssociationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      configuredTableAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("configuredTableAssociationIdentifier"),
-      ),
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteConfiguredTableAssociationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
     ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
 ).annotate({
   identifier: "DeleteConfiguredTableAssociationInput",
 }) as any as S.Schema<DeleteConfiguredTableAssociationInput>;
 export interface DeleteConfiguredTableAssociationOutput {}
-export const DeleteConfiguredTableAssociationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteConfiguredTableAssociationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteConfiguredTableAssociationOutput",
 }) as any as S.Schema<DeleteConfiguredTableAssociationOutput>;
@@ -3687,46 +3492,44 @@ export interface DeleteConfiguredTableAssociationAnalysisRuleInput {
   configuredTableAssociationIdentifier: string;
   analysisRuleType: ConfiguredTableAssociationAnalysisRuleType;
 }
-export const DeleteConfiguredTableAssociationAnalysisRuleInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      configuredTableAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("configuredTableAssociationIdentifier"),
-      ),
-      analysisRuleType: ConfiguredTableAssociationAnalysisRuleType.pipe(
-        T.HttpLabel("analysisRuleType"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteConfiguredTableAssociationAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
     ),
-  ).annotate({
-    identifier: "DeleteConfiguredTableAssociationAnalysisRuleInput",
-  }) as any as S.Schema<DeleteConfiguredTableAssociationAnalysisRuleInput>;
+    analysisRuleType: ConfiguredTableAssociationAnalysisRuleType.pipe(
+      T.HttpLabel("analysisRuleType"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteConfiguredTableAssociationAnalysisRuleInput",
+}) as any as S.Schema<DeleteConfiguredTableAssociationAnalysisRuleInput>;
 export interface DeleteConfiguredTableAssociationAnalysisRuleOutput {}
-export const DeleteConfiguredTableAssociationAnalysisRuleOutput =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteConfiguredTableAssociationAnalysisRuleOutput",
-  }) as any as S.Schema<DeleteConfiguredTableAssociationAnalysisRuleOutput>;
+export const DeleteConfiguredTableAssociationAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteConfiguredTableAssociationAnalysisRuleOutput",
+}) as any as S.Schema<DeleteConfiguredTableAssociationAnalysisRuleOutput>;
 export interface DeleteIdMappingTableInput {
   idMappingTableIdentifier: string;
   membershipIdentifier: string;
 }
 export const DeleteIdMappingTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idMappingTableIdentifier: S.String.pipe(
-      T.HttpLabel("idMappingTableIdentifier"),
-    ),
+    idMappingTableIdentifier: S.String.pipe(T.HttpLabel("idMappingTableIdentifier")),
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   }).pipe(
     T.all(
@@ -3745,9 +3548,7 @@ export const DeleteIdMappingTableInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIdMappingTableInput",
 }) as any as S.Schema<DeleteIdMappingTableInput>;
 export interface DeleteIdMappingTableOutput {}
-export const DeleteIdMappingTableOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteIdMappingTableOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteIdMappingTableOutput",
 }) as any as S.Schema<DeleteIdMappingTableOutput>;
 export interface DeleteIdNamespaceAssociationInput {
@@ -3789,9 +3590,7 @@ export interface DeleteIntermediateTableInput {
 export const DeleteIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    intermediateTableIdentifier: S.String.pipe(
-      T.HttpLabel("intermediateTableIdentifier"),
-    ),
+    intermediateTableIdentifier: S.String.pipe(T.HttpLabel("intermediateTableIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -3809,9 +3608,7 @@ export const DeleteIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIntermediateTableInput",
 }) as any as S.Schema<DeleteIntermediateTableInput>;
 export interface DeleteIntermediateTableOutput {}
-export const DeleteIntermediateTableOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteIntermediateTableOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteIntermediateTableOutput",
 }) as any as S.Schema<DeleteIntermediateTableOutput>;
 export interface DeleteIntermediateTableAnalysisRuleInput {
@@ -3819,46 +3616,40 @@ export interface DeleteIntermediateTableAnalysisRuleInput {
   intermediateTableIdentifier: string;
   analysisRuleType: IntermediateTableAnalysisRuleType;
 }
-export const DeleteIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      intermediateTableIdentifier: S.String.pipe(
-        T.HttpLabel("intermediateTableIdentifier"),
-      ),
-      analysisRuleType: IntermediateTableAnalysisRuleType.pipe(
-        T.HttpLabel("analysisRuleType"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    intermediateTableIdentifier: S.String.pipe(T.HttpLabel("intermediateTableIdentifier")),
+    analysisRuleType: IntermediateTableAnalysisRuleType.pipe(T.HttpLabel("analysisRuleType")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteIntermediateTableAnalysisRuleInput",
 }) as any as S.Schema<DeleteIntermediateTableAnalysisRuleInput>;
 export interface DeleteIntermediateTableAnalysisRuleOutput {}
-export const DeleteIntermediateTableAnalysisRuleOutput =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteIntermediateTableAnalysisRuleOutput",
-  }) as any as S.Schema<DeleteIntermediateTableAnalysisRuleOutput>;
+export const DeleteIntermediateTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteIntermediateTableAnalysisRuleOutput",
+}) as any as S.Schema<DeleteIntermediateTableAnalysisRuleOutput>;
 export interface DeleteMemberInput {
   collaborationIdentifier: string;
   accountId: string;
 }
 export const DeleteMemberInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
     accountId: S.String.pipe(T.HttpLabel("accountId")),
   }).pipe(
     T.all(
@@ -3877,9 +3668,7 @@ export const DeleteMemberInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMemberInput",
 }) as any as S.Schema<DeleteMemberInput>;
 export interface DeleteMemberOutput {}
-export const DeleteMemberOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteMemberOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMemberOutput",
 }) as any as S.Schema<DeleteMemberOutput>;
 export interface DeleteMembershipInput {
@@ -3902,9 +3691,7 @@ export const DeleteMembershipInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMembershipInput",
 }) as any as S.Schema<DeleteMembershipInput>;
 export interface DeleteMembershipOutput {}
-export const DeleteMembershipOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteMembershipOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMembershipOutput",
 }) as any as S.Schema<DeleteMembershipOutput>;
 export interface DeletePrivacyBudgetTemplateInput {
@@ -3914,9 +3701,7 @@ export interface DeletePrivacyBudgetTemplateInput {
 export const DeletePrivacyBudgetTemplateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    privacyBudgetTemplateIdentifier: S.String.pipe(
-      T.HttpLabel("privacyBudgetTemplateIdentifier"),
-    ),
+    privacyBudgetTemplateIdentifier: S.String.pipe(T.HttpLabel("privacyBudgetTemplateIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -3966,11 +3751,11 @@ export const DisallowIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DisallowIntermediateTableInput",
 }) as any as S.Schema<DisallowIntermediateTableInput>;
 export interface DisallowIntermediateTableOutput {}
-export const DisallowIntermediateTableOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisallowIntermediateTableOutput",
-}) as any as S.Schema<DisallowIntermediateTableOutput>;
+export const DisallowIntermediateTableOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "DisallowIntermediateTableOutput",
+  },
+) as any as S.Schema<DisallowIntermediateTableOutput>;
 export type AnalysisLogExportIdentifier = string;
 export interface GetAnalysisLogExportInput {
   membershipIdentifier: string;
@@ -3979,9 +3764,7 @@ export interface GetAnalysisLogExportInput {
 export const GetAnalysisLogExportInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    analysisLogExportIdentifier: S.String.pipe(
-      T.HttpLabel("analysisLogExportIdentifier"),
-    ),
+    analysisLogExportIdentifier: S.String.pipe(T.HttpLabel("analysisLogExportIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -4001,35 +3784,31 @@ export const GetAnalysisLogExportInput = /*@__PURE__*/ S.suspend(() =>
 export type LogExportAnalysisType = "PROTECTED_QUERY" | (string & {});
 export const LogExportAnalysisType = S.String;
 
-export type AnalysisLogExportStatus =
-  | "IN_PROGRESS"
-  | "SUCCESS"
-  | "FAILED"
-  | (string & {});
+export type AnalysisLogExportStatus = "IN_PROGRESS" | "SUCCESS" | "FAILED" | (string & {});
 export const AnalysisLogExportStatus = S.String;
 
 export interface AnalysisLogExportS3OutputConfiguration {
   bucket: string;
   keyPrefix?: string;
 }
-export const AnalysisLogExportS3OutputConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
+export const AnalysisLogExportS3OutputConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
 ).annotate({
   identifier: "AnalysisLogExportS3OutputConfiguration",
 }) as any as S.Schema<AnalysisLogExportS3OutputConfiguration>;
 export interface AnalysisLogExportOutputConfiguration {
   s3: AnalysisLogExportS3OutputConfiguration;
 }
-export const AnalysisLogExportOutputConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ s3: AnalysisLogExportS3OutputConfiguration }),
+export const AnalysisLogExportOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ s3: AnalysisLogExportS3OutputConfiguration }),
 ).annotate({
   identifier: "AnalysisLogExportOutputConfiguration",
 }) as any as S.Schema<AnalysisLogExportOutputConfiguration>;
 export interface AnalysisLogExportResultConfiguration {
   outputConfiguration: AnalysisLogExportOutputConfiguration;
 }
-export const AnalysisLogExportResultConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ outputConfiguration: AnalysisLogExportOutputConfiguration }),
+export const AnalysisLogExportResultConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ outputConfiguration: AnalysisLogExportOutputConfiguration }),
 ).annotate({
   identifier: "AnalysisLogExportResultConfiguration",
 }) as any as S.Schema<AnalysisLogExportResultConfiguration>;
@@ -4083,9 +3862,7 @@ export interface GetAnalysisTemplateInput {
 export const GetAnalysisTemplateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    analysisTemplateIdentifier: S.String.pipe(
-      T.HttpLabel("analysisTemplateIdentifier"),
-    ),
+    analysisTemplateIdentifier: S.String.pipe(T.HttpLabel("analysisTemplateIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -4115,9 +3892,7 @@ export interface GetCollaborationInput {
 }
 export const GetCollaborationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -4146,35 +3921,31 @@ export interface GetCollaborationAnalysisTemplateInput {
   collaborationIdentifier: string;
   analysisTemplateArn: string;
 }
-export const GetCollaborationAnalysisTemplateInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      analysisTemplateArn: S.String.pipe(T.HttpLabel("analysisTemplateArn")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/collaborations/{collaborationIdentifier}/analysistemplates/{analysisTemplateArn}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetCollaborationAnalysisTemplateInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    analysisTemplateArn: S.String.pipe(T.HttpLabel("analysisTemplateArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/collaborations/{collaborationIdentifier}/analysistemplates/{analysisTemplateArn}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetCollaborationAnalysisTemplateInput",
 }) as any as S.Schema<GetCollaborationAnalysisTemplateInput>;
 export interface GetCollaborationAnalysisTemplateOutput {
   collaborationAnalysisTemplate: CollaborationAnalysisTemplate;
 }
-export const GetCollaborationAnalysisTemplateOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ collaborationAnalysisTemplate: CollaborationAnalysisTemplate }),
+export const GetCollaborationAnalysisTemplateOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ collaborationAnalysisTemplate: CollaborationAnalysisTemplate }),
 ).annotate({
   identifier: "GetCollaborationAnalysisTemplateOutput",
 }) as any as S.Schema<GetCollaborationAnalysisTemplateOutput>;
@@ -4185,12 +3956,8 @@ export interface GetCollaborationChangeRequestInput {
 }
 export const GetCollaborationChangeRequestInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
-    changeRequestIdentifier: S.String.pipe(
-      T.HttpLabel("changeRequestIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    changeRequestIdentifier: S.String.pipe(T.HttpLabel("changeRequestIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -4219,31 +3986,28 @@ export interface GetCollaborationConfiguredAudienceModelAssociationInput {
   collaborationIdentifier: string;
   configuredAudienceModelAssociationIdentifier: string;
 }
-export const GetCollaborationConfiguredAudienceModelAssociationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      configuredAudienceModelAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/collaborations/{collaborationIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetCollaborationConfiguredAudienceModelAssociationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    configuredAudienceModelAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
     ),
-  ).annotate({
-    identifier: "GetCollaborationConfiguredAudienceModelAssociationInput",
-  }) as any as S.Schema<GetCollaborationConfiguredAudienceModelAssociationInput>;
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/collaborations/{collaborationIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetCollaborationConfiguredAudienceModelAssociationInput",
+}) as any as S.Schema<GetCollaborationConfiguredAudienceModelAssociationInput>;
 export interface CollaborationConfiguredAudienceModelAssociation {
   id: string;
   arn: string;
@@ -4256,64 +4020,60 @@ export interface CollaborationConfiguredAudienceModelAssociation {
   createTime: Date;
   updateTime: Date;
 }
-export const CollaborationConfiguredAudienceModelAssociation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.String,
-      arn: S.String,
-      collaborationId: S.String,
-      collaborationArn: S.String,
-      configuredAudienceModelArn: S.String,
-      name: S.String,
-      description: S.optional(S.String),
-      creatorAccountId: S.String,
-      createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
-  ).annotate({
-    identifier: "CollaborationConfiguredAudienceModelAssociation",
-  }) as any as S.Schema<CollaborationConfiguredAudienceModelAssociation>;
+export const CollaborationConfiguredAudienceModelAssociation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    collaborationId: S.String,
+    collaborationArn: S.String,
+    configuredAudienceModelArn: S.String,
+    name: S.String,
+    description: S.optional(S.String),
+    creatorAccountId: S.String,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "CollaborationConfiguredAudienceModelAssociation",
+}) as any as S.Schema<CollaborationConfiguredAudienceModelAssociation>;
 export interface GetCollaborationConfiguredAudienceModelAssociationOutput {
   collaborationConfiguredAudienceModelAssociation: CollaborationConfiguredAudienceModelAssociation;
 }
-export const GetCollaborationConfiguredAudienceModelAssociationOutput =
-  /*@__PURE__*/ S.suspend(() =>
+export const GetCollaborationConfiguredAudienceModelAssociationOutput = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
       collaborationConfiguredAudienceModelAssociation:
         CollaborationConfiguredAudienceModelAssociation,
     }),
-  ).annotate({
-    identifier: "GetCollaborationConfiguredAudienceModelAssociationOutput",
-  }) as any as S.Schema<GetCollaborationConfiguredAudienceModelAssociationOutput>;
+).annotate({
+  identifier: "GetCollaborationConfiguredAudienceModelAssociationOutput",
+}) as any as S.Schema<GetCollaborationConfiguredAudienceModelAssociationOutput>;
 export interface GetCollaborationIdNamespaceAssociationInput {
   collaborationIdentifier: string;
   idNamespaceAssociationIdentifier: string;
 }
-export const GetCollaborationIdNamespaceAssociationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      idNamespaceAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("idNamespaceAssociationIdentifier"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/collaborations/{collaborationIdentifier}/idnamespaceassociations/{idNamespaceAssociationIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetCollaborationIdNamespaceAssociationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    idNamespaceAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("idNamespaceAssociationIdentifier"),
     ),
-  ).annotate({
-    identifier: "GetCollaborationIdNamespaceAssociationInput",
-  }) as any as S.Schema<GetCollaborationIdNamespaceAssociationInput>;
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/collaborations/{collaborationIdentifier}/idnamespaceassociations/{idNamespaceAssociationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetCollaborationIdNamespaceAssociationInput",
+}) as any as S.Schema<GetCollaborationIdNamespaceAssociationInput>;
 export interface CollaborationIdNamespaceAssociation {
   id: string;
   arn: string;
@@ -4349,43 +4109,37 @@ export const CollaborationIdNamespaceAssociation = /*@__PURE__*/ S.suspend(() =>
 export interface GetCollaborationIdNamespaceAssociationOutput {
   collaborationIdNamespaceAssociation: CollaborationIdNamespaceAssociation;
 }
-export const GetCollaborationIdNamespaceAssociationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      collaborationIdNamespaceAssociation: CollaborationIdNamespaceAssociation,
-    }),
-  ).annotate({
-    identifier: "GetCollaborationIdNamespaceAssociationOutput",
-  }) as any as S.Schema<GetCollaborationIdNamespaceAssociationOutput>;
+export const GetCollaborationIdNamespaceAssociationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdNamespaceAssociation: CollaborationIdNamespaceAssociation,
+  }),
+).annotate({
+  identifier: "GetCollaborationIdNamespaceAssociationOutput",
+}) as any as S.Schema<GetCollaborationIdNamespaceAssociationOutput>;
 export interface GetCollaborationPrivacyBudgetTemplateInput {
   collaborationIdentifier: string;
   privacyBudgetTemplateIdentifier: string;
 }
-export const GetCollaborationPrivacyBudgetTemplateInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      privacyBudgetTemplateIdentifier: S.String.pipe(
-        T.HttpLabel("privacyBudgetTemplateIdentifier"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/collaborations/{collaborationIdentifier}/privacybudgettemplates/{privacyBudgetTemplateIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetCollaborationPrivacyBudgetTemplateInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    privacyBudgetTemplateIdentifier: S.String.pipe(T.HttpLabel("privacyBudgetTemplateIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/collaborations/{collaborationIdentifier}/privacybudgettemplates/{privacyBudgetTemplateIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "GetCollaborationPrivacyBudgetTemplateInput",
-  }) as any as S.Schema<GetCollaborationPrivacyBudgetTemplateInput>;
+  ),
+).annotate({
+  identifier: "GetCollaborationPrivacyBudgetTemplateInput",
+}) as any as S.Schema<GetCollaborationPrivacyBudgetTemplateInput>;
 export interface CollaborationPrivacyBudgetTemplate {
   id: string;
   arn: string;
@@ -4417,60 +4171,55 @@ export const CollaborationPrivacyBudgetTemplate = /*@__PURE__*/ S.suspend(() =>
 export interface GetCollaborationPrivacyBudgetTemplateOutput {
   collaborationPrivacyBudgetTemplate: CollaborationPrivacyBudgetTemplate;
 }
-export const GetCollaborationPrivacyBudgetTemplateOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      collaborationPrivacyBudgetTemplate: CollaborationPrivacyBudgetTemplate,
-    }),
-  ).annotate({
-    identifier: "GetCollaborationPrivacyBudgetTemplateOutput",
-  }) as any as S.Schema<GetCollaborationPrivacyBudgetTemplateOutput>;
+export const GetCollaborationPrivacyBudgetTemplateOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationPrivacyBudgetTemplate: CollaborationPrivacyBudgetTemplate,
+  }),
+).annotate({
+  identifier: "GetCollaborationPrivacyBudgetTemplateOutput",
+}) as any as S.Schema<GetCollaborationPrivacyBudgetTemplateOutput>;
 export interface GetConfiguredAudienceModelAssociationInput {
   configuredAudienceModelAssociationIdentifier: string;
   membershipIdentifier: string;
 }
-export const GetConfiguredAudienceModelAssociationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      configuredAudienceModelAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
-      ),
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/memberships/{membershipIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetConfiguredAudienceModelAssociationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredAudienceModelAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
     ),
-  ).annotate({
-    identifier: "GetConfiguredAudienceModelAssociationInput",
-  }) as any as S.Schema<GetConfiguredAudienceModelAssociationInput>;
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memberships/{membershipIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetConfiguredAudienceModelAssociationInput",
+}) as any as S.Schema<GetConfiguredAudienceModelAssociationInput>;
 export interface GetConfiguredAudienceModelAssociationOutput {
   configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation;
 }
-export const GetConfiguredAudienceModelAssociationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation,
-    }),
-  ).annotate({
-    identifier: "GetConfiguredAudienceModelAssociationOutput",
-  }) as any as S.Schema<GetConfiguredAudienceModelAssociationOutput>;
+export const GetConfiguredAudienceModelAssociationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation,
+  }),
+).annotate({
+  identifier: "GetConfiguredAudienceModelAssociationOutput",
+}) as any as S.Schema<GetConfiguredAudienceModelAssociationOutput>;
 export interface GetConfiguredTableInput {
   configuredTableIdentifier: string;
 }
 export const GetConfiguredTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configuredTableIdentifier: S.String.pipe(
-      T.HttpLabel("configuredTableIdentifier"),
-    ),
+    configuredTableIdentifier: S.String.pipe(T.HttpLabel("configuredTableIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -4501,12 +4250,8 @@ export interface GetConfiguredTableAnalysisRuleInput {
 }
 export const GetConfiguredTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configuredTableIdentifier: S.String.pipe(
-      T.HttpLabel("configuredTableIdentifier"),
-    ),
-    analysisRuleType: ConfiguredTableAnalysisRuleType.pipe(
-      T.HttpLabel("analysisRuleType"),
-    ),
+    configuredTableIdentifier: S.String.pipe(T.HttpLabel("configuredTableIdentifier")),
+    analysisRuleType: ConfiguredTableAnalysisRuleType.pipe(T.HttpLabel("analysisRuleType")),
   }).pipe(
     T.all(
       T.Http({
@@ -4526,8 +4271,8 @@ export const GetConfiguredTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
 export interface GetConfiguredTableAnalysisRuleOutput {
   analysisRule: ConfiguredTableAnalysisRule;
 }
-export const GetConfiguredTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ analysisRule: ConfiguredTableAnalysisRule }),
+export const GetConfiguredTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisRule: ConfiguredTableAnalysisRule }),
 ).annotate({
   identifier: "GetConfiguredTableAnalysisRuleOutput",
 }) as any as S.Schema<GetConfiguredTableAnalysisRuleOutput>;
@@ -4570,50 +4315,46 @@ export interface GetConfiguredTableAssociationAnalysisRuleInput {
   configuredTableAssociationIdentifier: string;
   analysisRuleType: ConfiguredTableAssociationAnalysisRuleType;
 }
-export const GetConfiguredTableAssociationAnalysisRuleInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      configuredTableAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("configuredTableAssociationIdentifier"),
-      ),
-      analysisRuleType: ConfiguredTableAssociationAnalysisRuleType.pipe(
-        T.HttpLabel("analysisRuleType"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetConfiguredTableAssociationAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
     ),
-  ).annotate({
-    identifier: "GetConfiguredTableAssociationAnalysisRuleInput",
-  }) as any as S.Schema<GetConfiguredTableAssociationAnalysisRuleInput>;
+    analysisRuleType: ConfiguredTableAssociationAnalysisRuleType.pipe(
+      T.HttpLabel("analysisRuleType"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetConfiguredTableAssociationAnalysisRuleInput",
+}) as any as S.Schema<GetConfiguredTableAssociationAnalysisRuleInput>;
 export interface GetConfiguredTableAssociationAnalysisRuleOutput {
   analysisRule: ConfiguredTableAssociationAnalysisRule;
 }
-export const GetConfiguredTableAssociationAnalysisRuleOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ analysisRule: ConfiguredTableAssociationAnalysisRule }),
-  ).annotate({
-    identifier: "GetConfiguredTableAssociationAnalysisRuleOutput",
-  }) as any as S.Schema<GetConfiguredTableAssociationAnalysisRuleOutput>;
+export const GetConfiguredTableAssociationAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisRule: ConfiguredTableAssociationAnalysisRule }),
+).annotate({
+  identifier: "GetConfiguredTableAssociationAnalysisRuleOutput",
+}) as any as S.Schema<GetConfiguredTableAssociationAnalysisRuleOutput>;
 export interface GetIdMappingTableInput {
   idMappingTableIdentifier: string;
   membershipIdentifier: string;
 }
 export const GetIdMappingTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idMappingTableIdentifier: S.String.pipe(
-      T.HttpLabel("idMappingTableIdentifier"),
-    ),
+    idMappingTableIdentifier: S.String.pipe(T.HttpLabel("idMappingTableIdentifier")),
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   }).pipe(
     T.all(
@@ -4679,9 +4420,7 @@ export interface GetIntermediateTableInput {
 }
 export const GetIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    intermediateTableIdentifier: S.String.pipe(
-      T.HttpLabel("intermediateTableIdentifier"),
-    ),
+    intermediateTableIdentifier: S.String.pipe(T.HttpLabel("intermediateTableIdentifier")),
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   }).pipe(
     T.all(
@@ -4712,37 +4451,32 @@ export interface GetIntermediateTableAnalysisRuleInput {
   intermediateTableIdentifier: string;
   analysisRuleType: IntermediateTableAnalysisRuleType;
 }
-export const GetIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      intermediateTableIdentifier: S.String.pipe(
-        T.HttpLabel("intermediateTableIdentifier"),
-      ),
-      analysisRuleType: IntermediateTableAnalysisRuleType.pipe(
-        T.HttpLabel("analysisRuleType"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    intermediateTableIdentifier: S.String.pipe(T.HttpLabel("intermediateTableIdentifier")),
+    analysisRuleType: IntermediateTableAnalysisRuleType.pipe(T.HttpLabel("analysisRuleType")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetIntermediateTableAnalysisRuleInput",
 }) as any as S.Schema<GetIntermediateTableAnalysisRuleInput>;
 export interface GetIntermediateTableAnalysisRuleOutput {
   analysisRule: IntermediateTableAnalysisRule;
 }
-export const GetIntermediateTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ analysisRule: IntermediateTableAnalysisRule }),
+export const GetIntermediateTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisRule: IntermediateTableAnalysisRule }),
 ).annotate({
   identifier: "GetIntermediateTableAnalysisRuleOutput",
 }) as any as S.Schema<GetIntermediateTableAnalysisRuleOutput>;
@@ -4780,9 +4514,7 @@ export interface GetPrivacyBudgetTemplateInput {
 export const GetPrivacyBudgetTemplateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    privacyBudgetTemplateIdentifier: S.String.pipe(
-      T.HttpLabel("privacyBudgetTemplateIdentifier"),
-    ),
+    privacyBudgetTemplateIdentifier: S.String.pipe(T.HttpLabel("privacyBudgetTemplateIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -4815,9 +4547,7 @@ export interface GetProtectedJobInput {
 export const GetProtectedJobInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    protectedJobIdentifier: S.String.pipe(
-      T.HttpLabel("protectedJobIdentifier"),
-    ),
+    protectedJobIdentifier: S.String.pipe(T.HttpLabel("protectedJobIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -4837,10 +4567,7 @@ export const GetProtectedJobInput = /*@__PURE__*/ S.suspend(() =>
 export type JobParameterName = string;
 export type JobParameterValue = string;
 export type JobParameterMap = { [key: string]: string | undefined };
-export const JobParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const JobParameterMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ProtectedJobParameters {
   analysisTemplateArn: string;
   parameters?: { [key: string]: string | undefined };
@@ -4867,18 +4594,19 @@ export interface ProtectedJobS3OutputConfigurationOutput {
   bucket: string;
   keyPrefix?: string;
 }
-export const ProtectedJobS3OutputConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
+export const ProtectedJobS3OutputConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
 ).annotate({
   identifier: "ProtectedJobS3OutputConfigurationOutput",
 }) as any as S.Schema<ProtectedJobS3OutputConfigurationOutput>;
 export interface ProtectedJobMemberOutputConfigurationOutput {
   accountId: string;
 }
-export const ProtectedJobMemberOutputConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ accountId: S.String })).annotate({
-    identifier: "ProtectedJobMemberOutputConfigurationOutput",
-  }) as any as S.Schema<ProtectedJobMemberOutputConfigurationOutput>;
+export const ProtectedJobMemberOutputConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ accountId: S.String }),
+).annotate({
+  identifier: "ProtectedJobMemberOutputConfigurationOutput",
+}) as any as S.Schema<ProtectedJobMemberOutputConfigurationOutput>;
 export type ProtectedJobOutputConfigurationOutput =
   | { s3: ProtectedJobS3OutputConfigurationOutput; member?: never }
   | { s3?: never; member: ProtectedJobMemberOutputConfigurationOutput };
@@ -4889,9 +4617,8 @@ export const ProtectedJobOutputConfigurationOutput = /*@__PURE__*/ S.Union([
 export interface ProtectedJobResultConfigurationOutput {
   outputConfiguration: ProtectedJobOutputConfigurationOutput;
 }
-export const ProtectedJobResultConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ outputConfiguration: ProtectedJobOutputConfigurationOutput }),
+export const ProtectedJobResultConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ outputConfiguration: ProtectedJobOutputConfigurationOutput }),
 ).annotate({
   identifier: "ProtectedJobResultConfigurationOutput",
 }) as any as S.Schema<ProtectedJobResultConfigurationOutput>;
@@ -4932,9 +4659,7 @@ export const ProtectedJobSingleMemberOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProtectedJobSingleMemberOutput",
 }) as any as S.Schema<ProtectedJobSingleMemberOutput>;
 export type ProtectedJobMemberOutputList = ProtectedJobSingleMemberOutput[];
-export const ProtectedJobMemberOutputList = /*@__PURE__*/ S.Array(
-  ProtectedJobSingleMemberOutput,
-);
+export const ProtectedJobMemberOutputList = /*@__PURE__*/ S.Array(ProtectedJobSingleMemberOutput);
 export type ProtectedJobOutput =
   | { s3: ProtectedJobS3Output; memberList?: never }
   | { s3?: never; memberList: ProtectedJobSingleMemberOutput[] };
@@ -4965,10 +4690,7 @@ export const ProtectedJobWorkerComputeType = S.String;
 export type SparkPropertyKey = string;
 export type SparkPropertyValue = string;
 export type SparkProperties = { [key: string]: string | undefined };
-export const SparkProperties = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const SparkProperties = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type WorkerComputeConfigurationProperties = {
   spark: { [key: string]: string | undefined };
 };
@@ -4980,13 +4702,12 @@ export interface ProtectedJobWorkerComputeConfiguration {
   number: number;
   properties?: WorkerComputeConfigurationProperties;
 }
-export const ProtectedJobWorkerComputeConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      type: ProtectedJobWorkerComputeType,
-      number: S.Number,
-      properties: S.optional(WorkerComputeConfigurationProperties),
-    }),
+export const ProtectedJobWorkerComputeConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ProtectedJobWorkerComputeType,
+    number: S.Number,
+    properties: S.optional(WorkerComputeConfigurationProperties),
+  }),
 ).annotate({
   identifier: "ProtectedJobWorkerComputeConfiguration",
 }) as any as S.Schema<ProtectedJobWorkerComputeConfiguration>;
@@ -5042,9 +4763,7 @@ export interface GetProtectedQueryInput {
 export const GetProtectedQueryInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    protectedQueryIdentifier: S.String.pipe(
-      T.HttpLabel("protectedQueryIdentifier"),
-    ),
+    protectedQueryIdentifier: S.String.pipe(T.HttpLabel("protectedQueryIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -5079,41 +4798,40 @@ export type ProtectedQueryStatus = string;
 export interface ProtectedQueryMemberOutputConfiguration {
   accountId: string;
 }
-export const ProtectedQueryMemberOutputConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ accountId: S.String }),
+export const ProtectedQueryMemberOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ accountId: S.String }),
 ).annotate({
   identifier: "ProtectedQueryMemberOutputConfiguration",
 }) as any as S.Schema<ProtectedQueryMemberOutputConfiguration>;
 export type ProtectedQueryDistributeOutputConfigurationLocation =
   | { s3: ProtectedQueryS3OutputConfiguration; member?: never }
   | { s3?: never; member: ProtectedQueryMemberOutputConfiguration };
-export const ProtectedQueryDistributeOutputConfigurationLocation =
-  /*@__PURE__*/ S.Union([
-    S.Struct({ s3: ProtectedQueryS3OutputConfiguration }),
-    S.Struct({ member: ProtectedQueryMemberOutputConfiguration }),
-  ]);
+export const ProtectedQueryDistributeOutputConfigurationLocation = /*@__PURE__*/ S.Union([
+  S.Struct({ s3: ProtectedQueryS3OutputConfiguration }),
+  S.Struct({ member: ProtectedQueryMemberOutputConfiguration }),
+]);
 export type ProtectedQueryDistributeOutputConfigurationLocations =
   ProtectedQueryDistributeOutputConfigurationLocation[];
-export const ProtectedQueryDistributeOutputConfigurationLocations =
-  /*@__PURE__*/ S.Array(ProtectedQueryDistributeOutputConfigurationLocation);
+export const ProtectedQueryDistributeOutputConfigurationLocations = /*@__PURE__*/ S.Array(
+  ProtectedQueryDistributeOutputConfigurationLocation,
+);
 export interface ProtectedQueryDistributeOutputConfiguration {
   locations: ProtectedQueryDistributeOutputConfigurationLocation[];
 }
-export const ProtectedQueryDistributeOutputConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      locations: ProtectedQueryDistributeOutputConfigurationLocations,
-    }),
-  ).annotate({
-    identifier: "ProtectedQueryDistributeOutputConfiguration",
-  }) as any as S.Schema<ProtectedQueryDistributeOutputConfiguration>;
+export const ProtectedQueryDistributeOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    locations: ProtectedQueryDistributeOutputConfigurationLocations,
+  }),
+).annotate({
+  identifier: "ProtectedQueryDistributeOutputConfiguration",
+}) as any as S.Schema<ProtectedQueryDistributeOutputConfiguration>;
 export interface IntermediateTableOutputConfiguration {
   id: string;
   arn: string;
   name: string;
 }
-export const IntermediateTableOutputConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ id: S.String, arn: S.String, name: S.String }),
+export const IntermediateTableOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String, arn: S.String, name: S.String }),
 ).annotate({
   identifier: "IntermediateTableOutputConfiguration",
 }) as any as S.Schema<IntermediateTableOutputConfiguration>;
@@ -5259,22 +4977,22 @@ export interface DifferentialPrivacySensitivityParameters {
   minColumnValue?: number;
   maxColumnValue?: number;
 }
-export const DifferentialPrivacySensitivityParameters = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      aggregationType: DifferentialPrivacyAggregationType,
-      aggregationExpression: S.String,
-      userContributionLimit: S.Number,
-      minColumnValue: S.optional(S.Number),
-      maxColumnValue: S.optional(S.Number),
-    }),
+export const DifferentialPrivacySensitivityParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    aggregationType: DifferentialPrivacyAggregationType,
+    aggregationExpression: S.String,
+    userContributionLimit: S.Number,
+    minColumnValue: S.optional(S.Number),
+    maxColumnValue: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "DifferentialPrivacySensitivityParameters",
 }) as any as S.Schema<DifferentialPrivacySensitivityParameters>;
 export type DifferentialPrivacySensitivityParametersList =
   DifferentialPrivacySensitivityParameters[];
-export const DifferentialPrivacySensitivityParametersList =
-  /*@__PURE__*/ S.Array(DifferentialPrivacySensitivityParameters);
+export const DifferentialPrivacySensitivityParametersList = /*@__PURE__*/ S.Array(
+  DifferentialPrivacySensitivityParameters,
+);
 export interface DifferentialPrivacyParameters {
   sensitivityParameters: DifferentialPrivacySensitivityParameters[];
 }
@@ -5352,9 +5070,7 @@ export interface GetSchemaInput {
 }
 export const GetSchemaInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
     name: S.String.pipe(T.HttpLabel("name")),
   }).pipe(
     T.all(
@@ -5373,11 +5089,11 @@ export const GetSchemaInput = /*@__PURE__*/ S.suspend(() =>
 export interface GetSchemaOutput {
   schema: Schema;
 }
-export const GetSchemaOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ schema: Schema }),
-).annotate({
-  identifier: "GetSchemaOutput",
-}) as any as S.Schema<GetSchemaOutput>;
+export const GetSchemaOutput = /*@__PURE__*/ S.suspend(() => S.Struct({ schema: Schema })).annotate(
+  {
+    identifier: "GetSchemaOutput",
+  },
+) as any as S.Schema<GetSchemaOutput>;
 export interface GetSchemaAnalysisRuleInput {
   collaborationIdentifier: string;
   name: string;
@@ -5385,9 +5101,7 @@ export interface GetSchemaAnalysisRuleInput {
 }
 export const GetSchemaAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
     name: S.String.pipe(T.HttpLabel("name")),
     type: AnalysisRuleType.pipe(T.HttpLabel("type")),
   }).pipe(
@@ -5426,9 +5140,7 @@ export interface ListAnalysisLogExportsInput {
 export const ListAnalysisLogExportsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    analysisIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("analysisIdentifier"),
-    ),
+    analysisIdentifier: S.optional(S.String).pipe(T.HttpQuery("analysisIdentifier")),
     status: S.optional(AnalysisLogExportStatus).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -5467,9 +5179,7 @@ export const AnalysisLogExportSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AnalysisLogExportSummary",
 }) as any as S.Schema<AnalysisLogExportSummary>;
 export type AnalysisLogExportSummaryList = AnalysisLogExportSummary[];
-export const AnalysisLogExportSummaryList = /*@__PURE__*/ S.Array(
-  AnalysisLogExportSummary,
-);
+export const AnalysisLogExportSummaryList = /*@__PURE__*/ S.Array(AnalysisLogExportSummary);
 export interface ListAnalysisLogExportsOutput {
   nextToken?: string;
   analysisLogExports: AnalysisLogExportSummary[];
@@ -5539,9 +5249,7 @@ export const AnalysisTemplateSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AnalysisTemplateSummary",
 }) as any as S.Schema<AnalysisTemplateSummary>;
 export type AnalysisTemplateSummaryList = AnalysisTemplateSummary[];
-export const AnalysisTemplateSummaryList = /*@__PURE__*/ S.Array(
-  AnalysisTemplateSummary,
-);
+export const AnalysisTemplateSummaryList = /*@__PURE__*/ S.Array(AnalysisTemplateSummary);
 export interface ListAnalysisTemplatesOutput {
   nextToken?: string;
   analysisTemplateSummaries: AnalysisTemplateSummary[];
@@ -5559,27 +5267,24 @@ export interface ListCollaborationAnalysisTemplatesInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListCollaborationAnalysisTemplatesInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/collaborations/{collaborationIdentifier}/analysistemplates",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListCollaborationAnalysisTemplatesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/collaborations/{collaborationIdentifier}/analysistemplates",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListCollaborationAnalysisTemplatesInput",
 }) as any as S.Schema<ListCollaborationAnalysisTemplatesInput>;
@@ -5595,25 +5300,23 @@ export interface CollaborationAnalysisTemplateSummary {
   description?: string;
   isSyntheticData?: boolean;
 }
-export const CollaborationAnalysisTemplateSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      arn: S.String,
-      createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      id: S.String,
-      name: S.String,
-      updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      collaborationArn: S.String,
-      collaborationId: S.String,
-      creatorAccountId: S.String,
-      description: S.optional(S.String),
-      isSyntheticData: S.optional(S.Boolean),
-    }),
+export const CollaborationAnalysisTemplateSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    id: S.String,
+    name: S.String,
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    collaborationArn: S.String,
+    collaborationId: S.String,
+    creatorAccountId: S.String,
+    description: S.optional(S.String),
+    isSyntheticData: S.optional(S.Boolean),
+  }),
 ).annotate({
   identifier: "CollaborationAnalysisTemplateSummary",
 }) as any as S.Schema<CollaborationAnalysisTemplateSummary>;
-export type CollaborationAnalysisTemplateSummaryList =
-  CollaborationAnalysisTemplateSummary[];
+export type CollaborationAnalysisTemplateSummaryList = CollaborationAnalysisTemplateSummary[];
 export const CollaborationAnalysisTemplateSummaryList = /*@__PURE__*/ S.Array(
   CollaborationAnalysisTemplateSummary,
 );
@@ -5621,13 +5324,11 @@ export interface ListCollaborationAnalysisTemplatesOutput {
   nextToken?: string;
   collaborationAnalysisTemplateSummaries: CollaborationAnalysisTemplateSummary[];
 }
-export const ListCollaborationAnalysisTemplatesOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      collaborationAnalysisTemplateSummaries:
-        CollaborationAnalysisTemplateSummaryList,
-    }),
+export const ListCollaborationAnalysisTemplatesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    collaborationAnalysisTemplateSummaries: CollaborationAnalysisTemplateSummaryList,
+  }),
 ).annotate({
   identifier: "ListCollaborationAnalysisTemplatesOutput",
 }) as any as S.Schema<ListCollaborationAnalysisTemplatesOutput>;
@@ -5637,28 +5338,25 @@ export interface ListCollaborationChangeRequestsInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListCollaborationChangeRequestsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      status: S.optional(ChangeRequestStatus).pipe(T.HttpQuery("status")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/collaborations/{collaborationIdentifier}/changeRequests",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListCollaborationChangeRequestsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    status: S.optional(ChangeRequestStatus).pipe(T.HttpQuery("status")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/collaborations/{collaborationIdentifier}/changeRequests",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListCollaborationChangeRequestsInput",
 }) as any as S.Schema<ListCollaborationChangeRequestsInput>;
@@ -5686,8 +5384,7 @@ export const CollaborationChangeRequestSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CollaborationChangeRequestSummary",
 }) as any as S.Schema<CollaborationChangeRequestSummary>;
-export type CollaborationChangeRequestSummaryList =
-  CollaborationChangeRequestSummary[];
+export type CollaborationChangeRequestSummaryList = CollaborationChangeRequestSummary[];
 export const CollaborationChangeRequestSummaryList = /*@__PURE__*/ S.Array(
   CollaborationChangeRequestSummary,
 );
@@ -5695,13 +5392,11 @@ export interface ListCollaborationChangeRequestsOutput {
   collaborationChangeRequestSummaries: CollaborationChangeRequestSummary[];
   nextToken?: string;
 }
-export const ListCollaborationChangeRequestsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      collaborationChangeRequestSummaries:
-        CollaborationChangeRequestSummaryList,
-      nextToken: S.optional(S.String),
-    }),
+export const ListCollaborationChangeRequestsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationChangeRequestSummaries: CollaborationChangeRequestSummaryList,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListCollaborationChangeRequestsOutput",
 }) as any as S.Schema<ListCollaborationChangeRequestsOutput>;
@@ -5710,12 +5405,10 @@ export interface ListCollaborationConfiguredAudienceModelAssociationsInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListCollaborationConfiguredAudienceModelAssociationsInput =
-  /*@__PURE__*/ S.suspend(() =>
+export const ListCollaborationConfiguredAudienceModelAssociationsInput = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
+      collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
       nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
       maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     }).pipe(
@@ -5731,9 +5424,9 @@ export const ListCollaborationConfiguredAudienceModelAssociationsInput =
         rules,
       ),
     ),
-  ).annotate({
-    identifier: "ListCollaborationConfiguredAudienceModelAssociationsInput",
-  }) as any as S.Schema<ListCollaborationConfiguredAudienceModelAssociationsInput>;
+).annotate({
+  identifier: "ListCollaborationConfiguredAudienceModelAssociationsInput",
+}) as any as S.Schema<ListCollaborationConfiguredAudienceModelAssociationsInput>;
 export interface CollaborationConfiguredAudienceModelAssociationSummary {
   arn: string;
   createTime: Date;
@@ -5745,78 +5438,74 @@ export interface CollaborationConfiguredAudienceModelAssociationSummary {
   creatorAccountId: string;
   description?: string;
 }
-export const CollaborationConfiguredAudienceModelAssociationSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      arn: S.String,
-      createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      id: S.String,
-      name: S.String,
-      updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      collaborationArn: S.String,
-      collaborationId: S.String,
-      creatorAccountId: S.String,
-      description: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "CollaborationConfiguredAudienceModelAssociationSummary",
-  }) as any as S.Schema<CollaborationConfiguredAudienceModelAssociationSummary>;
+export const CollaborationConfiguredAudienceModelAssociationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    id: S.String,
+    name: S.String,
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    collaborationArn: S.String,
+    collaborationId: S.String,
+    creatorAccountId: S.String,
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CollaborationConfiguredAudienceModelAssociationSummary",
+}) as any as S.Schema<CollaborationConfiguredAudienceModelAssociationSummary>;
 export type CollaborationConfiguredAudienceModelAssociationSummaryList =
   CollaborationConfiguredAudienceModelAssociationSummary[];
-export const CollaborationConfiguredAudienceModelAssociationSummaryList =
-  /*@__PURE__*/ S.Array(CollaborationConfiguredAudienceModelAssociationSummary);
+export const CollaborationConfiguredAudienceModelAssociationSummaryList = /*@__PURE__*/ S.Array(
+  CollaborationConfiguredAudienceModelAssociationSummary,
+);
 export interface ListCollaborationConfiguredAudienceModelAssociationsOutput {
   collaborationConfiguredAudienceModelAssociationSummaries: CollaborationConfiguredAudienceModelAssociationSummary[];
   nextToken?: string;
 }
-export const ListCollaborationConfiguredAudienceModelAssociationsOutput =
-  /*@__PURE__*/ S.suspend(() =>
+export const ListCollaborationConfiguredAudienceModelAssociationsOutput = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
       collaborationConfiguredAudienceModelAssociationSummaries:
         CollaborationConfiguredAudienceModelAssociationSummaryList,
       nextToken: S.optional(S.String),
     }),
-  ).annotate({
-    identifier: "ListCollaborationConfiguredAudienceModelAssociationsOutput",
-  }) as any as S.Schema<ListCollaborationConfiguredAudienceModelAssociationsOutput>;
+).annotate({
+  identifier: "ListCollaborationConfiguredAudienceModelAssociationsOutput",
+}) as any as S.Schema<ListCollaborationConfiguredAudienceModelAssociationsOutput>;
 export interface ListCollaborationIdNamespaceAssociationsInput {
   collaborationIdentifier: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListCollaborationIdNamespaceAssociationsInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/collaborations/{collaborationIdentifier}/idnamespaceassociations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListCollaborationIdNamespaceAssociationsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/collaborations/{collaborationIdentifier}/idnamespaceassociations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListCollaborationIdNamespaceAssociationsInput",
-  }) as any as S.Schema<ListCollaborationIdNamespaceAssociationsInput>;
+  ),
+).annotate({
+  identifier: "ListCollaborationIdNamespaceAssociationsInput",
+}) as any as S.Schema<ListCollaborationIdNamespaceAssociationsInput>;
 export interface IdNamespaceAssociationInputReferencePropertiesSummary {
   idNamespaceType: IdNamespaceType;
 }
-export const IdNamespaceAssociationInputReferencePropertiesSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ idNamespaceType: IdNamespaceType }),
-  ).annotate({
-    identifier: "IdNamespaceAssociationInputReferencePropertiesSummary",
-  }) as any as S.Schema<IdNamespaceAssociationInputReferencePropertiesSummary>;
+export const IdNamespaceAssociationInputReferencePropertiesSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ idNamespaceType: IdNamespaceType }),
+).annotate({
+  identifier: "IdNamespaceAssociationInputReferencePropertiesSummary",
+}) as any as S.Schema<IdNamespaceAssociationInputReferencePropertiesSummary>;
 export interface CollaborationIdNamespaceAssociationSummary {
   arn: string;
   createTime: Date;
@@ -5830,43 +5519,40 @@ export interface CollaborationIdNamespaceAssociationSummary {
   description?: string;
   inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary;
 }
-export const CollaborationIdNamespaceAssociationSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      arn: S.String,
-      createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      id: S.String,
-      updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      collaborationArn: S.String,
-      collaborationId: S.String,
-      creatorAccountId: S.String,
-      inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig,
-      name: S.String,
-      description: S.optional(S.String),
-      inputReferenceProperties:
-        IdNamespaceAssociationInputReferencePropertiesSummary,
-    }),
-  ).annotate({
-    identifier: "CollaborationIdNamespaceAssociationSummary",
-  }) as any as S.Schema<CollaborationIdNamespaceAssociationSummary>;
+export const CollaborationIdNamespaceAssociationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    id: S.String,
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    collaborationArn: S.String,
+    collaborationId: S.String,
+    creatorAccountId: S.String,
+    inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig,
+    name: S.String,
+    description: S.optional(S.String),
+    inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary,
+  }),
+).annotate({
+  identifier: "CollaborationIdNamespaceAssociationSummary",
+}) as any as S.Schema<CollaborationIdNamespaceAssociationSummary>;
 export type CollaborationIdNamespaceAssociationSummaryList =
   CollaborationIdNamespaceAssociationSummary[];
-export const CollaborationIdNamespaceAssociationSummaryList =
-  /*@__PURE__*/ S.Array(CollaborationIdNamespaceAssociationSummary);
+export const CollaborationIdNamespaceAssociationSummaryList = /*@__PURE__*/ S.Array(
+  CollaborationIdNamespaceAssociationSummary,
+);
 export interface ListCollaborationIdNamespaceAssociationsOutput {
   nextToken?: string;
   collaborationIdNamespaceAssociationSummaries: CollaborationIdNamespaceAssociationSummary[];
 }
-export const ListCollaborationIdNamespaceAssociationsOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      collaborationIdNamespaceAssociationSummaries:
-        CollaborationIdNamespaceAssociationSummaryList,
-    }),
-  ).annotate({
-    identifier: "ListCollaborationIdNamespaceAssociationsOutput",
-  }) as any as S.Schema<ListCollaborationIdNamespaceAssociationsOutput>;
+export const ListCollaborationIdNamespaceAssociationsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    collaborationIdNamespaceAssociationSummaries: CollaborationIdNamespaceAssociationSummaryList,
+  }),
+).annotate({
+  identifier: "ListCollaborationIdNamespaceAssociationsOutput",
+}) as any as S.Schema<ListCollaborationIdNamespaceAssociationsOutput>;
 export interface ListCollaborationPrivacyBudgetsInput {
   collaborationIdentifier: string;
   privacyBudgetType: PrivacyBudgetType;
@@ -5874,33 +5560,26 @@ export interface ListCollaborationPrivacyBudgetsInput {
   nextToken?: string;
   accessBudgetResourceArn?: string;
 }
-export const ListCollaborationPrivacyBudgetsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      privacyBudgetType: PrivacyBudgetType.pipe(
-        T.HttpQuery("privacyBudgetType"),
-      ),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      accessBudgetResourceArn: S.optional(S.String).pipe(
-        T.HttpQuery("accessBudgetResourceArn"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/collaborations/{collaborationIdentifier}/privacybudgets",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListCollaborationPrivacyBudgetsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    privacyBudgetType: PrivacyBudgetType.pipe(T.HttpQuery("privacyBudgetType")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    accessBudgetResourceArn: S.optional(S.String).pipe(T.HttpQuery("accessBudgetResourceArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/collaborations/{collaborationIdentifier}/privacybudgets",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListCollaborationPrivacyBudgetsInput",
 }) as any as S.Schema<ListCollaborationPrivacyBudgetsInput>;
@@ -5909,20 +5588,20 @@ export interface DifferentialPrivacyPrivacyBudgetAggregation {
   maxCount: number;
   remainingCount: number;
 }
-export const DifferentialPrivacyPrivacyBudgetAggregation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: DifferentialPrivacyAggregationType,
-      maxCount: S.Number,
-      remainingCount: S.Number,
-    }),
-  ).annotate({
-    identifier: "DifferentialPrivacyPrivacyBudgetAggregation",
-  }) as any as S.Schema<DifferentialPrivacyPrivacyBudgetAggregation>;
+export const DifferentialPrivacyPrivacyBudgetAggregation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: DifferentialPrivacyAggregationType,
+    maxCount: S.Number,
+    remainingCount: S.Number,
+  }),
+).annotate({
+  identifier: "DifferentialPrivacyPrivacyBudgetAggregation",
+}) as any as S.Schema<DifferentialPrivacyPrivacyBudgetAggregation>;
 export type DifferentialPrivacyPrivacyBudgetAggregationList =
   DifferentialPrivacyPrivacyBudgetAggregation[];
-export const DifferentialPrivacyPrivacyBudgetAggregationList =
-  /*@__PURE__*/ S.Array(DifferentialPrivacyPrivacyBudgetAggregation);
+export const DifferentialPrivacyPrivacyBudgetAggregationList = /*@__PURE__*/ S.Array(
+  DifferentialPrivacyPrivacyBudgetAggregation,
+);
 export interface DifferentialPrivacyPrivacyBudget {
   aggregations: DifferentialPrivacyPrivacyBudgetAggregation[];
   epsilon: number;
@@ -5957,8 +5636,7 @@ export const AccessBudgetDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "AccessBudgetDetails",
 }) as any as S.Schema<AccessBudgetDetails>;
 export type AccessBudgetDetailsList = AccessBudgetDetails[];
-export const AccessBudgetDetailsList =
-  /*@__PURE__*/ S.Array(AccessBudgetDetails);
+export const AccessBudgetDetailsList = /*@__PURE__*/ S.Array(AccessBudgetDetails);
 export interface AccessBudget {
   resourceArn: string;
   details: AccessBudgetDetails[];
@@ -6009,8 +5687,7 @@ export const CollaborationPrivacyBudgetSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CollaborationPrivacyBudgetSummary",
 }) as any as S.Schema<CollaborationPrivacyBudgetSummary>;
-export type CollaborationPrivacyBudgetSummaryList =
-  CollaborationPrivacyBudgetSummary[];
+export type CollaborationPrivacyBudgetSummaryList = CollaborationPrivacyBudgetSummary[];
 export const CollaborationPrivacyBudgetSummaryList = /*@__PURE__*/ S.Array(
   CollaborationPrivacyBudgetSummary,
 );
@@ -6018,13 +5695,11 @@ export interface ListCollaborationPrivacyBudgetsOutput {
   collaborationPrivacyBudgetSummaries: CollaborationPrivacyBudgetSummary[];
   nextToken?: string;
 }
-export const ListCollaborationPrivacyBudgetsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      collaborationPrivacyBudgetSummaries:
-        CollaborationPrivacyBudgetSummaryList,
-      nextToken: S.optional(S.String),
-    }),
+export const ListCollaborationPrivacyBudgetsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationPrivacyBudgetSummaries: CollaborationPrivacyBudgetSummaryList,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListCollaborationPrivacyBudgetsOutput",
 }) as any as S.Schema<ListCollaborationPrivacyBudgetsOutput>;
@@ -6033,30 +5708,27 @@ export interface ListCollaborationPrivacyBudgetTemplatesInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListCollaborationPrivacyBudgetTemplatesInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/collaborations/{collaborationIdentifier}/privacybudgettemplates",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListCollaborationPrivacyBudgetTemplatesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/collaborations/{collaborationIdentifier}/privacybudgettemplates",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListCollaborationPrivacyBudgetTemplatesInput",
-  }) as any as S.Schema<ListCollaborationPrivacyBudgetTemplatesInput>;
+  ),
+).annotate({
+  identifier: "ListCollaborationPrivacyBudgetTemplatesInput",
+}) as any as S.Schema<ListCollaborationPrivacyBudgetTemplatesInput>;
 export interface CollaborationPrivacyBudgetTemplateSummary {
   id: string;
   arn: string;
@@ -6067,39 +5739,37 @@ export interface CollaborationPrivacyBudgetTemplateSummary {
   createTime: Date;
   updateTime: Date;
 }
-export const CollaborationPrivacyBudgetTemplateSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.String,
-      arn: S.String,
-      collaborationId: S.String,
-      collaborationArn: S.String,
-      creatorAccountId: S.String,
-      privacyBudgetType: PrivacyBudgetType,
-      createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
-  ).annotate({
-    identifier: "CollaborationPrivacyBudgetTemplateSummary",
-  }) as any as S.Schema<CollaborationPrivacyBudgetTemplateSummary>;
+export const CollaborationPrivacyBudgetTemplateSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    collaborationId: S.String,
+    collaborationArn: S.String,
+    creatorAccountId: S.String,
+    privacyBudgetType: PrivacyBudgetType,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({
+  identifier: "CollaborationPrivacyBudgetTemplateSummary",
+}) as any as S.Schema<CollaborationPrivacyBudgetTemplateSummary>;
 export type CollaborationPrivacyBudgetTemplateSummaryList =
   CollaborationPrivacyBudgetTemplateSummary[];
-export const CollaborationPrivacyBudgetTemplateSummaryList =
-  /*@__PURE__*/ S.Array(CollaborationPrivacyBudgetTemplateSummary);
+export const CollaborationPrivacyBudgetTemplateSummaryList = /*@__PURE__*/ S.Array(
+  CollaborationPrivacyBudgetTemplateSummary,
+);
 export interface ListCollaborationPrivacyBudgetTemplatesOutput {
   nextToken?: string;
   collaborationPrivacyBudgetTemplateSummaries: CollaborationPrivacyBudgetTemplateSummary[];
 }
-export const ListCollaborationPrivacyBudgetTemplatesOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      collaborationPrivacyBudgetTemplateSummaries:
-        CollaborationPrivacyBudgetTemplateSummaryList,
-    }),
-  ).annotate({
-    identifier: "ListCollaborationPrivacyBudgetTemplatesOutput",
-  }) as any as S.Schema<ListCollaborationPrivacyBudgetTemplatesOutput>;
+export const ListCollaborationPrivacyBudgetTemplatesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    collaborationPrivacyBudgetTemplateSummaries: CollaborationPrivacyBudgetTemplateSummaryList,
+  }),
+).annotate({
+  identifier: "ListCollaborationPrivacyBudgetTemplatesOutput",
+}) as any as S.Schema<ListCollaborationPrivacyBudgetTemplatesOutput>;
 export type FilterableMemberStatus = string;
 export interface ListCollaborationsInput {
   nextToken?: string;
@@ -6111,16 +5781,7 @@ export const ListCollaborationsInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     memberStatus: S.optional(S.String).pipe(T.HttpQuery("memberStatus")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/collaborations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/collaborations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListCollaborationsInput",
 }) as any as S.Schema<ListCollaborationsInput>;
@@ -6155,8 +5816,7 @@ export const CollaborationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "CollaborationSummary",
 }) as any as S.Schema<CollaborationSummary>;
 export type CollaborationSummaryList = CollaborationSummary[];
-export const CollaborationSummaryList =
-  /*@__PURE__*/ S.Array(CollaborationSummary);
+export const CollaborationSummaryList = /*@__PURE__*/ S.Array(CollaborationSummary);
 export interface ListCollaborationsOutput {
   nextToken?: string;
   collaborationList: CollaborationSummary[];
@@ -6174,28 +5834,27 @@ export interface ListConfiguredAudienceModelAssociationsInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListConfiguredAudienceModelAssociationsInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/memberships/{membershipIdentifier}/configuredaudiencemodelassociations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListConfiguredAudienceModelAssociationsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memberships/{membershipIdentifier}/configuredaudiencemodelassociations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListConfiguredAudienceModelAssociationsInput",
-  }) as any as S.Schema<ListConfiguredAudienceModelAssociationsInput>;
+  ),
+).annotate({
+  identifier: "ListConfiguredAudienceModelAssociationsInput",
+}) as any as S.Schema<ListConfiguredAudienceModelAssociationsInput>;
 export interface ConfiguredAudienceModelAssociationSummary {
   membershipId: string;
   membershipArn: string;
@@ -6209,66 +5868,63 @@ export interface ConfiguredAudienceModelAssociationSummary {
   configuredAudienceModelArn: string;
   description?: string;
 }
-export const ConfiguredAudienceModelAssociationSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      membershipId: S.String,
-      membershipArn: S.String,
-      collaborationArn: S.String,
-      collaborationId: S.String,
-      createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      id: S.String,
-      arn: S.String,
-      name: S.String,
-      configuredAudienceModelArn: S.String,
-      description: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ConfiguredAudienceModelAssociationSummary",
-  }) as any as S.Schema<ConfiguredAudienceModelAssociationSummary>;
+export const ConfiguredAudienceModelAssociationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipId: S.String,
+    membershipArn: S.String,
+    collaborationArn: S.String,
+    collaborationId: S.String,
+    createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    id: S.String,
+    arn: S.String,
+    name: S.String,
+    configuredAudienceModelArn: S.String,
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ConfiguredAudienceModelAssociationSummary",
+}) as any as S.Schema<ConfiguredAudienceModelAssociationSummary>;
 export type ConfiguredAudienceModelAssociationSummaryList =
   ConfiguredAudienceModelAssociationSummary[];
-export const ConfiguredAudienceModelAssociationSummaryList =
-  /*@__PURE__*/ S.Array(ConfiguredAudienceModelAssociationSummary);
+export const ConfiguredAudienceModelAssociationSummaryList = /*@__PURE__*/ S.Array(
+  ConfiguredAudienceModelAssociationSummary,
+);
 export interface ListConfiguredAudienceModelAssociationsOutput {
   configuredAudienceModelAssociationSummaries: ConfiguredAudienceModelAssociationSummary[];
   nextToken?: string;
 }
-export const ListConfiguredAudienceModelAssociationsOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      configuredAudienceModelAssociationSummaries:
-        ConfiguredAudienceModelAssociationSummaryList,
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListConfiguredAudienceModelAssociationsOutput",
-  }) as any as S.Schema<ListConfiguredAudienceModelAssociationsOutput>;
+export const ListConfiguredAudienceModelAssociationsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredAudienceModelAssociationSummaries: ConfiguredAudienceModelAssociationSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListConfiguredAudienceModelAssociationsOutput",
+}) as any as S.Schema<ListConfiguredAudienceModelAssociationsOutput>;
 export interface ListConfiguredTableAssociationsInput {
   membershipIdentifier: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListConfiguredTableAssociationsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/memberships/{membershipIdentifier}/configuredTableAssociations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListConfiguredTableAssociationsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/memberships/{membershipIdentifier}/configuredTableAssociations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListConfiguredTableAssociationsInput",
 }) as any as S.Schema<ListConfiguredTableAssociationsInput>;
@@ -6293,15 +5949,12 @@ export const ConfiguredTableAssociationSummary = /*@__PURE__*/ S.suspend(() =>
     updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     id: S.String,
     arn: S.String,
-    analysisRuleTypes: S.optional(
-      ConfiguredTableAssociationAnalysisRuleTypeList,
-    ),
+    analysisRuleTypes: S.optional(ConfiguredTableAssociationAnalysisRuleTypeList),
   }),
 ).annotate({
   identifier: "ConfiguredTableAssociationSummary",
 }) as any as S.Schema<ConfiguredTableAssociationSummary>;
-export type ConfiguredTableAssociationSummaryList =
-  ConfiguredTableAssociationSummary[];
+export type ConfiguredTableAssociationSummaryList = ConfiguredTableAssociationSummary[];
 export const ConfiguredTableAssociationSummaryList = /*@__PURE__*/ S.Array(
   ConfiguredTableAssociationSummary,
 );
@@ -6309,13 +5962,11 @@ export interface ListConfiguredTableAssociationsOutput {
   configuredTableAssociationSummaries: ConfiguredTableAssociationSummary[];
   nextToken?: string;
 }
-export const ListConfiguredTableAssociationsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      configuredTableAssociationSummaries:
-        ConfiguredTableAssociationSummaryList,
-      nextToken: S.optional(S.String),
-    }),
+export const ListConfiguredTableAssociationsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredTableAssociationSummaries: ConfiguredTableAssociationSummaryList,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListConfiguredTableAssociationsOutput",
 }) as any as S.Schema<ListConfiguredTableAssociationsOutput>;
@@ -6327,16 +5978,7 @@ export const ListConfiguredTablesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/configuredTables" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/configuredTables" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListConfiguredTablesInput",
 }) as any as S.Schema<ListConfiguredTablesInput>;
@@ -6365,9 +6007,7 @@ export const ConfiguredTableSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfiguredTableSummary",
 }) as any as S.Schema<ConfiguredTableSummary>;
 export type ConfiguredTableSummaryList = ConfiguredTableSummary[];
-export const ConfiguredTableSummaryList = /*@__PURE__*/ S.Array(
-  ConfiguredTableSummary,
-);
+export const ConfiguredTableSummaryList = /*@__PURE__*/ S.Array(ConfiguredTableSummary);
 export interface ListConfiguredTablesOutput {
   configuredTableSummaries: ConfiguredTableSummary[];
   nextToken?: string;
@@ -6437,9 +6077,7 @@ export const IdMappingTableSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "IdMappingTableSummary",
 }) as any as S.Schema<IdMappingTableSummary>;
 export type IdMappingTableSummaryList = IdMappingTableSummary[];
-export const IdMappingTableSummaryList = /*@__PURE__*/ S.Array(
-  IdMappingTableSummary,
-);
+export const IdMappingTableSummaryList = /*@__PURE__*/ S.Array(IdMappingTableSummary);
 export interface ListIdMappingTablesOutput {
   idMappingTableSummaries: IdMappingTableSummary[];
   nextToken?: string;
@@ -6505,8 +6143,7 @@ export const IdNamespaceAssociationSummary = /*@__PURE__*/ S.suspend(() =>
     inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig,
     name: S.String,
     description: S.optional(S.String),
-    inputReferenceProperties:
-      IdNamespaceAssociationInputReferencePropertiesSummary,
+    inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary,
   }),
 ).annotate({
   identifier: "IdNamespaceAssociationSummary",
@@ -6588,9 +6225,7 @@ export const IntermediateTableSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "IntermediateTableSummary",
 }) as any as S.Schema<IntermediateTableSummary>;
 export type IntermediateTableSummaryList = IntermediateTableSummary[];
-export const IntermediateTableSummaryList = /*@__PURE__*/ S.Array(
-  IntermediateTableSummary,
-);
+export const IntermediateTableSummaryList = /*@__PURE__*/ S.Array(IntermediateTableSummary);
 export interface ListIntermediateTablesOutput {
   intermediateTableSummaries: IntermediateTableSummary[];
   nextToken?: string;
@@ -6612,9 +6247,7 @@ export interface ListIntermediateTableVersionsInput {
 export const ListIntermediateTableVersionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    intermediateTableIdentifier: S.String.pipe(
-      T.HttpLabel("intermediateTableIdentifier"),
-    ),
+    intermediateTableIdentifier: S.String.pipe(T.HttpLabel("intermediateTableIdentifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -6665,8 +6298,7 @@ export const IntermediateTableVersionSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "IntermediateTableVersionSummary",
 }) as any as S.Schema<IntermediateTableVersionSummary>;
-export type IntermediateTableVersionSummaryList =
-  IntermediateTableVersionSummary[];
+export type IntermediateTableVersionSummaryList = IntermediateTableVersionSummary[];
 export const IntermediateTableVersionSummaryList = /*@__PURE__*/ S.Array(
   IntermediateTableVersionSummary,
 );
@@ -6689,9 +6321,7 @@ export interface ListMembersInput {
 }
 export const ListMembersInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -6760,16 +6390,7 @@ export const ListMembershipsInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/memberships" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/memberships" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListMembershipsInput",
 }) as any as S.Schema<ListMembershipsInput>;
@@ -6834,9 +6455,7 @@ export const ListPrivacyBudgetsInput = /*@__PURE__*/ S.suspend(() =>
     privacyBudgetType: PrivacyBudgetType.pipe(T.HttpQuery("privacyBudgetType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    accessBudgetResourceArn: S.optional(S.String).pipe(
-      T.HttpQuery("accessBudgetResourceArn"),
-    ),
+    accessBudgetResourceArn: S.optional(S.String).pipe(T.HttpQuery("accessBudgetResourceArn")),
   }).pipe(
     T.all(
       T.Http({
@@ -6884,8 +6503,7 @@ export const PrivacyBudgetSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrivacyBudgetSummary",
 }) as any as S.Schema<PrivacyBudgetSummary>;
 export type PrivacyBudgetSummaryList = PrivacyBudgetSummary[];
-export const PrivacyBudgetSummaryList =
-  /*@__PURE__*/ S.Array(PrivacyBudgetSummary);
+export const PrivacyBudgetSummaryList = /*@__PURE__*/ S.Array(PrivacyBudgetSummary);
 export interface ListPrivacyBudgetsOutput {
   privacyBudgetSummaries: PrivacyBudgetSummary[];
   nextToken?: string;
@@ -6951,9 +6569,7 @@ export const PrivacyBudgetTemplateSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrivacyBudgetTemplateSummary",
 }) as any as S.Schema<PrivacyBudgetTemplateSummary>;
 export type PrivacyBudgetTemplateSummaryList = PrivacyBudgetTemplateSummary[];
-export const PrivacyBudgetTemplateSummaryList = /*@__PURE__*/ S.Array(
-  PrivacyBudgetTemplateSummary,
-);
+export const PrivacyBudgetTemplateSummaryList = /*@__PURE__*/ S.Array(PrivacyBudgetTemplateSummary);
 export interface ListPrivacyBudgetTemplatesOutput {
   nextToken?: string;
   privacyBudgetTemplateSummaries: PrivacyBudgetTemplateSummary[];
@@ -7002,21 +6618,19 @@ export const ProtectedJobReceiverAccountIds = /*@__PURE__*/ S.Array(S.String);
 export interface ProtectedJobDirectAnalysisConfigurationDetails {
   receiverAccountIds?: string[];
 }
-export const ProtectedJobDirectAnalysisConfigurationDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      receiverAccountIds: S.optional(ProtectedJobReceiverAccountIds),
-    }),
-  ).annotate({
-    identifier: "ProtectedJobDirectAnalysisConfigurationDetails",
-  }) as any as S.Schema<ProtectedJobDirectAnalysisConfigurationDetails>;
+export const ProtectedJobDirectAnalysisConfigurationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    receiverAccountIds: S.optional(ProtectedJobReceiverAccountIds),
+  }),
+).annotate({
+  identifier: "ProtectedJobDirectAnalysisConfigurationDetails",
+}) as any as S.Schema<ProtectedJobDirectAnalysisConfigurationDetails>;
 export type ProtectedJobConfigurationDetails = {
   directAnalysisConfigurationDetails: ProtectedJobDirectAnalysisConfigurationDetails;
 };
 export const ProtectedJobConfigurationDetails = /*@__PURE__*/ S.Union([
   S.Struct({
-    directAnalysisConfigurationDetails:
-      ProtectedJobDirectAnalysisConfigurationDetails,
+    directAnalysisConfigurationDetails: ProtectedJobDirectAnalysisConfigurationDetails,
   }),
 ]);
 export interface ProtectedJobReceiverConfiguration {
@@ -7031,8 +6645,7 @@ export const ProtectedJobReceiverConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ProtectedJobReceiverConfiguration",
 }) as any as S.Schema<ProtectedJobReceiverConfiguration>;
-export type ProtectedJobReceiverConfigurations =
-  ProtectedJobReceiverConfiguration[];
+export type ProtectedJobReceiverConfigurations = ProtectedJobReceiverConfiguration[];
 export const ProtectedJobReceiverConfigurations = /*@__PURE__*/ S.Array(
   ProtectedJobReceiverConfiguration,
 );
@@ -7059,8 +6672,7 @@ export const ProtectedJobSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProtectedJobSummary",
 }) as any as S.Schema<ProtectedJobSummary>;
 export type ProtectedJobSummaryList = ProtectedJobSummary[];
-export const ProtectedJobSummaryList =
-  /*@__PURE__*/ S.Array(ProtectedJobSummary);
+export const ProtectedJobSummaryList = /*@__PURE__*/ S.Array(ProtectedJobSummary);
 export interface ListProtectedJobsOutput {
   nextToken?: string;
   protectedJobs: ProtectedJobSummary[];
@@ -7132,9 +6744,7 @@ export const ReceiverConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReceiverConfiguration",
 }) as any as S.Schema<ReceiverConfiguration>;
 export type ReceiverConfigurationsList = ReceiverConfiguration[];
-export const ReceiverConfigurationsList = /*@__PURE__*/ S.Array(
-  ReceiverConfiguration,
-);
+export const ReceiverConfigurationsList = /*@__PURE__*/ S.Array(ReceiverConfiguration);
 export interface ProtectedQuerySummary {
   id: string;
   membershipId: string;
@@ -7154,17 +6764,13 @@ export const ProtectedQuerySummary = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     receiverConfigurations: ReceiverConfigurationsList,
     queryComputePayerAccountId: S.optional(S.String),
-    intermediateTableConfiguration: S.optional(
-      IntermediateTableOutputConfiguration,
-    ),
+    intermediateTableConfiguration: S.optional(IntermediateTableOutputConfiguration),
   }),
 ).annotate({
   identifier: "ProtectedQuerySummary",
 }) as any as S.Schema<ProtectedQuerySummary>;
 export type ProtectedQuerySummaryList = ProtectedQuerySummary[];
-export const ProtectedQuerySummaryList = /*@__PURE__*/ S.Array(
-  ProtectedQuerySummary,
-);
+export const ProtectedQuerySummaryList = /*@__PURE__*/ S.Array(ProtectedQuerySummary);
 export interface ListProtectedQueriesOutput {
   nextToken?: string;
   protectedQueries: ProtectedQuerySummary[];
@@ -7185,9 +6791,7 @@ export interface ListSchemasInput {
 }
 export const ListSchemasInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
     schemaType: S.optional(SchemaType).pipe(T.HttpQuery("schemaType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -7255,14 +6859,7 @@ export interface ListTagsForResourceInput {
 }
 export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceInput",
@@ -7285,9 +6882,7 @@ export interface PopulateIdMappingTableInput {
 }
 export const PopulateIdMappingTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idMappingTableIdentifier: S.String.pipe(
-      T.HttpLabel("idMappingTableIdentifier"),
-    ),
+    idMappingTableIdentifier: S.String.pipe(T.HttpLabel("idMappingTableIdentifier")),
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     jobType: S.optional(JobType),
   }).pipe(
@@ -7329,9 +6924,7 @@ export interface PopulateIntermediateTableInput {
 }
 export const PopulateIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    intermediateTableIdentifier: S.String.pipe(
-      T.HttpLabel("intermediateTableIdentifier"),
-    ),
+    intermediateTableIdentifier: S.String.pipe(T.HttpLabel("intermediateTableIdentifier")),
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     parameters: S.optional(ParameterMap),
     computeConfiguration: S.optional(IntermediateTableComputeConfiguration),
@@ -7370,12 +6963,11 @@ export interface DifferentialPrivacyPreviewParametersInput {
   epsilon: number;
   usersNoisePerQuery: number;
 }
-export const DifferentialPrivacyPreviewParametersInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ epsilon: S.Number, usersNoisePerQuery: S.Number }),
-  ).annotate({
-    identifier: "DifferentialPrivacyPreviewParametersInput",
-  }) as any as S.Schema<DifferentialPrivacyPreviewParametersInput>;
+export const DifferentialPrivacyPreviewParametersInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ epsilon: S.Number, usersNoisePerQuery: S.Number }),
+).annotate({
+  identifier: "DifferentialPrivacyPreviewParametersInput",
+}) as any as S.Schema<DifferentialPrivacyPreviewParametersInput>;
 export type PreviewPrivacyImpactParametersInput = {
   differentialPrivacy: DifferentialPrivacyPreviewParametersInput;
 };
@@ -7410,14 +7002,12 @@ export interface DifferentialPrivacyPreviewAggregation {
   type: DifferentialPrivacyAggregationType;
   maxCount: number;
 }
-export const DifferentialPrivacyPreviewAggregation = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ type: DifferentialPrivacyAggregationType, maxCount: S.Number }),
+export const DifferentialPrivacyPreviewAggregation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ type: DifferentialPrivacyAggregationType, maxCount: S.Number }),
 ).annotate({
   identifier: "DifferentialPrivacyPreviewAggregation",
 }) as any as S.Schema<DifferentialPrivacyPreviewAggregation>;
-export type DifferentialPrivacyPreviewAggregationList =
-  DifferentialPrivacyPreviewAggregation[];
+export type DifferentialPrivacyPreviewAggregationList = DifferentialPrivacyPreviewAggregation[];
 export const DifferentialPrivacyPreviewAggregationList = /*@__PURE__*/ S.Array(
   DifferentialPrivacyPreviewAggregation,
 );
@@ -7485,10 +7075,11 @@ export const ProtectedJobType = S.String;
 export interface ProtectedJobMemberOutputConfigurationInput {
   accountId: string;
 }
-export const ProtectedJobMemberOutputConfigurationInput =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ accountId: S.String })).annotate({
-    identifier: "ProtectedJobMemberOutputConfigurationInput",
-  }) as any as S.Schema<ProtectedJobMemberOutputConfigurationInput>;
+export const ProtectedJobMemberOutputConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ accountId: S.String }),
+).annotate({
+  identifier: "ProtectedJobMemberOutputConfigurationInput",
+}) as any as S.Schema<ProtectedJobMemberOutputConfigurationInput>;
 export type ProtectedJobOutputConfigurationInput = {
   member: ProtectedJobMemberOutputConfigurationInput;
 };
@@ -7498,8 +7089,8 @@ export const ProtectedJobOutputConfigurationInput = /*@__PURE__*/ S.Union([
 export interface ProtectedJobResultConfigurationInput {
   outputConfiguration: ProtectedJobOutputConfigurationInput;
 }
-export const ProtectedJobResultConfigurationInput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ outputConfiguration: ProtectedJobOutputConfigurationInput }),
+export const ProtectedJobResultConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ outputConfiguration: ProtectedJobOutputConfigurationInput }),
 ).annotate({
   identifier: "ProtectedJobResultConfigurationInput",
 }) as any as S.Schema<ProtectedJobResultConfigurationInput>;
@@ -7593,22 +7184,13 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeys = string[];
@@ -7622,22 +7204,13 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateAnalysisTemplateInput {
@@ -7648,9 +7221,7 @@ export interface UpdateAnalysisTemplateInput {
 export const UpdateAnalysisTemplateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    analysisTemplateIdentifier: S.String.pipe(
-      T.HttpLabel("analysisTemplateIdentifier"),
-    ),
+    analysisTemplateIdentifier: S.String.pipe(T.HttpLabel("analysisTemplateIdentifier")),
     description: S.optional(S.String),
   }).pipe(
     T.all(
@@ -7684,9 +7255,7 @@ export interface UpdateCollaborationInput {
 }
 export const UpdateCollaborationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collaborationIdentifier: S.String.pipe(
-      T.HttpLabel("collaborationIdentifier"),
-    ),
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     analyticsEngine: S.optional(AnalyticsEngine),
@@ -7714,12 +7283,7 @@ export const UpdateCollaborationOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateCollaborationOutput",
 }) as any as S.Schema<UpdateCollaborationOutput>;
-export type ChangeRequestAction =
-  | "APPROVE"
-  | "DENY"
-  | "CANCEL"
-  | "COMMIT"
-  | (string & {});
+export type ChangeRequestAction = "APPROVE" | "DENY" | "CANCEL" | "COMMIT" | (string & {});
 export const ChangeRequestAction = S.String;
 
 export interface UpdateCollaborationChangeRequestInput {
@@ -7727,37 +7291,32 @@ export interface UpdateCollaborationChangeRequestInput {
   changeRequestIdentifier: string;
   action: ChangeRequestAction;
 }
-export const UpdateCollaborationChangeRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      collaborationIdentifier: S.String.pipe(
-        T.HttpLabel("collaborationIdentifier"),
-      ),
-      changeRequestIdentifier: S.String.pipe(
-        T.HttpLabel("changeRequestIdentifier"),
-      ),
-      action: ChangeRequestAction,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/collaborations/{collaborationIdentifier}/changeRequests/{changeRequestIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateCollaborationChangeRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collaborationIdentifier: S.String.pipe(T.HttpLabel("collaborationIdentifier")),
+    changeRequestIdentifier: S.String.pipe(T.HttpLabel("changeRequestIdentifier")),
+    action: ChangeRequestAction,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/collaborations/{collaborationIdentifier}/changeRequests/{changeRequestIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateCollaborationChangeRequestInput",
 }) as any as S.Schema<UpdateCollaborationChangeRequestInput>;
 export interface UpdateCollaborationChangeRequestOutput {
   collaborationChangeRequest: CollaborationChangeRequest;
 }
-export const UpdateCollaborationChangeRequestOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ collaborationChangeRequest: CollaborationChangeRequest }),
+export const UpdateCollaborationChangeRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ collaborationChangeRequest: CollaborationChangeRequest }),
 ).annotate({
   identifier: "UpdateCollaborationChangeRequestOutput",
 }) as any as S.Schema<UpdateCollaborationChangeRequestOutput>;
@@ -7767,42 +7326,40 @@ export interface UpdateConfiguredAudienceModelAssociationInput {
   description?: string;
   name?: string;
 }
-export const UpdateConfiguredAudienceModelAssociationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      configuredAudienceModelAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
-      ),
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      description: S.optional(S.String),
-      name: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/memberships/{membershipIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateConfiguredAudienceModelAssociationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredAudienceModelAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
     ),
-  ).annotate({
-    identifier: "UpdateConfiguredAudienceModelAssociationInput",
-  }) as any as S.Schema<UpdateConfiguredAudienceModelAssociationInput>;
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/memberships/{membershipIdentifier}/configuredaudiencemodelassociations/{configuredAudienceModelAssociationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateConfiguredAudienceModelAssociationInput",
+}) as any as S.Schema<UpdateConfiguredAudienceModelAssociationInput>;
 export interface UpdateConfiguredAudienceModelAssociationOutput {
   configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation;
 }
-export const UpdateConfiguredAudienceModelAssociationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation,
-    }),
-  ).annotate({
-    identifier: "UpdateConfiguredAudienceModelAssociationOutput",
-  }) as any as S.Schema<UpdateConfiguredAudienceModelAssociationOutput>;
+export const UpdateConfiguredAudienceModelAssociationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation,
+  }),
+).annotate({
+  identifier: "UpdateConfiguredAudienceModelAssociationOutput",
+}) as any as S.Schema<UpdateConfiguredAudienceModelAssociationOutput>;
 export interface UpdateConfiguredTableInput {
   configuredTableIdentifier: string;
   name?: string;
@@ -7814,9 +7371,7 @@ export interface UpdateConfiguredTableInput {
 }
 export const UpdateConfiguredTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    configuredTableIdentifier: S.String.pipe(
-      T.HttpLabel("configuredTableIdentifier"),
-    ),
+    configuredTableIdentifier: S.String.pipe(T.HttpLabel("configuredTableIdentifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     tableReference: S.optional(TableReference),
@@ -7852,37 +7407,32 @@ export interface UpdateConfiguredTableAnalysisRuleInput {
   analysisRuleType: ConfiguredTableAnalysisRuleType;
   analysisRulePolicy: ConfiguredTableAnalysisRulePolicy;
 }
-export const UpdateConfiguredTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      configuredTableIdentifier: S.String.pipe(
-        T.HttpLabel("configuredTableIdentifier"),
-      ),
-      analysisRuleType: ConfiguredTableAnalysisRuleType.pipe(
-        T.HttpLabel("analysisRuleType"),
-      ),
-      analysisRulePolicy: ConfiguredTableAnalysisRulePolicy,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/configuredTables/{configuredTableIdentifier}/analysisRule/{analysisRuleType}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateConfiguredTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredTableIdentifier: S.String.pipe(T.HttpLabel("configuredTableIdentifier")),
+    analysisRuleType: ConfiguredTableAnalysisRuleType.pipe(T.HttpLabel("analysisRuleType")),
+    analysisRulePolicy: ConfiguredTableAnalysisRulePolicy,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/configuredTables/{configuredTableIdentifier}/analysisRule/{analysisRuleType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateConfiguredTableAnalysisRuleInput",
 }) as any as S.Schema<UpdateConfiguredTableAnalysisRuleInput>;
 export interface UpdateConfiguredTableAnalysisRuleOutput {
   analysisRule: ConfiguredTableAnalysisRule;
 }
-export const UpdateConfiguredTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ analysisRule: ConfiguredTableAnalysisRule }),
+export const UpdateConfiguredTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisRule: ConfiguredTableAnalysisRule }),
 ).annotate({
   identifier: "UpdateConfiguredTableAnalysisRuleOutput",
 }) as any as S.Schema<UpdateConfiguredTableAnalysisRuleOutput>;
@@ -7892,36 +7442,35 @@ export interface UpdateConfiguredTableAssociationInput {
   description?: string;
   roleArn?: string;
 }
-export const UpdateConfiguredTableAssociationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      configuredTableAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("configuredTableAssociationIdentifier"),
-      ),
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      description: S.optional(S.String),
-      roleArn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateConfiguredTableAssociationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
     ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    description: S.optional(S.String),
+    roleArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
 ).annotate({
   identifier: "UpdateConfiguredTableAssociationInput",
 }) as any as S.Schema<UpdateConfiguredTableAssociationInput>;
 export interface UpdateConfiguredTableAssociationOutput {
   configuredTableAssociation: ConfiguredTableAssociation;
 }
-export const UpdateConfiguredTableAssociationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ configuredTableAssociation: ConfiguredTableAssociation }),
+export const UpdateConfiguredTableAssociationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ configuredTableAssociation: ConfiguredTableAssociation }),
 ).annotate({
   identifier: "UpdateConfiguredTableAssociationOutput",
 }) as any as S.Schema<UpdateConfiguredTableAssociationOutput>;
@@ -7931,42 +7480,40 @@ export interface UpdateConfiguredTableAssociationAnalysisRuleInput {
   analysisRuleType: ConfiguredTableAssociationAnalysisRuleType;
   analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy;
 }
-export const UpdateConfiguredTableAssociationAnalysisRuleInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      configuredTableAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("configuredTableAssociationIdentifier"),
-      ),
-      analysisRuleType: ConfiguredTableAssociationAnalysisRuleType.pipe(
-        T.HttpLabel("analysisRuleType"),
-      ),
-      analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateConfiguredTableAssociationAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
     ),
-  ).annotate({
-    identifier: "UpdateConfiguredTableAssociationAnalysisRuleInput",
-  }) as any as S.Schema<UpdateConfiguredTableAssociationAnalysisRuleInput>;
+    analysisRuleType: ConfiguredTableAssociationAnalysisRuleType.pipe(
+      T.HttpLabel("analysisRuleType"),
+    ),
+    analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "UpdateConfiguredTableAssociationAnalysisRuleInput",
+}) as any as S.Schema<UpdateConfiguredTableAssociationAnalysisRuleInput>;
 export interface UpdateConfiguredTableAssociationAnalysisRuleOutput {
   analysisRule: ConfiguredTableAssociationAnalysisRule;
 }
-export const UpdateConfiguredTableAssociationAnalysisRuleOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ analysisRule: ConfiguredTableAssociationAnalysisRule }),
-  ).annotate({
-    identifier: "UpdateConfiguredTableAssociationAnalysisRuleOutput",
-  }) as any as S.Schema<UpdateConfiguredTableAssociationAnalysisRuleOutput>;
+export const UpdateConfiguredTableAssociationAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisRule: ConfiguredTableAssociationAnalysisRule }),
+).annotate({
+  identifier: "UpdateConfiguredTableAssociationAnalysisRuleOutput",
+}) as any as S.Schema<UpdateConfiguredTableAssociationAnalysisRuleOutput>;
 export interface UpdateIdMappingTableInput {
   idMappingTableIdentifier: string;
   membershipIdentifier: string;
@@ -7975,9 +7522,7 @@ export interface UpdateIdMappingTableInput {
 }
 export const UpdateIdMappingTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idMappingTableIdentifier: S.String.pipe(
-      T.HttpLabel("idMappingTableIdentifier"),
-    ),
+    idMappingTableIdentifier: S.String.pipe(T.HttpLabel("idMappingTableIdentifier")),
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     description: S.optional(S.String),
     kmsKeyArn: S.optional(S.String),
@@ -8056,9 +7601,7 @@ export const IntermediateTableColumn = /*@__PURE__*/ S.suspend(() =>
   identifier: "IntermediateTableColumn",
 }) as any as S.Schema<IntermediateTableColumn>;
 export type IntermediateTableColumnList = IntermediateTableColumn[];
-export const IntermediateTableColumnList = /*@__PURE__*/ S.Array(
-  IntermediateTableColumn,
-);
+export const IntermediateTableColumnList = /*@__PURE__*/ S.Array(IntermediateTableColumn);
 export interface UpdateIntermediateTableInput {
   intermediateTableIdentifier: string;
   membershipIdentifier: string;
@@ -8068,9 +7611,7 @@ export interface UpdateIntermediateTableInput {
 }
 export const UpdateIntermediateTableInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    intermediateTableIdentifier: S.String.pipe(
-      T.HttpLabel("intermediateTableIdentifier"),
-    ),
+    intermediateTableIdentifier: S.String.pipe(T.HttpLabel("intermediateTableIdentifier")),
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     description: S.optional(S.String),
     kmsKeyArn: S.optional(S.String),
@@ -8105,54 +7646,47 @@ export interface UpdateIntermediateTableAnalysisRuleInput {
   analysisRuleType: IntermediateTableAnalysisRuleType;
   analysisRulePolicy: IntermediateTableAnalysisRulePolicy;
 }
-export const UpdateIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-      intermediateTableIdentifier: S.String.pipe(
-        T.HttpLabel("intermediateTableIdentifier"),
-      ),
-      analysisRuleType: IntermediateTableAnalysisRuleType.pipe(
-        T.HttpLabel("analysisRuleType"),
-      ),
-      analysisRulePolicy: IntermediateTableAnalysisRulePolicy,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateIntermediateTableAnalysisRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    intermediateTableIdentifier: S.String.pipe(T.HttpLabel("intermediateTableIdentifier")),
+    analysisRuleType: IntermediateTableAnalysisRuleType.pipe(T.HttpLabel("analysisRuleType")),
+    analysisRulePolicy: IntermediateTableAnalysisRulePolicy,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateIntermediateTableAnalysisRuleInput",
 }) as any as S.Schema<UpdateIntermediateTableAnalysisRuleInput>;
 export interface UpdateIntermediateTableAnalysisRuleOutput {
   analysisRule: IntermediateTableAnalysisRule;
 }
-export const UpdateIntermediateTableAnalysisRuleOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ analysisRule: IntermediateTableAnalysisRule }),
-  ).annotate({
-    identifier: "UpdateIntermediateTableAnalysisRuleOutput",
-  }) as any as S.Schema<UpdateIntermediateTableAnalysisRuleOutput>;
+export const UpdateIntermediateTableAnalysisRuleOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ analysisRule: IntermediateTableAnalysisRule }),
+).annotate({
+  identifier: "UpdateIntermediateTableAnalysisRuleOutput",
+}) as any as S.Schema<UpdateIntermediateTableAnalysisRuleOutput>;
 export interface UpdateMembershipPaymentConfiguration {
   queryCompute?: MembershipQueryComputePaymentConfig;
   machineLearning?: MembershipMLPaymentConfig;
   jobCompute?: MembershipJobComputePaymentConfig;
 }
-export const UpdateMembershipPaymentConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      queryCompute: S.optional(MembershipQueryComputePaymentConfig),
-      machineLearning: S.optional(MembershipMLPaymentConfig),
-      jobCompute: S.optional(MembershipJobComputePaymentConfig),
-    }),
+export const UpdateMembershipPaymentConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    queryCompute: S.optional(MembershipQueryComputePaymentConfig),
+    machineLearning: S.optional(MembershipMLPaymentConfig),
+    jobCompute: S.optional(MembershipJobComputePaymentConfig),
+  }),
 ).annotate({
   identifier: "UpdateMembershipPaymentConfiguration",
 }) as any as S.Schema<UpdateMembershipPaymentConfiguration>;
@@ -8169,15 +7703,9 @@ export const UpdateMembershipInput = /*@__PURE__*/ S.suspend(() =>
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     queryLogStatus: S.optional(MembershipQueryLogStatus),
     jobLogStatus: S.optional(MembershipJobLogStatus),
-    defaultResultConfiguration: S.optional(
-      MembershipProtectedQueryResultConfiguration,
-    ),
-    defaultJobResultConfiguration: S.optional(
-      MembershipProtectedJobResultConfiguration,
-    ),
-    membershipPaymentConfiguration: S.optional(
-      UpdateMembershipPaymentConfiguration,
-    ),
+    defaultResultConfiguration: S.optional(MembershipProtectedQueryResultConfiguration),
+    defaultJobResultConfiguration: S.optional(MembershipProtectedJobResultConfiguration),
+    membershipPaymentConfiguration: S.optional(UpdateMembershipPaymentConfiguration),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/memberships/{membershipIdentifier}" }),
@@ -8203,24 +7731,22 @@ export interface DifferentialPrivacyTemplateUpdateParameters {
   epsilon?: number;
   usersNoisePerQuery?: number;
 }
-export const DifferentialPrivacyTemplateUpdateParameters =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      epsilon: S.optional(S.Number),
-      usersNoisePerQuery: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "DifferentialPrivacyTemplateUpdateParameters",
-  }) as any as S.Schema<DifferentialPrivacyTemplateUpdateParameters>;
+export const DifferentialPrivacyTemplateUpdateParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    epsilon: S.optional(S.Number),
+    usersNoisePerQuery: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "DifferentialPrivacyTemplateUpdateParameters",
+}) as any as S.Schema<DifferentialPrivacyTemplateUpdateParameters>;
 export interface AccessBudgetsPrivacyTemplateUpdateParameters {
   budgetParameters: BudgetParameter[];
 }
-export const AccessBudgetsPrivacyTemplateUpdateParameters =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ budgetParameters: BudgetParameters }),
-  ).annotate({
-    identifier: "AccessBudgetsPrivacyTemplateUpdateParameters",
-  }) as any as S.Schema<AccessBudgetsPrivacyTemplateUpdateParameters>;
+export const AccessBudgetsPrivacyTemplateUpdateParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ budgetParameters: BudgetParameters }),
+).annotate({
+  identifier: "AccessBudgetsPrivacyTemplateUpdateParameters",
+}) as any as S.Schema<AccessBudgetsPrivacyTemplateUpdateParameters>;
 export type PrivacyBudgetTemplateUpdateParameters =
   | {
       differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters;
@@ -8245,9 +7771,7 @@ export interface UpdatePrivacyBudgetTemplateInput {
 export const UpdatePrivacyBudgetTemplateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    privacyBudgetTemplateIdentifier: S.String.pipe(
-      T.HttpLabel("privacyBudgetTemplateIdentifier"),
-    ),
+    privacyBudgetTemplateIdentifier: S.String.pipe(T.HttpLabel("privacyBudgetTemplateIdentifier")),
     privacyBudgetType: PrivacyBudgetType,
     parameters: S.optional(PrivacyBudgetTemplateUpdateParameters),
   }).pipe(
@@ -8285,9 +7809,7 @@ export interface UpdateProtectedJobInput {
 export const UpdateProtectedJobInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    protectedJobIdentifier: S.String.pipe(
-      T.HttpLabel("protectedJobIdentifier"),
-    ),
+    protectedJobIdentifier: S.String.pipe(T.HttpLabel("protectedJobIdentifier")),
     targetStatus: TargetProtectedJobStatus,
   }).pipe(
     T.all(
@@ -8322,9 +7844,7 @@ export interface UpdateProtectedQueryInput {
 export const UpdateProtectedQueryInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
-    protectedQueryIdentifier: S.String.pipe(
-      T.HttpLabel("protectedQueryIdentifier"),
-    ),
+    protectedQueryIdentifier: S.String.pipe(T.HttpLabel("protectedQueryIdentifier")),
     targetStatus: S.String,
   }).pipe(
     T.all(
@@ -8363,9 +7883,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type ConflictExceptionReason = string;
 export type BatchGetCollaborationAnalysisTemplateError =
   | AccessDeniedException
@@ -11157,10 +10675,7 @@ export const startProtectedQuery: API.OperationMethod<
   operationName: "StartProtectedQuery",
 }));
 
-export type TagResourceError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type TagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Tags a resource.
  */
@@ -11178,10 +10693,7 @@ export const tagResource: API.OperationMethod<
   operationName: "TagResource",
 }));
 
-export type UntagResourceError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Removes a tag or list of tags from a resource.
  */

@@ -4159,12 +4159,7 @@
           }
         },
         "aws.iam#disableConditionKeyInference": {},
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#cors": {},
         "smithy.api#documentation": "<p>This guide documents the action and response elements for use of the service.</p>",

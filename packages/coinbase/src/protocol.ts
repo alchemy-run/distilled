@@ -1,3 +1,9 @@
+import * as crypto from "node:crypto";
+import * as API from "@distilled.cloud/core/api";
+import { type ConfigError, HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
+import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
  * CoinbaseProtocol — hand-written.
  *
@@ -41,22 +47,10 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
-import * as crypto from "node:crypto";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import {
-  type ConfigError,
-  HTTP_STATUS_MAP,
-} from "@distilled.cloud/core/errors";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import type { Config } from "./credentials.ts";
 import { Credentials } from "./credentials.ts";
 import {
@@ -73,10 +67,7 @@ import {
  * CoinbaseOpError, CoinbaseOpContext>` explicitly so the compiler never
  * infers these back out of the schema generics.
  */
-export type CoinbaseOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type CoinbaseOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated Coinbase operation. */
 export type CoinbaseOpContext = Credentials | HttpClient.HttpClient;
@@ -85,8 +76,7 @@ export type CoinbaseOpContext = Credentials | HttpClient.HttpClient;
 // Coinbase failures are real typed errors that the operation's explicit
 // `CoinbaseOpError` annotation re-surfaces. Fail with the instance and erase
 // the error type here.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // ============================================================================
 // JWT generation for Coinbase CDP API authentication
@@ -96,11 +86,7 @@ const fail = (e: unknown): Effect.Effect<never> =>
  * Base64url-encode a buffer.
  */
 const base64url = (buf: Buffer | Uint8Array): string =>
-  Buffer.from(buf)
-    .toString("base64")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+  Buffer.from(buf).toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 
 /**
  * Generate a random hex nonce.
@@ -142,9 +128,7 @@ const resolveSigningKey = (
     };
   }
 
-  throw new Error(
-    "Unsupported CDP API Key Secret format. Expected EC PEM or Ed25519 base64.",
-  );
+  throw new Error("Unsupported CDP API Key Secret format. Expected EC PEM or Ed25519 base64.");
 };
 
 /**
@@ -220,10 +204,8 @@ const derToP1363 = (derSig: Buffer, componentLength: number): Buffer => {
 
   // Pad or trim to componentLength
   const result = Buffer.alloc(componentLength * 2);
-  const rPadded =
-    r.length > componentLength ? r.subarray(r.length - componentLength) : r;
-  const sPadded =
-    s.length > componentLength ? s.subarray(s.length - componentLength) : s;
+  const rPadded = r.length > componentLength ? r.subarray(r.length - componentLength) : r;
+  const sPadded = s.length > componentLength ? s.subarray(s.length - componentLength) : s;
   rPadded.copy(result, componentLength - rPadded.length);
   sPadded.copy(result, componentLength * 2 - sPadded.length);
   return result;
@@ -342,20 +324,13 @@ const matchError = (
 // the requirement is erased at this boundary (Protocol effects are typed with
 // no requirements) and reintroduced for callers by the generated
 // `CoinbaseOpContext` annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     // The Credentials service holds an effect — resolving it here (per
     // request) picks up rotations. Its error channel is erased at this
     // boundary; CoinbaseOpError reintroduces it for callers.
     const resolveCredentials = yield* Credentials;
-    const creds =
-      (yield* resolveCredentials as Effect.Effect<Config>) as Config;
+    const creds = (yield* resolveCredentials as Effect.Effect<Config>) as Config;
 
     // Sensitive input members accept string | Redacted<string>; the wire
     // wants the raw string.
@@ -375,9 +350,7 @@ const encode = ({
       request.method,
       `${url.host}${url.pathname}`,
     );
-    return request.pipe(
-      HttpClientRequest.setHeader("Authorization", `Bearer ${jwt}`),
-    );
+    return request.pipe(HttpClientRequest.setHeader("Authorization", `Bearer ${jwt}`));
   });
 
 const decode = ({
@@ -428,8 +401,7 @@ export const CoinbaseProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

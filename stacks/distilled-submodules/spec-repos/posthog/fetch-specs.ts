@@ -36,9 +36,7 @@ async function main() {
   const response = await fetch(OPENAPI_SPEC_URL);
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = parseSpec(await response.text());

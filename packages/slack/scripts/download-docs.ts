@@ -65,9 +65,7 @@ class InvalidJsonError extends Data.TaggedError("InvalidJsonError")<{
 // ============================================================================
 
 /** Fetch a URL as parsed JSON, failing on network error, non-2xx, or non-JSON. */
-const fetchJson = (
-  url: string,
-): Effect.Effect<unknown, FetchError | InvalidJsonError> =>
+const fetchJson = (url: string): Effect.Effect<unknown, FetchError | InvalidJsonError> =>
   Effect.tryPromise({
     try: async () => {
       const res = await fetch(url, {
@@ -81,8 +79,7 @@ const fetchJson = (
       }
       return await res.text();
     },
-    catch: (cause) =>
-      cause instanceof FetchError ? cause : new FetchError({ url, cause }),
+    catch: (cause) => (cause instanceof FetchError ? cause : new FetchError({ url, cause })),
   }).pipe(
     Effect.flatMap((text) =>
       Effect.try({
@@ -119,9 +116,9 @@ const savePage = (entry: PageEntry, force: boolean) =>
               ? `HTTP ${err.status}`
               : `${err.cause ?? "network error"}`
             : `invalid JSON: ${err.cause}`;
-        return Console.warn(
-          `⚠️  Failed to download ${entry.url} (${detail}) — skipping`,
-        ).pipe(Effect.as({ ok: false as const }));
+        return Console.warn(`⚠️  Failed to download ${entry.url} (${detail}) — skipping`).pipe(
+          Effect.as({ ok: false as const }),
+        );
       }),
     );
 
@@ -140,10 +137,7 @@ const savePage = (entry: PageEntry, force: boolean) =>
     }
 
     yield* fs.makeDirectory(path.dirname(entry.localPath), { recursive: true });
-    yield* fs.writeFileString(
-      entry.localPath,
-      JSON.stringify(json, null, 2) + "\n",
-    );
+    yield* fs.writeFileString(entry.localPath, JSON.stringify(json, null, 2) + "\n");
     return true;
   });
 
@@ -156,9 +150,7 @@ const downloadDocs = Command.make(
   {
     out: Flag.String("out").pipe(
       Flag.withDefault("specs"),
-      Flag.withDescription(
-        "Output directory for downloaded JSON (relative to the slack folder)",
-      ),
+      Flag.withDescription("Output directory for downloaded JSON (relative to the slack folder)"),
     ),
     concurrency: Flag.Int("concurrency").pipe(
       Flag.withDefault(12),
@@ -166,9 +158,7 @@ const downloadDocs = Command.make(
     ),
     limit: Flag.Int("limit").pipe(
       Flag.withDefault(0),
-      Flag.withDescription(
-        "Only download the first N method pages (0 = all). For testing.",
-      ),
+      Flag.withDescription("Only download the first N method pages (0 = all). For testing."),
     ),
     force: Flag.Boolean("force").pipe(
       Flag.withDefault(false),
@@ -262,11 +252,9 @@ const downloadDocs = Command.make(
         `\n⬇️  Downloading ${entries.length} pages (concurrency ${config.concurrency}) ...\n`,
       );
 
-      const results = yield* Effect.forEach(
-        entries,
-        (entry) => savePage(entry, config.force),
-        { concurrency: config.concurrency },
-      );
+      const results = yield* Effect.forEach(entries, (entry) => savePage(entry, config.force), {
+        concurrency: config.concurrency,
+      });
 
       const ok = results.filter(Boolean).length;
       const failed = results.length - ok;
@@ -278,9 +266,7 @@ const downloadDocs = Command.make(
       yield* Console.log(`   Next: bun run generate`);
     }),
 ).pipe(
-  Command.withDescription(
-    "Download the Slack Web API method reference (JSON twins) into ./specs",
-  ),
+  Command.withDescription("Download the Slack Web API method reference (JSON twins) into ./specs"),
 );
 
 // ============================================================================

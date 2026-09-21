@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "NotificationsContacts",
   serviceShapeName: "NotificationsContacts",
@@ -36,9 +36,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -159,9 +157,7 @@ export const ActivateEmailContactRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ActivateEmailContactRequest",
 }) as any as S.Schema<ActivateEmailContactRequest>;
 export interface ActivateEmailContactResponse {}
-export const ActivateEmailContactResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ActivateEmailContactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ActivateEmailContactResponse",
 }) as any as S.Schema<ActivateEmailContactResponse>;
 export type EmailContactName = string | redacted.Redacted<string>;
@@ -169,10 +165,7 @@ export type EmailContactAddress = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateEmailContactRequest {
   name: string | redacted.Redacted<string>;
   emailAddress: string;
@@ -209,22 +202,13 @@ export interface DeleteEmailContactRequest {
 }
 export const DeleteEmailContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/emailcontacts/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/emailcontacts/{arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteEmailContactRequest",
 }) as any as S.Schema<DeleteEmailContactRequest>;
 export interface DeleteEmailContactResponse {}
-export const DeleteEmailContactResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEmailContactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEmailContactResponse",
 }) as any as S.Schema<DeleteEmailContactResponse>;
 export interface GetEmailContactRequest {
@@ -232,14 +216,7 @@ export interface GetEmailContactRequest {
 }
 export const GetEmailContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/emailcontacts/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/emailcontacts/{arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetEmailContactRequest",
@@ -282,16 +259,7 @@ export const ListEmailContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/emailcontacts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/emailcontacts" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEmailContactsRequest",
 }) as any as S.Schema<ListEmailContactsRequest>;
@@ -311,14 +279,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -352,9 +313,7 @@ export const SendActivationCodeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SendActivationCodeRequest",
 }) as any as S.Schema<SendActivationCodeRequest>;
 export interface SendActivationCodeResponse {}
-export const SendActivationCodeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const SendActivationCodeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SendActivationCodeResponse",
 }) as any as S.Schema<SendActivationCodeResponse>;
 export interface TagResourceRequest {
@@ -363,22 +322,13 @@ export interface TagResourceRequest {
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -391,23 +341,12 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "DELETE", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type ErrorMessage = string;
@@ -415,10 +354,7 @@ export type ResourceId = string;
 export type ResourceType = string;
 export type ServiceCode = string;
 export type QuotaCode = string;
-export type ValidationExceptionReason =
-  | "fieldValidationFailed"
-  | "other"
-  | (string & {});
+export type ValidationExceptionReason = "fieldValidationFailed" | "other" | (string & {});
 export const ValidationExceptionReason = S.String;
 
 export interface ValidationExceptionField {
@@ -431,9 +367,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type ActivateEmailContactError =
   | AccessDeniedException
   | ConflictException

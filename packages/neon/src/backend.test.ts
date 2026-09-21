@@ -6,27 +6,23 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { fromApiKey } from "./credentials.ts";
-import * as Neon from "./services/neon.ts";
 import { Retry } from "./retry.ts";
+import * as Neon from "./services/neon.ts";
 
 const scope = { project_id: "project-fixture", branch_id: "br-fixture" };
-const harness = (
-  respond: (request: HttpClientRequest.HttpClientRequest) => Response,
-) =>
+const harness = (respond: (request: HttpClientRequest.HttpClientRequest) => Response) =>
   Layer.mergeAll(
     fromApiKey({ apiKey: "fixture-account-secret" }),
     Layer.succeed(Retry, { while: () => false }),
     Layer.succeed(
       HttpClient.HttpClient,
       HttpClient.make((request) =>
-        Effect.sync(() =>
-          HttpClientResponse.fromWeb(request, respond(request)),
-        ),
+        Effect.sync(() => HttpClientResponse.fromWeb(request, respond(request))),
       ),
     ),
   );
@@ -82,25 +78,18 @@ describe("Neon backend wire contracts", () => {
     const redacted = Redacted.make(plain);
     for (const environment of [plain, redacted]) {
       const input = { ...scope, slug: "fixture", environment };
-      const output = roundTrip(
-        Neon.CreateProjectBranchFunctionDeploymentRequest,
-        input,
-      );
+      const output = roundTrip(Neon.CreateProjectBranchFunctionDeploymentRequest, input);
       expect(output.environment).toBe(environment);
     }
-    const decode = Schema.decodeUnknownSync(
-      Neon.CreateProjectBranchFunctionDeploymentRequest,
-    );
+    const decode = Schema.decodeUnknownSync(Neon.CreateProjectBranchFunctionDeploymentRequest);
+    expect(() => decode({ ...scope, slug: "fixture", environment: Redacted.make(123) })).toThrow();
+    expect(() => decode({ ...scope, slug: "fixture", environment: 123 })).toThrow();
     expect(() =>
-      decode({ ...scope, slug: "fixture", environment: Redacted.make(123) }),
-    ).toThrow();
-    expect(() =>
-      decode({ ...scope, slug: "fixture", environment: 123 }),
-    ).toThrow();
-    expect(() =>
-      Schema.encodeSync(
-        Schema.toCodecJson(Neon.CreateProjectBranchFunctionDeploymentRequest),
-      )({ ...scope, slug: "fixture", environment: redacted }),
+      Schema.encodeSync(Schema.toCodecJson(Neon.CreateProjectBranchFunctionDeploymentRequest))({
+        ...scope,
+        slug: "fixture",
+        environment: redacted,
+      }),
     ).toThrow();
   });
 
@@ -114,14 +103,10 @@ describe("Neon backend wire contracts", () => {
       }).pipe(Effect.provide(layer)),
     );
     const revealed = await Effect.runPromise(
-      Neon.revealCredential({ ...scope, token_id: secret.token_id }).pipe(
-        Effect.provide(layer),
-      ),
+      Neon.revealCredential({ ...scope, token_id: secret.token_id }).pipe(Effect.provide(layer)),
     );
     const rotated = await Effect.runPromise(
-      Neon.rotateCredential({ ...scope, token_id: secret.token_id }).pipe(
-        Effect.provide(layer),
-      ),
+      Neon.rotateCredential({ ...scope, token_id: secret.token_id }).pipe(Effect.provide(layer)),
     );
     for (const value of [
       roundTrip(Neon.CreateCredentialResponse, issued),
@@ -155,9 +140,7 @@ describe("Neon backend wire contracts", () => {
     const encoded = roundTrip(Neon.PresignResponse, presign);
     expect(Redacted.isRedacted(encoded.url)).toBe(true);
     expect(JSON.stringify(encoded)).not.toContain("fixture-secret");
-    expect(() =>
-      Schema.encodeSync(Schema.toCodecJson(Neon.PresignResponse))(presign),
-    ).toThrow();
+    expect(() => Schema.encodeSync(Schema.toCodecJson(Neon.PresignResponse))(presign)).toThrow();
     expect(() =>
       Schema.decodeUnknownSync(Neon.CredentialSecret)({
         ...revealed,
@@ -190,11 +173,8 @@ describe("Neon backend wire contracts", () => {
       }).pipe(
         Effect.provide(
           harness((request) => {
-            expect(request.headers.authorization).toBe(
-              "Bearer fixture-account-secret",
-            );
-            if (request.body._tag !== "FormData")
-              throw new Error("Expected multipart");
+            expect(request.headers.authorization).toBe("Bearer fixture-account-secret");
+            if (request.body._tag !== "FormData") throw new Error("Expected multipart");
             form = request.body.formData;
             expect(form.getAll("environment")).toEqual([environment]);
             expect((form.get("zip") as File).name).toBe("bundle.zip");
@@ -203,9 +183,9 @@ describe("Neon backend wire contracts", () => {
         ),
       ),
     );
-    expect(
-      new Uint8Array(await (form!.get("zip") as File).arrayBuffer()),
-    ).toEqual(new Uint8Array([80, 75, 0, 255]));
+    expect(new Uint8Array(await (form!.get("zip") as File).arrayBuffer())).toEqual(
+      new Uint8Array([80, 75, 0, 255]),
+    );
     expect(result.deployment.id).toBe(7);
     expect(result.deployment.environment).toEqual(["SECRET"]);
   });
@@ -219,12 +199,9 @@ describe("Neon backend wire contracts", () => {
       }).pipe(
         Effect.provide(
           harness((request) => {
-            if (request.body._tag !== "FormData")
-              throw new Error("Expected multipart");
+            if (request.body._tag !== "FormData") throw new Error("Expected multipart");
             expect(request.body.formData.has("zip")).toBe(false);
-            expect(request.body.formData.getAll("environment")).toEqual([
-              '{"REMOVE":""}',
-            ]);
+            expect(request.body.formData.getAll("environment")).toEqual(['{"REMOVE":""}']);
             return Response.json({ deployment });
           }),
         ),
@@ -237,11 +214,7 @@ describe("Neon backend wire contracts", () => {
     const functionError = await Effect.runPromise(
       Neon.getProjectBranchFunction({ ...scope, slug: "missing" }).pipe(
         Effect.flip,
-        Effect.provide(
-          harness(() =>
-            Response.json({ message: functionMessage }, { status: 404 }),
-          ),
-        ),
+        Effect.provide(harness(() => Response.json({ message: functionMessage }, { status: 404 }))),
       ),
     );
     expect(functionError).toBeInstanceOf(Neon.NotFound);
@@ -251,11 +224,7 @@ describe("Neon backend wire contracts", () => {
     const triggerError = await Effect.runPromise(
       Neon.getProjectBranchTrigger({ ...scope, trigger_id: "missing" }).pipe(
         Effect.flip,
-        Effect.provide(
-          harness(() =>
-            Response.json({ message: triggerMessage }, { status: 404 }),
-          ),
-        ),
+        Effect.provide(harness(() => Response.json({ message: triggerMessage }, { status: 404 }))),
       ),
     );
     expect(triggerError).toBeInstanceOf(Neon.NotFound);
@@ -295,9 +264,7 @@ describe("Neon backend wire contracts", () => {
       Neon.revealCredential({ ...scope, token_id: secret.token_id }),
       Neon.rotateCredential({ ...scope, token_id: secret.token_id }),
     ]) {
-      const result = await Effect.runPromise(
-        operation.pipe(Effect.provide(layer)),
-      );
+      const result = await Effect.runPromise(operation.pipe(Effect.provide(layer)));
       expect(Redacted.isRedacted(result.api_token)).toBe(true);
       expect(Redacted.isRedacted(result.s3_secret_access_key)).toBe(true);
       expect(JSON.stringify(result)).not.toContain("fixture-api-secret");
@@ -486,10 +453,7 @@ describe("Neon Auth email provider contracts", () => {
   };
 
   test("redacted SMTP passwords reach the PATCH wire as plaintext", async () => {
-    for (const password of [
-      standard.password,
-      Redacted.make(standard.password),
-    ]) {
+    for (const password of [standard.password, Redacted.make(standard.password)]) {
       const result = await Effect.runPromise(
         Neon.updateNeonAuthEmailProvider({
           ...scope,
@@ -499,11 +463,8 @@ describe("Neon Auth email provider contracts", () => {
             harness((request) => {
               expect(request.method).toBe("PATCH");
               expect(request.url).toContain("/auth/email_provider");
-              if (request.body._tag !== "Uint8Array")
-                throw new Error("Expected JSON bytes");
-              expect(
-                JSON.parse(new TextDecoder().decode(request.body.body)),
-              ).toEqual(standard);
+              if (request.body._tag !== "Uint8Array") throw new Error("Expected JSON bytes");
+              expect(JSON.parse(new TextDecoder().decode(request.body.body))).toEqual(standard);
               return Response.json({ ...standard, password: "" });
             }),
           ),
@@ -516,22 +477,14 @@ describe("Neon Auth email provider contracts", () => {
   });
 
   test("partial standard and shared updates preserve omitted fields on the wire", async () => {
-    for (const body of [
-      { type: "standard" as const },
-      { type: "shared" as const },
-    ]) {
+    for (const body of [{ type: "standard" as const }, { type: "shared" as const }]) {
       await Effect.runPromise(
         Neon.updateNeonAuthEmailProvider({ ...scope, body }).pipe(
           Effect.provide(
             harness((request) => {
-              if (request.body._tag !== "Uint8Array")
-                throw new Error("Expected JSON bytes");
-              expect(
-                JSON.parse(new TextDecoder().decode(request.body.body)),
-              ).toEqual(body);
-              return Response.json(
-                body.type === "standard" ? { ...standard, password: "" } : body,
-              );
+              if (request.body._tag !== "Uint8Array") throw new Error("Expected JSON bytes");
+              expect(JSON.parse(new TextDecoder().decode(request.body.body))).toEqual(body);
+              return Response.json(body.type === "standard" ? { ...standard, password: "" } : body);
             }),
           ),
         ),
@@ -557,19 +510,15 @@ describe("Neon Auth email provider contracts", () => {
         roundTrip(Neon.GetNeonAuthEmailProviderResponse, result),
         roundTrip(Neon.UpdateNeonAuthEmailProviderResponse, result),
       ]) {
-        if (value.type !== "standard")
-          throw new Error("Expected SMTP response");
+        if (value.type !== "standard") throw new Error("Expected SMTP response");
         expect(Redacted.isRedacted(value.password)).toBe(true);
-        if (!Redacted.isRedacted(value.password))
-          throw new Error("Expected redacted password");
+        if (!Redacted.isRedacted(value.password)) throw new Error("Expected redacted password");
         expect(Redacted.value(value.password)).toBe(standard.password);
         expect(JSON.stringify(value)).not.toContain(standard.password);
         expect(Bun.inspect(value)).not.toContain(standard.password);
       }
       expect(() =>
-        Schema.encodeSync(
-          Schema.toCodecJson(Neon.NeonAuthEmailServerConfigResponse),
-        )(result),
+        Schema.encodeSync(Schema.toCodecJson(Neon.NeonAuthEmailServerConfigResponse))(result),
       ).toThrow();
       expect(logs.length).toBeGreaterThan(0);
       expect(logs.join("\n")).not.toContain(standard.password);
@@ -582,9 +531,7 @@ describe("Neon Auth email provider contracts", () => {
 
   test("request and response unions validate required standard/shared discriminators", () => {
     const request = Schema.decodeUnknownSync(Neon.NeonAuthEmailServerConfig);
-    const response = Schema.decodeUnknownSync(
-      Neon.NeonAuthEmailServerConfigResponse,
-    );
+    const response = Schema.decodeUnknownSync(Neon.NeonAuthEmailServerConfigResponse);
     expect(request(standard)).toEqual(standard);
     expect(request({ type: "standard" })).toEqual({ type: "standard" });
     expect(response(standard)).toEqual(standard);
@@ -605,9 +552,7 @@ describe("Neon Auth email provider contracts", () => {
       ])
         expect(() => decode(value)).toThrow();
     }
-    expect(() =>
-      response({ type: "standard", sender_email: "auth@fixture.test" }),
-    ).toThrow();
+    expect(() => response({ type: "standard", sender_email: "auth@fixture.test" })).toThrow();
     expect(() =>
       Schema.decodeUnknownSync(Neon.StandardEmailServer)({
         ...standard,
@@ -620,27 +565,19 @@ describe("Neon Auth email provider contracts", () => {
         type: "shared",
       }),
     ).toThrow();
-    expect(() =>
-      Schema.decodeUnknownSync(Neon.SharedEmailServer)({ type: "standard" }),
-    ).toThrow();
+    expect(() => Schema.decodeUnknownSync(Neon.SharedEmailServer)({ type: "standard" })).toThrow();
   });
 
   test("request codecs preserve sensitive unions without permitting generic JSON encoding", () => {
-    for (const password of [
-      standard.password,
-      Redacted.make(standard.password),
-    ]) {
+    for (const password of [standard.password, Redacted.make(standard.password)]) {
       const body = { ...standard, password };
       expect(roundTrip(Neon.NeonAuthEmailServerConfig, body)).toEqual(body);
-      expect(
-        roundTrip(Neon.UpdateNeonAuthEmailProviderRequest, { ...scope, body })
-          .body,
-      ).toEqual(body);
+      expect(roundTrip(Neon.UpdateNeonAuthEmailProviderRequest, { ...scope, body }).body).toEqual(
+        body,
+      );
     }
     expect(() =>
-      Schema.encodeSync(
-        Schema.toCodecJson(Neon.UpdateNeonAuthEmailProviderRequest),
-      )({
+      Schema.encodeSync(Schema.toCodecJson(Neon.UpdateNeonAuthEmailProviderRequest))({
         ...scope,
         body: { ...standard, password: Redacted.make(standard.password) },
       }),

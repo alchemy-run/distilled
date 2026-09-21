@@ -58,21 +58,14 @@ describe("primitive union generation", () => {
   for (const kind of ["enum", "intEnum"] as const) {
     for (const request of [false, true]) {
       test(`${kind}/Boolean stays open when ${request ? "request-reachable" : "response-only"}`, () => {
-        const { code } = generateService(
-          primitiveUnionModel(kind, request),
-          spec,
-        );
+        const { code } = generateService(primitiveUnionModel(kind, request), spec);
         const primitive = kind === "enum" ? "string" : "number";
-        expect(code).toContain(
-          `export type Value = Mode | (${primitive} & {}) | boolean;`,
-        );
+        expect(code).toContain(`export type Value = Mode | (${primitive} & {}) | boolean;`);
         expect(code).toContain(
           "export const Value: S.Codec<Value> = /*@__PURE__*/ S.Union([Mode, S.Boolean]);",
         );
         expect(code).toContain(
-          kind === "enum"
-            ? "export const Mode = S.String;"
-            : "export const Mode = S.Number;",
+          kind === "enum" ? "export const Mode = S.String;" : "export const Mode = S.Number;",
         );
         expect(code).not.toContain("export type Value = Mode | boolean;");
       });
@@ -102,8 +95,7 @@ describe("primitive union generation", () => {
 
   test("primitive style rejects object cases", () => {
     const model = primitiveUnionModel("enum", false);
-    model.shapes["com.example.union#Value"].members.mode.target =
-      "com.example.union#Request";
+    model.shapes["com.example.union#Value"].members.mode.target = "com.example.union#Request";
     expect(() => generateService(model, spec)).toThrow(
       "no union emission configured for shape com.example.union#Value",
     );

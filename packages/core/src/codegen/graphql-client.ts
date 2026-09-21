@@ -46,8 +46,7 @@ export interface GraphQLModel {
 
 export const graphqlTypeString = (ref: TypeRef): string => {
   if (ref.kind === "NON_NULL" || ref.kind === "LIST") {
-    if (!ref.ofType)
-      throw new Error(`Incomplete GraphQL ${ref.kind} reference`);
+    if (!ref.ofType) throw new Error(`Incomplete GraphQL ${ref.kind} reference`);
     const inner = graphqlTypeString(ref.ofType);
     return ref.kind === "NON_NULL" ? `${inner}!` : `[${inner}]`;
   }
@@ -79,9 +78,7 @@ export const convertGraphQLClient = (
     ...(value.defaultValue != null ? { defaultValue: value.defaultValue } : {}),
   });
   const types: Record<string, GraphQLType> = {};
-  for (const type of [...schema.types].sort((a, b) =>
-    a.name.localeCompare(b.name),
-  )) {
+  for (const type of [...schema.types].sort((a, b) => a.name.localeCompare(b.name))) {
     if (type.name.startsWith("__")) continue;
     types[type.name] = {
       kind: type.kind,
@@ -98,13 +95,9 @@ export const convertGraphQLClient = (
                   field.name,
                   {
                     type: graphqlTypeString(field.type),
-                    args: Object.fromEntries(
-                      field.args.map((arg) => [arg.name, argument(arg)]),
-                    ),
+                    args: Object.fromEntries(field.args.map((arg) => [arg.name, argument(arg)])),
                     errors: [],
-                    ...(field.description
-                      ? { description: field.description }
-                      : {}),
+                    ...(field.description ? { description: field.description } : {}),
                     ...(field.isDeprecated
                       ? {
                           deprecated:
@@ -127,17 +120,11 @@ export const convertGraphQLClient = (
             ),
           }
         : {}),
-      ...(type.enumValues
-        ? { enumValues: type.enumValues.map((value) => value.name) }
-        : {}),
-      ...(type.possibleTypes
-        ? { possibleTypes: type.possibleTypes.map((ref) => ref.name!) }
-        : {}),
+      ...(type.enumValues ? { enumValues: type.enumValues.map((value) => value.name) } : {}),
+      ...(type.possibleTypes ? { possibleTypes: type.possibleTypes.map((ref) => ref.name!) } : {}),
       ...("interfaces" in type && Array.isArray(type.interfaces)
         ? {
-            interfaces: type.interfaces.map(
-              (ref: { name: string }) => ref.name,
-            ),
+            interfaces: type.interfaces.map((ref: { name: string }) => ref.name),
           }
         : {}),
     };
@@ -146,9 +133,7 @@ export const convertGraphQLClient = (
     version: 1,
     queryType: schema.queryType.name,
     ...(schema.mutationType ? { mutationType: schema.mutationType.name } : {}),
-    ...(schema.subscriptionType
-      ? { subscriptionType: schema.subscriptionType.name }
-      : {}),
+    ...(schema.subscriptionType ? { subscriptionType: schema.subscriptionType.name } : {}),
     types,
     errors: {},
     globalErrors: [],
@@ -158,21 +143,14 @@ export const convertGraphQLClient = (
 /** Reject dangling schema/error references after patches, before generating code. */
 export const validateGraphQLModel = (model: GraphQLModel): void => {
   const checkType = (ref: string, coordinate: string) => {
-    const name = ref.replace(/[\[\]!]/g, "");
-    if (!model.types[name])
-      throw new Error(`${coordinate}: unknown GraphQL type ${name}`);
+    const name = ref.replace(/[[\]!]/g, "");
+    if (!model.types[name]) throw new Error(`${coordinate}: unknown GraphQL type ${name}`);
   };
   const checkError = (error: string, coordinate: string) => {
-    if (!model.errors[error])
-      throw new Error(`${coordinate}: unknown GraphQL error ${error}`);
+    if (!model.errors[error]) throw new Error(`${coordinate}: unknown GraphQL error ${error}`);
   };
-  for (const name of [
-    model.queryType,
-    model.mutationType,
-    model.subscriptionType,
-  ]) {
-    if (name && !model.types[name])
-      throw new Error(`Unknown GraphQL root ${name}`);
+  for (const name of [model.queryType, model.mutationType, model.subscriptionType]) {
+    if (name && !model.types[name]) throw new Error(`Unknown GraphQL root ${name}`);
   }
   for (const error of model.globalErrors) checkError(error, "globalErrors");
   for (const [name, type] of Object.entries(model.types)) {
@@ -185,17 +163,13 @@ export const validateGraphQLModel = (model: GraphQLModel): void => {
     }
     for (const [fieldName, field] of Object.entries(type.inputFields ?? {}))
       checkType(field.type, `${name}.${fieldName}`);
-    for (const member of [
-      ...(type.possibleTypes ?? []),
-      ...(type.interfaces ?? []),
-    ])
+    for (const member of [...(type.possibleTypes ?? []), ...(type.interfaces ?? [])])
       checkType(member, name);
   }
 };
 
 const literal = (value: unknown): string => JSON.stringify(value);
-const union = (values: readonly string[]): string =>
-  values.length ? values.join(" | ") : "never";
+const union = (values: readonly string[]): string => (values.length ? values.join(" | ") : "never");
 const documentation = (description?: string): string =>
   description ? `/** ${description.replaceAll("*/", "* /")} */\n` : "";
 
@@ -219,12 +193,9 @@ export const generateGraphQLClient = (
     return `${requiredInput(ref)} | null`;
   };
   const requiredInput = (ref: string): string => {
-    if (ref.startsWith("["))
-      return `ReadonlyArray<${inputType(ref.slice(1, -1))}>`;
+    if (ref.startsWith("[")) return `ReadonlyArray<${inputType(ref.slice(1, -1))}>`;
     const type = model.types[ref]!;
-    return type.kind === "INPUT_OBJECT"
-      ? `Inputs[${literal(ref)}]`
-      : `Scalars[${literal(ref)}]`;
+    return type.kind === "INPUT_OBJECT" ? `Inputs[${literal(ref)}]` : `Scalars[${literal(ref)}]`;
   };
   const argsType = (args: Record<string, GraphQLArgument>): string =>
     `{ ${Object.entries(args)
@@ -270,22 +241,17 @@ export const generateGraphQLClient = (
     options.requirementsType,
   ]);
   const identifier = (name: string) =>
-    name.replace(/[^A-Za-z0-9_$]/g, "_").replace(/^(?=[0-9])/, "_") ||
-    "generated";
+    name.replace(/[^A-Za-z0-9_$]/g, "_").replace(/^(?=[0-9])/, "_") || "generated";
   const allocate = (preferred: string, fallback: string): string => {
     let name = identifier(preferred);
     if (occupied.has(name)) name = identifier(fallback);
     const base = name;
-    for (let suffix = 2; occupied.has(name); suffix++)
-      name = `${base}${suffix}`;
+    for (let suffix = 2; occupied.has(name); suffix++) name = `${base}${suffix}`;
     occupied.add(name);
     return name;
   };
   const errorNames = new Map(
-    Object.keys(model.errors).map((tag) => [
-      tag,
-      allocate(tag, `${identifier(tag)}Error`),
-    ]),
+    Object.keys(model.errors).map((tag) => [tag, allocate(tag, `${identifier(tag)}Error`)]),
   );
   const lines: string[] = [
     "// Generated by @distilled.cloud/core/codegen/graphql-client. DO NOT EDIT.",
@@ -355,9 +321,7 @@ export const generateGraphQLClient = (
   lines.push("}", "export type PossibleTypes = {");
   for (const [name, type] of Object.entries(model.types)) {
     if (type.kind === "INTERFACE" || type.kind === "UNION")
-      lines.push(
-        `${literal(name)}: ${union((type.possibleTypes ?? []).map(literal))};`,
-      );
+      lines.push(`${literal(name)}: ${union((type.possibleTypes ?? []).map(literal))};`);
   }
   lines.push(
     "}",
@@ -390,27 +354,17 @@ export const generateGraphQLClient = (
     ["mutation", model.mutationType],
   ] as const) {
     for (const field of Object.keys(model.types[name ?? ""]?.fields ?? {})) {
-      const exportName = allocate(
-        field,
-        `${kind}${field[0]!.toUpperCase()}${field.slice(1)}`,
-      );
+      const exportName = allocate(field, `${kind}${field[0]!.toUpperCase()}${field.slice(1)}`);
       if (!operationNames.has(field)) operationNames.set(field, exportName);
       lines.push(
         `export const ${exportName} = client.operation(${literal(kind)}, ${literal(field)});`,
       );
     }
   }
-  for (const [alias, target] of Object.entries(
-    options.operationAliases ?? {},
-  )) {
+  for (const [alias, target] of Object.entries(options.operationAliases ?? {})) {
     const targetName = operationNames.get(target);
     // Legacy aliases are optional conveniences; never displace a real export.
-    if (
-      targetName &&
-      alias !== target &&
-      identifier(alias) === alias &&
-      !occupied.has(alias)
-    ) {
+    if (targetName && alias !== target && identifier(alias) === alias && !occupied.has(alias)) {
       occupied.add(alias);
       lines.push(`export const ${alias} = ${targetName};`);
     }

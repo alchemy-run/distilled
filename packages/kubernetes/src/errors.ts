@@ -32,8 +32,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /**
  * Returned when the Kubernetes API returns an error that does not

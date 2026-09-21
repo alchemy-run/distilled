@@ -2,19 +2,19 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
-import * as S from "effect/Schema";
-import type * as AST from "effect/SchemaAST";
 import { pipeArguments } from "effect/Pipeable";
 import * as Ref from "effect/Ref";
+import * as S from "effect/Schema";
+import type * as AST from "effect/SchemaAST";
 import * as Scope from "effect/Scope";
 import type * as Stream from "effect/Stream";
-import { SingleShotGen } from "effect/Utils";
-import * as Pagination from "./pagination.ts";
-import { makeDefault, type Policy as RetryPolicy } from "./retry.ts";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
+import { SingleShotGen } from "effect/Utils";
+import * as Pagination from "./pagination.ts";
+import { makeDefault, type Policy as RetryPolicy } from "./retry.ts";
 
 //#region Protocol
 
@@ -128,23 +128,17 @@ export type OperationMethod<I, O, E, R> = Effect.Effect<
  */
 const protocolMemoMap = Layer.makeMemoMapUnsafe();
 const protocolScope = Scope.makeUnsafe();
-const protocolContexts = new WeakMap<
-  Layer.Layer<Protocol, any, any>,
-  Context.Context<Protocol>
->();
+const protocolContexts = new WeakMap<Layer.Layer<Protocol, any, any>, Context.Context<Protocol>>();
 
 const protocolContext = <PE, PR>(
   layer: Layer.Layer<Protocol, PE, PR>,
 ): Effect.Effect<Context.Context<Protocol>, PE, PR> => {
   const cached = protocolContexts.get(layer);
   if (cached) return Effect.succeed(cached);
-  return Effect.map(
-    Layer.buildWithMemoMap(layer, protocolMemoMap, protocolScope),
-    (ctx) => {
-      protocolContexts.set(layer, ctx);
-      return ctx;
-    },
-  );
+  return Effect.map(Layer.buildWithMemoMap(layer, protocolMemoMap, protocolScope), (ctx) => {
+    protocolContexts.set(layer, ctx);
+    return ctx;
+  });
 };
 
 export interface OperationConfig<
@@ -199,8 +193,7 @@ const applyRetry = (
           // errors, capped exponential backoff + jitter, honors server
           // retryAfter hints). Mirrors the distilled client.
           const policy = Option.isSome(opt) ? opt.value : makeDefault;
-          const opts =
-            typeof policy === "function" ? policy(lastError) : policy;
+          const opts = typeof policy === "function" ? policy(lastError) : policy;
           if (!opts.while) return yield* base;
           return yield* base.pipe(
             Effect.tapError((e) => Ref.set(lastError, e)),
@@ -251,25 +244,23 @@ export function make<
   const fn = (input: unknown) =>
     Effect.suspend(() => {
       const { cfg, inputAst, outputAst } = prepare();
-      const call = Effect.flatMap(
-        protocolContext(cfg.protocol),
-        (protocolCtx) =>
-          Effect.gen(function* () {
-            const protocol = yield* Protocol;
-            const client = yield* HttpClient.HttpClient;
-            const request = yield* protocol.encode({
-              input,
-              inputAst,
-              config: cfg,
-            });
-            const response = yield* client.execute(request);
-            return yield* protocol.decode({
-              response,
-              outputAst,
-              errors: cfg.errors ?? [],
-              config: cfg,
-            });
-          }).pipe(Effect.provideContext(protocolCtx)),
+      const call = Effect.flatMap(protocolContext(cfg.protocol), (protocolCtx) =>
+        Effect.gen(function* () {
+          const protocol = yield* Protocol;
+          const client = yield* HttpClient.HttpClient;
+          const request = yield* protocol.encode({
+            input,
+            inputAst,
+            config: cfg,
+          });
+          const response = yield* client.execute(request);
+          return yield* protocol.decode({
+            response,
+            outputAst,
+            errors: cfg.errors ?? [],
+            config: cfg,
+          });
+        }).pipe(Effect.provideContext(protocolCtx)),
       );
       return applyRetry(call, cfg.retry);
     });
@@ -317,8 +308,7 @@ export function make<
       configurable: true,
     },
     pagination: {
-      get: () =>
-        (prepare().cfg as PaginatedOperationConfig<I, O, PE, PR, E>).pagination,
+      get: () => (prepare().cfg as PaginatedOperationConfig<I, O, PE, PR, E>).pagination,
       configurable: true,
     },
   });
@@ -371,13 +361,11 @@ export interface PaginatedCall<I, O, E, R, Item> {
  * `yield* op.items(input)`, and the requirement-free call function for
  * `const op = yield* operation; yield* op.items(input)` (distilled #145).
  */
-export type PaginatedOperationMethod<
-  I,
-  O,
-  E,
-  R,
-  Item = PaginatedItem<O>,
-> = Effect.Effect<PaginatedCall<I, O, E, never, Item>, never, R> &
+export type PaginatedOperationMethod<I, O, E, R, Item = PaginatedItem<O>> = Effect.Effect<
+  PaginatedCall<I, O, E, never, Item>,
+  never,
+  R
+> &
   PaginatedCall<I, O, E, R, Item>;
 
 export interface PaginatedOperationConfig<
@@ -424,16 +412,11 @@ export function makePaginated<
   // call styles: the operation itself (requirements intact), and the
   // context-bound function `yield* operation` hands back — whose streams
   // inherit that captured context and so need nothing after the yield.
-  const withStreams = (
-    call: (input: any) => Effect.Effect<any, any, any>,
-  ): any => {
-    const pages = (input: Record<string, unknown>) =>
-      paginate(call, input, pag());
+  const withStreams = (call: (input: any) => Effect.Effect<any, any, any>): any => {
+    const pages = (input: Record<string, unknown>) => paginate(call, input, pag());
     const items = (input: Record<string, unknown>) => {
       const p = pag();
-      return p.items
-        ? Pagination.extractItems(pages(input), p.items)
-        : pages(input);
+      return p.items ? Pagination.extractItems(pages(input), p.items) : pages(input);
     };
     return Object.assign(call, { pages, items });
   };

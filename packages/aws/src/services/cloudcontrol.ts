@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudControl",
   serviceShapeName: "CloudApiService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudcontrolapi-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudcontrolapi.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloudcontrolapi.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloudcontrolapi.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -396,9 +386,7 @@ export const CreateResourceInput = /*@__PURE__*/ S.suspend(() =>
     RoleArn: S.optional(S.String),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     DesiredState: SensitiveString,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateResourceInput",
 }) as any as S.Schema<CreateResourceInput>;
@@ -424,9 +412,7 @@ export const DeleteResourceInput = /*@__PURE__*/ S.suspend(() =>
     RoleArn: S.optional(S.String),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Identifier: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteResourceInput",
 }) as any as S.Schema<DeleteResourceInput>;
@@ -450,9 +436,7 @@ export const GetResourceInput = /*@__PURE__*/ S.suspend(() =>
     TypeVersionId: S.optional(S.String),
     RoleArn: S.optional(S.String),
     Identifier: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetResourceInput",
 }) as any as S.Schema<GetResourceInput>;
@@ -560,15 +544,12 @@ export const ListResourceRequestsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ResourceRequestStatusFilter: S.optional(ResourceRequestStatusFilter),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListResourceRequestsInput",
 }) as any as S.Schema<ListResourceRequestsInput>;
 export type ResourceRequestStatusSummaries = ProgressEvent[];
-export const ResourceRequestStatusSummaries =
-  /*@__PURE__*/ S.Array(ProgressEvent);
+export const ResourceRequestStatusSummaries = /*@__PURE__*/ S.Array(ProgressEvent);
 export interface ListResourceRequestsOutput {
   ResourceRequestStatusSummaries?: ProgressEvent[];
   NextToken?: string;
@@ -598,9 +579,7 @@ export const ListResourcesInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     ResourceModel: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListResourcesInput",
 }) as any as S.Schema<ListResourcesInput>;
@@ -637,9 +616,7 @@ export const UpdateResourceInput = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Identifier: S.String,
     PatchDocument: SensitiveString,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateResourceInput",
 }) as any as S.Schema<UpdateResourceInput>;
@@ -861,9 +838,7 @@ export const getResource: API.OperationMethod<
   operationName: "GetResource",
 }));
 
-export type GetResourceRequestStatusError =
-  | RequestTokenNotFoundException
-  | CommonErrors;
+export type GetResourceRequestStatusError = RequestTokenNotFoundException | CommonErrors;
 /**
  * Returns the current status of a resource operation request. For more information, see
  * Tracking the progress of resource operation requests in the

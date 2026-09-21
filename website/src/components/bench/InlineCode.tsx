@@ -4,11 +4,7 @@ import { For } from "solid-js";
 export const InlineCode = (props: { text: string }) => (
   <For each={props.text.split(/(`[^`]+`)/)}>
     {(part) =>
-      part.startsWith("`") && part.endsWith("`") ? (
-        <code>{part.slice(1, -1)}</code>
-      ) : (
-        part
-      )
+      part.startsWith("`") && part.endsWith("`") ? <code>{part.slice(1, -1)}</code> : part
     }
   </For>
 );

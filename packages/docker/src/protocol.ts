@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * DockerProtocol — hand-written.
  *
@@ -18,9 +21,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownDockerError } from "./errors.ts";
 
@@ -39,33 +39,27 @@ export type DockerOpError =
 /** Context (requirements) shared by every generated Docker operation. */
 export type DockerOpContext = Credentials | HttpClient.HttpClient;
 
-export const DockerProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const DockerProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // The Credentials service holds an effect — resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds): Record<string, string> => {
+    const headers: Record<string, string> = {};
+    if (creds.apiKey !== undefined) {
+      headers.Authorization = `Bearer ${Redacted.value(creds.apiKey)}`;
+    }
+    return headers;
+  },
+  // Docker's error body is `{ message: string }` — the factory's default
+  // lenient envelope covers it.
+  unknownError: ({ code, message, body }) =>
+    new UnknownDockerError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds): Record<string, string> => {
-      const headers: Record<string, string> = {};
-      if (creds.apiKey !== undefined) {
-        headers.Authorization = `Bearer ${Redacted.value(creds.apiKey)}`;
-      }
-      return headers;
-    },
-    // Docker's error body is `{ message: string }` — the factory's default
-    // lenient envelope covers it.
-    unknownError: ({ code, message, body }) =>
-      new UnknownDockerError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+});

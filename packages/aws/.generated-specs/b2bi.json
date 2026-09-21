@@ -2472,10 +2472,7 @@
         }
       ],
       "traits": {
-        "aws.iam#requiredActions": [
-          "logs:DeleteLogDelivery",
-          "logs:ListLogDeliveries"
-        ],
+        "aws.iam#requiredActions": ["logs:DeleteLogDelivery", "logs:ListLogDeliveries"],
         "smithy.api#documentation": "<p>Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.</p>",
         "smithy.api#examples": [
           {

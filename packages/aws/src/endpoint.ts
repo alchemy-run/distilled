@@ -4,10 +4,9 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-export class Endpoint extends Context.Service<
-  Endpoint,
-  Effect.Effect<string | undefined>
->()("AWS::Endpoint") {}
+export class Endpoint extends Context.Service<Endpoint, Effect.Effect<string | undefined>>()(
+  "AWS::Endpoint",
+) {}
 
 /**
  * `AWS_ENDPOINT_URL` — the LocalStack-standard endpoint override that local
@@ -21,9 +20,7 @@ export const fromEnvironment = Config.String("AWS_ENDPOINT_URL").pipe(
 );
 
 /** Override the endpoint with whatever the environment names, if anything. */
-export const fromEnv = () =>
-  Layer.succeed(Endpoint, fromEnvironment.pipe(Effect.orDie));
+export const fromEnv = () => Layer.succeed(Endpoint, fromEnvironment.pipe(Effect.orDie));
 
 /** Override the endpoint for a scope, e.g. `Endpoint.of("http://localhost:4566")`. */
-export const of = (endpoint: string) =>
-  Layer.succeed(Endpoint, Effect.succeed(endpoint));
+export const of = (endpoint: string) => Layer.succeed(Endpoint, Effect.succeed(endpoint));

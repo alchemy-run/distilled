@@ -34,20 +34,14 @@ export const SectionHead = (props: {
       </Show>
       <h2 id={props.id}>{props.title}</h2>
       <Show when={lede.toArray().length > 0}>
-        <p class="mt-4 max-w-measure text-[1.05rem] text-fg-2 [&_a]:text-accent">
-          {lede()}
-        </p>
+        <p class="mt-4 max-w-measure text-[1.05rem] text-fg-2 [&_a]:text-accent">{lede()}</p>
       </Show>
     </div>
   );
 };
 
 /** A "how this is counted/measured" list at the foot of a page. */
-export const Method = (props: {
-  id: string;
-  title: string;
-  children: JSX.Element;
-}) => (
+export const Method = (props: { id: string; title: string; children: JSX.Element }) => (
   <section
     id={props.id}
     class="rule max-w-measure pt-[clamp(2rem,5vw,3rem)]"
@@ -56,8 +50,6 @@ export const Method = (props: {
     <h2 id={`${props.id}-title`} class="mb-3 text-[1.6rem]">
       {props.title}
     </h2>
-    <ul class="grid list-disc gap-2 pl-5 text-fg-2 [&_a]:text-accent">
-      {props.children}
-    </ul>
+    <ul class="grid list-disc gap-2 pl-5 text-fg-2 [&_a]:text-accent">{props.children}</ul>
   </section>
 );

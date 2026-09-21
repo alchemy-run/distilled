@@ -2,8 +2,8 @@
   "name": "@distilled.cloud/bench-bundle",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "description": "Rolldown bundle-size / tree-shake / bundle-time measurements for Distilled SDKs, using Alchemy's bundler settings.",
+  "type": "module",
   "scripts": {
     "bench": "bun run.ts",
     "record": "bun run.ts --out results/latest.json",

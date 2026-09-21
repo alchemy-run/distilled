@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "EMR containers",
   serviceShapeName: "AwsChicagoWebService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -68,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://emr-containers-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -78,13 +72,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://emr-containers.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://emr-containers.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://emr-containers.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -125,10 +115,9 @@ export class ResourceNotFoundException
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class TooManyRequestsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
-    "TooManyRequestsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()("TooManyRequestsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -178,10 +167,7 @@ export type ParametricIAMRoleArn = string;
 export type ParametricReleaseLabel = string;
 export type String1024 = string;
 export type SensitivePropertiesMap = { [key: string]: string | undefined };
-export const SensitivePropertiesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const SensitivePropertiesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface Configuration {
   classification: string;
   properties?: { [key: string]: string | undefined };
@@ -210,15 +196,14 @@ export interface ParametricCloudWatchMonitoringConfiguration {
   logGroupName?: string;
   logStreamNamePrefix?: string;
 }
-export const ParametricCloudWatchMonitoringConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      logGroupName: S.optional(S.String),
-      logStreamNamePrefix: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ParametricCloudWatchMonitoringConfiguration",
-  }) as any as S.Schema<ParametricCloudWatchMonitoringConfiguration>;
+export const ParametricCloudWatchMonitoringConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    logGroupName: S.optional(S.String),
+    logStreamNamePrefix: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ParametricCloudWatchMonitoringConfiguration",
+}) as any as S.Schema<ParametricCloudWatchMonitoringConfiguration>;
 export type UriString = string;
 export interface ParametricS3MonitoringConfiguration {
   logUri?: string;
@@ -236,9 +221,7 @@ export interface ParametricMonitoringConfiguration {
 export const ParametricMonitoringConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     persistentAppUI: S.optional(S.String),
-    cloudWatchMonitoringConfiguration: S.optional(
-      ParametricCloudWatchMonitoringConfiguration,
-    ),
+    cloudWatchMonitoringConfiguration: S.optional(ParametricCloudWatchMonitoringConfiguration),
     s3MonitoringConfiguration: S.optional(ParametricS3MonitoringConfiguration),
   }),
 ).annotate({
@@ -324,10 +307,7 @@ export const TemplateParameterConfigurationMap = /*@__PURE__*/ S.Record(
 export type String128 = string;
 export type StringEmpty256 = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface JobTemplateData {
   executionRoleArn: string;
   releaseLabel: string;
@@ -365,16 +345,7 @@ export const CreateJobTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     jobTemplateData: JobTemplateData,
     tags: S.optional(TagMap),
     kmsKeyArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/jobtemplates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/jobtemplates" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateJobTemplateRequest",
 }) as any as S.Schema<CreateJobTemplateRequest>;
@@ -390,9 +361,7 @@ export const CreateJobTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "CreateJobTemplateResponse",
@@ -461,13 +430,9 @@ export const MonitoringConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     managedLogs: S.optional(ManagedLogs),
     persistentAppUI: S.optional(PersistentAppUI),
-    cloudWatchMonitoringConfiguration: S.optional(
-      CloudWatchMonitoringConfiguration,
-    ),
+    cloudWatchMonitoringConfiguration: S.optional(CloudWatchMonitoringConfiguration),
     s3MonitoringConfiguration: S.optional(S3MonitoringConfiguration),
-    containerLogRotationConfiguration: S.optional(
-      ContainerLogRotationConfiguration,
-    ),
+    containerLogRotationConfiguration: S.optional(ContainerLogRotationConfiguration),
   }),
 ).annotate({
   identifier: "MonitoringConfiguration",
@@ -559,9 +524,7 @@ export const EksInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "EksInfo" }) as any as S.Schema<EksInfo>;
 export type ContainerInfo = { eksInfo: EksInfo };
-export const ContainerInfo = /*@__PURE__*/ S.Union([
-  S.Struct({ eksInfo: EksInfo }),
-]);
+export const ContainerInfo = /*@__PURE__*/ S.Union([S.Struct({ eksInfo: EksInfo })]);
 export interface ContainerProvider {
   type: ContainerProviderType;
   id: string;
@@ -636,9 +599,7 @@ export interface EncryptionConfiguration {
 }
 export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inTransitEncryptionConfiguration: S.optional(
-      InTransitEncryptionConfiguration,
-    ),
+    inTransitEncryptionConfiguration: S.optional(InTransitEncryptionConfiguration),
   }),
 ).annotate({
   identifier: "EncryptionConfiguration",
@@ -720,14 +681,7 @@ export const CreateSecurityConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     securityConfigurationData: SecurityConfigurationData,
     tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/securityconfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/securityconfigurations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateSecurityConfigurationRequest",
@@ -779,16 +733,7 @@ export const CreateVirtualClusterRequest = /*@__PURE__*/ S.suspend(() =>
     securityConfigurationId: S.optional(S.String),
     sessionEnabled: S.optional(S.Boolean),
     schedulerConfiguration: S.optional(SchedulerConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/virtualclusters" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/virtualclusters" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateVirtualClusterRequest",
 }) as any as S.Schema<CreateVirtualClusterRequest>;
@@ -812,14 +757,7 @@ export interface DeleteJobTemplateRequest {
 }
 export const DeleteJobTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/jobtemplates/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/jobtemplates/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteJobTemplateRequest",
@@ -898,14 +836,7 @@ export interface DeleteVirtualClusterRequest {
 }
 export const DeleteVirtualClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/virtualclusters/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/virtualclusters/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteVirtualClusterRequest",
@@ -1012,13 +943,9 @@ export const JobRun = /*@__PURE__*/ S.suspend(() =>
     releaseLabel: S.optional(S.String),
     configurationOverrides: S.optional(ConfigurationOverrides),
     jobDriver: S.optional(JobDriver),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     createdBy: S.optional(S.String),
-    finishedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    finishedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     stateDetails: S.optional(S.String),
     failureReason: S.optional(FailureReason),
     tags: S.optional(TagMap),
@@ -1039,14 +966,7 @@ export interface DescribeJobTemplateRequest {
 }
 export const DescribeJobTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/jobtemplates/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/jobtemplates/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeJobTemplateRequest",
@@ -1068,9 +988,7 @@ export const JobTemplate = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     id: S.optional(S.String),
     arn: S.optional(S.String),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     createdBy: S.optional(S.String),
     tags: S.optional(TagMap),
     jobTemplateData: JobTemplateData,
@@ -1168,9 +1086,7 @@ export const Endpoint = /*@__PURE__*/ S.suspend(() =>
     configurationOverrides: S.optional(ConfigurationOverrides),
     serverUrl: S.optional(S.String),
     authProxyUrl: S.optional(S.String),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     securityGroup: S.optional(S.String),
     subnetIds: S.optional(SubnetIds),
     stateDetails: S.optional(S.String),
@@ -1189,18 +1105,17 @@ export const DescribeManagedEndpointResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeSecurityConfigurationRequest {
   id: string;
 }
-export const DescribeSecurityConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/securityconfigurations/{id}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeSecurityConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/securityconfigurations/{id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeSecurityConfigurationRequest",
 }) as any as S.Schema<DescribeSecurityConfigurationRequest>;
@@ -1218,9 +1133,7 @@ export const SecurityConfiguration = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     createdBy: S.optional(S.String),
     securityConfigurationData: S.optional(SecurityConfigurationData),
     tags: S.optional(TagMap),
@@ -1231,8 +1144,8 @@ export const SecurityConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeSecurityConfigurationResponse {
   securityConfiguration?: SecurityConfiguration;
 }
-export const DescribeSecurityConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ securityConfiguration: S.optional(SecurityConfiguration) }),
+export const DescribeSecurityConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ securityConfiguration: S.optional(SecurityConfiguration) }),
 ).annotate({
   identifier: "DescribeSecurityConfigurationResponse",
 }) as any as S.Schema<DescribeSecurityConfigurationResponse>;
@@ -1241,14 +1154,7 @@ export interface DescribeVirtualClusterRequest {
 }
 export const DescribeVirtualClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/virtualclusters/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/virtualclusters/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeVirtualClusterRequest",
@@ -1294,9 +1200,7 @@ export const VirtualCluster = /*@__PURE__*/ S.suspend(() =>
     arn: S.optional(S.String),
     state: S.optional(VirtualClusterState),
     containerProvider: S.optional(ContainerProvider),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(TagMap),
     securityConfigurationId: S.optional(S.String),
     sessionEnabled: S.optional(S.Boolean),
@@ -1323,58 +1227,50 @@ export interface GetManagedEndpointSessionCredentialsRequest {
   logContext?: string;
   clientToken?: string;
 }
-export const GetManagedEndpointSessionCredentialsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      endpointIdentifier: S.String.pipe(T.HttpLabel("endpointIdentifier")),
-      virtualClusterIdentifier: S.String.pipe(
-        T.HttpLabel("virtualClusterIdentifier"),
-      ),
-      executionRoleArn: S.String,
-      credentialType: S.String,
-      durationInSeconds: S.optional(S.Number),
-      logContext: S.optional(S.String),
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/virtualclusters/{virtualClusterIdentifier}/endpoints/{endpointIdentifier}/credentials",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetManagedEndpointSessionCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endpointIdentifier: S.String.pipe(T.HttpLabel("endpointIdentifier")),
+    virtualClusterIdentifier: S.String.pipe(T.HttpLabel("virtualClusterIdentifier")),
+    executionRoleArn: S.String,
+    credentialType: S.String,
+    durationInSeconds: S.optional(S.Number),
+    logContext: S.optional(S.String),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/virtualclusters/{virtualClusterIdentifier}/endpoints/{endpointIdentifier}/credentials",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "GetManagedEndpointSessionCredentialsRequest",
-  }) as any as S.Schema<GetManagedEndpointSessionCredentialsRequest>;
+  ),
+).annotate({
+  identifier: "GetManagedEndpointSessionCredentialsRequest",
+}) as any as S.Schema<GetManagedEndpointSessionCredentialsRequest>;
 export type Token = string | redacted.Redacted<string>;
 export type Credentials = { token: string | redacted.Redacted<string> };
-export const Credentials = /*@__PURE__*/ S.Union([
-  S.Struct({ token: SensitiveString }),
-]);
+export const Credentials = /*@__PURE__*/ S.Union([S.Struct({ token: SensitiveString })]);
 export interface GetManagedEndpointSessionCredentialsResponse {
   id?: string;
   credentials?: Credentials;
   endpointCredentials?: Credentials;
   expiresAt?: Date;
 }
-export const GetManagedEndpointSessionCredentialsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      credentials: S.optional(Credentials),
-      endpointCredentials: S.optional(Credentials),
-      expiresAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetManagedEndpointSessionCredentialsResponse",
-  }) as any as S.Schema<GetManagedEndpointSessionCredentialsResponse>;
+export const GetManagedEndpointSessionCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    credentials: S.optional(Credentials),
+    endpointCredentials: S.optional(Credentials),
+    expiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotate({
+  identifier: "GetManagedEndpointSessionCredentialsResponse",
+}) as any as S.Schema<GetManagedEndpointSessionCredentialsResponse>;
 export type JobRunStates = JobRunState[];
 export const JobRunStates = /*@__PURE__*/ S.Array(JobRunState);
 export type NextToken = string;
@@ -1390,12 +1286,12 @@ export interface ListJobRunsRequest {
 export const ListJobRunsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
-    createdBefore: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("createdBefore")),
-    createdAfter: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("createdAfter")),
+    createdBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("createdBefore"),
+    ),
+    createdAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("createdAfter"),
+    ),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
     states: S.optional(JobRunStates).pipe(T.HttpQuery("states")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1435,24 +1331,15 @@ export interface ListJobTemplatesRequest {
 }
 export const ListJobTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdAfter: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("createdAfter")),
-    createdBefore: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("createdBefore")),
+    createdAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("createdAfter"),
+    ),
+    createdBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("createdBefore"),
+    ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/jobtemplates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/jobtemplates" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListJobTemplatesRequest",
 }) as any as S.Schema<ListJobTemplatesRequest>;
@@ -1486,12 +1373,12 @@ export interface ListManagedEndpointsRequest {
 export const ListManagedEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
-    createdBefore: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("createdBefore")),
-    createdAfter: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("createdAfter")),
+    createdBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("createdBefore"),
+    ),
+    createdAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("createdAfter"),
+    ),
     types: S.optional(EndpointTypes).pipe(T.HttpQuery("types")),
     states: S.optional(EndpointStates).pipe(T.HttpQuery("states")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1534,31 +1421,22 @@ export interface ListSecurityConfigurationsRequest {
 }
 export const ListSecurityConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdAfter: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("createdAfter")),
-    createdBefore: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("createdBefore")),
+    createdAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("createdAfter"),
+    ),
+    createdBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("createdBefore"),
+    ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/securityconfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/securityconfigurations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListSecurityConfigurationsRequest",
 }) as any as S.Schema<ListSecurityConfigurationsRequest>;
 export type SecurityConfigurations = SecurityConfiguration[];
-export const SecurityConfigurations = /*@__PURE__*/ S.Array(
-  SecurityConfiguration,
-);
+export const SecurityConfigurations = /*@__PURE__*/ S.Array(SecurityConfiguration);
 export interface ListSecurityConfigurationsResponse {
   securityConfigurations?: SecurityConfiguration[];
   nextToken?: string;
@@ -1577,14 +1455,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1611,34 +1482,21 @@ export interface ListVirtualClustersRequest {
 }
 export const ListVirtualClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    containerProviderId: S.optional(S.String).pipe(
-      T.HttpQuery("containerProviderId"),
-    ),
+    containerProviderId: S.optional(S.String).pipe(T.HttpQuery("containerProviderId")),
     containerProviderType: S.optional(ContainerProviderType).pipe(
       T.HttpQuery("containerProviderType"),
     ),
-    createdAfter: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("createdAfter")),
-    createdBefore: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("createdBefore")),
+    createdAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("createdAfter"),
+    ),
+    createdBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("createdBefore"),
+    ),
     states: S.optional(VirtualClusterStates).pipe(T.HttpQuery("states")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    eksAccessEntryIntegrated: S.optional(S.Boolean).pipe(
-      T.HttpQuery("eksAccessEntryIntegrated"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/virtualclusters" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    eksAccessEntryIntegrated: S.optional(S.Boolean).pipe(T.HttpQuery("eksAccessEntryIntegrated")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/virtualclusters" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListVirtualClustersRequest",
 }) as any as S.Schema<ListVirtualClustersRequest>;
@@ -1728,22 +1586,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1757,22 +1606,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateVirtualClusterRequest {
@@ -1786,14 +1626,7 @@ export const UpdateVirtualClusterRequest = /*@__PURE__*/ S.suspend(() =>
     schedulerConfiguration: S.optional(SchedulerConfiguration),
     clientToken: S.String.pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/virtualclusters/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/virtualclusters/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateVirtualClusterRequest",
@@ -1823,11 +1656,7 @@ export const cancelJobRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelJobRunRequest,
   output: CancelJobRunResponse,
-  errors: [
-    InternalServerException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobRun",
@@ -1912,11 +1741,7 @@ export const createSecurityConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSecurityConfigurationRequest,
   output: CreateSecurityConfigurationResponse,
-  errors: [
-    InternalServerException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfiguration",
@@ -1974,11 +1799,7 @@ export const deleteJobTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteJobTemplateRequest,
   output: DeleteJobTemplateResponse,
-  errors: [
-    InternalServerException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTemplate",
@@ -2001,11 +1822,7 @@ export const deleteManagedEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteManagedEndpointRequest,
   output: DeleteManagedEndpointResponse,
-  errors: [
-    InternalServerException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedEndpoint",
@@ -2051,11 +1868,7 @@ export const deleteVirtualCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteVirtualClusterRequest,
   output: DeleteVirtualClusterResponse,
-  errors: [
-    InternalServerException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualCluster",
@@ -2263,11 +2076,7 @@ export const listJobRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListJobRunsRequest,
   output: ListJobRunsResponse,
-  errors: [
-    InternalServerException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobRuns",
@@ -2299,11 +2108,7 @@ export const listJobTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListJobTemplatesRequest,
   output: ListJobTemplatesResponse,
-  errors: [
-    InternalServerException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobTemplates",
@@ -2333,11 +2138,7 @@ export const listManagedEndpoints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListManagedEndpointsRequest,
   output: ListManagedEndpointsResponse,
-  errors: [
-    InternalServerException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListManagedEndpoints",
@@ -2370,11 +2171,7 @@ export const listSecurityConfigurations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSecurityConfigurationsRequest,
   output: ListSecurityConfigurationsResponse,
-  errors: [
-    InternalServerException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSecurityConfigurations",
@@ -2436,11 +2233,7 @@ export const listVirtualClusters: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListVirtualClustersRequest,
   output: ListVirtualClustersResponse,
-  errors: [
-    InternalServerException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServerException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVirtualClusters",
@@ -2568,11 +2361,7 @@ export const updateVirtualCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateVirtualClusterRequest,
   output: UpdateVirtualClusterResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualCluster",

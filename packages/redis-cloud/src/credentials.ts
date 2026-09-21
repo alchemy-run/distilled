@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Redis Cloud credentials — hand-written.
  *
@@ -18,7 +19,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
  * Redis Cloud API root. Operation paths already include `/v1/…`, so the
@@ -33,10 +33,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("RedisCloudCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "RedisCloudCredentials",
+) {}
 
 /** Auth headers for a resolved credentials config. */
 export const formatHeaders = (config: Config): Record<string, string> => {
@@ -62,10 +61,7 @@ export const fromApiKey = (config: {
     Effect.succeed({
       apiKey: Redacted.make(config.apiKey),
       apiSecretKey: Redacted.make(config.apiSecretKey),
-      authToken:
-        config.authToken !== undefined
-          ? Redacted.make(config.authToken)
-          : undefined,
+      authToken: config.authToken !== undefined ? Redacted.make(config.authToken) : undefined,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

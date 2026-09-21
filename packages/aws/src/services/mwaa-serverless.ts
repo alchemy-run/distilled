@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "MWAA Serverless",
   serviceShapeName: "AmazonMWAAServerless",
@@ -26,9 +26,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -159,15 +157,10 @@ export const S3Location = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export type Code = { S3Location: S3Location };
-export const Code = /*@__PURE__*/ S.Union([
-  S.Struct({ S3Location: S3Location }),
-]);
+export const Code = /*@__PURE__*/ S.Union([S.Struct({ S3Location: S3Location })]);
 export type RoleARN = string;
 export type DescriptionString = string;
-export type EncryptionType =
-  | "AWS_MANAGED_KEY"
-  | "CUSTOMER_MANAGED_KEY"
-  | (string & {});
+export type EncryptionType = "AWS_MANAGED_KEY" | "CUSTOMER_MANAGED_KEY" | (string & {});
 export const EncryptionType = S.String;
 
 export interface EncryptionConfiguration {
@@ -239,16 +232,7 @@ export const CreateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     NetworkConfiguration: S.optional(NetworkConfiguration),
     Tags: S.optional(Tags),
     TriggerMode: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/workflows" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/workflows" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateWorkflowRequest",
 }) as any as S.Schema<CreateWorkflowRequest>;
@@ -273,9 +257,7 @@ export interface CreateWorkflowResponse {
 export const CreateWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     WorkflowArn: S.String,
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RevisionId: S.optional(S.String),
     WorkflowStatus: S.optional(WorkflowStatus),
     WorkflowVersion: S.optional(S.String),
@@ -362,10 +344,7 @@ export type TaskInstanceStatus =
 export const TaskInstanceStatus = S.String;
 
 export type GenericMap = { [key: string]: string | undefined };
-export const GenericMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const GenericMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GetTaskInstanceResponse {
   WorkflowArn: string;
   RunId: string;
@@ -392,13 +371,9 @@ export const GetTaskInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(TaskInstanceStatus),
     DurationInSeconds: S.optional(S.Number),
     OperatorName: S.optional(S.String),
-    ModifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     AttemptNumber: S.optional(S.Number),
     ErrorMessage: S.optional(S.String),
     TaskId: S.optional(S.String),
@@ -417,14 +392,7 @@ export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetWorkflowRequest",
@@ -463,21 +431,15 @@ export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     WorkflowVersion: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ModifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
     LoggingConfiguration: S.optional(LoggingConfiguration),
     EngineVersion: S.optional(EngineVersion),
     WorkflowStatus: S.optional(WorkflowStatus),
     DefinitionS3Location: S.optional(DefinitionS3Location),
     Code: S.optional(Code),
-    CodeSnapshottedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CodeSnapshottedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ScheduleConfiguration: S.optional(ScheduleConfiguration),
     RoleArn: S.optional(S.String),
     NetworkConfiguration: S.optional(NetworkConfiguration),
@@ -512,10 +474,7 @@ export type RunType = "ON_DEMAND" | "SCHEDULED" | (string & {});
 export const RunType = S.String;
 
 export type ObjectMap = { [key: string]: any | undefined };
-export const ObjectMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Any.pipe(S.optional),
-);
+export const ObjectMap = /*@__PURE__*/ S.Record(S.String, S.Any.pipe(S.optional));
 export type TaskInstanceIds = string[];
 export const TaskInstanceIds = /*@__PURE__*/ S.Array(S.String);
 export type WorkflowRunStatus =
@@ -550,18 +509,10 @@ export const WorkflowRunDetail = /*@__PURE__*/ S.suspend(() =>
     WorkflowVersion: S.optional(S.String),
     RunId: S.optional(S.String),
     RunType: S.optional(RunType),
-    StartedOn: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    CompletedOn: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ModifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartedOn: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    CompletedOn: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
     ErrorMessage: S.optional(S.String),
     TaskInstances: S.optional(TaskInstanceIds),
@@ -596,14 +547,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -714,12 +658,8 @@ export interface RunDetailSummary {
 export const RunDetailSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(WorkflowRunStatus),
-    CreatedOn: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedOn: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
@@ -765,16 +705,7 @@ export const ListWorkflowsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/workflows" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/workflows" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListWorkflowsRequest",
 }) as any as S.Schema<ListWorkflowsRequest>;
@@ -794,12 +725,8 @@ export const WorkflowSummary = /*@__PURE__*/ S.suspend(() =>
     WorkflowVersion: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ModifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     WorkflowStatus: S.optional(WorkflowStatus),
     TriggerMode: S.optional(S.String),
   }),
@@ -855,12 +782,8 @@ export const WorkflowVersionSummary = /*@__PURE__*/ S.suspend(() =>
     WorkflowVersion: S.String,
     WorkflowArn: S.String,
     IsLatestVersion: S.optional(S.Boolean),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ModifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DefinitionS3Location: S.optional(DefinitionS3Location),
     ScheduleConfiguration: S.optional(ScheduleConfiguration),
     TriggerMode: S.optional(S.String),
@@ -869,9 +792,7 @@ export const WorkflowVersionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "WorkflowVersionSummary",
 }) as any as S.Schema<WorkflowVersionSummary>;
 export type WorkflowVersionSummaries = WorkflowVersionSummary[];
-export const WorkflowVersionSummaries = /*@__PURE__*/ S.Array(
-  WorkflowVersionSummary,
-);
+export const WorkflowVersionSummaries = /*@__PURE__*/ S.Array(WorkflowVersionSummary);
 export interface ListWorkflowVersionsResponse {
   WorkflowVersions?: WorkflowVersionSummary[];
   NextToken?: string;
@@ -918,9 +839,7 @@ export const StartWorkflowRunResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     RunId: S.optional(S.String),
     Status: S.optional(WorkflowRunStatus),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "StartWorkflowRunResponse",
@@ -974,22 +893,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: Tags,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -1003,22 +913,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateWorkflowRequest {
@@ -1044,14 +945,7 @@ export const UpdateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     NetworkConfiguration: S.optional(NetworkConfiguration),
     TriggerMode: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/workflows/{WorkflowArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/workflows/{WorkflowArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateWorkflowRequest",
@@ -1065,9 +959,7 @@ export interface UpdateWorkflowResponse {
 export const UpdateWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     WorkflowArn: S.String,
-    ModifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     WorkflowVersion: S.optional(S.String),
     Warnings: S.optional(WarningMessages),
   }),
@@ -1093,9 +985,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFields = ValidationExceptionField[];
-export const ValidationExceptionFields = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFields = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CreateWorkflowError =
   | AccessDeniedException
   | ConflictException

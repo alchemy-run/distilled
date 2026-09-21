@@ -1,3 +1,5 @@
+import { exec } from "node:child_process";
+import { readFile, writeFile } from "node:fs/promises";
 /**
  * Credential sources that need the file system or a child process, so they
  * only exist in the Node build: `~/.aws/config` profiles (`fromIni`),
@@ -16,18 +18,10 @@ import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
-import { exec } from "node:child_process";
-import { readFile, writeFile } from "node:fs/promises";
 import * as Auth from "../auth.ts";
-import {
-  Credentials,
-  fromAwsCredentialIdentity,
-} from "../credentials.browser.ts";
+import { Credentials, fromAwsCredentialIdentity } from "../credentials.browser.ts";
 import * as Region from "../region.ts";
-import {
-  loadSharedConfigFiles,
-  parseKnownFiles,
-} from "../util/shared-config.ts";
+import { loadSharedConfigFiles, parseKnownFiles } from "../util/shared-config.ts";
 import {
   type CredentialSource,
   CredentialSourceError,
@@ -72,14 +66,9 @@ const loadProfiles = (): Effect.Effect<Profiles, CredentialSourceError> =>
  * file), for settings that the config file owns such as `region` and the
  * IMDS options.
  */
-export const loadConfigProfile = (
-  profile?: string,
-): Effect.Effect<Profile | undefined> =>
+export const loadConfigProfile = (profile?: string): Effect.Effect<Profile | undefined> =>
   Effect.promise(() => loadSharedConfigFiles()).pipe(
-    Effect.map(
-      (files) =>
-        files.configFile?.[getProfileName(profile)] as Profile | undefined,
-    ),
+    Effect.map((files) => files.configFile?.[getProfileName(profile)] as Profile | undefined),
     Effect.orElseSucceed(() => undefined),
   );
 
@@ -261,12 +250,7 @@ export const assumeRoleWithWebIdentity = (
     const response = yield* STS.assumeRoleWithWebIdentity(params).pipe(
       Effect.provideService(
         Credentials,
-        Effect.succeed(
-          fromAwsCredentialIdentity(
-            { accessKeyId: "", secretAccessKey: "" },
-            region,
-          ),
-        ),
+        Effect.succeed(fromAwsCredentialIdentity({ accessKeyId: "", secretAccessKey: "" }, region)),
       ),
       withHttpClient,
       Effect.mapError(stsFailure),
@@ -279,9 +263,7 @@ export const assumeRoleWithWebIdentity = (
 // ---------------------------------------------------------------------------
 
 /** Run a shell command and return its stdout; interrupt kills the child. */
-const execCommand = (
-  command: string,
-): Effect.Effect<string, CredentialSourceError> =>
+const execCommand = (command: string): Effect.Effect<string, CredentialSourceError> =>
   Effect.callback<string, CredentialSourceError>((resume, signal) => {
     exec(command, { signal }, (error, stdout) => {
       resume(
@@ -307,10 +289,7 @@ interface ProcessOutput {
   AccountId?: string;
 }
 
-const resolveProcessCredentials = (
-  profileName: string,
-  profiles: Profiles,
-): CredentialSource => {
+const resolveProcessCredentials = (profileName: string, profiles: Profiles): CredentialSource => {
   const profile = profiles[profileName];
   if (!profile) {
     return Effect.fail(
@@ -343,10 +322,7 @@ const resolveProcessCredentials = (
       if (data.Version !== 1) {
         return Effect.fail(invalid("did not return Version 1"));
       }
-      if (
-        data.AccessKeyId === undefined ||
-        data.SecretAccessKey === undefined
-      ) {
+      if (data.AccessKeyId === undefined || data.SecretAccessKey === undefined) {
         return Effect.fail(invalid("returned invalid credentials"));
       }
       if (data.Expiration && new Date(data.Expiration) < new Date()) {
@@ -366,9 +342,7 @@ const resolveProcessCredentials = (
 };
 
 /** Credentials from the profile's `credential_process` command. */
-export const fromProcess = (
-  options: { profile?: string } = {},
-): CredentialSource =>
+export const fromProcess = (options: { profile?: string } = {}): CredentialSource =>
   Effect.flatMap(loadProfiles(), (profiles) =>
     resolveProcessCredentials(getProfileName(options.profile), profiles),
   );
@@ -395,15 +369,11 @@ export interface FromTokenFileOptions {
  * `AWS_WEB_IDENTITY_TOKEN_FILE` and the role in `AWS_ROLE_ARN` (or the
  * options), as on EKS with IAM roles for service accounts.
  */
-export const fromTokenFile = (
-  options: FromTokenFileOptions = {},
-): CredentialSource =>
+export const fromTokenFile = (options: FromTokenFileOptions = {}): CredentialSource =>
   Effect.gen(function* () {
-    const webIdentityTokenFile =
-      options.webIdentityTokenFile ?? env(ENV_TOKEN_FILE);
+    const webIdentityTokenFile = options.webIdentityTokenFile ?? env(ENV_TOKEN_FILE);
     const roleArn = options.roleArn ?? env(ENV_ROLE_ARN);
-    const roleSessionName =
-      options.roleSessionName ?? env(ENV_ROLE_SESSION_NAME);
+    const roleSessionName = options.roleSessionName ?? env(ENV_ROLE_SESSION_NAME);
     if (!webIdentityTokenFile || !roleArn) {
       return yield* new CredentialSourceError({
         message: "Web identity configuration not specified",
@@ -436,14 +406,11 @@ export const fromTokenFile = (
 export interface FromIniOptions {
   readonly profile?: string;
   /** Answers an `mfa_serial` prompt; without one, MFA profiles fail. */
-  readonly mfaCodeProvider?: (
-    mfaSerial: string,
-  ) => Effect.Effect<string, unknown>;
+  readonly mfaCodeProvider?: (mfaSerial: string) => Effect.Effect<string, unknown>;
 }
 
 const isString = (value: unknown): value is string => typeof value === "string";
-const isOptionalString = (value: unknown) =>
-  value === undefined || typeof value === "string";
+const isOptionalString = (value: unknown) => value === undefined || typeof value === "string";
 
 const isStaticCredsProfile = (profile: Profile) =>
   isString(profile.aws_access_key_id) &&
@@ -456,18 +423,15 @@ const isAssumeRoleProfile = (profile: Profile) =>
   isOptionalString(profile.role_session_name) &&
   isOptionalString(profile.external_id) &&
   isOptionalString(profile.mfa_serial) &&
-  ((isString(profile.source_profile) &&
-    profile.credential_source === undefined) ||
-    (isString(profile.credential_source) &&
-      profile.source_profile === undefined));
+  ((isString(profile.source_profile) && profile.credential_source === undefined) ||
+    (isString(profile.credential_source) && profile.source_profile === undefined));
 
 const isWebIdentityProfile = (profile: Profile) =>
   isString(profile.web_identity_token_file) &&
   isString(profile.role_arn) &&
   isOptionalString(profile.role_session_name);
 
-const isProcessProfile = (profile: Profile) =>
-  isString(profile.credential_process);
+const isProcessProfile = (profile: Profile) => isString(profile.credential_process);
 
 const isSsoProfile = (profile: Profile) =>
   isString(profile.sso_start_url) ||
@@ -490,10 +454,7 @@ const staticCredentials = (profile: Profile): AwsCredentialIdentity => ({
 });
 
 /** The `credential_source` of an assume-role profile. */
-const credentialSource = (
-  source: string | undefined,
-  profileName: string,
-): CredentialSource => {
+const credentialSource = (source: string | undefined, profileName: string): CredentialSource => {
   switch (source) {
     case "EcsContainer":
       return chain([fromHttp(), fromContainerMetadata()]);
@@ -513,11 +474,7 @@ const credentialSource = (
 };
 
 const provideNodeServices = <A, E>(
-  effect: Effect.Effect<
-    A,
-    E,
-    FileSystem.FileSystem | Path.Path | HttpClient.HttpClient
-  >,
+  effect: Effect.Effect<A, E, FileSystem.FileSystem | Path.Path | HttpClient.HttpClient>,
 ): Effect.Effect<A, E> =>
   effect.pipe(
     Effect.provideService(FileSystem.FileSystem, nodeFileSystem),
@@ -534,13 +491,8 @@ const ssoCredentials = (profileName: string): CredentialSource =>
     Effect.map((resolved): AwsCredentialIdentity => ({
       accessKeyId: Redacted.value(resolved.accessKeyId),
       secretAccessKey: Redacted.value(resolved.secretAccessKey),
-      sessionToken: resolved.sessionToken
-        ? Redacted.value(resolved.sessionToken)
-        : undefined,
-      expiration:
-        resolved.expiration === undefined
-          ? undefined
-          : new Date(resolved.expiration),
+      sessionToken: resolved.sessionToken ? Redacted.value(resolved.sessionToken) : undefined,
+      expiration: resolved.expiration === undefined ? undefined : new Date(resolved.expiration),
     })),
     Effect.mapError(
       (cause) =>
@@ -573,12 +525,7 @@ const resolveProfileData = (
     return Effect.succeed(staticCredentials(profile));
   }
   if (isAssumeRoleRecursiveCall || isAssumeRoleProfile(profile)) {
-    return resolveAssumeRoleCredentials(
-      profileName,
-      profiles,
-      options,
-      visited,
-    );
+    return resolveAssumeRoleCredentials(profileName, profiles, options, visited);
   }
   if (isStaticCredsProfile(profile)) {
     return Effect.succeed(staticCredentials(profile));
@@ -649,18 +596,16 @@ const resolveAssumeRoleCredentials = (
         });
       }
       params.SerialNumber = profile.mfa_serial;
-      params.TokenCode = yield* options
-        .mfaCodeProvider(profile.mfa_serial)
-        .pipe(
-          Effect.mapError(
-            (cause) =>
-              new CredentialSourceError({
-                message: `MFA code provider failed for profile ${profileName}.`,
-                cause,
-                tryNextLink: false,
-              }),
-          ),
-        );
+      params.TokenCode = yield* options.mfaCodeProvider(profile.mfa_serial).pipe(
+        Effect.mapError(
+          (cause) =>
+            new CredentialSourceError({
+              message: `MFA code provider failed for profile ${profileName}.`,
+              cause,
+              tryNextLink: false,
+            }),
+        ),
+      );
     }
     const sourceCredentials = yield* source;
     const region = yield* stsRegion(profile.region, options.profile);
@@ -674,12 +619,7 @@ const resolveAssumeRoleCredentials = (
  */
 export const fromIni = (options: FromIniOptions = {}): CredentialSource =>
   Effect.flatMap(loadProfiles(), (profiles) =>
-    resolveProfileData(
-      getProfileName(options.profile),
-      profiles,
-      options,
-      new Set(),
-    ),
+    resolveProfileData(getProfileName(options.profile), profiles, options, new Set()),
   );
 
 // ---------------------------------------------------------------------------
@@ -695,11 +635,7 @@ const envUnlessProfile = (profile?: string): CredentialSource =>
   Effect.suspend(() => {
     const profileName = profile ?? env(ENV_PROFILE);
     if (profileName) {
-      if (
-        env(ENV_KEY) &&
-        env(ENV_SECRET) &&
-        !multipleCredentialSourceWarningEmitted
-      ) {
+      if (env(ENV_KEY) && env(ENV_SECRET) && !multipleCredentialSourceWarningEmitted) {
         multipleCredentialSourceWarningEmitted = true;
         console.warn(`WARNING:
     Multiple credential sources detected:
@@ -742,9 +678,7 @@ const remoteProvider = (profile?: string): CredentialSource =>
  * shared config / credentials files, `credential_process`, web identity
  * token file, then the container or instance metadata endpoints.
  */
-export const fromNodeProviderChain = (
-  options: FromIniOptions = {},
-): CredentialSource =>
+export const fromNodeProviderChain = (options: FromIniOptions = {}): CredentialSource =>
   chain([
     envUnlessProfile(options.profile),
     fromIni(options),

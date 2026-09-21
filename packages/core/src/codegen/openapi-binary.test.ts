@@ -53,12 +53,8 @@ describe("OpenAPI binary contracts", () => {
       const request = result.shapes["com.example.binary#UploadFileRequest"];
       expect(request.members.zip.target).toBe("smithy.api#String");
       expect(request.members.archive.target).toBe("smithy.api#String");
-      expect(result.shapes["com.example.binary#UploadFile"].output.target).toBe(
-        "smithy.api#Unit",
-      );
-      expect(
-        result.shapes["com.example.binary#UploadFileResponse"],
-      ).toBeUndefined();
+      expect(result.shapes["com.example.binary#UploadFile"].output.target).toBe("smithy.api#Unit");
+      expect(result.shapes["com.example.binary#UploadFileResponse"]).toBeUndefined();
     });
   }
 
@@ -69,8 +65,7 @@ describe("OpenAPI binary contracts", () => {
       { $ref: "#/components/schemas/Archive", nullable: true },
       { schemas: { Archive: { type: "string", format: "binary" } } },
     );
-    const body =
-      result.shapes["com.example.binary#UploadFileResponse"].members.body;
+    const body = result.shapes["com.example.binary#UploadFileResponse"].members.body;
     expect(body.target).toBe("smithy.api#Blob");
     expect(body.traits["com.distilled.openapi#rawResponse"]).toEqual({});
     expect(body.traits["com.distilled.openapi#nullable"]).toEqual({});
@@ -91,8 +86,6 @@ describe("OpenAPI binary contracts", () => {
     expect(request.members.environment.target).toBe("smithy.api#String");
     const response = result.shapes["com.example.binary#UploadFileResponse"];
     expect(response.members.body.target).toBe("smithy.api#Blob");
-    expect(
-      response.members.body.traits["com.distilled.openapi#rawResponse"],
-    ).toEqual({});
+    expect(response.members.body.traits["com.distilled.openapi#rawResponse"]).toEqual({});
   });
 });

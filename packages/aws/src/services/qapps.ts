@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "QApps",
   serviceShapeName: "QAppsService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://data.qapps-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://data.qapps.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://data.qapps.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://data.qapps.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -200,23 +190,12 @@ export const AssociateQAppWithUserInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     appId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/apps.install" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/apps.install" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssociateQAppWithUserInput",
 }) as any as S.Schema<AssociateQAppWithUserInput>;
 export interface AssociateQAppWithUserResponse {}
-export const AssociateQAppWithUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const AssociateQAppWithUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AssociateQAppWithUserResponse",
 }) as any as S.Schema<AssociateQAppWithUserResponse>;
 export interface BatchCreateCategoryInputCategory {
@@ -233,8 +212,7 @@ export const BatchCreateCategoryInputCategory = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BatchCreateCategoryInputCategory",
 }) as any as S.Schema<BatchCreateCategoryInputCategory>;
-export type BatchCreateCategoryInputCategoryList =
-  BatchCreateCategoryInputCategory[];
+export type BatchCreateCategoryInputCategoryList = BatchCreateCategoryInputCategory[];
 export const BatchCreateCategoryInputCategoryList = /*@__PURE__*/ S.Array(
   BatchCreateCategoryInputCategory,
 );
@@ -260,9 +238,7 @@ export const BatchCreateCategoryInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchCreateCategoryInput",
 }) as any as S.Schema<BatchCreateCategoryInput>;
 export interface BatchCreateCategoryResponse {}
-export const BatchCreateCategoryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const BatchCreateCategoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "BatchCreateCategoryResponse",
 }) as any as S.Schema<BatchCreateCategoryResponse>;
 export type DeleteCategoryInputList = string[];
@@ -289,9 +265,7 @@ export const BatchDeleteCategoryInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchDeleteCategoryInput",
 }) as any as S.Schema<BatchDeleteCategoryInput>;
 export interface BatchDeleteCategoryResponse {}
-export const BatchDeleteCategoryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const BatchDeleteCategoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "BatchDeleteCategoryResponse",
 }) as any as S.Schema<BatchDeleteCategoryResponse>;
 export interface CategoryInput {
@@ -326,9 +300,7 @@ export const BatchUpdateCategoryInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchUpdateCategoryInput",
 }) as any as S.Schema<BatchUpdateCategoryInput>;
 export interface BatchUpdateCategoryResponse {}
-export const BatchUpdateCategoryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const BatchUpdateCategoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "BatchUpdateCategoryResponse",
 }) as any as S.Schema<BatchUpdateCategoryResponse>;
 export type AppVersion = number;
@@ -347,14 +319,7 @@ export const CreateLibraryItemInput = /*@__PURE__*/ S.suspend(() =>
     appVersion: S.Number,
     categories: CategoryIdList,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/catalog.createItem" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/catalog.createItem" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateLibraryItemInput",
@@ -376,9 +341,7 @@ export const CreateLibraryItemOutput = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     ratingCount: S.Number,
     isVerified: S.optional(S.Boolean),
@@ -422,10 +385,7 @@ export const CreatePresignedUrlInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreatePresignedUrlInput",
 }) as any as S.Schema<CreatePresignedUrlInput>;
 export type PresignedUrlFields = { [key: string]: string | undefined };
-export const PresignedUrlFields = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const PresignedUrlFields = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreatePresignedUrlOutput {
   fileId: string;
   presignedUrl: string;
@@ -437,9 +397,7 @@ export const CreatePresignedUrlOutput = /*@__PURE__*/ S.suspend(() =>
     fileId: S.String,
     presignedUrl: S.String,
     presignedUrlFields: PresignedUrlFields,
-    presignedUrlExpiration: T.DateFromString.pipe(
-      T.TimestampFormat("date-time"),
-    ),
+    presignedUrlExpiration: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreatePresignedUrlOutput",
@@ -718,10 +676,7 @@ export const AppDefinitionInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "AppDefinitionInput",
 }) as any as S.Schema<AppDefinitionInput>;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateQAppInput {
   instanceId: string;
   title: string;
@@ -736,16 +691,7 @@ export const CreateQAppInput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     appDefinition: AppDefinitionInput,
     tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/apps.create" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/apps.create" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateQAppInput",
 }) as any as S.Schema<CreateQAppInput>;
@@ -762,9 +708,7 @@ export type AppRequiredCapability =
 export const AppRequiredCapability = S.String;
 
 export type AppRequiredCapabilities = AppRequiredCapability[];
-export const AppRequiredCapabilities = /*@__PURE__*/ S.Array(
-  AppRequiredCapability,
-);
+export const AppRequiredCapabilities = /*@__PURE__*/ S.Array(AppRequiredCapability);
 export interface CreateQAppOutput {
   appId: string;
   appArn: string;
@@ -806,22 +750,13 @@ export const DeleteLibraryItemInput = /*@__PURE__*/ S.suspend(() =>
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     libraryItemId: S.String,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/catalog.deleteItem" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/catalog.deleteItem" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteLibraryItemInput",
 }) as any as S.Schema<DeleteLibraryItemInput>;
 export interface DeleteLibraryItemResponse {}
-export const DeleteLibraryItemResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteLibraryItemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLibraryItemResponse",
 }) as any as S.Schema<DeleteLibraryItemResponse>;
 export interface DeleteQAppInput {
@@ -832,23 +767,12 @@ export const DeleteQAppInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     appId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/apps.delete" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/apps.delete" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteQAppInput",
 }) as any as S.Schema<DeleteQAppInput>;
 export interface DeleteQAppResponse {}
-export const DeleteQAppResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteQAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteQAppResponse",
 }) as any as S.Schema<DeleteQAppResponse>;
 export interface DescribeQAppPermissionsInput {
@@ -939,8 +863,8 @@ export const DisassociateLibraryItemReviewInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DisassociateLibraryItemReviewInput",
 }) as any as S.Schema<DisassociateLibraryItemReviewInput>;
 export interface DisassociateLibraryItemReviewResponse {}
-export const DisassociateLibraryItemReviewResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DisassociateLibraryItemReviewResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DisassociateLibraryItemReviewResponse",
 }) as any as S.Schema<DisassociateLibraryItemReviewResponse>;
@@ -952,16 +876,7 @@ export const DisassociateQAppFromUserInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     appId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/apps.uninstall" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/apps.uninstall" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DisassociateQAppFromUserInput",
 }) as any as S.Schema<DisassociateQAppFromUserInput>;
@@ -1016,16 +931,7 @@ export const GetLibraryItemInput = /*@__PURE__*/ S.suspend(() =>
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     libraryItemId: S.String.pipe(T.HttpQuery("libraryItemId")),
     appId: S.optional(S.String).pipe(T.HttpQuery("appId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/catalog.getItem" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/catalog.getItem" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetLibraryItemInput",
 }) as any as S.Schema<GetLibraryItemInput>;
@@ -1069,9 +975,7 @@ export const GetLibraryItemOutput = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     ratingCount: S.Number,
     isRatedByUser: S.optional(S.Boolean),
@@ -1091,16 +995,7 @@ export const GetQAppInput = /*@__PURE__*/ S.suspend(() =>
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     appId: S.String.pipe(T.HttpQuery("appId")),
     appVersion: S.optional(S.Number).pipe(T.HttpQuery("appVersion")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/apps.get" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/apps.get" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "GetQAppInput" }) as any as S.Schema<GetQAppInput>;
 export type DependencyList = string[];
 export const DependencyList = /*@__PURE__*/ S.Array(S.String);
@@ -1324,25 +1219,13 @@ export const GetQAppSessionInput = /*@__PURE__*/ S.suspend(() =>
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     sessionId: S.String.pipe(T.HttpQuery("sessionId")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/runtime.getQAppSession" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/runtime.getQAppSession" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetQAppSessionInput",
 }) as any as S.Schema<GetQAppSessionInput>;
 export type SessionName = string;
-export type ExecutionStatus =
-  | "IN_PROGRESS"
-  | "WAITING"
-  | "COMPLETED"
-  | "ERROR"
-  | (string & {});
+export type ExecutionStatus = "IN_PROGRESS" | "WAITING" | "COMPLETED" | "ERROR" | (string & {});
 export const ExecutionStatus = S.String;
 
 export interface Submission {
@@ -1354,9 +1237,7 @@ export const Submission = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.Any),
     submissionId: S.optional(S.String),
-    timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "Submission" }) as any as S.Schema<Submission>;
 export type SubmissionList = Submission[];
@@ -1374,10 +1255,7 @@ export const CardStatus = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "CardStatus" }) as any as S.Schema<CardStatus>;
 export type CardStatusMap = { [key: string]: CardStatus | undefined };
-export const CardStatusMap = /*@__PURE__*/ S.Record(
-  S.String,
-  CardStatus.pipe(S.optional),
-);
+export const CardStatusMap = /*@__PURE__*/ S.Record(S.String, CardStatus.pipe(S.optional));
 export interface GetQAppSessionOutput {
   sessionId: string;
   sessionArn: string;
@@ -1477,14 +1355,7 @@ export const ImportDocumentInput = /*@__PURE__*/ S.suspend(() =>
     scope: DocumentScope,
     sessionId: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/apps.importDocument" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/apps.importDocument" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ImportDocumentInput",
@@ -1502,14 +1373,7 @@ export interface ListCategoriesInput {
 }
 export const ListCategoriesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ instanceId: S.String.pipe(T.HttpHeader("instance-id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/catalog.listCategories" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/catalog.listCategories" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListCategoriesInput",
@@ -1538,16 +1402,7 @@ export const ListLibraryItemsInput = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     categoryId: S.optional(S.String).pipe(T.HttpQuery("categoryId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/catalog.list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/catalog.list" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListLibraryItemsInput",
 }) as any as S.Schema<ListLibraryItemsInput>;
@@ -1575,9 +1430,7 @@ export const LibraryItemMember = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     ratingCount: S.Number,
     isRatedByUser: S.optional(S.Boolean),
@@ -1611,16 +1464,7 @@ export const ListQAppsInput = /*@__PURE__*/ S.suspend(() =>
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/apps.list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/apps.list" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "ListQAppsInput" }) as any as S.Schema<ListQAppsInput>;
 export interface UserAppItem {
   appId: string;
@@ -1696,9 +1540,7 @@ export const QAppSessionData = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.Any),
     user: User,
     submissionId: S.optional(S.String),
-    timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "QAppSessionData",
@@ -1727,14 +1569,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceARN: S.String.pipe(T.HttpLabel("resourceARN")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceARN}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceARN}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1781,14 +1616,7 @@ export const PredictQAppInput = /*@__PURE__*/ S.suspend(() =>
     instanceId: S.String.pipe(T.HttpHeader("instance-id")),
     options: S.optional(PredictQAppInputOptions),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/apps.predictQApp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/apps.predictQApp" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PredictQAppInput",
@@ -1902,9 +1730,7 @@ export const StopQAppSessionInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopQAppSessionInput",
 }) as any as S.Schema<StopQAppSessionInput>;
 export interface StopQAppSessionResponse {}
-export const StopQAppSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopQAppSessionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopQAppSessionResponse",
 }) as any as S.Schema<StopQAppSessionResponse>;
 export interface TagResourceRequest {
@@ -1916,22 +1742,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceARN: S.String.pipe(T.HttpLabel("resourceARN")),
     tags: Tags,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceARN}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceARN}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -1945,22 +1762,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceARN: S.String.pipe(T.HttpLabel("resourceARN")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceARN}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceARN}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type LibraryItemStatus = "PUBLISHED" | "DISABLED" | (string & {});
@@ -1979,14 +1787,7 @@ export const UpdateLibraryItemInput = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(LibraryItemStatus),
     categories: S.optional(CategoryIdList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/catalog.updateItem" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/catalog.updateItem" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateLibraryItemInput",
@@ -2015,9 +1816,7 @@ export const UpdateLibraryItemOutput = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     ratingCount: S.Number,
     isRatedByUser: S.optional(S.Boolean),
@@ -2070,16 +1869,7 @@ export const UpdateQAppInput = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     description: S.optional(S.String),
     appDefinition: S.optional(AppDefinitionInput),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/apps.update" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/apps.update" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateQAppInput",
 }) as any as S.Schema<UpdateQAppInput>;

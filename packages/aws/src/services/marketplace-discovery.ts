@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Discovery",
   serviceShapeName: "AWSMarketplaceDiscovery",
@@ -26,9 +26,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,14 +60,7 @@ export interface GetListingInput {
 }
 export const GetListingInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ listingId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2026-02-05/getListing" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/2026-02-05/getListing" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetListingInput",
@@ -129,9 +120,7 @@ export const ListingAssociatedEntity = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListingAssociatedEntity",
 }) as any as S.Schema<ListingAssociatedEntity>;
 export type ListingAssociatedEntityList = ListingAssociatedEntity[];
-export const ListingAssociatedEntityList = /*@__PURE__*/ S.Array(
-  ListingAssociatedEntity,
-);
+export const ListingAssociatedEntityList = /*@__PURE__*/ S.Array(ListingAssociatedEntity);
 export type ListingBadgeType =
   | "AWS_FREE_TIER"
   | "FREE_TRIAL"
@@ -189,18 +178,11 @@ export const FulfillmentOptionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "FulfillmentOptionSummary",
 }) as any as S.Schema<FulfillmentOptionSummary>;
 export type FulfillmentOptionSummaryList = FulfillmentOptionSummary[];
-export const FulfillmentOptionSummaryList = /*@__PURE__*/ S.Array(
-  FulfillmentOptionSummary,
-);
+export const FulfillmentOptionSummaryList = /*@__PURE__*/ S.Array(FulfillmentOptionSummary);
 export type HighlightList = string[];
 export const HighlightList = /*@__PURE__*/ S.Array(S.String);
 export type URL = string;
-export type PricingModelType =
-  | "USAGE"
-  | "CONTRACT"
-  | "BYOL"
-  | "FREE"
-  | (string & {});
+export type PricingModelType = "USAGE" | "CONTRACT" | "BYOL" | "FREE" | (string & {});
 export const PricingModelType = S.String;
 
 export interface PricingModel {
@@ -273,18 +255,10 @@ export const PromotionalMedia = /*@__PURE__*/ S.Union([
 ]);
 export type PromotionalMediaList = PromotionalMedia[];
 export const PromotionalMediaList = /*@__PURE__*/ S.Array(PromotionalMedia);
-export type ResourceType =
-  | "MANUFACTURER_SUPPORT"
-  | "MANUFACTURER_INSTRUCTIONS"
-  | (string & {});
+export type ResourceType = "MANUFACTURER_SUPPORT" | "MANUFACTURER_INSTRUCTIONS" | (string & {});
 export const ResourceType = S.String;
 
-export type ResourceContentType =
-  | "EMAIL"
-  | "PHONE_NUMBER"
-  | "LINK"
-  | "OTHER"
-  | (string & {});
+export type ResourceContentType = "EMAIL" | "PHONE_NUMBER" | "LINK" | "OTHER" | (string & {});
 export const ResourceContentType = S.String;
 
 export interface Resource {
@@ -326,18 +300,14 @@ export const ReviewSourceSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReviewSourceSummary",
 }) as any as S.Schema<ReviewSourceSummary>;
 export type ReviewSourceSummaryList = ReviewSourceSummary[];
-export const ReviewSourceSummaryList =
-  /*@__PURE__*/ S.Array(ReviewSourceSummary);
+export const ReviewSourceSummaryList = /*@__PURE__*/ S.Array(ReviewSourceSummary);
 export interface ReviewSummary {
   reviewSourceSummaries: ReviewSourceSummary[];
 }
 export const ReviewSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ reviewSourceSummaries: ReviewSourceSummaryList }),
 ).annotate({ identifier: "ReviewSummary" }) as any as S.Schema<ReviewSummary>;
-export type SellerEngagementType =
-  | "REQUEST_FOR_PRIVATE_OFFER"
-  | "REQUEST_FOR_DEMO"
-  | (string & {});
+export type SellerEngagementType = "REQUEST_FOR_PRIVATE_OFFER" | "REQUEST_FOR_DEMO" | (string & {});
 export const SellerEngagementType = S.String;
 
 export type SellerEngagementContentType = "LINK" | (string & {});
@@ -370,9 +340,9 @@ export const UseCase = /*@__PURE__*/ S.suspend(() =>
 export interface UseCaseEntry {
   useCase: UseCase;
 }
-export const UseCaseEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ useCase: UseCase }),
-).annotate({ identifier: "UseCaseEntry" }) as any as S.Schema<UseCaseEntry>;
+export const UseCaseEntry = /*@__PURE__*/ S.suspend(() => S.Struct({ useCase: UseCase })).annotate({
+  identifier: "UseCaseEntry",
+}) as any as S.Schema<UseCaseEntry>;
 export type UseCaseList = UseCaseEntry[];
 export const UseCaseList = /*@__PURE__*/ S.Array(UseCaseEntry);
 export interface GetListingOutput {
@@ -428,14 +398,7 @@ export interface GetOfferInput {
 }
 export const GetOfferInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ offerId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2026-02-05/getOffer" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/2026-02-05/getOffer" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetOfferInput" }) as any as S.Schema<GetOfferInput>;
 export type OfferSetId = string;
@@ -461,9 +424,7 @@ export const OfferAssociatedEntity = /*@__PURE__*/ S.suspend(() =>
   identifier: "OfferAssociatedEntity",
 }) as any as S.Schema<OfferAssociatedEntity>;
 export type OfferAssociatedEntityList = OfferAssociatedEntity[];
-export const OfferAssociatedEntityList = /*@__PURE__*/ S.Array(
-  OfferAssociatedEntity,
-);
+export const OfferAssociatedEntityList = /*@__PURE__*/ S.Array(OfferAssociatedEntity);
 export type AgreementResourceId = string;
 export type PurchaseOptionBadgeType =
   | "PRIVATE_PRICING"
@@ -482,8 +443,7 @@ export const PurchaseOptionBadge = /*@__PURE__*/ S.suspend(() =>
   identifier: "PurchaseOptionBadge",
 }) as any as S.Schema<PurchaseOptionBadge>;
 export type PurchaseOptionBadgeList = PurchaseOptionBadge[];
-export const PurchaseOptionBadgeList =
-  /*@__PURE__*/ S.Array(PurchaseOptionBadge);
+export const PurchaseOptionBadgeList = /*@__PURE__*/ S.Array(PurchaseOptionBadge);
 export interface GetOfferOutput {
   offerId: string;
   catalog: string;
@@ -503,9 +463,7 @@ export const GetOfferOutput = /*@__PURE__*/ S.suspend(() =>
     catalog: S.String,
     offerName: S.optional(S.String),
     expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    availableFromTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     sellerOfRecord: SellerInformation,
     associatedEntities: OfferAssociatedEntityList,
     agreementProposalId: S.String,
@@ -519,14 +477,7 @@ export interface GetOfferSetInput {
 }
 export const GetOfferSetInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ offerSetId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2026-02-05/getOfferSet" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/2026-02-05/getOfferSet" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetOfferSetInput",
@@ -541,9 +492,7 @@ export const OfferSetAssociatedEntity = /*@__PURE__*/ S.suspend(() =>
   identifier: "OfferSetAssociatedEntity",
 }) as any as S.Schema<OfferSetAssociatedEntity>;
 export type OfferSetAssociatedEntityList = OfferSetAssociatedEntity[];
-export const OfferSetAssociatedEntityList = /*@__PURE__*/ S.Array(
-  OfferSetAssociatedEntity,
-);
+export const OfferSetAssociatedEntityList = /*@__PURE__*/ S.Array(OfferSetAssociatedEntity);
 export interface GetOfferSetOutput {
   offerSetId: string;
   catalog: string;
@@ -560,9 +509,7 @@ export const GetOfferSetOutput = /*@__PURE__*/ S.suspend(() =>
     offerSetId: S.String,
     catalog: S.String,
     offerSetName: S.optional(S.String),
-    availableFromTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     buyerNotes: S.optional(S.String),
     sellerOfRecord: SellerInformation,
@@ -879,9 +826,7 @@ export const UsageBasedRateCardItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "UsageBasedRateCardItem",
 }) as any as S.Schema<UsageBasedRateCardItem>;
 export type UsageBasedRateCardList = UsageBasedRateCardItem[];
-export const UsageBasedRateCardList = /*@__PURE__*/ S.Array(
-  UsageBasedRateCardItem,
-);
+export const UsageBasedRateCardList = /*@__PURE__*/ S.Array(UsageBasedRateCardItem);
 export interface UsageBasedPricingTerm {
   id: string;
   type: TermType;
@@ -910,12 +855,8 @@ export const ValidityTerm = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     type: TermType,
     agreementDuration: S.optional(S.String),
-    agreementEndDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    agreementStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    agreementEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    agreementStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "ValidityTerm" }) as any as S.Schema<ValidityTerm>;
 export interface VariablePaymentTerm {
@@ -1169,23 +1110,12 @@ export interface GetProductInput {
 }
 export const GetProductInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ productId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2026-02-05/getProduct" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/2026-02-05/getProduct" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetProductInput",
 }) as any as S.Schema<GetProductInput>;
-export type DeployedOnAwsStatus =
-  | "DEPLOYED"
-  | "NOT_DEPLOYED"
-  | "NOT_APPLICABLE"
-  | (string & {});
+export type DeployedOnAwsStatus = "DEPLOYED" | "NOT_DEPLOYED" | "NOT_APPLICABLE" | (string & {});
 export const DeployedOnAwsStatus = S.String;
 
 export interface GetProductOutput {
@@ -1261,8 +1191,7 @@ export const AmazonMachineImageOperatingSystem = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AmazonMachineImageOperatingSystem",
 }) as any as S.Schema<AmazonMachineImageOperatingSystem>;
-export type AmazonMachineImageOperatingSystemList =
-  AmazonMachineImageOperatingSystem[];
+export type AmazonMachineImageOperatingSystemList = AmazonMachineImageOperatingSystem[];
 export const AmazonMachineImageOperatingSystemList = /*@__PURE__*/ S.Array(
   AmazonMachineImageOperatingSystem,
 );
@@ -1315,8 +1244,7 @@ export const AwsSupportedService = /*@__PURE__*/ S.suspend(() =>
   identifier: "AwsSupportedService",
 }) as any as S.Schema<AwsSupportedService>;
 export type AwsSupportedServiceList = AwsSupportedService[];
-export const AwsSupportedServiceList =
-  /*@__PURE__*/ S.Array(AwsSupportedService);
+export const AwsSupportedServiceList = /*@__PURE__*/ S.Array(AwsSupportedService);
 export interface ApiFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
@@ -1370,9 +1298,7 @@ export const ContainerOperatingSystem = /*@__PURE__*/ S.suspend(() =>
   identifier: "ContainerOperatingSystem",
 }) as any as S.Schema<ContainerOperatingSystem>;
 export type ContainerOperatingSystemList = ContainerOperatingSystem[];
-export const ContainerOperatingSystemList = /*@__PURE__*/ S.Array(
-  ContainerOperatingSystem,
-);
+export const ContainerOperatingSystemList = /*@__PURE__*/ S.Array(ContainerOperatingSystem);
 export interface ContainerFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
@@ -1412,8 +1338,7 @@ export const HelmOperatingSystem = /*@__PURE__*/ S.suspend(() =>
   identifier: "HelmOperatingSystem",
 }) as any as S.Schema<HelmOperatingSystem>;
 export type HelmOperatingSystemList = HelmOperatingSystem[];
-export const HelmOperatingSystemList =
-  /*@__PURE__*/ S.Array(HelmOperatingSystem);
+export const HelmOperatingSystemList = /*@__PURE__*/ S.Array(HelmOperatingSystem);
 export interface HelmFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
@@ -1453,9 +1378,7 @@ export const EksAddOnOperatingSystem = /*@__PURE__*/ S.suspend(() =>
   identifier: "EksAddOnOperatingSystem",
 }) as any as S.Schema<EksAddOnOperatingSystem>;
 export type EksAddOnOperatingSystemList = EksAddOnOperatingSystem[];
-export const EksAddOnOperatingSystemList = /*@__PURE__*/ S.Array(
-  EksAddOnOperatingSystem,
-);
+export const EksAddOnOperatingSystemList = /*@__PURE__*/ S.Array(EksAddOnOperatingSystem);
 export interface EksAddOnFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
@@ -1493,22 +1416,21 @@ export interface Ec2ImageBuilderComponentFulfillmentOption {
   releaseNotes?: string;
   usageInstructions?: string;
 }
-export const Ec2ImageBuilderComponentFulfillmentOption =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      fulfillmentOptionId: S.String,
-      fulfillmentOptionName: S.String,
-      fulfillmentOptionType: FulfillmentOptionType,
-      fulfillmentOptionDisplayName: S.String,
-      fulfillmentOptionVersion: S.optional(S.String),
-      operatingSystems: S.optional(ContainerOperatingSystemList),
-      awsSupportedServices: S.optional(AwsSupportedServiceList),
-      releaseNotes: S.optional(S.String),
-      usageInstructions: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "Ec2ImageBuilderComponentFulfillmentOption",
-  }) as any as S.Schema<Ec2ImageBuilderComponentFulfillmentOption>;
+export const Ec2ImageBuilderComponentFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fulfillmentOptionId: S.String,
+    fulfillmentOptionName: S.String,
+    fulfillmentOptionType: FulfillmentOptionType,
+    fulfillmentOptionDisplayName: S.String,
+    fulfillmentOptionVersion: S.optional(S.String),
+    operatingSystems: S.optional(ContainerOperatingSystemList),
+    awsSupportedServices: S.optional(AwsSupportedServiceList),
+    releaseNotes: S.optional(S.String),
+    usageInstructions: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "Ec2ImageBuilderComponentFulfillmentOption",
+}) as any as S.Schema<Ec2ImageBuilderComponentFulfillmentOption>;
 export interface DataArtifact {
   description?: string;
   resourceArn?: string;
@@ -1546,13 +1468,12 @@ export interface ProfessionalServicesFulfillmentOption {
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
 }
-export const ProfessionalServicesFulfillmentOption = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      fulfillmentOptionId: S.String,
-      fulfillmentOptionType: FulfillmentOptionType,
-      fulfillmentOptionDisplayName: S.String,
-    }),
+export const ProfessionalServicesFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fulfillmentOptionId: S.String,
+    fulfillmentOptionType: FulfillmentOptionType,
+    fulfillmentOptionDisplayName: S.String,
+  }),
 ).annotate({
   identifier: "ProfessionalServicesFulfillmentOption",
 }) as any as S.Schema<ProfessionalServicesFulfillmentOption>;
@@ -1825,13 +1746,11 @@ export const FulfillmentOption = /*@__PURE__*/ S.Union([
   S.Struct({ helmFulfillmentOption: HelmFulfillmentOption }),
   S.Struct({ eksAddOnFulfillmentOption: EksAddOnFulfillmentOption }),
   S.Struct({
-    ec2ImageBuilderComponentFulfillmentOption:
-      Ec2ImageBuilderComponentFulfillmentOption,
+    ec2ImageBuilderComponentFulfillmentOption: Ec2ImageBuilderComponentFulfillmentOption,
   }),
   S.Struct({ dataExchangeFulfillmentOption: DataExchangeFulfillmentOption }),
   S.Struct({
-    professionalServicesFulfillmentOption:
-      ProfessionalServicesFulfillmentOption,
+    professionalServicesFulfillmentOption: ProfessionalServicesFulfillmentOption,
   }),
   S.Struct({ saasFulfillmentOption: SaasFulfillmentOption }),
   S.Struct({
@@ -1880,8 +1799,7 @@ export const PurchaseOptionFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "PurchaseOptionFilter",
 }) as any as S.Schema<PurchaseOptionFilter>;
 export type PurchaseOptionFilterList = PurchaseOptionFilter[];
-export const PurchaseOptionFilterList =
-  /*@__PURE__*/ S.Array(PurchaseOptionFilter);
+export const PurchaseOptionFilterList = /*@__PURE__*/ S.Array(PurchaseOptionFilter);
 export type MaxResults = number;
 export interface ListPurchaseOptionsInput {
   filters?: PurchaseOptionFilter[];
@@ -1923,8 +1841,7 @@ export const PurchaseOptionAssociatedEntity = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PurchaseOptionAssociatedEntity",
 }) as any as S.Schema<PurchaseOptionAssociatedEntity>;
-export type PurchaseOptionAssociatedEntityList =
-  PurchaseOptionAssociatedEntity[];
+export type PurchaseOptionAssociatedEntityList = PurchaseOptionAssociatedEntity[];
 export const PurchaseOptionAssociatedEntityList = /*@__PURE__*/ S.Array(
   PurchaseOptionAssociatedEntity,
 );
@@ -1945,9 +1862,7 @@ export const PurchaseOptionSummary = /*@__PURE__*/ S.suspend(() =>
     catalog: S.String,
     purchaseOptionType: PurchaseOptionType,
     purchaseOptionName: S.optional(S.String),
-    availableFromTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     sellerOfRecord: SellerInformation,
     badges: S.optional(PurchaseOptionBadgeList),
@@ -1957,9 +1872,7 @@ export const PurchaseOptionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PurchaseOptionSummary",
 }) as any as S.Schema<PurchaseOptionSummary>;
 export type PurchaseOptionSummaryList = PurchaseOptionSummary[];
-export const PurchaseOptionSummaryList = /*@__PURE__*/ S.Array(
-  PurchaseOptionSummary,
-);
+export const PurchaseOptionSummaryList = /*@__PURE__*/ S.Array(PurchaseOptionSummary);
 export interface ListPurchaseOptionsOutput {
   purchaseOptions?: PurchaseOptionSummary[];
   nextToken?: string;
@@ -2075,16 +1988,10 @@ export const SearchFacetsOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SearchFacetsOutput",
 }) as any as S.Schema<SearchFacetsOutput>;
-export type SearchListingsSortBy =
-  | "RELEVANCE"
-  | "AVERAGE_CUSTOMER_RATING"
-  | (string & {});
+export type SearchListingsSortBy = "RELEVANCE" | "AVERAGE_CUSTOMER_RATING" | (string & {});
 export const SearchListingsSortBy = S.String;
 
-export type SearchListingsSortOrder =
-  | "DESCENDING"
-  | "ASCENDING"
-  | (string & {});
+export type SearchListingsSortOrder = "DESCENDING" | "ASCENDING" | (string & {});
 export const SearchListingsSortOrder = S.String;
 
 export interface SearchListingsInput {
@@ -2124,8 +2031,7 @@ export const ListingSummaryAssociatedEntity = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListingSummaryAssociatedEntity",
 }) as any as S.Schema<ListingSummaryAssociatedEntity>;
-export type ListingSummaryAssociatedEntityList =
-  ListingSummaryAssociatedEntity[];
+export type ListingSummaryAssociatedEntityList = ListingSummaryAssociatedEntity[];
 export const ListingSummaryAssociatedEntityList = /*@__PURE__*/ S.Array(
   ListingSummaryAssociatedEntity,
 );
@@ -2275,9 +2181,7 @@ export const getProduct: API.OperationMethod<
   operationName: "GetProduct",
 }));
 
-export type ListFulfillmentOptionsError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type ListFulfillmentOptionsError = ResourceNotFoundException | CommonErrors;
 /**
  * Returns the fulfillment options available for a product, including deployment details such as version information, operating systems, usage instructions, and release notes.
  */

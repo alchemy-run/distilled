@@ -1,15 +1,13 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace(
-  "http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/",
-);
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const ns = T.XmlNamespace("http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/");
 const svc = T.AwsApiService({
   sdkId: "Elastic Load Balancing",
   serviceShapeName: "ElasticLoadBalancing_v7",
@@ -29,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -66,9 +60,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elasticloadbalancing-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -76,9 +68,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elasticloadbalancing.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://elasticloadbalancing.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -111,10 +101,7 @@ export class DependencyThrottleException
   extends /*@__PURE__*/ S.TaggedError<DependencyThrottleException>()(
     "DependencyThrottleException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DependencyThrottle", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "DependencyThrottle", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class DuplicateAccessPointNameException
   extends /*@__PURE__*/ S.TaggedError<DuplicateAccessPointNameException>()(
@@ -132,10 +119,7 @@ export class DuplicateListenerException
   extends /*@__PURE__*/ S.TaggedError<DuplicateListenerException>()(
     "DuplicateListenerException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DuplicateListener", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "DuplicateListener", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class DuplicatePolicyNameException
   extends /*@__PURE__*/ S.TaggedError<DuplicatePolicyNameException>()(
@@ -150,10 +134,7 @@ export class DuplicateTagKeysException
   extends /*@__PURE__*/ S.TaggedError<DuplicateTagKeysException>()(
     "DuplicateTagKeysException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DuplicateTagKeys", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "DuplicateTagKeys", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidConfigurationRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidConfigurationRequestException>()(
@@ -171,19 +152,13 @@ export class InvalidEndPointException
   extends /*@__PURE__*/ S.TaggedError<InvalidEndPointException>()(
     "InvalidEndPointException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidInstance", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidInstance", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidSchemeException
   extends /*@__PURE__*/ S.TaggedError<InvalidSchemeException>()(
     "InvalidSchemeException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidScheme", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidScheme", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidSecurityGroupException
   extends /*@__PURE__*/ S.TaggedError<InvalidSecurityGroupException>()(
@@ -198,19 +173,13 @@ export class InvalidSubnetException
   extends /*@__PURE__*/ S.TaggedError<InvalidSubnetException>()(
     "InvalidSubnetException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class ListenerNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ListenerNotFoundException>()(
     "ListenerNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ListenerNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "ListenerNotFound", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class LoadBalancerAttributeNotFoundException
   extends /*@__PURE__*/ S.TaggedError<LoadBalancerAttributeNotFoundException>()(
@@ -237,28 +206,19 @@ export class PolicyNotFoundException
   extends /*@__PURE__*/ S.TaggedError<PolicyNotFoundException>()(
     "PolicyNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "PolicyNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "PolicyNotFound", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class PolicyTypeNotFoundException
   extends /*@__PURE__*/ S.TaggedError<PolicyTypeNotFoundException>()(
     "PolicyTypeNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "PolicyTypeNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "PolicyTypeNotFound", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class SubnetNotFoundException
   extends /*@__PURE__*/ S.TaggedError<SubnetNotFoundException>()(
     "SubnetNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SubnetNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "SubnetNotFound", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class TooManyAccessPointsException
   extends /*@__PURE__*/ S.TaggedError<TooManyAccessPointsException>()(
@@ -273,19 +233,13 @@ export class TooManyPoliciesException
   extends /*@__PURE__*/ S.TaggedError<TooManyPoliciesException>()(
     "TooManyPoliciesException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyPolicies", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "TooManyPolicies", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyTags", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "TooManyTags", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class UnsupportedProtocolException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedProtocolException>()(
@@ -316,21 +270,13 @@ export interface AddTagsInput {
 }
 export const AddTagsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerNames: LoadBalancerNames, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "AddTagsInput" }) as any as S.Schema<AddTagsInput>;
 export interface AddTagsOutput {}
-export const AddTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "AddTagsOutput" }) as any as S.Schema<AddTagsOutput>;
+export const AddTagsOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+  identifier: "AddTagsOutput",
+}) as any as S.Schema<AddTagsOutput>;
 export type SecurityGroupId = string;
 export type SecurityGroups = string[];
 export const SecurityGroups = /*@__PURE__*/ S.Array(S.String);
@@ -338,30 +284,19 @@ export interface ApplySecurityGroupsToLoadBalancerInput {
   LoadBalancerName: string;
   SecurityGroups: string[];
 }
-export const ApplySecurityGroupsToLoadBalancerInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      LoadBalancerName: S.String,
-      SecurityGroups: SecurityGroups,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ApplySecurityGroupsToLoadBalancerInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LoadBalancerName: S.String,
+    SecurityGroups: SecurityGroups,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ApplySecurityGroupsToLoadBalancerInput",
 }) as any as S.Schema<ApplySecurityGroupsToLoadBalancerInput>;
 export interface ApplySecurityGroupsToLoadBalancerOutput {
   SecurityGroups?: string[];
 }
-export const ApplySecurityGroupsToLoadBalancerOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ SecurityGroups: S.optional(SecurityGroups) }).pipe(ns),
+export const ApplySecurityGroupsToLoadBalancerOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SecurityGroups: S.optional(SecurityGroups) }).pipe(ns),
 ).annotate({
   identifier: "ApplySecurityGroupsToLoadBalancerOutput",
 }) as any as S.Schema<ApplySecurityGroupsToLoadBalancerOutput>;
@@ -374,15 +309,7 @@ export interface AttachLoadBalancerToSubnetsInput {
 }
 export const AttachLoadBalancerToSubnetsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, Subnets: Subnets }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "AttachLoadBalancerToSubnetsInput",
@@ -422,15 +349,7 @@ export interface ConfigureHealthCheckInput {
 }
 export const ConfigureHealthCheckInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, HealthCheck: HealthCheck }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ConfigureHealthCheckInput",
@@ -450,29 +369,18 @@ export interface CreateAppCookieStickinessPolicyInput {
   PolicyName: string;
   CookieName: string;
 }
-export const CreateAppCookieStickinessPolicyInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      LoadBalancerName: S.String,
-      PolicyName: S.String,
-      CookieName: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const CreateAppCookieStickinessPolicyInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LoadBalancerName: S.String,
+    PolicyName: S.String,
+    CookieName: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAppCookieStickinessPolicyInput",
 }) as any as S.Schema<CreateAppCookieStickinessPolicyInput>;
 export interface CreateAppCookieStickinessPolicyOutput {}
-export const CreateAppCookieStickinessPolicyOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const CreateAppCookieStickinessPolicyOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "CreateAppCookieStickinessPolicyOutput",
 }) as any as S.Schema<CreateAppCookieStickinessPolicyOutput>;
@@ -487,23 +395,13 @@ export const CreateLBCookieStickinessPolicyInput = /*@__PURE__*/ S.suspend(() =>
     LoadBalancerName: S.String,
     PolicyName: S.String,
     CookieExpirationPeriod: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateLBCookieStickinessPolicyInput",
 }) as any as S.Schema<CreateLBCookieStickinessPolicyInput>;
 export interface CreateLBCookieStickinessPolicyOutput {}
-export const CreateLBCookieStickinessPolicyOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const CreateLBCookieStickinessPolicyOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "CreateLBCookieStickinessPolicyOutput",
 }) as any as S.Schema<CreateLBCookieStickinessPolicyOutput>;
@@ -551,17 +449,7 @@ export const CreateAccessPointInput = /*@__PURE__*/ S.suspend(() =>
     SecurityGroups: S.optional(SecurityGroups),
     Scheme: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAccessPointInput",
 }) as any as S.Schema<CreateAccessPointInput>;
@@ -580,15 +468,7 @@ export interface CreateLoadBalancerListenerInput {
 }
 export const CreateLoadBalancerListenerInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, Listeners: Listeners }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateLoadBalancerListenerInput",
@@ -628,17 +508,7 @@ export const CreateLoadBalancerPolicyInput = /*@__PURE__*/ S.suspend(() =>
     PolicyName: S.String,
     PolicyTypeName: S.String,
     PolicyAttributes: S.optional(PolicyAttributes),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateLoadBalancerPolicyInput",
 }) as any as S.Schema<CreateLoadBalancerPolicyInput>;
@@ -653,15 +523,7 @@ export interface DeleteAccessPointInput {
 }
 export const DeleteAccessPointInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteAccessPointInput",
@@ -680,15 +542,7 @@ export interface DeleteLoadBalancerListenerInput {
 }
 export const DeleteLoadBalancerListenerInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, LoadBalancerPorts: Ports }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteLoadBalancerListenerInput",
@@ -705,15 +559,7 @@ export interface DeleteLoadBalancerPolicyInput {
 }
 export const DeleteLoadBalancerPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, PolicyName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteLoadBalancerPolicyInput",
@@ -739,15 +585,7 @@ export interface DeregisterEndPointsInput {
 }
 export const DeregisterEndPointsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, Instances: Instances }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeregisterEndPointsInput",
@@ -770,17 +608,7 @@ export const DescribeAccountLimitsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeAccountLimitsInput",
 }) as any as S.Schema<DescribeAccountLimitsInput>;
@@ -815,17 +643,7 @@ export const DescribeEndPointStateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LoadBalancerName: S.String,
     Instances: S.optional(Instances),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEndPointStateInput",
 }) as any as S.Schema<DescribeEndPointStateInput>;
@@ -861,15 +679,7 @@ export interface DescribeLoadBalancerAttributesInput {
 }
 export const DescribeLoadBalancerAttributesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeLoadBalancerAttributesInput",
@@ -955,11 +765,10 @@ export const LoadBalancerAttributes = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeLoadBalancerAttributesOutput {
   LoadBalancerAttributes?: LoadBalancerAttributes;
 }
-export const DescribeLoadBalancerAttributesOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      LoadBalancerAttributes: S.optional(LoadBalancerAttributes),
-    }).pipe(ns),
+export const DescribeLoadBalancerAttributesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LoadBalancerAttributes: S.optional(LoadBalancerAttributes),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeLoadBalancerAttributesOutput",
 }) as any as S.Schema<DescribeLoadBalancerAttributesOutput>;
@@ -973,17 +782,7 @@ export const DescribeLoadBalancerPoliciesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LoadBalancerName: S.optional(S.String),
     PolicyNames: S.optional(PolicyNames),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeLoadBalancerPoliciesInput",
 }) as any as S.Schema<DescribeLoadBalancerPoliciesInput>;
@@ -1000,9 +799,7 @@ export const PolicyAttributeDescription = /*@__PURE__*/ S.suspend(() =>
   identifier: "PolicyAttributeDescription",
 }) as any as S.Schema<PolicyAttributeDescription>;
 export type PolicyAttributeDescriptions = PolicyAttributeDescription[];
-export const PolicyAttributeDescriptions = /*@__PURE__*/ S.Array(
-  PolicyAttributeDescription,
-);
+export const PolicyAttributeDescriptions = /*@__PURE__*/ S.Array(PolicyAttributeDescription);
 export interface PolicyDescription {
   PolicyName?: string;
   PolicyTypeName?: string;
@@ -1032,19 +829,10 @@ export const PolicyTypeNames = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeLoadBalancerPolicyTypesInput {
   PolicyTypeNames?: string[];
 }
-export const DescribeLoadBalancerPolicyTypesInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ PolicyTypeNames: S.optional(PolicyTypeNames) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeLoadBalancerPolicyTypesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ PolicyTypeNames: S.optional(PolicyTypeNames) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeLoadBalancerPolicyTypesInput",
 }) as any as S.Schema<DescribeLoadBalancerPolicyTypesInput>;
@@ -1082,25 +870,20 @@ export const PolicyTypeDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PolicyTypeName: S.optional(S.String),
     Description: S.optional(S.String),
-    PolicyAttributeTypeDescriptions: S.optional(
-      PolicyAttributeTypeDescriptions,
-    ),
+    PolicyAttributeTypeDescriptions: S.optional(PolicyAttributeTypeDescriptions),
   }),
 ).annotate({
   identifier: "PolicyTypeDescription",
 }) as any as S.Schema<PolicyTypeDescription>;
 export type PolicyTypeDescriptions = PolicyTypeDescription[];
-export const PolicyTypeDescriptions = /*@__PURE__*/ S.Array(
-  PolicyTypeDescription,
-);
+export const PolicyTypeDescriptions = /*@__PURE__*/ S.Array(PolicyTypeDescription);
 export interface DescribeLoadBalancerPolicyTypesOutput {
   PolicyTypeDescriptions?: PolicyTypeDescription[];
 }
-export const DescribeLoadBalancerPolicyTypesOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PolicyTypeDescriptions: S.optional(PolicyTypeDescriptions),
-    }).pipe(ns),
+export const DescribeLoadBalancerPolicyTypesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PolicyTypeDescriptions: S.optional(PolicyTypeDescriptions),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeLoadBalancerPolicyTypesOutput",
 }) as any as S.Schema<DescribeLoadBalancerPolicyTypesOutput>;
@@ -1114,17 +897,7 @@ export const DescribeAccessPointsInput = /*@__PURE__*/ S.suspend(() =>
     LoadBalancerNames: S.optional(LoadBalancerNames),
     Marker: S.optional(S.String),
     PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeAccessPointsInput",
 }) as any as S.Schema<DescribeAccessPointsInput>;
@@ -1155,9 +928,7 @@ export const AppCookieStickinessPolicy = /*@__PURE__*/ S.suspend(() =>
   identifier: "AppCookieStickinessPolicy",
 }) as any as S.Schema<AppCookieStickinessPolicy>;
 export type AppCookieStickinessPolicies = AppCookieStickinessPolicy[];
-export const AppCookieStickinessPolicies = /*@__PURE__*/ S.Array(
-  AppCookieStickinessPolicy,
-);
+export const AppCookieStickinessPolicies = /*@__PURE__*/ S.Array(AppCookieStickinessPolicy);
 export interface LBCookieStickinessPolicy {
   PolicyName?: string;
   CookieExpirationPeriod?: number;
@@ -1171,9 +942,7 @@ export const LBCookieStickinessPolicy = /*@__PURE__*/ S.suspend(() =>
   identifier: "LBCookieStickinessPolicy",
 }) as any as S.Schema<LBCookieStickinessPolicy>;
 export type LBCookieStickinessPolicies = LBCookieStickinessPolicy[];
-export const LBCookieStickinessPolicies = /*@__PURE__*/ S.Array(
-  LBCookieStickinessPolicy,
-);
+export const LBCookieStickinessPolicies = /*@__PURE__*/ S.Array(LBCookieStickinessPolicy);
 export interface Policies {
   AppCookieStickinessPolicies?: AppCookieStickinessPolicy[];
   LBCookieStickinessPolicies?: LBCookieStickinessPolicy[];
@@ -1199,9 +968,7 @@ export const BackendServerDescription = /*@__PURE__*/ S.suspend(() =>
   identifier: "BackendServerDescription",
 }) as any as S.Schema<BackendServerDescription>;
 export type BackendServerDescriptions = BackendServerDescription[];
-export const BackendServerDescriptions = /*@__PURE__*/ S.Array(
-  BackendServerDescription,
-);
+export const BackendServerDescriptions = /*@__PURE__*/ S.Array(BackendServerDescription);
 export type VPCId = string;
 export type SecurityGroupOwnerAlias = string;
 export type SecurityGroupName = string;
@@ -1252,18 +1019,14 @@ export const LoadBalancerDescription = /*@__PURE__*/ S.suspend(() =>
     HealthCheck: S.optional(HealthCheck),
     SourceSecurityGroup: S.optional(SourceSecurityGroup),
     SecurityGroups: S.optional(SecurityGroups),
-    CreatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Scheme: S.optional(S.String),
   }),
 ).annotate({
   identifier: "LoadBalancerDescription",
 }) as any as S.Schema<LoadBalancerDescription>;
 export type LoadBalancerDescriptions = LoadBalancerDescription[];
-export const LoadBalancerDescriptions = /*@__PURE__*/ S.Array(
-  LoadBalancerDescription,
-);
+export const LoadBalancerDescriptions = /*@__PURE__*/ S.Array(LoadBalancerDescription);
 export interface DescribeAccessPointsOutput {
   LoadBalancerDescriptions?: LoadBalancerDescription[];
   NextMarker?: string;
@@ -1283,15 +1046,7 @@ export interface DescribeTagsInput {
 }
 export const DescribeTagsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerNames: LoadBalancerNamesMax20 }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeTagsInput",
@@ -1322,15 +1077,7 @@ export interface DetachLoadBalancerFromSubnetsInput {
 }
 export const DetachLoadBalancerFromSubnetsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, Subnets: Subnets }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DetachLoadBalancerFromSubnetsInput",
@@ -1351,17 +1098,7 @@ export const RemoveAvailabilityZonesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LoadBalancerName: S.String,
     AvailabilityZones: AvailabilityZones,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RemoveAvailabilityZonesInput",
 }) as any as S.Schema<RemoveAvailabilityZonesInput>;
@@ -1381,17 +1118,7 @@ export const AddAvailabilityZonesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LoadBalancerName: S.String,
     AvailabilityZones: AvailabilityZones,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddAvailabilityZonesInput",
 }) as any as S.Schema<AddAvailabilityZonesInput>;
@@ -1411,17 +1138,7 @@ export const ModifyLoadBalancerAttributesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LoadBalancerName: S.String,
     LoadBalancerAttributes: LoadBalancerAttributes,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyLoadBalancerAttributesInput",
 }) as any as S.Schema<ModifyLoadBalancerAttributesInput>;
@@ -1443,15 +1160,7 @@ export interface RegisterEndPointsInput {
 }
 export const RegisterEndPointsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerName: S.String, Instances: Instances }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RegisterEndPointsInput",
@@ -1478,23 +1187,13 @@ export interface RemoveTagsInput {
 }
 export const RemoveTagsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerNames: LoadBalancerNames, Tags: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RemoveTagsInput",
 }) as any as S.Schema<RemoveTagsInput>;
 export interface RemoveTagsOutput {}
-export const RemoveTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const RemoveTagsOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "RemoveTagsOutput",
 }) as any as S.Schema<RemoveTagsOutput>;
 export interface SetLoadBalancerListenerSSLCertificateInput {
@@ -1502,90 +1201,59 @@ export interface SetLoadBalancerListenerSSLCertificateInput {
   LoadBalancerPort: number;
   SSLCertificateId: string;
 }
-export const SetLoadBalancerListenerSSLCertificateInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LoadBalancerName: S.String,
-      LoadBalancerPort: S.Number,
-      SSLCertificateId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "SetLoadBalancerListenerSSLCertificateInput",
-  }) as any as S.Schema<SetLoadBalancerListenerSSLCertificateInput>;
+export const SetLoadBalancerListenerSSLCertificateInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LoadBalancerName: S.String,
+    LoadBalancerPort: S.Number,
+    SSLCertificateId: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "SetLoadBalancerListenerSSLCertificateInput",
+}) as any as S.Schema<SetLoadBalancerListenerSSLCertificateInput>;
 export interface SetLoadBalancerListenerSSLCertificateOutput {}
-export const SetLoadBalancerListenerSSLCertificateOutput =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "SetLoadBalancerListenerSSLCertificateOutput",
-  }) as any as S.Schema<SetLoadBalancerListenerSSLCertificateOutput>;
+export const SetLoadBalancerListenerSSLCertificateOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetLoadBalancerListenerSSLCertificateOutput",
+}) as any as S.Schema<SetLoadBalancerListenerSSLCertificateOutput>;
 export type EndPointPort = number;
 export interface SetLoadBalancerPoliciesForBackendServerInput {
   LoadBalancerName: string;
   InstancePort: number;
   PolicyNames: string[];
 }
-export const SetLoadBalancerPoliciesForBackendServerInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LoadBalancerName: S.String,
-      InstancePort: S.Number,
-      PolicyNames: PolicyNames,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "SetLoadBalancerPoliciesForBackendServerInput",
-  }) as any as S.Schema<SetLoadBalancerPoliciesForBackendServerInput>;
+export const SetLoadBalancerPoliciesForBackendServerInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LoadBalancerName: S.String,
+    InstancePort: S.Number,
+    PolicyNames: PolicyNames,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "SetLoadBalancerPoliciesForBackendServerInput",
+}) as any as S.Schema<SetLoadBalancerPoliciesForBackendServerInput>;
 export interface SetLoadBalancerPoliciesForBackendServerOutput {}
-export const SetLoadBalancerPoliciesForBackendServerOutput =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "SetLoadBalancerPoliciesForBackendServerOutput",
-  }) as any as S.Schema<SetLoadBalancerPoliciesForBackendServerOutput>;
+export const SetLoadBalancerPoliciesForBackendServerOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SetLoadBalancerPoliciesForBackendServerOutput",
+}) as any as S.Schema<SetLoadBalancerPoliciesForBackendServerOutput>;
 export interface SetLoadBalancerPoliciesOfListenerInput {
   LoadBalancerName: string;
   LoadBalancerPort: number;
   PolicyNames: string[];
 }
-export const SetLoadBalancerPoliciesOfListenerInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      LoadBalancerName: S.String,
-      LoadBalancerPort: S.Number,
-      PolicyNames: PolicyNames,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const SetLoadBalancerPoliciesOfListenerInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LoadBalancerName: S.String,
+    LoadBalancerPort: S.Number,
+    PolicyNames: PolicyNames,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SetLoadBalancerPoliciesOfListenerInput",
 }) as any as S.Schema<SetLoadBalancerPoliciesOfListenerInput>;
 export interface SetLoadBalancerPoliciesOfListenerOutput {}
-export const SetLoadBalancerPoliciesOfListenerOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const SetLoadBalancerPoliciesOfListenerOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "SetLoadBalancerPoliciesOfListenerOutput",
 }) as any as S.Schema<SetLoadBalancerPoliciesOfListenerOutput>;
@@ -1612,11 +1280,7 @@ export const addTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddTagsInput,
   output: AddTagsOutput,
-  errors: [
-    AccessPointNotFoundException,
-    DuplicateTagKeysException,
-    TooManyTagsException,
-  ],
+  errors: [AccessPointNotFoundException, DuplicateTagKeysException, TooManyTagsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
@@ -1683,9 +1347,7 @@ export const attachLoadBalancerToSubnets: API.OperationMethod<
   operationName: "AttachLoadBalancerToSubnets",
 }));
 
-export type ConfigureHealthCheckError =
-  | AccessPointNotFoundException
-  | CommonErrors;
+export type ConfigureHealthCheckError = AccessPointNotFoundException | CommonErrors;
 /**
  * Specifies the health check settings to use when evaluating the health state of your EC2 instances.
  *
@@ -1927,9 +1589,7 @@ export const deleteLoadBalancer: API.OperationMethod<
   operationName: "DeleteLoadBalancer",
 }));
 
-export type DeleteLoadBalancerListenersError =
-  | AccessPointNotFoundException
-  | CommonErrors;
+export type DeleteLoadBalancerListenersError = AccessPointNotFoundException | CommonErrors;
 /**
  * Deletes the specified listeners from the specified load balancer.
  */
@@ -2051,10 +1711,7 @@ export const describeLoadBalancerAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeLoadBalancerAttributesInput,
   output: DescribeLoadBalancerAttributesOutput,
-  errors: [
-    AccessPointNotFoundException,
-    LoadBalancerAttributeNotFoundException,
-  ],
+  errors: [AccessPointNotFoundException, LoadBalancerAttributeNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerAttributes",
@@ -2086,9 +1743,7 @@ export const describeLoadBalancerPolicies: API.OperationMethod<
   operationName: "DescribeLoadBalancerPolicies",
 }));
 
-export type DescribeLoadBalancerPolicyTypesError =
-  | PolicyTypeNotFoundException
-  | CommonErrors;
+export type DescribeLoadBalancerPolicyTypesError = PolicyTypeNotFoundException | CommonErrors;
 /**
  * Describes the specified load balancer policy types or all load balancer policy types.
  *

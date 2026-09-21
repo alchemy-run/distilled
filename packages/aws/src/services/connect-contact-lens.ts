@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Connect Contact Lens",
   serviceShapeName: "AmazonConnectContactLens",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://contact-lens-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://contact-lens.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://contact-lens.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://contact-lens.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -123,39 +113,34 @@ export interface ListRealtimeContactAnalysisSegmentsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListRealtimeContactAnalysisSegmentsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      InstanceId: S.optional(S.String),
-      ContactId: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/realtime-contact-analysis/analysis-segments",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListRealtimeContactAnalysisSegmentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    InstanceId: S.optional(S.String),
+    ContactId: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/realtime-contact-analysis/analysis-segments",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListRealtimeContactAnalysisSegmentsRequest",
-  }) as any as S.Schema<ListRealtimeContactAnalysisSegmentsRequest>;
+  ),
+).annotate({
+  identifier: "ListRealtimeContactAnalysisSegmentsRequest",
+}) as any as S.Schema<ListRealtimeContactAnalysisSegmentsRequest>;
 export type TranscriptId = string;
 export type ParticipantId = string;
 export type ParticipantRole = string;
 export type TranscriptContent = string;
 export type OffsetMillis = number;
-export type SentimentValue =
-  | "POSITIVE"
-  | "NEUTRAL"
-  | "NEGATIVE"
-  | (string & {});
+export type SentimentValue = "POSITIVE" | "NEUTRAL" | "NEGATIVE" | (string & {});
 export const SentimentValue = S.String;
 
 export type CharacterOffset = number;
@@ -227,10 +212,7 @@ export const CategoryDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "CategoryDetails",
 }) as any as S.Schema<CategoryDetails>;
 export type MatchedDetails = { [key: string]: CategoryDetails | undefined };
-export const MatchedDetails = /*@__PURE__*/ S.Record(
-  S.String,
-  CategoryDetails.pipe(S.optional),
-);
+export const MatchedDetails = /*@__PURE__*/ S.Record(S.String, CategoryDetails.pipe(S.optional));
 export interface Categories {
   MatchedCategories?: string[];
   MatchedDetails?: { [key: string]: CategoryDetails | undefined };
@@ -285,9 +267,7 @@ export const ExtractedInformationValue = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExtractedInformationValue",
 }) as any as S.Schema<ExtractedInformationValue>;
 export type ExtractedInformationValues = ExtractedInformationValue[];
-export const ExtractedInformationValues = /*@__PURE__*/ S.Array(
-  ExtractedInformationValue,
-);
+export const ExtractedInformationValues = /*@__PURE__*/ S.Array(ExtractedInformationValue);
 export type ExtractedInformationFailureCode =
   | "QUOTA_EXCEEDED"
   | "INSUFFICIENT_CONVERSATION_CONTENT"
@@ -381,15 +361,14 @@ export interface ListRealtimeContactAnalysisSegmentsResponse {
   })[];
   NextToken?: string;
 }
-export const ListRealtimeContactAnalysisSegmentsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Segments: S.optional(RealtimeContactAnalysisSegments),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListRealtimeContactAnalysisSegmentsResponse",
-  }) as any as S.Schema<ListRealtimeContactAnalysisSegmentsResponse>;
+export const ListRealtimeContactAnalysisSegmentsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Segments: S.optional(RealtimeContactAnalysisSegments),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListRealtimeContactAnalysisSegmentsResponse",
+}) as any as S.Schema<ListRealtimeContactAnalysisSegmentsResponse>;
 export type Message = string;
 export type ListRealtimeContactAnalysisSegmentsError =
   | AccessDeniedException

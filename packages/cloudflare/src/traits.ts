@@ -12,8 +12,8 @@
  * them. Anything tied to Cloudflare's response envelope lives here.
  */
 import { makeAnnotation } from "@distilled.cloud/core/trait";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import type * as Stream from "effect/Stream";
+import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 
 export {
   Body,
@@ -62,12 +62,9 @@ export const envelopePayloadRootSymbol = Symbol.for(
  * instead of wrapping it in `{ result: ... }`, matching how distilled types
  * these responses.
  */
-export const EnvelopePayloadRoot = () =>
-  makeAnnotation(envelopePayloadRootSymbol, true);
+export const EnvelopePayloadRoot = () => makeAnnotation(envelopePayloadRootSymbol, true);
 
-export const resultInfoSymbol = Symbol.for(
-  "@distilled.cloud/cloudflare/result-info",
-);
+export const resultInfoSymbol = Symbol.for("@distilled.cloud/cloudflare/result-info");
 
 /**
  * Marks the output member that receives the envelope's top-level
@@ -76,9 +73,7 @@ export const resultInfoSymbol = Symbol.for(
  */
 export const ResultInfo = () => makeAnnotation(resultInfoSymbol, true);
 
-export const envelopePayloadSymbol = Symbol.for(
-  "@distilled.cloud/cloudflare/envelope-payload",
-);
+export const envelopePayloadSymbol = Symbol.for("@distilled.cloud/cloudflare/envelope-payload");
 
 /**
  * Marks the single output member that receives the envelope's `result` value
@@ -91,8 +86,7 @@ export const envelopePayloadSymbol = Symbol.for(
  * to it. This mirrors `com.cloudflare.protocols#envelopePayload` in the Smithy
  * models.
  */
-export const EnvelopePayload = () =>
-  makeAnnotation(envelopePayloadSymbol, true);
+export const EnvelopePayload = () => makeAnnotation(envelopePayloadSymbol, true);
 
 export const binaryResponseBodySymbol = Symbol.for(
   "@distilled.cloud/cloudflare/binary-response-body",
@@ -106,11 +100,7 @@ export const binaryResponseBodySymbol = Symbol.for(
  * still take the normal envelope/error path. This mirrors
  * `com.cloudflare.protocols#binaryResponseBody` in the Smithy models.
  */
-export const BinaryResponseBody = () =>
-  makeAnnotation(binaryResponseBodySymbol, true);
+export const BinaryResponseBody = () => makeAnnotation(binaryResponseBodySymbol, true);
 
 /** The TS type of a `BinaryResponseBody()` member. */
-export type BinaryResponseBody = Stream.Stream<
-  Uint8Array,
-  HttpClientError.HttpClientError
->;
+export type BinaryResponseBody = Stream.Stream<Uint8Array, HttpClientError.HttpClientError>;

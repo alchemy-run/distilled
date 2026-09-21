@@ -59,9 +59,7 @@
           },
           "rules": [
             {
-              "conditions": [
-                { "fn": "isSet", "argv": [{ "ref": "Endpoint" }] }
-              ],
+              "conditions": [{ "fn": "isSet", "argv": [{ "ref": "Endpoint" }] }],
               "rules": [
                 {
                   "conditions": [

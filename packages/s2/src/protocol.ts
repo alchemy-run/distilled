@@ -1,3 +1,7 @@
+import type * as API from "@distilled.cloud/core/api";
+import { ConfigError } from "@distilled.cloud/core/errors";
+import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * S2Protocol — the shared bearer-REST protocol instantiated for S2 (s2.dev).
  *
@@ -20,10 +24,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { ConfigError } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   PreconditionFailed,
@@ -39,10 +39,7 @@ import {
  * S2OpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type S2OpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type S2OpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated S2 operation. */
 export type S2OpContext = Credentials | HttpClient.HttpClient;
@@ -53,8 +50,7 @@ export type S2OpContext = Credentials | HttpClient.HttpClient;
  * (`/metrics/{basin}/{stream}` names a basin in its PATH but stays on the
  * account endpoint.)
  */
-const isBasinScoped = (uri: string): boolean =>
-  uri === "/streams" || uri.startsWith("/streams/");
+const isBasinScoped = (uri: string): boolean => uri === "/streams" || uri.startsWith("/streams/");
 
 const baseUrlFor = (creds: Config, uri: string): string => {
   if (!isBasinScoped(uri)) return creds.accountBaseUrl;
@@ -90,12 +86,7 @@ export const S2Protocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
   },
   unknownError: ({ code, message, body }) =>
     new UnknownS2Error({
-      code:
-        typeof code === "string"
-          ? code
-          : code !== undefined
-            ? String(code)
-            : undefined,
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
       message,
       body,
     }),

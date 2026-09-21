@@ -18,7 +18,5 @@ for (const entry of ["nitro.json", ".vite"]) {
 const pages = (await readdir(dist)).filter((f) => f.endsWith(".html"));
 for (const page of pages) {
   const { size } = await stat(join(dist, page));
-  console.log(
-    `  ${page.padEnd(12)} ${(size / 1024).toFixed(1).padStart(7)} KB`,
-  );
+  console.log(`  ${page.padEnd(12)} ${(size / 1024).toFixed(1).padStart(7)} KB`);
 }

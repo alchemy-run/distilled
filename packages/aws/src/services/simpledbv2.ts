@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "SimpleDBv2",
   serviceShapeName: "SimpleDBv2",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -41,11 +37,7 @@ const rules = T.EndpointResolver((p, _) => {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
-        if (
-          Region === "us-east-1" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
+        if (Region === "us-east-1" && UseFIPS === false && UseDualStack === false) {
           return e("https://sdb.amazonaws.com");
         }
         if (UseFIPS === true && UseDualStack === true) {
@@ -63,27 +55,17 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true && UseDualStack === false) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://sdb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://sdb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://sdb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://sdb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://sdb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://sdb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -138,25 +120,13 @@ export interface GetExportRequest {
 }
 export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ exportArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/GetExport" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v2/GetExport" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetExportRequest",
 }) as any as S.Schema<GetExportRequest>;
 export type IdempotencyToken = string;
-export type ExportStatus =
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "SUCCEEDED"
-  | "FAILED"
-  | (string & {});
+export type ExportStatus = "PENDING" | "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export const ExportStatus = S.String;
 
 export type DomainName = string;
@@ -206,9 +176,7 @@ export const GetExportResponse = /*@__PURE__*/ S.suspend(() =>
     failureMessage: S.optional(S.String),
     exportManifest: S.optional(S.String),
     itemsCount: S.optional(S.Number),
-    exportDataCutoffTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    exportDataCutoffTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "GetExportResponse",
@@ -225,16 +193,7 @@ export const ListExportsRequest = /*@__PURE__*/ S.suspend(() =>
     domainName: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/ListExports" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v2/ListExports" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListExportsRequest",
 }) as any as S.Schema<ListExportsRequest>;
@@ -285,14 +244,7 @@ export const StartDomainExportRequest = /*@__PURE__*/ S.suspend(() =>
     s3SseKmsKeyId: S.optional(S.String),
     s3BucketOwner: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/StartDomainExport" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v2/StartDomainExport" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartDomainExportRequest",
@@ -311,10 +263,7 @@ export const StartDomainExportResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StartDomainExportResponse",
 }) as any as S.Schema<StartDomainExportResponse>;
-export type GetExportError =
-  | InvalidParameterValueException
-  | NoSuchExportException
-  | CommonErrors;
+export type GetExportError = InvalidParameterValueException | NoSuchExportException | CommonErrors;
 /**
  * Returns information for an existing domain export.
  */
@@ -349,11 +298,7 @@ export const listExports: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListExportsRequest,
   output: ListExportsResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    NoSuchDomainException,
-  ],
+  errors: [InvalidNextTokenException, InvalidParameterValueException, NoSuchDomainException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExports",

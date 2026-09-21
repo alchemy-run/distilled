@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Payment Cryptography Data",
   serviceShapeName: "PaymentCryptographyDataPlane",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://dataplane.payment-cryptography-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,9 +66,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://dataplane.payment-cryptography.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://dataplane.payment-cryptography.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -113,17 +105,14 @@ export class ThrottlingException
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      fieldList: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
-          identifier: "ValidationExceptionFieldList",
-        }),
-      ),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
+    message: S.String.pipe(T.ErrorMessage()),
+    fieldList: S.optional(
+      S.suspend(() => ValidationExceptionFieldList).annotate({
+        identifier: "ValidationExceptionFieldList",
+      }),
+    ),
+  }) {}
 export class VerificationFailedException
   extends /*@__PURE__*/ S.TaggedError<VerificationFailedException>()(
     "VerificationFailedException",
@@ -145,12 +134,7 @@ export type EncryptionMode =
 export const EncryptionMode = S.String;
 
 export type InitializationVectorType = string | redacted.Redacted<string>;
-export type PaddingType =
-  | "PKCS1"
-  | "OAEP_SHA1"
-  | "OAEP_SHA256"
-  | "OAEP_SHA512"
-  | (string & {});
+export type PaddingType = "PKCS1" | "OAEP_SHA1" | "OAEP_SHA256" | "OAEP_SHA512" | (string & {});
 export const PaddingType = S.String;
 
 export interface SymmetricEncryptionAttributes {
@@ -188,11 +172,7 @@ export type DukptDerivationType =
   | (string & {});
 export const DukptDerivationType = S.String;
 
-export type DukptKeyVariant =
-  | "BIDIRECTIONAL"
-  | "REQUEST"
-  | "RESPONSE"
-  | (string & {});
+export type DukptKeyVariant = "BIDIRECTIONAL" | "REQUEST" | "RESPONSE" | (string & {});
 export const DukptKeyVariant = S.String;
 
 export interface DukptEncryptionAttributes {
@@ -213,10 +193,7 @@ export const DukptEncryptionAttributes = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DukptEncryptionAttributes",
 }) as any as S.Schema<DukptEncryptionAttributes>;
-export type EmvMajorKeyDerivationMode =
-  | "EMV_OPTION_A"
-  | "EMV_OPTION_B"
-  | (string & {});
+export type EmvMajorKeyDerivationMode = "EMV_OPTION_A" | "EMV_OPTION_B" | (string & {});
 export const EmvMajorKeyDerivationMode = S.String;
 
 export type PrimaryAccountNumberType = string | redacted.Redacted<string>;
@@ -294,11 +271,7 @@ export const SymmetricKeyAlgorithm = S.String;
 export type KeyDerivationFunction = "NIST_SP800" | "ANSI_X963" | (string & {});
 export const KeyDerivationFunction = S.String;
 
-export type KeyDerivationHashAlgorithm =
-  | "SHA_256"
-  | "SHA_384"
-  | "SHA_512"
-  | (string & {});
+export type KeyDerivationHashAlgorithm = "SHA_256" | "SHA_384" | "SHA_512" | (string & {});
 export const KeyDerivationHashAlgorithm = S.String;
 
 export type SharedInformation = string;
@@ -428,11 +401,7 @@ export const EncryptDataOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "EncryptDataOutput",
 }) as any as S.Schema<EncryptDataOutput>;
-export type RandomKeyMaxLength =
-  | "BYTES_8"
-  | "BYTES_16"
-  | "BYTES_24"
-  | (string & {});
+export type RandomKeyMaxLength = "BYTES_8" | "BYTES_16" | "BYTES_24" | (string & {});
 export const RandomKeyMaxLength = S.String;
 
 export interface KekValidationRequest {
@@ -469,10 +438,7 @@ export const As2805KekValidationType = /*@__PURE__*/ S.Union([
   S.Struct({ KekValidationRequest: KekValidationRequest }),
   S.Struct({ KekValidationResponse: KekValidationResponse }),
 ]);
-export type RandomKeySendVariantMask =
-  | "VARIANT_MASK_82C0"
-  | "VARIANT_MASK_82"
-  | (string & {});
+export type RandomKeySendVariantMask = "VARIANT_MASK_82C0" | "VARIANT_MASK_82" | (string & {});
 export const RandomKeySendVariantMask = S.String;
 
 export interface GenerateAs2805KekValidationInput {
@@ -515,10 +481,7 @@ export const GenerateAs2805KekValidationOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GenerateAs2805KekValidationOutput",
 }) as any as S.Schema<GenerateAs2805KekValidationOutput>;
 export type TransactionDataType = string | redacted.Redacted<string>;
-export type MajorKeyDerivationMode =
-  | "EMV_OPTION_A"
-  | "EMV_OPTION_B"
-  | (string & {});
+export type MajorKeyDerivationMode = "EMV_OPTION_A" | "EMV_OPTION_B" | (string & {});
 export const MajorKeyDerivationMode = S.String;
 
 export type HexLengthEquals4 = string;
@@ -671,14 +634,7 @@ export const GenerateAuthRequestCryptogramInput = /*@__PURE__*/ S.suspend(() =>
     MajorKeyDerivationMode: MajorKeyDerivationMode,
     SessionKeyDerivationAttributes: SessionKeyDerivation,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cryptogram/generate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/cryptogram/generate" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GenerateAuthRequestCryptogramInput",
@@ -1020,16 +976,7 @@ export const GenerateMacInput = /*@__PURE__*/ S.suspend(() =>
     MessageData: SensitiveString,
     GenerationAttributes: MacAttributes,
     MacLength: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/mac/generate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/mac/generate" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GenerateMacInput",
 }) as any as S.Schema<GenerateMacInput>;
@@ -1053,16 +1000,10 @@ export type PinBlockFormatForEmvPinChange =
 export const PinBlockFormatForEmvPinChange = S.String;
 
 export type CommandMessageDataType = string | redacted.Redacted<string>;
-export type PinBlockPaddingType =
-  | "NO_PADDING"
-  | "ISO_IEC_7816_4"
-  | (string & {});
+export type PinBlockPaddingType = "NO_PADDING" | "ISO_IEC_7816_4" | (string & {});
 export const PinBlockPaddingType = S.String;
 
-export type PinBlockLengthPosition =
-  | "NONE"
-  | "FRONT_OF_PIN_BLOCK"
-  | (string & {});
+export type PinBlockLengthPosition = "NONE" | "FRONT_OF_PIN_BLOCK" | (string & {});
 export const PinBlockLengthPosition = S.String;
 
 export interface EmvCommonAttributes {
@@ -1453,14 +1394,7 @@ export const GeneratePinDataInput = /*@__PURE__*/ S.suspend(() =>
     PinBlockFormat: PinBlockFormatForPinData,
     EncryptionWrappedKey: S.optional(WrappedKey),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/pindata/generate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/pindata/generate" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GeneratePinDataInput",
@@ -1608,14 +1542,7 @@ export const TranslateKeyMaterialInput = /*@__PURE__*/ S.suspend(() =>
     OutgoingKeyMaterial: OutgoingKeyMaterial,
     KeyCheckValueAlgorithm: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/keymaterial/translate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/keymaterial/translate" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TranslateKeyMaterialInput",
@@ -1653,9 +1580,7 @@ export const TranslationPinDataIsoFormat034 = /*@__PURE__*/ S.suspend(() =>
   identifier: "TranslationPinDataIsoFormat034",
 }) as any as S.Schema<TranslationPinDataIsoFormat034>;
 export interface TranslationPinDataIsoFormat1 {}
-export const TranslationPinDataIsoFormat1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TranslationPinDataIsoFormat1 = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TranslationPinDataIsoFormat1",
 }) as any as S.Schema<TranslationPinDataIsoFormat1>;
 export interface TranslationPinDataAs2805Format0 {
@@ -1760,14 +1685,7 @@ export const TranslatePinDataInput = /*@__PURE__*/ S.suspend(() =>
     OutgoingWrappedKey: S.optional(WrappedKey),
     IncomingAs2805Attributes: S.optional(As2805PekDerivationAttributes),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/pindata/translate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/pindata/translate" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TranslatePinDataInput",
@@ -1794,9 +1712,7 @@ export const CryptogramVerificationArpcMethod1 = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CryptogramVerificationArpcMethod1",
 }) as any as S.Schema<CryptogramVerificationArpcMethod1>;
-export type ProprietaryAuthenticationDataType =
-  | string
-  | redacted.Redacted<string>;
+export type ProprietaryAuthenticationDataType = string | redacted.Redacted<string>;
 export interface CryptogramVerificationArpcMethod2 {
   CardStatusUpdate: string;
   ProprietaryAuthenticationData?: string | redacted.Redacted<string>;
@@ -1833,14 +1749,7 @@ export const VerifyAuthRequestCryptogramInput = /*@__PURE__*/ S.suspend(() =>
     SessionKeyDerivationAttributes: SessionKeyDerivation,
     AuthResponseAttributes: S.optional(CryptogramAuthResponse),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cryptogram/verify" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/cryptogram/verify" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "VerifyAuthRequestCryptogramInput",
@@ -2016,16 +1925,7 @@ export const VerifyMacInput = /*@__PURE__*/ S.suspend(() =>
     Mac: SensitiveString,
     VerificationAttributes: MacAttributes,
     MacLength: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/mac/verify" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/mac/verify" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "VerifyMacInput" }) as any as S.Schema<VerifyMacInput>;
 export interface VerifyMacOutput {
   KeyArn: string;
@@ -2105,16 +2005,7 @@ export const VerifyPinDataInput = /*@__PURE__*/ S.suspend(() =>
     PinDataLength: S.optional(S.Number),
     DukptAttributes: S.optional(DukptAttributes),
     EncryptionWrappedKey: S.optional(WrappedKey),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/pindata/verify" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/pindata/verify" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "VerifyPinDataInput",
 }) as any as S.Schema<VerifyPinDataInput>;
@@ -2144,9 +2035,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type VerificationFailedReason = string;
 export type DecryptDataError =
   | AccessDeniedException

@@ -21,10 +21,8 @@ const Evidence = (props: {
   <figure
     class="reveal-item m-0 flex flex-col overflow-hidden rounded-card border bg-[color-mix(in_oklab,var(--bg-2)_85%,transparent)]"
     classList={{
-      "border-[color-mix(in_oklab,var(--rose)_40%,var(--line))]":
-        props.tone === "rose",
-      "border-[color-mix(in_oklab,var(--teal)_45%,var(--line))]":
-        props.tone === "teal",
+      "border-[color-mix(in_oklab,var(--rose)_40%,var(--line))]": props.tone === "rose",
+      "border-[color-mix(in_oklab,var(--teal)_45%,var(--line))]": props.tone === "teal",
     }}
     style={{ "--i": props.index * 3 }}
   >
@@ -72,14 +70,12 @@ export const Problem = (props: { facts: ReadonlyArray<Fact> }) => (
         </>
       }
     >
-      Every generated SDK: ours, the vendor's, the one you'd write; is only ever
-      as good as the api spec its built from. Most of these specs aren't
-      generated from the source and regularly drift from the actual
-      implementation (or in cloudflare's case are just blatantly wrong). The
-      spec says a response value is required, your types compile, your runtime
-      fails because the server doesn't return it. We patch the api spec to
-      ensure all inputs, outputs, and errors are correct with live behavior of
-      the providers.
+      Every generated SDK: ours, the vendor's, the one you'd write; is only ever as good as the api
+      spec its built from. Most of these specs aren't generated from the source and regularly drift
+      from the actual implementation (or in cloudflare's case are just blatantly wrong). The spec
+      says a response value is required, your types compile, your runtime fails because the server
+      doesn't return it. We patch the api spec to ensure all inputs, outputs, and errors are correct
+      with live behavior of the providers.
     </SectionHead>
 
     <div
@@ -105,9 +101,8 @@ export const Problem = (props: { facts: ReadonlyArray<Fact> }) => (
         }
         note={
           <>
-            One response. No <code>400</code> for a bad config, no{" "}
-            <code>403</code> for a scoped token, no <code>409</code> when the
-            name is taken.
+            One response. No <code>400</code> for a bad config, no <code>403</code> for a scoped
+            token, no <code>409</code> when the name is taken.
           </>
         }
       />
@@ -126,8 +121,7 @@ export const Problem = (props: { facts: ReadonlyArray<Fact> }) => (
         index={1}
         code={
           <>
-            <span class="k">export type</span>{" "}
-            <span class="t">CreateMachineError</span> ={"\n"}
+            <span class="k">export type</span> <span class="t">CreateMachineError</span> ={"\n"}
             <Added>
               {"  "}| <span class="t">BadRequest</span>
             </Added>
@@ -157,8 +151,8 @@ export const Problem = (props: { facts: ReadonlyArray<Fact> }) => (
         }
         note={
           <>
-            Four typed failures in the operation's error union, each added as a
-            patch to the spec the moment a real deploy surfaced it.
+            Four typed failures in the operation's error union, each added as a patch to the spec
+            the moment a real deploy surfaced it.
           </>
         }
       />

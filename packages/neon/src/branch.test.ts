@@ -22,13 +22,8 @@ const harness = (status: number, message: string) =>
       HttpClient.make((request) =>
         Effect.sync(() => {
           expect(request.method).toBe("POST");
-          expect(new URL(request.url).pathname).toBe(
-            "/api/v2/projects/project-fixture/branches",
-          );
-          return HttpClientResponse.fromWeb(
-            request,
-            Response.json({ message }, { status }),
-          );
+          expect(new URL(request.url).pathname).toBe("/api/v2/projects/project-fixture/branches");
+          return HttpClientResponse.fromWeb(request, Response.json({ message }, { status }));
         }),
       ),
     ),
@@ -43,24 +38,18 @@ test("createProjectBranch decodes HTTP 409 with its generated Conflict class", (
           Effect.sync(() => {
             handled = true;
             expect(error).toBeInstanceOf(Neon.Conflict);
-            expect(error.message).toBe(
-              "branch with the same name already exists",
-            );
+            expect(error.message).toBe("branch with the same name already exists");
           }),
         ),
       );
       expect(handled).toBe(true);
-    }).pipe(
-      Effect.provide(harness(409, "branch with the same name already exists")),
-    ),
+    }).pipe(Effect.provide(harness(409, "branch with the same name already exists"))),
   ));
 
 test("createProjectBranch preserves other HTTP error classifications", () =>
   Effect.runPromise(
     Effect.gen(function* () {
-      const result = yield* Neon.createProjectBranch(request).pipe(
-        Effect.result,
-      );
+      const result = yield* Neon.createProjectBranch(request).pipe(Effect.result);
       expect(Result.isFailure(result)).toBe(true);
       if (Result.isFailure(result)) {
         expect(result.failure._tag).toBe("NotFound");

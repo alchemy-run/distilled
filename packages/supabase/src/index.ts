@@ -49,11 +49,7 @@ export {
   type DefaultErrors,
 } from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  SupabaseProtocol,
-  type SupabaseOpError,
-  type SupabaseOpContext,
-} from "./protocol.ts";
+export { SupabaseProtocol, type SupabaseOpError, type SupabaseOpContext } from "./protocol.ts";
 export * as Retry from "./retry.ts";
 // Flat operation surface (v0 parity: every v1* op at the package root).
 export * from "./services/supabase.ts";

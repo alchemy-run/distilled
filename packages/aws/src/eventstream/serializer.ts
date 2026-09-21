@@ -143,8 +143,7 @@ export const serializeInputEventWithPayload = (
   payloadMemberName: string,
   contentType: string = "application/octet-stream",
 ): MessageEvent => {
-  const { eventType, payload: innerPayload } =
-    extractEventTypeAndPayload(event);
+  const { eventType, payload: innerPayload } = extractEventTypeAndPayload(event);
 
   // For Smithy format, innerPayload is the event object itself
   // Extract the payload member from it

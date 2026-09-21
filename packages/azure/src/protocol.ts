@@ -1,3 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  type ConfigError,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  type API_ERRORS,
+} from "@distilled.cloud/core/errors";
+import { buildRequest, getAnn, mapKeys } from "@distilled.cloud/core/protocol-http";
+import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
  * AzureProtocol — hand-written.
  *
@@ -34,30 +45,8 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import { httpSymbol } from "@distilled.cloud/core/trait";
-import {
-  buildRequest,
-  getAnn,
-  mapKeys,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import {
-  type ConfigError,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type API_ERRORS,
-} from "@distilled.cloud/core/errors";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
-import {
-  AZURE_ERROR_CODE_MAP,
-  type AzureApiError,
-  UnknownAzureError,
-} from "./errors.ts";
+import { AZURE_ERROR_CODE_MAP, type AzureApiError, UnknownAzureError } from "./errors.ts";
 import type { HttpTrait } from "./traits.ts";
 
 /**
@@ -81,8 +70,7 @@ export type AzureOpContext = Credentials | HttpClient.HttpClient;
 // but Azure failures are real typed errors surfaced through AzureOpError.
 // Fail with the instance and erase the type here; the generated operation
 // annotations reintroduce it for callers.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // ---------------------------------------------------------------------------
 // Error-body parsing
@@ -103,9 +91,7 @@ const parseArmError = (body: unknown): ArmError | undefined => {
   if (body === null || typeof body !== "object") return undefined;
   const b = body as Record<string, unknown>;
   const inner =
-    b.error !== null && typeof b.error === "object"
-      ? (b.error as Record<string, unknown>)
-      : b;
+    b.error !== null && typeof b.error === "object" ? (b.error as Record<string, unknown>) : b;
   const code = typeof inner.code === "string" ? inner.code : undefined;
   const message = typeof inner.message === "string" ? inner.message : undefined;
   const target = typeof inner.target === "string" ? inner.target : undefined;
@@ -122,13 +108,7 @@ const parseArmError = (body: unknown): ArmError | undefined => {
 // calling fiber's context on every request instead. Its ConfigError channel
 // is erased at this boundary (Protocol effects carry none) and reintroduced
 // for callers by the generated AzureOpError annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
@@ -151,9 +131,7 @@ const encode = ({
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     let url = request.url;
     if (url.includes("{subscriptionId}")) {
-      url = url
-        .split("{subscriptionId}")
-        .join(encodeURIComponent(creds.subscriptionId));
+      url = url.split("{subscriptionId}").join(encodeURIComponent(creds.subscriptionId));
     }
     if (http?.apiVersion && !/[?&]api-version=/.test(url)) {
       url += `${url.includes("?") ? "&" : "?"}api-version=${encodeURIComponent(http.apiVersion)}`;
@@ -199,8 +177,7 @@ const decode = ({
       const arm = nonJson ? undefined : parseArmError(json);
 
       // 1. Match by Azure error code first for richer typed errors.
-      const AzureErrorClass =
-        arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined;
+      const AzureErrorClass = arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined;
       if (AzureErrorClass) {
         return yield* fail(
           new AzureErrorClass({
@@ -213,13 +190,11 @@ const decode = ({
 
       // 2. Fall back to standard HTTP status errors (Retry-After honored on
       //    retryable statuses).
-      const StatusErrorClass =
-        HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+      const StatusErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
       if (StatusErrorClass) {
         return yield* fail(
           new StatusErrorClass({
-            message:
-              arm?.message ?? (nonJson && text.trim() ? text.trim() : ""),
+            message: arm?.message ?? (nonJson && text.trim() ? text.trim() : ""),
             retryAfter: parseRetryAfterForStatus(status, headers),
           } as any),
         );
@@ -259,8 +234,7 @@ export const AzureProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol.of({
     // Erase encode's Credentials requirement (resolved on the calling
     // fiber; see the note above `encode`).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

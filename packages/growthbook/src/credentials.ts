@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * GrowthBook credentials — hand-written.
  *
@@ -10,7 +11,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.growthbook.io/api";
 
@@ -19,10 +19,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("GrowthBookCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "GrowthBookCredentials",
+) {}
 
 /** Layer from a plain API key + optional base URL. */
 export const fromApiKey = (config: {

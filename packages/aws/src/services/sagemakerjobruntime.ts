@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "SagemakerJobRuntime",
   serviceShapeName: "AgenticRFTRuntimeService",
@@ -26,9 +26,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -41,18 +39,12 @@ const rules = T.EndpointResolver((p, _) => {
             `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === false
-        ) {
+        if (_.getAttr(PartitionResult, "name") === "aws-cn" && UseFIPS === false) {
           return e(
             `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false
-        ) {
+        if (_.getAttr(PartitionResult, "name") === "aws-us-gov" && UseFIPS === false) {
           return e(
             `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
@@ -131,22 +123,13 @@ export const CompleteRolloutRequest = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(CompletionStatus),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/complete-rollout" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/complete-rollout" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CompleteRolloutRequest",
 }) as any as S.Schema<CompleteRolloutRequest>;
 export interface CompleteRolloutResponse {}
-export const CompleteRolloutResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CompleteRolloutResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CompleteRolloutResponse",
 }) as any as S.Schema<CompleteRolloutResponse>;
 export interface SampleRequest {
@@ -159,16 +142,7 @@ export const SampleRequest = /*@__PURE__*/ S.suspend(() =>
     JobArn: S.String.pipe(T.HttpHeader("X-Amzn-SageMaker-Job-Arn")),
     TrajectoryId: S.String.pipe(T.HttpHeader("X-Amzn-SageMaker-Trajectory-Id")),
     Body: T.StreamingInput.pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/sample" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/sample" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "SampleRequest" }) as any as S.Schema<SampleRequest>;
 export interface SampleResponse {
   ContentType?: string;
@@ -229,23 +203,12 @@ export const UpdateRewardRequest = /*@__PURE__*/ S.suspend(() =>
     TrajectoryId: S.String,
     Rewards: DoubleList,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/update-reward" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/update-reward" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateRewardRequest",
 }) as any as S.Schema<UpdateRewardRequest>;
 export interface UpdateRewardResponse {}
-export const UpdateRewardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateRewardResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateRewardResponse",
 }) as any as S.Schema<UpdateRewardResponse>;
 export type FailureReason = string;

@@ -65,9 +65,7 @@ export const Seo = (props: {
       <Meta property="og:image:height" content="1260" />
       <Meta
         property="og:image:alt"
-        content={
-          props.cardAlt ?? "Distilled — Cloud APIs, distilled into Effect."
-        }
+        content={props.cardAlt ?? "Distilled — Cloud APIs, distilled into Effect."}
       />
       <Meta name="twitter:card" content="summary_large_image" />
       <Meta name="twitter:title" content={props.title} />

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Resource Groups",
   serviceShapeName: "Ardi",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +59,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://resource-groups-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +67,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://resource-groups.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://resource-groups.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://resource-groups.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -143,30 +133,18 @@ export interface CancelTagSyncTaskInput {
 }
 export const CancelTagSyncTaskInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TaskArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cancel-tag-sync-task" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/cancel-tag-sync-task" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CancelTagSyncTaskInput",
 }) as any as S.Schema<CancelTagSyncTaskInput>;
 export interface CancelTagSyncTaskResponse {}
-export const CancelTagSyncTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CancelTagSyncTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelTagSyncTaskResponse",
 }) as any as S.Schema<CancelTagSyncTaskResponse>;
 export type CreateGroupName = string;
 export type Description = string;
-export type QueryType =
-  | "TAG_FILTERS_1_0"
-  | "CLOUDFORMATION_STACK_1_0"
-  | (string & {});
+export type QueryType = "TAG_FILTERS_1_0" | "CLOUDFORMATION_STACK_1_0" | (string & {});
 export const QueryType = S.String;
 
 export type Query = string;
@@ -185,9 +163,7 @@ export type GroupConfigurationType = string;
 export type GroupConfigurationParameterName = string;
 export type GroupConfigurationParameterValue = string;
 export type GroupConfigurationParameterValueList = string[];
-export const GroupConfigurationParameterValueList = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const GroupConfigurationParameterValueList = /*@__PURE__*/ S.Array(S.String);
 export interface GroupConfigurationParameter {
   Name: string;
   Values?: string[];
@@ -201,9 +177,7 @@ export const GroupConfigurationParameter = /*@__PURE__*/ S.suspend(() =>
   identifier: "GroupConfigurationParameter",
 }) as any as S.Schema<GroupConfigurationParameter>;
 export type GroupParameterList = GroupConfigurationParameter[];
-export const GroupParameterList = /*@__PURE__*/ S.Array(
-  GroupConfigurationParameter,
-);
+export const GroupParameterList = /*@__PURE__*/ S.Array(GroupConfigurationParameter);
 export interface GroupConfigurationItem {
   Type: string;
   Parameters?: GroupConfigurationParameter[];
@@ -214,9 +188,7 @@ export const GroupConfigurationItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "GroupConfigurationItem",
 }) as any as S.Schema<GroupConfigurationItem>;
 export type GroupConfigurationList = GroupConfigurationItem[];
-export const GroupConfigurationList = /*@__PURE__*/ S.Array(
-  GroupConfigurationItem,
-);
+export const GroupConfigurationList = /*@__PURE__*/ S.Array(GroupConfigurationItem);
 export type Criticality = number;
 export type Owner = string;
 export type DisplayName = string;
@@ -240,16 +212,7 @@ export const CreateGroupInput = /*@__PURE__*/ S.suspend(() =>
     Criticality: S.optional(S.Number),
     Owner: S.optional(S.String),
     DisplayName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/groups" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateGroupInput",
 }) as any as S.Schema<CreateGroupInput>;
@@ -258,10 +221,7 @@ export type GroupName = string;
 export type ApplicationTagKey = string;
 export type ApplicationArn = string;
 export type ApplicationTag = { [key: string]: string | undefined };
-export const ApplicationTag = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ApplicationTag = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface Group {
   GroupArn: string;
   Name: string;
@@ -331,16 +291,7 @@ export const DeleteGroupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     GroupName: S.optional(S.String),
     Group: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/delete-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/delete-group" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteGroupInput",
 }) as any as S.Schema<DeleteGroupInput>;
@@ -355,22 +306,12 @@ export const DeleteGroupOutput = /*@__PURE__*/ S.suspend(() =>
 export interface GetAccountSettingsRequest {}
 export const GetAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-account-settings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/get-account-settings" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetAccountSettingsRequest",
 }) as any as S.Schema<GetAccountSettingsRequest>;
-export type GroupLifecycleEventsDesiredStatus =
-  | "ACTIVE"
-  | "INACTIVE"
-  | (string & {});
+export type GroupLifecycleEventsDesiredStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export const GroupLifecycleEventsDesiredStatus = S.String;
 
 export type GroupLifecycleEventsStatus =
@@ -389,9 +330,7 @@ export interface AccountSettings {
 }
 export const AccountSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    GroupLifecycleEventsDesiredStatus: S.optional(
-      GroupLifecycleEventsDesiredStatus,
-    ),
+    GroupLifecycleEventsDesiredStatus: S.optional(GroupLifecycleEventsDesiredStatus),
     GroupLifecycleEventsStatus: S.optional(GroupLifecycleEventsStatus),
     GroupLifecycleEventsStatusMessage: S.optional(S.String),
   }),
@@ -414,23 +353,14 @@ export const GetGroupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     GroupName: S.optional(S.String),
     Group: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/get-group" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "GetGroupInput" }) as any as S.Schema<GetGroupInput>;
 export interface GetGroupOutput {
   Group: Group;
 }
-export const GetGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Group: Group }),
-).annotate({ identifier: "GetGroupOutput" }) as any as S.Schema<GetGroupOutput>;
+export const GetGroupOutput = /*@__PURE__*/ S.suspend(() => S.Struct({ Group: Group })).annotate({
+  identifier: "GetGroupOutput",
+}) as any as S.Schema<GetGroupOutput>;
 export type GroupString = string;
 export interface GetGroupConfigurationInput {
   Group?: string;
@@ -465,16 +395,7 @@ export const GetGroupQueryInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     GroupName: S.optional(S.String),
     Group: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-group-query" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/get-group-query" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetGroupQueryInput",
 }) as any as S.Schema<GetGroupQueryInput>;
@@ -498,14 +419,7 @@ export interface GetTagsInput {
 }
 export const GetTagsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/resources/{Arn}/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/resources/{Arn}/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetTagsInput" }) as any as S.Schema<GetTagsInput>;
 export interface GetTagsOutput {
@@ -520,14 +434,7 @@ export interface GetTagSyncTaskInput {
 }
 export const GetTagSyncTaskInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TaskArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-tag-sync-task" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/get-tag-sync-task" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetTagSyncTaskInput",
@@ -574,14 +481,7 @@ export interface GroupResourcesInput {
 }
 export const GroupResourcesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Group: S.String, ResourceArns: ResourceArnList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/group-resources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/group-resources" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GroupResourcesInput",
@@ -626,10 +526,7 @@ export const GroupResourcesOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GroupResourcesOutput",
 }) as any as S.Schema<GroupResourcesOutput>;
 export type MaxResults = number;
-export type ListGroupingStatusesFilterName =
-  | "status"
-  | "resource-arn"
-  | (string & {});
+export type ListGroupingStatusesFilterName = "status" | "resource-arn" | (string & {});
 export const ListGroupingStatusesFilterName = S.String;
 
 export type ListGroupingStatusesFilterValue = string;
@@ -648,9 +545,7 @@ export const ListGroupingStatusesFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListGroupingStatusesFilter",
 }) as any as S.Schema<ListGroupingStatusesFilter>;
 export type ListGroupingStatusesFilterList = ListGroupingStatusesFilter[];
-export const ListGroupingStatusesFilterList = /*@__PURE__*/ S.Array(
-  ListGroupingStatusesFilter,
-);
+export const ListGroupingStatusesFilterList = /*@__PURE__*/ S.Array(ListGroupingStatusesFilter);
 export type NextToken = string;
 export interface ListGroupingStatusesInput {
   Group: string;
@@ -665,14 +560,7 @@ export const ListGroupingStatusesInput = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(ListGroupingStatusesFilterList),
     NextToken: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-grouping-statuses" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-grouping-statuses" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListGroupingStatusesInput",
@@ -680,12 +568,7 @@ export const ListGroupingStatusesInput = /*@__PURE__*/ S.suspend(() =>
 export type GroupingType = "GROUP" | "UNGROUP" | (string & {});
 export const GroupingType = S.String;
 
-export type GroupingStatus =
-  | "SUCCESS"
-  | "FAILED"
-  | "IN_PROGRESS"
-  | "SKIPPED"
-  | (string & {});
+export type GroupingStatus = "SUCCESS" | "FAILED" | "IN_PROGRESS" | "SKIPPED" | (string & {});
 export const GroupingStatus = S.String;
 
 export interface GroupingStatusesItem {
@@ -754,14 +637,7 @@ export const ListGroupResourcesInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-group-resources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-group-resources" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListGroupResourcesInput",
@@ -801,9 +677,7 @@ export const ListGroupResourcesItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListGroupResourcesItem",
 }) as any as S.Schema<ListGroupResourcesItem>;
 export type ListGroupResourcesItemList = ListGroupResourcesItem[];
-export const ListGroupResourcesItemList = /*@__PURE__*/ S.Array(
-  ListGroupResourcesItem,
-);
+export const ListGroupResourcesItemList = /*@__PURE__*/ S.Array(ListGroupResourcesItem);
 export type ResourceIdentifierList = ResourceIdentifier[];
 export const ResourceIdentifierList = /*@__PURE__*/ S.Array(ResourceIdentifier);
 export type QueryErrorCode =
@@ -874,16 +748,7 @@ export const ListGroupsInput = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(GroupFilterList),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/groups-list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/groups-list" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListGroupsInput",
 }) as any as S.Schema<ListGroupsInput>;
@@ -936,9 +801,7 @@ export const ListTagSyncTasksFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListTagSyncTasksFilter",
 }) as any as S.Schema<ListTagSyncTasksFilter>;
 export type ListTagSyncTasksFilterList = ListTagSyncTasksFilter[];
-export const ListTagSyncTasksFilterList = /*@__PURE__*/ S.Array(
-  ListTagSyncTasksFilter,
-);
+export const ListTagSyncTasksFilterList = /*@__PURE__*/ S.Array(ListTagSyncTasksFilter);
 export interface ListTagSyncTasksInput {
   Filters?: ListTagSyncTasksFilter[];
   MaxResults?: number;
@@ -950,14 +813,7 @@ export const ListTagSyncTasksInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-tag-sync-tasks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-tag-sync-tasks" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagSyncTasksInput",
@@ -1026,9 +882,7 @@ export const PutGroupConfigurationInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutGroupConfigurationInput",
 }) as any as S.Schema<PutGroupConfigurationInput>;
 export interface PutGroupConfigurationOutput {}
-export const PutGroupConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutGroupConfigurationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutGroupConfigurationOutput",
 }) as any as S.Schema<PutGroupConfigurationOutput>;
 export interface SearchResourcesInput {
@@ -1042,14 +896,7 @@ export const SearchResourcesInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/resources/search" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/resources/search" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "SearchResourcesInput",
@@ -1083,14 +930,7 @@ export const StartTagSyncTaskInput = /*@__PURE__*/ S.suspend(() =>
     ResourceQuery: S.optional(ResourceQuery),
     RoleArn: S.String,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/start-tag-sync-task" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/start-tag-sync-task" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartTagSyncTaskInput",
@@ -1123,14 +963,7 @@ export interface TagInput {
 }
 export const TagInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")), Tags: Tags }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/resources/{Arn}/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/resources/{Arn}/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "TagInput" }) as any as S.Schema<TagInput>;
 export interface TagOutput {
@@ -1146,14 +979,7 @@ export interface UngroupResourcesInput {
 }
 export const UngroupResourcesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Group: S.String, ResourceArns: ResourceArnList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ungroup-resources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/ungroup-resources" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UngroupResourcesInput",
@@ -1180,14 +1006,7 @@ export interface UntagInput {
 }
 export const UntagInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")), Keys: TagKeyList }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/resources/{Arn}/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/resources/{Arn}/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "UntagInput" }) as any as S.Schema<UntagInput>;
 export interface UntagOutput {
@@ -1202,9 +1021,7 @@ export interface UpdateAccountSettingsInput {
 }
 export const UpdateAccountSettingsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    GroupLifecycleEventsDesiredStatus: S.optional(
-      GroupLifecycleEventsDesiredStatus,
-    ),
+    GroupLifecycleEventsDesiredStatus: S.optional(GroupLifecycleEventsDesiredStatus),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/update-account-settings" }),
@@ -1242,16 +1059,7 @@ export const UpdateGroupInput = /*@__PURE__*/ S.suspend(() =>
     Criticality: S.optional(S.Number),
     Owner: S.optional(S.String),
     DisplayName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/update-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/update-group" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateGroupInput",
 }) as any as S.Schema<UpdateGroupInput>;
@@ -1274,14 +1082,7 @@ export const UpdateGroupQueryInput = /*@__PURE__*/ S.suspend(() =>
     Group: S.optional(S.String),
     ResourceQuery: ResourceQuery,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/update-group-query" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/update-group-query" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateGroupQueryInput",

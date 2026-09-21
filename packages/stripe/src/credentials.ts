@@ -19,10 +19,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("StripeCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "StripeCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   apiKey: EffectConfig.String("STRIPE_API_KEY"),
