@@ -1,0 +1,17 @@
+{
+  "_source": "Fallback for build/alchemy-usage.ts, used only when packages/alchemy/package.json on alchemy-run/alchemy@main cannot be fetched at build time. Lists the @distilled.cloud/* packages Alchemy depends on. Refresh with: curl -s https://raw.githubusercontent.com/alchemy-run/alchemy/main/packages/alchemy/package.json | jq -r '.dependencies | keys[] | select(startswith(\"@distilled.cloud/\")) | ltrimstr(\"@distilled.cloud/\")'",
+  "_checked": "2026-09-17",
+  "used": [
+    "aws",
+    "axiom",
+    "cloudflare",
+    "core",
+    "fly-io",
+    "hetzner",
+    "neon",
+    "planetscale",
+    "prisma",
+    "railway",
+    "stripe"
+  ]
+}
