@@ -30,8 +30,8 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
   const stats = () => [
     ["gzipped, one S3 operation", props.bench.s3Gzip],
     ["gzipped, one Workers operation", props.bench.cfGzip],
-    ["Cloudflare call, p50", props.bench.cfP50],
-    ["AWS call incl. SigV4, p50", props.bench.awsP50],
+    // ["Cloudflare call, p50", props.bench.cfP50],
+    // ["AWS call incl. SigV4, p50", props.bench.awsP50],
   ];
   return (
     <section
@@ -40,19 +40,20 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
       aria-labelledby="features-title"
     >
       <SectionHead
-        eyebrow="What you get"
         id="features-title"
         title={
           <>
-            Built on <em>Effect</em>, not wrapped in it.
+            Built entirely on <em>Effect</em>, not <code>tryPromise</code>
           </>
         }
       >
-        Every operation returns an Effect. Each package builds the parts an SDK
-        usually bolts on — typed errors, a retry policy, paginated streams, a
-        credential chain, a span per request — and hands them to you as ordinary
-        Effect values: a Schedule you can swap, a Stream you can pipe, a Layer
-        you provide once.
+        Every operation returns an Effect, requests are made using Effect's
+        HttpClient, Effect's Schemas are used to define inputs and outputs.
+        Distilled's core maintains everything you want out of a true
+        Effect-First SDK: typed error categories, retry policies, pagination via
+        effect streams, a span per request; Each sdk is built on top of the same
+        core with the same naming patterns so if you've used one the rest should
+        feel familiar.
       </SectionHead>
 
       <div
@@ -71,30 +72,34 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
   Effect.«f:catchIf»(«f:isThrottlingError», () => backOff),
 )`}
         >
-          Match the exact error with <code>catchTags</code>, or a category —
-          throttling, not-found, conflict — with <code>catchIf</code>. Failures
-          the spec never documents are named and categorised as the SDK is
-          produced, so nothing is <code>unknown</code> and the compiler tells
-          you when you've missed one.
+          Match the exact error's or entire categories category with the
+          Effect's functions you're already familiar with like{" "}
+          <code>Effect.catchTags</code> and <code>Effect.catchIf</code>! We
+          patch in the generic errors and the details the api spec never
+          documents for each SDK we produce, so nothing comes back as{" "}
+          <code>unknown</code> and keeps your types actually safe, unlike
+          first-party typescript SDKs.
         </Cap>
 
         <Cap
           index={1}
           title="Retries and backoff"
-          code={`«m:// Default: exponential from 250ms, cap 5s, jitter,»
-«m:// 8 tries, transient/throttling only, Retry-After honoured.»
-program.«f:pipe»(AWS.Retry.«f:throttling»)   «m:// retry throttles forever»
-program.«f:pipe»(AWS.Retry.«f:none»)         «m:// or not at all»
-program.«f:pipe»(AWS.Retry.«f:policy»({      «m:// or your own»
-  while:    «f:isTransientError»,
-  schedule: Schedule.«f:exponential»(«s:"100 millis"»)
-              .«f:pipe»(Schedule.«f:recurs»(«c:3»)),
+          code={`«k:const» write = Effect.«f:all»([
+  «m:// throttled → waits as long as S3 asks, forever»
+  S3.«f:putObject»({ Bucket, Key, Body }),
+  «m:// no retry of its own; only the outer loop can bring it back»
+  S3.«f:deleteObject»({ Bucket, Key }).«f:pipe»(AWS.Retry.«f:none»),
+]).«f:pipe»(AWS.Retry.«f:throttling»)
+
+«m:// around both: 5xx, timeouts, dropped sockets — 4 tries, then fail»
+write.«f:pipe»(Effect.«f:retry»({
+  while: «f:isTransientError»,
+  times: 3,
+  schedule: Schedule.«f:exponential»("250 millis"),
 }))`}
         >
-          Transient and throttling errors are retried with backoff and jitter; a
-          404 never is. The API's own <code>Retry-After</code> is respected.
-          Override the policy for one call or for the whole program — it's a
-          Layer.
+          The API's own <code>Retry-After</code> is respected, but you can
+          define your own retry policies, and even stack them!
         </Cap>
 
         <Cap
@@ -113,10 +118,15 @@ program.«f:pipe»(AWS.Retry.«f:policy»({      «m:// or your own»
     S3.«f:putObject»({ Bucket: dst, Key, Body: o.Body! })),
 )`}
         >
-          Every paginated operation has <code>.items()</code> and{" "}
-          <code>.pages()</code>. Large bodies — an S3 object, an upload — stream
-          in and out without being held in memory. Cancel the Effect and the
-          requests stop.
+          <p>
+            Every paginated operation has <code>.items()</code> and{" "}
+            <code>.pages()</code>. No need to loop over pages just pull from the
+            Effect stream!
+          </p>
+          <p>
+            Large bodies binary bodies stream in and out without being held in
+            memory. Cancel the Effect and the requests stop.
+          </p>
         </Cap>
 
         <Cap
@@ -128,13 +138,18 @@ program.«f:pipe»(AWS.Retry.«f:policy»({      «m:// or your own»
   Credentials.«f:fromChain»(),   «m:// env → ~/.aws → SSO → IMDS»
 )
 
-«m:// In tests: same program, fake wire.»
-program.«f:pipe»(Effect.«f:provide»(MockHttpClient))`}
+«m:// the region comes from the layer…»
+«k:const» head = S3.«f:headObject»({ Bucket, Key })
+
+«m:// ...unless one call says otherwise»
+«k:const» eu = head.«f:pipe»(Effect.«f:provide»(Region.«f:of»("eu-central-1")))
+
+Effect.«f:all»([head, eu]).«f:pipe»(Effect.«f:provide»(AwsLive))`}
         >
-          Your code calls <code>S3.getObject</code>; where the credentials come
-          from is decided at the edge of the program. In tests, swap the HTTP
-          client for a fake and nothing else changes — that is how the
-          benchmarks on this site run without a network.
+          Your code just calls <code>S3.headObject</code>; No need to pass
+          credentials and regions around or instantiate SDKs as globals. All
+          requiremnts are shoved into layers, so you can provide them once in
+          your root and override them as you see fit.
         </Cap>
 
         <Cap
@@ -149,9 +164,8 @@ program.«f:pipe»(
   })),
 )`}
         >
-          They are ordinary Effect spans, so they nest inside yours and go
-          wherever your OpenTelemetry exporter sends them — Axiom, Datadog,
-          Honeycomb, a local collector.
+          Operations are just effects, we piggyback on the same great otel
+          support Effect already provides!
         </Cap>
 
         <article

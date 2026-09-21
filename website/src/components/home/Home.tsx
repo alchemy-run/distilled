@@ -20,8 +20,8 @@ const OPERATIONS = PROVIDERS.reduce(
 
 const HOME_SEO = {
   title: "Distilled — Effect-native SDKs for cloud providers",
-  description: `Effect-native TypeScript SDKs for cloud providers, produced and refined by AI from each provider's own API spec. Typed errors, streaming pagination, credentials as layers. One package per provider.`,
-  social: `Effect-native TypeScript SDKs, produced and refined by AI from each provider's own API spec. One package per provider, Apache-2.0.`,
+  description: `Effect-native TypeScript SDKs for cloud providers. Enjoy typed errors, declarative retry policies, streaming pagination and optimal tree-shaking`,
+  social: `Effect-native TypeScript SDKs for cloud providers. Enjoy typed errors, declarative retry policies, streaming pagination and optimal tree-shaking`,
 };
 
 /** How a provider's patch record reads in its page description. */
@@ -40,8 +40,8 @@ const providerSeo = (pkg: CatalogPackage) => {
   const ops = `${n(pkg.stats.operations)} typed operations`;
   return {
     title: `${pkg.name} — Distilled`,
-    description: `The Effect-native TypeScript SDK for ${pkg.short}: ${ops}, produced and refined by AI from ${pkg.short}'s own API spec. ${record(pkg)}`,
-    social: `${ops}, produced and refined by AI from ${pkg.short}'s own API spec. ${record(pkg)}`,
+    description: `The Effect-native TypeScript SDK for ${pkg.short}: ${ops}, typed errors, declarative retry policies, and optimial tree-shaking. ${record(pkg)}`,
+    social: `Effect TypeScript SDK for ${ops}, typed errors, declarative retry policies, and more - ${record(pkg)}`,
   };
 };
 

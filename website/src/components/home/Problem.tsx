@@ -72,15 +72,14 @@ export const Problem = (props: { facts: ReadonlyArray<Fact> }) => (
         </>
       }
     >
-      Every generated SDK — ours, the vendor's, the one you'd write — is only as
-      true as the API spec it was built from. Most of those specs are written by
-      hand, beside the API rather than from it. So they drift: a field marked
-      required that the server omits, a value documented as a string that
-      arrives <code>null</code>, a property the response always carries that the
-      spec never mentions — and, almost universally, silence about what happens
-      when a call fails. The types compile. The happy path works. Then a real
-      response doesn't match, and your typed client either rejects a valid
-      payload or hands you an untyped error.
+      Every generated SDK: ours, the vendor's, the one you'd write; is only ever
+      as good as the api spec its built from. Most of these specs aren't
+      generated from the source and regularly drift from the actual
+      implementation (or in cloudflare's case are just blatantly wrong). The
+      spec says a response value is required, your types compile, your runtime
+      fails because the server doesn't return it. We patch the api spec to
+      ensure all inputs, outputs, and errors are correct with live behavior of
+      the providers.
     </SectionHead>
 
     <div
@@ -118,7 +117,6 @@ export const Problem = (props: { facts: ReadonlyArray<Fact> }) => (
         aria-hidden="true"
       >
         <ArrowRightIcon class="w-10 text-accent" />
-        <span>Alchemy calls it for real</span>
       </div>
 
       <Evidence
@@ -193,11 +191,5 @@ export const Problem = (props: { facts: ReadonlyArray<Fact> }) => (
         )}
       </For>
     </ul>
-
-    <p class="display-48 mt-8 max-w-measure text-[clamp(1.25rem,1.05rem+0.8vw,1.6rem)] leading-[1.35] text-pretty text-fg [&_em]:text-accent-2">
-      You could patch the generated code by hand — and lose it on the next
-      regeneration. Or you could fix the <em>spec</em> once, and every build
-      after it inherits the correction.
-    </p>
   </section>
 );

@@ -35,17 +35,16 @@ export const Hero = (props: {
         </h1>
         <p class="mb-7 max-w-[34em] text-[clamp(1.05rem,1rem+0.35vw,1.2rem)] text-pretty text-fg-2">
           Effect-native TypeScript SDKs for {props.providerCount} cloud
-          providers: {n(props.operationCount)} operations, with every input,
-          response and failure typed. Each one is produced and refined by AI —
-          patching the bugs in the provider's specification and sorting its
-          failures into errors you can catch.
+          providers. Enjoy typed schemas, declarative retry policies, streaming
+          pagination and optimal tree-shaking for {n(props.operationCount)}{" "}
+          APIs.
         </p>
         <div class="mb-6 flex flex-wrap gap-3">
           <a
             class="inline-flex items-center gap-2 rounded-full border border-transparent bg-linear-120 from-accent-2 via-accent via-55% to-rose px-[1.1rem] py-[0.65rem] text-[0.95rem] leading-none font-medium text-accent-ink shadow-[0_6px_20px_-8px_color-mix(in_oklab,var(--accent)_70%,transparent)] transition-[transform,filter] hover:-translate-y-px hover:brightness-[1.06] hover:no-underline"
             href="#providers"
           >
-            Browse providers
+            Browse SDKs
           </a>
           <a
             class="inline-flex items-center gap-2 rounded-full border border-line-2 bg-[color-mix(in_oklab,var(--bg-2)_70%,transparent)] px-[1.1rem] py-[0.65rem] text-[0.95rem] leading-none font-medium text-fg transition-[transform,border-color] hover:-translate-y-px hover:border-fg-3 hover:no-underline"
@@ -53,7 +52,7 @@ export const Hero = (props: {
             rel="noopener"
           >
             <GitHubIcon class="size-4" />
-            Source
+            Github
           </a>
         </div>
         <InstallLine pkg={pkg} />

@@ -89,15 +89,16 @@ export const HowItWorks = () => (
       id="how-title"
       title={
         <>
-          Generated from the spec. <em>Proven</em> by Alchemy.
+          Generated from the spec. <em>Patched</em> by Alchemy.
         </>
       }
     >
-      AI turns each provider's API spec into an SDK, then refines it — patching
-      the spec's bugs and giving every failure a name. Alchemy builds real
-      infrastructure on those SDKs — resources, providers, tests against the
-      live API. Every place the spec turns out to be wrong comes back as another
-      patch, and the next generation starts from the corrected spec.
+      How do we patch specs for so many provider and keep stuff accurate? We
+      have a feedback loop with <a href="http://alchemy.run">Alchemy</a>;
+      Alchemy uses Distilled to generate resources and run its test suite
+      against the real cloud provider apis, when the tests fail they are
+      investigated and the patches are added back to Distilled for everyone to
+      benefit!
     </SectionHead>
 
     <div

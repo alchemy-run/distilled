@@ -23,21 +23,25 @@ export default function Shame() {
           class="max-w-[52rem] pt-[clamp(3rem,8vw,6rem)] pb-[clamp(2rem,4vw,3rem)]"
           aria-labelledby="shame-title"
         >
-          <p class="eyebrow">Wall of Shame</p>
           <h1 id="shame-title" class="mb-5">
-            Some specs arrive <em>clean</em>. Some need work.
+            <em>The Wall of Shame</em>
           </h1>
+          <h2 id="shame-title" class="mb-5">
+            If you're api is on this list: <strong>fix your spec</strong>
+          </h2>
           <p class="mb-7 max-w-[34em] text-[clamp(1.05rem,1rem+0.35vw,1.2rem)] text-pretty text-fg-2">
-            Every Distilled SDK is produced and refined by AI from the
-            provider's own API spec. When that spec is wrong — a missing error
-            response, a field marked required that isn't, a type that lies — the
-            fix is a JSON patch against it, so the correction survives every
-            regeneration. This page counts those patches.
+            Every generated SDK: ours, the vendor's, the one you'd write; is
+            only ever as good as the api spec its built from. Most of these
+            specs aren't generated from the source and regularly drift from the
+            actual implementation. We maintain a list of who we have to patch
+            the most so we can hopefully pressure these providers to fix their
+            source of truth.
           </p>
           <p class="mb-7 max-w-[34em] text-base text-pretty text-fg-3 [&_strong]:font-semibold [&_strong]:text-fg-2">
             Ranked by <strong>fixes per 100 operations</strong>, so a huge API
             isn't punished for being huge. Providers with no patches at all are
-            in the honour roll below. Numbers come from{" "}
+            in the honour roll below; A <strong>HUGE</strong> thank you to the
+            providers we don't have to patch. Numbers come from{" "}
             <code>packages/*/patches</code> at build time.
           </p>
         </section>
@@ -70,8 +74,8 @@ export default function Shame() {
             <a href={ALCHEMY_URL} rel="noopener">
               Alchemy
             </a>{" "}
-            resources today <em>and</em> never needed a spec fix. The API spec
-            generated a working SDK as published — which is what a spec is
+            resources today <em>and</em> don't need their spec fixed. The API
+            spec generated a working SDK as published; which is what a spec is
             supposed to do.
           </SectionHead>
           <HonourList
