@@ -18,7 +18,7 @@
  *     invoices, refunds, affiliates, payment methods.
  *
  * Neither is a superset of the other. Where BOTH describe a route the
- * versioned one wins, so `Services.plans.listPlans` is always the current
+ * versioned one wins, so `plans.listPlans` is always the current
  * generation. Operations that exist only on the legacy surface are still
  * generated — Whop supports them — and their doc comment opens with
  * `[Legacy API]` so a resource served by both (payments, memberships,
@@ -35,7 +35,7 @@
  *
  * ## Files
  *
- * Uploads are presigned, not multipart: `Services.files.createFile` returns
+ * Uploads are presigned, not multipart: `files.createFile` returns
  * an `upload_url` (or `multipart_upload_urls`) to PUT the bytes to, and the
  * resulting file `id` is what you attach elsewhere. The one endpoint whose
  * spec also offers a `multipart/form-data` body — `uploadDisputeEvidence` —
@@ -55,7 +55,7 @@
  * ```ts
  * import * as Whop from "@distilled.cloud/whop";
  *
- * const plan = yield* Whop.Services.plans.createPlan({
+ * const plan = yield* Whop.plans.createPlan({
  *   account_id: "biz_XXXXXXXX",
  *   product_id: "prod_XXXXXXXX",
  *   plan_type: "renewal",
@@ -69,7 +69,7 @@
  * ```ts
  * import * as Stream from "effect/Stream";
  *
- * yield* Whop.Services.payments.listPayment.items({ first: 100 }).pipe(
+ * yield* Whop.payments.listPayment.items({ first: 100 }).pipe(
  *   Stream.runForEach((payment) => Console.log(payment.id)),
  * );
  * ```
@@ -84,4 +84,4 @@ export {
 } from "./protocol.ts";
 export { paginateRelay } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";

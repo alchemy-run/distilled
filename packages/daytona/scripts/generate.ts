@@ -16,7 +16,7 @@
  * Daytona keeps its wire member names verbatim (camelCase on the platform
  * API, mixed on toolbox) on the TS surface, so there is no memberName
  * mapping. Module files are named after the tag slug (`api_keys.ts`) while
- * the barrel exports them camelCased (`Services.apiKeys.listApiKeys`).
+ * the barrel exports them camelCased (`apiKeys.listApiKeys`).
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";

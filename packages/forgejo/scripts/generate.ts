@@ -18,7 +18,7 @@
  * own docs and the Terraform provider use, so there is no memberName
  * mapping. Module files are named after the tag (`repository.ts`,
  * `organization.ts`) and the barrel exports them under the same name
- * (`Services.repository.repoGet`).
+ * (`repository.repoGet`).
  *
  * No pagination profiles are emitted: Forgejo paginates with `page`/`limit`
  * and an `X-Total-Count` response header, and every list endpoint returns a

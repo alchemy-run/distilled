@@ -16,7 +16,7 @@
  * The Hub keeps its wire member names verbatim (camelCase — `repoId`,
  * `lastModified`, `usedStorage`) on the TS surface. Module files are named
  * after the tag slug (`resource_groups.ts`) while the barrel exports them
- * camelCased (`Services.resourceGroups.getResourceGroup`).
+ * camelCased (`resourceGroups.getResourceGroup`).
  *
  * No pagination profiles are emitted. The Hub paginates its big collections
  * (models/datasets/spaces lists) with RFC 5988 `Link` response headers, which

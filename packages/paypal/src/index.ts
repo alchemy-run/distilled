@@ -9,7 +9,7 @@
  * ```ts
  * import * as Paypal from "@distilled.cloud/paypal";
  *
- * const order = yield* Paypal.Services.checkoutOrdersV2.ordersCreate({});
+ * const order = yield* Paypal.checkoutOrdersV2.ordersCreate({});
  * ```
  */
 export * from "./credentials.ts";
@@ -22,4 +22,4 @@ export {
 } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";
