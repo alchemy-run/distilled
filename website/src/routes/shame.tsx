@@ -12,8 +12,8 @@ export default function Shame() {
     <>
       <Seo
         title="Wall of Shame — Distilled"
-        description="Which cloud providers ship an API description that needs the most fixing before AI can turn it into a working SDK. Ranked by patches per 100 operations."
-        social="Providers ranked by how many patches their API description needs before AI can generate a working SDK from it."
+        description="Which cloud providers ship an API spec that needs the most fixing before AI can turn it into a working SDK. Ranked by patches per 100 operations."
+        social="Providers ranked by how many patches their API spec needs before AI can generate a working SDK from it."
         path="/shame"
         card={shame.card}
         cardAlt={`Distilled Wall of Shame — ${n(totals.fixes)} spec fixes across ${n(totals.patched)} providers.`}
@@ -29,11 +29,10 @@ export default function Shame() {
           </h1>
           <p class="mb-7 max-w-[34em] text-[clamp(1.05rem,1rem+0.35vw,1.2rem)] text-pretty text-fg-2">
             Every Distilled SDK is produced and refined by AI from the
-            provider's own API description. When that description is wrong — a
-            missing error response, a field marked required that isn't, a type
-            that lies — the fix is a JSON patch against the spec, so the
-            correction survives every regeneration. This page counts those
-            patches.
+            provider's own API spec. When that spec is wrong — a missing error
+            response, a field marked required that isn't, a type that lies — the
+            fix is a JSON patch against it, so the correction survives every
+            regeneration. This page counts those patches.
           </p>
           <p class="mb-7 max-w-[34em] text-base text-pretty text-fg-3 [&_strong]:font-semibold [&_strong]:text-fg-2">
             Ranked by <strong>fixes per 100 operations</strong>, so a huge API
@@ -71,9 +70,9 @@ export default function Shame() {
             <a href={ALCHEMY_URL} rel="noopener">
               Alchemy
             </a>{" "}
-            resources today <em>and</em> never needed a spec fix. The API
-            description generated a working SDK as published — which is what a
-            spec is supposed to do.
+            resources today <em>and</em> never needed a spec fix. The API spec
+            generated a working SDK as published — which is what a spec is
+            supposed to do.
           </SectionHead>
           <HonourList
             items={shame.honour}
@@ -152,8 +151,7 @@ export default function Shame() {
             <a href={REPO_URL} rel="noopener">
               alchemy-run/distilled
             </a>
-            . When a provider fixes its description upstream, the patch goes
-            away.
+            . When a provider fixes its spec upstream, the patch goes away.
           </li>
         </Method>
       </Page>

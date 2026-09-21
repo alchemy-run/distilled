@@ -93,12 +93,11 @@ export const HowItWorks = () => (
         </>
       }
     >
-      AI turns each provider's API description into an SDK, then refines it —
-      patching the description's bugs and giving every failure a name. Alchemy
-      builds real infrastructure on those SDKs — resources, providers, tests
-      against the live API. Every place the description turns out to be wrong
-      comes back as another patch, and the next generation starts from the
-      corrected description.
+      AI turns each provider's API spec into an SDK, then refines it — patching
+      the spec's bugs and giving every failure a name. Alchemy builds real
+      infrastructure on those SDKs — resources, providers, tests against the
+      live API. Every place the spec turns out to be wrong comes back as another
+      patch, and the next generation starts from the corrected spec.
     </SectionHead>
 
     <div
@@ -203,7 +202,7 @@ export const HowItWorks = () => (
         >
           <h3 class="display-72 m-0 text-[1.35rem] leading-[1.05]">Spec</h3>
           <p class="mt-[0.3rem] text-[0.92rem] text-fg-2 lg:text-[0.8rem]">
-            The provider's own API description.
+            The provider's own API spec.
           </p>
         </li>
       </ol>
