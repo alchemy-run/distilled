@@ -1,4 +1,5 @@
 import { describe, expect, test, spyOn } from "bun:test";
+import { inspect } from "node:util";
 import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
@@ -79,28 +80,43 @@ describe("Neon backend wire contracts", () => {
 
   test("sensitive environment codecs validate and encode plain or redacted strings", () => {
     const plain = JSON.stringify({ SECRET: "fixture-env-secret" });
-    const redacted = Redacted.make(plain);
-    for (const environment of [plain, redacted]) {
+    const codec = Neon.CreateProjectBranchFunctionDeploymentRequest;
+    const decode = Schema.decodeUnknownSync(codec);
+    const encode = Schema.encodeSync(codec);
+    const encodeJson = Schema.encodeSync(Schema.toCodecJson(codec));
+    for (const environment of [
+      plain,
+      Redacted.make(plain),
+      Redacted.make(plain, { label: "environment" }),
+    ]) {
       const input = { ...scope, slug: "fixture", environment };
-      const output = roundTrip(
-        Neon.CreateProjectBranchFunctionDeploymentRequest,
-        input,
-      );
-      expect(output.environment).toBe(environment);
+      const label =
+        typeof environment === "string" ? undefined : environment.label;
+      const decoded = decode(input);
+      for (const output of [decoded, encode(decoded)]) {
+        if (typeof environment === "string") {
+          expect(output.environment).toBe(plain);
+        } else {
+          // Effect may rebuild a Redacted wrapper around the decoded value.
+          if (!Redacted.isRedacted(output.environment)) {
+            throw new Error("Expected a redacted environment");
+          }
+          expect(Redacted.value(output.environment)).toBe(plain);
+          expect(output.environment.label).toBe(label);
+          expect(JSON.stringify(output)).not.toContain("fixture-env-secret");
+          expect(inspect(output)).not.toContain("fixture-env-secret");
+          expect(() => encodeJson(output)).toThrow();
+          expect(Redacted.value(environment)).toBe(plain);
+          expect(environment.label).toBe(label);
+        }
+        expect(input.environment).toBe(environment);
+      }
     }
-    const decode = Schema.decodeUnknownSync(
-      Neon.CreateProjectBranchFunctionDeploymentRequest,
-    );
     expect(() =>
       decode({ ...scope, slug: "fixture", environment: Redacted.make(123) }),
     ).toThrow();
     expect(() =>
       decode({ ...scope, slug: "fixture", environment: 123 }),
-    ).toThrow();
-    expect(() =>
-      Schema.encodeSync(
-        Schema.toCodecJson(Neon.CreateProjectBranchFunctionDeploymentRequest),
-      )({ ...scope, slug: "fixture", environment: redacted }),
     ).toThrow();
   });
 

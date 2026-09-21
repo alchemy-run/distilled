@@ -1,0 +1,2894 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "source": {
+      "repository": "https://github.com/denoland/celld",
+      "revision": "12d5b6333fe52717325addcfe1e99e9fd4f77bcd",
+      "paths": [
+        "crates/celld/peer_auth.rs",
+        "crates/celld/operator_cell.rs",
+        "crates/celld/d1_cli.rs",
+        "crates/celld/kv_cli.rs",
+        "crates/celld/queue_cli.rs",
+        "crates/celld/js/harness.js"
+      ]
+    },
+    "limitations": [
+      "This small model covers only the 15 public reserved-class operator body variants on POST /runtime/{scope}, not binding RPC, private settlement, or other routes.",
+      "HTTP success responses have a result envelope; rawResponse is intentionally not applied to nested arrays or scalar result values.",
+      "D1 migration results and statement engine metadata remain native Document values pending a separate SQL-engine model audit.",
+      "The handlers return application errors with HTTP 400, not an HTTP 200 success/error union. Common HTTP status errors are supplied by the parent core.",
+      "Peer headers must be signed against the exact serialized body and encoded path/query. This source model does not implement signing, discovery, retries or transport."
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.celld.runtime#Runtime": {
+      "type": "service",
+      "version": "0.5.0",
+      "traits": {
+        "smithy.api#documentation": "Reserved D1, KV and Queue operator requests. All operations use POST /runtime/{scope}; the reserved scope and JSON body select the operation. Peer authentication protocol version is 5."
+      },
+      "operations": [
+        {
+          "target": "com.celld.runtime#ExecD1"
+        },
+        {
+          "target": "com.celld.runtime#ExecuteD1Statements"
+        },
+        {
+          "target": "com.celld.runtime#MigrateD1"
+        },
+        {
+          "target": "com.celld.runtime#GetKv"
+        },
+        {
+          "target": "com.celld.runtime#PutKv"
+        },
+        {
+          "target": "com.celld.runtime#PutKvBase64"
+        },
+        {
+          "target": "com.celld.runtime#DeleteKv"
+        },
+        {
+          "target": "com.celld.runtime#ListKv"
+        },
+        {
+          "target": "com.celld.runtime#GetKvInfo"
+        },
+        {
+          "target": "com.celld.runtime#GetQueueInfo"
+        },
+        {
+          "target": "com.celld.runtime#PurgeQueue"
+        },
+        {
+          "target": "com.celld.runtime#PauseQueue"
+        },
+        {
+          "target": "com.celld.runtime#ResumeQueue"
+        },
+        {
+          "target": "com.celld.runtime#PeekQueue"
+        },
+        {
+          "target": "com.celld.runtime#RedriveQueue"
+        }
+      ]
+    },
+    "com.celld.runtime#Strings": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.celld.runtime#JsonValues": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.celld.runtime#Rows": {
+      "type": "list",
+      "member": {
+        "target": "com.celld.runtime#JsonValues"
+      }
+    },
+    "com.celld.runtime#Bytes": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#range": {
+            "min": 0,
+            "max": 255
+          }
+        }
+      }
+    },
+    "com.celld.runtime#D1ExecutionError": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "matches": "^D1_(?:EXEC_)?ERROR:"
+            }
+          }
+        ],
+        "smithy.api#documentation": "The native D1 engine rejected SQL execution. Exec and prepared-statement requests may have already committed earlier statements; this error does not authorize automatic mutation replay."
+      }
+    },
+    "com.celld.runtime#D1ExecPayload": {
+      "type": "structure",
+      "members": {
+        "sql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "rows": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.celld.runtime#D1StatementList": {
+      "type": "list",
+      "member": {
+        "target": "com.celld.runtime#D1Statement"
+      }
+    },
+    "com.celld.runtime#ExecD1": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#ExecD1Input"
+      },
+      "output": {
+        "target": "com.celld.runtime#ExecD1Output"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#D1ExecutionError"
+        },
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Execute SQL against a reserved D1 cell with the JSON body {\"exec\":{\"sql\":...,\"rows\":...}}."
+      }
+    },
+    "com.celld.runtime#D1Statement": {
+      "type": "structure",
+      "members": {
+        "sql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "com.celld.runtime#JsonValues"
+        },
+        "first": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.celld.runtime#ExecuteD1Statements": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#ExecuteD1StatementsInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#ExecuteD1StatementsOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#D1ExecutionError"
+        },
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Run prepared statements sequentially, not as an atomic batch. The body key is statements; each params entry retains its native JSON type."
+      }
+    },
+    "com.celld.runtime#D1Migration": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "table": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defaults to d1_migrations when omitted or empty."
+          }
+        }
+      }
+    },
+    "com.celld.runtime#D1ResultSet": {
+      "type": "structure",
+      "members": {
+        "columns": {
+          "target": "com.celld.runtime#Strings"
+        },
+        "rows": {
+          "target": "com.celld.runtime#Rows"
+        },
+        "meta": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Native SQL engine result; row values and engine metadata retain their JSON types."
+      }
+    },
+    "com.celld.runtime#D1ResultSets": {
+      "type": "list",
+      "member": {
+        "target": "com.celld.runtime#D1ResultSet"
+      }
+    },
+    "com.celld.runtime#ExecD1Result": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "duration": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.celld.runtime#D1ResultSets"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Duration is in milliseconds. Result sets are present only when exec.rows is true."
+      }
+    },
+    "com.celld.runtime#OkResult": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.runtime#GetKvResult": {
+      "type": "structure",
+      "members": {
+        "found": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "A JSON array of byte integers for inline values, or a base64 string for large values. Absent when found is false."
+          }
+        },
+        "value_encoding": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "valueEncoding",
+            "smithy.api#documentation": "base64 for large values; absent for inline byte arrays."
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": true,
+            "smithy.api#documentation": "Stored JSON text, not a decoded metadata object. May be null."
+          }
+        },
+        "expiration": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "com.distilled.openapi#nullable": true,
+            "smithy.api#documentation": "Expiration in Unix milliseconds; may be null."
+          }
+        }
+      }
+    },
+    "com.celld.runtime#KvKey": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": true,
+            "smithy.api#documentation": "Stored JSON text; may be null."
+          }
+        },
+        "expiration": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "com.distilled.openapi#nullable": true,
+            "smithy.api#documentation": "Unix milliseconds; may be null."
+          }
+        }
+      }
+    },
+    "com.celld.runtime#KvKeys": {
+      "type": "list",
+      "member": {
+        "target": "com.celld.runtime#KvKey"
+      }
+    },
+    "com.celld.runtime#ListKvResult": {
+      "type": "structure",
+      "members": {
+        "keys": {
+          "target": "com.celld.runtime#KvKeys",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "complete": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.runtime#GetKvInfoResult": {
+      "type": "structure",
+      "members": {
+        "live": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "stored": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.runtime#QueueMetrics": {
+      "type": "structure",
+      "members": {
+        "backlog_count": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "backlogCount"
+          }
+        },
+        "backlog_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "backlogBytes"
+          }
+        },
+        "oldest_message_timestamp": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#jsonName": "oldestMessageTimestamp",
+            "com.distilled.openapi#nullable": true,
+            "smithy.api#documentation": "Unix milliseconds; null when no message exists."
+          }
+        }
+      }
+    },
+    "com.celld.runtime#GetQueueInfoResult": {
+      "type": "structure",
+      "members": {
+        "backlog_count": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "backlogCount"
+          }
+        },
+        "backlog_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "backlogBytes"
+          }
+        },
+        "oldest_message_timestamp": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#jsonName": "oldestMessageTimestamp",
+            "com.distilled.openapi#nullable": true,
+            "smithy.api#documentation": "Unix milliseconds; null when no message exists."
+          }
+        },
+        "stored": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "paused": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.runtime#QueuePausedResult": {
+      "type": "structure",
+      "members": {
+        "backlog_count": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "backlogCount"
+          }
+        },
+        "backlog_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "backlogBytes"
+          }
+        },
+        "oldest_message_timestamp": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#jsonName": "oldestMessageTimestamp",
+            "com.distilled.openapi#nullable": true,
+            "smithy.api#documentation": "Unix milliseconds; null when no message exists."
+          }
+        },
+        "paused": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.runtime#PurgeQueueResult": {
+      "type": "structure",
+      "members": {
+        "deleted": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "leased": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metrics": {
+          "target": "com.celld.runtime#QueueMetrics",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.runtime#RedriveQueueResult": {
+      "type": "structure",
+      "members": {
+        "redriven": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metrics": {
+          "target": "com.celld.runtime#QueueMetrics",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.runtime#QueueMessage": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "body_base64": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "bodyBase64"
+          }
+        },
+        "content_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "contentType"
+          }
+        },
+        "size": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enqueued_at": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "enqueuedAt"
+          }
+        },
+        "visible_at": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "visibleAt"
+          }
+        },
+        "attempts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "moving, purging, leased, visible or delayed."
+          }
+        },
+        "leased_until": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#jsonName": "leasedUntil",
+            "com.distilled.openapi#nullable": true,
+            "smithy.api#documentation": "Unix milliseconds; null unless actively leased."
+          }
+        },
+        "transfer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "transferTarget",
+            "com.distilled.openapi#nullable": true,
+            "smithy.api#documentation": "May be null."
+          }
+        },
+        "dead_letter_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "deadLetterSource",
+            "com.distilled.openapi#nullable": true,
+            "smithy.api#documentation": "May be null."
+          }
+        }
+      }
+    },
+    "com.celld.runtime#QueueMessages": {
+      "type": "list",
+      "member": {
+        "target": "com.celld.runtime#QueueMessage"
+      }
+    },
+    "com.celld.runtime#PeekQueueResult": {
+      "type": "structure",
+      "members": {
+        "messages": {
+          "target": "com.celld.runtime#QueueMessages",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.celld.runtime#PeerIncompatibleVersion": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 426,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 426
+          }
+        ],
+        "smithy.api#documentation": "peer protocol version is incompatible"
+      }
+    },
+    "com.celld.runtime#PeerWrongTarget": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409,
+            "message": "peer request targets a different node session"
+          }
+        ],
+        "smithy.api#documentation": "peer request targets a different node session"
+      }
+    },
+    "com.celld.runtime#PeerReplayRejected": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409,
+            "message": "peer request replay rejected"
+          }
+        ],
+        "smithy.api#documentation": "peer request replay rejected"
+      }
+    },
+    "com.celld.runtime#ExecD1Input": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "exec": {
+          "target": "com.celld.runtime#D1ExecPayload",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#ExecD1Output": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#ExecD1Result",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#ExecuteD1StatementsInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "statements": {
+          "target": "com.celld.runtime#D1StatementList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#ExecuteD1StatementsOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#D1ResultSets",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#MigrateD1Input": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "migrate": {
+          "target": "com.celld.runtime#D1Migration",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#MigrateD1Output": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#MigrateD1": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#MigrateD1Input"
+      },
+      "output": {
+        "target": "com.celld.runtime#MigrateD1Output"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#D1ExecutionError"
+        },
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Apply a migration atomically with its bookkeeping insert. The result is the SQL engine native JSON value; no RPC action wrapper is sent."
+      }
+    },
+    "com.celld.runtime#KvGetOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#GetKvInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#KvGetOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#GetKvOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#GetKvResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#GetKv": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#GetKvInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#GetKvOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read one key from a reserved KV namespace. A missing key returns result.found=false."
+      }
+    },
+    "com.celld.runtime#KvPutOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "put"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#PutKvInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#KvPutOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defaults to bytes."
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded metadata text, not an object."
+          }
+        },
+        "expiration": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#documentation": "Absolute Unix expiration in seconds."
+          }
+        },
+        "expiration_ttl": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#jsonName": "expirationTtl",
+            "smithy.api#documentation": "Relative expiry in seconds. The wire key is expirationTtl, as used by the source handler."
+          }
+        },
+        "value": {
+          "target": "com.celld.runtime#Bytes",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#PutKvOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#OkResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#PutKv": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#PutKvInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#PutKvOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Write an inline JSON byte array. Expiration is resolved by the cell clock."
+      }
+    },
+    "com.celld.runtime#PutKvBase64Operation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "put-base64"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#PutKvBase64Input": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#PutKvBase64Operation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defaults to bytes."
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded metadata text, not an object."
+          }
+        },
+        "expiration": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#documentation": "Absolute Unix expiration in seconds."
+          }
+        },
+        "expiration_ttl": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#jsonName": "expirationTtl",
+            "smithy.api#documentation": "Relative expiry in seconds. The wire key is expirationTtl, as used by the source handler."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#PutKvBase64Output": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#OkResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#PutKvBase64": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#PutKvBase64Input"
+      },
+      "output": {
+        "target": "com.celld.runtime#PutKvBase64Output"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Write base64-encoded bytes using the distinct put-base64 wire operation."
+      }
+    },
+    "com.celld.runtime#KvDeleteOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#DeleteKvInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#KvDeleteOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "keys": {
+          "target": "com.celld.runtime#Strings",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#DeleteKvOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#OkResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#DeleteKv": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#DeleteKvInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#DeleteKvOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a list of keys from a reserved KV namespace."
+      }
+    },
+    "com.celld.runtime#KvListOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#ListKvInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#KvListOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String"
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive last key name from the previous page, not a binding cursor."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#ListKvOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#ListKvResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#ListKv": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#ListKvInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#ListKvOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "List keys in a reserved KV namespace. Metadata remains JSON text and expiration is in milliseconds."
+      }
+    },
+    "com.celld.runtime#GetKvInfoOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#GetKvInfoInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#GetKvInfoOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#GetKvInfoOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#GetKvInfoResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#GetKvInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#GetKvInfoInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#GetKvInfoOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Return live key count, live bytes and total stored key count."
+      }
+    },
+    "com.celld.runtime#GetQueueInfoOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#GetQueueInfoInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#GetQueueInfoOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#GetQueueInfoOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#GetQueueInfoResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#GetQueueInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#GetQueueInfoInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#GetQueueInfoOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reserved Queue operator request with JSON op=info. This is not the private Queue RPC or settlement endpoint."
+      }
+    },
+    "com.celld.runtime#QueuePurgeOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "purge"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#PurgeQueueInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#QueuePurgeOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#PurgeQueueOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#PurgeQueueResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#PurgeQueue": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#PurgeQueueInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#PurgeQueueOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reserved Queue operator request with JSON op=purge. This is not the private Queue RPC or settlement endpoint."
+      }
+    },
+    "com.celld.runtime#QueuePauseOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pause"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#PauseQueueInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#QueuePauseOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#PauseQueueOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#QueuePausedResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#PauseQueue": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#PauseQueueInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#PauseQueueOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reserved Queue operator request with JSON op=pause. This is not the private Queue RPC or settlement endpoint."
+      }
+    },
+    "com.celld.runtime#QueueResumeOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resume"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#ResumeQueueInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#QueueResumeOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#ResumeQueueOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#QueuePausedResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#ResumeQueue": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#ResumeQueueInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#ResumeQueueOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reserved Queue operator request with JSON op=resume. This is not the private Queue RPC or settlement endpoint."
+      }
+    },
+    "com.celld.runtime#PeekQueueOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "peek"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#PeekQueueInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#PeekQueueOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#range": {
+              "min": 1,
+              "max": 100
+            },
+            "smithy.api#documentation": "Defaults to 10; valid values are 1 through 100."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#PeekQueueOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#PeekQueueResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#PeekQueue": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#PeekQueueInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#PeekQueueOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reserved Queue operator request with JSON op=peek. This is not the private Queue RPC or settlement endpoint."
+      }
+    },
+    "com.celld.runtime#RedriveQueueOperation": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redrive"
+          }
+        }
+      }
+    },
+    "com.celld.runtime#RedriveQueueInput": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "com.distilled.http#labelEncoding": {
+              "preserve": ":$"
+            },
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Reserved-class cell scope derived by Celld, not a database, namespace or queue display name."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Optional cell identity name; include the exact encoded query string in the peer signature."
+          }
+        },
+        "peer_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Peer protocol version; send the string 5."
+          }
+        },
+        "peer_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-source",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Source node name or operator identity, validated as a node name."
+          }
+        },
+        "peer_target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-target",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact addressed node session identity, not the cell scope."
+          }
+        },
+        "peer_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-timestamp",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Decimal Unix milliseconds as text; accepted within a 30000 ms clock window."
+          }
+        },
+        "peer_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A fresh 16-byte nonce encoded as 32 hexadecimal characters; reuse is rejected."
+          }
+        },
+        "peer_body_sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-body-sha256",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Lowercase SHA-256 hex digest of the exact serialized HTTP request body bytes."
+          }
+        },
+        "peer_signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-cells-peer-signature",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline."
+          }
+        },
+        "op": {
+          "target": "com.celld.runtime#RedriveQueueOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#range": {
+              "min": 1,
+              "max": 100
+            },
+            "smithy.api#documentation": "Defaults to 100; valid values are 1 through 100."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.celld.runtime#RedriveQueueOutput": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.celld.runtime#RedriveQueueResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "The actual HTTP JSON envelope is {\"result\": ...}; nested arrays or scalars are not top-level raw responses."
+      }
+    },
+    "com.celld.runtime#RedriveQueue": {
+      "type": "operation",
+      "input": {
+        "target": "com.celld.runtime#RedriveQueueInput"
+      },
+      "output": {
+        "target": "com.celld.runtime#RedriveQueueOutput"
+      },
+      "errors": [
+        {
+          "target": "com.celld.runtime#PeerIncompatibleVersion"
+        },
+        {
+          "target": "com.celld.runtime#PeerWrongTarget"
+        },
+        {
+          "target": "com.celld.runtime#PeerReplayRejected"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/runtime/{scope}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reserved Queue operator request with JSON op=redrive. This is not the private Queue RPC or settlement endpoint."
+      }
+    }
+  }
+}

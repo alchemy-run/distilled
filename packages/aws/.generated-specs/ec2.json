@@ -34625,6 +34625,9 @@
           "target": "aws.patched#RequestLimitExceeded"
         },
         {
+          "target": "aws.patched#InvalidLaunchTemplateIdNotFound"
+        },
+        {
           "target": "aws.patched#InvalidLaunchTemplateNameNotFoundException"
         },
         {
@@ -155362,6 +155365,13 @@
       "members": {},
       "traits": {}
     },
+    "aws.patched#InvalidLaunchTemplateIdNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#errorTag": "InvalidLaunchTemplateId.NotFound"
+      }
+    },
     "aws.patched#InvalidLaunchTemplateNameNotFoundException": {
       "type": "structure",
       "members": {},
@@ -155374,13 +155384,6 @@
       "members": {},
       "traits": {
         "aws.codegen#errorTag": "InvalidLaunchTemplateId.Malformed"
-      }
-    },
-    "aws.patched#InvalidLaunchTemplateIdNotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "aws.codegen#errorTag": "InvalidLaunchTemplateId.NotFound"
       }
     },
     "aws.patched#TransitGatewayLimitExceeded": {

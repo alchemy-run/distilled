@@ -53,6 +53,11 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "axiom" },
   { package: "azure" },
   { package: "boat-dev" },
+  {
+    package: "celld",
+    blocked:
+      "Celld v0.5.0 has no published API description; source-derived Smithy contracts are committed in packages/celld/specs",
+  },
   { package: "chronosphere" },
   { package: "clerk" },
   { package: "cloudflare" },

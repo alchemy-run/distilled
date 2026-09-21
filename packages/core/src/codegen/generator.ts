@@ -360,9 +360,10 @@ export interface SdkSpec {
    * and the schema is `S.Unknown.pipe(T.UnionCases([...case key sets]))` —
    * the protocol discriminates by key-set at decode time (for APIs that
    * return every case's keys with nulls, like Cloudflare's).
+   * `"untagged"`: validate the value directly against the case schemas.
    * `"primitive"`: emit unwrapped unions of primitive or enum values.
    */
-  readonly unionStyle?: "opaque-cases" | "primitive";
+  readonly unionStyle?: "opaque-cases" | "untagged" | "primitive";
   /** Full override of union emission. */
   readonly union?: (ctx: {
     readonly name: string;
@@ -415,8 +416,8 @@ export interface SdkSpec {
     /** Error classes appended to every op's `errors: [...]` list. */
     readonly commonErrorClasses: readonly string[];
     readonly protocol: string;
-    /** The retry tag expression (e.g. `Retry.Retry`). */
-    readonly retry: string;
+    /** The retry tag expression (e.g. `Retry.Retry`). Omit to disable retries. */
+    readonly retry?: string;
     /**
      * Extra config lines inserted before the pagination entry (e.g. AWS's
      * `operationName` and `endpointHostPrefix`).
@@ -1051,6 +1052,11 @@ export const generateService = (
       });
       if (spec.union) {
         out.push(...spec.union({ name, caseTargets, caseKeys, tsRef }));
+      } else if (spec.unionStyle === "untagged") {
+        out.push(
+          `export type ${name} = ${caseTargets.map((t) => tsRefAt(t, id)).join(" | ") || "never"};`,
+          `export const ${name} = ${pure}S.Union([${caseTargets.map((t) => ref(t, i)).join(", ")}]) as any as S.${spec.schemaType ?? "Schema"}<${name}>;\n`,
+        );
       } else if (
         spec.unionStyle === "primitive" &&
         caseTargets.length > 0 &&
@@ -1178,7 +1184,7 @@ export const generateService = (
         `  output: ${ctx.outputSchema},\n` +
         `  errors: [${errList.join(", ")}],\n` +
         `  protocol: ${(paginated && opProfile.get(ctx.op.id)?.protocol) || decl.protocol},\n` +
-        `  retry: ${decl.retry},\n` +
+        (decl.retry ? `  retry: ${decl.retry},\n` : "") +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
         (paginated
           ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n`
@@ -1252,7 +1258,7 @@ export const generateService = (
         "the default header needs operationDecl — or pass header",
       );
     }
-    const retryNs = decl.retry.split(".")[0];
+    const retryNs = decl.retry?.split(".")[0];
     // Imports the used pagination profiles pull in: their protocol consts
     // (from the protocol module) and strategy/injected-member names (from
     // the pagination module).
@@ -1290,8 +1296,10 @@ export const generateService = (
       (ctx.hasPaginated && pagImports.length
         ? `import { ${pagImports.join(", ")} } from "../pagination.ts";\n`
         : "") +
-      `import { ${[...decl.commonErrorClasses].sort().join(", ")} } from "../errors.ts";\n` +
-      `import * as ${retryNs} from "../retry.ts";\n\n` +
+      (decl.commonErrorClasses.length
+        ? `import { ${[...decl.commonErrorClasses].sort().join(", ")} } from "../errors.ts";\n`
+        : "") +
+      (retryNs ? `import * as ${retryNs} from "../retry.ts";\n\n` : "\n") +
       // Re-exported so inferred provider types downstream can always name them.
       `export type { ${decl.commonErrorType}, ${decl.contextType} };\n\n` +
       (spec.rootKeyDictionary

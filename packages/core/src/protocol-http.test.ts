@@ -69,6 +69,40 @@ describe("StringEncoded members", () => {
   });
 });
 
+describe("URI label encoding", () => {
+  const input = (preserve?: string) =>
+    S.Struct({
+      scope:
+        preserve === undefined
+          ? S.String.pipe(T.Label())
+          : S.String.pipe(T.Label(), T.LabelEncoding({ preserve })),
+    }).pipe(T.Http({ method: "POST", uri: "/runtime/{scope}" }));
+  const url = (scope: string, preserve?: string) =>
+    buildRequest({
+      input: { scope },
+      inputAst: input(preserve).ast,
+      baseUrl: "https://example.test",
+    }).url;
+
+  test("keeps the existing escaping unless a model opts in", () => {
+    expect(url("__KV:abc")).toBe("https://example.test/runtime/__KV%3Aabc");
+    expect(url("__KV:abc", ":")).toBe("https://example.test/runtime/__KV:abc");
+  });
+
+  test("preserves only modeled pchar delimiters, not separators or escapes", () => {
+    expect(url("__KV:a/b?c#d%3Aé", ":")).toBe(
+      "https://example.test/runtime/__KV:a%2Fb%3Fc%23d%253A%C3%A9",
+    );
+    expect(url("$&:@", "$&:")).toBe("https://example.test/runtime/$&:%40");
+  });
+
+  test("refuses unsafe preservation rules", () => {
+    for (const preserve of ["/", "?", "#", "%", "\\r", "[", "]"]) {
+      expect(() => T.LabelEncoding({ preserve })).toThrow(TypeError);
+    }
+  });
+});
+
 describe("multipart binary parts", () => {
   const schema = S.Struct({ zip: S.Unknown, environment: S.String }).pipe(
     T.Http({ method: "POST", uri: "/deployments", contentType: "multipart" }),
