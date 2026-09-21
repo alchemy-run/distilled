@@ -196,6 +196,8 @@ export interface SdkSpec {
   readonly prelude?: Record<string, string>;
   /** Prelude scalar → TS type map. Default {@link TS_JSON_PRELUDE}. */
   readonly tsPrelude?: Record<string, string>;
+  /** Use Codec for service-free, same-type schemas; Schema leaves services unspecified. */
+  readonly schemaType?: "Schema" | "Codec";
   /** Wire member name → TS-facing name. Default: identity. */
   readonly memberName?: (name: string) => string;
   /** Operation shape name → exported const name. Default: lowerFirst. */
@@ -272,6 +274,11 @@ export interface SdkSpec {
   readonly memberExtraPipes?: (m: EmittedMember) => string[];
   /** Full override of member pipe emission (rarely needed). */
   readonly memberPipes?: (m: EmittedMember) => string[];
+  /** Override the value schema before nullability, bindings and optionality. */
+  readonly memberSchema?: (
+    m: EmittedMember,
+    ref: (target: string) => string,
+  ) => string | undefined;
   /** Function override for member TS types beyond the binding table. */
   readonly memberTsType?: (
     m: EmittedMember,
@@ -734,7 +741,9 @@ export const generateService = (
     )?.tsType;
 
   const emitMember = (info: EmittedMember, selfIdx: number): string => {
-    let expr = ref(info.target, selfIdx);
+    let expr =
+      spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ??
+      ref(info.target, selfIdx);
     if (info.nullable) expr = `S.NullOr(${expr})`;
     const pipes = memberPipes(info);
     if (pipes.length) expr = `${expr}.pipe(${pipes.join(", ")})`;
@@ -919,6 +928,7 @@ export const generateService = (
             pure,
             multiline: true,
             annotateIdentifier: true,
+            castTo: `S.${spec.schemaType ?? "Schema"}<${name}>`,
             expr: `${ref(m.target, i)}.pipe(${rootPipes.join(", ")})`,
           }),
         );
@@ -997,6 +1007,7 @@ export const generateService = (
             pure,
             multiline: true,
             annotateIdentifier: true,
+            castTo: `S.${spec.schemaType ?? "Schema"}<${name}>`,
             expr: `${struct}${tail}`,
           }),
         );
@@ -1010,7 +1021,7 @@ export const generateService = (
         `export type ${name} = Array<${tsRefAt(d.member.target, id)}${nullable ? " | null" : ""}>;`,
       );
       out.push(
-        `export const ${name} = ${pure}S.Array(${nullable ? `S.NullOr(${item})` : item}) as any as S.Schema<${name}>;\n`,
+        `export const ${name} = ${pure}S.Array(${nullable ? `S.NullOr(${item})` : item}) as any as S.${spec.schemaType ?? "Schema"}<${name}>;\n`,
       );
     } else if (d.type === "map") {
       const nullable =
@@ -1021,7 +1032,7 @@ export const generateService = (
         `export type ${name} = { [key: string]: ${tsRefAt(d.value.target, id)}${nullable ? " | null" : ""} | undefined };`,
       );
       out.push(
-        `export const ${name} = ${pure}S.Record(S.String, ${nullable ? `S.NullOr(${value})` : value}) as any as S.Schema<${name}>;\n`,
+        `export const ${name} = ${pure}S.Record(S.String, ${nullable ? `S.NullOr(${value})` : value}) as any as S.${spec.schemaType ?? "Schema"}<${name}>;\n`,
       );
     } else if (d.type === "union") {
       // A union arm targeting the union itself carries no information

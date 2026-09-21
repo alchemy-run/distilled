@@ -1,0 +1,47 @@
+{
+  "description": "Materialize the required type literals declared by NeonAuthEmailServerConfig and NeonAuthEmailServerConfigResponse discriminator mappings in https://neon.com/api_spec/release/v2.json and https://api-docs.neon.tech/reference/updateneonauthemailprovider. Preserve the documented optional PATCH fields and required response fields.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/components/schemas/StandardEmailServer/properties/type",
+      "value": {
+        "type": "string",
+        "enum": ["standard"],
+        "description": "Use a custom SMTP server to send authentication emails."
+      }
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/StandardEmailServer/required",
+      "value": ["type"]
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/StandardEmailServerResponse/properties/type",
+      "value": {
+        "type": "string",
+        "enum": ["standard"],
+        "description": "Use a custom SMTP server to send authentication emails."
+      }
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/StandardEmailServerResponse/required/-",
+      "value": "type"
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/SharedEmailServer/properties/type",
+      "value": {
+        "type": "string",
+        "enum": ["shared"],
+        "description": "Use the shared email server to send authentication emails."
+      }
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/SharedEmailServer/required",
+      "value": ["type"]
+    }
+  ]
+}

@@ -15,6 +15,10 @@
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import {
+  JSON_PRELUDE,
+  TS_JSON_PRELUDE,
+} from "@distilled.cloud/core/codegen/prelude";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -23,8 +27,17 @@ const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 /** Neon's provider spec for the shared smithy→SDK compiler. */
 const neonSpec: SdkSpec = {
+  schemaType: "Codec",
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
+  prelude: {
+    ...JSON_PRELUDE,
+    Blob: "S.Union([S.instanceOf(Blob), S.instanceOf(Uint8Array), S.instanceOf(ArrayBuffer)])",
+  },
+  tsPrelude: {
+    ...TS_JSON_PRELUDE,
+    Blob: "Blob | Uint8Array | ArrayBuffer",
+  },
 
   extraBindings: [
     {
@@ -43,21 +56,57 @@ const neonSpec: SdkSpec = {
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
+  memberSchema: (m, ref) =>
+    SENSITIVE_TRAIT in m.traits
+      ? `S.Union([${ref(m.target)}, S.Redacted(${ref(m.target)}, { disallowJsonEncode: true })])`
+      : undefined,
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
       : undefined,
 
-  // Unions surface as TS type unions over an opaque schema — the REST
-  // protocol passes union content through verbatim (wire names ARE the TS
-  // names for Neon), so no runtime case discrimination is needed.
+  shapeOverride: ({ name, def }) => {
+    if (
+      def.type === "structure" &&
+      Object.keys(def.members ?? {}).length === 1 &&
+      def.members.body?.target === "smithy.api#Blob" &&
+      RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
+    ) {
+      return [
+        `export type ${name} = Uint8Array;`,
+        `export const ${name} = S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Codec<${name}>;`,
+      ];
+    }
+    if (
+      def.type !== "enum" ||
+      (!name.includes("Trigger") &&
+        ![
+          "StandardEmailServerType",
+          "StandardEmailServerResponseType",
+          "SharedEmailServerType",
+        ].includes(name))
+    )
+      return;
+    const values = Object.values(def.members ?? {}).map(
+      (member: any) => member.traits["smithy.api#enumValue"],
+    );
+    return [
+      `export type ${name} = ${values.map((value) => JSON.stringify(value)).join(" | ")};`,
+      `export const ${name} = S.Literals(${JSON.stringify(values)});`,
+    ];
+  },
   union: ({ name, caseTargets, tsRef }) => [
     `export type ${name} = ${caseTargets.map(tsRef).join(" | ") || "unknown"};`,
-    `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
+    name === "Trigger" ||
+    name === "TriggerCreateRequest" ||
+    name === "TriggerUpdateRequest" ||
+    name === "NeonAuthEmailServerConfig" ||
+    name === "NeonAuthEmailServerConfigResponse"
+      ? `export const ${name} = S.suspend(() => S.Union([${caseTargets.map(tsRef).join(", ")}])) as S.Codec<${name}>;\n`
+      : `export const ${name} = S.Unknown as any as S.Codec<${name}>;\n`,
   ],
 
-  // One pagination profile: Neon's cursor mode (inputToken `cursor`,
-  // outputToken `pagination.cursor`), traversed by core's paginateCursor.
+  // Cursor mode uses each operation's modeled pagination.cursor or pagination.next.
   paginationProfiles: {
     cursor: {
       strategy: "paginateCursor",
@@ -73,7 +122,7 @@ const neonSpec: SdkSpec = {
     retry: "Retry.Retry",
   },
 
-  sourceNote: ".generated-specs (specs/distilled-spec-neon)",
+  sourceNote: ".generated-specs (specs/spec-mirror-neon)",
 
   // Sensitive member types reference Redacted; pull the import in when used.
   postProcess: (code) =>
