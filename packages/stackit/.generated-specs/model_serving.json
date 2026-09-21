@@ -1,0 +1,1259 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.model_serving#ListTokensRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region name"
+          }
+        },
+        "label_selector": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "label_selector",
+            "smithy.api#documentation": "Filter token resource by labels"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_serving#ListTokenResp": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "tokens": {
+          "target": "com.stackit.model_serving#ListTokenRespTokensList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#Token": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.model_serving#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.model_serving#TokenState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "validUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#Labels": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Object that represents the labels of an object. Regex for keys: `^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. Providing a `null` value for a key will remove that key. Send empty object {} to remove all labels. The `stackit` prefix is reserved and cannot be used for Keys."
+      }
+    },
+    "com.stackit.model_serving#TokenState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ListTokenRespTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.model_serving#Token"
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ListTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_serving#ListTokensRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_serving#ListTokenResp"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_serving#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/tokens",
+          "code": 200,
+          "baseUrl": "https://model-serving.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "auth tokens for shared model in non dedicated instances\n\nauth tokens for shared model in non dedicated instances"
+      }
+    },
+    "com.stackit.model_serving#CreateTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region name"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "labels": {
+          "target": "com.stackit.model_serving#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ttlDuration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "time to live duration. Must be valid duration string. If not set the token will never expire."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_serving#CreateTokenResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "token": {
+          "target": "com.stackit.model_serving#TokenCreated",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#TokenCreated": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.model_serving#Labels"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.model_serving#TokenCreatedState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "validUntil": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#TokenCreatedState": {
+      "type": "enum",
+      "members": {
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#CreateToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_serving#CreateTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_serving#CreateTokenResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_serving#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_serving#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/tokens",
+          "code": 200,
+          "baseUrl": "https://model-serving.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create auth token for shared model use\n\ncreate auth token for shared model use"
+      }
+    },
+    "com.stackit.model_serving#GetTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region name"
+          }
+        },
+        "tId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "token id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_serving#GetTokenResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "token": {
+          "target": "com.stackit.model_serving#Token",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#GetToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_serving#GetTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_serving#GetTokenResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_serving#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_serving#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/tokens/{tId}",
+          "code": 200,
+          "baseUrl": "https://model-serving.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get auth token for shared model use\n\nget auth token for shared model use"
+      }
+    },
+    "com.stackit.model_serving#LabelPatch": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Object that represents the labels of an object. Regex for keys: `^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. Providing a `null` value for a key will remove that key. Send empty object {} to remove all labels. The `stackit` prefix is reserved and cannot be used for Keys."
+      }
+    },
+    "com.stackit.model_serving#PartialUpdateTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region name"
+          }
+        },
+        "tId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "token id"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "labels": {
+          "target": "com.stackit.model_serving#LabelPatch"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_serving#UpdateTokenResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "token": {
+          "target": "com.stackit.model_serving#Token",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#PartialUpdateToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_serving#PartialUpdateTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_serving#UpdateTokenResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_serving#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_serving#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/tokens/{tId}",
+          "code": 200,
+          "baseUrl": "https://model-serving.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "partial update auth token for shared model use\n\npartial update auth token for shared model use"
+      }
+    },
+    "com.stackit.model_serving#DeleteTokenRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "portal project id"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region name"
+          }
+        },
+        "tId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "token id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_serving#MessageResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#DeleteToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_serving#DeleteTokenRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_serving#MessageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_serving#BadRequest"
+        },
+        {
+          "target": "com.stackit.model_serving#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{regionId}/tokens/{tId}",
+          "code": 200,
+          "baseUrl": "https://model-serving.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete auth token in shared model use\n\ndelete auth token in shared model use"
+      }
+    },
+    "com.stackit.model_serving#GetChatModelRequest": {
+      "type": "structure",
+      "members": {
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region name"
+          }
+        },
+        "modelId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "model id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_serving#GetChatModelResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "model": {
+          "target": "com.stackit.model_serving#ChatModelDetails",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ChatModelDetails": {
+      "type": "structure",
+      "members": {
+        "bits": {
+          "target": "com.stackit.model_serving#ChatModelDetailsBits"
+        },
+        "category": {
+          "target": "com.stackit.model_serving#ChatModelDetailsCategory",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "contextLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayedName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "generated uuid to identify a model",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "huggingface name",
+            "smithy.api#required": {}
+          }
+        },
+        "quantizationMethod": {
+          "target": "com.stackit.model_serving#ChatModelDetailsQuantizationMethod"
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "model size in bytes",
+            "smithy.api#required": {}
+          }
+        },
+        "skus": {
+          "target": "com.stackit.model_serving#ChatModelDetailsSkusList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.stackit.model_serving#ChatModelDetailsTagsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "url of the model",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ChatModelDetailsBits": {
+      "type": "intEnum",
+      "members": {
+        "_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 1
+          }
+        },
+        "_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 2
+          }
+        },
+        "_4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 4
+          }
+        },
+        "_8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 8
+          }
+        },
+        "_16": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 16
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ChatModelDetailsCategory": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "PLUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plus"
+          }
+        },
+        "PREMIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "premium"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ChatModelDetailsQuantizationMethod": {
+      "type": "enum",
+      "members": {
+        "PTQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PTQ"
+          }
+        },
+        "QAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "QAT"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#SKU": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ChatModelDetailsSkusList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.model_serving#SKU"
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ChatModelDetailsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#GetChatModel": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_serving#GetChatModelRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_serving#GetChatModelResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_serving#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/regions/{regionId}/chat/models/{modelId}",
+          "code": 200,
+          "baseUrl": "https://model-serving.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "details of a llm model\n\ndetails of a llm model"
+      }
+    },
+    "com.stackit.model_serving#GetEmbeddingModelRequest": {
+      "type": "structure",
+      "members": {
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region name"
+          }
+        },
+        "modelId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "model id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_serving#GetEmbeddingsModelResp": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "model": {
+          "target": "com.stackit.model_serving#EmbeddingModelDetails",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#EmbeddingModelDetails": {
+      "type": "structure",
+      "members": {
+        "category": {
+          "target": "com.stackit.model_serving#EmbeddingModelDetailsCategory",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayedName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "generated uuid to identify a model",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "huggingface name",
+            "smithy.api#required": {}
+          }
+        },
+        "outputDimension": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skus": {
+          "target": "com.stackit.model_serving#EmbeddingModelDetailsSkusList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.stackit.model_serving#EmbeddingModelDetailsTagsList"
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "url of the model",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#EmbeddingModelDetailsCategory": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "PLUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plus"
+          }
+        },
+        "PREMIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "premium"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#EmbeddingModelDetailsSkusList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.model_serving#SKU"
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#EmbeddingModelDetailsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#GetEmbeddingModel": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_serving#GetEmbeddingModelRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_serving#GetEmbeddingsModelResp"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_serving#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/regions/{regionId}/embedding/models/{modelId}",
+          "code": 200,
+          "baseUrl": "https://model-serving.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "details of an embedding model\n\ndetails of an embedding model"
+      }
+    },
+    "com.stackit.model_serving#ListModelsRequest": {
+      "type": "structure",
+      "members": {
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region name"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.model_serving#ListModelsResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "models": {
+          "target": "com.stackit.model_serving#ListModelsResponseModelsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#Model": {
+      "type": "structure",
+      "members": {
+        "category": {
+          "target": "com.stackit.model_serving#ModelCategory",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayedName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "generated uuid to identify a model",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "huggingface name",
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skus": {
+          "target": "com.stackit.model_serving#ModelSkusList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.stackit.model_serving#ModelTagsList"
+        },
+        "type": {
+          "target": "com.stackit.model_serving#ModelType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "url of the model",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ModelCategory": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "PLUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plus"
+          }
+        },
+        "PREMIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "premium"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ModelSkusList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.model_serving#SKU"
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ModelTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ModelType": {
+      "type": "enum",
+      "members": {
+        "CHAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chat"
+          }
+        },
+        "EMBEDDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "embedding"
+          }
+        },
+        "AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio"
+          }
+        },
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ListModelsResponseModelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.model_serving#Model"
+      },
+      "traits": {}
+    },
+    "com.stackit.model_serving#ListModels": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.model_serving#ListModelsRequest"
+      },
+      "output": {
+        "target": "com.stackit.model_serving#ListModelsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.model_serving#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/regions/{regionId}/models",
+          "code": 200,
+          "baseUrl": "https://model-serving.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List of shared model\n\nList of shared model"
+      }
+    },
+    "com.stackit.model_serving#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.model_serving#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.model_serving#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.model_serving#ModelServing": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.model_serving#ListTokens"
+        },
+        {
+          "target": "com.stackit.model_serving#CreateToken"
+        },
+        {
+          "target": "com.stackit.model_serving#GetToken"
+        },
+        {
+          "target": "com.stackit.model_serving#PartialUpdateToken"
+        },
+        {
+          "target": "com.stackit.model_serving#DeleteToken"
+        },
+        {
+          "target": "com.stackit.model_serving#GetChatModel"
+        },
+        {
+          "target": "com.stackit.model_serving#GetEmbeddingModel"
+        },
+        {
+          "target": "com.stackit.model_serving#ListModels"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Model Serving API",
+        "smithy.api#documentation": "This API provides endpoints for the model serving api"
+      }
+    }
+  }
+}

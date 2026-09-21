@@ -23,7 +23,7 @@
  *     across operations; anonymous nested objects synthesize names from the
  *     parent + member path
  *   • responses: 200 → 201 → 204 precedence (`successStatuses` overrides),
- *     `application/json` only; object
+ *     JSON or opt-in binary `application/octet-stream`; object
  *     results become `<Op>Response` structures (a sole `$ref` reuses the named
  *     shape); bare array/scalar results wrap in a structure whose single
  *     member carries `com.distilled.openapi#rawResponse` (the SdkSpec maps it
@@ -162,6 +162,12 @@ export interface OpenApiConvertOptions {
    */
   readonly headerParams?: boolean;
   /**
+   * Convert `format: binary` strings to blobs and include binary
+   * `application/octet-stream` responses. Opt in only when the provider's
+   * generator and protocol support binary inputs and outputs. Default false.
+   */
+  readonly binaryTypes?: boolean;
+  /**
    * Response statuses to read the operation's output shape from, most
    * preferred first. Default `["200", "201", "204"]`. Extend it for an API
    * that answers asynchronous work with a body under another status — Vercel
@@ -226,6 +232,7 @@ export interface SmithyModel {
 const PRELUDE = {
   Unit: "smithy.api#Unit",
   String: "smithy.api#String",
+  Blob: "smithy.api#Blob",
   Boolean: "smithy.api#Boolean",
   Double: "smithy.api#Double",
   Integer: "smithy.api#Integer",
@@ -308,6 +315,7 @@ interface Ctx {
    */
   readonly dirSensitiveRefs: Map<Dir, ReadonlySet<string>>;
   readonly sensitivePatterns: readonly RegExp[];
+  readonly binaryTypes: boolean;
 }
 
 interface Converted {
@@ -913,7 +921,12 @@ const convertSchema = (
   // --- scalars --------------------------------------------------------------
   switch (t) {
     case "string":
-      return inline(PRELUDE.String, nullable);
+      return inline(
+        ctx.binaryTypes && def.format === "binary"
+          ? PRELUDE.Blob
+          : PRELUDE.String,
+        nullable,
+      );
     case "boolean":
       return inline(PRELUDE.Boolean, nullable);
     case "integer":
@@ -1104,7 +1117,7 @@ const opDoc = (op: any): string | undefined => {
 // Responses
 // ============================================================================
 
-/** First declared status in `order` wins; response-level `$ref` resolved; JSON only. */
+/** First declared status wins; resolve response refs and preserve JSON or binary bodies. */
 const successSchema = (
   ctx: Ctx,
   responses: any,
@@ -1118,7 +1131,15 @@ const successSchema = (
     if (ctx.version === "2.0") {
       return { schema: resp.schema };
     }
-    return { schema: resp.content?.["application/json"]?.schema };
+    const json = resp.content?.["application/json"]?.schema;
+    const binary = resp.content?.["application/octet-stream"]?.schema;
+    return {
+      schema:
+        json ??
+        (ctx.binaryTypes && deref(ctx, binary)?.format === "binary"
+          ? binary
+          : undefined),
+    };
   }
   return { schema: undefined };
 };
@@ -1269,6 +1290,7 @@ export const convertOpenApiToSmithy = (
     refs: new Map(),
     dirSensitiveRefs: new Map(),
     sensitivePatterns: options.sensitivePatterns ?? SENSITIVE_FIELD_PATTERNS,
+    binaryTypes: options.binaryTypes ?? false,
   };
   const statusToErrorClass =
     options.statusToErrorClass ?? DEFAULT_STATUS_TO_ERROR_CLASS;

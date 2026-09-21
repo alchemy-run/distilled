@@ -1,0 +1,590 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.service_enablement#ListServiceStatusRegionalRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.service_enablement#ServiceStatus": {
+      "type": "structure",
+      "members": {
+        "dependencies": {
+          "target": "com.stackit.service_enablement#Dependencies"
+        },
+        "enablement": {
+          "target": "com.stackit.service_enablement#ServiceStatusEnablement"
+        },
+        "error": {
+          "target": "com.stackit.service_enablement#ActionError"
+        },
+        "labels": {
+          "target": "com.stackit.service_enablement#ServiceStatusLabelsMap"
+        },
+        "lifecycle": {
+          "target": "com.stackit.service_enablement#ServiceStatusLifecycle"
+        },
+        "parameters": {
+          "target": "com.stackit.service_enablement#Parameters"
+        },
+        "scope": {
+          "target": "com.stackit.service_enablement#ServiceStatusScope"
+        },
+        "serviceId": {
+          "target": "smithy.api#String"
+        },
+        "state": {
+          "target": "com.stackit.service_enablement#ServiceStatusState",
+          "traits": {
+            "smithy.api#documentation": "the state of a service within a project"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.service_enablement#Dependencies": {
+      "type": "structure",
+      "members": {
+        "hard": {
+          "target": "com.stackit.service_enablement#DependenciesHardList",
+          "traits": {
+            "smithy.api#documentation": "a list of service IDs which this service depend on. If the service is enabled, those service are enabled as well automatically."
+          }
+        },
+        "soft": {
+          "target": "com.stackit.service_enablement#DependenciesSoftList",
+          "traits": {
+            "smithy.api#documentation": "a list of service IDs which this service depend on. When they are disabled a notification is sent."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.service_enablement#DependenciesHardList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "a list of service IDs which this service depend on. If the service is enabled, those service are enabled as well automatically."
+      }
+    },
+    "com.stackit.service_enablement#DependenciesSoftList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "a list of service IDs which this service depend on. When they are disabled a notification is sent."
+      }
+    },
+    "com.stackit.service_enablement#ServiceStatusEnablement": {
+      "type": "enum",
+      "members": {
+        "REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REQUEST"
+          }
+        },
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUTO"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.service_enablement#ActionError": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.stackit.service_enablement#ActionErrorAction",
+          "traits": {
+            "smithy.api#documentation": "the last action which was triggered on this service"
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "the error code if provided by the service"
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "the error reason provided by the service"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "the last error for this service."
+      }
+    },
+    "com.stackit.service_enablement#ActionErrorAction": {
+      "type": "enum",
+      "members": {
+        "DISABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DISABLE"
+          }
+        },
+        "ENABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENABLE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "the last action which was triggered on this service"
+      }
+    },
+    "com.stackit.service_enablement#ServiceStatusLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.service_enablement#ServiceStatusLifecycle": {
+      "type": "enum",
+      "members": {
+        "FLEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLEX"
+          }
+        },
+        "PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROJECT"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.service_enablement#Parameters": {
+      "type": "structure",
+      "members": {
+        "general": {
+          "target": "com.stackit.service_enablement#ParametersGeneral"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "service parameters"
+      }
+    },
+    "com.stackit.service_enablement#ParametersGeneralProjectScope": {
+      "type": "enum",
+      "members": {
+        "SCHWARZ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCHWARZ"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PUBLIC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.service_enablement#ParametersGeneral": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String"
+        },
+        "projectName": {
+          "target": "smithy.api#String"
+        },
+        "projectScope": {
+          "target": "com.stackit.service_enablement#ParametersGeneralProjectScope"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.service_enablement#ServiceStatusScope": {
+      "type": "enum",
+      "members": {
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PRIVATE"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PUBLIC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.service_enablement#ServiceStatusState": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENABLED"
+          }
+        },
+        "ENABLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENABLING"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DISABLED"
+          }
+        },
+        "DISABLING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DISABLING"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "the state of a service within a project"
+      }
+    },
+    "com.stackit.service_enablement#ListServiceStatusRegionalResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.service_enablement#ServiceStatus"
+      },
+      "traits": {}
+    },
+    "com.stackit.service_enablement#ListServiceStatusRegionalResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.service_enablement#ListServiceStatusRegionalResponseItemsList"
+        },
+        "nextCursor": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.service_enablement#ListServiceStatusRegional": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.service_enablement#ListServiceStatusRegionalRequest"
+      },
+      "output": {
+        "target": "com.stackit.service_enablement#ListServiceStatusRegionalResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.service_enablement#BadRequest"
+        },
+        {
+          "target": "com.stackit.service_enablement#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/services",
+          "code": 200,
+          "baseUrl": "https://service-enablement.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "returns a list of all available services for a project."
+      }
+    },
+    "com.stackit.service_enablement#GetServiceStatusRegionalRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "serviceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.service_enablement#GetServiceStatusRegional": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.service_enablement#GetServiceStatusRegionalRequest"
+      },
+      "output": {
+        "target": "com.stackit.service_enablement#ServiceStatus"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.service_enablement#BadRequest"
+        },
+        {
+          "target": "com.stackit.service_enablement#Forbidden"
+        },
+        {
+          "target": "com.stackit.service_enablement#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/services/{serviceId}",
+          "code": 200,
+          "baseUrl": "https://service-enablement.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "returns the current status of a service in a project."
+      }
+    },
+    "com.stackit.service_enablement#EnableServiceRegionalRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "serviceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.service_enablement#EnableServiceRegional": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.service_enablement#EnableServiceRegionalRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.service_enablement#BadRequest"
+        },
+        {
+          "target": "com.stackit.service_enablement#Forbidden"
+        },
+        {
+          "target": "com.stackit.service_enablement#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/services/{serviceId}",
+          "code": 200,
+          "baseUrl": "https://service-enablement.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "enables the service in a project."
+      }
+    },
+    "com.stackit.service_enablement#DisableServiceRegionalRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "serviceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.service_enablement#DisableServiceRegional": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.service_enablement#DisableServiceRegionalRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.service_enablement#BadRequest"
+        },
+        {
+          "target": "com.stackit.service_enablement#Forbidden"
+        },
+        {
+          "target": "com.stackit.service_enablement#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/services/{serviceId}",
+          "code": 200,
+          "baseUrl": "https://service-enablement.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "disables the service in a project."
+      }
+    },
+    "com.stackit.service_enablement#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.service_enablement#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.service_enablement#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.service_enablement#ServiceEnablement": {
+      "type": "service",
+      "version": "2.0",
+      "operations": [
+        {
+          "target": "com.stackit.service_enablement#ListServiceStatusRegional"
+        },
+        {
+          "target": "com.stackit.service_enablement#GetServiceStatusRegional"
+        },
+        {
+          "target": "com.stackit.service_enablement#EnableServiceRegional"
+        },
+        {
+          "target": "com.stackit.service_enablement#DisableServiceRegional"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Service Enablement API",
+        "smithy.api#documentation": "STACKIT Service Enablement API"
+      }
+    }
+  }
+}

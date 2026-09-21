@@ -9,7 +9,6 @@ import type { HttpClientError } from "effect/unstable/http/HttpClientError";
 import * as Providers from "./credential-providers/shared.ts";
 import { fromEnvironment as regionFromEnvironment } from "./region.ts";
 import type { RegionName } from "./region.ts";
-export * as AWSTypes from "@aws-sdk/types";
 
 export interface AwsCredentials {
   readonly accessKeyId: string;

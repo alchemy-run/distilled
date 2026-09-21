@@ -1,0 +1,2320 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.rabbitmq#ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#ListInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "com.stackit.rabbitmq#ListInstancesResponseInstancesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#Instance": {
+      "type": "structure",
+      "members": {
+        "cfGuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cfOrganizationGuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cfSpaceGuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dashboardUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "imageUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String"
+        },
+        "lastOperation": {
+          "target": "com.stackit.rabbitmq#InstanceLastOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "offeringName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "offeringVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "planName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.rabbitmq#InstanceStatus"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#InstanceLastOperation": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.rabbitmq#InstanceLastOperationState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.rabbitmq#InstanceLastOperationType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#InstanceLastOperationState": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in progress"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#InstanceLastOperationType": {
+      "type": "enum",
+      "members": {
+        "CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create"
+          }
+        },
+        "UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update"
+          }
+        },
+        "DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#InstanceStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#ListInstancesResponseInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.rabbitmq#Instance"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#ListInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#ListInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#ListInstancesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get service instances list\n\nGet a list of available instances"
+      }
+    },
+    "com.stackit.rabbitmq#InstanceParameters": {
+      "type": "structure",
+      "members": {
+        "consumer_timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The unit is milliseconds."
+          }
+        },
+        "enable_monitoring": {
+          "target": "smithy.api#Boolean"
+        },
+        "graphite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If you want to monitor your service with Graphite, you can set the custom parameter graphite. It expects the host and port where the Graphite metrics should be sent to."
+          }
+        },
+        "max_disk_threshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "This component monitors ephemeral and persistent disk usage. If one of these disk usages reaches the default configured threshold of 80%, the a9s Parachute stops all processes on that node."
+          }
+        },
+        "metrics_frequency": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Frequency of metrics being emitted in seconds"
+          }
+        },
+        "metrics_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Depending on your graphite provider, you might need to prefix the metrics with a certain value, like an API key for example."
+          }
+        },
+        "monitoring_instance_id": {
+          "target": "smithy.api#String"
+        },
+        "plugins": {
+          "target": "com.stackit.rabbitmq#InstanceParametersPluginsList"
+        },
+        "roles": {
+          "target": "com.stackit.rabbitmq#InstanceParametersRolesList",
+          "traits": {
+            "smithy.api#documentation": "This property is deprecated and will be removed in a future release."
+          }
+        },
+        "sgw_acl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma separated list of IP networks in CIDR notation which are allowed to access this instance."
+          }
+        },
+        "syslog": {
+          "target": "com.stackit.rabbitmq#InstanceParametersSyslogList"
+        },
+        "tls_ciphers": {
+          "target": "com.stackit.rabbitmq#InstanceParametersTlsCiphersList",
+          "traits": {
+            "smithy.api#documentation": "This property is deprecated and will be removed in a future release.",
+            "smithy.api#jsonName": "tls-ciphers"
+          }
+        },
+        "tls_protocols": {
+          "target": "com.stackit.rabbitmq#InstanceParametersTlsProtocolsList",
+          "traits": {
+            "smithy.api#documentation": "This property is deprecated and will be removed in a future release.",
+            "smithy.api#jsonName": "tls-protocols"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#InstanceParametersPluginsItem": {
+      "type": "enum",
+      "members": {
+        "RABBITMQ_CONSISTENT_HASH_EXCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rabbitmq_consistent_hash_exchange"
+          }
+        },
+        "RABBITMQ_FEDERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rabbitmq_federation"
+          }
+        },
+        "RABBITMQ_FEDERATION_MANAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rabbitmq_federation_management"
+          }
+        },
+        "RABBITMQ_MQTT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rabbitmq_mqtt"
+          }
+        },
+        "RABBITMQ_SHARDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rabbitmq_sharding"
+          }
+        },
+        "RABBITMQ_SHOVEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rabbitmq_shovel"
+          }
+        },
+        "RABBITMQ_SHOVEL_MANAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rabbitmq_shovel_management"
+          }
+        },
+        "RABBITMQ_STOMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rabbitmq_stomp"
+          }
+        },
+        "RABBITMQ_TRACING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rabbitmq_tracing"
+          }
+        },
+        "RABBITMQ_EVENT_EXCHANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rabbitmq_event_exchange"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#InstanceParametersPluginsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.rabbitmq#InstanceParametersPluginsItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#InstanceParametersRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "This property is deprecated and will be removed in a future release."
+      }
+    },
+    "com.stackit.rabbitmq#InstanceParametersSyslogList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#InstanceParametersTlsCiphersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "This property is deprecated and will be removed in a future release."
+      }
+    },
+    "com.stackit.rabbitmq#InstanceParametersTlsProtocolsItem": {
+      "type": "enum",
+      "members": {
+        "TLSV1_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tlsv1.2"
+          }
+        },
+        "TLSV1_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tlsv1.3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#InstanceParametersTlsProtocolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.rabbitmq#InstanceParametersTlsProtocolsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "This property is deprecated and will be removed in a future release."
+      }
+    },
+    "com.stackit.rabbitmq#CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.stackit.rabbitmq#InstanceParameters"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#CreateInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#CreateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#CreateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "provision\n\nProvision a service instance."
+      }
+    },
+    "com.stackit.rabbitmq#GetInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#GetInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#GetInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get a service instance\n\nget a service instance"
+      }
+    },
+    "com.stackit.rabbitmq#PartialUpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "instanceName": {
+          "target": "smithy.api#String"
+        },
+        "parameters": {
+          "target": "com.stackit.rabbitmq#InstanceParameters"
+        },
+        "planId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#PartialUpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#PartialUpdateInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "update a service instance\n\nUpdate a service instance. This could be a sgw acl update or a plan upgrade."
+      }
+    },
+    "com.stackit.rabbitmq#DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#DeleteInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#DeleteInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete service instance\n\nDeprovision a service instance."
+      }
+    },
+    "com.stackit.rabbitmq#ListBackupsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#ListBackupsResponse": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.rabbitmq#Backup"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#Backup": {
+      "type": "structure",
+      "members": {
+        "downloadable": {
+          "target": "smithy.api#Boolean"
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer"
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "triggered_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#ListBackupsResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.rabbitmq#ListBackupsResponse",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.rabbitmq#ListBackups": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#ListBackupsRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#ListBackupsResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get latest backup information for provided instanceId"
+      }
+    },
+    "com.stackit.rabbitmq#CreateBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#CreateBackupResponseItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#CreateBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#CreateBackupRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#CreateBackupResponseItem"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create a backup"
+      }
+    },
+    "com.stackit.rabbitmq#UpdateBackupsConfigRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "encryption_key": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#UpdateBackupsConfigResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#UpdateBackupsConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#UpdateBackupsConfigRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#UpdateBackupsConfigResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups-config",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "backups configuration update\n\nUpdate the configuration for backups for your instance."
+      }
+    },
+    "com.stackit.rabbitmq#DownloadBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Backup id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#DownloadBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#DownloadBackupRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups/{backupId}/download",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "download backup"
+      }
+    },
+    "com.stackit.rabbitmq#TriggerRestoreRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Backup id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#TriggerRestoreResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#TriggerRestore": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#TriggerRestoreRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#TriggerRestoreResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups/{backupId}/restore",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger a restore"
+      }
+    },
+    "com.stackit.rabbitmq#ListCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#ListCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credentialsList": {
+          "target": "com.stackit.rabbitmq#ListCredentialsResponseCredentialsListList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#CredentialsListItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#ListCredentialsResponseCredentialsListList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.rabbitmq#CredentialsListItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#ListCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#ListCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#ListCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get list of credentials ids\n\nget list all credentials ids for instance"
+      }
+    },
+    "com.stackit.rabbitmq#CredentialsParameters": {
+      "type": "structure",
+      "members": {
+        "roles": {
+          "target": "com.stackit.rabbitmq#CredentialsParametersRolesList",
+          "traits": {
+            "smithy.api#documentation": "A list of roles to assign to the generated credentials. If not provided, standard default role 'policymaker' will be assigned."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#CredentialsParametersRolesItem": {
+      "type": "enum",
+      "members": {
+        "MANAGEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "management"
+          }
+        },
+        "POLICYMAKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "policymaker"
+          }
+        },
+        "MONITORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "monitoring"
+          }
+        },
+        "ADMINISTRATOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "administrator"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#CredentialsParametersRolesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.rabbitmq#CredentialsParametersRolesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of roles to assign to the generated credentials. If not provided, standard default role 'policymaker' will be assigned."
+      }
+    },
+    "com.stackit.rabbitmq#CreateCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "parameters": {
+          "target": "com.stackit.rabbitmq#CredentialsParameters"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#CredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "raw": {
+          "target": "com.stackit.rabbitmq#RawCredentials"
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#RawCredentials": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.rabbitmq#Credentials",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#Credentials": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hosts": {
+          "target": "com.stackit.rabbitmq#CredentialsHostsList"
+        },
+        "http_api_uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "for rabbitmq only"
+          }
+        },
+        "http_api_uris": {
+          "target": "com.stackit.rabbitmq#CredentialsHttpApiUrisList"
+        },
+        "management": {
+          "target": "smithy.api#String"
+        },
+        "mqtt": {
+          "target": "smithy.api#String"
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        },
+        "stomp": {
+          "target": "smithy.api#String"
+        },
+        "uri": {
+          "target": "smithy.api#String"
+        },
+        "uris": {
+          "target": "com.stackit.rabbitmq#CredentialsUrisList"
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#CredentialsHostsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#CredentialsHttpApiUrisList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#CredentialsUrisList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#CreateCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#CreateCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#CredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create new credentials\n\nCreate new service credentials"
+      }
+    },
+    "com.stackit.rabbitmq#GetCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "credentialsId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Credentials id of credentials to fetch"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#GetCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#GetCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#CredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials/{credentialsId}",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get credentials by id\n\nget a service credentials by credentials id"
+      }
+    },
+    "com.stackit.rabbitmq#DeleteCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "credentialsId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Id of the credentials being deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#DeleteCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#DeleteCredentialsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials/{credentialsId}",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete credentials by id\n\nDelete a service credentials."
+      }
+    },
+    "com.stackit.rabbitmq#GetMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#GetMetricsResponse": {
+      "type": "structure",
+      "members": {
+        "cpuIdleTime": {
+          "target": "smithy.api#Integer"
+        },
+        "cpuLoadPercent": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cpuSystemTime": {
+          "target": "smithy.api#Integer"
+        },
+        "cpuUserTime": {
+          "target": "smithy.api#Integer"
+        },
+        "diskEphemeralTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskEphemeralUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskPersistentTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskPersistentUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "load1": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "load15": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "load5": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralActivated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralUsedPercent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralUsedThreshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentActivated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentUsedPercent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentUsedThreshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#GetMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#GetMetricsRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#GetMetricsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/metrics",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get latest metrics for cpu load, memory and disk usage"
+      }
+    },
+    "com.stackit.rabbitmq#TriggerRecreateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#TriggerRecreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#TriggerRecreateRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/recreate",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger a recreate"
+      }
+    },
+    "com.stackit.rabbitmq#TriggerRestartRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#TriggerRestart": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#TriggerRestartRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/restart",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger a restart"
+      }
+    },
+    "com.stackit.rabbitmq#ListRestoresRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#ListRestoresResponse": {
+      "type": "structure",
+      "members": {
+        "instanceRestores": {
+          "target": "com.stackit.rabbitmq#ListRestoresResponseInstanceRestoresList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#Restore": {
+      "type": "structure",
+      "members": {
+        "backup_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "triggered_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#ListRestoresResponseInstanceRestoresList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.rabbitmq#Restore"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#ListRestores": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#ListRestoresRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#ListRestoresResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/restores",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get latest restore information for provided instanceId"
+      }
+    },
+    "com.stackit.rabbitmq#ListOfferingsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.rabbitmq#ListOfferingsResponse": {
+      "type": "structure",
+      "members": {
+        "offerings": {
+          "target": "com.stackit.rabbitmq#ListOfferingsResponseOfferingsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#Offering": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "documentationUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "imageUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "latest": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lifecycle": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "plans": {
+          "target": "com.stackit.rabbitmq#OfferingPlansList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "quotaCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "schema": {
+          "target": "com.stackit.rabbitmq#InstanceSchema"
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#Plan": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "free": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skuName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#OfferingPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.rabbitmq#Plan"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#InstanceSchema": {
+      "type": "structure",
+      "members": {
+        "create": {
+          "target": "com.stackit.rabbitmq#Schema",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "update": {
+          "target": "com.stackit.rabbitmq#Schema",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#Schema": {
+      "type": "structure",
+      "members": {
+        "parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#ListOfferingsResponseOfferingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.rabbitmq#Offering"
+      },
+      "traits": {}
+    },
+    "com.stackit.rabbitmq#ListOfferings": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.rabbitmq#ListOfferingsRequest"
+      },
+      "output": {
+        "target": "com.stackit.rabbitmq#ListOfferingsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.rabbitmq#BadRequest"
+        },
+        {
+          "target": "com.stackit.rabbitmq#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/offerings",
+          "code": 200,
+          "baseUrl": "https://rabbitmq.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get the service offerings\n\nGet the service offerings that the service broker offers."
+      }
+    },
+    "com.stackit.rabbitmq#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.rabbitmq#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.rabbitmq#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.rabbitmq#Rabbitmq": {
+      "type": "service",
+      "version": "2.2.0",
+      "operations": [
+        {
+          "target": "com.stackit.rabbitmq#ListInstances"
+        },
+        {
+          "target": "com.stackit.rabbitmq#CreateInstance"
+        },
+        {
+          "target": "com.stackit.rabbitmq#GetInstance"
+        },
+        {
+          "target": "com.stackit.rabbitmq#PartialUpdateInstance"
+        },
+        {
+          "target": "com.stackit.rabbitmq#DeleteInstance"
+        },
+        {
+          "target": "com.stackit.rabbitmq#ListBackups"
+        },
+        {
+          "target": "com.stackit.rabbitmq#CreateBackup"
+        },
+        {
+          "target": "com.stackit.rabbitmq#UpdateBackupsConfig"
+        },
+        {
+          "target": "com.stackit.rabbitmq#DownloadBackup"
+        },
+        {
+          "target": "com.stackit.rabbitmq#TriggerRestore"
+        },
+        {
+          "target": "com.stackit.rabbitmq#ListCredentials"
+        },
+        {
+          "target": "com.stackit.rabbitmq#CreateCredentials"
+        },
+        {
+          "target": "com.stackit.rabbitmq#GetCredentials"
+        },
+        {
+          "target": "com.stackit.rabbitmq#DeleteCredentials"
+        },
+        {
+          "target": "com.stackit.rabbitmq#GetMetrics"
+        },
+        {
+          "target": "com.stackit.rabbitmq#TriggerRecreate"
+        },
+        {
+          "target": "com.stackit.rabbitmq#TriggerRestart"
+        },
+        {
+          "target": "com.stackit.rabbitmq#ListRestores"
+        },
+        {
+          "target": "com.stackit.rabbitmq#ListOfferings"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT RabbitMQ API",
+        "smithy.api#documentation": "The STACKIT RabbitMQ API provides endpoints to list service offerings, manage service instances and service credentials within STACKIT portal projects."
+      }
+    }
+  }
+}

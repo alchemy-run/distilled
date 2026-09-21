@@ -1,0 +1,124 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.object_storage#GetPushAccessRequest": {
+      "type": "structure",
+      "members": {
+        "xDaytonaOrganizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Daytona-Organization-ID",
+            "smithy.api#documentation": "Use with JWT to specify the organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.object_storage#StorageAccessDto": {
+      "type": "structure",
+      "members": {
+        "accessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access key for storage authentication",
+            "smithy.api#required": {}
+          }
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret key for storage authentication",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "sessionToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Session token for storage authentication",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "storageUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Storage URL",
+            "smithy.api#required": {}
+          }
+        },
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization ID",
+            "smithy.api#required": {}
+          }
+        },
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "S3 bucket name",
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region for the storage backend (e.g. \"us-east-2\")",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.object_storage#GetPushAccess": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.object_storage#GetPushAccessRequest"
+      },
+      "output": {
+        "target": "com.daytona.object_storage#StorageAccessDto"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/object-storage/push-access",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get temporary storage access for pushing objects"
+      }
+    },
+    "com.daytona.object_storage#ObjectStorage": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.daytona.object_storage#GetPushAccess"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona",
+        "smithy.api#documentation": "Daytona AI platform API Docs"
+      }
+    }
+  }
+}

@@ -1,0 +1,2226 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.logme#ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#ListInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "com.stackit.logme#ListInstancesResponseInstancesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#Instance": {
+      "type": "structure",
+      "members": {
+        "cfGuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cfOrganizationGuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cfSpaceGuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dashboardUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "imageUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String"
+        },
+        "lastOperation": {
+          "target": "com.stackit.logme#InstanceLastOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "offeringName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "offeringVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "planName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.logme#InstanceStatus"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#InstanceLastOperation": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.stackit.logme#InstanceLastOperationState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.logme#InstanceLastOperationType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#InstanceLastOperationState": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in progress"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#InstanceLastOperationType": {
+      "type": "enum",
+      "members": {
+        "CREATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create"
+          }
+        },
+        "UPDATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update"
+          }
+        },
+        "DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#InstanceStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        },
+        "UPDATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updating"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#ListInstancesResponseInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logme#Instance"
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#ListInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#ListInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#ListInstancesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get service instances list\n\nGet a list of available instances"
+      }
+    },
+    "com.stackit.logme#InstanceParameters": {
+      "type": "structure",
+      "members": {
+        "enable_monitoring": {
+          "target": "smithy.api#Boolean"
+        },
+        "fluentd_tcp": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#jsonName": "fluentd-tcp"
+          }
+        },
+        "fluentd_tls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "This property is deprecated and will be removed in a future release.",
+            "smithy.api#jsonName": "fluentd-tls"
+          }
+        },
+        "fluentd_tls_ciphers": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This property is deprecated and will be removed in a future release.",
+            "smithy.api#jsonName": "fluentd-tls-ciphers"
+          }
+        },
+        "fluentd_tls_max_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This property is deprecated and will be removed in a future release.",
+            "smithy.api#jsonName": "fluentd-tls-max-version"
+          }
+        },
+        "fluentd_tls_min_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This property is deprecated and will be removed in a future release.",
+            "smithy.api#jsonName": "fluentd-tls-min-version"
+          }
+        },
+        "fluentd_tls_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This property is deprecated and will be removed in a future release.",
+            "smithy.api#jsonName": "fluentd-tls-version"
+          }
+        },
+        "fluentd_udp": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#jsonName": "fluentd-udp"
+          }
+        },
+        "graphite": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If you want to monitor your service with Graphite, you can set the custom parameter graphite. It expects the host and port where the Graphite metrics should be sent to."
+          }
+        },
+        "groks": {
+          "target": "com.stackit.logme#InstanceParametersGroksList"
+        },
+        "ism_deletion_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Combination of an integer and a timerange when an index will be considered 'd' and can be deleted from OpenSearch. Possible values for the timerange are s, m, h and d."
+          }
+        },
+        "ism_jitter": {
+          "target": "smithy.api#Double"
+        },
+        "ism_job_interval": {
+          "target": "smithy.api#Integer"
+        },
+        "java_heapspace": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Default: not set, 46% of available memory will be used. The amount of memory (in MB) allocated as heap by the JVM for OpenSearch."
+          }
+        },
+        "java_maxmetaspace": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The amount of memory (in MB) used by the JVM to store metadata for OpenSearch."
+          }
+        },
+        "max_disk_threshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "This component monitors ephemeral and persistent disk usage. If one of these disk usages reaches the default configured threshold of 80%, the a9s Parachute stops all processes on that node."
+          }
+        },
+        "metrics_frequency": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Frequency of metrics being emitted in seconds"
+          }
+        },
+        "metrics_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Depending on your graphite provider, you might need to prefix the metrics with a certain value, like an API key for example."
+          }
+        },
+        "monitoring_instance_id": {
+          "target": "smithy.api#String"
+        },
+        "opensearch_tls_ciphers": {
+          "target": "com.stackit.logme#InstanceParametersOpensearchTlsCiphersList",
+          "traits": {
+            "smithy.api#documentation": "This property is deprecated and will be removed in a future release.",
+            "smithy.api#jsonName": "opensearch-tls-ciphers"
+          }
+        },
+        "opensearch_tls_protocols": {
+          "target": "com.stackit.logme#InstanceParametersOpensearchTlsProtocolsList",
+          "traits": {
+            "smithy.api#documentation": "This property is deprecated and will be removed in a future release.",
+            "smithy.api#jsonName": "opensearch-tls-protocols"
+          }
+        },
+        "sgw_acl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma separated list of IP networks in CIDR notation which are allowed to access this instance."
+          }
+        },
+        "syslog": {
+          "target": "com.stackit.logme#InstanceParametersSyslogList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#InstanceParametersGroksItem": {
+      "type": "structure",
+      "members": {
+        "pattern": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#InstanceParametersGroksList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logme#InstanceParametersGroksItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#InstanceParametersOpensearchTlsCiphersItem": {
+      "type": "enum",
+      "members": {
+        "TLSV1_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TLSv1.2"
+          }
+        },
+        "TLSV1_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TLSv1.3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#InstanceParametersOpensearchTlsCiphersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logme#InstanceParametersOpensearchTlsCiphersItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "This property is deprecated and will be removed in a future release."
+      }
+    },
+    "com.stackit.logme#InstanceParametersOpensearchTlsProtocolsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "This property is deprecated and will be removed in a future release."
+      }
+    },
+    "com.stackit.logme#InstanceParametersSyslogList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.stackit.logme#InstanceParameters"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#CreateInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#CreateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#CreateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "provision\n\nProvision a service instance."
+      }
+    },
+    "com.stackit.logme#GetInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#GetInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#GetInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get a service instance\n\nget a service instance"
+      }
+    },
+    "com.stackit.logme#PartialUpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "instanceName": {
+          "target": "smithy.api#String"
+        },
+        "parameters": {
+          "target": "com.stackit.logme#InstanceParameters"
+        },
+        "planId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#PartialUpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#PartialUpdateInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "update a service instance\n\nUpdate a service instance. This could be a sgw acl update or a plan upgrade."
+      }
+    },
+    "com.stackit.logme#DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#DeleteInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#DeleteInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete service instance\n\nDeprovision a service instance."
+      }
+    },
+    "com.stackit.logme#ListBackupsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#ListBackupsResponse": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logme#Backup"
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#Backup": {
+      "type": "structure",
+      "members": {
+        "downloadable": {
+          "target": "smithy.api#Boolean"
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer"
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "triggered_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#ListBackupsResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.stackit.logme#ListBackupsResponse",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.logme#ListBackups": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#ListBackupsRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#ListBackupsResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get latest backup information for provided instanceId"
+      }
+    },
+    "com.stackit.logme#CreateBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#CreateBackupResponseItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#CreateBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#CreateBackupRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#CreateBackupResponseItem"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create a backup"
+      }
+    },
+    "com.stackit.logme#UpdateBackupsConfigRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "encryption_key": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#UpdateBackupsConfigResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#UpdateBackupsConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#UpdateBackupsConfigRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#UpdateBackupsConfigResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups-config",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "backups configuration update\n\nUpdate the configuration for backups for your instance."
+      }
+    },
+    "com.stackit.logme#DownloadBackupRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Backup id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#DownloadBackup": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#DownloadBackupRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups/{backupId}/download",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "download backup"
+      }
+    },
+    "com.stackit.logme#TriggerRestoreRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "backupId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Backup id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#TriggerRestoreResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#TriggerRestore": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#TriggerRestoreRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#TriggerRestoreResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups/{backupId}/restore",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger a restore"
+      }
+    },
+    "com.stackit.logme#ListCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#ListCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "credentialsList": {
+          "target": "com.stackit.logme#ListCredentialsResponseCredentialsListList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#CredentialsListItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#ListCredentialsResponseCredentialsListList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logme#CredentialsListItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#ListCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#ListCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#ListCredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get list of credentials ids\n\nget list all credentials ids for instance"
+      }
+    },
+    "com.stackit.logme#CreateCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "parameters": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#CredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "raw": {
+          "target": "com.stackit.logme#RawCredentials"
+        },
+        "uri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#RawCredentials": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.logme#Credentials",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#Credentials": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        },
+        "syslog_drain_url": {
+          "target": "smithy.api#String"
+        },
+        "uri": {
+          "target": "smithy.api#String"
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#CreateCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#CreateCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#CredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "create new credentials\n\nCreate new service credentials"
+      }
+    },
+    "com.stackit.logme#GetCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "credentialsId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Credentials id of credentials to fetch"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#GetCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#GetCredentialsRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#CredentialsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials/{credentialsId}",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get credentials by id\n\nget a service credentials by credentials id"
+      }
+    },
+    "com.stackit.logme#DeleteCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        },
+        "credentialsId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Id of the credentials being deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#DeleteCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#DeleteCredentialsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials/{credentialsId}",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "delete credentials by id\n\nDelete a service credentials."
+      }
+    },
+    "com.stackit.logme#GetMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#GetMetricsResponse": {
+      "type": "structure",
+      "members": {
+        "cpuIdleTime": {
+          "target": "smithy.api#Integer"
+        },
+        "cpuLoadPercent": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cpuSystemTime": {
+          "target": "smithy.api#Integer"
+        },
+        "cpuUserTime": {
+          "target": "smithy.api#Integer"
+        },
+        "diskEphemeralTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskEphemeralUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskPersistentTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskPersistentUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "load1": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "load15": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "load5": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "opensearchDashboardURL": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralActivated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralUsedPercent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskEphemeralUsedThreshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentActivated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentUsedPercent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parachuteDiskPersistentUsedThreshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#GetMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#GetMetricsRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#GetMetricsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/metrics",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get latest metrics for cpu load, memory and disk usage"
+      }
+    },
+    "com.stackit.logme#TriggerRecreateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#TriggerRecreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#TriggerRecreateRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/recreate",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger a recreate"
+      }
+    },
+    "com.stackit.logme#TriggerRestartRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#TriggerRestart": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#TriggerRestartRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#CreateInstanceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/restart",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "trigger a restart"
+      }
+    },
+    "com.stackit.logme#ListRestoresRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#ListRestoresResponse": {
+      "type": "structure",
+      "members": {
+        "instanceRestores": {
+          "target": "com.stackit.logme#ListRestoresResponseInstanceRestoresList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#Restore": {
+      "type": "structure",
+      "members": {
+        "backup_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "triggered_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#ListRestoresResponseInstanceRestoresList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logme#Restore"
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#ListRestores": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#ListRestoresRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#ListRestoresResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/restores",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get latest restore information for provided instanceId"
+      }
+    },
+    "com.stackit.logme#ListOfferingsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project id on which user has permissions"
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "region in which the project resides"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.logme#ListOfferingsResponse": {
+      "type": "structure",
+      "members": {
+        "offerings": {
+          "target": "com.stackit.logme#ListOfferingsResponseOfferingsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#Offering": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "documentationUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "imageUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "latest": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "lifecycle": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "plans": {
+          "target": "com.stackit.logme#OfferingPlansList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "quotaCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "schema": {
+          "target": "com.stackit.logme#InstanceSchema"
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#Plan": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "free": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skuName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#OfferingPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logme#Plan"
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#InstanceSchema": {
+      "type": "structure",
+      "members": {
+        "create": {
+          "target": "com.stackit.logme#Schema",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "update": {
+          "target": "com.stackit.logme#Schema",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#Schema": {
+      "type": "structure",
+      "members": {
+        "parameters": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#ListOfferingsResponseOfferingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.logme#Offering"
+      },
+      "traits": {}
+    },
+    "com.stackit.logme#ListOfferings": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.logme#ListOfferingsRequest"
+      },
+      "output": {
+        "target": "com.stackit.logme#ListOfferingsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.logme#BadRequest"
+        },
+        {
+          "target": "com.stackit.logme#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{regionId}/offerings",
+          "code": 200,
+          "baseUrl": "https://logme.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "get the service offerings\n\nGet the service offerings that the service broker offers."
+      }
+    },
+    "com.stackit.logme#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.logme#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.logme#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.logme#Logme": {
+      "type": "service",
+      "version": "2.1.0",
+      "operations": [
+        {
+          "target": "com.stackit.logme#ListInstances"
+        },
+        {
+          "target": "com.stackit.logme#CreateInstance"
+        },
+        {
+          "target": "com.stackit.logme#GetInstance"
+        },
+        {
+          "target": "com.stackit.logme#PartialUpdateInstance"
+        },
+        {
+          "target": "com.stackit.logme#DeleteInstance"
+        },
+        {
+          "target": "com.stackit.logme#ListBackups"
+        },
+        {
+          "target": "com.stackit.logme#CreateBackup"
+        },
+        {
+          "target": "com.stackit.logme#UpdateBackupsConfig"
+        },
+        {
+          "target": "com.stackit.logme#DownloadBackup"
+        },
+        {
+          "target": "com.stackit.logme#TriggerRestore"
+        },
+        {
+          "target": "com.stackit.logme#ListCredentials"
+        },
+        {
+          "target": "com.stackit.logme#CreateCredentials"
+        },
+        {
+          "target": "com.stackit.logme#GetCredentials"
+        },
+        {
+          "target": "com.stackit.logme#DeleteCredentials"
+        },
+        {
+          "target": "com.stackit.logme#GetMetrics"
+        },
+        {
+          "target": "com.stackit.logme#TriggerRecreate"
+        },
+        {
+          "target": "com.stackit.logme#TriggerRestart"
+        },
+        {
+          "target": "com.stackit.logme#ListRestores"
+        },
+        {
+          "target": "com.stackit.logme#ListOfferings"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT LogMe API",
+        "smithy.api#documentation": "The STACKIT LogMe API provides endpoints to list service offerings, manage service instances and service credentials within STACKIT portal projects."
+      }
+    }
+  }
+}

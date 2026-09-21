@@ -150,6 +150,18 @@ export const mapKeysByDictionary = (
  * TS-cased content still reaches the wire in wire case. Content with no
  * dictionary in scope passes through verbatim.
  */
+/**
+ * Value form for a `StringEncoded()` member: the string spelling of the
+ * value, element-wise for lists. `null` stays `null` — an API that models a
+ * flag as `"true" | "false"` still means "unset" by null, not `"null"`.
+ */
+const stringEncode = (value: unknown): unknown =>
+  value === null
+    ? null
+    : Array.isArray(value)
+      ? value.map(stringEncode)
+      : String(value);
+
 export const mapKeys = (
   ast: AST.AST,
   value: unknown,
@@ -295,7 +307,13 @@ export const mapKeys = (
       consumed.add(from);
       const v = (value as Record<string, unknown>)[from];
       if (v === undefined) continue;
-      out[to] = mapKeys(p.type, v, direction, dict);
+      // A `StringEncoded()` member nested in a body struct (e.g. Azure's
+      // `hardwareProfile.dynamicMemoryEnabled`) stringifies here — the
+      // top-level pass in `buildRequest` only sees the outermost member.
+      out[to] =
+        direction === "encode" && hasPropAnn(p, stringEncodedSymbol)
+          ? stringEncode(v)
+          : mapKeys(p.type, v, direction, dict);
     }
     for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
       if (consumed.has(k) || v === undefined) continue;
@@ -335,18 +353,6 @@ const BODYLESS = new Set(["GET", "HEAD"]);
  * filter matching nothing — the call "succeeds" with zero results and the
  * bug is invisible to the caller.
  */
-/**
- * Value form for a `StringEncoded()` member: the string spelling of the
- * value, element-wise for lists. `null` stays `null` — an API that models a
- * flag as `"true" | "false"` still means "unset" by null, not `"null"`.
- */
-const stringEncode = (value: unknown): unknown =>
-  value === null
-    ? null
-    : Array.isArray(value)
-      ? value.map(stringEncode)
-      : String(value);
-
 const appendQuery = (
   query: URLSearchParams,
   name: string,
@@ -548,12 +554,7 @@ export const buildRequest = ({
   const qs = query.toString();
   const url = `${baseUrl}${uri}${qs ? `?${qs}` : ""}`;
   if (process.env.DISTILLED_DEBUG_HTTP) {
-    console.error(
-      `[distilled] ${http.method} ${url}` +
-        (Object.keys(body).length
-          ? ` body=${JSON.stringify(body).slice(0, 400)}`
-          : ""),
-    );
+    console.error(`[distilled] -> ${http.method} ${http.uri}`);
   }
 
   let request = HttpClientRequest.make(http.method)(url).pipe(
@@ -564,8 +565,7 @@ export const buildRequest = ({
     // JSON-encoded under their wire name), each file appends under its own
     // filename. A whole-body member (T.HttpBody) that is a record of files
     // becomes one part per entry (e.g. asset upload: { <hash>: File }).
-    // File/Blob → binary part (filename = File.name), array of files → each
-    // appended, object → JSON string, primitive → string.
+    // Files and byte buffers become binary parts; objects become JSON parts.
     const form = new FormData();
     const parts =
       rawBody !== undefined && typeof rawBody === "object"
@@ -577,6 +577,10 @@ export const buildRequest = ({
       if (value === undefined || value === null) continue;
       if (isFileOrBlob(value)) {
         form.append(key, value, value instanceof File ? value.name : key);
+      } else if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
+        const bytes =
+          value instanceof Uint8Array ? new Uint8Array(value).buffer : value;
+        form.append(key, new Blob([bytes]), key);
       } else if (
         Array.isArray(value) &&
         value.length > 0 &&

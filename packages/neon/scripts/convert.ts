@@ -29,6 +29,7 @@ await runOpenApiConvert({
   options: {
     namespace: "com.neon.api",
     serviceName: "Neon",
+    binaryTypes: true,
     // v0 parity: includeOperationErrors=true with the default status→class
     // map and default error statuses (401/429/500/503 covered globally).
     skipDeprecated: true,

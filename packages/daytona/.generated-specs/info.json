@@ -1,0 +1,141 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.daytona.info#UserHomeDirResponse": {
+      "type": "structure",
+      "members": {
+        "dir": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.info#GetUserHomeDir": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.info#UserHomeDirResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/user-home-dir",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get user home directory\n\nGet the current user home directory path."
+      }
+    },
+    "com.daytona.info#GetVersionResponseBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.daytona.info#GetVersionResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.info#GetVersionResponseBodyMap",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.info#GetVersion": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.info#GetVersionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/version",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get version\n\nGet the current daemon version"
+      }
+    },
+    "com.daytona.info#WorkDirResponse": {
+      "type": "structure",
+      "members": {
+        "dir": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.info#GetWorkDir": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.daytona.info#WorkDirResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/work-dir",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get working directory\n\nGet the current working directory path. This is default directory used for running commands."
+      }
+    },
+    "com.daytona.info#Info": {
+      "type": "service",
+      "version": "v0.0.0-dev",
+      "operations": [
+        {
+          "target": "com.daytona.info#GetUserHomeDir"
+        },
+        {
+          "target": "com.daytona.info#GetVersion"
+        },
+        {
+          "target": "com.daytona.info#GetWorkDir"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Daytona Toolbox API",
+        "smithy.api#documentation": "Daytona Toolbox API. The base URL comes from the sandbox's `toolboxProxyUrl` field (returned in sandbox DTO by the main Daytona API) plus the sandbox ID: `{toolboxProxyUrl}/{sandboxId}/{endpoint}`. Default for Daytona Cloud: `https://proxy.app.daytona.io/toolbox/{sandboxId}`."
+      }
+    }
+  }
+}

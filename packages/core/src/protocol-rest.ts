@@ -83,6 +83,13 @@ export const rawResponseRootSymbol = Symbol.for(
 export const RawResponseRoot = () =>
   makeAnnotation(rawResponseRootSymbol, true);
 
+export const binaryResponseSymbol = Symbol.for(
+  "@distilled.cloud/core/binary-response",
+);
+
+/** Decode a successful raw binary response as bytes, without text conversion. */
+export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
+
 // =============================================================================
 // Value helpers
 // =============================================================================
@@ -125,6 +132,13 @@ export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
     return value;
   }
   const node = resolveNode(ast);
+  if (node._tag === "Union") {
+    // Redact every possible sensitive member, including in partial responses.
+    return node.types.reduce<unknown>(
+      (redacted, arm) => wrapSensitive(arm, redacted),
+      value,
+    );
+  }
   if (node._tag === "Arrays") {
     if (!Array.isArray(value)) return value;
     const elem = (node as any).rest?.[0] as AST.AST | undefined;
@@ -301,12 +315,18 @@ export const makeRestProtocol = <C>(
     readonly errors: ReadonlyArray<unknown>;
   }) =>
     Effect.gen(function* () {
+      if (
+        response.status >= 200 &&
+        response.status < 300 &&
+        getAnn(outputAst, binaryResponseSymbol) !== undefined
+      ) {
+        const bytes = yield* response.arrayBuffer.pipe(Effect.orDie);
+        return new Uint8Array(bytes);
+      }
       // Read as text and parse tolerantly — error pages are often non-JSON.
       const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
       if (process.env.DISTILLED_DEBUG_HTTP) {
-        console.error(
-          `[distilled] <- ${response.status} ${text.slice(0, 400)}`,
-        );
+        console.error(`[distilled] <- ${response.status}`);
       }
       let json: unknown;
       let nonJson = false;

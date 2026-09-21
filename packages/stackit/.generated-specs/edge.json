@@ -1,0 +1,1230 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.edge#ListCompatibleKubernetesReleasesRequest": {
+      "type": "structure",
+      "members": {
+        "talosVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "talosVersion",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Talos release."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#KubernetesReleaseList": {
+      "type": "structure",
+      "members": {
+        "k8s_releases": {
+          "target": "com.stackit.edge#KubernetesReleaseListK8sReleasesList",
+          "traits": {
+            "smithy.api#documentation": "Array of Kubernetes version strings.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of compatible Kubernetes releases."
+      }
+    },
+    "com.stackit.edge#KubernetesReleaseListK8sReleasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of Kubernetes version strings."
+      }
+    },
+    "com.stackit.edge#ListCompatibleKubernetesReleases": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#ListCompatibleKubernetesReleasesRequest"
+      },
+      "output": {
+        "target": "com.stackit.edge#KubernetesReleaseList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta1/listcompatiblekubernetesreleases",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        }
+      }
+    },
+    "com.stackit.edge#ListPlansProjectRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the plan is part of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#PlanList": {
+      "type": "structure",
+      "members": {
+        "validPlans": {
+          "target": "com.stackit.edge#PlanListValidPlansList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.edge#Plan": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan Identifier"
+          }
+        },
+        "maxEdgeHosts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of EdgeHosts"
+          }
+        },
+        "minEdgeHosts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of EdgeHosts charged"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan Name"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.edge#PlanListValidPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.edge#Plan"
+      },
+      "traits": {}
+    },
+    "com.stackit.edge#ListPlansProject": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#ListPlansProjectRequest"
+      },
+      "output": {
+        "target": "com.stackit.edge#PlanList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta1/projects/{projectId}/plans",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all possible plans for the project."
+      }
+    },
+    "com.stackit.edge#ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#InstanceList": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "com.stackit.edge#InstanceListInstancesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.edge#Instance": {
+      "type": "structure",
+      "members": {
+        "acl": {
+          "target": "com.stackit.edge#Acl"
+        },
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date and time the creation of the instance was triggered.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple instances."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name of the instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "frontendUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to the Management UI of the Instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A auto generated unique id which identifies the instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan configures the size of the Instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.stackit.edge#InstanceStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.edge#Acl": {
+      "type": "structure",
+      "members": {
+        "ipAllowList": {
+          "target": "com.stackit.edge#AclIpAllowListList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The ACL config for the instances API."
+      }
+    },
+    "com.stackit.edge#IpAllowListEntry": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 timestamp of when the entry was created."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Some description of the entry."
+          }
+        },
+        "ipRange": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IP CIDR range for the ACL entry.",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO-8601 timestamp of when the entry was last updated."
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the ipAllowListEntry entry. This value is immutable, used to identify entries for updates, and cannot be changed after creation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.edge#AclIpAllowListList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.edge#IpAllowListEntry"
+      },
+      "traits": {}
+    },
+    "com.stackit.edge#InstanceStatus": {
+      "type": "enum",
+      "members": {
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "RECONCILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconciling"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the instance."
+      }
+    },
+    "com.stackit.edge#InstanceListInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.edge#Instance"
+      },
+      "traits": {}
+    },
+    "com.stackit.edge#ListInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#ListInstancesRequest"
+      },
+      "output": {
+        "target": "com.stackit.edge#InstanceList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns a list of all instances within the project."
+      }
+    },
+    "com.stackit.edge#CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple instances."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed name to distinguish multiple instances.",
+            "smithy.api#required": {}
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan configures the size of the Instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#CreateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#CreateInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.edge#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instances",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new instance within the project."
+      }
+    },
+    "com.stackit.edge#GetInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The full ID of the instance, <display_name>-<project_hash>."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#GetInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#GetInstanceRequest"
+      },
+      "output": {
+        "target": "com.stackit.edge#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given instance."
+      }
+    },
+    "com.stackit.edge#UpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The full ID of the instance, <display_name>-<project_hash>."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple instances."
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan configures the size of the Instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#UpdateInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#UpdateInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        },
+        {
+          "target": "com.stackit.edge#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the given instance."
+      }
+    },
+    "com.stackit.edge#DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The full ID of the instance, <display_name>-<project_hash>."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#DeleteInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#DeleteInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        },
+        {
+          "target": "com.stackit.edge#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instances/{instanceId}",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given instance."
+      }
+    },
+    "com.stackit.edge#GetKubeconfigByInstanceIdRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The full ID of the instance, <display_name>-<project_hash>."
+          }
+        },
+        "expirationSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "expirationSeconds",
+            "smithy.api#documentation": "Expiration of the included token in seconds"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#Kubeconfig": {
+      "type": "structure",
+      "members": {
+        "kubeconfig": {
+          "target": "com.stackit.edge#KubeconfigRaw",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.edge#KubeconfigRaw": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The kubeconfig for the instance."
+      }
+    },
+    "com.stackit.edge#GetKubeconfigByInstanceId": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#GetKubeconfigByInstanceIdRequest"
+      },
+      "output": {
+        "target": "com.stackit.edge#Kubeconfig"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/kubeconfig",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the kubeconfig for the given instance."
+      }
+    },
+    "com.stackit.edge#GetTokenByInstanceIdRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "instanceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The instance UUID."
+          }
+        },
+        "expirationSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "expirationSeconds",
+            "smithy.api#documentation": "Expiration of the token in seconds"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#Token": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.edge#GetTokenByInstanceId": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#GetTokenByInstanceIdRequest"
+      },
+      "output": {
+        "target": "com.stackit.edge#Token"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instances/{instanceId}/token",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns an ServiceAccount token."
+      }
+    },
+    "com.stackit.edge#GetInstanceByNameRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The instance display name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#GetInstanceByName": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#GetInstanceByNameRequest"
+      },
+      "output": {
+        "target": "com.stackit.edge#Instance"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instancesbyname/{displayName}",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the details for the given instance by name."
+      }
+    },
+    "com.stackit.edge#UpdateInstanceByNameRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The instance display name."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user chosen description to distinguish multiple instances."
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Plan configures the size of the Instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#UpdateInstanceByName": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#UpdateInstanceByNameRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        },
+        {
+          "target": "com.stackit.edge#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instancesbyname/{displayName}",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates the given instance."
+      }
+    },
+    "com.stackit.edge#DeleteInstanceByNameRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The instance display name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#DeleteInstanceByName": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#DeleteInstanceByNameRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        },
+        {
+          "target": "com.stackit.edge#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instancesbyname/{displayName}",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes the given instance by name."
+      }
+    },
+    "com.stackit.edge#GetKubeconfigByInstanceNameRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The instance display name."
+          }
+        },
+        "expirationSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "expirationSeconds",
+            "smithy.api#documentation": "Expiration of the included token in seconds"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#GetKubeconfigByInstanceName": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#GetKubeconfigByInstanceNameRequest"
+      },
+      "output": {
+        "target": "com.stackit.edge#Kubeconfig"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instancesbyname/{displayName}/kubeconfig",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns the kubeconfig for the given instance."
+      }
+    },
+    "com.stackit.edge#GetTokenByInstanceNameRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT portal project UUID the instance is part of."
+          }
+        },
+        "regionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The STACKIT region the instance is part of."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The instance display name."
+          }
+        },
+        "expirationSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "expirationSeconds",
+            "smithy.api#documentation": "Expiration of the included token in seconds"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.edge#GetTokenByInstanceName": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.edge#GetTokenByInstanceNameRequest"
+      },
+      "output": {
+        "target": "com.stackit.edge#Token"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.edge#BadRequest"
+        },
+        {
+          "target": "com.stackit.edge#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1beta1/projects/{projectId}/regions/{regionId}/instancesbyname/{displayName}/token",
+          "code": 200,
+          "baseUrl": "https://edge.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Returns an ServiceAccount token."
+      }
+    },
+    "com.stackit.edge#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.edge#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.edge#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.edge#Edge": {
+      "type": "service",
+      "version": "1beta1",
+      "operations": [
+        {
+          "target": "com.stackit.edge#ListCompatibleKubernetesReleases"
+        },
+        {
+          "target": "com.stackit.edge#ListPlansProject"
+        },
+        {
+          "target": "com.stackit.edge#ListInstances"
+        },
+        {
+          "target": "com.stackit.edge#CreateInstance"
+        },
+        {
+          "target": "com.stackit.edge#GetInstance"
+        },
+        {
+          "target": "com.stackit.edge#UpdateInstance"
+        },
+        {
+          "target": "com.stackit.edge#DeleteInstance"
+        },
+        {
+          "target": "com.stackit.edge#GetKubeconfigByInstanceId"
+        },
+        {
+          "target": "com.stackit.edge#GetTokenByInstanceId"
+        },
+        {
+          "target": "com.stackit.edge#GetInstanceByName"
+        },
+        {
+          "target": "com.stackit.edge#UpdateInstanceByName"
+        },
+        {
+          "target": "com.stackit.edge#DeleteInstanceByName"
+        },
+        {
+          "target": "com.stackit.edge#GetKubeconfigByInstanceName"
+        },
+        {
+          "target": "com.stackit.edge#GetTokenByInstanceName"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Edge Cloud API",
+        "smithy.api#documentation": "This API provides endpoints for managing STACKIT Edge Cloud instances."
+      }
+    }
+  }
+}

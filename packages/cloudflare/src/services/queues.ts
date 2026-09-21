@@ -152,6 +152,23 @@ export class QueueHandlerMissing
     ],
   ) {}
 
+export class QueueHttpPullNotEnabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<QueueHttpPullNotEnabled>()(
+      "QueueHttpPullNotEnabled",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [
+      {
+        code: 0,
+        message: "messages cannot be pulled unless http_pull mode is enabled",
+      },
+    ],
+  ) {}
+
 export class QueueInUseByEventNotification
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<QueueInUseByEventNotification>()(
@@ -5384,6 +5401,7 @@ export type PullMessageError =
   | InvalidQueueId
   | QueueNotFound
   | InvalidRoute
+  | QueueHttpPullNotEnabled
   | CloudflareOpError;
 /** Pull a batch of messages from a Queue */
 export const pullMessage: API.OperationMethod<
@@ -5399,6 +5417,7 @@ export const pullMessage: API.OperationMethod<
     InvalidQueueId,
     QueueNotFound,
     InvalidRoute,
+    QueueHttpPullNotEnabled,
     CloudflareRateLimited,
     CloudflareError,
   ],

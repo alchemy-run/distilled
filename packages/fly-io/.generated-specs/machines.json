@@ -2941,32 +2941,6 @@
       },
       "traits": {}
     },
-    "com.flyio.machines#FlyMachineServiceAutostop": {
-      "type": "enum",
-      "members": {
-        "OFF": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "off"
-          }
-        },
-        "STOP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "stop"
-          }
-        },
-        "SUSPEND": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "suspend"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Accepts a string (new format) or a boolean (old format). For backward compatibility with older clients, the API continues to use booleans for \"off\" and \"stop\" in responses.\n* \"off\" or false - Do not autostop the Machine.\n* \"stop\" or true - Automatically stop the Machine.\n* \"suspend\" - Automatically suspend the Machine, falling back to a full stop if this is not possible."
-      }
-    },
     "com.flyio.machines#FlyMachineServiceCheck": {
       "type": "structure",
       "members": {
@@ -3646,6 +3620,12 @@
         },
         "skip_service_registration": {
           "target": "smithy.api#Boolean"
+        },
+        "lease_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "fly-machine-lease-nonce"
+          }
         }
       },
       "traits": {
@@ -3708,6 +3688,12 @@
             "smithy.api#httpQuery": "force",
             "smithy.api#documentation": "Force kill the machine if it's running"
           }
+        },
+        "lease_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "fly-machine-lease-nonce"
+          }
         }
       },
       "traits": {
@@ -3760,6 +3746,12 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "Machine ID"
           }
+        },
+        "lease_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "fly-machine-lease-nonce"
+          }
         }
       },
       "traits": {
@@ -3783,6 +3775,9 @@
         },
         {
           "target": "com.flyio.machines#NotFound"
+        },
+        {
+          "target": "com.flyio.machines#Conflict"
         }
       ],
       "traits": {
@@ -3962,6 +3957,9 @@
         },
         {
           "target": "com.flyio.machines#NotFound"
+        },
+        {
+          "target": "com.flyio.machines#Conflict"
         }
       ],
       "traits": {
@@ -4039,7 +4037,7 @@
         "target": "com.flyio.machines#GetMachineLeaseRequest"
       },
       "output": {
-        "target": "com.flyio.machines#Lease"
+        "target": "com.flyio.machines#MachineLease"
       },
       "errors": [
         {
@@ -4083,7 +4081,15 @@
         "ttl": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "seconds lease will be valid"
+            "smithy.api#documentation": "seconds lease will be valid",
+            "smithy.api#httpQuery": "ttl"
+          }
+        },
+        "lease_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "fly-machine-lease-nonce",
+            "smithy.api#documentation": "Existing lease nonce when refreshing; omit to acquire a new lease. Keep the nonce private."
           }
         }
       },
@@ -4097,7 +4103,7 @@
         "target": "com.flyio.machines#CreateMachineLeaseRequest"
       },
       "output": {
-        "target": "com.flyio.machines#Lease"
+        "target": "com.flyio.machines#MachineLease"
       },
       "errors": [
         {
@@ -4108,6 +4114,9 @@
         },
         {
           "target": "com.flyio.machines#NotFound"
+        },
+        {
+          "target": "com.flyio.machines#Conflict"
         }
       ],
       "traits": {
@@ -4136,6 +4145,14 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "Machine ID"
+          }
+        },
+        "lease_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "fly-machine-lease-nonce",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Nonce of the lease to release. Keep the nonce private."
           }
         }
       },
@@ -4961,6 +4978,12 @@
             "smithy.api#httpQuery": "signal",
             "smithy.api#documentation": "Unix signal name"
           }
+        },
+        "lease_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "fly-machine-lease-nonce"
+          }
         }
       },
       "traits": {
@@ -4984,6 +5007,9 @@
         },
         {
           "target": "com.flyio.machines#NotFound"
+        },
+        {
+          "target": "com.flyio.machines#Conflict"
         }
       ],
       "traits": {
@@ -5158,6 +5184,12 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "Machine ID"
           }
+        },
+        "lease_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "fly-machine-lease-nonce"
+          }
         }
       },
       "traits": {
@@ -5187,6 +5219,9 @@
         },
         {
           "target": "com.flyio.machines#MachineStartFromCreatedState"
+        },
+        {
+          "target": "com.flyio.machines#MachineReplacing"
         }
       ],
       "traits": {
@@ -5270,6 +5305,12 @@
         },
         "timeout": {
           "target": "smithy.api#String"
+        },
+        "lease_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "fly-machine-lease-nonce"
+          }
         }
       },
       "traits": {
@@ -5293,6 +5334,9 @@
         },
         {
           "target": "com.flyio.machines#NotFound"
+        },
+        {
+          "target": "com.flyio.machines#Conflict"
         }
       ],
       "traits": {
@@ -5322,6 +5366,12 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "Machine ID"
           }
+        },
+        "lease_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "fly-machine-lease-nonce"
+          }
         }
       },
       "traits": {
@@ -5345,6 +5395,9 @@
         },
         {
           "target": "com.flyio.machines#NotFound"
+        },
+        {
+          "target": "com.flyio.machines#Conflict"
         }
       ],
       "traits": {
@@ -5374,6 +5427,12 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "Machine ID"
           }
+        },
+        "lease_nonce": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "fly-machine-lease-nonce"
+          }
         }
       },
       "traits": {
@@ -5397,6 +5456,9 @@
         },
         {
           "target": "com.flyio.machines#NotFound"
+        },
+        {
+          "target": "com.flyio.machines#Conflict"
         }
       ],
       "traits": {
@@ -11062,6 +11124,57 @@
       },
       "traits": {}
     },
+    "com.flyio.machines#FlyMachineServiceAutostopMode": {
+      "type": "enum",
+      "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
+        "STOP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stop"
+          }
+        },
+        "SUSPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suspend"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Accepts a string (new format) or a boolean (old format). For backward compatibility with older clients, the API continues to use booleans for \"off\" and \"stop\" in responses.\n* \"off\" or false - Do not autostop the Machine.\n* \"stop\" or true - Automatically stop the Machine.\n* \"suspend\" - Automatically suspend the Machine, falling back to a full stop if this is not possible."
+      }
+    },
+    "com.flyio.machines#FlyMachineServiceAutostop": {
+      "type": "union",
+      "members": {
+        "mode": {
+          "target": "com.flyio.machines#FlyMachineServiceAutostopMode"
+        },
+        "legacy": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Accepts off, stop, or suspend. For backward compatibility, responses encode off as false and stop as true."
+      }
+    },
+    "com.flyio.machines#MachineLease": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String"
+        },
+        "data": {
+          "target": "com.flyio.machines#Lease"
+        }
+      }
+    },
     "com.flyio.machines#MachineStartFromCreatedState": {
       "type": "structure",
       "members": {
@@ -11074,6 +11187,23 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "message": "failed_precondition: unable to start machine from current state: 'created'"
+          }
+        ]
+      }
+    },
+    "com.flyio.machines#MachineReplacing": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 412,
+            "message": "failed_precondition: machine getting replaced, refusing to start"
           }
         ]
       }

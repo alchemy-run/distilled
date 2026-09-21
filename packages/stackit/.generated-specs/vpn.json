@@ -1,0 +1,4648 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.vpn#ListGatewaysRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#LabelSelector": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Filter resources by labels."
+      }
+    },
+    "com.stackit.vpn#ListGatewaysRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#ListGatewaysRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "label_selector": {
+          "target": "com.stackit.vpn#LabelSelector",
+          "traits": {
+            "smithy.api#httpQuery": "label_selector",
+            "smithy.api#documentation": "Filter resources by labels."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#GatewayList": {
+      "type": "structure",
+      "members": {
+        "gateways": {
+          "target": "com.stackit.vpn#GatewayListGatewaysList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#GatewayResponse": {
+      "type": "structure",
+      "members": {
+        "availabilityZones": {
+          "target": "com.stackit.vpn#GatewayResponseAvailabilityZones",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bgp": {
+          "target": "com.stackit.vpn#BGPGatewayConfig"
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the VPN gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.vpn#Label"
+        },
+        "networkConfig": {
+          "target": "com.stackit.vpn#NetworkConfig"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service plan identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "routingType": {
+          "target": "com.stackit.vpn#RoutingType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-generated UUID of the VPN gateway."
+          }
+        },
+        "state": {
+          "target": "com.stackit.vpn#GatewayStatus"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#GatewayResponseAvailabilityZones": {
+      "type": "structure",
+      "members": {
+        "tunnel1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tunnel2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#BGPGatewayConfig": {
+      "type": "structure",
+      "members": {
+        "localAsn": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "overrideAdvertisedRoutes": {
+          "target": "com.stackit.vpn#BGPGatewayConfigOverrideAdvertisedRoutesList",
+          "traits": {
+            "smithy.api#documentation": "A list of IPv4 Prefixes to advertise via BGP.\nIf omitted, the SNA network ranges will be advertised.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "BGP configuration effects all connections. (only for routingMode=BGP_ROUTE_BASED)"
+      }
+    },
+    "com.stackit.vpn#BGPGatewayConfigOverrideAdvertisedRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of IPv4 Prefixes to advertise via BGP.\nIf omitted, the SNA network ranges will be advertised.\n"
+      }
+    },
+    "com.stackit.vpn#Label": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Map of custom labels. Key and values must be a string with max 63 chars, start/end with alphanumeric.\nThe key of a label follows the same rules as the `LabelValue` except that it cannot be empty.\n"
+      }
+    },
+    "com.stackit.vpn#NetworkConfig": {
+      "type": "structure",
+      "members": {
+        "predefinedNetworkPrefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IPv4 network prefix (CIDR notation) allocated for the VPN gateway. Must have a prefix length of /28 or larger.\nOnce the gateway is created, is not possible to change this attribute.\n"
+          }
+        },
+        "routingTableId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom routing table ID for the VPN gateway"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#RoutingType": {
+      "type": "enum",
+      "members": {
+        "POLICY_BASED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "POLICY_BASED"
+          }
+        },
+        "ROUTE_BASED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ROUTE_BASED"
+          }
+        },
+        "BGP_ROUTE_BASED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BGP_ROUTE_BASED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Once the gateway is created, it is not possible to change this attribute."
+      }
+    },
+    "com.stackit.vpn#GatewayStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "READY"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR"
+          }
+        },
+        "DELETING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETING"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current lifecycle state of the gateway infrastructure.\n- `PENDING`: Provisioning or update is in progress.\n- `READY`: The gateway is fully operational.\n- `ERROR`: A failure occurred.\n- `DELETING`: The resource is being removed.\n"
+      }
+    },
+    "com.stackit.vpn#GatewayListGatewaysList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#GatewayResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#ListGateways": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#ListGatewaysRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#GatewayList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List VPN gateways in a project with label filtering\n\nRetrieve a list of all VPN gateways in a project.\nFilter the results using the `label_selector` query parameter."
+      }
+    },
+    "com.stackit.vpn#CreateGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#CreateGatewayRequestAvailabilityZones": {
+      "type": "structure",
+      "members": {
+        "tunnel1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tunnel2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#CreateGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#CreateGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "availabilityZones": {
+          "target": "com.stackit.vpn#CreateGatewayRequestAvailabilityZones",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bgp": {
+          "target": "com.stackit.vpn#BGPGatewayConfig"
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the VPN gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.vpn#Label"
+        },
+        "networkConfig": {
+          "target": "com.stackit.vpn#NetworkConfig"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service plan identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "routingType": {
+          "target": "com.stackit.vpn#RoutingType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#CreateGatewayResponseAvailabilityZones": {
+      "type": "structure",
+      "members": {
+        "tunnel1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tunnel2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#CreateGatewayResponse": {
+      "type": "structure",
+      "members": {
+        "availabilityZones": {
+          "target": "com.stackit.vpn#CreateGatewayResponseAvailabilityZones",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bgp": {
+          "target": "com.stackit.vpn#BGPGatewayConfig"
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the VPN gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.vpn#Label"
+        },
+        "networkConfig": {
+          "target": "com.stackit.vpn#NetworkConfig"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service plan identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "routingType": {
+          "target": "com.stackit.vpn#RoutingType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-generated UUID of the VPN gateway."
+          }
+        },
+        "state": {
+          "target": "com.stackit.vpn#GatewayStatus"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.vpn#CreateGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#CreateGatewayRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#CreateGatewayResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a VPN gateway in a project.\n\nProvision a new VPN gateway."
+      }
+    },
+    "com.stackit.vpn#GetGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#GetGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#GetGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#GetGatewayResponseAvailabilityZones": {
+      "type": "structure",
+      "members": {
+        "tunnel1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tunnel2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#GetGatewayResponse": {
+      "type": "structure",
+      "members": {
+        "availabilityZones": {
+          "target": "com.stackit.vpn#GetGatewayResponseAvailabilityZones",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bgp": {
+          "target": "com.stackit.vpn#BGPGatewayConfig"
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the VPN gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.vpn#Label"
+        },
+        "networkConfig": {
+          "target": "com.stackit.vpn#NetworkConfig"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service plan identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "routingType": {
+          "target": "com.stackit.vpn#RoutingType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-generated UUID of the VPN gateway."
+          }
+        },
+        "state": {
+          "target": "com.stackit.vpn#GatewayStatus"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.vpn#GetGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#GetGatewayRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#GetGatewayResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get details of a VPN Gateway in a project.\n\nGet details of a VPN Gateway in a project."
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayRequestAvailabilityZones": {
+      "type": "structure",
+      "members": {
+        "tunnel1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tunnel2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#UpdateGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#UpdateGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "availabilityZones": {
+          "target": "com.stackit.vpn#UpdateGatewayRequestAvailabilityZones",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bgp": {
+          "target": "com.stackit.vpn#BGPGatewayConfig"
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the VPN gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.vpn#Label"
+        },
+        "networkConfig": {
+          "target": "com.stackit.vpn#NetworkConfig"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service plan identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "routingType": {
+          "target": "com.stackit.vpn#RoutingType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayResponseAvailabilityZones": {
+      "type": "structure",
+      "members": {
+        "tunnel1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tunnel2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#UpdateGatewayResponse": {
+      "type": "structure",
+      "members": {
+        "availabilityZones": {
+          "target": "com.stackit.vpn#UpdateGatewayResponseAvailabilityZones",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bgp": {
+          "target": "com.stackit.vpn#BGPGatewayConfig"
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the VPN gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.vpn#Label"
+        },
+        "networkConfig": {
+          "target": "com.stackit.vpn#NetworkConfig"
+        },
+        "planId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service plan identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "routingType": {
+          "target": "com.stackit.vpn#RoutingType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-generated UUID of the VPN gateway."
+          }
+        },
+        "state": {
+          "target": "com.stackit.vpn#GatewayStatus"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.vpn#UpdateGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#UpdateGatewayRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#UpdateGatewayResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update a VPN gateway in a project.\n\nModify the configuration of an existing VPN gateway.\nCertain changes may trigger infrastructure updates or temporary connection re-negotiations."
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#DeleteGatewayRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#DeleteGateway": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#DeleteGatewayRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a existing VPN gateway in a project.\n\nPermanently remove a VPN gateway and all its associated connections.\nThis operation is irreversible."
+      }
+    },
+    "com.stackit.vpn#ListGatewayBGPFiltersRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#ListGatewayBGPFiltersRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#ListGatewayBGPFiltersRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#BGPFilterList": {
+      "type": "structure",
+      "members": {
+        "bgpFilters": {
+          "target": "com.stackit.vpn#BGPFilterListBgpFiltersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response wrapper for listing BGP filters."
+      }
+    },
+    "com.stackit.vpn#BGPFilter": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the filter. Display only — not enforced unique across a gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-generated UUID of the filter."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A named BGP route filter. Internally a BGPFilter holds an ordered set of rules (managed via the\nnested /rules sub-resource); a route is evaluated against each rule in 'sequence' order and the\nfirst match decides the outcome. An implicit DENY is applied after the last rule, so a route that\nmatches no PERMIT rule is dropped. Attaching an empty filter to a tunnel therefore denies every\nroute. Resource limits: the maximum number of filters per gateway equals the gateway plan's\nmaxConnections value; the maximum number of rules per filter is 10.\n"
+      }
+    },
+    "com.stackit.vpn#BGPFilterListBgpFiltersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#BGPFilter"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#ListGatewayBGPFilters": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#ListGatewayBGPFiltersRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#BGPFilterList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/bgp-filters",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List BGP filters for a gateway."
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#CreateGatewayBGPFilterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the filter. Display only — not enforced unique across a gateway.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilter": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#CreateGatewayBGPFilterRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#BGPFilter"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        },
+        {
+          "target": "com.stackit.vpn#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/bgp-filters",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a new empty BGP filter.\n\nCreates the filter metadata. Rules are managed via the nested /rules sub-resource.\nNOTE: an empty filter attached to a tunnel denies all incoming routes (implicit DENY)."
+      }
+    },
+    "com.stackit.vpn#GetGatewayBGPFilterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#GetGatewayBGPFilterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#GetGatewayBGPFilterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#GetGatewayBGPFilter": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#GetGatewayBGPFilterRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#BGPFilter"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/bgp-filters/{filterId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get BGP filter metadata."
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#UpdateGatewayBGPFilterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the filter. Display only — not enforced unique across a gateway.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilter": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#UpdateGatewayBGPFilterRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#BGPFilter"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        },
+        {
+          "target": "com.stackit.vpn#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/bgp-filters/{filterId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update BGP filter metadata (name, description).\n\nRules are managed via the nested /rules sub-resource and are not modified by this endpoint."
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayBGPFilterRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayBGPFilterRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#DeleteGatewayBGPFilterRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayBGPFilter": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#DeleteGatewayBGPFilterRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        },
+        {
+          "target": "com.stackit.vpn#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/bgp-filters/{filterId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a BGP filter.\n\nFails with 409 Conflict if the filter is referenced by any connection's tunnel.bgp.inboundFilterId.\nThe error response body's details[] contains one entry per referencing connection with metadata\n{ connectionId, displayName, tunnel: 'tunnel1'|'tunnel2' } and reason RESOURCE_IN_USE so the caller\ncan detach them first."
+      }
+    },
+    "com.stackit.vpn#ListGatewayBGPFilterRulesRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#ListGatewayBGPFilterRulesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#ListGatewayBGPFilterRulesRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#BGPFilterRuleList": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.stackit.vpn#BGPFilterRuleListRulesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response wrapper for listing rules within a BGP filter."
+      }
+    },
+    "com.stackit.vpn#BGPFilterRule": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.stackit.vpn#BGPFilterRuleAction",
+          "traits": {
+            "smithy.api#documentation": "The action to take if the route matches all criteria. Case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-generated UUID of the specific rule."
+          }
+        },
+        "match": {
+          "target": "com.stackit.vpn#BGPFilterRuleMatch",
+          "traits": {
+            "smithy.api#documentation": "Optional matching criteria. If omitted entirely, the rule acts as match-all. All non-empty\nfields in this block must match (logical AND).\n"
+          }
+        },
+        "sequence": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The evaluation order of the rule. Lower numbers are evaluated first. Must be unique within a\nfilter. On POST, this field is optional: when omitted the server auto-assigns max(existing)+10\n(the first rule starts at 10). On PUT this field is required — sending a partial update without\n'sequence' returns 400.\n"
+          }
+        },
+        "set": {
+          "target": "com.stackit.vpn#BGPFilterRuleSet",
+          "traits": {
+            "smithy.api#documentation": "Optional BGP attributes to apply when 'action' is PERMIT. Ignored for DENY rules."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single rule within a BGPFilter. All non-empty fields within the 'match' block are AND-combined.\nRules within a filter are evaluated in 'sequence' order; the first matching rule decides the\noutcome (logical OR across rules). An implicit DENY follows the last rule.\n"
+      }
+    },
+    "com.stackit.vpn#BGPFilterRuleAction": {
+      "type": "enum",
+      "members": {
+        "PERMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PERMIT"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DENY"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The action to take if the route matches all criteria. Case-sensitive."
+      }
+    },
+    "com.stackit.vpn#BGPFilterRuleMatchAsPathContainsAnyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matches if the AS-PATH contains any one of the listed ASNs (logical OR within the list).\nTreated as an unordered set; ordering is not preserved by the storage layer. When\ncombined with firstASN, both conditions must hold (logical AND, consistent with the\nrest of the match block). If firstASN is also listed here, its presence as the first\nhop is sufficient to satisfy this list; no duplicate hop is required.\n"
+      }
+    },
+    "com.stackit.vpn#BGPFilterRuleMatchCommunitiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matches if the route carries any one of these BGP standard communities (logical OR\nwithin the list). Format is 'asn:value' per RFC 1997 (both halves must fit in a uint32,\ni.e. 0..4294967295). Extended, large and well-known communities are not supported.\n"
+      }
+    },
+    "com.stackit.vpn#BGPFilterRuleMatchPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IPv4 networks to match. A route's prefix matches if it equals one of these\n(subject to minPrefixLength/maxPrefixLength refinement). If omitted, an implicit\n0.0.0.0/0 base is used when minPrefixLength or maxPrefixLength is set; if all three\nare omitted, prefix matching is not performed at all. Each entry must parse as a valid\nIPv4 CIDR; the network portion is normalised (10.0.0.5/24 → 10.0.0.0/24).\n"
+      }
+    },
+    "com.stackit.vpn#BGPFilterRuleMatch": {
+      "type": "structure",
+      "members": {
+        "asPathContainsAny": {
+          "target": "com.stackit.vpn#BGPFilterRuleMatchAsPathContainsAnyList",
+          "traits": {
+            "smithy.api#documentation": "Matches if the AS-PATH contains any one of the listed ASNs (logical OR within the list).\nTreated as an unordered set; ordering is not preserved by the storage layer. When\ncombined with firstASN, both conditions must hold (logical AND, consistent with the\nrest of the match block). If firstASN is also listed here, its presence as the first\nhop is sufficient to satisfy this list; no duplicate hop is required.\n"
+          }
+        },
+        "communities": {
+          "target": "com.stackit.vpn#BGPFilterRuleMatchCommunitiesList",
+          "traits": {
+            "smithy.api#documentation": "Matches if the route carries any one of these BGP standard communities (logical OR\nwithin the list). Format is 'asn:value' per RFC 1997 (both halves must fit in a uint32,\ni.e. 0..4294967295). Extended, large and well-known communities are not supported.\n"
+          }
+        },
+        "firstASN": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Matches if the first ASN (immediate neighbor) in the AS-PATH equals this ASN. Combines\nwith asPathContainsAny using logical AND: when both are set, the first ASN must equal\nfirstASN AND the path must additionally contain at least one ASN from asPathContainsAny.\n"
+          }
+        },
+        "maxPrefixLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum subnet mask length for matched prefixes. May be set together with 'prefixes'\n(narrows matches to subnets at most this long) or alone (matches any IPv4 route with\na mask length <= this value, equivalent to implicit 'prefixes: [0.0.0.0/0]').\n"
+          }
+        },
+        "minPrefixLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum subnet mask length for matched prefixes. May be set together with 'prefixes'\n(narrows matches to subnets at least this long) or alone (matches any IPv4 route with\na mask length >= this value, equivalent to implicit 'prefixes: [0.0.0.0/0]'). If both\nminPrefixLength and maxPrefixLength are set, minPrefixLength must be <= maxPrefixLength.\n"
+          }
+        },
+        "peer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Matches the exact IPv4 address of the BGP neighbor that advertised the route. Useful\nwhen the same filter is attached to multiple tunnels with different neighbor IPs\n(allows per-peer rules in a shared filter). When a filter is attached to a single\ntunnel, this field is effectively a no-op because the route-map is already\nneighbor-scoped.\n"
+          }
+        },
+        "prefixes": {
+          "target": "com.stackit.vpn#BGPFilterRuleMatchPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "List of IPv4 networks to match. A route's prefix matches if it equals one of these\n(subject to minPrefixLength/maxPrefixLength refinement). If omitted, an implicit\n0.0.0.0/0 base is used when minPrefixLength or maxPrefixLength is set; if all three\nare omitted, prefix matching is not performed at all. Each entry must parse as a valid\nIPv4 CIDR; the network portion is normalised (10.0.0.5/24 → 10.0.0.0/24).\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional matching criteria. If omitted entirely, the rule acts as match-all. All non-empty\nfields in this block must match (logical AND).\n"
+      }
+    },
+    "com.stackit.vpn#BGPFilterRuleSet": {
+      "type": "structure",
+      "members": {
+        "localPreference": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "BGP LOCAL_PREF to set on the route. Higher values are preferred during best-path\nselection. Default BGP LOCAL_PREF is 100; any value here overrides.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional BGP attributes to apply when 'action' is PERMIT. Ignored for DENY rules."
+      }
+    },
+    "com.stackit.vpn#BGPFilterRuleListRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#BGPFilterRule"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#ListGatewayBGPFilterRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#ListGatewayBGPFilterRulesRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#BGPFilterRuleList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/bgp-filters/{filterId}/rules",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List all rules inside a specific BGP filter."
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestAction": {
+      "type": "enum",
+      "members": {
+        "PERMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PERMIT"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DENY"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The action to take if the route matches all criteria. Case-sensitive."
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestMatchAsPathContainsAnyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matches if the AS-PATH contains any one of the listed ASNs (logical OR within the list).\nTreated as an unordered set; ordering is not preserved by the storage layer. When\ncombined with firstASN, both conditions must hold (logical AND, consistent with the\nrest of the match block). If firstASN is also listed here, its presence as the first\nhop is sufficient to satisfy this list; no duplicate hop is required.\n"
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestMatchCommunitiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matches if the route carries any one of these BGP standard communities (logical OR\nwithin the list). Format is 'asn:value' per RFC 1997 (both halves must fit in a uint32,\ni.e. 0..4294967295). Extended, large and well-known communities are not supported.\n"
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestMatchPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IPv4 networks to match. A route's prefix matches if it equals one of these\n(subject to minPrefixLength/maxPrefixLength refinement). If omitted, an implicit\n0.0.0.0/0 base is used when minPrefixLength or maxPrefixLength is set; if all three\nare omitted, prefix matching is not performed at all. Each entry must parse as a valid\nIPv4 CIDR; the network portion is normalised (10.0.0.5/24 → 10.0.0.0/24).\n"
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestMatch": {
+      "type": "structure",
+      "members": {
+        "asPathContainsAny": {
+          "target": "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestMatchAsPathContainsAnyList",
+          "traits": {
+            "smithy.api#documentation": "Matches if the AS-PATH contains any one of the listed ASNs (logical OR within the list).\nTreated as an unordered set; ordering is not preserved by the storage layer. When\ncombined with firstASN, both conditions must hold (logical AND, consistent with the\nrest of the match block). If firstASN is also listed here, its presence as the first\nhop is sufficient to satisfy this list; no duplicate hop is required.\n"
+          }
+        },
+        "communities": {
+          "target": "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestMatchCommunitiesList",
+          "traits": {
+            "smithy.api#documentation": "Matches if the route carries any one of these BGP standard communities (logical OR\nwithin the list). Format is 'asn:value' per RFC 1997 (both halves must fit in a uint32,\ni.e. 0..4294967295). Extended, large and well-known communities are not supported.\n"
+          }
+        },
+        "firstASN": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Matches if the first ASN (immediate neighbor) in the AS-PATH equals this ASN. Combines\nwith asPathContainsAny using logical AND: when both are set, the first ASN must equal\nfirstASN AND the path must additionally contain at least one ASN from asPathContainsAny.\n"
+          }
+        },
+        "maxPrefixLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum subnet mask length for matched prefixes. May be set together with 'prefixes'\n(narrows matches to subnets at most this long) or alone (matches any IPv4 route with\na mask length <= this value, equivalent to implicit 'prefixes: [0.0.0.0/0]').\n"
+          }
+        },
+        "minPrefixLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum subnet mask length for matched prefixes. May be set together with 'prefixes'\n(narrows matches to subnets at least this long) or alone (matches any IPv4 route with\na mask length >= this value, equivalent to implicit 'prefixes: [0.0.0.0/0]'). If both\nminPrefixLength and maxPrefixLength are set, minPrefixLength must be <= maxPrefixLength.\n"
+          }
+        },
+        "peer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Matches the exact IPv4 address of the BGP neighbor that advertised the route. Useful\nwhen the same filter is attached to multiple tunnels with different neighbor IPs\n(allows per-peer rules in a shared filter). When a filter is attached to a single\ntunnel, this field is effectively a no-op because the route-map is already\nneighbor-scoped.\n"
+          }
+        },
+        "prefixes": {
+          "target": "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestMatchPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "List of IPv4 networks to match. A route's prefix matches if it equals one of these\n(subject to minPrefixLength/maxPrefixLength refinement). If omitted, an implicit\n0.0.0.0/0 base is used when minPrefixLength or maxPrefixLength is set; if all three\nare omitted, prefix matching is not performed at all. Each entry must parse as a valid\nIPv4 CIDR; the network portion is normalised (10.0.0.5/24 → 10.0.0.0/24).\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional matching criteria. If omitted entirely, the rule acts as match-all. All non-empty\nfields in this block must match (logical AND).\n"
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestSet": {
+      "type": "structure",
+      "members": {
+        "localPreference": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "BGP LOCAL_PREF to set on the route. Higher values are preferred during best-path\nselection. Default BGP LOCAL_PREF is 100; any value here overrides.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional BGP attributes to apply when 'action' is PERMIT. Ignored for DENY rules."
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRuleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "action": {
+          "target": "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestAction",
+          "traits": {
+            "smithy.api#documentation": "The action to take if the route matches all criteria. Case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "match": {
+          "target": "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestMatch",
+          "traits": {
+            "smithy.api#documentation": "Optional matching criteria. If omitted entirely, the rule acts as match-all. All non-empty\nfields in this block must match (logical AND).\n"
+          }
+        },
+        "sequence": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The evaluation order of the rule. Lower numbers are evaluated first. Must be unique within a\nfilter. On POST, this field is optional: when omitted the server auto-assigns max(existing)+10\n(the first rule starts at 10). On PUT this field is required — sending a partial update without\n'sequence' returns 400.\n"
+          }
+        },
+        "set": {
+          "target": "com.stackit.vpn#CreateGatewayBGPFilterRuleRequestSet",
+          "traits": {
+            "smithy.api#documentation": "Optional BGP attributes to apply when 'action' is PERMIT. Ignored for DENY rules."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#CreateGatewayBGPFilterRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#CreateGatewayBGPFilterRuleRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#BGPFilterRule"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        },
+        {
+          "target": "com.stackit.vpn#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/bgp-filters/{filterId}/rules",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Add a new rule to a BGP filter."
+      }
+    },
+    "com.stackit.vpn#GetGatewayBGPFilterRuleRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#GetGatewayBGPFilterRuleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#GetGatewayBGPFilterRuleRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#GetGatewayBGPFilterRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#GetGatewayBGPFilterRuleRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#BGPFilterRule"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/bgp-filters/{filterId}/rules/{ruleId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a specific rule from a BGP filter."
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestAction": {
+      "type": "enum",
+      "members": {
+        "PERMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PERMIT"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DENY"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The action to take if the route matches all criteria. Case-sensitive."
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestMatchAsPathContainsAnyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matches if the AS-PATH contains any one of the listed ASNs (logical OR within the list).\nTreated as an unordered set; ordering is not preserved by the storage layer. When\ncombined with firstASN, both conditions must hold (logical AND, consistent with the\nrest of the match block). If firstASN is also listed here, its presence as the first\nhop is sufficient to satisfy this list; no duplicate hop is required.\n"
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestMatchCommunitiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matches if the route carries any one of these BGP standard communities (logical OR\nwithin the list). Format is 'asn:value' per RFC 1997 (both halves must fit in a uint32,\ni.e. 0..4294967295). Extended, large and well-known communities are not supported.\n"
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestMatchPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of IPv4 networks to match. A route's prefix matches if it equals one of these\n(subject to minPrefixLength/maxPrefixLength refinement). If omitted, an implicit\n0.0.0.0/0 base is used when minPrefixLength or maxPrefixLength is set; if all three\nare omitted, prefix matching is not performed at all. Each entry must parse as a valid\nIPv4 CIDR; the network portion is normalised (10.0.0.5/24 → 10.0.0.0/24).\n"
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestMatch": {
+      "type": "structure",
+      "members": {
+        "asPathContainsAny": {
+          "target": "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestMatchAsPathContainsAnyList",
+          "traits": {
+            "smithy.api#documentation": "Matches if the AS-PATH contains any one of the listed ASNs (logical OR within the list).\nTreated as an unordered set; ordering is not preserved by the storage layer. When\ncombined with firstASN, both conditions must hold (logical AND, consistent with the\nrest of the match block). If firstASN is also listed here, its presence as the first\nhop is sufficient to satisfy this list; no duplicate hop is required.\n"
+          }
+        },
+        "communities": {
+          "target": "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestMatchCommunitiesList",
+          "traits": {
+            "smithy.api#documentation": "Matches if the route carries any one of these BGP standard communities (logical OR\nwithin the list). Format is 'asn:value' per RFC 1997 (both halves must fit in a uint32,\ni.e. 0..4294967295). Extended, large and well-known communities are not supported.\n"
+          }
+        },
+        "firstASN": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Matches if the first ASN (immediate neighbor) in the AS-PATH equals this ASN. Combines\nwith asPathContainsAny using logical AND: when both are set, the first ASN must equal\nfirstASN AND the path must additionally contain at least one ASN from asPathContainsAny.\n"
+          }
+        },
+        "maxPrefixLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum subnet mask length for matched prefixes. May be set together with 'prefixes'\n(narrows matches to subnets at most this long) or alone (matches any IPv4 route with\na mask length <= this value, equivalent to implicit 'prefixes: [0.0.0.0/0]').\n"
+          }
+        },
+        "minPrefixLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum subnet mask length for matched prefixes. May be set together with 'prefixes'\n(narrows matches to subnets at least this long) or alone (matches any IPv4 route with\na mask length >= this value, equivalent to implicit 'prefixes: [0.0.0.0/0]'). If both\nminPrefixLength and maxPrefixLength are set, minPrefixLength must be <= maxPrefixLength.\n"
+          }
+        },
+        "peer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Matches the exact IPv4 address of the BGP neighbor that advertised the route. Useful\nwhen the same filter is attached to multiple tunnels with different neighbor IPs\n(allows per-peer rules in a shared filter). When a filter is attached to a single\ntunnel, this field is effectively a no-op because the route-map is already\nneighbor-scoped.\n"
+          }
+        },
+        "prefixes": {
+          "target": "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestMatchPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "List of IPv4 networks to match. A route's prefix matches if it equals one of these\n(subject to minPrefixLength/maxPrefixLength refinement). If omitted, an implicit\n0.0.0.0/0 base is used when minPrefixLength or maxPrefixLength is set; if all three\nare omitted, prefix matching is not performed at all. Each entry must parse as a valid\nIPv4 CIDR; the network portion is normalised (10.0.0.5/24 → 10.0.0.0/24).\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional matching criteria. If omitted entirely, the rule acts as match-all. All non-empty\nfields in this block must match (logical AND).\n"
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestSet": {
+      "type": "structure",
+      "members": {
+        "localPreference": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "BGP LOCAL_PREF to set on the route. Higher values are preferred during best-path\nselection. Default BGP LOCAL_PREF is 100; any value here overrides.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional BGP attributes to apply when 'action' is PERMIT. Ignored for DENY rules."
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "action": {
+          "target": "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestAction",
+          "traits": {
+            "smithy.api#documentation": "The action to take if the route matches all criteria. Case-sensitive.",
+            "smithy.api#required": {}
+          }
+        },
+        "match": {
+          "target": "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestMatch",
+          "traits": {
+            "smithy.api#documentation": "Optional matching criteria. If omitted entirely, the rule acts as match-all. All non-empty\nfields in this block must match (logical AND).\n"
+          }
+        },
+        "sequence": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The evaluation order of the rule. Lower numbers are evaluated first. Must be unique within a\nfilter. On POST, this field is optional: when omitted the server auto-assigns max(existing)+10\n(the first rule starts at 10). On PUT this field is required — sending a partial update without\n'sequence' returns 400.\n"
+          }
+        },
+        "set": {
+          "target": "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequestSet",
+          "traits": {
+            "smithy.api#documentation": "Optional BGP attributes to apply when 'action' is PERMIT. Ignored for DENY rules."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayBGPFilterRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#UpdateGatewayBGPFilterRuleRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#BGPFilterRule"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        },
+        {
+          "target": "com.stackit.vpn#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/bgp-filters/{filterId}/rules/{ruleId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update a specific rule."
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayBGPFilterRuleRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayBGPFilterRuleRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#DeleteGatewayBGPFilterRuleRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayBGPFilterRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#DeleteGatewayBGPFilterRuleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/bgp-filters/{filterId}/rules/{ruleId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a specific rule."
+      }
+    },
+    "com.stackit.vpn#ListGatewayConnectionsRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#ListGatewayConnectionsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#ListGatewayConnectionsRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "label_selector": {
+          "target": "com.stackit.vpn#LabelSelector",
+          "traits": {
+            "smithy.api#httpQuery": "label_selector",
+            "smithy.api#documentation": "Filter resources by labels."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#ConnectionListOutput": {
+      "type": "structure",
+      "members": {
+        "connections": {
+          "target": "com.stackit.vpn#ConnectionListOutputConnectionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#ConnectionResponseOutput": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the connection.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This flag decides whether this connection should be enabled or disabled"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Gateway instance."
+          }
+        },
+        "labels": {
+          "target": "com.stackit.vpn#Label"
+        },
+        "localSubnets": {
+          "target": "com.stackit.vpn#ConnectionResponseOutputLocalSubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+          }
+        },
+        "remoteSubnets": {
+          "target": "com.stackit.vpn#ConnectionResponseOutputRemoteSubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+          }
+        },
+        "staticRoutes": {
+          "target": "com.stackit.vpn#ConnectionResponseOutputStaticRoutesList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Use this for route-based VPN."
+          }
+        },
+        "tunnel1": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tunnel2": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutput",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#ConnectionResponseOutputLocalSubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+      }
+    },
+    "com.stackit.vpn#ConnectionResponseOutputRemoteSubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+      }
+    },
+    "com.stackit.vpn#ConnectionResponseOutputStaticRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Use this for route-based VPN."
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationOutput": {
+      "type": "structure",
+      "members": {
+        "bgp": {
+          "target": "com.stackit.vpn#BGPTunnelConfig"
+        },
+        "peering": {
+          "target": "com.stackit.vpn#PeeringConfig"
+        },
+        "phase1": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutputPhase1",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "phase2": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutputPhase2",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "remoteAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#BGPTunnelConfig": {
+      "type": "structure",
+      "members": {
+        "inboundFilterId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the BGPFilter to apply to incoming routes from this tunnel's BGP neighbor. The\nfilter must exist in the same gateway. Multiple tunnels may reference the same BGPFilter;\nin that case the rules' 'match.peer' field can be used to scope behavior per neighbor.\nOutbound filtering is not yet supported; use gateway.bgp.overrideAdvertisedRoutes to\ncontrol what is advertised.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "remoteAsn": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#PeeringConfig": {
+      "type": "structure",
+      "members": {
+        "localAddress": {
+          "target": "smithy.api#String"
+        },
+        "remoteAddress": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The peering object defines the point-to-point IP configuration for the Tunnel Interface.\nThese addresses serve as next-hop identifiers and are used for BGP peering sessions and can be used in Static Route-Based connectivity.\n"
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase1DhGroupsItem": {
+      "type": "enum",
+      "members": {
+        "MODP1024": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp1024"
+          }
+        },
+        "MODP2048": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp2048"
+          }
+        },
+        "ECP256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp256"
+          }
+        },
+        "ECP384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp384"
+          }
+        },
+        "MODP2048S256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp2048s256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase1DhGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationOutputPhase1DhGroupsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The Diffie-Hellman Group. Required, except if AEAD algorithms are selected."
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase1EncryptionAlgorithmsItem": {
+      "type": "enum",
+      "members": {
+        "AES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256"
+          }
+        },
+        "AES128GCM16": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes128gcm16"
+          }
+        },
+        "AES256GCM16": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256gcm16"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase1EncryptionAlgorithmsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationOutputPhase1EncryptionAlgorithmsItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase1IntegrityAlgorithmsItem": {
+      "type": "enum",
+      "members": {
+        "SHA1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha1"
+          }
+        },
+        "SHA2_256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_256"
+          }
+        },
+        "SHA2_384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_384"
+          }
+        },
+        "SHA2_512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_512"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase1IntegrityAlgorithmsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationOutputPhase1IntegrityAlgorithmsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported integrity algorithms.\nSHA1 is deprecated and will be removed on 2026-12-31.\n"
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase1": {
+      "type": "structure",
+      "members": {
+        "dhGroups": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutputPhase1DhGroupsList",
+          "traits": {
+            "smithy.api#documentation": "The Diffie-Hellman Group. Required, except if AEAD algorithms are selected."
+          }
+        },
+        "encryptionAlgorithms": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutputPhase1EncryptionAlgorithmsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "integrityAlgorithms": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutputPhase1IntegrityAlgorithmsList",
+          "traits": {
+            "smithy.api#documentation": "Supported integrity algorithms.\nSHA1 is deprecated and will be removed on 2026-12-31.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "rekeyTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Time to schedule a IKE re-keying (in seconds)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase2DhGroupsItem": {
+      "type": "enum",
+      "members": {
+        "MODP1024": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp1024"
+          }
+        },
+        "MODP2048": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp2048"
+          }
+        },
+        "ECP256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp256"
+          }
+        },
+        "ECP384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp384"
+          }
+        },
+        "MODP2048S256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp2048s256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase2DhGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationOutputPhase2DhGroupsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The Diffie-Hellman Group. Required, except if AEAD algorithms are selected."
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase2EncryptionAlgorithmsItem": {
+      "type": "enum",
+      "members": {
+        "AES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256"
+          }
+        },
+        "AES128GCM16": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes128gcm16"
+          }
+        },
+        "AES256GCM16": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256gcm16"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase2EncryptionAlgorithmsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationOutputPhase2EncryptionAlgorithmsItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase2IntegrityAlgorithmsItem": {
+      "type": "enum",
+      "members": {
+        "SHA1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha1"
+          }
+        },
+        "SHA2_256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_256"
+          }
+        },
+        "SHA2_384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_384"
+          }
+        },
+        "SHA2_512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_512"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase2IntegrityAlgorithmsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationOutputPhase2IntegrityAlgorithmsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported integrity algorithms.\nSHA1 is deprecated and will be removed on 2026-12-31.\n"
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase2DpdAction": {
+      "type": "enum",
+      "members": {
+        "CLEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clear"
+          }
+        },
+        "RESTART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restart"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Action to perform for this CHILD_SA on DPD timeout.\n\"clear\": Closes the CHILD_SA and does not take further action.\n\"restart\": immediately tries to re-negotiate the CILD_SA under a fresh IKE_SA.\n"
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase2StartAction": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Action to perform after loading the connection configuration.\n\"none\": The connection will be loaded but needs to be manually initiated.\n\"start\": initiates the connection actively.\n"
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationOutputPhase2": {
+      "type": "structure",
+      "members": {
+        "dhGroups": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutputPhase2DhGroupsList",
+          "traits": {
+            "smithy.api#documentation": "The Diffie-Hellman Group. Required, except if AEAD algorithms are selected."
+          }
+        },
+        "encryptionAlgorithms": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutputPhase2EncryptionAlgorithmsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "integrityAlgorithms": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutputPhase2IntegrityAlgorithmsList",
+          "traits": {
+            "smithy.api#documentation": "Supported integrity algorithms.\nSHA1 is deprecated and will be removed on 2026-12-31.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "dpdAction": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutputPhase2DpdAction",
+          "traits": {
+            "smithy.api#documentation": "Action to perform for this CHILD_SA on DPD timeout.\n\"clear\": Closes the CHILD_SA and does not take further action.\n\"restart\": immediately tries to re-negotiate the CILD_SA under a fresh IKE_SA.\n"
+          }
+        },
+        "rekeyTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Time to schedule a Child SA re-keying (in seconds)."
+          }
+        },
+        "startAction": {
+          "target": "com.stackit.vpn#TunnelConfigurationOutputPhase2StartAction",
+          "traits": {
+            "smithy.api#documentation": "Action to perform after loading the connection configuration.\n\"none\": The connection will be loaded but needs to be manually initiated.\n\"start\": initiates the connection actively.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#ConnectionListOutputConnectionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#ConnectionResponseOutput"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#ListGatewayConnections": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#ListGatewayConnectionsRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#ConnectionListOutput"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/connections",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List connections for an existing VPN gateway.\n\nList connections for an existing VPN gateway."
+      }
+    },
+    "com.stackit.vpn#CreateGatewayConnectionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#CreateGatewayConnectionRequestLocalSubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+      }
+    },
+    "com.stackit.vpn#CreateGatewayConnectionRequestRemoteSubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+      }
+    },
+    "com.stackit.vpn#CreateGatewayConnectionRequestStaticRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Use this for route-based VPN."
+      }
+    },
+    "com.stackit.vpn#TunnelConfiguration": {
+      "type": "structure",
+      "members": {
+        "bgp": {
+          "target": "com.stackit.vpn#BGPTunnelConfig"
+        },
+        "peering": {
+          "target": "com.stackit.vpn#PeeringConfig"
+        },
+        "phase1": {
+          "target": "com.stackit.vpn#TunnelConfigurationPhase1",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "phase2": {
+          "target": "com.stackit.vpn#TunnelConfigurationPhase2",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "preSharedKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Pre-Shared Key for authentication.\nRequired in create-requests, optional in update-requests and omitted in every response."
+          }
+        },
+        "remoteAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase1DhGroupsItem": {
+      "type": "enum",
+      "members": {
+        "MODP1024": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp1024"
+          }
+        },
+        "MODP2048": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp2048"
+          }
+        },
+        "ECP256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp256"
+          }
+        },
+        "ECP384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp384"
+          }
+        },
+        "MODP2048S256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp2048s256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase1DhGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationPhase1DhGroupsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The Diffie-Hellman Group. Required, except if AEAD algorithms are selected."
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase1EncryptionAlgorithmsItem": {
+      "type": "enum",
+      "members": {
+        "AES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256"
+          }
+        },
+        "AES128GCM16": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes128gcm16"
+          }
+        },
+        "AES256GCM16": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256gcm16"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase1EncryptionAlgorithmsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationPhase1EncryptionAlgorithmsItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase1IntegrityAlgorithmsItem": {
+      "type": "enum",
+      "members": {
+        "SHA1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha1"
+          }
+        },
+        "SHA2_256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_256"
+          }
+        },
+        "SHA2_384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_384"
+          }
+        },
+        "SHA2_512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_512"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase1IntegrityAlgorithmsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationPhase1IntegrityAlgorithmsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported integrity algorithms.\nSHA1 is deprecated and will be removed on 2026-12-31.\n"
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase1": {
+      "type": "structure",
+      "members": {
+        "dhGroups": {
+          "target": "com.stackit.vpn#TunnelConfigurationPhase1DhGroupsList",
+          "traits": {
+            "smithy.api#documentation": "The Diffie-Hellman Group. Required, except if AEAD algorithms are selected."
+          }
+        },
+        "encryptionAlgorithms": {
+          "target": "com.stackit.vpn#TunnelConfigurationPhase1EncryptionAlgorithmsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "integrityAlgorithms": {
+          "target": "com.stackit.vpn#TunnelConfigurationPhase1IntegrityAlgorithmsList",
+          "traits": {
+            "smithy.api#documentation": "Supported integrity algorithms.\nSHA1 is deprecated and will be removed on 2026-12-31.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "rekeyTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Time to schedule a IKE re-keying (in seconds)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase2DhGroupsItem": {
+      "type": "enum",
+      "members": {
+        "MODP1024": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp1024"
+          }
+        },
+        "MODP2048": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp2048"
+          }
+        },
+        "ECP256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp256"
+          }
+        },
+        "ECP384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ecp384"
+          }
+        },
+        "MODP2048S256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modp2048s256"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase2DhGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationPhase2DhGroupsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The Diffie-Hellman Group. Required, except if AEAD algorithms are selected."
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase2EncryptionAlgorithmsItem": {
+      "type": "enum",
+      "members": {
+        "AES256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256"
+          }
+        },
+        "AES128GCM16": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes128gcm16"
+          }
+        },
+        "AES256GCM16": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes256gcm16"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase2EncryptionAlgorithmsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationPhase2EncryptionAlgorithmsItem"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase2IntegrityAlgorithmsItem": {
+      "type": "enum",
+      "members": {
+        "SHA1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha1"
+          }
+        },
+        "SHA2_256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_256"
+          }
+        },
+        "SHA2_384": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_384"
+          }
+        },
+        "SHA2_512": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sha2_512"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase2IntegrityAlgorithmsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelConfigurationPhase2IntegrityAlgorithmsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Supported integrity algorithms.\nSHA1 is deprecated and will be removed on 2026-12-31.\n"
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase2DpdAction": {
+      "type": "enum",
+      "members": {
+        "CLEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clear"
+          }
+        },
+        "RESTART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restart"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Action to perform for this CHILD_SA on DPD timeout.\n\"clear\": Closes the CHILD_SA and does not take further action.\n\"restart\": immediately tries to re-negotiate the CILD_SA under a fresh IKE_SA.\n"
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase2StartAction": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "start"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Action to perform after loading the connection configuration.\n\"none\": The connection will be loaded but needs to be manually initiated.\n\"start\": initiates the connection actively.\n"
+      }
+    },
+    "com.stackit.vpn#TunnelConfigurationPhase2": {
+      "type": "structure",
+      "members": {
+        "dhGroups": {
+          "target": "com.stackit.vpn#TunnelConfigurationPhase2DhGroupsList",
+          "traits": {
+            "smithy.api#documentation": "The Diffie-Hellman Group. Required, except if AEAD algorithms are selected."
+          }
+        },
+        "encryptionAlgorithms": {
+          "target": "com.stackit.vpn#TunnelConfigurationPhase2EncryptionAlgorithmsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "integrityAlgorithms": {
+          "target": "com.stackit.vpn#TunnelConfigurationPhase2IntegrityAlgorithmsList",
+          "traits": {
+            "smithy.api#documentation": "Supported integrity algorithms.\nSHA1 is deprecated and will be removed on 2026-12-31.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "dpdAction": {
+          "target": "com.stackit.vpn#TunnelConfigurationPhase2DpdAction",
+          "traits": {
+            "smithy.api#documentation": "Action to perform for this CHILD_SA on DPD timeout.\n\"clear\": Closes the CHILD_SA and does not take further action.\n\"restart\": immediately tries to re-negotiate the CILD_SA under a fresh IKE_SA.\n"
+          }
+        },
+        "rekeyTime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Time to schedule a Child SA re-keying (in seconds)."
+          }
+        },
+        "startAction": {
+          "target": "com.stackit.vpn#TunnelConfigurationPhase2StartAction",
+          "traits": {
+            "smithy.api#documentation": "Action to perform after loading the connection configuration.\n\"none\": The connection will be loaded but needs to be manually initiated.\n\"start\": initiates the connection actively.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#CreateGatewayConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#CreateGatewayConnectionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the connection.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This flag decides whether this connection should be enabled or disabled"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.vpn#Label"
+        },
+        "localSubnets": {
+          "target": "com.stackit.vpn#CreateGatewayConnectionRequestLocalSubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+          }
+        },
+        "remoteSubnets": {
+          "target": "com.stackit.vpn#CreateGatewayConnectionRequestRemoteSubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+          }
+        },
+        "staticRoutes": {
+          "target": "com.stackit.vpn#CreateGatewayConnectionRequestStaticRoutesList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Use this for route-based VPN."
+          }
+        },
+        "tunnel1": {
+          "target": "com.stackit.vpn#TunnelConfiguration",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tunnel2": {
+          "target": "com.stackit.vpn#TunnelConfiguration",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#CreateGatewayConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#CreateGatewayConnectionRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#ConnectionResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/connections",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Create a new connection on an existing VPN gateway.\n\nCreate a new connection on an existing VPN gateway."
+      }
+    },
+    "com.stackit.vpn#GetGatewayConnectionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#GetGatewayConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#GetGatewayConnectionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "connectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#GetGatewayConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#GetGatewayConnectionRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#ConnectionResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/connections/{connectionId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get a certain connection for an existing VPN gateway.\n\nGet a certain connection for an existing VPN gateway."
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayConnectionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayConnectionRequestLocalSubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayConnectionRequestRemoteSubnetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayConnectionRequestStaticRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Use this for route-based VPN."
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#UpdateGatewayConnectionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "connectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user-friendly name for the connection.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This flag decides whether this connection should be enabled or disabled"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.vpn#Label"
+        },
+        "localSubnets": {
+          "target": "com.stackit.vpn#UpdateGatewayConnectionRequestLocalSubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+          }
+        },
+        "remoteSubnets": {
+          "target": "com.stackit.vpn#UpdateGatewayConnectionRequestRemoteSubnetsList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Defaults to 0.0.0.0/0 for Route-based VPN configurations. Mandatory for Policy-based."
+          }
+        },
+        "staticRoutes": {
+          "target": "com.stackit.vpn#UpdateGatewayConnectionRequestStaticRoutesList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Use this for route-based VPN."
+          }
+        },
+        "tunnel1": {
+          "target": "com.stackit.vpn#TunnelConfiguration",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tunnel2": {
+          "target": "com.stackit.vpn#TunnelConfiguration",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#UpdateGatewayConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#UpdateGatewayConnectionRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#ConnectionResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/connections/{connectionId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update a connection on an existing VPN gateway.\n\nUpdating the configuration of an existing connection."
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayConnectionRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#DeleteGatewayConnectionRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "connectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#DeleteGatewayConnection": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#DeleteGatewayConnectionRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/connections/{connectionId}",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a certain connection from an existing VPN gateway.\n\nDelete a certain connection from an existing VPN gateway."
+      }
+    },
+    "com.stackit.vpn#GetGatewayConnectionStatusRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#GetGatewayConnectionStatusRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#GetGatewayConnectionStatusRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "connectionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#ConnectionStatusResponse": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the connection."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the connection."
+          }
+        },
+        "tunnels": {
+          "target": "com.stackit.vpn#ConnectionStatusResponseTunnelsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#TunnelStatus": {
+      "type": "structure",
+      "members": {
+        "established": {
+          "target": "smithy.api#Boolean"
+        },
+        "name": {
+          "target": "com.stackit.vpn#TunnelStatusName"
+        },
+        "phase1": {
+          "target": "com.stackit.vpn#Phase1Status"
+        },
+        "phase2": {
+          "target": "com.stackit.vpn#Phase2Status"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes the status of the VPN itself."
+      }
+    },
+    "com.stackit.vpn#TunnelStatusName": {
+      "type": "enum",
+      "members": {
+        "TUNNEL1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tunnel1"
+          }
+        },
+        "TUNNEL2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tunnel2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#Phase1Status": {
+      "type": "structure",
+      "members": {
+        "dhGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The negotiated Diffie-Hellman Group"
+          }
+        },
+        "encryptionAlgorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The negotiated encryption algorithm."
+          }
+        },
+        "integrityAlgorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The negotiated integrity algorithm or pseudo-random-function."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#Phase2Status": {
+      "type": "structure",
+      "members": {
+        "bytesIn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total data volume received through this Security Association, measured in bytes."
+          }
+        },
+        "bytesOut": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total data volume sent through this Security Association, measured in bytes."
+          }
+        },
+        "dhGroup": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The negotiated Diffie-Hellman Group"
+          }
+        },
+        "encap": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether NAT traversal encapsulation is active for the connection."
+          }
+        },
+        "encryptionAlgorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The negotiated encryption algorithm."
+          }
+        },
+        "integrityAlgorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The negotiated integrity algorithm or pseudo-random-function."
+          }
+        },
+        "packetsIn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total number of packets received through this IPsec Security Association."
+          }
+        },
+        "packetsOut": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The total number of packets sent through this IPsec Security Association"
+          }
+        },
+        "protocol": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The security protocol used for the tunnel, typically `ESP` (Encapsulating Security Payload)."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#ConnectionStatusResponseTunnelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#TunnelStatus"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#GetGatewayConnectionStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#GetGatewayConnectionStatusRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#ConnectionStatusResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/connections/{connectionId}/status",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Gets the status for a specific connection.\n\nGet the status for a specific connection."
+      }
+    },
+    "com.stackit.vpn#GetGatewayStatusRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#GetGatewayStatusRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#GetGatewayStatusRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "gatewayId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#GatewayStatusResponse": {
+      "type": "structure",
+      "members": {
+        "connections": {
+          "target": "com.stackit.vpn#GatewayStatusResponseConnectionsList"
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Gateway instance."
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A descriptive message provided when the gateway is in an error state."
+          }
+        },
+        "gatewayStatus": {
+          "target": "com.stackit.vpn#GatewayStatus"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the Gateway instance."
+          }
+        },
+        "tunnels": {
+          "target": "com.stackit.vpn#GatewayStatusResponseTunnelsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#GatewayStatusResponseConnectionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#ConnectionStatusResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#VPNTunnels": {
+      "type": "structure",
+      "members": {
+        "bgpStatus": {
+          "target": "com.stackit.vpn#BGPStatus",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "instanceState": {
+          "target": "com.stackit.vpn#GatewayStatus"
+        },
+        "internalNextHopIP": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IPv4 address of the endpoint in the SNA."
+          }
+        },
+        "name": {
+          "target": "com.stackit.vpn#VPNTunnelsName"
+        },
+        "publicIP": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public IPv4 address of this endpoint."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of the underlying tunnel instances."
+      }
+    },
+    "com.stackit.vpn#BGPStatus": {
+      "type": "structure",
+      "members": {
+        "peers": {
+          "target": "com.stackit.vpn#BGPStatusPeersList"
+        },
+        "routes": {
+          "target": "com.stackit.vpn#BGPStatusRoutesList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#BGPStatusPeers": {
+      "type": "structure",
+      "members": {
+        "localAs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The ASN of the local STACKIT gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "peerUptime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Duration the session has been established",
+            "smithy.api#required": {}
+          }
+        },
+        "pfxRcd": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Count of prefixes received from the neighbor.",
+            "smithy.api#required": {}
+          }
+        },
+        "pfxSnt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Count of prefixes advertised to the neighbor.",
+            "smithy.api#required": {}
+          }
+        },
+        "remoteAs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The ASN of the remote neighbor.",
+            "smithy.api#required": {}
+          }
+        },
+        "remoteIP": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IP address of the remote BGP neighbor.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current BGP session state.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#BGPStatusPeersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#BGPStatusPeers"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#BGPStatusRoutes": {
+      "type": "structure",
+      "members": {
+        "network": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The destination network",
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The AS-PATH",
+            "smithy.api#required": {}
+          }
+        },
+        "peerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "BGP Router ID of the neighbor that advertised this route",
+            "smithy.api#required": {}
+          }
+        },
+        "weight": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#BGPStatusRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#BGPStatusRoutes"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#VPNTunnelsName": {
+      "type": "enum",
+      "members": {
+        "TUNNEL1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tunnel1"
+          }
+        },
+        "TUNNEL2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tunnel2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#GatewayStatusResponseTunnelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#VPNTunnels"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#GetGatewayStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#GetGatewayStatusRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#GatewayStatusResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        },
+        {
+          "target": "com.stackit.vpn#Forbidden"
+        },
+        {
+          "target": "com.stackit.vpn#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/gateways/{gatewayId}/status",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get the status of a VPN gateway in a project.\n\nGet the status of a VPN gateway in a project."
+      }
+    },
+    "com.stackit.vpn#ListQuotasRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#ListQuotasRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.stackit.vpn#ListQuotasRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#QuotaListResponse": {
+      "type": "structure",
+      "members": {
+        "quotas": {
+          "target": "com.stackit.vpn#QuotaList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#QuotaList": {
+      "type": "structure",
+      "members": {
+        "gateways": {
+          "target": "com.stackit.vpn#Quota",
+          "traits": {
+            "smithy.api#documentation": "Current limit and usage for VPN gateways.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#Quota": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#ListQuotas": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#ListQuotasRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#QuotaListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{projectId}/regions/{region}/quotas",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List project quotas.\n\nRetrieve the resource quotas and current usage for STACKIT VPN within a specific project and region."
+      }
+    },
+    "com.stackit.vpn#ListPlansRequestRegion": {
+      "type": "enum",
+      "members": {
+        "EU01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu01"
+          }
+        },
+        "EU02": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu02"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the resource is located.\n"
+      }
+    },
+    "com.stackit.vpn#ListPlansRequest": {
+      "type": "structure",
+      "members": {
+        "region": {
+          "target": "com.stackit.vpn#ListPlansRequestRegion",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.vpn#PlanList": {
+      "type": "structure",
+      "members": {
+        "defaultPlanId": {
+          "target": "smithy.api#String"
+        },
+        "plans": {
+          "target": "com.stackit.vpn#PlanListPlansList"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#Plan": {
+      "type": "structure",
+      "members": {
+        "maxBandwidth": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum throughput supported by the gateway in each direction, measured in MBit/s"
+          }
+        },
+        "maxConnections": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of connections supported by the VPN Gateway."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the service plan."
+          }
+        },
+        "planId": {
+          "target": "smithy.api#String"
+        },
+        "sku": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SKU identifier used for billing."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#PlanListPlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.vpn#Plan"
+      },
+      "traits": {}
+    },
+    "com.stackit.vpn#ListPlans": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.vpn#ListPlansRequest"
+      },
+      "output": {
+        "target": "com.stackit.vpn#PlanList"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.vpn#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/regions/{region}/plans",
+          "code": 200,
+          "baseUrl": "https://vpn.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "List available service plans for a project.\n\nRetrieve a list of available service plans available for provisioning a VPN in a specific `region`.\nUse this to identify the `planId` required for gateway creation."
+      }
+    },
+    "com.stackit.vpn#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.vpn#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.vpn#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.vpn#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.vpn#Vpn": {
+      "type": "service",
+      "version": "1",
+      "operations": [
+        {
+          "target": "com.stackit.vpn#ListGateways"
+        },
+        {
+          "target": "com.stackit.vpn#CreateGateway"
+        },
+        {
+          "target": "com.stackit.vpn#GetGateway"
+        },
+        {
+          "target": "com.stackit.vpn#UpdateGateway"
+        },
+        {
+          "target": "com.stackit.vpn#DeleteGateway"
+        },
+        {
+          "target": "com.stackit.vpn#ListGatewayBGPFilters"
+        },
+        {
+          "target": "com.stackit.vpn#CreateGatewayBGPFilter"
+        },
+        {
+          "target": "com.stackit.vpn#GetGatewayBGPFilter"
+        },
+        {
+          "target": "com.stackit.vpn#UpdateGatewayBGPFilter"
+        },
+        {
+          "target": "com.stackit.vpn#DeleteGatewayBGPFilter"
+        },
+        {
+          "target": "com.stackit.vpn#ListGatewayBGPFilterRules"
+        },
+        {
+          "target": "com.stackit.vpn#CreateGatewayBGPFilterRule"
+        },
+        {
+          "target": "com.stackit.vpn#GetGatewayBGPFilterRule"
+        },
+        {
+          "target": "com.stackit.vpn#UpdateGatewayBGPFilterRule"
+        },
+        {
+          "target": "com.stackit.vpn#DeleteGatewayBGPFilterRule"
+        },
+        {
+          "target": "com.stackit.vpn#ListGatewayConnections"
+        },
+        {
+          "target": "com.stackit.vpn#CreateGatewayConnection"
+        },
+        {
+          "target": "com.stackit.vpn#GetGatewayConnection"
+        },
+        {
+          "target": "com.stackit.vpn#UpdateGatewayConnection"
+        },
+        {
+          "target": "com.stackit.vpn#DeleteGatewayConnection"
+        },
+        {
+          "target": "com.stackit.vpn#GetGatewayConnectionStatus"
+        },
+        {
+          "target": "com.stackit.vpn#GetGatewayStatus"
+        },
+        {
+          "target": "com.stackit.vpn#ListQuotas"
+        },
+        {
+          "target": "com.stackit.vpn#ListPlans"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT VPN API",
+        "smithy.api#documentation": "Provision and manage STACKIT VPN gateways.\n\nUse this API to establish secure, encrypted IPsec tunnels between your STACKIT Network Area (SNA) and external networks.\nThe service supports the following routing architectures:\n- Policy-based IPsec\n- Static route-based IPsec\n- Dynamic BGP IPsec"
+      }
+    }
+  }
+}

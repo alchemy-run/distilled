@@ -112,6 +112,11 @@ export interface PresignS3UrlOptions {
    */
   readonly key: string;
   /**
+   * Specific object version to access, signed as the `versionId` query
+   * parameter. If omitted, S3 uses the current version.
+   */
+  readonly versionId?: string;
+  /**
    * Region the bucket lives in (used for both the endpoint and the SigV4
    * credential scope). Defaults to the {@link Region.Region} service.
    */
@@ -165,6 +170,9 @@ export const presignS3Url: (
         ? `${customEndpoint.replace(/\/+$/, "")}/${options.bucket}/${encodedKey}`
         : `https://${options.bucket}.s3.${region}.amazonaws.com/${encodedKey}`,
     );
+    if (options.versionId !== undefined) {
+      url.searchParams.set("versionId", options.versionId);
+    }
     if (options.responseContentType !== undefined) {
       url.searchParams.set(
         "response-content-type",

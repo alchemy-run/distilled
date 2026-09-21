@@ -1,0 +1,691 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.certificates#ListCertificatesRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize",
+            "smithy.api#documentation": "page_size specifies how many certificates should be returned on this page. Must be a positive number <= 1000"
+          }
+        },
+        "pageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageId",
+            "smithy.api#documentation": "page_id is a page identifier returned by the previous response and is used to request the next page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.certificates#ListCertificatesResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.certificates#ListCertificatesResponseItemsList"
+        },
+        "nextPageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Continue token from the ListCertificatesResponse with Limit option"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ListCertificateResponse returns a list of certificate responses"
+      }
+    },
+    "com.stackit.certificates#GetCertificateResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.stackit.certificates#Data"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The certificates resource id"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.certificates#GetCertificateResponseLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per Certificate.\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Certificate display name"
+          }
+        },
+        "publicKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The PEM encoded public key part"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of the LoadBalancer"
+          }
+        },
+        "usage": {
+          "target": "com.stackit.certificates#Usage"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "GetCertificateResponse returns name, id and public key"
+      }
+    },
+    "com.stackit.certificates#Data": {
+      "type": "structure",
+      "members": {
+        "dnsNames": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of all domains and IP addresses the certificate is valid for (Subject Alternative Names)."
+          }
+        },
+        "extendedKeyUsage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated list of purposes the cert is valid for. 'Server Auth' is required for Load Balancer use."
+          }
+        },
+        "fingerprintSha1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The legacy SHA1 thumbprint. Provided for cross-referencing with older systems and browsers."
+          }
+        },
+        "fingerprintSha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique SHA256 hash of the raw certificate bytes. Use this as the primary unique identifier."
+          }
+        },
+        "isCa": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the certificate is a Certificate Authority, meaning it can sign other certificates."
+          }
+        },
+        "isSelfSigned": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the certificate was signed by its own private key rather than a trusted third-party CA."
+          }
+        },
+        "issuerCn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Common Name of the Certificate Authority (CA) that signed and issued the certificate."
+          }
+        },
+        "keyStrength": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable summary of the public key's algorithm and bit-length or curve name."
+          }
+        },
+        "notAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The expiration timestamp. After this date, browsers will show security warnings (RFC3339 format)."
+          }
+        },
+        "notBefore": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp indicating when the certificate starts being valid (RFC3339 format)."
+          }
+        },
+        "organization": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization name associated with the certificate subject."
+          }
+        },
+        "publicKeyAlgorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cryptographic algorithm used to generate the public/private key pair."
+          }
+        },
+        "serialNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique serial number assigned by the CA, represented in uppercase hexadecimal format."
+          }
+        },
+        "signatureAlgorithm": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The algorithm used by the CA to sign this certificate."
+          }
+        },
+        "subjectCn": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The primary identity of the certificate. Fallback sequence: Common Name -> First DNS Name -> Full Subject String."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.certificates#GetCertificateResponseLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per Certificate.\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.certificates#Usage": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of listeners using this certificate."
+          }
+        },
+        "items": {
+          "target": "com.stackit.certificates#UsageItemsList",
+          "traits": {
+            "smithy.api#documentation": "List of Load Balancers with their associated listeners that use this certificate."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.certificates#UsageItem": {
+      "type": "structure",
+      "members": {
+        "listenerNames": {
+          "target": "com.stackit.certificates#UsageItemListenerNamesList",
+          "traits": {
+            "smithy.api#documentation": "The list of listener names in this Load Balancer, that are using the certificate."
+          }
+        },
+        "loadBalancerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the Load Balancer."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.certificates#UsageItemListenerNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of listener names in this Load Balancer, that are using the certificate."
+      }
+    },
+    "com.stackit.certificates#UsageItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.certificates#UsageItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of Load Balancers with their associated listeners that use this certificate."
+      }
+    },
+    "com.stackit.certificates#ListCertificatesResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.certificates#GetCertificateResponse"
+      },
+      "traits": {}
+    },
+    "com.stackit.certificates#ListCertificates": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.certificates#ListCertificatesRequest"
+      },
+      "output": {
+        "target": "com.stackit.certificates#ListCertificatesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.certificates#BadRequest"
+        },
+        {
+          "target": "com.stackit.certificates#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/certificates",
+          "code": 200,
+          "baseUrl": "https://certificates.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieve the list of TLS certificate stored in a project.\n\nListCertificates will return the list of TLS certificates in a project."
+      }
+    },
+    "com.stackit.certificates#CreateCertificateRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per Certificate.\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+      }
+    },
+    "com.stackit.certificates#CreateCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.stackit.certificates#CreateCertificateRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels represent user-defined metadata as key-value pairs.\nLabel count should not exceed 64 per Certificate.\n**Key Formatting Rules:**\nLength: 1-63 characters.\nCharacters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\nKeys starting with 'stackit-' are system-reserved; users MUST NOT manage them.\n\n**Value Formatting Rules:**\nLength: 0-63 characters (empty string explicitly allowed).\nCharacters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between.\n"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "TLS certificate name"
+          }
+        },
+        "privateKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The PEM encoded private key part",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "publicKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The PEM encoded public key part"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.certificates#CreateCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.certificates#CreateCertificateRequest"
+      },
+      "output": {
+        "target": "com.stackit.certificates#GetCertificateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.certificates#BadRequest"
+        },
+        {
+          "target": "com.stackit.certificates#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/projects/{projectId}/regions/{region}/certificates",
+          "code": 200,
+          "baseUrl": "https://certificates.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Store a TLS certificate in a project.\n\nCreateCertificate will store a TLS certificate in a project."
+      }
+    },
+    "com.stackit.certificates#GetCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.certificates#GetCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.certificates#GetCertificateRequest"
+      },
+      "output": {
+        "target": "com.stackit.certificates#GetCertificateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.certificates#BadRequest"
+        },
+        {
+          "target": "com.stackit.certificates#Forbidden"
+        },
+        {
+          "target": "com.stackit.certificates#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/certificates/{id}",
+          "code": 200,
+          "baseUrl": "https://certificates.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieve the public parts of a stored TLS certificate.\n\nGetCertificate will return the public parts of a stored TLS certificate."
+      }
+    },
+    "com.stackit.certificates#DeleteCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.certificates#DeleteCertificateResponse2": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.stackit.certificates#DeleteCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.certificates#DeleteCertificateRequest"
+      },
+      "output": {
+        "target": "com.stackit.certificates#DeleteCertificateResponse2"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.certificates#BadRequest"
+        },
+        {
+          "target": "com.stackit.certificates#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/projects/{projectId}/regions/{region}/certificates/{id}",
+          "code": 200,
+          "baseUrl": "https://certificates.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Delete a stored TLS certificate in a project.\n\nDeleteCertificate will delete the stored TLS certificate."
+      }
+    },
+    "com.stackit.certificates#GetQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.certificates#GetQuotaResponse": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project identifier"
+          }
+        },
+        "quotas": {
+          "target": "com.stackit.certificates#Quotas"
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.certificates#Quotas": {
+      "type": "structure",
+      "members": {
+        "certificates": {
+          "target": "com.stackit.certificates#CertificatesQuota"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Quotas holds the specific quota elements for different resources"
+      }
+    },
+    "com.stackit.certificates#CertificatesQuota": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of TLS certificates in this project."
+          }
+        },
+        "usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of certificates that are currently existing in this project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Certificates quotas holds the limits and usage for certificates resources"
+      }
+    },
+    "com.stackit.certificates#GetQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.certificates#GetQuotaRequest"
+      },
+      "output": {
+        "target": "com.stackit.certificates#GetQuotaResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.certificates#BadRequest"
+        },
+        {
+          "target": "com.stackit.certificates#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/projects/{projectId}/regions/{region}/quotas",
+          "code": 200,
+          "baseUrl": "https://certificates.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Get the quota for TLS certificates in a project.\n\nRetrieves the configured TLS certificate quota for the project. Limit can be changed via service request."
+      }
+    },
+    "com.stackit.certificates#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.certificates#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.stackit.certificates#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.certificates#Certificates": {
+      "type": "service",
+      "version": "2.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.certificates#ListCertificates"
+        },
+        {
+          "target": "com.stackit.certificates#CreateCertificate"
+        },
+        {
+          "target": "com.stackit.certificates#GetCertificate"
+        },
+        {
+          "target": "com.stackit.certificates#DeleteCertificate"
+        },
+        {
+          "target": "com.stackit.certificates#GetQuota"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Application Load Balancer Certificates API",
+        "smithy.api#documentation": "This API offers the ability to store TLS certificates, which can be used by load balancing servers in STACKIT. They can be between consumer and load balancing server and/or between load balancing server and endpoint server."
+      }
+    }
+  }
+}

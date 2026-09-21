@@ -53,6 +53,22 @@ test("untagged unions validate primitive and collection alternatives", () => {
   expect(code).not.toContain("S.Unknown as any as S.Schema<Choice>");
 });
 
+test("untagged unions honor the configured schema type", () => {
+  for (const schemaType of ["Schema", "Codec"] as const) {
+    const { code } = generateService(model, {
+      unionStyle: "untagged",
+      schemaType,
+      operationDecl,
+    });
+    expect(code).toContain(
+      `S.Union([S.Boolean, Paths]) as any as S.${schemaType}<Choice>`,
+    );
+    expect(code).toContain(
+      `S.Array(S.String) as any as S.${schemaType}<Paths>`,
+    );
+  }
+});
+
 test("omitting a retry policy emits neither a retry import nor an operation setting", () => {
   const { code } = generateService(model, {
     unionStyle: "untagged",

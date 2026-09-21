@@ -52,6 +52,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "aws" },
   { package: "axiom" },
   { package: "azure" },
+  { package: "boat-dev" },
   {
     package: "celld",
     blocked:
@@ -64,6 +65,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "coolify" },
   { package: "customerio" },
   { package: "datadog" },
+  { package: "daytona" },
   { package: "digitalocean" },
   { package: "discord" },
   { package: "docker" },
@@ -119,6 +121,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
     blocked: "docs.slack.dev method JSON twins are committed in-repo",
   },
   { package: "spacetimedb" },
+  { package: "stackit" },
   { package: "squarespace" },
   { package: "stripe" },
   { package: "supabase" },
