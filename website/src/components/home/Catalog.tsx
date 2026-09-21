@@ -240,8 +240,8 @@ export const Catalog = (props: {
             providers, one shape.
           </h2>
           <p class="mt-4 max-w-measure text-[1.05rem] text-fg-2">
-            Each provider is one package, generated from that provider's own API
-            description and published to npm as{" "}
+            Each provider is one package, produced and refined by AI from that
+            provider's own API description and published to npm as{" "}
             <code>@distilled.cloud/&lt;provider&gt;</code>. Pair it with{" "}
             <code>effect</code>. Some descriptions needed more fixing than
             others —{" "}

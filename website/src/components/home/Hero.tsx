@@ -36,8 +36,9 @@ export const Hero = (props: {
         <p class="mb-7 max-w-[34em] text-[clamp(1.05rem,1rem+0.35vw,1.2rem)] text-pretty text-fg-2">
           Effect-native TypeScript SDKs for {props.providerCount} cloud
           providers: {n(props.operationCount)} operations, with every input,
-          response and failure typed. Retries, pagination, credentials and
-          tracing come from Effect.
+          response and failure typed. Each one is produced and refined by AI —
+          patching the bugs in the provider's specification and sorting its
+          failures into errors you can catch.
         </p>
         <div class="mb-6 flex flex-wrap gap-3">
           <a

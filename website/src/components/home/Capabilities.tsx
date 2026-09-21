@@ -71,9 +71,10 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
 )`}
         >
           Match the exact error with <code>catchTags</code>, or a category —
-          throttling, not-found, conflict — with <code>catchIf</code>. Nothing
-          is <code>unknown</code>, and the compiler tells you when you've missed
-          one.
+          throttling, not-found, conflict — with <code>catchIf</code>. Failures
+          the spec never documents are named and categorised as the SDK is
+          produced, so nothing is <code>unknown</code> and the compiler tells
+          you when you've missed one.
         </Cap>
 
         <Cap

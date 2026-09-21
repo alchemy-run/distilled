@@ -12,8 +12,8 @@ export default function Shame() {
     <>
       <Seo
         title="Wall of Shame — Distilled"
-        description="Which cloud providers ship an API description that needs the most fixing before it can be turned into a working SDK. Ranked by patches per 100 operations."
-        social="Providers ranked by how many patches their API description needs before it generates a working SDK."
+        description="Which cloud providers ship an API description that needs the most fixing before AI can turn it into a working SDK. Ranked by patches per 100 operations."
+        social="Providers ranked by how many patches their API description needs before AI can generate a working SDK from it."
         path="/shame"
         card={shame.card}
         cardAlt={`Distilled Wall of Shame — ${n(totals.fixes)} spec fixes across ${n(totals.patched)} providers.`}
@@ -28,11 +28,12 @@ export default function Shame() {
             Some specs arrive <em>clean</em>. Some need work.
           </h1>
           <p class="mb-7 max-w-[34em] text-[clamp(1.05rem,1rem+0.35vw,1.2rem)] text-pretty text-fg-2">
-            Every Distilled SDK is generated from the provider's own API
-            description. When that description is wrong — a missing error
-            response, a field marked required that isn't, a type that lies — we
-            fix it with a JSON patch against the spec so the generator can do
-            its job. This page counts those patches.
+            Every Distilled SDK is produced and refined by AI from the
+            provider's own API description. When that description is wrong — a
+            missing error response, a field marked required that isn't, a type
+            that lies — the fix is a JSON patch against the spec, so the
+            correction survives every regeneration. This page counts those
+            patches.
           </p>
           <p class="mb-7 max-w-[34em] text-base text-pretty text-fg-3 [&_strong]:font-semibold [&_strong]:text-fg-2">
             Ranked by <strong>fixes per 100 operations</strong>, so a huge API
@@ -131,9 +132,9 @@ export default function Shame() {
             exported <code>OperationMethod</code> in <code>src/services/</code>.
           </li>
           <li>
-            Patches are how we keep SDKs correct without editing generated code;
-            they survive regeneration. A high count says something about the
-            spec, not the provider's API.
+            Patches are how an SDK is kept correct without editing generated
+            code; they survive regeneration. A high count says something about
+            the spec, not the provider's API.
           </li>
           <li>
             <strong>Used in Alchemy</strong> means an{" "}

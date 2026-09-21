@@ -93,11 +93,12 @@ export const HowItWorks = () => (
         </>
       }
     >
-      Distilled turns each provider's API description into an SDK. Alchemy
+      AI turns each provider's API description into an SDK, then refines it —
+      patching the description's bugs and giving every failure a name. Alchemy
       builds real infrastructure on those SDKs — resources, providers, tests
       against the live API. Every place the description turns out to be wrong
-      comes back as a patch, and the next generation starts from the corrected
-      description.
+      comes back as another patch, and the next generation starts from the
+      corrected description.
     </SectionHead>
 
     <div
