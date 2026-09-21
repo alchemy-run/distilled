@@ -23,7 +23,7 @@
  *     across operations; anonymous nested objects synthesize names from the
  *     parent + member path
  *   • responses: 200 → 201 → 204 precedence (`successStatuses` overrides),
- *     JSON or binary `application/octet-stream`; object
+ *     JSON or opt-in binary `application/octet-stream`; object
  *     results become `<Op>Response` structures (a sole `$ref` reuses the named
  *     shape); bare array/scalar results wrap in a structure whose single
  *     member carries `com.distilled.openapi#rawResponse` (the SdkSpec maps it
@@ -161,6 +161,12 @@ export interface OpenApiConvertOptions {
    * ask for them.
    */
   readonly headerParams?: boolean;
+  /**
+   * Convert `format: binary` strings to blobs and include binary
+   * `application/octet-stream` responses. Opt in only when the provider's
+   * generator and protocol support binary inputs and outputs. Default false.
+   */
+  readonly binaryTypes?: boolean;
   /**
    * Response statuses to read the operation's output shape from, most
    * preferred first. Default `["200", "201", "204"]`. Extend it for an API
@@ -309,6 +315,7 @@ interface Ctx {
    */
   readonly dirSensitiveRefs: Map<Dir, ReadonlySet<string>>;
   readonly sensitivePatterns: readonly RegExp[];
+  readonly binaryTypes: boolean;
 }
 
 interface Converted {
@@ -915,7 +922,9 @@ const convertSchema = (
   switch (t) {
     case "string":
       return inline(
-        def.format === "binary" ? PRELUDE.Blob : PRELUDE.String,
+        ctx.binaryTypes && def.format === "binary"
+          ? PRELUDE.Blob
+          : PRELUDE.String,
         nullable,
       );
     case "boolean":
@@ -1126,7 +1135,10 @@ const successSchema = (
     const binary = resp.content?.["application/octet-stream"]?.schema;
     return {
       schema:
-        json ?? (deref(ctx, binary)?.format === "binary" ? binary : undefined),
+        json ??
+        (ctx.binaryTypes && deref(ctx, binary)?.format === "binary"
+          ? binary
+          : undefined),
     };
   }
   return { schema: undefined };
@@ -1278,6 +1290,7 @@ export const convertOpenApiToSmithy = (
     refs: new Map(),
     dirSensitiveRefs: new Map(),
     sensitivePatterns: options.sensitivePatterns ?? SENSITIVE_FIELD_PATTERNS,
+    binaryTypes: options.binaryTypes ?? false,
   };
   const statusToErrorClass =
     options.statusToErrorClass ?? DEFAULT_STATUS_TO_ERROR_CLASS;

@@ -6,6 +6,7 @@ const model = (
   mediaType = "multipart/form-data",
   responseSchema: unknown = { type: "string", format: "binary" },
   components: Record<string, unknown> = {},
+  options: { binaryTypes?: boolean } = { binaryTypes: true },
 ) =>
   convertOpenApiToSmithy(
     {
@@ -30,10 +31,37 @@ const model = (
         },
       },
     },
-    { namespace: "com.example.binary", serviceName: "Binary" },
+    { namespace: "com.example.binary", serviceName: "Binary", ...options },
   );
 
 describe("OpenAPI binary contracts", () => {
+  for (const options of [{}, { binaryTypes: false }]) {
+    test(`binary conversion preserves existing contracts with ${JSON.stringify(options)}`, () => {
+      const result = model(
+        {
+          type: "object",
+          properties: {
+            zip: { type: "string", format: "binary" },
+            archive: { $ref: "#/components/schemas/Archive" },
+          },
+        },
+        "multipart/form-data",
+        { $ref: "#/components/schemas/Archive" },
+        { schemas: { Archive: { type: "string", format: "binary" } } },
+        options,
+      );
+      const request = result.shapes["com.example.binary#UploadFileRequest"];
+      expect(request.members.zip.target).toBe("smithy.api#String");
+      expect(request.members.archive.target).toBe("smithy.api#String");
+      expect(result.shapes["com.example.binary#UploadFile"].output.target).toBe(
+        "smithy.api#Unit",
+      );
+      expect(
+        result.shapes["com.example.binary#UploadFileResponse"],
+      ).toBeUndefined();
+    });
+  }
+
   test("component-referenced binary responses retain the original reference's nullability", () => {
     const result = model(
       { type: "object" },

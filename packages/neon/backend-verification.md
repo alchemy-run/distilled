@@ -2,6 +2,19 @@
 
 Observed on 2026-09-17. This report contains fixture values only, not credentials, signed URLs, connection strings, or customer resource identifiers.
 
+## Cross-provider conversion and generation audit
+
+Compared main `035bb2eff1edc1b418c1de58fe57a95e6f289c98` with the shared generator/converter changes in #617 in an isolated checkout. Each comparison used identical provider scripts and inputs, ran sequentially, and formatted output before comparing it.
+
+- All **85 SDK generators** succeeded against the committed intermediate models on both sides. Only Neon's generated module differed.
+- The initial full conversion comparison exposed changes in **35 models across 28 other packages**, including **11 generated SDK modules across seven packages**: Boat, Datadog, 1Password, OpenCode, STACKIT, Vercel, and Zendesk. Binary responses were becoming string-valued outputs in providers without Neon's binary transport configuration.
+- Binary conversion now requires `OpenApiConvertOptions.binaryTypes: true`. Only Neon enables it; both binary string conversion and octet-stream response discovery retain their previous behavior by default.
+- After that correction, all **83 converters and 85 generators** succeeded on both sides. Every non-Neon model and generated SDK output was identical to the main-generator/converter baseline. Neon's regenerated model, service module, and barrel were byte-identical to the PR's existing artifacts. No other providers' regenerated output was committed.
+- Inputs came from committed specifications and 81 source mirrors: recorded gitlink revisions where available, otherwise one frozen mirror commit per package. Meilisearch's mirror lacked `openapi.json`, and its configured upstream URL returned 404. Its comparison instead used a single frozen download from the [current official URL](https://www.meilisearch.com/docs/assets/release-assets/meilisearch-openapi.json), SHA-256 `ac7ac0be0a0d947d1ca01b31dbe530b98d9f752cdc149372a386352c68328f09`. No mirror pins or unrelated fetch scripts were changed.
+- Both new default-preservation regressions failed against the previously published converter. The corrected core/Neon run passed **529 tests across 13 files**. Strict build-mode checks passed for core and the scoped Neon generation/type fixtures, with `noCheck: false`.
+
+This audit verifies compatibility of the shared codegen changes, not provider-side API behavior. It made no live cloud calls and does not change the Function update-propagation findings below.
+
 ## SDK scope and verification
 
 - Refreshed only the shallow, nonrecursive Neon mirror to `1a4da76784698f871455315a81cd8c1e25a18479`. The mirrored OpenAPI document matched the public upstream at verification time.
