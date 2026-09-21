@@ -972,6 +972,20 @@ export class McpPortalNotFound
     [{ status: 404 }],
   ) {}
 
+export class McpServerInvalidId
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<McpServerInvalidId>()("McpServerInvalidId", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [
+      {
+        status: 400,
+        message: { includes: "String must contain at most 32 character(s)" },
+      },
+    ],
+  ) {}
+
 export class McpServerNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<McpServerNotFound>()("McpServerNotFound", {
@@ -239382,6 +239396,7 @@ export const readAccessAiControlMcpPortal: API.OperationMethod<
 export type ReadAccessAiControlMcpServerError =
   | McpServerNotFound
   | Forbidden
+  | McpServerInvalidId
   | CloudflareOpError;
 /** Retrieves an MCP server's configuration and capability sync state. */
 export const readAccessAiControlMcpServer: API.OperationMethod<
@@ -239395,6 +239410,7 @@ export const readAccessAiControlMcpServer: API.OperationMethod<
   errors: [
     McpServerNotFound,
     Forbidden,
+    McpServerInvalidId,
     CloudflareRateLimited,
     CloudflareError,
   ],

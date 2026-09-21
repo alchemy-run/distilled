@@ -119932,6 +119932,28 @@
         ]
       }
     },
+    "com.cloudflare.zero_trust#McpServerInvalidId": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "String must contain at most 32 character(s)"
+            }
+          }
+        ]
+      }
+    },
     "com.cloudflare.zero_trust#InlineAccessPolicy": {
       "type": "structure",
       "members": {
@@ -154182,6 +154204,9 @@
         },
         {
           "target": "com.cloudflare.zero_trust#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.zero_trust#McpServerInvalidId"
         }
       ]
     },
