@@ -1,0 +1,110 @@
+{
+  "description": "Declare not-found responses for resource reads/deletes and inaccessible repository list responses so consumers can handle missing resources and skip repositories without permission using typed errors. GitHub omits these status responses from several endpoint definitions.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1issues~1comments~1{comment_id}/delete/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1environments~1{environment_name}/delete/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1actions~1secrets~1{secret_name}/delete/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1environments~1{environment_name}~1secrets~1{secret_name}/delete/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1actions~1variables~1{name}/get/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1environments~1{environment_name}~1variables~1{name}/get/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1actions~1variables~1{name}/delete/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1environments~1{environment_name}~1variables~1{name}/delete/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1actions~1secrets~1{secret_name}/get/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1environments~1{environment_name}/get/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1environments/get/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1environments/get/responses/403",
+      "value": {
+        "$ref": "#/components/responses/forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1hooks/get/responses/403",
+      "value": {
+        "$ref": "#/components/responses/forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1actions~1variables/get/responses/404",
+      "value": {
+        "$ref": "#/components/responses/not_found"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}~1actions~1variables/get/responses/403",
+      "value": {
+        "$ref": "#/components/responses/forbidden"
+      }
+    }
+  ]
+}

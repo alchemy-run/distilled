@@ -530,7 +530,13 @@
           "uri": "/gists",
           "code": 200
         },
-        "smithy.api#documentation": "List gists for the authenticated user\n\nLists the authenticated user's gists or if called anonymously, this endpoint returns all public gists:"
+        "smithy.api#documentation": "List gists for the authenticated user\n\nLists the authenticated user's gists or if called anonymously, this endpoint returns all public gists:",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.gists#CreateRequestFilesValue": {
@@ -1359,7 +1365,13 @@
           "uri": "/gists/public",
           "code": 200
         },
-        "smithy.api#documentation": "List public gists\n\nList public gists sorted by most recently updated to least recently updated.\n\nNote: With [pagination](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page."
+        "smithy.api#documentation": "List public gists\n\nList public gists sorted by most recently updated to least recently updated.\n\nNote: With [pagination](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.gists#ListStarredRequest": {
@@ -1432,7 +1444,13 @@
           "uri": "/gists/starred",
           "code": 200
         },
-        "smithy.api#documentation": "List starred gists\n\nList the authenticated user's starred gists:"
+        "smithy.api#documentation": "List starred gists\n\nList the authenticated user's starred gists:",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.gists#GetRequest": {
@@ -1792,7 +1810,13 @@
           "uri": "/gists/{gist_id}/comments",
           "code": 200
         },
-        "smithy.api#documentation": "List gist comments\n\nLists the comments on a gist.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown. This is the default if you do not pass any specific media type."
+        "smithy.api#documentation": "List gist comments\n\nLists the comments on a gist.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown. This is the default if you do not pass any specific media type.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.gists#CreateCommentRequest": {
@@ -2122,7 +2146,13 @@
           "uri": "/gists/{gist_id}/commits",
           "code": 200
         },
-        "smithy.api#documentation": "List gist commits"
+        "smithy.api#documentation": "List gist commits",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.gists#ListForksRequest": {
@@ -2199,7 +2229,13 @@
           "uri": "/gists/{gist_id}/forks",
           "code": 200
         },
-        "smithy.api#documentation": "List gist forks"
+        "smithy.api#documentation": "List gist forks",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.gists#ForkRequest": {
@@ -2498,7 +2534,13 @@
           "uri": "/users/{username}/gists",
           "code": 200
         },
-        "smithy.api#documentation": "List gists for a user\n\nLists public gists for the specified user:"
+        "smithy.api#documentation": "List gists for a user\n\nLists public gists for the specified user:",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.gists#Forbidden": {

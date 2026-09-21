@@ -1,0 +1,13 @@
+{
+  "description": "Preserve the repository discussions setting supported by GitHub but missing from the update request schema. Without this property the generated encoder drops has_discussions.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1repos~1{owner}~1{repo}/patch/requestBody/content/application~1json/schema/properties/has_discussions",
+      "value": {
+        "type": "boolean",
+        "description": "Whether GitHub Discussions are enabled for this repository."
+      }
+    }
+  ]
+}

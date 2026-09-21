@@ -771,18 +771,25 @@ export type ListOrgPrivateRegistriesError =
   | NotFound
   | GithubOpError;
 /** List private registries for an organization Lists all private registry configurations available at the organization-level without revealing their encrypted values. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listOrgPrivateRegistries: API.OperationMethod<
+export const listOrgPrivateRegistries: API.PaginatedOperationMethod<
   ListOrgPrivateRegistriesRequest,
   ListOrgPrivateRegistriesResponse,
   ListOrgPrivateRegistriesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  OrgPrivateRegistryConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgPrivateRegistriesRequest,
   output: ListOrgPrivateRegistriesResponse,
   errors: [BadRequest, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "configurations",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type UpdateOrgPrivateRegistryError =
   | NotFound

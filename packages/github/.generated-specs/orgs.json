@@ -157,7 +157,13 @@
           "uri": "/organizations",
           "code": 200
         },
-        "smithy.api#documentation": "List organizations\n\nLists all organizations, in the order that they were created.\n\n> [!NOTE]\n> Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of organizations."
+        "smithy.api#documentation": "List organizations\n\nLists all organizations, in the order that they were created.\n\n> [!NOTE]\n> Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of organizations.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "since",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#GetRequest": {
@@ -2600,7 +2606,14 @@
           "uri": "/orgs/{org}/attestations/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List attestation repositories\n\nList repositories owned by the provided organization that have created at least one attested artifact\nResults will be sorted in ascending order by repository ID"
+        "smithy.api#documentation": "List attestation repositories\n\nList repositories owned by the provided organization that have created at least one attested artifact\nResults will be sorted in ascending order by repository ID",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#DeleteAttestationsByIdRequest": {
@@ -2795,7 +2808,14 @@
           "uri": "/orgs/{org}/attestations/{subject_digest}",
           "code": 200
         },
-        "smithy.api#documentation": "List attestations\n\nList a collection of artifact attestations with a given subject digest that are associated with repositories owned by an organization.\n\nThe collection of attestations returned by this endpoint is filtered according to the authenticated user's permissions; if the authenticated user cannot read a repository, the attestations associated with that repository will not be included in the response. In addition, when using a fine-grained access token the `attestations:read` permission is required.\n\n**Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds)."
+        "smithy.api#documentation": "List attestations\n\nList a collection of artifact attestations with a given subject digest that are associated with repositories owned by an organization.\n\nThe collection of attestations returned by this endpoint is filtered according to the authenticated user's permissions; if the authenticated user cannot read a repository, the attestations associated with that repository will not be included in the response. In addition, when using a fine-grained access token the `attestations:read` permission is required.\n\n**Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "attestations",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#ListBlockedUsersRequest": {
@@ -2999,7 +3019,13 @@
           "uri": "/orgs/{org}/blocks",
           "code": 200
         },
-        "smithy.api#documentation": "List users blocked by an organization\n\nList the users blocked by an organization."
+        "smithy.api#documentation": "List users blocked by an organization\n\nList the users blocked by an organization.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#CheckBlockedUserRequest": {
@@ -3285,7 +3311,13 @@
           "uri": "/orgs/{org}/failed_invitations",
           "code": 200
         },
-        "smithy.api#documentation": "List failed organization invitations\n\nThe return hash contains `failed_at` and `failed_reason` fields which represent the time at which the invitation failed and the reason for the failure."
+        "smithy.api#documentation": "List failed organization invitations\n\nThe return hash contains `failed_at` and `failed_reason` fields which represent the time at which the invitation failed and the reason for the failure.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#ListWebhooksRequest": {
@@ -3458,7 +3490,13 @@
           "uri": "/orgs/{org}/hooks",
           "code": 200
         },
-        "smithy.api#documentation": "List organization webhooks\n\nList webhooks for an organization.\n\nThe authenticated user must be an organization owner to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit\nwebhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps."
+        "smithy.api#documentation": "List organization webhooks\n\nList webhooks for an organization.\n\nThe authenticated user must be an organization owner to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit\nwebhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#WebhookConfigInsecureSsl": {
@@ -4103,7 +4141,13 @@
           "uri": "/orgs/{org}/hooks/{hook_id}/deliveries",
           "code": 200
         },
-        "smithy.api#documentation": "List deliveries for an organization webhook\n\nReturns a list of webhook deliveries for a webhook configured in an organization.\n\nYou must be an organization owner to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit\nwebhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps."
+        "smithy.api#documentation": "List deliveries for an organization webhook\n\nReturns a list of webhook deliveries for a webhook configured in an organization.\n\nYou must be an organization owner to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit\nwebhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "cursor",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#GetWebhookDeliveryRequest": {
@@ -4731,7 +4775,13 @@
           "uri": "/orgs/{org}/insights/api/route-stats/{actor_type}/{actor_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get route stats by actor\n\nGet API request count statistics for an actor broken down by route within a specified time frame.\n\nUnder normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up."
+        "smithy.api#documentation": "Get route stats by actor\n\nGet API request count statistics for an actor broken down by route within a specified time frame.\n\nUnder normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#GetApiInsightSubjectStatsRequestDirection": {
@@ -4929,7 +4979,13 @@
           "uri": "/orgs/{org}/insights/api/subject-stats",
           "code": 200
         },
-        "smithy.api#documentation": "Get subject stats\n\nGet API request statistics for all subjects within an organization within a specified time frame. Subjects can be users or GitHub Apps.\n\nUnder normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up."
+        "smithy.api#documentation": "Get subject stats\n\nGet API request statistics for all subjects within an organization within a specified time frame. Subjects can be users or GitHub Apps.\n\nUnder normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#GetApiInsightSummaryStatsRequest": {
@@ -5668,7 +5724,13 @@
           "uri": "/orgs/{org}/insights/api/user-stats/{user_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get user stats\n\nGet API usage statistics within an organization for a user broken down by the type of access.\n\nUnder normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up."
+        "smithy.api#documentation": "Get user stats\n\nGet API usage statistics within an organization for a user broken down by the type of access.\n\nUnder normal conditions, you can expect API data to appear within 4–6 hours after making a request. During incidents or periods of unusually high volume, it may take longer to show up.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#ListAppInstallationsRequest": {
@@ -7568,7 +7630,13 @@
           "uri": "/orgs/{org}/installations",
           "code": 200
         },
-        "smithy.api#documentation": "List app installations for an organization\n\nLists all GitHub Apps in an organization. The installation count includes\nall GitHub Apps installed on repositories in the organization.\n\nThe authenticated user must be an organization owner to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:read` scope to use this endpoint."
+        "smithy.api#documentation": "List app installations for an organization\n\nLists all GitHub Apps in an organization. The installation count includes\nall GitHub Apps installed on repositories in the organization.\n\nThe authenticated user must be an organization owner to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:read` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "installations",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#ListPendingInvitationsRequestRole": {
@@ -7716,7 +7784,13 @@
           "uri": "/orgs/{org}/invitations",
           "code": 200
         },
-        "smithy.api#documentation": "List pending organization invitations\n\nThe return hash contains a `role` field which refers to the Organization\nInvitation role and will be one of the following values: `direct_member`, `admin`,\n`billing_manager`, or `hiring_manager`. If the invitee is not a GitHub\nmember, the `login` field in the return hash will be `null`."
+        "smithy.api#documentation": "List pending organization invitations\n\nThe return hash contains a `role` field which refers to the Organization\nInvitation role and will be one of the following values: `direct_member`, `admin`,\n`billing_manager`, or `hiring_manager`. If the invitee is not a GitHub\nmember, the `login` field in the return hash will be `null`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#CreateInvitationRequestRole": {
@@ -8276,7 +8350,13 @@
           "uri": "/orgs/{org}/invitations/{invitation_id}/teams",
           "code": 200
         },
-        "smithy.api#documentation": "List organization invitation teams\n\nList all teams associated with an invitation. In order to see invitations in an organization, the authenticated user must be an organization owner."
+        "smithy.api#documentation": "List organization invitation teams\n\nList all teams associated with an invitation. In order to see invitations in an organization, the authenticated user must be an organization owner.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#ListIssueFieldsRequest": {
@@ -9687,7 +9767,13 @@
           "uri": "/orgs/{org}/members",
           "code": 200
         },
-        "smithy.api#documentation": "List organization members\n\nList all users who are members of an organization. If the authenticated user is also a member of this organization then both concealed and public members will be returned."
+        "smithy.api#documentation": "List organization members\n\nList all users who are members of an organization. If the authenticated user is also a member of this organization then both concealed and public members will be returned.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#CheckMembershipForUserRequest": {
@@ -10917,7 +11003,13 @@
           "uri": "/orgs/{org}/organization-roles/{role_id}/teams",
           "code": 200
         },
-        "smithy.api#documentation": "List teams that are assigned to an organization role\n\nLists the teams that are assigned to an organization role. For more information on organization roles, see \"[Using organization roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/using-organization-roles).\"\n\nTo use this endpoint, you must be an administrator for the organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List teams that are assigned to an organization role\n\nLists the teams that are assigned to an organization role. For more information on organization roles, see \"[Using organization roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/using-organization-roles).\"\n\nTo use this endpoint, you must be an administrator for the organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#ListOrgRoleUsersRequest": {
@@ -11317,7 +11409,13 @@
           "uri": "/orgs/{org}/organization-roles/{role_id}/users",
           "code": 200
         },
-        "smithy.api#documentation": "List users that are assigned to an organization role\n\nLists organization members that are assigned to an organization role. For more information on organization roles, see \"[Using organization roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/using-organization-roles).\"\n\nTo use this endpoint, you must be an administrator for the organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List users that are assigned to an organization role\n\nLists organization members that are assigned to an organization role. For more information on organization roles, see \"[Using organization roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/using-organization-roles).\"\n\nTo use this endpoint, you must be an administrator for the organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#ListOutsideCollaboratorsRequestFilter": {
@@ -11417,7 +11515,13 @@
           "uri": "/orgs/{org}/outside_collaborators",
           "code": 200
         },
-        "smithy.api#documentation": "List outside collaborators for an organization\n\nList all users who are outside collaborators of an organization."
+        "smithy.api#documentation": "List outside collaborators for an organization\n\nList all users who are outside collaborators of an organization.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#ConvertMemberToOutsideCollaboratorRequest": {
@@ -11865,7 +11969,13 @@
           "uri": "/orgs/{org}/personal-access-token-requests",
           "code": 200
         },
-        "smithy.api#documentation": "List requests to access organization resources with fine-grained personal access tokens\n\nLists requests from organization members to access organization resources with a fine-grained personal access token.\n\nOnly GitHub Apps can use this endpoint."
+        "smithy.api#documentation": "List requests to access organization resources with fine-grained personal access tokens\n\nLists requests from organization members to access organization resources with a fine-grained personal access token.\n\nOnly GitHub Apps can use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#BulkReviewPatGrantRequestsInRequestPatRequestIdsList": {
@@ -13080,7 +13190,13 @@
           "uri": "/orgs/{org}/personal-access-token-requests/{pat_request_id}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories requested to be accessed by a fine-grained personal access token\n\nLists the repositories a fine-grained personal access token request is requesting access to.\n\nOnly GitHub Apps can use this endpoint."
+        "smithy.api#documentation": "List repositories requested to be accessed by a fine-grained personal access token\n\nLists the repositories a fine-grained personal access token request is requesting access to.\n\nOnly GitHub Apps can use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#ListPatGrantsRequestSort": {
@@ -13419,7 +13535,13 @@
           "uri": "/orgs/{org}/personal-access-tokens",
           "code": 200
         },
-        "smithy.api#documentation": "List fine-grained personal access tokens with access to organization resources\n\nLists approved fine-grained personal access tokens owned by organization members that can access organization resources.\n\nOnly GitHub Apps can use this endpoint."
+        "smithy.api#documentation": "List fine-grained personal access tokens with access to organization resources\n\nLists approved fine-grained personal access tokens owned by organization members that can access organization resources.\n\nOnly GitHub Apps can use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#UpdatePatAccessesRequestAction": {
@@ -13658,7 +13780,13 @@
           "uri": "/orgs/{org}/personal-access-tokens/{pat_id}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories a fine-grained personal access token has access to\n\nLists the repositories a fine-grained personal access token has access to.\n\nOnly GitHub Apps can use this endpoint."
+        "smithy.api#documentation": "List repositories a fine-grained personal access token has access to\n\nLists the repositories a fine-grained personal access token has access to.\n\nOnly GitHub Apps can use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#CustomPropertiesForReposGetOrganizationDefinitionsRequest": {
@@ -14434,7 +14562,13 @@
           "uri": "/orgs/{org}/properties/values",
           "code": 200
         },
-        "smithy.api#documentation": "List custom property values for organization repositories\n\nLists organization repositories with all of their custom property values.\nOrganization members can read these properties."
+        "smithy.api#documentation": "List custom property values for organization repositories\n\nLists organization repositories with all of their custom property values.\nOrganization members can read these properties.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#CustomPropertiesForReposCreateOrUpdateOrganizationValuesRequestRepositoryNamesList": {
@@ -14579,7 +14713,13 @@
           "uri": "/orgs/{org}/public_members",
           "code": 200
         },
-        "smithy.api#documentation": "List public organization members\n\nMembers of an organization can choose to have their membership publicized or not."
+        "smithy.api#documentation": "List public organization members\n\nMembers of an organization can choose to have their membership publicized or not.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#CheckPublicMembershipForUserRequest": {
@@ -14836,7 +14976,13 @@
           "uri": "/orgs/{org}/rulesets/{ruleset_id}/history",
           "code": 200
         },
-        "smithy.api#documentation": "Get organization ruleset history\n\nGet the history of an organization ruleset."
+        "smithy.api#documentation": "Get organization ruleset history\n\nGet the history of an organization ruleset.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#GetOrgRulesetVersionRequest": {
@@ -15174,7 +15320,13 @@
           "uri": "/orgs/{org}/settings/immutable-releases/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List selected repositories for immutable releases enforcement\n\nList all of the repositories that have been selected for immutable releases enforcement in an organization.\n\nOAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List selected repositories for immutable releases enforcement\n\nList all of the repositories that have been selected for immutable releases enforcement in an organization.\n\nOAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#SetImmutableReleasesSettingsRepositoriesRequestSelectedRepositoryIdsList": {
@@ -15399,7 +15551,13 @@
           "uri": "/user/memberships/orgs",
           "code": 200
         },
-        "smithy.api#documentation": "List organization memberships for the authenticated user\n\nLists all of the authenticated user's organization memberships."
+        "smithy.api#documentation": "List organization memberships for the authenticated user\n\nLists all of the authenticated user's organization memberships.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#GetMembershipForAuthenticatedUserRequest": {
@@ -15571,7 +15729,13 @@
           "uri": "/user/orgs",
           "code": 200
         },
-        "smithy.api#documentation": "List organizations for the authenticated user\n\nList organizations for the authenticated user.\n\nFor OAuth app tokens and personal access tokens (classic), this endpoint only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope for OAuth app tokens and personal access tokens (classic). Requests with insufficient scope will receive a `403 Forbidden` response.\n\n> [!NOTE]\n> Requests using a fine-grained access token will receive a `200 Success` response with an empty list."
+        "smithy.api#documentation": "List organizations for the authenticated user\n\nList organizations for the authenticated user.\n\nFor OAuth app tokens and personal access tokens (classic), this endpoint only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope for OAuth app tokens and personal access tokens (classic). Requests with insufficient scope will receive a `403 Forbidden` response.\n\n> [!NOTE]\n> Requests using a fine-grained access token will receive a `200 Success` response with an empty list.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#ListForUserRequest": {
@@ -15640,7 +15804,13 @@
           "uri": "/users/{username}/orgs",
           "code": 200
         },
-        "smithy.api#documentation": "List organizations for a user\n\nList [public organization memberships](https://docs.github.com/articles/publicizing-or-concealing-organization-membership) for the specified user.\n\nThis method only lists _public_ memberships, regardless of authentication. If you need to fetch all of the organization memberships (public and private) for the authenticated user, use the [List organizations for the authenticated user](https://docs.github.com/rest/orgs/orgs#list-organizations-for-the-authenticated-user) API instead."
+        "smithy.api#documentation": "List organizations for a user\n\nList [public organization memberships](https://docs.github.com/articles/publicizing-or-concealing-organization-membership) for the specified user.\n\nThis method only lists _public_ memberships, regardless of authentication. If you need to fetch all of the organization memberships (public and private) for the authenticated user, use the [List organizations for the authenticated user](https://docs.github.com/rest/orgs/orgs#list-organizations-for-the-authenticated-user) API instead.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.orgs#NotFound": {

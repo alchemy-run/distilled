@@ -1,0 +1,47 @@
+{
+  "description": "Add the undocumented repository-by-ID endpoint used to follow renamed or transferred repositories. Verified with GET /repositories/1296269; response shares the full-repository schema.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1repositories~1{repository_id}",
+      "value": {
+        "get": {
+          "summary": "Get a repository by ID",
+          "description": "Look up a repository by its immutable numeric ID, including after a rename or transfer. This endpoint is supported by GitHub but is absent from its published OpenAPI description.",
+          "operationId": "repos/get-by-id",
+          "tags": ["repos"],
+          "parameters": [
+            {
+              "name": "repository_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "description": "The immutable repository ID."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Repository",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/full-repository"
+                  }
+                }
+              }
+            },
+            "403": {
+              "$ref": "#/components/responses/forbidden"
+            },
+            "404": {
+              "$ref": "#/components/responses/not_found"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
