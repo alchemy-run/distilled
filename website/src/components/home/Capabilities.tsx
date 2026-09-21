@@ -48,10 +48,11 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
           </>
         }
       >
-        Every operation returns an Effect. So the things an SDK usually bolts on
-        — error handling, retries, pagination, configuration, tracing — are the
-        Effect features you already use, with the provider's specifics filled
-        in.
+        Every operation returns an Effect. Each package builds the parts an SDK
+        usually bolts on — typed errors, a retry policy, paginated streams, a
+        credential chain, a span per request — and hands them to you as ordinary
+        Effect values: a Schedule you can swap, a Stream you can pipe, a Layer
+        you provide once.
       </SectionHead>
 
       <div
