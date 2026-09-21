@@ -29,10 +29,10 @@
  * );
  *
  * const program = Effect.gen(function* () {
- *   const vm = yield* Freestyle.Services.vms.createVm({
+ *   const vm = yield* Freestyle.vms.createVm({
  *     firewall: { rules: [] },
  *   });
- *   const { stdout } = yield* Freestyle.Services.vms.execVm({
+ *   const { stdout } = yield* Freestyle.vms.execVm({
  *     vmIdOrSlug: vm.id,
  *     command: "uname -a",
  *   });
@@ -67,4 +67,4 @@ export {
   type PtySession,
 } from "./pty.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";
