@@ -137,23 +137,23 @@ const standing = (stats: CatalogPackage["stats"]) => {
   if (stats.honour) {
     return {
       tone: "honour",
-      badge: "HONOUR ROLL · ZERO SPEC FIXES",
-      tags: `${ops} · GENERATED AS PUBLISHED · USED IN ALCHEMY`,
+      badge: "HONOUR ROLL · ZERO PATCHES",
+      tags: `${ops} · WORKS AS PUBLISHED · USED IN ALCHEMY`,
     };
   }
   if (stats.rank !== null) {
     return {
       tone: "ranked",
       badge: `RANK ${String(stats.rank).padStart(2, "0")} OF ${stats.ranked} · WALL OF SHAME`,
-      tags: `${ops} · ${fmt.format(stats.fixes)} SPEC FIXES${
+      tags: `${ops} · ${fmt.format(stats.fixes)} PATCHES${
         stats.used ? " · USED IN ALCHEMY" : ""
       }`,
     };
   }
   return {
     tone: "clean",
-    badge: "ZERO SPEC FIXES",
-    tags: `${ops} · NO PATCHES · NOT YET EXERCISED`,
+    badge: "ZERO PATCHES",
+    tags: `${ops} · NO PATCHES YET · NOT USED IN ALCHEMY`,
   };
 };
 
@@ -263,7 +263,7 @@ const renderShameCard = async (chromium: string) => {
     css: `file://${join(assets, "og.css")}`,
     board: boardHtml(offenders),
     tags: escapeHtml(
-      `${fmt.format(totals.fixes)} SPEC FIXES · ${fmt.format(totals.files)} PATCH FILES · ` +
+      `${fmt.format(totals.fixes)} PATCHES ACROSS ${fmt.format(totals.files)} FILES · ` +
         `${totals.patched} OF ${providers} PROVIDERS PATCHED`,
     ),
   };
