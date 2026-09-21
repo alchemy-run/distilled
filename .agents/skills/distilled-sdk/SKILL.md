@@ -128,6 +128,12 @@ OpenAPI package gets it for free — just declare the mirror path.
 Then register the package: `pnpm-workspace.yaml` needs nothing (it globs
 `packages/*`), but add both tsconfig references to the root `tsconfig.json`.
 
+Public surface: re-export the generated barrel at the package root
+(`export * from "./services/index.ts"`) so callers write `Pkg.vms.createVm`,
+not `Pkg.Services.vms.createVm`. Do not add a `Services` namespace. A
+single-service package re-exports operations on the root (`Pkg.listX`) the
+same way.
+
 ## Step 5 — iterate
 
 ```sh
@@ -267,7 +273,8 @@ npm install @distilled.cloud/<pkg> effect
 The quick-start program must compile against the generated names:
 
 - `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv, <Pkg>Protocol)`
-- at least one real call (`create*` / `exec*` / `get*`, not only `list*`)
+- at least one real call (`Pkg.vms.createVm` / `Pkg.execVm` / `Pkg.getX`,
+  not `Pkg.Services.…` and not only `list*`)
 - `Effect.provide` + `Effect.runPromise`
 
 If a generated operation cannot work as REST — WebSocket `101`,
