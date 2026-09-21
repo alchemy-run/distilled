@@ -75,6 +75,14 @@
     },
     {
       "op": "add",
+      "path": "/paths/~1projects~1{project_id}~1branches/post/responses/409",
+      "value": {
+        "description": "Branch already exists",
+        "$ref": "#/components/responses/GeneralError"
+      }
+    },
+    {
+      "op": "add",
       "path": "/paths/~1projects~1{project_id}~1branches~1count/get/responses/404",
       "value": {
         "description": "Project not found",

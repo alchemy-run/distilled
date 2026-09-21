@@ -8142,6 +8142,11 @@
       "output": {
         "target": "com.neon.api#CreateProjectBranchResponse"
       },
+      "errors": [
+        {
+          "target": "com.neon.api#Conflict"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -18834,19 +18839,6 @@
         ]
       }
     },
-    "com.neon.api#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
     "com.neon.api#Conflict": {
       "type": "structure",
       "members": {},
@@ -18856,6 +18848,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 409
+          }
+        ]
+      }
+    },
+    "com.neon.api#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
           }
         ]
       }
