@@ -10246,7 +10246,7 @@ export const createProject: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateProjectBranchError = NeonOpError;
+export type CreateProjectBranchError = Conflict | NeonOpError;
 /** Create branch Creates a branch in the specified project. No request body is required, but you can specify one to create a compute endpoint or select a non-default parent branch. By default, the branch is created from the project's default branch with no compute endpoint, and the branch name is auto-generated. To access the branch, add a `read_write` endpoint. Each branch supports one read-write endpoint and multiple read-only endpoints. For related information, see [Manage branches](https://neon.com/docs/manage/branches/). */
 export const createProjectBranch: API.OperationMethod<
   CreateProjectBranchRequest,
@@ -10256,7 +10256,7 @@ export const createProjectBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectBranchRequest,
   output: CreateProjectBranchResponse,
-  errors: [UnknownNeonError],
+  errors: [Conflict, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
 }));
