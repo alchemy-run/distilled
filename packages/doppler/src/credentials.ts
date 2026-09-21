@@ -24,15 +24,17 @@ export class Credentials extends Context.Service<
   Effect.Effect<Config>
 >()("DopplerCredentials") {}
 
-/** Layer from a plain API token + optional base URL. */
+/** Layer from a plain or redacted API token and optional base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
+  readonly apiKey: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: Redacted.isRedacted(config.apiKey)
+        ? config.apiKey
+        : Redacted.make(config.apiKey),
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

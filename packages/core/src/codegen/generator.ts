@@ -422,6 +422,19 @@ export interface SdkSpec {
      * `operationName` and `endpointHostPrefix`).
      */
     readonly extraConfig?: (ctx: OperationEmit) => string[];
+    /**
+     * Per-operation `protocol` / `contextType` replacing the declared
+     * defaults, e.g. an unauthenticated login endpoint on a public protocol
+     * whose context has no credentials. Return `undefined` for the defaults.
+     * The header only imports the defaults; a spec that overrides must add
+     * the extra imports itself (see {@link SdkSpec.postProcess}).
+     */
+    readonly overrides?: (ctx: OperationEmit) =>
+      | {
+          readonly protocol?: string;
+          readonly contextType?: string;
+        }
+      | undefined;
   };
   /** Full override of operation const emission. */
   readonly operation?: (ctx: OperationEmit) => string;
@@ -1157,6 +1170,9 @@ export const generateService = (
         throw new Error("SdkSpec needs either operationDecl or operation");
       }
       const errList = [...ctx.errorNames, ...decl.commonErrorClasses];
+      const overrides = decl.overrides?.(ctx);
+      const contextType = overrides?.contextType ?? decl.contextType;
+      const protocol = overrides?.protocol ?? decl.protocol;
       const paginated = ctx.pagination !== undefined;
       const itemTsType = paginated
         ? paginatedItemTsType(
@@ -1169,7 +1185,7 @@ export const generateService = (
         `  ${ctx.inputName},\n` +
         `  ${ctx.outputTsType},\n` +
         `  ${ctx.opName}Error,\n` +
-        `  ${decl.contextType}` +
+        `  ${contextType}` +
         (itemTsType ? `,\n  ${itemTsType}\n` : `\n`) +
         `>`;
       const config =
@@ -1177,7 +1193,7 @@ export const generateService = (
         `  input: ${ctx.inputName},\n` +
         `  output: ${ctx.outputSchema},\n` +
         `  errors: [${errList.join(", ")}],\n` +
-        `  protocol: ${(paginated && opProfile.get(ctx.op.id)?.protocol) || decl.protocol},\n` +
+        `  protocol: ${(paginated && opProfile.get(ctx.op.id)?.protocol) || protocol},\n` +
         `  retry: ${decl.retry},\n` +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
         (paginated
