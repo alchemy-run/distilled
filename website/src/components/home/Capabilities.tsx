@@ -115,15 +115,15 @@ write.«f:pipe»(Effect.«f:retry»({
     S3.«f:putObject»({ Bucket: dst, Key, Body: o.Body! })),
 )`}
         >
-          <p>
+          <span class="block">
             Every paginated operation has <code>.items()</code> and{" "}
             <code>.pages()</code>, so you pull items from an Effect Stream and
             pages load as you go.
-          </p>
-          <p>
+          </span>
+          <span class="mt-3 block">
             Large binary bodies stream in and out without being held in memory.
             Cancel the Effect and the requests stop.
-          </p>
+          </span>
         </Cap>
 
         <Cap
@@ -150,6 +150,25 @@ Effect.«f:all»([head, eu]).«f:pipe»(Effect.«f:provide»(AwsLive))`}
 
         <Cap
           index={4}
+          title="Lazy GraphQL"
+          code={`«m:// at runtime \`yield* load()\` is a single GraphQL query»
+«k:const» load = Query.«f:fn»(() => {
+  «k:const» me = Railway.«f:me»()
+  «k:const» page = Railway.«f:projects»({ first: «c:20» })
+  «k:return» {
+    email: me.email,
+    names: page.«f:pipe»(
+      Query.«f:map»((project) => project.name),
+    ),
+  }
+})`}
+        >
+          GraphQL queries are abstracted away, just reference the fields you
+          need and a query is generated at runtime.
+        </Cap>
+
+        <Cap
+          index={5}
           title="OpenTelemetry spans"
           code={`«m:// Effect's HttpClient opens a span per request with the»
 «m:// standard http.* and server.* attributes.»
@@ -162,27 +181,6 @@ program.«f:pipe»(
         >
           Operations are ordinary Effects, so they get Effect's built-in
           OpenTelemetry support.
-        </Cap>
-
-        <Cap
-          index={5}
-          title="Lazy GraphQL"
-          code={`«m:// me() and this page compile to one GraphQL POST»
-«k:const» load = Query.«f:fn»(() => {
-  «k:const» me = Railway.«f:me»()
-  «k:const» page = Railway.«f:projects»({ first: «c:20» })
-  «k:return» {
-    email: me.email,
-    names: page.«f:pipe»(
-      Query.«f:map»((project) => project.name),
-    ),
-  }
-})`}
-        >
-          <code>me()</code> and <code>{"projects({ first: 20 })"}</code> stay
-          lazy. <code>Query.map</code> walks the page without extra requests;{" "}
-          <code>Query.fn</code> compiles the whole plan into one GraphQL
-          document.
         </Cap>
 
         <article
