@@ -71,10 +71,10 @@ program.«f:pipe»(Effect.«f:provide»(CfLive), Effect.runPromise)`,
 «k:const» «v:program» = Storage.listBuckets
   .«f:items»({ project: «s:"acme"» })
   .«f:pipe»(
-  Stream.«f:filter»((b) => b.location === «s:"EU"»),
-  Stream.«f:take»(«c:20»),
-  Stream.«f:runCollect»,
-)
+    Stream.«f:filter»((b) => b.location === «s:"EU"»),
+    Stream.«f:take»(«c:20»),
+    Stream.«f:runCollect»,
+  )
 
 «k:const» «v:GcpLive» = Layer.«f:mergeAll»(
   FetchHttpClient.layer,
