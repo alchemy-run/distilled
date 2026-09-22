@@ -181,19 +181,12 @@ program.«f:pipe»(
       Query.«f:map»((project) => project.name),
     ),
   }
-})
-
-load().«f:pipe»(
-  Effect.«f:flatMap»(({ email, names }) =>
-    S3.«f:putObject»({ Bucket, Key: email, Body: names.join() }),
-  ),
-)`}
+})`}
         >
           <code>me()</code> and <code>{"projects({ first: 20 })"}</code> stay
           lazy. <code>Query.map</code> walks the page without extra requests;{" "}
           <code>Query.fn</code> compiles the whole plan into one GraphQL
-          document. The result is an Effect, so <code>flatMap</code> into{" "}
-          <code>S3.putObject</code> works like the rest of Distilled.
+          document.
         </Cap>
 
         <article
