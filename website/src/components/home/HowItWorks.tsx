@@ -89,15 +89,16 @@ export const HowItWorks = () => (
       id="how-title"
       title={
         <>
-          Generated from the spec. <em>Proven</em> by Alchemy.
+          Generated from the spec. <em>Patched</em> by Alchemy.
         </>
       }
     >
-      Distilled turns each provider's API description into an SDK. Alchemy
-      builds real infrastructure on those SDKs — resources, providers, tests
-      against the live API. Every place the description turns out to be wrong
-      comes back as a patch, and the next generation starts from the corrected
-      description.
+      How do we patch specs for so many provider and keep stuff accurate? We
+      have a feedback loop with <a href="http://alchemy.run">Alchemy</a>;
+      Alchemy uses Distilled to generate resources and run its test suite
+      against the real cloud provider apis, when the tests fail they are
+      investigated and the patches are added back to Distilled for everyone to
+      benefit!
     </SectionHead>
 
     <div
@@ -202,7 +203,7 @@ export const HowItWorks = () => (
         >
           <h3 class="display-72 m-0 text-[1.35rem] leading-[1.05]">Spec</h3>
           <p class="mt-[0.3rem] text-[0.92rem] text-fg-2 lg:text-[0.8rem]">
-            The provider's own API description.
+            The provider's own API spec.
           </p>
         </li>
       </ol>

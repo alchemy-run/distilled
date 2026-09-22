@@ -261,14 +261,20 @@
   }
 
   p code,
-  li code,
-  h2 code {
+  li code {
     padding: 0.08em 0.4em;
     border-radius: 5px;
     background: var(--bg-3);
     border: 1px solid var(--line);
     color: var(--fg);
     font-size: 0.86em;
+  }
+
+  /* At display sizes a boxed chip overwhelms the heading, so code in a
+     heading is set in mono and left unboxed. */
+  h2 code {
+    font-size: 0.78em;
+    color: var(--fg-2);
   }
 
   h1,

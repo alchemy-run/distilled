@@ -12,8 +12,8 @@ export default function Shame() {
     <>
       <Seo
         title="Wall of Shame — Distilled"
-        description="Which cloud providers ship an API description that needs the most fixing before it can be turned into a working SDK. Ranked by patches per 100 operations."
-        social="Providers ranked by how many patches their API description needs before it generates a working SDK."
+        description="Which cloud providers ship an API spec that needs the most fixing before AI can turn it into a working SDK. Ranked by patches per 100 operations."
+        social="Providers ranked by how many patches their API spec needs before AI can generate a working SDK from it."
         path="/shame"
         card={shame.card}
         cardAlt={`Distilled Wall of Shame — ${n(totals.fixes)} spec fixes across ${n(totals.patched)} providers.`}
@@ -23,21 +23,25 @@ export default function Shame() {
           class="max-w-[52rem] pt-[clamp(3rem,8vw,6rem)] pb-[clamp(2rem,4vw,3rem)]"
           aria-labelledby="shame-title"
         >
-          <p class="eyebrow">Wall of Shame</p>
           <h1 id="shame-title" class="mb-5">
-            Some specs arrive <em>clean</em>. Some need work.
+            <em>The Wall of Shame</em>
           </h1>
+          <h2 id="shame-title" class="mb-5">
+            If you're api is on this list: <strong>fix your spec</strong>
+          </h2>
           <p class="mb-7 max-w-[34em] text-[clamp(1.05rem,1rem+0.35vw,1.2rem)] text-pretty text-fg-2">
-            Every Distilled SDK is generated from the provider's own API
-            description. When that description is wrong — a missing error
-            response, a field marked required that isn't, a type that lies — we
-            fix it with a JSON patch against the spec so the generator can do
-            its job. This page counts those patches.
+            Every generated SDK: ours, the vendor's, the one you'd write; is
+            only ever as good as the api spec its built from. Most of these
+            specs aren't generated from the source and regularly drift from the
+            actual implementation. We maintain a list of who we have to patch
+            the most so we can hopefully pressure these providers to fix their
+            source of truth.
           </p>
           <p class="mb-7 max-w-[34em] text-base text-pretty text-fg-3 [&_strong]:font-semibold [&_strong]:text-fg-2">
             Ranked by <strong>fixes per 100 operations</strong>, so a huge API
             isn't punished for being huge. Providers with no patches at all are
-            in the honour roll below. Numbers come from{" "}
+            in the honour roll below; A <strong>HUGE</strong> thank you to the
+            providers we don't have to patch. Numbers come from{" "}
             <code>packages/*/patches</code> at build time.
           </p>
         </section>
@@ -70,9 +74,9 @@ export default function Shame() {
             <a href={ALCHEMY_URL} rel="noopener">
               Alchemy
             </a>{" "}
-            resources today <em>and</em> never needed a spec fix. The API
-            description generated a working SDK as published — which is what a
-            spec is supposed to do.
+            resources today <em>and</em> don't need their spec fixed. The API
+            spec generated a working SDK as published; which is what a spec is
+            supposed to do.
           </SectionHead>
           <HonourList
             items={shame.honour}
@@ -131,9 +135,9 @@ export default function Shame() {
             exported <code>OperationMethod</code> in <code>src/services/</code>.
           </li>
           <li>
-            Patches are how we keep SDKs correct without editing generated code;
-            they survive regeneration. A high count says something about the
-            spec, not the provider's API.
+            Patches are how an SDK is kept correct without editing generated
+            code; they survive regeneration. A high count says something about
+            the spec, not the provider's API.
           </li>
           <li>
             <strong>Used in Alchemy</strong> means an{" "}
@@ -151,8 +155,7 @@ export default function Shame() {
             <a href={REPO_URL} rel="noopener">
               alchemy-run/distilled
             </a>
-            . When a provider fixes its description upstream, the patch goes
-            away.
+            . When a provider fixes its spec upstream, the patch goes away.
           </li>
         </Method>
       </Page>

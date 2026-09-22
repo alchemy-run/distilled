@@ -199,7 +199,8 @@ export const paginatePageNumber = <
 
 /**
  * Stream of pages using cursor-based pagination — follow `outputToken`
- * cursors until one comes back absent.
+ * cursors until one comes back absent or repeats a previously requested cursor.
+ * Empty pages still advance when they return a new cursor.
  */
 export const paginateCursor = <
   Input extends Record<string, unknown>,
@@ -224,30 +225,39 @@ export const paginateCursor = <
       ? (input[inputToken] as string)
       : undefined;
 
-  return Stream.unfold({ cursor: startCursor, done: false } as State, (state) =>
-    Effect.gen(function* () {
-      if (state.done) return undefined;
+  return Stream.suspend(() => {
+    // Cursor history belongs to this traversal, not to the reusable stream.
+    const requestedCursors = new Set<string>();
+    return Stream.unfold(
+      { cursor: startCursor, done: false } as State,
+      (state) =>
+        Effect.gen(function* () {
+          if (state.done) return undefined;
+          if (state.cursor !== undefined) requestedCursors.add(state.cursor);
 
-      const requestPayload = {
-        ...input,
-        ...(state.cursor ? { [inputToken]: state.cursor } : {}),
-      } as Input;
+          const requestPayload = {
+            ...input,
+            ...(state.cursor ? { [inputToken]: state.cursor } : {}),
+          } as Input;
 
-      const response = yield* operation(requestPayload);
+          const response = yield* operation(requestPayload);
 
-      const nextCursor = getPath(response, outputToken) as
-        | string
-        | null
-        | undefined;
+          const nextCursor = getPath(response, outputToken) as
+            | string
+            | null
+            | undefined;
 
-      const nextState: State = {
-        cursor: nextCursor ?? undefined,
-        done: isTerminalToken(nextCursor),
-      };
+          const nextState: State = {
+            cursor: nextCursor ?? undefined,
+            done:
+              isTerminalToken(nextCursor) ||
+              (nextCursor != null && requestedCursors.has(nextCursor)),
+          };
 
-      return [response, nextState] as const;
-    }),
-  );
+          return [response, nextState] as const;
+        }),
+    );
+  });
 };
 
 // ============================================================================

@@ -1,0 +1,35 @@
+{
+  "description": "Model absent Function deployments and deployment diagnostics as nullable, and declare live-observed Function/Trigger not-found responses (function not visible on branch; function trigger not visible on branch).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/components/schemas/NeonFunction/properties/current_deployment/nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/NeonFunction/properties/active_deployment/nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/NeonFunctionDeployment/properties/error/nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/NeonFunctionDeployment/properties/environment/nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1functions~1{slug}/get/responses/404",
+      "value": { "$ref": "#/components/responses/GeneralError" }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1triggers~1{trigger_id}/get/responses/404",
+      "value": { "$ref": "#/components/responses/GeneralError" }
+    }
+  ]
+}
