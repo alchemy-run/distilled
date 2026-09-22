@@ -12,10 +12,13 @@ import {
   type SsoProfileConfig,
   type SSOToken,
 } from "./auth.browser.ts";
+import { fromLoginCredentials } from "./credential-providers/from-login-credentials.ts";
 import {
+  AwsCredentialProviderError,
   ConflictingSSORegion,
   ConflictingSSOStartUrl,
   ExpiredSSOToken,
+  fromAwsCredentialIdentity,
   InvalidSSOProfile,
   InvalidSSOToken,
   ProfileNotFound,
@@ -185,6 +188,10 @@ export const makeAuthService = () =>
         return profile as SsoProfileConfig;
       }
 
+      if (profile.login_session) {
+        return profile;
+      }
+
       return yield* new ProfileNotFound({
         message: `Profile ${profileName} not found`,
         profile: profileName,
@@ -204,10 +211,33 @@ export const makeAuthService = () =>
       const region =
         profile.region ?? profile.sso_region ?? (yield* regionFromEnv);
 
+      // `aws login` keeps its own cache under `~/.aws/login/cache` and
+      // renews the session itself, so nothing is cached here.
+      if (profile.login_session) {
+        const identity = yield* fromLoginCredentials({
+          profile: profileName,
+          region,
+        }).pipe(
+          Effect.mapError(
+            (cause) =>
+              new AwsCredentialProviderError({
+                message: cause.message,
+                provider: "login",
+                cause,
+                hints: [`Run \`aws login --profile ${profileName}\`.`],
+              }),
+          ),
+        );
+        return fromAwsCredentialIdentity(identity, region);
+      }
+
       // Both SSO formats cache the access token under sha1 of the cache key: the
       // `sso_session` name (modern) or the `sso_start_url` (legacy inline format).
       const ssoCacheKey = profile.sso_session ?? profile.sso_start_url;
       if (ssoCacheKey) {
+        // `loadProfile` returns a profile with a cache key only after
+        // validating that every required SSO field is present.
+        const { sso_account_id, sso_role_name } = profile as SsoProfileConfig;
         const ssoTokenFilepath = path.join(
           cachePath,
           `${ssoTokenCacheName(ssoCacheKey)}.json`,
@@ -346,8 +376,8 @@ export const makeAuthService = () =>
             secretAccessKey: credentials.secretAccessKey,
             sessionToken: credentials.sessionToken,
             expiry: credentials.expiration,
-            sso_account_id: profile.sso_account_id,
-            sso_role_name: profile.sso_role_name,
+            sso_account_id,
+            sso_role_name,
           } satisfies CachedSsoRoleCredentials),
         );
 
