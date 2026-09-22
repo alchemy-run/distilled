@@ -131,41 +131,6 @@ write.«f:pipe»(Effect.«f:retry»({
 
         <Cap
           index={3}
-          title="Lazy GraphQL"
-          code={`«m:// at runtime \`yield* load()\` is a single GraphQL query»
-«k:const» load = Query.«f:fn»(() => {
-  «k:const» me = Railway.«f:me»()
-  «k:const» page = Railway.«f:projects»({ first: «c:20» })
-  «k:return» {
-    email: me.email,
-    names: page.«f:pipe»(
-      Query.«f:map»((project) => project.name),
-    ),
-  }
-})`}
-        >
-          GraphQL queries are abstracted away, just reference the fields you
-          need and a query is generated at runtime.
-        </Cap>
-
-        <Cap
-          index={4}
-          title="OpenTelemetry spans"
-          code={`«m:// Effect's HttpClient opens a span per request with the»
-«m:// standard http.* and server.* attributes.»
-program.«f:pipe»(
-  Effect.«f:withSpan»(«s:"provision-bucket"»),
-  Effect.«f:provide»(OtlpTracer.«f:layer»({
-    url: «s:"http://collector:4318/v1/traces"»,
-  })),
-)`}
-        >
-          Operations are just effects, we piggyback on the same great otel
-          support Effect already provides!
-        </Cap>
-
-        <Cap
-          index={5}
           title="Layered configuration"
           code={`«k:const» AwsLive = Layer.«f:mergeAll»(
   FetchHttpClient.layer,
@@ -185,6 +150,41 @@ Effect.«f:all»([head, eu]).«f:pipe»(Effect.«f:provide»(AwsLive))`}
           credentials and regions around or instantiate SDKs as globals. All
           requiremnts are shoved into layers, so you can provide them once in
           your root and override them as you see fit.
+        </Cap>
+
+        <Cap
+          index={4}
+          title="Lazy GraphQL"
+          code={`«m:// at runtime \`yield* load()\` is a single GraphQL query»
+«k:const» load = Query.«f:fn»(() => {
+  «k:const» me = Railway.«f:me»()
+  «k:const» page = Railway.«f:projects»({ first: «c:20» })
+  «k:return» {
+    email: me.email,
+    names: page.«f:pipe»(
+      Query.«f:map»((project) => project.name),
+    ),
+  }
+})`}
+        >
+          GraphQL queries are abstracted away, just reference the fields you
+          need and a query is generated at runtime.
+        </Cap>
+
+        <Cap
+          index={5}
+          title="OpenTelemetry spans"
+          code={`«m:// Effect's HttpClient opens a span per request with the»
+«m:// standard http.* and server.* attributes.»
+program.«f:pipe»(
+  Effect.«f:withSpan»(«s:"provision-bucket"»),
+  Effect.«f:provide»(OtlpTracer.«f:layer»({
+    url: «s:"http://collector:4318/v1/traces"»,
+  })),
+)`}
+        >
+          Operations are just effects, we piggyback on the same great otel
+          support Effect already provides!
         </Cap>
 
         <article
