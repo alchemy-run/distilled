@@ -168,9 +168,27 @@ program.«f:pipe»(
           support Effect already provides!
         </Cap>
 
+        <Cap
+          index={5}
+          title="Lazy GraphQL"
+          code={`«k:const» load = Query.«f:fn»(() => {
+  «k:const» me = Railway.«f:me»()
+  «k:return» {
+    email: me.email,
+    spaces: me.workspaces.«f:pipe»(
+      Query.«f:map»((w) => w.name),
+    ),
+  }
+})`}
+        >
+          GraphQL SDKs are lazy lenses, not baked documents.{" "}
+          <code>Query.fn</code> walks the plan you return and posts one
+          selection — only the fields you actually read.
+        </Cap>
+
         <article
           class="reveal-item panel flex min-w-0 flex-col gap-3 px-[1.6rem] pt-6 pb-[1.6rem] hover:border-line-2"
-          style={{ "--i": 5 }}
+          style={{ "--i": 6 }}
         >
           <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">
             Per-operation imports
