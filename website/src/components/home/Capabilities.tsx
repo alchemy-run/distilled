@@ -171,22 +171,23 @@ program.«f:pipe»(
         <Cap
           index={5}
           title="Lazy GraphQL"
-          code={`«m:// Query.fn is an Effect: one POST, then it pipes»
-«k:const» me = Query.«f:fn»(() => {
-  «k:const» user = Railway.«f:me»()
-  «k:return» { email: user.email, name: user.name }
+          code={`«m:// me() and project() compile to one GraphQL POST»
+«k:const» load = Query.«f:fn»(() => {
+  «k:const» me = Railway.«f:me»()
+  «k:const» prod = Railway.«f:project»({ id })
+  «k:return» { email: me.email, name: prod.name }
 })
 
-me().«f:pipe»(
+load().«f:pipe»(
   Effect.«f:flatMap»(({ email, name }) =>
     S3.«f:putObject»({ Bucket, Key: email, Body: name }),
   ),
 )`}
         >
-          Field reads stay lazy. <code>Query.fn</code> is the Effect — one
-          GraphQL POST for the fields you actually read — so{" "}
-          <code>Effect.flatMap</code>, retry, and layers work the same as they
-          do for <code>S3.getObject</code>.
+          <code>Query.fn</code> compiles every field you read — across{" "}
+          <code>me()</code> and <code>project()</code> — into one GraphQL
+          document. The result is an Effect, so <code>flatMap</code>, retry, and
+          layers work like <code>S3.getObject</code>.
         </Cap>
 
         <article
