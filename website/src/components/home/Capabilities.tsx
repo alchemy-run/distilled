@@ -171,23 +171,29 @@ program.«f:pipe»(
         <Cap
           index={5}
           title="Lazy GraphQL"
-          code={`«m:// me() and project() compile to one GraphQL POST»
+          code={`«m:// me() and this page compile to one GraphQL POST»
 «k:const» load = Query.«f:fn»(() => {
   «k:const» me = Railway.«f:me»()
-  «k:const» prod = Railway.«f:project»({ id })
-  «k:return» { email: me.email, name: prod.name }
+  «k:const» page = Railway.«f:projects»({ first: «c:20» })
+  «k:return» {
+    email: me.email,
+    names: page.edges.«f:pipe»(
+      Query.«f:map»((edge) => edge.node.name),
+    ),
+  }
 })
 
 load().«f:pipe»(
-  Effect.«f:flatMap»(({ email, name }) =>
-    S3.«f:putObject»({ Bucket, Key: email, Body: name }),
+  Effect.«f:flatMap»(({ email, names }) =>
+    S3.«f:putObject»({ Bucket, Key: email, Body: names.join() }),
   ),
 )`}
         >
-          <code>Query.fn</code> compiles every field you read — across{" "}
-          <code>me()</code> and <code>project()</code> — into one GraphQL
-          document. The result is an Effect, so <code>flatMap</code>, retry, and
-          layers work like <code>S3.getObject</code>.
+          <code>me()</code> and <code>{"projects({ first: 20 })"}</code> stay
+          lazy. <code>Query.map</code> walks the page without extra requests;{" "}
+          <code>Query.fn</code> compiles the whole plan into one GraphQL
+          document. The result is an Effect, so <code>flatMap</code> into{" "}
+          <code>S3.putObject</code> works like the rest of Distilled.
         </Cap>
 
         <article
