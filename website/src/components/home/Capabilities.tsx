@@ -118,38 +118,34 @@ write.«f:pipe»(Effect.«f:retry»({
     S3.«f:putObject»({ Bucket: dst, Key, Body: o.Body! })),
 )`}
         >
-          <p>
+          <span class="block">
             Every paginated operation has <code>.items()</code> and{" "}
             <code>.pages()</code>. No need to loop over pages just pull from the
             Effect stream!
-          </p>
-          <p>
+          </span>
+          <span class="mt-3 block">
             Large bodies binary bodies stream in and out without being held in
             memory. Cancel the Effect and the requests stop.
-          </p>
+          </span>
         </Cap>
 
         <Cap
           index={3}
-          title="Layered configuration"
-          code={`«k:const» AwsLive = Layer.«f:mergeAll»(
-  FetchHttpClient.layer,
-  Region.«f:fromEnv»(),
-  Credentials.«f:fromChain»(),   «m:// env → ~/.aws → SSO → IMDS»
-)
-
-«m:// the region comes from the layer…»
-«k:const» head = S3.«f:headObject»({ Bucket, Key })
-
-«m:// ...unless one call says otherwise»
-«k:const» eu = head.«f:pipe»(Effect.«f:provide»(Region.«f:of»("eu-central-1")))
-
-Effect.«f:all»([head, eu]).«f:pipe»(Effect.«f:provide»(AwsLive))`}
+          title="Lazy GraphQL"
+          code={`«m:// at runtime \`yield* load()\` is a single GraphQL query»
+«k:const» load = Query.«f:fn»(() => {
+  «k:const» me = Railway.«f:me»()
+  «k:const» page = Railway.«f:projects»({ first: «c:20» })
+  «k:return» {
+    email: me.email,
+    names: page.«f:pipe»(
+      Query.«f:map»((project) => project.name),
+    ),
+  }
+})`}
         >
-          Your code just calls <code>S3.headObject</code>; No need to pass
-          credentials and regions around or instantiate SDKs as globals. All
-          requiremnts are shoved into layers, so you can provide them once in
-          your root and override them as you see fit.
+          GraphQL queries are abstracted away, just reference the fields you
+          need and a query is generated at runtime.
         </Cap>
 
         <Cap
@@ -170,23 +166,25 @@ program.«f:pipe»(
 
         <Cap
           index={5}
-          title="Lazy GraphQL"
-          code={`«m:// me() and this page compile to one GraphQL POST»
-«k:const» load = Query.«f:fn»(() => {
-  «k:const» me = Railway.«f:me»()
-  «k:const» page = Railway.«f:projects»({ first: «c:20» })
-  «k:return» {
-    email: me.email,
-    names: page.«f:pipe»(
-      Query.«f:map»((project) => project.name),
-    ),
-  }
-})`}
+          title="Layered configuration"
+          code={`«k:const» AwsLive = Layer.«f:mergeAll»(
+  FetchHttpClient.layer,
+  Region.«f:fromEnv»(),
+  Credentials.«f:fromChain»(),   «m:// env → ~/.aws → SSO → IMDS»
+)
+
+«m:// the region comes from the layer…»
+«k:const» head = S3.«f:headObject»({ Bucket, Key })
+
+«m:// ...unless one call says otherwise»
+«k:const» eu = head.«f:pipe»(Effect.«f:provide»(Region.«f:of»("eu-central-1")))
+
+Effect.«f:all»([head, eu]).«f:pipe»(Effect.«f:provide»(AwsLive))`}
         >
-          <code>me()</code> and <code>{"projects({ first: 20 })"}</code> stay
-          lazy. <code>Query.map</code> walks the page without extra requests;{" "}
-          <code>Query.fn</code> compiles the whole plan into one GraphQL
-          document.
+          Your code just calls <code>S3.headObject</code>; No need to pass
+          credentials and regions around or instantiate SDKs as globals. All
+          requiremnts are shoved into layers, so you can provide them once in
+          your root and override them as you see fit.
         </Cap>
 
         <article
