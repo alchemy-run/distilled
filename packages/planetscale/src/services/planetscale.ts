@@ -232,6 +232,8 @@ export interface OrganizationTeamMembershipPasswordsItemRegion {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const OrganizationTeamMembershipPasswordsItemRegion =
   /*@__PURE__*/ S.suspend(() =>
@@ -247,6 +249,7 @@ export const OrganizationTeamMembershipPasswordsItemRegion =
       current_default: S.Boolean,
       mysql_supported: S.Boolean,
       postgresql_supported: S.Boolean,
+      neki_supported: S.Boolean,
     }),
   ).annotate({
     identifier: "OrganizationTeamMembershipPasswordsItemRegion",
@@ -384,6 +387,179 @@ export const OrganizationTeamMembership = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "OrganizationTeamMembership",
 }) as any as S.Schema<OrganizationTeamMembership>;
+
+/** The IDs of the shards to assign */
+export type AssignShardConfigurationProfileShardsRequestShardIdsList =
+  Array<string>;
+export const AssignShardConfigurationProfileShardsRequestShardIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<AssignShardConfigurationProfileShardsRequestShardIdsList>;
+
+export interface AssignShardConfigurationProfileShardsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** The IDs of the shards to assign */
+  shard_ids: AssignShardConfigurationProfileShardsRequestShardIdsList;
+}
+export const AssignShardConfigurationProfileShardsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      shard_ids: AssignShardConfigurationProfileShardsRequestShardIdsList,
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/shards",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "AssignShardConfigurationProfileShardsRequest",
+  }) as any as S.Schema<AssignShardConfigurationProfileShardsRequest>;
+
+/** The assignment error */
+export type NekiShardAssignmentErrorMap = {
+  [key: string]: unknown | undefined;
+};
+export const NekiShardAssignmentErrorMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<NekiShardAssignmentErrorMap>;
+
+export interface NekiShardAssignment {
+  /** The public ID of the shard */
+  id: string;
+  /** One of assigned, unchanged, or failed */
+  status: string;
+  /** The assignment error */
+  error?: NekiShardAssignmentErrorMap | null;
+}
+export const NekiShardAssignment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    status: S.String,
+    error: S.optional(S.NullOr(NekiShardAssignmentErrorMap)),
+  }),
+).annotate({
+  identifier: "NekiShardAssignment",
+}) as any as S.Schema<NekiShardAssignment>;
+
+export type AssignShardConfigurationProfileShardsResponseBodyList =
+  Array<NekiShardAssignment>;
+export const AssignShardConfigurationProfileShardsResponseBodyList =
+  /*@__PURE__*/ S.Array(
+    NekiShardAssignment,
+  ) as any as S.Schema<AssignShardConfigurationProfileShardsResponseBodyList>;
+
+export type AssignShardConfigurationProfileShardsResponse =
+  AssignShardConfigurationProfileShardsResponseBodyList;
+export const AssignShardConfigurationProfileShardsResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    AssignShardConfigurationProfileShardsResponseBodyList.pipe(
+      T.RawResponseRoot(),
+    ),
+  ).annotate({
+    identifier: "AssignShardConfigurationProfileShardsResponse",
+  }) as any as S.Schema<AssignShardConfigurationProfileShardsResponse>;
+
+export interface BulkCreateShardConfigurationProfileShardsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** The number of shards to add */
+  count: number;
+}
+export const BulkCreateShardConfigurationProfileShardsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      count: S.Number,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/shards/bulk",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "BulkCreateShardConfigurationProfileShardsRequest",
+  }) as any as S.Schema<BulkCreateShardConfigurationProfileShardsRequest>;
+
+/** The public IDs of the created shards */
+export type BulkCreateShardConfigurationProfileShardsResponseShardIdsList =
+  Array<string>;
+export const BulkCreateShardConfigurationProfileShardsResponseShardIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BulkCreateShardConfigurationProfileShardsResponseShardIdsList>;
+
+export interface BulkCreateShardConfigurationProfileShardsResponse {
+  /** The number of shards created */
+  created: number;
+  /** The public IDs of the created shards */
+  shard_ids: BulkCreateShardConfigurationProfileShardsResponseShardIdsList;
+}
+export const BulkCreateShardConfigurationProfileShardsResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      created: S.Number,
+      shard_ids: BulkCreateShardConfigurationProfileShardsResponseShardIdsList,
+    }),
+  ).annotate({
+    identifier: "BulkCreateShardConfigurationProfileShardsResponse",
+  }) as any as S.Schema<BulkCreateShardConfigurationProfileShardsResponse>;
+
+export interface CancelAdminChangeRequestRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The ID of the change request */
+  id: string;
+}
+export const CancelAdminChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/admin/changes/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CancelAdminChangeRequestRequest",
+}) as any as S.Schema<CancelAdminChangeRequestRequest>;
+
+export interface CancelAdminChangeRequestResponse {}
+export const CancelAdminChangeRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CancelAdminChangeRequestResponse",
+}) as any as S.Schema<CancelAdminChangeRequestResponse>;
 
 export interface CancelBouncerResizeRequestRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -1118,6 +1294,151 @@ export const CancelKeyspaceResizeRequestResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CancelKeyspaceResizeRequestResponse",
 }) as any as S.Schema<CancelKeyspaceResizeRequestResponse>;
+
+export interface CancelNekiChangeRequestRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The ID of the change request */
+  id: string;
+}
+export const CancelNekiChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/neki-changes/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CancelNekiChangeRequestRequest",
+}) as any as S.Schema<CancelNekiChangeRequestRequest>;
+
+export interface CancelNekiChangeRequestResponse {}
+export const CancelNekiChangeRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CancelNekiChangeRequestResponse",
+}) as any as S.Schema<CancelNekiChangeRequestResponse>;
+
+export interface CancelRouterChangeRequestRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_routers`. */
+  router: string;
+  /** The ID of the change request */
+  id: string;
+}
+export const CancelRouterChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    router: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/routers/{router}/changes/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CancelRouterChangeRequestRequest",
+}) as any as S.Schema<CancelRouterChangeRequestRequest>;
+
+export interface CancelRouterChangeRequestResponse {}
+export const CancelRouterChangeRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CancelRouterChangeRequestResponse",
+}) as any as S.Schema<CancelRouterChangeRequestResponse>;
+
+export interface CancelShardConfigurationProfileChangeRequestRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** The ID of the change request */
+  id: string;
+}
+export const CancelShardConfigurationProfileChangeRequestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/changes/{id}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "CancelShardConfigurationProfileChangeRequestRequest",
+  }) as any as S.Schema<CancelShardConfigurationProfileChangeRequestRequest>;
+
+export interface CancelShardConfigurationProfileChangeRequestResponse {}
+export const CancelShardConfigurationProfileChangeRequestResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "CancelShardConfigurationProfileChangeRequestResponse",
+  }) as any as S.Schema<CancelShardConfigurationProfileChangeRequestResponse>;
+
+export interface CancelSidecarChangeRequestRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** ID from `list_sidecars`, or the configuration profile name. */
+  sidecar: string;
+  /** The ID of the change request */
+  id: string;
+}
+export const CancelSidecarChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    sidecar: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/sidecars/{sidecar}/changes/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CancelSidecarChangeRequestRequest",
+}) as any as S.Schema<CancelSidecarChangeRequestRequest>;
+
+export interface CancelSidecarChangeRequestResponse {}
+export const CancelSidecarChangeRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CancelSidecarChangeRequestResponse",
+}) as any as S.Schema<CancelSidecarChangeRequestResponse>;
 
 export interface CancelWorkflowRequest {
   /** The name of the organization the workflow belongs to */
@@ -1989,6 +2310,19 @@ export const CreateBranchRequestKeyspaceClusterSizesList =
     S.String,
   ) as any as S.Schema<CreateBranchRequestKeyspaceClusterSizesList>;
 
+/** For Neki backup restores, per-configuration-profile cluster size and replica count. Each entry is { "name": "default", "cluster_size": "PS_40", "replicas": 2 }. Omitted profiles inherit the source size and replica count. */
+export type CreateBranchRequestConfigurationProfileSizesList = Array<string>;
+export const CreateBranchRequestConfigurationProfileSizesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateBranchRequestConfigurationProfileSizesList>;
+
+/** For Neki backup restores, per-router size and replica count. Each entry is { "name": "default", "router_size": "NKR_20", "replicas_per_cell": 1 }. Omitted routers inherit the source size and replica count. */
+export type CreateBranchRequestRouterSizesList = Array<string>;
+export const CreateBranchRequestRouterSizesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateBranchRequestRouterSizesList>;
+
 export interface CreateBranchRequestStorage {
   /** The minimum storage size in bytes. */
   minimum_storage_bytes?: number;
@@ -2005,7 +2339,7 @@ export const CreateBranchRequestStorage = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateBranchRequestStorage>;
 
 /** The kind of branch to create. Required when create_database_if_missing is set. */
-export type CreateBranchRequestKind = "mysql" | "postgresql";
+export type CreateBranchRequestKind = "mysql" | "postgresql" | "neki";
 export const CreateBranchRequestKind = S.String;
 
 export interface CreateBranchRequest {
@@ -2033,8 +2367,12 @@ export interface CreateBranchRequest {
   cluster_size?: string;
   /** For MySQL backup restores, per-keyspace cluster sizes. Each entry is { "keyspace_name": "main", "cluster_size": "PS_40" }. When provided, each restored keyspace must have a size here or via cluster_size. */
   keyspace_cluster_sizes?: CreateBranchRequestKeyspaceClusterSizesList;
+  /** For Neki backup restores, per-configuration-profile cluster size and replica count. Each entry is { "name": "default", "cluster_size": "PS_40", "replicas": 2 }. Omitted profiles inherit the source size and replica count. */
+  configuration_profile_sizes?: CreateBranchRequestConfigurationProfileSizesList;
+  /** For Neki backup restores, per-router size and replica count. Each entry is { "name": "default", "router_size": "NKR_20", "replicas_per_cell": 1 }. Omitted routers inherit the source size and replica count. */
+  router_sizes?: CreateBranchRequestRouterSizesList;
   storage?: CreateBranchRequestStorage;
-  /** For PostgreSQL databases, the PostgreSQL major version to use for the branch. Defaults to the major version of the parent branch if it exists or the database's default branch major version. Ignored for branches restored from backups. */
+  /** For PostgreSQL and Neki databases, the PostgreSQL major version to use for the branch. Defaults to the major version of the parent branch if it exists or the database's default branch major version. Ignored for branches restored from backups. */
   major_version?: string;
   /** Create a new database for the branch if the database does not exist. Defaults to false. */
   create_database_if_missing?: boolean;
@@ -2057,6 +2395,10 @@ export const CreateBranchRequest = /*@__PURE__*/ S.suspend(() =>
     keyspace_cluster_sizes: S.optional(
       CreateBranchRequestKeyspaceClusterSizesList,
     ),
+    configuration_profile_sizes: S.optional(
+      CreateBranchRequestConfigurationProfileSizesList,
+    ),
+    router_sizes: S.optional(CreateBranchRequestRouterSizesList),
     storage: S.optional(CreateBranchRequestStorage),
     major_version: S.optional(S.String),
     create_database_if_missing: S.optional(S.Boolean),
@@ -2073,7 +2415,7 @@ export const CreateBranchRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateBranchRequest>;
 
 /** The kind of branch */
-export type DatabaseBranchKind = "mysql" | "postgresql";
+export type DatabaseBranchKind = "mysql" | "postgresql" | "neki";
 export const DatabaseBranchKind = S.String;
 
 /** The current state of the branch */
@@ -2120,6 +2462,8 @@ export interface DatabaseBranchRegion {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const DatabaseBranchRegion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2133,6 +2477,7 @@ export const DatabaseBranchRegion = /*@__PURE__*/ S.suspend(() =>
     current_default: S.Boolean,
     mysql_supported: S.Boolean,
     postgresql_supported: S.Boolean,
+    neki_supported: S.Boolean,
   }),
 ).annotate({
   identifier: "DatabaseBranchRegion",
@@ -2275,8 +2620,50 @@ export const DatabaseBranch = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "DatabaseBranch" }) as any as S.Schema<DatabaseBranch>;
 
+export interface CreateBranchLogSignatureRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const CreateBranchLogSignatureRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/logs/signatures",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateBranchLogSignatureRequest",
+}) as any as S.Schema<CreateBranchLogSignatureRequest>;
+
+export interface CreateBranchLogSignatureResponse {
+  /** The signature token */
+  sig: string;
+  /** The expiration timestamp */
+  exp: string;
+  /** The signed branch logs query URL */
+  url: string;
+}
+export const CreateBranchLogSignatureResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sig: S.String,
+    exp: S.String,
+    url: S.String,
+  }),
+).annotate({
+  identifier: "CreateBranchLogSignatureResponse",
+}) as any as S.Schema<CreateBranchLogSignatureResponse>;
+
 /** The kind of database to create. */
-export type CreateDatabaseRequestKind = "mysql" | "postgresql";
+export type CreateDatabaseRequestKind = "mysql" | "postgresql" | "neki";
 export const CreateDatabaseRequestKind = S.String;
 
 export interface CreateDatabaseRequestStorage {
@@ -2307,7 +2694,7 @@ export interface CreateDatabaseRequest {
   replicas?: number;
   /** The kind of database to create. */
   kind?: CreateDatabaseRequestKind | (string & {});
-  /** For PostgreSQL databases, the PostgreSQL major version to use for the database. Defaults to the latest available major version. */
+  /** For PostgreSQL and Neki databases, the PostgreSQL major version to use for the database. Defaults to the latest available major version. */
   major_version?: string;
   storage?: CreateDatabaseRequestStorage;
 }
@@ -2400,6 +2787,8 @@ export interface DatabaseRegion {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const DatabaseRegion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2413,6 +2802,7 @@ export const DatabaseRegion = /*@__PURE__*/ S.suspend(() =>
     current_default: S.Boolean,
     mysql_supported: S.Boolean,
     postgresql_supported: S.Boolean,
+    neki_supported: S.Boolean,
   }),
 ).annotate({ identifier: "DatabaseRegion" }) as any as S.Schema<DatabaseRegion>;
 
@@ -2428,7 +2818,7 @@ export type DatabaseState =
 export const DatabaseState = S.String;
 
 /** The kind of database */
-export type DatabaseKind = "mysql" | "postgresql";
+export type DatabaseKind = "mysql" | "postgresql" | "neki";
 export const DatabaseKind = S.String;
 
 export interface Database {
@@ -2727,6 +3117,29 @@ export type DatabaseBranchKeyspaceNodeTtlStrategy =
   | "node_ttl_off";
 export const DatabaseBranchKeyspaceNodeTtlStrategy = S.String;
 
+/** The disk autoscaling strategy */
+export type DatabaseBranchKeyspaceDiskAutoscalingStrategy =
+  | "grow"
+  | "disable"
+  | "shrink";
+export const DatabaseBranchKeyspaceDiskAutoscalingStrategy = S.String;
+
+export interface DatabaseBranchKeyspaceDiskAutoscaling {
+  /** The disk autoscaling strategy */
+  strategy: DatabaseBranchKeyspaceDiskAutoscalingStrategy;
+  /** The maximum size in bytes disks may autoscale to */
+  storage_limit_bytes: number;
+}
+export const DatabaseBranchKeyspaceDiskAutoscaling = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      strategy: DatabaseBranchKeyspaceDiskAutoscalingStrategy,
+      storage_limit_bytes: S.Number,
+    }),
+).annotate({
+  identifier: "DatabaseBranchKeyspaceDiskAutoscaling",
+}) as any as S.Schema<DatabaseBranchKeyspaceDiskAutoscaling>;
+
 /** The replication durability strategy */
 export type DatabaseBranchKeyspaceReplicationDurabilityConstraintsStrategy =
   | "available"
@@ -2770,6 +3183,21 @@ export const DatabaseBranchKeyspaceVreplicationFlags = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "DatabaseBranchKeyspaceVreplicationFlags",
 }) as any as S.Schema<DatabaseBranchKeyspaceVreplicationFlags>;
+
+export interface DatabaseBranchKeyspaceThrottler {
+  /** Whether the keyspace throttler is enabled */
+  enabled: boolean;
+  /** Replication lag in seconds that trips the throttler */
+  threshold: number | null;
+}
+export const DatabaseBranchKeyspaceThrottler = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    threshold: S.NullOr(S.Number),
+  }),
+).annotate({
+  identifier: "DatabaseBranchKeyspaceThrottler",
+}) as any as S.Schema<DatabaseBranchKeyspaceThrottler>;
 
 /** MySQL daemon configuration options */
 export type DatabaseBranchKeyspaceMysqldOptionsMap = {
@@ -2832,8 +3260,12 @@ export interface DatabaseBranchKeyspace {
   vector_pool_allocation: number | null;
   /** Controls when node TTL drains are allowed */
   node_ttl_strategy: DatabaseBranchKeyspaceNodeTtlStrategy;
+  disk_autoscaling: DatabaseBranchKeyspaceDiskAutoscaling;
+  /** The maximum number of shards rolled out in parallel. Null uses the infrastructure default of 1. Effective concurrency is capped at 32. */
+  max_rollout: number | null;
   replication_durability_constraints: DatabaseBranchKeyspaceReplicationDurabilityConstraints;
   vreplication_flags: DatabaseBranchKeyspaceVreplicationFlags;
+  throttler: DatabaseBranchKeyspaceThrottler;
   /** MySQL daemon configuration options */
   mysqld_options: DatabaseBranchKeyspaceMysqldOptionsMap;
   /** VTTablet configuration options */
@@ -2862,113 +3294,18 @@ export const DatabaseBranchKeyspace = /*@__PURE__*/ S.suspend(() =>
     imported: S.Boolean,
     vector_pool_allocation: S.NullOr(S.Number),
     node_ttl_strategy: DatabaseBranchKeyspaceNodeTtlStrategy,
+    disk_autoscaling: DatabaseBranchKeyspaceDiskAutoscaling,
+    max_rollout: S.NullOr(S.Number),
     replication_durability_constraints:
       DatabaseBranchKeyspaceReplicationDurabilityConstraints,
     vreplication_flags: DatabaseBranchKeyspaceVreplicationFlags,
+    throttler: DatabaseBranchKeyspaceThrottler,
     mysqld_options: DatabaseBranchKeyspaceMysqldOptionsMap,
     vttablet_options: DatabaseBranchKeyspaceVttabletOptionsMap,
   }),
 ).annotate({
   identifier: "DatabaseBranchKeyspace",
 }) as any as S.Schema<DatabaseBranchKeyspace>;
-
-export interface CreateKeyspaceResizeRequestRequest {
-  /** The name of the organization the branch belongs to */
-  organization: string;
-  /** The name of the database the branch belongs to */
-  database: string;
-  /** The name of the branch */
-  branch: string;
-  /** The name of the keyspace */
-  keyspace: string;
-  /** The new cluster size for the keyspace: PS_10, PS_20,… */
-  cluster_size?: string;
-  /** The number of additional replicas per shard beyond the cluster size's included default (each production cluster includes 2 replicas) */
-  extra_replicas?: number;
-}
-export const CreateKeyspaceResizeRequestRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organization: S.String.pipe(T.Label()),
-    database: S.String.pipe(T.Label()),
-    branch: S.String.pipe(T.Label()),
-    keyspace: S.String.pipe(T.Label()),
-    cluster_size: S.optional(S.String),
-    extra_replicas: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/resizes",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateKeyspaceResizeRequestRequest",
-}) as any as S.Schema<CreateKeyspaceResizeRequestRequest>;
-
-export type KeyspaceResizeRequestActor = OrganizationTeamMembershipActor;
-export const KeyspaceResizeRequestActor = OrganizationTeamMembershipActor;
-
-export interface KeyspaceResizeRequest {
-  /** The ID of the keyspace resize request */
-  id: string;
-  /** The state of the keyspace resize request: pending, resizing, completed, or cancelled */
-  state: string;
-  /** The time the resize started, or null when still queued */
-  started_at: string | null;
-  /** The time the resize completed, or null while in progress */
-  completed_at: string | null;
-  /** The time the resize request was created */
-  created_at: string;
-  /** The time the resize request was last updated */
-  updated_at: string;
-  /** The total number of replicas after the resize */
-  replicas: number;
-  /** The number of additional replicas beyond the cluster size's included default after the resize */
-  extra_replicas: number;
-  /** The total number of replicas before the resize */
-  previous_replicas: number;
-  /** The SKU representing the keyspace's cluster after the resize */
-  cluster_name: string;
-  /** The SKU representing the keyspace's cluster after the resize, for display */
-  cluster_display_name?: string;
-  /** The SKU representing the keyspace's cluster before the resize */
-  previous_cluster_name: string;
-  /** The SKU representing the keyspace's cluster before the resize, for display */
-  previous_cluster_display_name?: string;
-  /** The number of read-only replicas after the resize */
-  rdonly_replicas?: number | null;
-  /** The number of read-only replicas before the resize */
-  previous_rdonly_replicas?: number | null;
-  /** The vector pool allocation after the resize */
-  vector_pool_allocation?: number | null;
-  /** The vector pool allocation before the resize */
-  previous_vector_pool_allocation?: number | null;
-  actor?: OrganizationTeamMembershipActor;
-}
-export const KeyspaceResizeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    state: S.String,
-    started_at: S.NullOr(S.String),
-    completed_at: S.NullOr(S.String),
-    created_at: S.String,
-    updated_at: S.String,
-    replicas: S.Number,
-    extra_replicas: S.Number,
-    previous_replicas: S.Number,
-    cluster_name: S.String,
-    cluster_display_name: S.optional(S.String),
-    previous_cluster_name: S.String,
-    previous_cluster_display_name: S.optional(S.String),
-    rdonly_replicas: S.optional(S.NullOr(S.Number)),
-    previous_rdonly_replicas: S.optional(S.NullOr(S.Number)),
-    vector_pool_allocation: S.optional(S.NullOr(S.Number)),
-    previous_vector_pool_allocation: S.optional(S.NullOr(S.Number)),
-    actor: S.optional(OrganizationTeamMembershipActor),
-  }),
-).annotate({
-  identifier: "KeyspaceResizeRequest",
-}) as any as S.Schema<KeyspaceResizeRequest>;
 
 /** Whether an OAuth grant code or a refresh token is being exchanged for an OAuth token */
 export type CreateOauthTokenRequestGrantType =
@@ -3625,6 +3962,8 @@ export interface DatabaseBranchPasswordWithSecretRegion {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const DatabaseBranchPasswordWithSecretRegion = /*@__PURE__*/ S.suspend(
   () =>
@@ -3640,6 +3979,7 @@ export const DatabaseBranchPasswordWithSecretRegion = /*@__PURE__*/ S.suspend(
       current_default: S.Boolean,
       mysql_supported: S.Boolean,
       postgresql_supported: S.Boolean,
+      neki_supported: S.Boolean,
     }),
 ).annotate({
   identifier: "DatabaseBranchPasswordWithSecretRegion",
@@ -3787,6 +4127,30 @@ export const QueryPatternsDownload = /*@__PURE__*/ S.suspend(() =>
   identifier: "QueryPatternsDownload",
 }) as any as S.Schema<QueryPatternsDownload>;
 
+export interface CreateReadOnlyReplicaRequestStorage {
+  /** The minimum storage size in bytes. */
+  minimum_storage_bytes?: number;
+  /** The maximum storage size in bytes for autoscaling. */
+  maximum_storage_bytes?: number;
+  /** Whether storage autoscaling is enabled. */
+  storage_autoscaling?: boolean;
+  /** The storage IOPS. */
+  storage_iops?: number;
+  /** The storage throughput in MiB/s. */
+  storage_throughput_mibs?: number;
+}
+export const CreateReadOnlyReplicaRequestStorage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minimum_storage_bytes: S.optional(S.Number),
+    maximum_storage_bytes: S.optional(S.Number),
+    storage_autoscaling: S.optional(S.Boolean),
+    storage_iops: S.optional(S.Number),
+    storage_throughput_mibs: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "CreateReadOnlyReplicaRequestStorage",
+}) as any as S.Schema<CreateReadOnlyReplicaRequestStorage>;
+
 export interface CreateReadOnlyReplicaRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
@@ -3802,6 +4166,7 @@ export interface CreateReadOnlyReplicaRequest {
   replicas?: number;
   /** The cluster size SKU name. Defaults to the primary cluster size. */
   cluster_size?: string;
+  storage?: CreateReadOnlyReplicaRequestStorage;
 }
 export const CreateReadOnlyReplicaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3812,6 +4177,7 @@ export const CreateReadOnlyReplicaRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     replicas: S.optional(S.Number),
     cluster_size: S.optional(S.String),
+    storage: S.optional(CreateReadOnlyReplicaRequestStorage),
   }).pipe(
     T.Http({
       method: "POST",
@@ -3822,6 +4188,15 @@ export const CreateReadOnlyReplicaRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateReadOnlyReplicaRequest",
 }) as any as S.Schema<CreateReadOnlyReplicaRequest>;
+
+/** The storage type */
+export type PostgresReadOnlyReplicaStorageType =
+  | "gp3"
+  | "io2"
+  | "pd_ssd"
+  | "hyperdisk_balanced"
+  | "premium_v2_lrs";
+export const PostgresReadOnlyReplicaStorageType = S.String;
 
 export type PostgresReadOnlyReplicaActor = OrganizationTeamMembershipActor;
 export const PostgresReadOnlyReplicaActor = OrganizationTeamMembershipActor;
@@ -3854,6 +4229,8 @@ export interface PostgresReadOnlyReplicaRegion {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const PostgresReadOnlyReplicaRegion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3867,6 +4244,7 @@ export const PostgresReadOnlyReplicaRegion = /*@__PURE__*/ S.suspend(() =>
     current_default: S.Boolean,
     mysql_supported: S.Boolean,
     postgresql_supported: S.Boolean,
+    neki_supported: S.Boolean,
   }),
 ).annotate({
   identifier: "PostgresReadOnlyReplicaRegion",
@@ -3998,6 +4376,20 @@ export interface PostgresReadOnlyReplica {
   private_access_host_url: string;
   /** The service name to set up private connectivity for the read-only replica */
   private_connection_service_name: string | null;
+  /** The minimum storage size in bytes */
+  minimum_storage_bytes: number | null;
+  /** The maximum storage size in bytes */
+  maximum_storage_bytes: number | null;
+  /** Whether storage autoscaling is enabled */
+  storage_autoscaling: boolean | null;
+  /** The storage type */
+  storage_type: PostgresReadOnlyReplicaStorageType | null;
+  /** The storage IOPS */
+  storage_iops: number | null;
+  /** The storage throughput in MiB/s */
+  storage_throughput_mibs: number | null;
+  /** When volume modifications will be allowed again */
+  volume_modifications_blocked_until: string | null;
   /** When the read-only replica was created */
   created_at: string;
   /** When the read-only replica was last updated */
@@ -4021,6 +4413,13 @@ export const PostgresReadOnlyReplica = /*@__PURE__*/ S.suspend(() =>
     access_host_url: S.String,
     private_access_host_url: S.String,
     private_connection_service_name: S.NullOr(S.String),
+    minimum_storage_bytes: S.NullOr(S.Number),
+    maximum_storage_bytes: S.NullOr(S.Number),
+    storage_autoscaling: S.NullOr(S.Boolean),
+    storage_type: S.NullOr(PostgresReadOnlyReplicaStorageType),
+    storage_iops: S.NullOr(S.Number),
+    storage_throughput_mibs: S.NullOr(S.Number),
+    volume_modifications_blocked_until: S.NullOr(S.String),
     created_at: S.String,
     updated_at: S.String,
     ready_at: S.NullOr(S.String),
@@ -4045,7 +4444,9 @@ export type CreateRoleRequestInheritedRolesItem =
   | "pg_stat_scan_tables"
   | "pg_use_reserved_connections"
   | "pg_write_all_data"
-  | "postgres";
+  | "postgres"
+  | "neki_operator"
+  | "neki_viewer";
 export const CreateRoleRequestInheritedRolesItem = S.String;
 
 /** Roles to inherit from */
@@ -4238,6 +4639,113 @@ export const PostgresRole = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "PostgresRole" }) as any as S.Schema<PostgresRole>;
 
+export interface CreateRouterRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The name of the router group. Letters, digits, dashes, and underscores; 1-64 characters; cannot start or end with a dash or underscore. `new`, `primary`, and `replica` are reserved. Clients connect through the group by appending it to the username, e.g. `user|my-router`. */
+  name: string;
+  /** The router size SKU, e.g. `NKR_1`. Defaults to the service's default size. */
+  router_size?: string;
+  /** The number of router instances per availability zone. Defaults to the service's default count. */
+  replicas_per_cell?: number;
+}
+export const CreateRouterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    name: S.String,
+    router_size: S.optional(S.String),
+    replicas_per_cell: S.optional(S.Number),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/routers",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateRouterRequest",
+}) as any as S.Schema<CreateRouterRequest>;
+
+export interface NekiRouterSku {
+  /** The name of the Neki router SKU */
+  name: string;
+  /** The display name */
+  display_name: string;
+  /** The CPU allocation */
+  cpu: string;
+  /** The amount of memory in bytes */
+  ram: number;
+  /** The sort order of the Neki router SKU */
+  sort_order: number;
+  /** The monthly rate for the SKU */
+  rate: number | null;
+  /** Whether or not the router SKU is enabled for the organization */
+  enabled: boolean;
+}
+export const NekiRouterSku = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    display_name: S.String,
+    cpu: S.String,
+    ram: S.Number,
+    sort_order: S.Number,
+    rate: S.NullOr(S.Number),
+    enabled: S.Boolean,
+  }),
+).annotate({ identifier: "NekiRouterSku" }) as any as S.Schema<NekiRouterSku>;
+
+/** The current state of the router */
+export type NekiRouterState = "pending" | "applying" | "ready";
+export const NekiRouterState = S.String;
+
+export interface NekiRouter {
+  /** The ID of the router */
+  id: string;
+  /** The name of the router */
+  name: string;
+  /** Whether this is the default router */
+  default: boolean;
+  sku: NekiRouterSku;
+  /** The router size SKU name */
+  router_size: string;
+  /** The count of replicas in each cell */
+  replicas_per_cell: number;
+  /** Whether the router scales horizontally within each cell */
+  autoscaling: boolean;
+  /** The maximum count of replicas in each cell when autoscaling */
+  max_replicas_per_cell: number | null;
+  /** The target average CPU utilization percentage when autoscaling, one of 40, 50, 60 or 70 */
+  target_cpu_utilization: number | null;
+  /** The current state of the router */
+  state: NekiRouterState;
+  /** When the router was created */
+  created_at: string;
+  /** When the router was last updated */
+  updated_at: string;
+}
+export const NekiRouter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    default: S.Boolean,
+    sku: NekiRouterSku,
+    router_size: S.String,
+    replicas_per_cell: S.Number,
+    autoscaling: S.Boolean,
+    max_replicas_per_cell: S.NullOr(S.Number),
+    target_cpu_utilization: S.NullOr(S.Number),
+    state: NekiRouterState,
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({ identifier: "NekiRouter" }) as any as S.Schema<NekiRouter>;
+
 export interface CreateServiceTokenRequest {
   /** The name of the organization */
   organization: string;
@@ -4261,6 +4769,238 @@ export const CreateServiceTokenRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateServiceTokenRequest",
 }) as any as S.Schema<CreateServiceTokenRequest>;
+
+export interface CreateShardRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const CreateShardRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/shards",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateShardRequest",
+}) as any as S.Schema<CreateShardRequest>;
+
+export interface CreateShardResponse {}
+export const CreateShardResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateShardResponse",
+}) as any as S.Schema<CreateShardResponse>;
+
+export type CreateShardConfigurationProfileRequestStorage =
+  CreateReadOnlyReplicaRequestStorage;
+export const CreateShardConfigurationProfileRequestStorage =
+  CreateReadOnlyReplicaRequestStorage;
+
+export interface CreateShardConfigurationProfileRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The name of the shard configuration profile */
+  name: string;
+  /** The cluster size for the shard configuration profile */
+  cluster_size?: string;
+  /** The number of replicas for the shard configuration profile */
+  replicas?: number;
+  /** The PostgreSQL major version for the shard configuration profile */
+  postgres_major_version?: string;
+  /** The PostgreSQL minor version for the shard configuration profile. Requires postgres_major_version when specified. */
+  postgres_minor_version?: string;
+  storage?: CreateReadOnlyReplicaRequestStorage;
+}
+export const CreateShardConfigurationProfileRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      name: S.String,
+      cluster_size: S.optional(S.String),
+      replicas: S.optional(S.Number),
+      postgres_major_version: S.optional(S.String),
+      postgres_minor_version: S.optional(S.String),
+      storage: S.optional(CreateReadOnlyReplicaRequestStorage),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "CreateShardConfigurationProfileRequest",
+}) as any as S.Schema<CreateShardConfigurationProfileRequest>;
+
+export interface NekiShardConfigurationProfileStorage {
+  /** The minimum storage size in bytes */
+  minimum_storage_bytes: number | null;
+  /** The maximum storage size in bytes for autoscaling */
+  maximum_storage_bytes: number | null;
+  /** Whether storage autoscaling is enabled */
+  storage_autoscaling: boolean | null;
+  /** The storage IOPS */
+  storage_iops: number | null;
+  /** The storage throughput in MiB/s */
+  storage_throughput_mibs: number | null;
+}
+export const NekiShardConfigurationProfileStorage = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      minimum_storage_bytes: S.NullOr(S.Number),
+      maximum_storage_bytes: S.NullOr(S.Number),
+      storage_autoscaling: S.NullOr(S.Boolean),
+      storage_iops: S.NullOr(S.Number),
+      storage_throughput_mibs: S.NullOr(S.Number),
+    }),
+).annotate({
+  identifier: "NekiShardConfigurationProfileStorage",
+}) as any as S.Schema<NekiShardConfigurationProfileStorage>;
+
+/** The current state of the shard configuration profile */
+export type NekiShardConfigurationProfileState =
+  | "draft"
+  | "pending"
+  | "applying"
+  | "ready";
+export const NekiShardConfigurationProfileState = S.String;
+
+export interface NekiShardConfigurationProfile {
+  /** The ID of the shard configuration profile */
+  id: string;
+  /** The name of the shard configuration profile */
+  name: string;
+  /** The architecture of the cluster size SKU */
+  architecture: string;
+  /** The name of the cluster size SKU */
+  cluster_size: string;
+  /** The display name of the cluster size SKU */
+  cluster_display_name: string;
+  /** Whether this is the default shard configuration profile */
+  default: boolean;
+  /** Whether shards using this configuration profile use metal instances */
+  metal: boolean;
+  /** The number of replicas for shards using this configuration profile */
+  replicas: number;
+  /** The PostgreSQL image used by the shard configuration profile */
+  postgres_image_version: string;
+  /** The latest PostgreSQL image available to the shard configuration profile */
+  latest_postgres_image_version: string;
+  /** The PostgreSQL major version used by the shard configuration profile */
+  postgres_major_version: number;
+  /** The PostgreSQL minor version used by the shard configuration profile */
+  postgres_minor_version: number;
+  /** The latest PostgreSQL minor version available to the shard configuration profile */
+  latest_postgres_minor_version: number;
+  /** The number of shards using this configuration profile */
+  shards: number;
+  storage: NekiShardConfigurationProfileStorage;
+  /** The current state of the shard configuration profile */
+  state: NekiShardConfigurationProfileState;
+  /** When the shard configuration profile was created */
+  created_at: string;
+  /** When the shard configuration profile was last updated */
+  updated_at: string;
+}
+export const NekiShardConfigurationProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    architecture: S.String,
+    cluster_size: S.String,
+    cluster_display_name: S.String,
+    default: S.Boolean,
+    metal: S.Boolean,
+    replicas: S.Number,
+    postgres_image_version: S.String,
+    latest_postgres_image_version: S.String,
+    postgres_major_version: S.Number,
+    postgres_minor_version: S.Number,
+    latest_postgres_minor_version: S.Number,
+    shards: S.Number,
+    storage: NekiShardConfigurationProfileStorage,
+    state: NekiShardConfigurationProfileState,
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({
+  identifier: "NekiShardConfigurationProfile",
+}) as any as S.Schema<NekiShardConfigurationProfile>;
+
+export interface CreateShardConfigurationProfileShardRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** The display name of the shard */
+  display_name?: string;
+}
+export const CreateShardConfigurationProfileShardRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      display_name: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/shards",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateShardConfigurationProfileShardRequest",
+  }) as any as S.Schema<CreateShardConfigurationProfileShardRequest>;
+
+export interface NekiShard {
+  /** The ID of the shard */
+  id: string;
+  /** The name of the shard */
+  name: string;
+  /** The display name of the shard */
+  display_name: string | null;
+  /** The name of the shard configuration profile */
+  configuration_profile: string;
+  /** When the shard was created */
+  created_at: string;
+  /** Whether the shard has been created on the cluster */
+  ready: boolean;
+  /** Whether the shard is the authoritative shard of the cluster */
+  authoritative: boolean;
+}
+export const NekiShard = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    display_name: S.NullOr(S.String),
+    configuration_profile: S.String,
+    created_at: S.String,
+    ready: S.Boolean,
+    authoritative: S.Boolean,
+  }),
+).annotate({ identifier: "NekiShard" }) as any as S.Schema<NekiShard>;
 
 export interface CreateSwitchoverRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -4654,6 +5394,8 @@ export interface CreateWebhookRequest {
   database: string;
   /** The URL the webhook will send events to */
   url: string;
+  /** The value to send in the Authorization header */
+  authorization_header?: string;
   /** Whether the webhook should be enabled */
   enabled?: boolean;
   /** The events this webhook should subscribe to */
@@ -4664,6 +5406,7 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     organization: S.String.pipe(T.Label()),
     database: S.String.pipe(T.Label()),
     url: S.String,
+    authorization_header: S.optional(S.String),
     enabled: S.optional(S.Boolean),
     events: S.optional(CreateWebhookRequestEventsList),
   }).pipe(
@@ -4715,6 +5458,8 @@ export interface DatabaseWebhook {
   url: string;
   /** The secret used to sign the webhook payloads */
   secret: Redacted.Redacted<string>;
+  /** Whether the webhook sends an Authorization header */
+  authorization_header_configured: boolean;
   /** Whether the webhook is enabled */
   enabled: boolean;
   /** The last result sent by the webhook */
@@ -4735,6 +5480,7 @@ export const DatabaseWebhook = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     url: S.String,
     secret: S.String.pipe(T.SensitiveValue({})),
+    authorization_header_configured: S.Boolean,
     enabled: S.Boolean,
     last_sent_result: S.NullOr(S.String),
     last_sent_success: S.NullOr(S.Boolean),
@@ -5280,6 +6026,40 @@ export const DeleteRoleResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRoleResponse",
 }) as any as S.Schema<DeleteRoleResponse>;
 
+export interface DeleteRouterRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_routers`. */
+  router: string;
+}
+export const DeleteRouterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    router: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/routers/{router}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteRouterRequest",
+}) as any as S.Schema<DeleteRouterRequest>;
+
+export interface DeleteRouterResponse {}
+export const DeleteRouterResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteRouterResponse",
+}) as any as S.Schema<DeleteRouterResponse>;
+
 export interface DeleteServiceTokenRequest {
   /** The name of the organization */
   organization: string;
@@ -5307,6 +6087,158 @@ export const DeleteServiceTokenResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteServiceTokenResponse",
 }) as any as S.Schema<DeleteServiceTokenResponse>;
+
+export interface DeleteShardRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The ID of the shard */
+  id: string;
+}
+export const DeleteShardRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/shards/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteShardRequest",
+}) as any as S.Schema<DeleteShardRequest>;
+
+export interface DeleteShardResponse {}
+export const DeleteShardResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteShardResponse",
+}) as any as S.Schema<DeleteShardResponse>;
+
+export interface DeleteShardConfigurationProfileRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+}
+export const DeleteShardConfigurationProfileRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "DeleteShardConfigurationProfileRequest",
+}) as any as S.Schema<DeleteShardConfigurationProfileRequest>;
+
+export interface DeleteShardConfigurationProfileResponse {}
+export const DeleteShardConfigurationProfileResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "DeleteShardConfigurationProfileResponse",
+}) as any as S.Schema<DeleteShardConfigurationProfileResponse>;
+
+export interface DeleteShardConfigurationProfileShardRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** The ID of the shard */
+  id: string;
+}
+export const DeleteShardConfigurationProfileShardRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/shards/{id}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteShardConfigurationProfileShardRequest",
+  }) as any as S.Schema<DeleteShardConfigurationProfileShardRequest>;
+
+export interface DeleteShardConfigurationProfileShardResponse {}
+export const DeleteShardConfigurationProfileShardResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteShardConfigurationProfileShardResponse",
+  }) as any as S.Schema<DeleteShardConfigurationProfileShardResponse>;
+
+export type DeleteShardConfigurationProfileShardsRequestShardIdsList =
+  Array<string>;
+export const DeleteShardConfigurationProfileShardsRequestShardIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DeleteShardConfigurationProfileShardsRequestShardIdsList>;
+
+export interface DeleteShardConfigurationProfileShardsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** The IDs of the shards to remove */
+  shard_ids: DeleteShardConfigurationProfileShardsRequestShardIdsList;
+}
+export const DeleteShardConfigurationProfileShardsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      shard_ids: DeleteShardConfigurationProfileShardsRequestShardIdsList.pipe(
+        T.Query(),
+      ),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/shards",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "DeleteShardConfigurationProfileShardsRequest",
+  }) as any as S.Schema<DeleteShardConfigurationProfileShardsRequest>;
+
+export interface DeleteShardConfigurationProfileShardsResponse {}
+export const DeleteShardConfigurationProfileShardsResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteShardConfigurationProfileShardsResponse",
+  }) as any as S.Schema<DeleteShardConfigurationProfileShardsResponse>;
 
 export interface DeleteTrafficBudgetRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -6080,6 +7012,114 @@ export const EnableSafeMigrationsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "EnableSafeMigrationsRequest",
 }) as any as S.Schema<EnableSafeMigrationsRequest>;
 
+export interface GetAdminRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const GetAdminRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/admin",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetAdminRequest",
+}) as any as S.Schema<GetAdminRequest>;
+
+export interface NekiAdminSku {
+  /** The name of the Neki admin SKU */
+  name: string;
+  /** The display name */
+  display_name: string;
+  /** The CPU allocation */
+  cpu: string;
+  /** The amount of memory in bytes */
+  ram: number;
+  /** The sort order of the Neki admin SKU */
+  sort_order: number;
+}
+export const NekiAdminSku = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    display_name: S.String,
+    cpu: S.String,
+    ram: S.Number,
+    sort_order: S.Number,
+  }),
+).annotate({ identifier: "NekiAdminSku" }) as any as S.Schema<NekiAdminSku>;
+
+/** The current state of the admin */
+export type NekiAdminState = "pending" | "applying" | "ready";
+export const NekiAdminState = S.String;
+
+export interface NekiAdmin {
+  /** The ID of the admin */
+  id: string;
+  sku: NekiAdminSku;
+  /** The admin size SKU name */
+  admin_size: string;
+  /** The current state of the admin */
+  state: NekiAdminState;
+  /** When the admin was created */
+  created_at: string;
+  /** When the admin was last updated */
+  updated_at: string;
+}
+export const NekiAdmin = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    sku: NekiAdminSku,
+    admin_size: S.String,
+    state: NekiAdminState,
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({ identifier: "NekiAdmin" }) as any as S.Schema<NekiAdmin>;
+
+export interface GetAdminChangeRequestRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The ID of the change request */
+  id: string;
+}
+export const GetAdminChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/admin/changes/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetAdminChangeRequestRequest",
+}) as any as S.Schema<GetAdminChangeRequestRequest>;
+
+export interface GetAdminChangeRequestResponse {}
+export const GetAdminChangeRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "GetAdminChangeRequestResponse",
+}) as any as S.Schema<GetAdminChangeRequestResponse>;
+
 export interface GetBackupRequest {
   /** The name of the organization the branch belongs to */
   organization: string;
@@ -6396,7 +7436,7 @@ export interface PostgresClusterResizeRequest {
   maximum_storage_bytes: number;
   /** Whether storage autoscaling is enabled */
   storage_autoscaling: boolean;
-  /** Whether storage shrinking is enabled when autoscaling is enabled */
+  /** Deprecated, storage shrinking is part of storage autoscaling. */
   storage_shrinking: boolean;
   /** The storage type (gp3 or io2) */
   storage_type: PostgresClusterResizeRequestStorageType;
@@ -6410,7 +7450,7 @@ export interface PostgresClusterResizeRequest {
   previous_maximum_storage_bytes: number;
   /** Whether storage autoscaling was previously enabled */
   previous_storage_autoscaling: boolean;
-  /** Whether storage shrinking was previously enabled */
+  /** Deprecated, storage shrinking is part of storage autoscaling. */
   previous_storage_shrinking: boolean;
   /** The previous storage type */
   previous_storage_type: string;
@@ -6524,10 +7564,28 @@ export type GetBranchMetricsRequestMetricsItem =
   | "planetscale_edge_bytes_received_rate"
   | "planetscale_edge_bytes_sent"
   | "planetscale_edge_bytes_sent_rate"
+  | "planetscale_neki_router_pods_container_ooms"
+  | "planetscale_neki_router_pods_container_restarts"
+  | "planetscale_neki_router_pods_container_waiting_reason"
+  | "planetscale_neki_router_pods_cpu_util_percentages"
+  | "planetscale_neki_router_pods_mem_util_percentages"
+  | "planetscale_neki_router_pods_status_phase"
+  | "planetscale_neki_router_queries"
+  | "planetscale_neki_router_query_errors"
+  | "planetscale_neki_router_query_latency_avg"
+  | "planetscale_neki_router_query_latency_avg_by_database"
+  | "planetscale_neki_router_query_latency_p50"
+  | "planetscale_neki_router_query_latency_p50_by_database"
+  | "planetscale_neki_router_query_latency_p95"
+  | "planetscale_neki_router_query_latency_p95_by_database"
+  | "planetscale_neki_router_query_latency_p99"
+  | "planetscale_neki_router_query_latency_p99_by_database"
   | "planetscale_pgbouncer_current_connections"
   | "planetscale_pgbouncer_pools_client"
   | "planetscale_pgbouncer_pools_server"
   | "planetscale_pods_container_ooms"
+  | "planetscale_pods_container_restarts"
+  | "planetscale_pods_container_waiting_reason"
   | "planetscale_pods_cpu_util_percentages"
   | "planetscale_pods_iops_total"
   | "planetscale_pods_mem_util_percentages"
@@ -6540,8 +7598,12 @@ export type GetBranchMetricsRequestMetricsItem =
   | "planetscale_primary_pods_cpu_util_percentages"
   | "planetscale_primary_pods_iops_total"
   | "planetscale_primary_pods_mem_util_percentages"
+  | "planetscale_primary_pods_status_phase"
   | "planetscale_primary_postgres_connection_state"
+  | "planetscale_primary_postgres_locks"
   | "planetscale_primary_storage_usage"
+  | "planetscale_primary_storage_usage_bytes"
+  | "planetscale_primary_volume_usage_percentages"
   | "planetscale_primary_xact_commit_rate"
   | "planetscale_replica_lag_seconds"
   | "planetscale_replica_memory_active_cache_bytes"
@@ -6554,7 +7616,9 @@ export type GetBranchMetricsRequestMetricsItem =
   | "planetscale_replica_pods_cpu_util_percentages"
   | "planetscale_replica_pods_iops_total"
   | "planetscale_replica_pods_mem_util_percentages"
+  | "planetscale_replica_pods_status_phase"
   | "planetscale_replica_postgres_connection_state"
+  | "planetscale_replica_postgres_locks"
   | "planetscale_replica_storage_usage_bytes"
   | "planetscale_replica_volume_usage_percentages"
   | "planetscale_replication_slot_max_wal_retained_bytes"
@@ -6563,6 +7627,7 @@ export type GetBranchMetricsRequestMetricsItem =
   | "planetscale_storage_usage_bytes"
   | "planetscale_volume_usage_percentages"
   | "planetscale_wal_archiver_failed_rate"
+  | "planetscale_wal_archiver_lag_bytes"
   | "planetscale_wal_archiver_last_age_succeeded"
   | "planetscale_wal_archiver_succeeded_rate"
   | "planetscale_wal_size_bytes"
@@ -6647,6 +7712,10 @@ export interface GetBranchMetricsRequest {
   keyspace?: string;
   /** Filter by shard */
   shard?: string;
+  /** Filter by shard configuration profile name */
+  shard_config_profile?: string;
+  /** Filter by router */
+  router?: string;
   /** Filter by Postgres role */
   role?: string;
   /** Filter by container */
@@ -6679,6 +7748,8 @@ export const GetBranchMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     tablet_type: S.optional(GetBranchMetricsRequestTabletType.pipe(T.Query())),
     keyspace: S.optional(S.String.pipe(T.Query())),
     shard: S.optional(S.String.pipe(T.Query())),
+    shard_config_profile: S.optional(S.String.pipe(T.Query())),
+    router: S.optional(S.String.pipe(T.Query())),
     role: S.optional(S.String.pipe(T.Query())),
     container: S.optional(S.String.pipe(T.Query())),
     pod: S.optional(S.String.pipe(T.Query())),
@@ -6699,33 +7770,76 @@ export const GetBranchMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetBranchMetricsRequest",
 }) as any as S.Schema<GetBranchMetricsRequest>;
 
-export type GetBranchMetricsResponseSeriesList = Array<string>;
-export const GetBranchMetricsResponseSeriesList = /*@__PURE__*/ S.Array(
+/** Key/value labels, also known as tags, identifying the time series */
+export type MetricSeriesSeriesItemLabelsMap = {
+  [key: string]: unknown | undefined;
+};
+export const MetricSeriesSeriesItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
-) as any as S.Schema<GetBranchMetricsResponseSeriesList>;
+  S.Unknown,
+) as any as S.Schema<MetricSeriesSeriesItemLabelsMap>;
 
-export interface GetBranchMetricsResponse {
+export type MetricSeriesSeriesItemPointsItemList = Array<number>;
+export const MetricSeriesSeriesItemPointsItemList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<MetricSeriesSeriesItemPointsItemList>;
+
+/** Sampled data points as [Unix timestamp, value] pairs */
+export type MetricSeriesSeriesItemPointsList =
+  Array<MetricSeriesSeriesItemPointsItemList>;
+export const MetricSeriesSeriesItemPointsList = /*@__PURE__*/ S.Array(
+  MetricSeriesSeriesItemPointsItemList,
+) as any as S.Schema<MetricSeriesSeriesItemPointsList>;
+
+export interface MetricSeriesSeriesItem {
+  /** The time-series response type */
+  type: string;
+  /** The name of the metric */
+  metric: string;
+  /** A human-readable label for the time series */
+  label: string;
+  /** Key/value labels, also known as tags, identifying the time series */
+  labels: MetricSeriesSeriesItemLabelsMap;
+  /** Sampled data points as [Unix timestamp, value] pairs */
+  points: MetricSeriesSeriesItemPointsList;
+}
+export const MetricSeriesSeriesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    metric: S.String,
+    label: S.String,
+    labels: MetricSeriesSeriesItemLabelsMap,
+    points: MetricSeriesSeriesItemPointsList,
+  }),
+).annotate({
+  identifier: "MetricSeriesSeriesItem",
+}) as any as S.Schema<MetricSeriesSeriesItem>;
+
+export type MetricSeriesSeriesList = Array<MetricSeriesSeriesItem>;
+export const MetricSeriesSeriesList = /*@__PURE__*/ S.Array(
+  MetricSeriesSeriesItem,
+) as any as S.Schema<MetricSeriesSeriesList>;
+
+export interface MetricSeries {
   /** The metrics response type */
   type: string;
-  /** The start of the time range */
+  /** The start of the time range for the metric series */
   start_date: string;
-  /** The end of the time range */
+  /** The end of the time range for the metric series */
   end_date: string;
   /** The step interval in seconds between data points */
   interval: number;
-  series: GetBranchMetricsResponseSeriesList;
+  series: MetricSeriesSeriesList;
 }
-export const GetBranchMetricsResponse = /*@__PURE__*/ S.suspend(() =>
+export const MetricSeries = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
     start_date: S.String,
     end_date: S.String,
     interval: S.Number,
-    series: GetBranchMetricsResponseSeriesList,
+    series: MetricSeriesSeriesList,
   }),
-).annotate({
-  identifier: "GetBranchMetricsResponse",
-}) as any as S.Schema<GetBranchMetricsResponse>;
+).annotate({ identifier: "MetricSeries" }) as any as S.Schema<MetricSeries>;
 
 export interface GetBranchQueryRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -7020,28 +8134,28 @@ export interface PaginatedQuery {
   /** The response type. Always "list" for paginated responses. */
   type: string;
   /** The current page number */
-  current_page: number;
+  current_page?: number | null;
   /** The maximum number of results per page */
-  per_page: number;
+  per_page?: number | null;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
-  next_page_url: string | null;
+  next_page_url?: string | null;
   /** The previous page number, or null when this is the first page */
   prev_page: number | null;
   /** The previous page of results, or null when this is the first page */
-  prev_page_url: string | null;
+  prev_page_url?: string | null;
   data: PaginatedQueryDataList;
 }
 export const PaginatedQuery = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
-    current_page: S.Number,
-    per_page: S.Number,
+    current_page: S.optional(S.NullOr(S.Number)),
+    per_page: S.optional(S.NullOr(S.Number)),
     next_page: S.NullOr(S.Number),
-    next_page_url: S.NullOr(S.String),
+    next_page_url: S.optional(S.NullOr(S.String)),
     prev_page: S.NullOr(S.Number),
-    prev_page_url: S.NullOr(S.String),
+    prev_page_url: S.optional(S.NullOr(S.String)),
     data: PaginatedQueryDataList,
   }),
 ).annotate({ identifier: "PaginatedQuery" }) as any as S.Schema<PaginatedQuery>;
@@ -7181,34 +8295,6 @@ export const GetBranchQueryMetricsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetBranchQueryMetricsRequest",
 }) as any as S.Schema<GetBranchQueryMetricsRequest>;
-
-export type GetBranchQueryMetricsResponseSeriesList = Array<string>;
-export const GetBranchQueryMetricsResponseSeriesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetBranchQueryMetricsResponseSeriesList>;
-
-export interface GetBranchQueryMetricsResponse {
-  /** The metrics response type */
-  type: string;
-  /** The start of the time range */
-  start_date: string;
-  /** The end of the time range */
-  end_date: string;
-  /** The step interval in seconds between data points */
-  interval: number;
-  series: GetBranchQueryMetricsResponseSeriesList;
-}
-export const GetBranchQueryMetricsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    start_date: S.String,
-    end_date: S.String,
-    interval: S.Number,
-    series: GetBranchQueryMetricsResponseSeriesList,
-  }),
-).annotate({
-  identifier: "GetBranchQueryMetricsResponse",
-}) as any as S.Schema<GetBranchQueryMetricsResponse>;
 
 export type GetBranchQueryTagRequestPeriod =
   | "15m"
@@ -7392,17 +8478,17 @@ export interface MysqlClusterResizeRequest {
   /** The previous number of vtgates in the availability zone */
   previous_vtgate_count: number;
   /** The maximum number of vtgates in an availability zone when autoscaling is enabled */
-  vtgate_max_count: number;
+  vtgate_max_count: number | null;
   /** The previous maximum number of vtgates in the availability zone when autoscaling is enabled */
-  previous_vtgate_max_count: number;
+  previous_vtgate_max_count: number | null;
   /** If autoscaling is enabled for the vtgate cluster */
   vtgate_autoscaling: boolean;
   /** The previous autoscaling setting for the vtgate cluster */
   previous_vtgate_autoscaling: boolean;
   /** The target CPU utilization for the vtgate cluster */
-  vtgate_target_cpu_utilization: number;
+  vtgate_target_cpu_utilization: number | null;
   /** The previous target CPU utilization for the vtgate cluster */
-  previous_vtgate_target_cpu_utilization: number;
+  previous_vtgate_target_cpu_utilization: number | null;
   /** The SKU representing the vtgate cluster size: VTG_5, VTG_10,… */
   vtgate_name: string;
   /** The SKU representing the vtgate cluster size for display */
@@ -7425,12 +8511,12 @@ export const MysqlClusterResizeRequest = /*@__PURE__*/ S.suspend(() =>
     previous_vtgate_size: S.String,
     vtgate_count: S.Number,
     previous_vtgate_count: S.Number,
-    vtgate_max_count: S.Number,
-    previous_vtgate_max_count: S.Number,
+    vtgate_max_count: S.NullOr(S.Number),
+    previous_vtgate_max_count: S.NullOr(S.Number),
     vtgate_autoscaling: S.Boolean,
     previous_vtgate_autoscaling: S.Boolean,
-    vtgate_target_cpu_utilization: S.Number,
-    previous_vtgate_target_cpu_utilization: S.Number,
+    vtgate_target_cpu_utilization: S.NullOr(S.Number),
+    previous_vtgate_target_cpu_utilization: S.NullOr(S.Number),
     vtgate_name: S.String,
     vtgate_display_name: S.String,
     previous_vtgate_name: S.String,
@@ -7660,34 +8746,6 @@ export const GetBranchTagMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetBranchTagMetricsRequest",
 }) as any as S.Schema<GetBranchTagMetricsRequest>;
 
-export type GetBranchTagMetricsResponseSeriesList = Array<string>;
-export const GetBranchTagMetricsResponseSeriesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetBranchTagMetricsResponseSeriesList>;
-
-export interface GetBranchTagMetricsResponse {
-  /** The metrics response type */
-  type: string;
-  /** The start of the time range */
-  start_date: string;
-  /** The end of the time range */
-  end_date: string;
-  /** The step interval in seconds between data points */
-  interval: number;
-  series: GetBranchTagMetricsResponseSeriesList;
-}
-export const GetBranchTagMetricsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    start_date: S.String,
-    end_date: S.String,
-    interval: S.Number,
-    series: GetBranchTagMetricsResponseSeriesList,
-  }),
-).annotate({
-  identifier: "GetBranchTagMetricsResponse",
-}) as any as S.Schema<GetBranchTagMetricsResponse>;
-
 export interface GetCurrentUserRequest {}
 export const GetCurrentUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/user", code: 200 })),
@@ -7862,6 +8920,54 @@ export const ThrottlerConfigurations = /*@__PURE__*/ S.suspend(() =>
   identifier: "ThrottlerConfigurations",
 }) as any as S.Schema<ThrottlerConfigurations>;
 
+export interface GetDataTopologyRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const GetDataTopologyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/data-topology",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetDataTopologyRequest",
+}) as any as S.Schema<GetDataTopologyRequest>;
+
+/** The data topology for the branch */
+export type NekiDataTopologyDataTopologyMap = {
+  [key: string]: unknown | undefined;
+};
+export const NekiDataTopologyDataTopologyMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<NekiDataTopologyDataTopologyMap>;
+
+export interface NekiDataTopology {
+  /** The data topology for the branch */
+  data_topology: NekiDataTopologyDataTopologyMap;
+  /** When the data topology was last synced */
+  synced_at: string | null;
+}
+export const NekiDataTopology = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data_topology: NekiDataTopologyDataTopologyMap,
+    synced_at: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "NekiDataTopology",
+}) as any as S.Schema<NekiDataTopology>;
+
 export interface GetDefaultRoleRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
@@ -7885,6 +8991,37 @@ export const GetDefaultRoleRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetDefaultRoleRequest",
 }) as any as S.Schema<GetDefaultRoleRequest>;
+
+export interface GetDefaultShardConfigurationProfileRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const GetDefaultShardConfigurationProfileRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/default-configuration-profile",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "GetDefaultShardConfigurationProfileRequest",
+  }) as any as S.Schema<GetDefaultShardConfigurationProfileRequest>;
+
+export interface GetDefaultShardConfigurationProfileResponse {}
+export const GetDefaultShardConfigurationProfileResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "GetDefaultShardConfigurationProfileResponse",
+  }) as any as S.Schema<GetDefaultShardConfigurationProfileResponse>;
 
 export interface GetDeploymentRequest {
   /** The name of the deploy request's organization */
@@ -8982,6 +10119,7 @@ export type GetInstantBranchMetricsRequestMetricsItem =
   | "planetscale_pgbouncer_settings_max_client_conn"
   | "planetscale_postgres_connection_state"
   | "planetscale_postgres_settings_max_connections"
+  | "planetscale_postgres_settings_max_wal_size_bytes"
   | "planetscale_volume_capacity_bytes"
   | "planetscale_volume_disk_usage_bytes"
   | "planetscale_volume_usage_percentage";
@@ -9007,6 +10145,8 @@ export interface GetInstantBranchMetricsRequest {
   role?: string;
   /** Filter by shard */
   shard?: string;
+  /** Filter by shard configuration profile name */
+  shard_config_profile?: string;
   /** Filter by container */
   container?: string;
   /** Filter by pod */
@@ -9022,6 +10162,7 @@ export const GetInstantBranchMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     role: S.optional(S.String.pipe(T.Query())),
     shard: S.optional(S.String.pipe(T.Query())),
+    shard_config_profile: S.optional(S.String.pipe(T.Query())),
     container: S.optional(S.String.pipe(T.Query())),
     pod: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -9035,30 +10176,10 @@ export const GetInstantBranchMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetInstantBranchMetricsRequest",
 }) as any as S.Schema<GetInstantBranchMetricsRequest>;
 
-export interface GetInstantBranchMetricsResponseBranch {
-  /** The ID for the resource */
-  id: string;
-  /** The name for the resource */
-  name: string;
-  /** When the resource was created */
-  created_at: string;
-  /** When the resource was last updated */
-  updated_at: string;
-  /** When the resource was deleted, if deleted */
-  deleted_at: string;
-}
-export const GetInstantBranchMetricsResponseBranch = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.String,
-      name: S.String,
-      created_at: S.String,
-      updated_at: S.String,
-      deleted_at: S.String,
-    }),
-).annotate({
-  identifier: "GetInstantBranchMetricsResponseBranch",
-}) as any as S.Schema<GetInstantBranchMetricsResponseBranch>;
+export type GetInstantBranchMetricsResponseBranch =
+  OrganizationTeamMembershipUserDefaultOrganization;
+export const GetInstantBranchMetricsResponseBranch =
+  OrganizationTeamMembershipUserDefaultOrganization;
 
 export interface GetInstantBranchMetricsResponseMetricsItemValuesItem {
   /** Pod name */
@@ -9113,13 +10234,13 @@ export const GetInstantBranchMetricsResponseMetricsList = /*@__PURE__*/ S.Array(
 export interface GetInstantBranchMetricsResponse {
   /** The metrics response type */
   type: string;
-  branch: GetInstantBranchMetricsResponseBranch;
+  branch: OrganizationTeamMembershipUserDefaultOrganization;
   metrics: GetInstantBranchMetricsResponseMetricsList;
 }
 export const GetInstantBranchMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
-    branch: GetInstantBranchMetricsResponseBranch,
+    branch: OrganizationTeamMembershipUserDefaultOrganization,
     metrics: GetInstantBranchMetricsResponseMetricsList,
   }),
 ).annotate({
@@ -9177,9 +10298,9 @@ export const GetInstantTabletMetricsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetInstantTabletMetricsRequest>;
 
 export type GetInstantTabletMetricsResponseBranch =
-  GetInstantBranchMetricsResponseBranch;
+  OrganizationTeamMembershipUserDefaultOrganization;
 export const GetInstantTabletMetricsResponseBranch =
-  GetInstantBranchMetricsResponseBranch;
+  OrganizationTeamMembershipUserDefaultOrganization;
 
 export type GetInstantTabletMetricsResponseMetricsItemValuesItem =
   GetInstantBranchMetricsResponseMetricsItemValuesItem;
@@ -9220,13 +10341,13 @@ export const GetInstantTabletMetricsResponseMetricsList = /*@__PURE__*/ S.Array(
 export interface GetInstantTabletMetricsResponse {
   /** The metrics response type */
   type: string;
-  branch: GetInstantBranchMetricsResponseBranch;
+  branch: OrganizationTeamMembershipUserDefaultOrganization;
   metrics: GetInstantTabletMetricsResponseMetricsList;
 }
 export const GetInstantTabletMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
-    branch: GetInstantBranchMetricsResponseBranch,
+    branch: OrganizationTeamMembershipUserDefaultOrganization,
     metrics: GetInstantTabletMetricsResponseMetricsList,
   }),
 ).annotate({
@@ -9436,6 +10557,74 @@ export const GetKeyspaceResizeRequestRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetKeyspaceResizeRequestRequest",
 }) as any as S.Schema<GetKeyspaceResizeRequestRequest>;
+
+/** The state of the resize request */
+export type KeyspaceResizeRequestState =
+  | "pending"
+  | "resizing"
+  | "canceled"
+  | "completed"
+  | "queued";
+export const KeyspaceResizeRequestState = S.String;
+
+export type KeyspaceResizeRequestActor = OrganizationTeamMembershipActor;
+export const KeyspaceResizeRequestActor = OrganizationTeamMembershipActor;
+
+export interface KeyspaceResizeRequest {
+  /** The ID of the keyspace resize request */
+  id: string;
+  /** The state of the resize request */
+  state: KeyspaceResizeRequestState;
+  /** When the resize request started */
+  started_at: string | null;
+  /** When the resize request completed */
+  completed_at: string | null;
+  /** When the resize request was created */
+  created_at: string;
+  /** When the resize request was last updated */
+  updated_at: string;
+  /** The number of extra replicas requested for the keyspace */
+  extra_replicas: number;
+  /** Percentage of buffer pool memory allocated to vector indexes */
+  vector_pool_allocation: number;
+  /** Previous percentage of buffer pool memory allocated to vector indexes */
+  previous_vector_pool_allocation: number;
+  /** The SKU representing the keyspace cluster size */
+  cluster_name: string;
+  /** The SKU representing the keyspace cluster size for display */
+  cluster_display_name: string;
+  /** Previous SKU representing the keyspace cluster size */
+  previous_cluster_name: string;
+  /** Previous SKU representing the keyspace cluster size for display */
+  previous_cluster_display_name: string;
+  /** Total number of replicas in the keyspace after resize */
+  replicas: number;
+  /** Total number of replicas in the keyspace before resize */
+  previous_replicas: number;
+  actor: OrganizationTeamMembershipActor;
+}
+export const KeyspaceResizeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    state: KeyspaceResizeRequestState,
+    started_at: S.NullOr(S.String),
+    completed_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+    extra_replicas: S.Number,
+    vector_pool_allocation: S.Number,
+    previous_vector_pool_allocation: S.Number,
+    cluster_name: S.String,
+    cluster_display_name: S.String,
+    previous_cluster_name: S.String,
+    previous_cluster_display_name: S.String,
+    replicas: S.Number,
+    previous_replicas: S.Number,
+    actor: OrganizationTeamMembershipActor,
+  }),
+).annotate({
+  identifier: "KeyspaceResizeRequest",
+}) as any as S.Schema<KeyspaceResizeRequest>;
 
 export interface GetKeyspaceRolloutStatusRequest {
   /** The name of the organization the branch belongs to */
@@ -9649,6 +10838,267 @@ export const BranchMaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
   identifier: "BranchMaintenanceSchedule",
 }) as any as S.Schema<BranchMaintenanceSchedule>;
 
+export interface GetNekiChangeRequestRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The ID of the change request */
+  id: string;
+}
+export const GetNekiChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/neki-changes/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetNekiChangeRequestRequest",
+}) as any as S.Schema<GetNekiChangeRequestRequest>;
+
+/** The type of change request */
+export type NekiChangeRequestType =
+  | "NekiAdminChangeRequest"
+  | "NekiClusterChangeRequest"
+  | "NekiConfigurationProfileChangeRequest"
+  | "NekiRouterChangeRequest"
+  | "NekiSidecarChangeRequest";
+export const NekiChangeRequestType = S.String;
+
+/** The state of the change request */
+export type NekiChangeRequestState =
+  | "draft"
+  | "pending"
+  | "applying"
+  | "canceled"
+  | "completed";
+export const NekiChangeRequestState = S.String;
+
+export type NekiChangeRequestActor = OrganizationTeamMembershipActor;
+export const NekiChangeRequestActor = OrganizationTeamMembershipActor;
+
+/** The type of resource being changed */
+export type NekiChangeRequestTargetType =
+  | "NekiAdmin"
+  | "NekiCluster"
+  | "NekiConfigurationProfile"
+  | "NekiRouter"
+  | "NekiSidecar";
+export const NekiChangeRequestTargetType = S.String;
+
+/** The parameters requested for the target resource */
+export type NekiChangeRequestParametersMap = {
+  [key: string]: unknown | undefined;
+};
+export const NekiChangeRequestParametersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<NekiChangeRequestParametersMap>;
+
+/** The target resource parameters before the change */
+export type NekiChangeRequestPreviousParametersMap = {
+  [key: string]: unknown | undefined;
+};
+export const NekiChangeRequestPreviousParametersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<NekiChangeRequestPreviousParametersMap>;
+
+/** The cluster flags */
+export type NekiChangeRequestFlagsList = Array<string>;
+export const NekiChangeRequestFlagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<NekiChangeRequestFlagsList>;
+
+/** The previous cluster flags */
+export type NekiChangeRequestPreviousFlagsList = Array<string>;
+export const NekiChangeRequestPreviousFlagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<NekiChangeRequestPreviousFlagsList>;
+
+export type NekiChangeRequestStorage = NekiShardConfigurationProfileStorage;
+export const NekiChangeRequestStorage = NekiShardConfigurationProfileStorage;
+
+export type NekiChangeRequestPreviousStorage =
+  NekiShardConfigurationProfileStorage;
+export const NekiChangeRequestPreviousStorage =
+  NekiShardConfigurationProfileStorage;
+
+export interface NekiChangeRequest {
+  /** The type of change request */
+  type: NekiChangeRequestType;
+  /** The ID of the change request */
+  id: string;
+  /** The state of the change request */
+  state: NekiChangeRequestState;
+  /** Whether the change request can be deleted */
+  can_delete: boolean;
+  /** The time the change request started */
+  started_at: string | null;
+  /** The time the change request completed */
+  completed_at: string | null;
+  /** The time the change request was created */
+  created_at: string;
+  /** The time the change request was last updated */
+  updated_at: string;
+  actor: OrganizationTeamMembershipActor;
+  /** The ID of the resource being changed */
+  target_id: string | null;
+  /** The type of resource being changed */
+  target_type: NekiChangeRequestTargetType;
+  /** The name of the resource being changed */
+  target_name: string;
+  /** The name of the admin size SKU */
+  admin_size?: string | null;
+  /** The display name of the admin size SKU */
+  admin_size_display_name?: string | null;
+  /** The parameters requested for the target resource */
+  parameters?: NekiChangeRequestParametersMap | null;
+  /** The previous name of the admin size SKU */
+  previous_admin_size?: string | null;
+  /** The previous display name of the admin size SKU */
+  previous_admin_size_display_name?: string | null;
+  /** The target resource parameters before the change */
+  previous_parameters?: NekiChangeRequestPreviousParametersMap | null;
+  /** The cluster flags */
+  flags?: NekiChangeRequestFlagsList | null;
+  /** The Neki image version */
+  neki_image_version?: string | null;
+  /** The previous cluster flags */
+  previous_flags?: NekiChangeRequestPreviousFlagsList | null;
+  /** The previous Neki image version */
+  previous_neki_image_version?: string | null;
+  /** The name of the router size SKU */
+  router_size?: string | null;
+  /** The display name of the router size SKU */
+  router_size_display_name?: string | null;
+  /** The number of replicas in each cell */
+  replicas_per_cell?: number | null;
+  /** Whether the router scales horizontally within each cell */
+  autoscaling?: boolean | null;
+  /** The maximum number of replicas in each cell when autoscaling */
+  max_replicas_per_cell?: number | null;
+  /** The target average CPU utilization percentage when autoscaling, one of 40, 50, 60 or 70 */
+  target_cpu_utilization?: number | null;
+  /** The previous name of the router size SKU */
+  previous_router_size?: string | null;
+  /** The previous display name of the router size SKU */
+  previous_router_size_display_name?: string | null;
+  /** The previous number of replicas in each cell */
+  previous_replicas_per_cell?: number | null;
+  /** The previous autoscaling state of the router */
+  previous_autoscaling?: boolean | null;
+  /** The previous maximum number of replicas in each cell */
+  previous_max_replicas_per_cell?: number | null;
+  /** The previous target average CPU utilization percentage */
+  previous_target_cpu_utilization?: number | null;
+  /** The name of the shard configuration profile */
+  name?: string | null;
+  /** The previous name of the shard configuration profile */
+  previous_name?: string | null;
+  /** The name of the cluster size SKU */
+  cluster_size?: string | null;
+  /** The display name of the cluster size SKU */
+  cluster_display_name?: string | null;
+  /** Whether the cluster size SKU uses metal instances */
+  metal?: boolean | null;
+  /** The display order of the cluster size SKU */
+  cluster_rank?: number | null;
+  /** The number of replicas */
+  replicas?: number | null;
+  /** The number of shards */
+  shards?: number | null;
+  /** The PostgreSQL image */
+  postgres_image_version?: string | null;
+  storage?: NekiShardConfigurationProfileStorage | null;
+  /** The previous name of the cluster size SKU */
+  previous_cluster_size?: string | null;
+  /** The previous display name of the cluster size SKU */
+  previous_cluster_display_name?: string | null;
+  /** Whether the previous cluster size SKU used metal instances */
+  previous_metal?: boolean | null;
+  /** The previous display order of the cluster size SKU */
+  previous_cluster_rank?: number | null;
+  /** The previous number of replicas */
+  previous_replicas?: number | null;
+  /** The previous number of shards */
+  previous_shards?: number | null;
+  /** The previous PostgreSQL image */
+  previous_postgres_image_version?: string | null;
+  previous_storage?: NekiShardConfigurationProfileStorage | null;
+}
+export const NekiChangeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: NekiChangeRequestType,
+    id: S.String,
+    state: NekiChangeRequestState,
+    can_delete: S.Boolean,
+    started_at: S.NullOr(S.String),
+    completed_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+    actor: OrganizationTeamMembershipActor,
+    target_id: S.NullOr(S.String),
+    target_type: NekiChangeRequestTargetType,
+    target_name: S.String,
+    admin_size: S.optional(S.NullOr(S.String)),
+    admin_size_display_name: S.optional(S.NullOr(S.String)),
+    parameters: S.optional(S.NullOr(NekiChangeRequestParametersMap)),
+    previous_admin_size: S.optional(S.NullOr(S.String)),
+    previous_admin_size_display_name: S.optional(S.NullOr(S.String)),
+    previous_parameters: S.optional(
+      S.NullOr(NekiChangeRequestPreviousParametersMap),
+    ),
+    flags: S.optional(S.NullOr(NekiChangeRequestFlagsList)),
+    neki_image_version: S.optional(S.NullOr(S.String)),
+    previous_flags: S.optional(S.NullOr(NekiChangeRequestPreviousFlagsList)),
+    previous_neki_image_version: S.optional(S.NullOr(S.String)),
+    router_size: S.optional(S.NullOr(S.String)),
+    router_size_display_name: S.optional(S.NullOr(S.String)),
+    replicas_per_cell: S.optional(S.NullOr(S.Number)),
+    autoscaling: S.optional(S.NullOr(S.Boolean)),
+    max_replicas_per_cell: S.optional(S.NullOr(S.Number)),
+    target_cpu_utilization: S.optional(S.NullOr(S.Number)),
+    previous_router_size: S.optional(S.NullOr(S.String)),
+    previous_router_size_display_name: S.optional(S.NullOr(S.String)),
+    previous_replicas_per_cell: S.optional(S.NullOr(S.Number)),
+    previous_autoscaling: S.optional(S.NullOr(S.Boolean)),
+    previous_max_replicas_per_cell: S.optional(S.NullOr(S.Number)),
+    previous_target_cpu_utilization: S.optional(S.NullOr(S.Number)),
+    name: S.optional(S.NullOr(S.String)),
+    previous_name: S.optional(S.NullOr(S.String)),
+    cluster_size: S.optional(S.NullOr(S.String)),
+    cluster_display_name: S.optional(S.NullOr(S.String)),
+    metal: S.optional(S.NullOr(S.Boolean)),
+    cluster_rank: S.optional(S.NullOr(S.Number)),
+    replicas: S.optional(S.NullOr(S.Number)),
+    shards: S.optional(S.NullOr(S.Number)),
+    postgres_image_version: S.optional(S.NullOr(S.String)),
+    storage: S.optional(S.NullOr(NekiShardConfigurationProfileStorage)),
+    previous_cluster_size: S.optional(S.NullOr(S.String)),
+    previous_cluster_display_name: S.optional(S.NullOr(S.String)),
+    previous_metal: S.optional(S.NullOr(S.Boolean)),
+    previous_cluster_rank: S.optional(S.NullOr(S.Number)),
+    previous_replicas: S.optional(S.NullOr(S.Number)),
+    previous_shards: S.optional(S.NullOr(S.Number)),
+    previous_postgres_image_version: S.optional(S.NullOr(S.String)),
+    previous_storage: S.optional(
+      S.NullOr(NekiShardConfigurationProfileStorage),
+    ),
+  }),
+).annotate({
+  identifier: "NekiChangeRequest",
+}) as any as S.Schema<NekiChangeRequest>;
+
 export interface GetOauthApplicationRequest {
   /** The name of the organization the OAuth application belongs to */
   organization: string;
@@ -9842,6 +11292,8 @@ export interface Organization {
   invoice_budget_amount: string;
   /** The keyspace shard limit for the organization */
   keyspace_shard_limit: number;
+  /** The Neki router replica limit per cell for the organization */
+  neki_router_replicas_per_cell_limit?: number;
   /** Whether or not the organization has a payment method on file */
   has_card: boolean;
   /** Whether or not the organization requires payment information */
@@ -9867,6 +11319,7 @@ export const Organization = /*@__PURE__*/ S.suspend(() =>
     idp_managed_roles: S.Boolean,
     invoice_budget_amount: S.String,
     keyspace_shard_limit: S.Number,
+    neki_router_replicas_per_cell_limit: S.optional(S.Number),
     has_card: S.Boolean,
     payment_info_required: S.Boolean,
   }),
@@ -10238,6 +11691,8 @@ export interface DatabaseBranchPasswordRegion {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const DatabaseBranchPasswordRegion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10251,6 +11706,7 @@ export const DatabaseBranchPasswordRegion = /*@__PURE__*/ S.suspend(() =>
     current_default: S.Boolean,
     mysql_supported: S.Boolean,
     postgresql_supported: S.Boolean,
+    neki_supported: S.Boolean,
   }),
 ).annotate({
   identifier: "DatabaseBranchPasswordRegion",
@@ -10583,19 +12039,10 @@ export const QuerySummaryQualifiedTablesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<QuerySummaryQualifiedTablesList>;
 
-export type QuerySummaryTableKeyspacesItemMap = {
-  [key: string]: unknown | undefined;
-};
-export const QuerySummaryTableKeyspacesItemMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<QuerySummaryTableKeyspacesItemMap>;
-
-/** Mapping of tables to their keyspaces */
-export type QuerySummaryTableKeyspacesList =
-  Array<QuerySummaryTableKeyspacesItemMap>;
+/** Keyspaces or schemas accessed by the query */
+export type QuerySummaryTableKeyspacesList = Array<string>;
 export const QuerySummaryTableKeyspacesList = /*@__PURE__*/ S.Array(
-  QuerySummaryTableKeyspacesItemMap,
+  S.String,
 ) as any as S.Schema<QuerySummaryTableKeyspacesList>;
 
 export type QuerySummaryIndexUsagesItemMap = {
@@ -10650,7 +12097,7 @@ export interface QuerySummary {
   tables: QuerySummaryTablesList;
   /** Fully qualified tables accessed by the query */
   qualified_tables: QuerySummaryQualifiedTablesList;
-  /** Mapping of tables to their keyspaces */
+  /** Keyspaces or schemas accessed by the query */
   table_keyspaces: QuerySummaryTableKeyspacesList;
   /** Index usage information */
   index_usages: QuerySummaryIndexUsagesList;
@@ -10826,6 +12273,10 @@ export interface GetRoleRequest {
   read_only_replica?: string;
   /** Return connection details for this bouncer */
   bouncer?: string;
+  /** Return connection details for this Neki router group */
+  router?: string;
+  /** Return libpq options that pin this Neki shard */
+  shard?: string;
 }
 export const GetRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10836,6 +12287,8 @@ export const GetRoleRequest = /*@__PURE__*/ S.suspend(() =>
     replica: S.optional(S.Boolean.pipe(T.Query())),
     read_only_replica: S.optional(S.String.pipe(T.Query())),
     bouncer: S.optional(S.String.pipe(T.Query())),
+    router: S.optional(S.String.pipe(T.Query())),
+    shard: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10844,6 +12297,70 @@ export const GetRoleRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "GetRoleRequest" }) as any as S.Schema<GetRoleRequest>;
+
+export interface GetRouterRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_routers`. */
+  router: string;
+}
+export const GetRouterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    router: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/routers/{router}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetRouterRequest",
+}) as any as S.Schema<GetRouterRequest>;
+
+export interface GetRouterChangeRequestRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_routers`. */
+  router: string;
+  /** The ID of the change request */
+  id: string;
+}
+export const GetRouterChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    router: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/routers/{router}/changes/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetRouterChangeRequestRequest",
+}) as any as S.Schema<GetRouterChangeRequestRequest>;
+
+export interface GetRouterChangeRequestResponse {}
+export const GetRouterChangeRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "GetRouterChangeRequestResponse",
+}) as any as S.Schema<GetRouterChangeRequestResponse>;
 
 export interface GetSchemaRecommendationRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -10889,6 +12406,218 @@ export const GetServiceTokenRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetServiceTokenRequest",
 }) as any as S.Schema<GetServiceTokenRequest>;
+
+export interface GetShardRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The ID of the shard */
+  id: string;
+}
+export const GetShardRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/shards/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetShardRequest",
+}) as any as S.Schema<GetShardRequest>;
+
+export interface GetShardConfigurationProfileRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+}
+export const GetShardConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    configuration_profile: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetShardConfigurationProfileRequest",
+}) as any as S.Schema<GetShardConfigurationProfileRequest>;
+
+export interface GetShardConfigurationProfileChangeRequestRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** The ID of the change request */
+  id: string;
+}
+export const GetShardConfigurationProfileChangeRequestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/changes/{id}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "GetShardConfigurationProfileChangeRequestRequest",
+  }) as any as S.Schema<GetShardConfigurationProfileChangeRequestRequest>;
+
+export interface GetShardConfigurationProfileChangeRequestResponse {}
+export const GetShardConfigurationProfileChangeRequestResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "GetShardConfigurationProfileChangeRequestResponse",
+  }) as any as S.Schema<GetShardConfigurationProfileChangeRequestResponse>;
+
+export interface GetShardConfigurationProfileShardRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** The ID of the shard */
+  id: string;
+}
+export const GetShardConfigurationProfileShardRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/shards/{id}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "GetShardConfigurationProfileShardRequest",
+}) as any as S.Schema<GetShardConfigurationProfileShardRequest>;
+
+export interface GetSidecarRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** ID from `list_sidecars`, or the configuration profile name. */
+  sidecar: string;
+}
+export const GetSidecarRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    sidecar: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/sidecars/{sidecar}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetSidecarRequest",
+}) as any as S.Schema<GetSidecarRequest>;
+
+/** The current state of the sidecar */
+export type NekiSidecarState = "pending" | "applying" | "ready";
+export const NekiSidecarState = S.String;
+
+export interface NekiSidecar {
+  /** The ID of the sidecar */
+  id: string;
+  /** The name of the shard configuration profile the sidecar belongs to */
+  configuration_profile: string;
+  /** The current state of the sidecar */
+  state: NekiSidecarState;
+  /** When the sidecar was created */
+  created_at: string;
+  /** When the sidecar was last updated */
+  updated_at: string;
+}
+export const NekiSidecar = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    configuration_profile: S.String,
+    state: NekiSidecarState,
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({ identifier: "NekiSidecar" }) as any as S.Schema<NekiSidecar>;
+
+export interface GetSidecarChangeRequestRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** ID from `list_sidecars`, or the configuration profile name. */
+  sidecar: string;
+  /** The ID of the change request */
+  id: string;
+}
+export const GetSidecarChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    sidecar: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/sidecars/{sidecar}/changes/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetSidecarChangeRequestRequest",
+}) as any as S.Schema<GetSidecarChangeRequestRequest>;
+
+export interface GetSidecarChangeRequestResponse {}
+export const GetSidecarChangeRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "GetSidecarChangeRequestResponse",
+}) as any as S.Schema<GetSidecarChangeRequestResponse>;
 
 export interface GetSwitchoverRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -11006,34 +12735,6 @@ export const GetTabletMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetTabletMetricsRequest",
 }) as any as S.Schema<GetTabletMetricsRequest>;
 
-export type GetTabletMetricsResponseSeriesList = Array<string>;
-export const GetTabletMetricsResponseSeriesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetTabletMetricsResponseSeriesList>;
-
-export interface GetTabletMetricsResponse {
-  /** The metrics response type */
-  type: string;
-  /** The start of the time range */
-  start_date: string;
-  /** The end of the time range */
-  end_date: string;
-  /** The step interval in seconds between data points */
-  interval: number;
-  series: GetTabletMetricsResponseSeriesList;
-}
-export const GetTabletMetricsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    start_date: S.String,
-    end_date: S.String,
-    interval: S.Number,
-    series: GetTabletMetricsResponseSeriesList,
-  }),
-).annotate({
-  identifier: "GetTabletMetricsResponse",
-}) as any as S.Schema<GetTabletMetricsResponse>;
-
 export interface GetTrafficBudgetRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
@@ -11141,9 +12842,9 @@ export const LintBranchSchemaRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The subject for the errors */
 export type PaginatedSchemaLintErrorDataItemSubjectType =
-  | "table"
-  | "vschema"
-  | "routing_rules";
+  | "table_error"
+  | "vschema_error"
+  | "routing_rules_error";
 export const PaginatedSchemaLintErrorDataItemSubjectType = S.String;
 
 /** A list of invalid foreign key columns in a table */
@@ -11170,55 +12871,57 @@ export interface PaginatedSchemaLintErrorDataItem {
   /** The keyspace of the schema with the error */
   keyspace_name: string;
   /** The table with the error */
-  table_name: string;
+  table_name: string | null;
   /** A description for the error that occurred */
-  error_description: string;
+  error_description: string | null;
   /** A link to the documentation related to the error */
   docs_url: string;
   /** The column in a table relevant to the error */
-  column_name: string;
+  column_name: string | null;
   /** A list of invalid foreign key columns in a table */
-  foreign_key_column_names: PaginatedSchemaLintErrorDataItemForeignKeyColumnNamesList;
+  foreign_key_column_names: PaginatedSchemaLintErrorDataItemForeignKeyColumnNamesList | null;
   /** A list of invalid auto-incremented columns */
-  auto_increment_column_names: PaginatedSchemaLintErrorDataItemAutoIncrementColumnNamesList;
+  auto_increment_column_names: PaginatedSchemaLintErrorDataItemAutoIncrementColumnNamesList | null;
   /** The charset of the schema */
-  charset_name: string;
+  charset_name: string | null;
   /** The engine of the schema */
-  engine_name: string;
+  engine_name: string | null;
   /** The name of the vindex for the schema */
-  vindex_name: string;
+  vindex_name: string | null;
   /** The path for an invalid JSON column */
-  json_path: string;
+  json_path: string | null;
   /** The name of the invalid check constraint */
-  check_constraint_name: string;
+  check_constraint_name: string | null;
   /** The name of the invalid enum value */
-  enum_value: string;
+  enum_value: string | null;
   /** The name of the invalid partitioning type */
-  partitioning_type: string;
+  partitioning_type: string | null;
   /** The name of the invalid partition in the schema */
-  partition_name: string;
+  partition_name: string | null;
 }
 export const PaginatedSchemaLintErrorDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lint_error: S.String,
     subject_type: PaginatedSchemaLintErrorDataItemSubjectType,
     keyspace_name: S.String,
-    table_name: S.String,
-    error_description: S.String,
+    table_name: S.NullOr(S.String),
+    error_description: S.NullOr(S.String),
     docs_url: S.String,
-    column_name: S.String,
-    foreign_key_column_names:
+    column_name: S.NullOr(S.String),
+    foreign_key_column_names: S.NullOr(
       PaginatedSchemaLintErrorDataItemForeignKeyColumnNamesList,
-    auto_increment_column_names:
+    ),
+    auto_increment_column_names: S.NullOr(
       PaginatedSchemaLintErrorDataItemAutoIncrementColumnNamesList,
-    charset_name: S.String,
-    engine_name: S.String,
-    vindex_name: S.String,
-    json_path: S.String,
-    check_constraint_name: S.String,
-    enum_value: S.String,
-    partitioning_type: S.String,
-    partition_name: S.String,
+    ),
+    charset_name: S.NullOr(S.String),
+    engine_name: S.NullOr(S.String),
+    vindex_name: S.NullOr(S.String),
+    json_path: S.NullOr(S.String),
+    check_constraint_name: S.NullOr(S.String),
+    enum_value: S.NullOr(S.String),
+    partitioning_type: S.NullOr(S.String),
+    partition_name: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "PaginatedSchemaLintErrorDataItem",
@@ -11261,6 +12964,238 @@ export const PaginatedSchemaLintError = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PaginatedSchemaLintError",
 }) as any as S.Schema<PaginatedSchemaLintError>;
+
+export type ListAdminChangeRequestsRequestPeriod =
+  | "15m"
+  | "1h"
+  | "3h"
+  | "6h"
+  | "12h"
+  | "1d"
+  | "2d"
+  | "7d"
+  | "8d";
+export const ListAdminChangeRequestsRequestPeriod = S.String;
+
+export interface ListAdminChangeRequestsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+  /** Filter change requests by named period */
+  period?: ListAdminChangeRequestsRequestPeriod | (string & {});
+  /** Filter change requests completed between two ISO 8601 timestamps */
+  completed_at?: string;
+}
+export const ListAdminChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    period: S.optional(ListAdminChangeRequestsRequestPeriod.pipe(T.Query())),
+    completed_at: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/admin/changes",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListAdminChangeRequestsRequest",
+}) as any as S.Schema<ListAdminChangeRequestsRequest>;
+
+export interface ListAdminChangeRequestsResponse {}
+export const ListAdminChangeRequestsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ListAdminChangeRequestsResponse",
+}) as any as S.Schema<ListAdminChangeRequestsResponse>;
+
+export interface ListAdminParametersRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const ListAdminParametersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/admin/parameters",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListAdminParametersRequest",
+}) as any as S.Schema<ListAdminParametersRequest>;
+
+/** The namespace of the parameter */
+export type NekiParameterNamespace =
+  | "pgconf"
+  | "router"
+  | "sidecar"
+  | "admin"
+  | "replicator";
+export const NekiParameterNamespace = S.String;
+
+/** The type of the parameter */
+export type NekiParameterParameterType =
+  | "array"
+  | "boolean"
+  | "bytes"
+  | "float"
+  | "integer"
+  | "select"
+  | "string"
+  | "time";
+export const NekiParameterParameterType = S.String;
+
+/** Valid options for the parameter value */
+export type NekiParameterOptionsList = Array<string>;
+export const NekiParameterOptionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<NekiParameterOptionsList>;
+
+/** The units of the parameter value */
+export type NekiParameterUnitsList = Array<string>;
+export const NekiParameterUnitsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<NekiParameterUnitsList>;
+
+export type NekiParameterActor = OrganizationTeamMembershipActor;
+export const NekiParameterActor = OrganizationTeamMembershipActor;
+
+export interface NekiParameter {
+  /** The ID of the parameter */
+  id: string | null;
+  /** The name of the parameter */
+  name: string;
+  /** The display name of the parameter */
+  display_name: string;
+  /** The namespace of the parameter */
+  namespace: NekiParameterNamespace;
+  /** Whether the parameter is advanced */
+  advanced: boolean;
+  /** The category of the parameter */
+  category: string | null;
+  /** The description of the parameter */
+  description: string;
+  /** The type of the parameter */
+  parameter_type: NekiParameterParameterType;
+  /** The default value of the parameter */
+  default_value: string | null;
+  /** The configured value of the parameter */
+  value: string | null;
+  /** Whether the parameter is required */
+  required: boolean;
+  /** When the parameter was created */
+  created_at: string;
+  /** When the parameter was last updated */
+  updated_at: string;
+  /** Whether processes require a server restart after the parameter changes */
+  restart: boolean;
+  /** The maximum value of the parameter */
+  max?: number | null;
+  /** The minimum value of the parameter */
+  min?: number | null;
+  /** Valid options for the parameter value */
+  options?: NekiParameterOptionsList | null;
+  /** The units of the parameter value */
+  units?: NekiParameterUnitsList | null;
+  /** The URL of the parameter */
+  url: string;
+  actor: OrganizationTeamMembershipActor;
+}
+export const NekiParameter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.NullOr(S.String),
+    name: S.String,
+    display_name: S.String,
+    namespace: NekiParameterNamespace,
+    advanced: S.Boolean,
+    category: S.NullOr(S.String),
+    description: S.String,
+    parameter_type: NekiParameterParameterType,
+    default_value: S.NullOr(S.String),
+    value: S.NullOr(S.String),
+    required: S.Boolean,
+    created_at: S.String,
+    updated_at: S.String,
+    restart: S.Boolean,
+    max: S.optional(S.NullOr(S.Number)),
+    min: S.optional(S.NullOr(S.Number)),
+    options: S.optional(S.NullOr(NekiParameterOptionsList)),
+    units: S.optional(S.NullOr(NekiParameterUnitsList)),
+    url: S.String,
+    actor: OrganizationTeamMembershipActor,
+  }),
+).annotate({ identifier: "NekiParameter" }) as any as S.Schema<NekiParameter>;
+
+export type ListAdminParametersResponseBodyList = Array<NekiParameter>;
+export const ListAdminParametersResponseBodyList = /*@__PURE__*/ S.Array(
+  NekiParameter,
+) as any as S.Schema<ListAdminParametersResponseBodyList>;
+
+export type ListAdminParametersResponse = ListAdminParametersResponseBodyList;
+export const ListAdminParametersResponse = /*@__PURE__*/ S.suspend(() =>
+  ListAdminParametersResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListAdminParametersResponse",
+}) as any as S.Schema<ListAdminParametersResponse>;
+
+export interface ListAdminSizeSkusRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const ListAdminSizeSkusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/admin-size-skus",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListAdminSizeSkusRequest",
+}) as any as S.Schema<ListAdminSizeSkusRequest>;
+
+export type NekiAdminSizeSku = NekiAdminSku;
+export const NekiAdminSizeSku = NekiAdminSku;
+
+export type ListAdminSizeSkusResponseBodyList = Array<NekiAdminSku>;
+export const ListAdminSizeSkusResponseBodyList = /*@__PURE__*/ S.Array(
+  NekiAdminSku,
+) as any as S.Schema<ListAdminSizeSkusResponseBodyList>;
+
+export type ListAdminSizeSkusResponse = ListAdminSizeSkusResponseBodyList;
+export const ListAdminSizeSkusResponse = /*@__PURE__*/ S.suspend(() =>
+  ListAdminSizeSkusResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListAdminSizeSkusResponse",
+}) as any as S.Schema<ListAdminSizeSkusResponse>;
 
 export interface ListAuditLogsRequest {
   /** The name of the organization */
@@ -12517,7 +14452,7 @@ export interface PaginatedPostgresClusterResizeRequestDataItem {
   maximum_storage_bytes: number;
   /** Whether storage autoscaling is enabled */
   storage_autoscaling: boolean;
-  /** Whether storage shrinking is enabled when autoscaling is enabled */
+  /** Deprecated, storage shrinking is part of storage autoscaling. */
   storage_shrinking: boolean;
   /** The storage type (gp3 or io2) */
   storage_type: PaginatedPostgresClusterResizeRequestDataItemStorageType;
@@ -12531,7 +14466,7 @@ export interface PaginatedPostgresClusterResizeRequestDataItem {
   previous_maximum_storage_bytes: number;
   /** Whether storage autoscaling was previously enabled */
   previous_storage_autoscaling: boolean;
-  /** Whether storage shrinking was previously enabled */
+  /** Deprecated, storage shrinking is part of storage autoscaling. */
   previous_storage_shrinking: boolean;
   /** The previous storage type */
   previous_storage_type: string;
@@ -12668,7 +14603,10 @@ export const ListBranchesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBranchesRequest>;
 
 /** The kind of branch */
-export type PaginatedDatabaseBranchDataItemKind = "mysql" | "postgresql";
+export type PaginatedDatabaseBranchDataItemKind =
+  | "mysql"
+  | "postgresql"
+  | "neki";
 export const PaginatedDatabaseBranchDataItemKind = S.String;
 
 /** The current state of the branch */
@@ -12719,6 +14657,8 @@ export interface PaginatedDatabaseBranchDataItemRegion {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const PaginatedDatabaseBranchDataItemRegion = /*@__PURE__*/ S.suspend(
   () =>
@@ -12734,6 +14674,7 @@ export const PaginatedDatabaseBranchDataItemRegion = /*@__PURE__*/ S.suspend(
       current_default: S.Boolean,
       mysql_supported: S.Boolean,
       postgresql_supported: S.Boolean,
+      neki_supported: S.Boolean,
     }),
 ).annotate({
   identifier: "PaginatedDatabaseBranchDataItemRegion",
@@ -13074,21 +15015,11 @@ export const PaginatedQuerySummaryDataItemQualifiedTablesList =
     S.String,
   ) as any as S.Schema<PaginatedQuerySummaryDataItemQualifiedTablesList>;
 
-export type PaginatedQuerySummaryDataItemTableKeyspacesItemMap = {
-  [key: string]: unknown | undefined;
-};
-export const PaginatedQuerySummaryDataItemTableKeyspacesItemMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.Unknown,
-  ) as any as S.Schema<PaginatedQuerySummaryDataItemTableKeyspacesItemMap>;
-
-/** Mapping of tables to their keyspaces */
-export type PaginatedQuerySummaryDataItemTableKeyspacesList =
-  Array<PaginatedQuerySummaryDataItemTableKeyspacesItemMap>;
+/** Keyspaces or schemas accessed by the query */
+export type PaginatedQuerySummaryDataItemTableKeyspacesList = Array<string>;
 export const PaginatedQuerySummaryDataItemTableKeyspacesList =
   /*@__PURE__*/ S.Array(
-    PaginatedQuerySummaryDataItemTableKeyspacesItemMap,
+    S.String,
   ) as any as S.Schema<PaginatedQuerySummaryDataItemTableKeyspacesList>;
 
 export type PaginatedQuerySummaryDataItemIndexUsagesItemMap = {
@@ -13148,7 +15079,7 @@ export interface PaginatedQuerySummaryDataItem {
   tables: PaginatedQuerySummaryDataItemTablesList;
   /** Fully qualified tables accessed by the query */
   qualified_tables: PaginatedQuerySummaryDataItemQualifiedTablesList;
-  /** Mapping of tables to their keyspaces */
+  /** Keyspaces or schemas accessed by the query */
   table_keyspaces: PaginatedQuerySummaryDataItemTableKeyspacesList;
   /** Index usage information */
   index_usages: PaginatedQuerySummaryDataItemIndexUsagesList;
@@ -13294,28 +15225,28 @@ export interface PaginatedQuerySummary {
   /** The response type. Always "list" for paginated responses. */
   type: string;
   /** The current page number */
-  current_page: number;
+  current_page?: number | null;
   /** The maximum number of results per page */
-  per_page: number;
+  per_page?: number | null;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
-  next_page_url: string | null;
+  next_page_url?: string | null;
   /** The previous page number, or null when this is the first page */
   prev_page: number | null;
   /** The previous page of results, or null when this is the first page */
-  prev_page_url: string | null;
+  prev_page_url?: string | null;
   data: PaginatedQuerySummaryDataList;
 }
 export const PaginatedQuerySummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
-    current_page: S.Number,
-    per_page: S.Number,
+    current_page: S.optional(S.NullOr(S.Number)),
+    per_page: S.optional(S.NullOr(S.Number)),
     next_page: S.NullOr(S.Number),
-    next_page_url: S.NullOr(S.String),
+    next_page_url: S.optional(S.NullOr(S.String)),
     prev_page: S.NullOr(S.Number),
-    prev_page_url: S.NullOr(S.String),
+    prev_page_url: S.optional(S.NullOr(S.String)),
     data: PaginatedQuerySummaryDataList,
   }),
 ).annotate({
@@ -13444,28 +15375,28 @@ export interface PaginatedErrorSummary {
   /** The response type. Always "list" for paginated responses. */
   type: string;
   /** The current page number */
-  current_page: number;
+  current_page?: number | null;
   /** The maximum number of results per page */
-  per_page: number;
+  per_page?: number | null;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
-  next_page_url: string | null;
+  next_page_url?: string | null;
   /** The previous page number, or null when this is the first page */
   prev_page: number | null;
   /** The previous page of results, or null when this is the first page */
-  prev_page_url: string | null;
+  prev_page_url?: string | null;
   data: PaginatedErrorSummaryDataList;
 }
 export const PaginatedErrorSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
-    current_page: S.Number,
-    per_page: S.Number,
+    current_page: S.optional(S.NullOr(S.Number)),
+    per_page: S.optional(S.NullOr(S.Number)),
     next_page: S.NullOr(S.Number),
-    next_page_url: S.NullOr(S.String),
+    next_page_url: S.optional(S.NullOr(S.String)),
     prev_page: S.NullOr(S.Number),
-    prev_page_url: S.NullOr(S.String),
+    prev_page_url: S.optional(S.NullOr(S.String)),
     data: PaginatedErrorSummaryDataList,
   }),
 ).annotate({
@@ -13616,28 +15547,28 @@ export interface PaginatedQueryTag {
   /** The response type. Always "list" for paginated responses. */
   type: string;
   /** The current page number */
-  current_page: number;
+  current_page?: number | null;
   /** The maximum number of results per page */
-  per_page: number;
+  per_page?: number | null;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
-  next_page_url: string | null;
+  next_page_url?: string | null;
   /** The previous page number, or null when this is the first page */
   prev_page: number | null;
   /** The previous page of results, or null when this is the first page */
-  prev_page_url: string | null;
+  prev_page_url?: string | null;
   data: PaginatedQueryTagDataList;
 }
 export const PaginatedQueryTag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
-    current_page: S.Number,
-    per_page: S.Number,
+    current_page: S.optional(S.NullOr(S.Number)),
+    per_page: S.optional(S.NullOr(S.Number)),
     next_page: S.NullOr(S.Number),
-    next_page_url: S.NullOr(S.String),
+    next_page_url: S.optional(S.NullOr(S.String)),
     prev_page: S.NullOr(S.Number),
-    prev_page_url: S.NullOr(S.String),
+    prev_page_url: S.optional(S.NullOr(S.String)),
     data: PaginatedQueryTagDataList,
   }),
 ).annotate({
@@ -13823,21 +15754,12 @@ export const PaginatedDimensionsQuerySummaryDataItemQualifiedTablesList =
     S.String,
   ) as any as S.Schema<PaginatedDimensionsQuerySummaryDataItemQualifiedTablesList>;
 
-export type PaginatedDimensionsQuerySummaryDataItemTableKeyspacesItemMap = {
-  [key: string]: unknown | undefined;
-};
-export const PaginatedDimensionsQuerySummaryDataItemTableKeyspacesItemMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.Unknown,
-  ) as any as S.Schema<PaginatedDimensionsQuerySummaryDataItemTableKeyspacesItemMap>;
-
-/** Mapping of tables to their keyspaces */
+/** Keyspaces or schemas accessed by the query */
 export type PaginatedDimensionsQuerySummaryDataItemTableKeyspacesList =
-  Array<PaginatedDimensionsQuerySummaryDataItemTableKeyspacesItemMap>;
+  Array<string>;
 export const PaginatedDimensionsQuerySummaryDataItemTableKeyspacesList =
   /*@__PURE__*/ S.Array(
-    PaginatedDimensionsQuerySummaryDataItemTableKeyspacesItemMap,
+    S.String,
   ) as any as S.Schema<PaginatedDimensionsQuerySummaryDataItemTableKeyspacesList>;
 
 export type PaginatedDimensionsQuerySummaryDataItemIndexUsagesItemMap = {
@@ -13885,7 +15807,7 @@ export interface PaginatedDimensionsQuerySummaryDataItem {
   tables: PaginatedDimensionsQuerySummaryDataItemTablesList;
   /** Fully qualified tables accessed by the query */
   qualified_tables: PaginatedDimensionsQuerySummaryDataItemQualifiedTablesList;
-  /** Mapping of tables to their keyspaces */
+  /** Keyspaces or schemas accessed by the query */
   table_keyspaces: PaginatedDimensionsQuerySummaryDataItemTableKeyspacesList;
   /** Index usage information */
   index_usages: PaginatedDimensionsQuerySummaryDataItemIndexUsagesList;
@@ -14029,28 +15951,28 @@ export interface PaginatedDimensionsQuerySummary {
   /** The response type. Always "list" for paginated responses. */
   type: string;
   /** The current page number */
-  current_page: number;
+  current_page?: number | null;
   /** The maximum number of results per page */
-  per_page: number;
+  per_page?: number | null;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
-  next_page_url: string | null;
+  next_page_url?: string | null;
   /** The previous page number, or null when this is the first page */
   prev_page: number | null;
   /** The previous page of results, or null when this is the first page */
-  prev_page_url: string | null;
+  prev_page_url?: string | null;
   data: PaginatedDimensionsQuerySummaryDataList;
 }
 export const PaginatedDimensionsQuerySummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
-    current_page: S.Number,
-    per_page: S.Number,
+    current_page: S.optional(S.NullOr(S.Number)),
+    per_page: S.optional(S.NullOr(S.Number)),
     next_page: S.NullOr(S.Number),
-    next_page_url: S.NullOr(S.String),
+    next_page_url: S.optional(S.NullOr(S.String)),
     prev_page: S.NullOr(S.Number),
-    prev_page_url: S.NullOr(S.String),
+    prev_page_url: S.optional(S.NullOr(S.String)),
     data: PaginatedDimensionsQuerySummaryDataList,
   }),
 ).annotate({
@@ -14123,17 +16045,17 @@ export interface PaginatedMysqlClusterResizeRequestDataItem {
   /** The previous number of vtgates in the availability zone */
   previous_vtgate_count: number;
   /** The maximum number of vtgates in an availability zone when autoscaling is enabled */
-  vtgate_max_count: number;
+  vtgate_max_count: number | null;
   /** The previous maximum number of vtgates in the availability zone when autoscaling is enabled */
-  previous_vtgate_max_count: number;
+  previous_vtgate_max_count: number | null;
   /** If autoscaling is enabled for the vtgate cluster */
   vtgate_autoscaling: boolean;
   /** The previous autoscaling setting for the vtgate cluster */
   previous_vtgate_autoscaling: boolean;
   /** The target CPU utilization for the vtgate cluster */
-  vtgate_target_cpu_utilization: number;
+  vtgate_target_cpu_utilization: number | null;
   /** The previous target CPU utilization for the vtgate cluster */
-  previous_vtgate_target_cpu_utilization: number;
+  previous_vtgate_target_cpu_utilization: number | null;
   /** The SKU representing the vtgate cluster size: VTG_5, VTG_10,… */
   vtgate_name: string;
   /** The SKU representing the vtgate cluster size for display */
@@ -14157,12 +16079,12 @@ export const PaginatedMysqlClusterResizeRequestDataItem =
       previous_vtgate_size: S.String,
       vtgate_count: S.Number,
       previous_vtgate_count: S.Number,
-      vtgate_max_count: S.Number,
-      previous_vtgate_max_count: S.Number,
+      vtgate_max_count: S.NullOr(S.Number),
+      previous_vtgate_max_count: S.NullOr(S.Number),
       vtgate_autoscaling: S.Boolean,
       previous_vtgate_autoscaling: S.Boolean,
-      vtgate_target_cpu_utilization: S.Number,
-      previous_vtgate_target_cpu_utilization: S.Number,
+      vtgate_target_cpu_utilization: S.NullOr(S.Number),
+      previous_vtgate_target_cpu_utilization: S.NullOr(S.Number),
       vtgate_name: S.String,
       vtgate_display_name: S.String,
       previous_vtgate_name: S.String,
@@ -14211,7 +16133,7 @@ export const PaginatedMysqlClusterResizeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedMysqlClusterResizeRequest",
 }) as any as S.Schema<PaginatedMysqlClusterResizeRequest>;
 
-export type ListClusterSizeSkusRequestEngine = "mysql" | "postgresql";
+export type ListClusterSizeSkusRequestEngine = "mysql" | "postgresql" | "neki";
 export const ListClusterSizeSkusRequestEngine = S.String;
 
 export interface ListClusterSizeSkusRequest {
@@ -14225,6 +16147,8 @@ export interface ListClusterSizeSkusRequest {
   region?: string;
   /** The database name to resolve rates for. When specified, database-level custom rates take precedence over organization rates. */
   database?: string;
+  /** When true, list cluster sizes for external keyspaces. Defaults to false. */
+  external?: boolean;
 }
 export const ListClusterSizeSkusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14233,6 +16157,7 @@ export const ListClusterSizeSkusRequest = /*@__PURE__*/ S.suspend(() =>
     rates: S.optional(S.Boolean.pipe(T.Query())),
     region: S.optional(S.String.pipe(T.Query())),
     database: S.optional(S.String.pipe(T.Query())),
+    external: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -14257,6 +16182,8 @@ export interface ClusterSizeSku {
   ram: number;
   /** Whether or not the cluster SKU is Metal */
   metal: boolean;
+  /** Whether or not the cluster SKU is for an external keyspace */
+  external?: boolean;
   /** Whether or not the cluster SKU is enabled for the organization */
   enabled: boolean;
   /** The provider of the cluster SKU (nil, AWS or GCP) */
@@ -14267,6 +16194,8 @@ export interface ClusterSizeSku {
   default_vtgate_rate?: number | null;
   /** The recommended Neki router size for the cluster SKU */
   default_neki_router?: string | null;
+  /** The default Neki router rate for the cluster SKU */
+  default_neki_router_rate?: number | null;
   /** The replica rate for the cluster SKU */
   replica_rate?: number | null;
   /** The rate for the cluster SKU */
@@ -14288,11 +16217,13 @@ export const ClusterSizeSku = /*@__PURE__*/ S.suspend(() =>
     storage: S.optional(S.NullOr(S.Number)),
     ram: S.Number,
     metal: S.Boolean,
+    external: S.optional(S.Boolean),
     enabled: S.Boolean,
     provider: S.optional(S.NullOr(S.String)),
     default_vtgate: S.String,
     default_vtgate_rate: S.optional(S.NullOr(S.Number)),
     default_neki_router: S.optional(S.NullOr(S.String)),
+    default_neki_router_rate: S.optional(S.NullOr(S.Number)),
     replica_rate: S.optional(S.NullOr(S.Number)),
     rate: S.optional(S.NullOr(S.Number)),
     sort_order: S.Number,
@@ -14489,6 +16420,8 @@ export interface PaginatedPlanetscaleRegionDataItem {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const PaginatedPlanetscaleRegionDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14503,6 +16436,7 @@ export const PaginatedPlanetscaleRegionDataItem = /*@__PURE__*/ S.suspend(() =>
     current_default: S.Boolean,
     mysql_supported: S.Boolean,
     postgresql_supported: S.Boolean,
+    neki_supported: S.Boolean,
   }),
 ).annotate({
   identifier: "PaginatedPlanetscaleRegionDataItem",
@@ -14610,6 +16544,8 @@ export interface PaginatedDatabaseDataItemRegion {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const PaginatedDatabaseDataItemRegion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14623,6 +16559,7 @@ export const PaginatedDatabaseDataItemRegion = /*@__PURE__*/ S.suspend(() =>
     current_default: S.Boolean,
     mysql_supported: S.Boolean,
     postgresql_supported: S.Boolean,
+    neki_supported: S.Boolean,
   }),
 ).annotate({
   identifier: "PaginatedDatabaseDataItemRegion",
@@ -14640,7 +16577,7 @@ export type PaginatedDatabaseDataItemState =
 export const PaginatedDatabaseDataItemState = S.String;
 
 /** The kind of database */
-export type PaginatedDatabaseDataItemKind = "mysql" | "postgresql";
+export type PaginatedDatabaseDataItemKind = "mysql" | "postgresql" | "neki";
 export const PaginatedDatabaseDataItemKind = S.String;
 
 export interface PaginatedDatabaseDataItem {
@@ -15821,6 +17758,19 @@ export type PostgresClusterExtensionLoader =
   | "create_extension";
 export const PostgresClusterExtensionLoader = S.String;
 
+export interface PostgresClusterExtensionRequirements {
+  /** The Postgres image version required to use the extension */
+  postgres_image_version?: string | null;
+}
+export const PostgresClusterExtensionRequirements = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      postgres_image_version: S.optional(S.NullOr(S.String)),
+    }),
+).annotate({
+  identifier: "PostgresClusterExtensionRequirements",
+}) as any as S.Schema<PostgresClusterExtensionRequirements>;
+
 /** The namespace of the parameter */
 export type PostgresClusterExtensionParametersItemNamespace =
   | "patroni"
@@ -15854,8 +17804,6 @@ export const PostgresClusterExtensionParametersItemActor =
   OrganizationTeamMembershipActor;
 
 export interface PostgresClusterExtensionParametersItem {
-  /** The ID of the parameter */
-  id: string;
   /** The name of the parameter */
   name: string;
   /** The display name of the parameter */
@@ -15897,7 +17845,6 @@ export interface PostgresClusterExtensionParametersItem {
 export const PostgresClusterExtensionParametersItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      id: S.String,
       name: S.String,
       display_name: S.String,
       namespace: PostgresClusterExtensionParametersItemNamespace,
@@ -15939,12 +17886,9 @@ export interface PostgresClusterExtension {
   internal: boolean;
   /** How the extension is loaded */
   loader: PostgresClusterExtensionLoader;
+  requirements: PostgresClusterExtensionRequirements;
   /** The URL of the extension */
   url: string;
-  /** Whether the extension is available on the current cluster image */
-  available: boolean;
-  /** The reason the extension is unavailable (e.g., 'container_upgrade_required') */
-  unavailable_reason: string;
   parameters: PostgresClusterExtensionParametersList;
 }
 export const PostgresClusterExtension = /*@__PURE__*/ S.suspend(() =>
@@ -15954,9 +17898,8 @@ export const PostgresClusterExtension = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     internal: S.Boolean,
     loader: PostgresClusterExtensionLoader,
+    requirements: PostgresClusterExtensionRequirements,
     url: S.String,
-    available: S.Boolean,
-    unavailable_reason: S.String,
     parameters: PostgresClusterExtensionParametersList,
   }),
 ).annotate({
@@ -16184,6 +18127,8 @@ export interface ListKeyspaceResizeRequestsRequest {
   page?: number;
   /** If provided, specifies the number of returned results */
   per_page?: number;
+  /** Filter resize requests completed between two dates (e.g. 2023-01-01T:00:00:00Z..2023-01-31T:23:59:59Z) */
+  completed_at?: string;
 }
 export const ListKeyspaceResizeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16193,6 +18138,7 @@ export const ListKeyspaceResizeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     keyspace: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
+    completed_at: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -16204,10 +18150,81 @@ export const ListKeyspaceResizeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListKeyspaceResizeRequestsRequest",
 }) as any as S.Schema<ListKeyspaceResizeRequestsRequest>;
 
+/** The state of the resize request */
+export type PaginatedKeyspaceResizeRequestDataItemState =
+  | "pending"
+  | "resizing"
+  | "canceled"
+  | "completed"
+  | "queued";
+export const PaginatedKeyspaceResizeRequestDataItemState = S.String;
+
+export type PaginatedKeyspaceResizeRequestDataItemActor =
+  OrganizationTeamMembershipActor;
+export const PaginatedKeyspaceResizeRequestDataItemActor =
+  OrganizationTeamMembershipActor;
+
+export interface PaginatedKeyspaceResizeRequestDataItem {
+  /** The ID of the keyspace resize request */
+  id: string;
+  /** The state of the resize request */
+  state: PaginatedKeyspaceResizeRequestDataItemState;
+  /** When the resize request started */
+  started_at: string | null;
+  /** When the resize request completed */
+  completed_at: string | null;
+  /** When the resize request was created */
+  created_at: string;
+  /** When the resize request was last updated */
+  updated_at: string;
+  /** The number of extra replicas requested for the keyspace */
+  extra_replicas: number;
+  /** Percentage of buffer pool memory allocated to vector indexes */
+  vector_pool_allocation: number;
+  /** Previous percentage of buffer pool memory allocated to vector indexes */
+  previous_vector_pool_allocation: number;
+  /** The SKU representing the keyspace cluster size */
+  cluster_name: string;
+  /** The SKU representing the keyspace cluster size for display */
+  cluster_display_name: string;
+  /** Previous SKU representing the keyspace cluster size */
+  previous_cluster_name: string;
+  /** Previous SKU representing the keyspace cluster size for display */
+  previous_cluster_display_name: string;
+  /** Total number of replicas in the keyspace after resize */
+  replicas: number;
+  /** Total number of replicas in the keyspace before resize */
+  previous_replicas: number;
+  actor: OrganizationTeamMembershipActor;
+}
+export const PaginatedKeyspaceResizeRequestDataItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+      state: PaginatedKeyspaceResizeRequestDataItemState,
+      started_at: S.NullOr(S.String),
+      completed_at: S.NullOr(S.String),
+      created_at: S.String,
+      updated_at: S.String,
+      extra_replicas: S.Number,
+      vector_pool_allocation: S.Number,
+      previous_vector_pool_allocation: S.Number,
+      cluster_name: S.String,
+      cluster_display_name: S.String,
+      previous_cluster_name: S.String,
+      previous_cluster_display_name: S.String,
+      replicas: S.Number,
+      previous_replicas: S.Number,
+      actor: OrganizationTeamMembershipActor,
+    }),
+).annotate({
+  identifier: "PaginatedKeyspaceResizeRequestDataItem",
+}) as any as S.Schema<PaginatedKeyspaceResizeRequestDataItem>;
+
 export type PaginatedKeyspaceResizeRequestDataList =
-  Array<KeyspaceResizeRequest>;
+  Array<PaginatedKeyspaceResizeRequestDataItem>;
 export const PaginatedKeyspaceResizeRequestDataList = /*@__PURE__*/ S.Array(
-  KeyspaceResizeRequest,
+  PaginatedKeyspaceResizeRequestDataItem,
 ) as any as S.Schema<PaginatedKeyspaceResizeRequestDataList>;
 
 export interface PaginatedKeyspaceResizeRequest {
@@ -16215,6 +18232,8 @@ export interface PaginatedKeyspaceResizeRequest {
   type: string;
   /** The current page number */
   current_page: number;
+  /** The maximum number of results per page */
+  per_page: number;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
@@ -16229,6 +18248,7 @@ export const PaginatedKeyspaceResizeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
     current_page: S.Number,
+    per_page: S.Number,
     next_page: S.NullOr(S.Number),
     next_page_url: S.NullOr(S.String),
     prev_page: S.NullOr(S.Number),
@@ -16276,6 +18296,30 @@ export type PaginatedDatabaseBranchKeyspaceDataItemNodeTtlStrategy =
   | "node_ttl_off";
 export const PaginatedDatabaseBranchKeyspaceDataItemNodeTtlStrategy = S.String;
 
+/** The disk autoscaling strategy */
+export type PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscalingStrategy =
+  | "grow"
+  | "disable"
+  | "shrink";
+export const PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscalingStrategy =
+  S.String;
+
+export interface PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling {
+  /** The disk autoscaling strategy */
+  strategy: PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscalingStrategy;
+  /** The maximum size in bytes disks may autoscale to */
+  storage_limit_bytes: number;
+}
+export const PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      strategy: PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscalingStrategy,
+      storage_limit_bytes: S.Number,
+    }),
+  ).annotate({
+    identifier: "PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling",
+  }) as any as S.Schema<PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling>;
+
 /** The replication durability strategy */
 export type PaginatedDatabaseBranchKeyspaceDataItemReplicationDurabilityConstraintsStrategy =
   | "available"
@@ -16306,6 +18350,11 @@ export type PaginatedDatabaseBranchKeyspaceDataItemVreplicationFlags =
   DatabaseBranchKeyspaceVreplicationFlags;
 export const PaginatedDatabaseBranchKeyspaceDataItemVreplicationFlags =
   DatabaseBranchKeyspaceVreplicationFlags;
+
+export type PaginatedDatabaseBranchKeyspaceDataItemThrottler =
+  DatabaseBranchKeyspaceThrottler;
+export const PaginatedDatabaseBranchKeyspaceDataItemThrottler =
+  DatabaseBranchKeyspaceThrottler;
 
 /** MySQL daemon configuration options */
 export type PaginatedDatabaseBranchKeyspaceDataItemMysqldOptionsMap = {
@@ -16370,8 +18419,12 @@ export interface PaginatedDatabaseBranchKeyspaceDataItem {
   vector_pool_allocation: number | null;
   /** Controls when node TTL drains are allowed */
   node_ttl_strategy: PaginatedDatabaseBranchKeyspaceDataItemNodeTtlStrategy;
+  disk_autoscaling: PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling;
+  /** The maximum number of shards rolled out in parallel. Null uses the infrastructure default of 1. Effective concurrency is capped at 32. */
+  max_rollout: number | null;
   replication_durability_constraints: PaginatedDatabaseBranchKeyspaceDataItemReplicationDurabilityConstraints;
   vreplication_flags: DatabaseBranchKeyspaceVreplicationFlags;
+  throttler: DatabaseBranchKeyspaceThrottler;
   /** MySQL daemon configuration options */
   mysqld_options: PaginatedDatabaseBranchKeyspaceDataItemMysqldOptionsMap;
   /** VTTablet configuration options */
@@ -16401,9 +18454,12 @@ export const PaginatedDatabaseBranchKeyspaceDataItem = /*@__PURE__*/ S.suspend(
       imported: S.Boolean,
       vector_pool_allocation: S.NullOr(S.Number),
       node_ttl_strategy: PaginatedDatabaseBranchKeyspaceDataItemNodeTtlStrategy,
+      disk_autoscaling: PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling,
+      max_rollout: S.NullOr(S.Number),
       replication_durability_constraints:
         PaginatedDatabaseBranchKeyspaceDataItemReplicationDurabilityConstraints,
       vreplication_flags: DatabaseBranchKeyspaceVreplicationFlags,
+      throttler: DatabaseBranchKeyspaceThrottler,
       mysqld_options: PaginatedDatabaseBranchKeyspaceDataItemMysqldOptionsMap,
       vttablet_options:
         PaginatedDatabaseBranchKeyspaceDataItemVttabletOptionsMap,
@@ -16685,6 +18741,360 @@ export const PaginatedBranchMaintenanceWindow = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PaginatedBranchMaintenanceWindow",
 }) as any as S.Schema<PaginatedBranchMaintenanceWindow>;
+
+export type ListNekiChangeRequestsRequestStateList = Array<string>;
+export const ListNekiChangeRequestsRequestStateList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListNekiChangeRequestsRequestStateList>;
+
+export type ListNekiChangeRequestsRequestTargetTypesList = Array<string>;
+export const ListNekiChangeRequestsRequestTargetTypesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListNekiChangeRequestsRequestTargetTypesList>;
+
+export type ListNekiChangeRequestsRequestPeriod =
+  | "15m"
+  | "1h"
+  | "3h"
+  | "6h"
+  | "12h"
+  | "1d"
+  | "2d"
+  | "7d"
+  | "8d";
+export const ListNekiChangeRequestsRequestPeriod = S.String;
+
+export interface ListNekiChangeRequestsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+  /** Filter change requests by state */
+  state?: ListNekiChangeRequestsRequestStateList;
+  /** Filter change requests by target type. Must contain one or more of: NekiAdmin, NekiCluster, NekiConfigurationProfile, NekiRouter, or NekiSidecar */
+  target_types?: ListNekiChangeRequestsRequestTargetTypesList;
+  /** Filter change requests by target ID. Requires target_types */
+  target_id?: string;
+  /** Filter change requests by named period */
+  period?: ListNekiChangeRequestsRequestPeriod | (string & {});
+  /** Filter change requests completed between two ISO 8601 timestamps */
+  completed_at?: string;
+}
+export const ListNekiChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    state: S.optional(ListNekiChangeRequestsRequestStateList.pipe(T.Query())),
+    target_types: S.optional(
+      ListNekiChangeRequestsRequestTargetTypesList.pipe(T.Query()),
+    ),
+    target_id: S.optional(S.String.pipe(T.Query())),
+    period: S.optional(ListNekiChangeRequestsRequestPeriod.pipe(T.Query())),
+    completed_at: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/neki-changes",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListNekiChangeRequestsRequest",
+}) as any as S.Schema<ListNekiChangeRequestsRequest>;
+
+/** The type of change request */
+export type PaginatedNekiChangeRequestDataItemType =
+  | "NekiAdminChangeRequest"
+  | "NekiClusterChangeRequest"
+  | "NekiConfigurationProfileChangeRequest"
+  | "NekiRouterChangeRequest"
+  | "NekiSidecarChangeRequest";
+export const PaginatedNekiChangeRequestDataItemType = S.String;
+
+/** The state of the change request */
+export type PaginatedNekiChangeRequestDataItemState =
+  | "draft"
+  | "pending"
+  | "applying"
+  | "canceled"
+  | "completed";
+export const PaginatedNekiChangeRequestDataItemState = S.String;
+
+export type PaginatedNekiChangeRequestDataItemActor =
+  OrganizationTeamMembershipActor;
+export const PaginatedNekiChangeRequestDataItemActor =
+  OrganizationTeamMembershipActor;
+
+/** The type of resource being changed */
+export type PaginatedNekiChangeRequestDataItemTargetType =
+  | "NekiAdmin"
+  | "NekiCluster"
+  | "NekiConfigurationProfile"
+  | "NekiRouter"
+  | "NekiSidecar";
+export const PaginatedNekiChangeRequestDataItemTargetType = S.String;
+
+/** The parameters requested for the target resource */
+export type PaginatedNekiChangeRequestDataItemParametersMap = {
+  [key: string]: unknown | undefined;
+};
+export const PaginatedNekiChangeRequestDataItemParametersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<PaginatedNekiChangeRequestDataItemParametersMap>;
+
+/** The target resource parameters before the change */
+export type PaginatedNekiChangeRequestDataItemPreviousParametersMap = {
+  [key: string]: unknown | undefined;
+};
+export const PaginatedNekiChangeRequestDataItemPreviousParametersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<PaginatedNekiChangeRequestDataItemPreviousParametersMap>;
+
+/** The cluster flags */
+export type PaginatedNekiChangeRequestDataItemFlagsList = Array<string>;
+export const PaginatedNekiChangeRequestDataItemFlagsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PaginatedNekiChangeRequestDataItemFlagsList>;
+
+/** The previous cluster flags */
+export type PaginatedNekiChangeRequestDataItemPreviousFlagsList = Array<string>;
+export const PaginatedNekiChangeRequestDataItemPreviousFlagsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PaginatedNekiChangeRequestDataItemPreviousFlagsList>;
+
+export type PaginatedNekiChangeRequestDataItemStorage =
+  NekiShardConfigurationProfileStorage;
+export const PaginatedNekiChangeRequestDataItemStorage =
+  NekiShardConfigurationProfileStorage;
+
+export type PaginatedNekiChangeRequestDataItemPreviousStorage =
+  NekiShardConfigurationProfileStorage;
+export const PaginatedNekiChangeRequestDataItemPreviousStorage =
+  NekiShardConfigurationProfileStorage;
+
+export interface PaginatedNekiChangeRequestDataItem {
+  /** The type of change request */
+  type: PaginatedNekiChangeRequestDataItemType;
+  /** The ID of the change request */
+  id: string;
+  /** The state of the change request */
+  state: PaginatedNekiChangeRequestDataItemState;
+  /** Whether the change request can be deleted */
+  can_delete: boolean;
+  /** The time the change request started */
+  started_at: string | null;
+  /** The time the change request completed */
+  completed_at: string | null;
+  /** The time the change request was created */
+  created_at: string;
+  /** The time the change request was last updated */
+  updated_at: string;
+  actor: OrganizationTeamMembershipActor;
+  /** The ID of the resource being changed */
+  target_id: string | null;
+  /** The type of resource being changed */
+  target_type: PaginatedNekiChangeRequestDataItemTargetType;
+  /** The name of the resource being changed */
+  target_name: string;
+  /** The name of the admin size SKU */
+  admin_size?: string | null;
+  /** The display name of the admin size SKU */
+  admin_size_display_name?: string | null;
+  /** The parameters requested for the target resource */
+  parameters?: PaginatedNekiChangeRequestDataItemParametersMap | null;
+  /** The previous name of the admin size SKU */
+  previous_admin_size?: string | null;
+  /** The previous display name of the admin size SKU */
+  previous_admin_size_display_name?: string | null;
+  /** The target resource parameters before the change */
+  previous_parameters?: PaginatedNekiChangeRequestDataItemPreviousParametersMap | null;
+  /** The cluster flags */
+  flags?: PaginatedNekiChangeRequestDataItemFlagsList | null;
+  /** The Neki image version */
+  neki_image_version?: string | null;
+  /** The previous cluster flags */
+  previous_flags?: PaginatedNekiChangeRequestDataItemPreviousFlagsList | null;
+  /** The previous Neki image version */
+  previous_neki_image_version?: string | null;
+  /** The name of the router size SKU */
+  router_size?: string | null;
+  /** The display name of the router size SKU */
+  router_size_display_name?: string | null;
+  /** The number of replicas in each cell */
+  replicas_per_cell?: number | null;
+  /** Whether the router scales horizontally within each cell */
+  autoscaling?: boolean | null;
+  /** The maximum number of replicas in each cell when autoscaling */
+  max_replicas_per_cell?: number | null;
+  /** The target average CPU utilization percentage when autoscaling, one of 40, 50, 60 or 70 */
+  target_cpu_utilization?: number | null;
+  /** The previous name of the router size SKU */
+  previous_router_size?: string | null;
+  /** The previous display name of the router size SKU */
+  previous_router_size_display_name?: string | null;
+  /** The previous number of replicas in each cell */
+  previous_replicas_per_cell?: number | null;
+  /** The previous autoscaling state of the router */
+  previous_autoscaling?: boolean | null;
+  /** The previous maximum number of replicas in each cell */
+  previous_max_replicas_per_cell?: number | null;
+  /** The previous target average CPU utilization percentage */
+  previous_target_cpu_utilization?: number | null;
+  /** The name of the shard configuration profile */
+  name?: string | null;
+  /** The previous name of the shard configuration profile */
+  previous_name?: string | null;
+  /** The name of the cluster size SKU */
+  cluster_size?: string | null;
+  /** The display name of the cluster size SKU */
+  cluster_display_name?: string | null;
+  /** Whether the cluster size SKU uses metal instances */
+  metal?: boolean | null;
+  /** The display order of the cluster size SKU */
+  cluster_rank?: number | null;
+  /** The number of replicas */
+  replicas?: number | null;
+  /** The number of shards */
+  shards?: number | null;
+  /** The PostgreSQL image */
+  postgres_image_version?: string | null;
+  storage?: NekiShardConfigurationProfileStorage | null;
+  /** The previous name of the cluster size SKU */
+  previous_cluster_size?: string | null;
+  /** The previous display name of the cluster size SKU */
+  previous_cluster_display_name?: string | null;
+  /** Whether the previous cluster size SKU used metal instances */
+  previous_metal?: boolean | null;
+  /** The previous display order of the cluster size SKU */
+  previous_cluster_rank?: number | null;
+  /** The previous number of replicas */
+  previous_replicas?: number | null;
+  /** The previous number of shards */
+  previous_shards?: number | null;
+  /** The previous PostgreSQL image */
+  previous_postgres_image_version?: string | null;
+  previous_storage?: NekiShardConfigurationProfileStorage | null;
+}
+export const PaginatedNekiChangeRequestDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: PaginatedNekiChangeRequestDataItemType,
+    id: S.String,
+    state: PaginatedNekiChangeRequestDataItemState,
+    can_delete: S.Boolean,
+    started_at: S.NullOr(S.String),
+    completed_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+    actor: OrganizationTeamMembershipActor,
+    target_id: S.NullOr(S.String),
+    target_type: PaginatedNekiChangeRequestDataItemTargetType,
+    target_name: S.String,
+    admin_size: S.optional(S.NullOr(S.String)),
+    admin_size_display_name: S.optional(S.NullOr(S.String)),
+    parameters: S.optional(
+      S.NullOr(PaginatedNekiChangeRequestDataItemParametersMap),
+    ),
+    previous_admin_size: S.optional(S.NullOr(S.String)),
+    previous_admin_size_display_name: S.optional(S.NullOr(S.String)),
+    previous_parameters: S.optional(
+      S.NullOr(PaginatedNekiChangeRequestDataItemPreviousParametersMap),
+    ),
+    flags: S.optional(S.NullOr(PaginatedNekiChangeRequestDataItemFlagsList)),
+    neki_image_version: S.optional(S.NullOr(S.String)),
+    previous_flags: S.optional(
+      S.NullOr(PaginatedNekiChangeRequestDataItemPreviousFlagsList),
+    ),
+    previous_neki_image_version: S.optional(S.NullOr(S.String)),
+    router_size: S.optional(S.NullOr(S.String)),
+    router_size_display_name: S.optional(S.NullOr(S.String)),
+    replicas_per_cell: S.optional(S.NullOr(S.Number)),
+    autoscaling: S.optional(S.NullOr(S.Boolean)),
+    max_replicas_per_cell: S.optional(S.NullOr(S.Number)),
+    target_cpu_utilization: S.optional(S.NullOr(S.Number)),
+    previous_router_size: S.optional(S.NullOr(S.String)),
+    previous_router_size_display_name: S.optional(S.NullOr(S.String)),
+    previous_replicas_per_cell: S.optional(S.NullOr(S.Number)),
+    previous_autoscaling: S.optional(S.NullOr(S.Boolean)),
+    previous_max_replicas_per_cell: S.optional(S.NullOr(S.Number)),
+    previous_target_cpu_utilization: S.optional(S.NullOr(S.Number)),
+    name: S.optional(S.NullOr(S.String)),
+    previous_name: S.optional(S.NullOr(S.String)),
+    cluster_size: S.optional(S.NullOr(S.String)),
+    cluster_display_name: S.optional(S.NullOr(S.String)),
+    metal: S.optional(S.NullOr(S.Boolean)),
+    cluster_rank: S.optional(S.NullOr(S.Number)),
+    replicas: S.optional(S.NullOr(S.Number)),
+    shards: S.optional(S.NullOr(S.Number)),
+    postgres_image_version: S.optional(S.NullOr(S.String)),
+    storage: S.optional(S.NullOr(NekiShardConfigurationProfileStorage)),
+    previous_cluster_size: S.optional(S.NullOr(S.String)),
+    previous_cluster_display_name: S.optional(S.NullOr(S.String)),
+    previous_metal: S.optional(S.NullOr(S.Boolean)),
+    previous_cluster_rank: S.optional(S.NullOr(S.Number)),
+    previous_replicas: S.optional(S.NullOr(S.Number)),
+    previous_shards: S.optional(S.NullOr(S.Number)),
+    previous_postgres_image_version: S.optional(S.NullOr(S.String)),
+    previous_storage: S.optional(
+      S.NullOr(NekiShardConfigurationProfileStorage),
+    ),
+  }),
+).annotate({
+  identifier: "PaginatedNekiChangeRequestDataItem",
+}) as any as S.Schema<PaginatedNekiChangeRequestDataItem>;
+
+export type PaginatedNekiChangeRequestDataList =
+  Array<PaginatedNekiChangeRequestDataItem>;
+export const PaginatedNekiChangeRequestDataList = /*@__PURE__*/ S.Array(
+  PaginatedNekiChangeRequestDataItem,
+) as any as S.Schema<PaginatedNekiChangeRequestDataList>;
+
+export interface PaginatedNekiChangeRequest {
+  /** The response type. Always "list" for paginated responses. */
+  type: string;
+  /** The current page number */
+  current_page: number;
+  /** The maximum number of results per page */
+  per_page: number;
+  /** The next page number, or null when this is the last page */
+  next_page: number | null;
+  /** The next page of results, or null when this is the last page */
+  next_page_url: string | null;
+  /** The previous page number, or null when this is the first page */
+  prev_page: number | null;
+  /** The previous page of results, or null when this is the first page */
+  prev_page_url: string | null;
+  data: PaginatedNekiChangeRequestDataList;
+}
+export const PaginatedNekiChangeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    current_page: S.Number,
+    per_page: S.Number,
+    next_page: S.NullOr(S.Number),
+    next_page_url: S.NullOr(S.String),
+    prev_page: S.NullOr(S.Number),
+    prev_page_url: S.NullOr(S.String),
+    data: PaginatedNekiChangeRequestDataList,
+  }),
+).annotate({
+  identifier: "PaginatedNekiChangeRequest",
+}) as any as S.Schema<PaginatedNekiChangeRequest>;
 
 export interface ListOauthApplicationsRequest {
   /** The name of the organization the OAuth applications belong to */
@@ -17346,6 +19756,8 @@ export interface PaginatedOrganizationDataItem {
   invoice_budget_amount: string;
   /** The keyspace shard limit for the organization */
   keyspace_shard_limit: number;
+  /** The Neki router replica limit per cell for the organization */
+  neki_router_replicas_per_cell_limit?: number;
   /** Whether or not the organization has a payment method on file */
   has_card: boolean;
   /** Whether or not the organization requires payment information */
@@ -17371,6 +19783,7 @@ export const PaginatedOrganizationDataItem = /*@__PURE__*/ S.suspend(() =>
     idp_managed_roles: S.Boolean,
     invoice_budget_amount: S.String,
     keyspace_shard_limit: S.Number,
+    neki_router_replicas_per_cell_limit: S.optional(S.Number),
     has_card: S.Boolean,
     payment_info_required: S.Boolean,
   }),
@@ -17557,6 +19970,8 @@ export interface PaginatedOrganizationTeamMembershipDataItemPasswordsItemRegion 
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const PaginatedOrganizationTeamMembershipDataItemPasswordsItemRegion =
   /*@__PURE__*/ S.suspend(() =>
@@ -17572,6 +19987,7 @@ export const PaginatedOrganizationTeamMembershipDataItemPasswordsItemRegion =
       current_default: S.Boolean,
       mysql_supported: S.Boolean,
       postgresql_supported: S.Boolean,
+      neki_supported: S.Boolean,
     }),
   ).annotate({
     identifier:
@@ -17952,8 +20368,6 @@ export type PostgresClusterParameterActor = OrganizationTeamMembershipActor;
 export const PostgresClusterParameterActor = OrganizationTeamMembershipActor;
 
 export interface PostgresClusterParameter {
-  /** The ID of the parameter */
-  id: string;
   /** The name of the parameter */
   name: string;
   /** The display name of the parameter */
@@ -17994,7 +20408,6 @@ export interface PostgresClusterParameter {
 }
 export const PostgresClusterParameter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     name: S.String,
     display_name: S.String,
     namespace: PostgresClusterParameterNamespace,
@@ -18135,6 +20548,8 @@ export interface PaginatedDatabaseBranchPasswordDataItemRegion {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const PaginatedDatabaseBranchPasswordDataItemRegion =
   /*@__PURE__*/ S.suspend(() =>
@@ -18150,6 +20565,7 @@ export const PaginatedDatabaseBranchPasswordDataItemRegion =
       current_default: S.Boolean,
       mysql_supported: S.Boolean,
       postgresql_supported: S.Boolean,
+      neki_supported: S.Boolean,
     }),
   ).annotate({
     identifier: "PaginatedDatabaseBranchPasswordDataItemRegion",
@@ -18281,6 +20697,57 @@ export const PaginatedDatabaseBranchPassword = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PaginatedDatabaseBranchPassword",
 }) as any as S.Schema<PaginatedDatabaseBranchPassword>;
+
+export type ListPostgresVersionsRequestEngine = "neki";
+export const ListPostgresVersionsRequestEngine = S.String;
+
+export interface ListPostgresVersionsRequest {
+  /** The database engine to list Postgres versions for. */
+  engine: ListPostgresVersionsRequestEngine | (string & {});
+}
+export const ListPostgresVersionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    engine: ListPostgresVersionsRequestEngine.pipe(T.Query()),
+  }).pipe(T.Http({ method: "GET", uri: "/postgres-versions", code: 200 })),
+).annotate({
+  identifier: "ListPostgresVersionsRequest",
+}) as any as S.Schema<ListPostgresVersionsRequest>;
+
+export interface NekiPostgresVersion {
+  /** The ID of the version */
+  id: string;
+  /** The PostgreSQL major version */
+  major_version: string;
+  /** The PostgreSQL minor version */
+  minor_version: string;
+  /** The full PostgreSQL version */
+  version: string;
+  /** Whether this is the default minor version for its PostgreSQL major version */
+  default: boolean;
+}
+export const NekiPostgresVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    major_version: S.String,
+    minor_version: S.String,
+    version: S.String,
+    default: S.Boolean,
+  }),
+).annotate({
+  identifier: "NekiPostgresVersion",
+}) as any as S.Schema<NekiPostgresVersion>;
+
+export type ListPostgresVersionsResponseBodyList = Array<NekiPostgresVersion>;
+export const ListPostgresVersionsResponseBodyList = /*@__PURE__*/ S.Array(
+  NekiPostgresVersion,
+) as any as S.Schema<ListPostgresVersionsResponseBodyList>;
+
+export type ListPostgresVersionsResponse = ListPostgresVersionsResponseBodyList;
+export const ListPostgresVersionsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListPostgresVersionsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListPostgresVersionsResponse",
+}) as any as S.Schema<ListPostgresVersionsResponse>;
 
 export interface ListPublicRegionsRequest {
   /** If provided, specifies the page offset of returned results */
@@ -18438,6 +20905,8 @@ export interface PaginatedDatabaseBranchReadOnlyRegionDataItemRegion {
   mysql_supported: boolean;
   /** Whether the region supports PostgreSQL databases */
   postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
 }
 export const PaginatedDatabaseBranchReadOnlyRegionDataItemRegion =
   /*@__PURE__*/ S.suspend(() =>
@@ -18453,6 +20922,7 @@ export const PaginatedDatabaseBranchReadOnlyRegionDataItemRegion =
       current_default: S.Boolean,
       mysql_supported: S.Boolean,
       postgresql_supported: S.Boolean,
+      neki_supported: S.Boolean,
     }),
   ).annotate({
     identifier: "PaginatedDatabaseBranchReadOnlyRegionDataItemRegion",
@@ -18599,6 +21069,16 @@ export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap 
     S.Unknown,
   ) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap>;
 
+/** The new storage type */
+export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType =
+  | "gp3"
+  | "io2"
+  | "pd_ssd"
+  | "hyperdisk_balanced"
+  | "premium_v2_lrs";
+export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType =
+  S.String;
+
 /** The previous parameters */
 export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap =
   { [key: string]: unknown | undefined };
@@ -18633,6 +21113,18 @@ export interface PaginatedPostgresReadOnlyReplicaChangeRequestDataItem {
   replicas: number;
   /** The new parameters */
   parameters: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap;
+  /** The new minimum storage size in bytes */
+  minimum_storage_bytes: number | null;
+  /** The new maximum storage size in bytes */
+  maximum_storage_bytes: number | null;
+  /** Whether storage autoscaling is enabled */
+  storage_autoscaling: boolean | null;
+  /** The new storage type */
+  storage_type: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType | null;
+  /** The new storage IOPS */
+  storage_iops: number | null;
+  /** The new storage throughput in MiB/s */
+  storage_throughput_mibs: number | null;
   /** The previous cluster size SKU */
   previous_cluster_name: string;
   /** The previous cluster size for display */
@@ -18643,6 +21135,18 @@ export interface PaginatedPostgresReadOnlyReplicaChangeRequestDataItem {
   previous_replicas: number;
   /** The previous parameters */
   previous_parameters: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap;
+  /** The previous minimum storage size in bytes */
+  previous_minimum_storage_bytes: number | null;
+  /** The previous maximum storage size in bytes */
+  previous_maximum_storage_bytes: number | null;
+  /** Whether storage autoscaling was previously enabled */
+  previous_storage_autoscaling: boolean | null;
+  /** The previous storage type */
+  previous_storage_type: string | null;
+  /** The previous storage IOPS */
+  previous_storage_iops: number | null;
+  /** The previous storage throughput in MiB/s */
+  previous_storage_throughput_mibs: number | null;
   /** When the change started */
   started_at: string | null;
   /** When the change completed */
@@ -18665,12 +21169,26 @@ export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItem =
       replicas: S.Number,
       parameters:
         PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap,
+      minimum_storage_bytes: S.NullOr(S.Number),
+      maximum_storage_bytes: S.NullOr(S.Number),
+      storage_autoscaling: S.NullOr(S.Boolean),
+      storage_type: S.NullOr(
+        PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType,
+      ),
+      storage_iops: S.NullOr(S.Number),
+      storage_throughput_mibs: S.NullOr(S.Number),
       previous_cluster_name: S.String,
       previous_cluster_display_name: S.String,
       previous_cluster_rank: S.Number,
       previous_replicas: S.Number,
       previous_parameters:
         PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap,
+      previous_minimum_storage_bytes: S.NullOr(S.Number),
+      previous_maximum_storage_bytes: S.NullOr(S.Number),
+      previous_storage_autoscaling: S.NullOr(S.Boolean),
+      previous_storage_type: S.NullOr(S.String),
+      previous_storage_iops: S.NullOr(S.Number),
+      previous_storage_throughput_mibs: S.NullOr(S.Number),
       started_at: S.NullOr(S.String),
       completed_at: S.NullOr(S.String),
       created_at: S.String,
@@ -19011,6 +21529,178 @@ export const PaginatedPostgresRole = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedPostgresRole",
 }) as any as S.Schema<PaginatedPostgresRole>;
 
+export type ListRouterChangeRequestsRequestPeriod =
+  | "15m"
+  | "1h"
+  | "3h"
+  | "6h"
+  | "12h"
+  | "1d"
+  | "2d"
+  | "7d"
+  | "8d";
+export const ListRouterChangeRequestsRequestPeriod = S.String;
+
+export interface ListRouterChangeRequestsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_routers`. */
+  router: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+  /** Filter change requests by named period */
+  period?: ListRouterChangeRequestsRequestPeriod | (string & {});
+  /** Filter change requests completed between two ISO 8601 timestamps */
+  completed_at?: string;
+}
+export const ListRouterChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    router: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    period: S.optional(ListRouterChangeRequestsRequestPeriod.pipe(T.Query())),
+    completed_at: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/routers/{router}/changes",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListRouterChangeRequestsRequest",
+}) as any as S.Schema<ListRouterChangeRequestsRequest>;
+
+export interface ListRouterChangeRequestsResponse {}
+export const ListRouterChangeRequestsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ListRouterChangeRequestsResponse",
+}) as any as S.Schema<ListRouterChangeRequestsResponse>;
+
+export interface ListRouterParametersRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_routers`. */
+  router: string;
+}
+export const ListRouterParametersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    router: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/routers/{router}/parameters",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListRouterParametersRequest",
+}) as any as S.Schema<ListRouterParametersRequest>;
+
+export type ListRouterParametersResponseBodyList = Array<NekiParameter>;
+export const ListRouterParametersResponseBodyList = /*@__PURE__*/ S.Array(
+  NekiParameter,
+) as any as S.Schema<ListRouterParametersResponseBodyList>;
+
+export type ListRouterParametersResponse = ListRouterParametersResponseBodyList;
+export const ListRouterParametersResponse = /*@__PURE__*/ S.suspend(() =>
+  ListRouterParametersResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListRouterParametersResponse",
+}) as any as S.Schema<ListRouterParametersResponse>;
+
+export interface ListRoutersRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const ListRoutersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/routers",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListRoutersRequest",
+}) as any as S.Schema<ListRoutersRequest>;
+
+export type ListRoutersResponseBodyList = Array<NekiRouter>;
+export const ListRoutersResponseBodyList = /*@__PURE__*/ S.Array(
+  NekiRouter,
+) as any as S.Schema<ListRoutersResponseBodyList>;
+
+export type ListRoutersResponse = ListRoutersResponseBodyList;
+export const ListRoutersResponse = /*@__PURE__*/ S.suspend(() =>
+  ListRoutersResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListRoutersResponse",
+}) as any as S.Schema<ListRoutersResponse>;
+
+export interface ListRouterSizeSkusRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const ListRouterSizeSkusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/router-size-skus",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListRouterSizeSkusRequest",
+}) as any as S.Schema<ListRouterSizeSkusRequest>;
+
+export type NekiRouterSizeSku = NekiRouterSku;
+export const NekiRouterSizeSku = NekiRouterSku;
+
+export type ListRouterSizeSkusResponseBodyList = Array<NekiRouterSku>;
+export const ListRouterSizeSkusResponseBodyList = /*@__PURE__*/ S.Array(
+  NekiRouterSku,
+) as any as S.Schema<ListRouterSizeSkusResponseBodyList>;
+
+export type ListRouterSizeSkusResponse = ListRouterSizeSkusResponseBodyList;
+export const ListRouterSizeSkusResponse = /*@__PURE__*/ S.suspend(() =>
+  ListRouterSizeSkusResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListRouterSizeSkusResponse",
+}) as any as S.Schema<ListRouterSizeSkusResponse>;
+
 export type ListSchemaRecommendationsRequestState = "open" | "closed";
 export const ListSchemaRecommendationsRequestState = S.String;
 
@@ -19198,6 +21888,639 @@ export const ListServiceTokensRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListServiceTokensRequest",
 }) as any as S.Schema<ListServiceTokensRequest>;
+
+export type ListShardConfigurationProfileChangeRequestsRequestPeriod =
+  | "15m"
+  | "1h"
+  | "3h"
+  | "6h"
+  | "12h"
+  | "1d"
+  | "2d"
+  | "7d"
+  | "8d";
+export const ListShardConfigurationProfileChangeRequestsRequestPeriod =
+  S.String;
+
+export interface ListShardConfigurationProfileChangeRequestsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+  /** Filter change requests by named period */
+  period?:
+    | ListShardConfigurationProfileChangeRequestsRequestPeriod
+    | (string & {});
+  /** Filter change requests completed between two ISO 8601 timestamps */
+  completed_at?: string;
+}
+export const ListShardConfigurationProfileChangeRequestsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      page: S.optional(S.Number.pipe(T.Query())),
+      per_page: S.optional(S.Number.pipe(T.Query())),
+      period: S.optional(
+        ListShardConfigurationProfileChangeRequestsRequestPeriod.pipe(
+          T.Query(),
+        ),
+      ),
+      completed_at: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/changes",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListShardConfigurationProfileChangeRequestsRequest",
+  }) as any as S.Schema<ListShardConfigurationProfileChangeRequestsRequest>;
+
+export interface ListShardConfigurationProfileChangeRequestsResponse {}
+export const ListShardConfigurationProfileChangeRequestsResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "ListShardConfigurationProfileChangeRequestsResponse",
+  }) as any as S.Schema<ListShardConfigurationProfileChangeRequestsResponse>;
+
+export interface ListShardConfigurationProfileExtensionsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+}
+export const ListShardConfigurationProfileExtensionsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/extensions",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListShardConfigurationProfileExtensionsRequest",
+  }) as any as S.Schema<ListShardConfigurationProfileExtensionsRequest>;
+
+/** The namespace of the parameter */
+export type NekiExtensionDefinitionParametersItemNamespace =
+  | "pgconf"
+  | "router"
+  | "sidecar"
+  | "admin"
+  | "replicator";
+export const NekiExtensionDefinitionParametersItemNamespace = S.String;
+
+/** The type of the parameter */
+export type NekiExtensionDefinitionParametersItemParameterType =
+  | "array"
+  | "boolean"
+  | "bytes"
+  | "float"
+  | "integer"
+  | "select"
+  | "string"
+  | "time";
+export const NekiExtensionDefinitionParametersItemParameterType = S.String;
+
+/** Valid options for the parameter value */
+export type NekiExtensionDefinitionParametersItemOptionsList = Array<string>;
+export const NekiExtensionDefinitionParametersItemOptionsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<NekiExtensionDefinitionParametersItemOptionsList>;
+
+/** The units of the parameter value */
+export type NekiExtensionDefinitionParametersItemUnitsList = Array<string>;
+export const NekiExtensionDefinitionParametersItemUnitsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<NekiExtensionDefinitionParametersItemUnitsList>;
+
+export type NekiExtensionDefinitionParametersItemActor =
+  OrganizationTeamMembershipActor;
+export const NekiExtensionDefinitionParametersItemActor =
+  OrganizationTeamMembershipActor;
+
+export interface NekiExtensionDefinitionParametersItem {
+  /** The ID of the parameter */
+  id: string | null;
+  /** The name of the parameter */
+  name: string;
+  /** The display name of the parameter */
+  display_name: string;
+  /** The namespace of the parameter */
+  namespace: NekiExtensionDefinitionParametersItemNamespace;
+  /** Whether the parameter is advanced */
+  advanced: boolean;
+  /** The category of the parameter */
+  category: string | null;
+  /** The description of the parameter */
+  description: string;
+  /** The type of the parameter */
+  parameter_type: NekiExtensionDefinitionParametersItemParameterType;
+  /** The default value of the parameter */
+  default_value: string | null;
+  /** The configured value of the parameter */
+  value: string | null;
+  /** Whether the parameter is required */
+  required: boolean;
+  /** When the parameter was created */
+  created_at: string;
+  /** When the parameter was last updated */
+  updated_at: string;
+  /** Whether processes require a server restart after the parameter changes */
+  restart: boolean;
+  /** The maximum value of the parameter */
+  max?: number | null;
+  /** The minimum value of the parameter */
+  min?: number | null;
+  /** Valid options for the parameter value */
+  options?: NekiExtensionDefinitionParametersItemOptionsList | null;
+  /** The units of the parameter value */
+  units?: NekiExtensionDefinitionParametersItemUnitsList | null;
+  /** The URL of the parameter */
+  url: string;
+  actor: OrganizationTeamMembershipActor;
+}
+export const NekiExtensionDefinitionParametersItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.NullOr(S.String),
+      name: S.String,
+      display_name: S.String,
+      namespace: NekiExtensionDefinitionParametersItemNamespace,
+      advanced: S.Boolean,
+      category: S.NullOr(S.String),
+      description: S.String,
+      parameter_type: NekiExtensionDefinitionParametersItemParameterType,
+      default_value: S.NullOr(S.String),
+      value: S.NullOr(S.String),
+      required: S.Boolean,
+      created_at: S.String,
+      updated_at: S.String,
+      restart: S.Boolean,
+      max: S.optional(S.NullOr(S.Number)),
+      min: S.optional(S.NullOr(S.Number)),
+      options: S.optional(
+        S.NullOr(NekiExtensionDefinitionParametersItemOptionsList),
+      ),
+      units: S.optional(
+        S.NullOr(NekiExtensionDefinitionParametersItemUnitsList),
+      ),
+      url: S.String,
+      actor: OrganizationTeamMembershipActor,
+    }),
+).annotate({
+  identifier: "NekiExtensionDefinitionParametersItem",
+}) as any as S.Schema<NekiExtensionDefinitionParametersItem>;
+
+export type NekiExtensionDefinitionParametersList =
+  Array<NekiExtensionDefinitionParametersItem>;
+export const NekiExtensionDefinitionParametersList = /*@__PURE__*/ S.Array(
+  NekiExtensionDefinitionParametersItem,
+) as any as S.Schema<NekiExtensionDefinitionParametersList>;
+
+export type NekiExtensionDefinitionRequirements =
+  PostgresClusterExtensionRequirements;
+export const NekiExtensionDefinitionRequirements =
+  PostgresClusterExtensionRequirements;
+
+export interface NekiExtensionDefinition {
+  /** The name of the extension */
+  name: string;
+  /** Whether the extension can be enabled or disabled by the configuration profile */
+  can_enable: boolean;
+  /** The description of the extension */
+  description: string;
+  /** Whether the extension is enabled by the configuration profile */
+  enabled?: boolean | null;
+  /** The internal state of the extension */
+  internal: boolean;
+  parameters: NekiExtensionDefinitionParametersList;
+  requirements: PostgresClusterExtensionRequirements;
+  /** The URL of the extension */
+  url: string;
+}
+export const NekiExtensionDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    can_enable: S.Boolean,
+    description: S.String,
+    enabled: S.optional(S.NullOr(S.Boolean)),
+    internal: S.Boolean,
+    parameters: NekiExtensionDefinitionParametersList,
+    requirements: PostgresClusterExtensionRequirements,
+    url: S.String,
+  }),
+).annotate({
+  identifier: "NekiExtensionDefinition",
+}) as any as S.Schema<NekiExtensionDefinition>;
+
+export type ListShardConfigurationProfileExtensionsResponseBodyList =
+  Array<NekiExtensionDefinition>;
+export const ListShardConfigurationProfileExtensionsResponseBodyList =
+  /*@__PURE__*/ S.Array(
+    NekiExtensionDefinition,
+  ) as any as S.Schema<ListShardConfigurationProfileExtensionsResponseBodyList>;
+
+export type ListShardConfigurationProfileExtensionsResponse =
+  ListShardConfigurationProfileExtensionsResponseBodyList;
+export const ListShardConfigurationProfileExtensionsResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    ListShardConfigurationProfileExtensionsResponseBodyList.pipe(
+      T.RawResponseRoot(),
+    ),
+  ).annotate({
+    identifier: "ListShardConfigurationProfileExtensionsResponse",
+  }) as any as S.Schema<ListShardConfigurationProfileExtensionsResponse>;
+
+export interface ListShardConfigurationProfileParametersRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+}
+export const ListShardConfigurationProfileParametersRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/parameters",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListShardConfigurationProfileParametersRequest",
+  }) as any as S.Schema<ListShardConfigurationProfileParametersRequest>;
+
+export type ListShardConfigurationProfileParametersResponseBodyList =
+  Array<NekiParameter>;
+export const ListShardConfigurationProfileParametersResponseBodyList =
+  /*@__PURE__*/ S.Array(
+    NekiParameter,
+  ) as any as S.Schema<ListShardConfigurationProfileParametersResponseBodyList>;
+
+export type ListShardConfigurationProfileParametersResponse =
+  ListShardConfigurationProfileParametersResponseBodyList;
+export const ListShardConfigurationProfileParametersResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    ListShardConfigurationProfileParametersResponseBodyList.pipe(
+      T.RawResponseRoot(),
+    ),
+  ).annotate({
+    identifier: "ListShardConfigurationProfileParametersResponse",
+  }) as any as S.Schema<ListShardConfigurationProfileParametersResponse>;
+
+export interface ListShardConfigurationProfilesRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const ListShardConfigurationProfilesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "ListShardConfigurationProfilesRequest",
+}) as any as S.Schema<ListShardConfigurationProfilesRequest>;
+
+export type ListShardConfigurationProfilesResponseBodyList =
+  Array<NekiShardConfigurationProfile>;
+export const ListShardConfigurationProfilesResponseBodyList =
+  /*@__PURE__*/ S.Array(
+    NekiShardConfigurationProfile,
+  ) as any as S.Schema<ListShardConfigurationProfilesResponseBodyList>;
+
+export type ListShardConfigurationProfilesResponse =
+  ListShardConfigurationProfilesResponseBodyList;
+export const ListShardConfigurationProfilesResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    ListShardConfigurationProfilesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListShardConfigurationProfilesResponse",
+}) as any as S.Schema<ListShardConfigurationProfilesResponse>;
+
+export interface ListShardConfigurationProfileShardsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+  /** Search shards by name or display name */
+  q?: string;
+}
+export const ListShardConfigurationProfileShardsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      page: S.optional(S.Number.pipe(T.Query())),
+      per_page: S.optional(S.Number.pipe(T.Query())),
+      q: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/shards",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ListShardConfigurationProfileShardsRequest",
+  }) as any as S.Schema<ListShardConfigurationProfileShardsRequest>;
+
+export interface PaginatedNekiShardDataItem {
+  /** The ID of the shard */
+  id: string;
+  /** The name of the shard */
+  name: string;
+  /** The display name of the shard */
+  display_name: string | null;
+  /** The name of the shard configuration profile */
+  configuration_profile: string;
+  /** When the shard was created */
+  created_at: string;
+  /** Whether the shard has been created on the cluster */
+  ready: boolean;
+  /** Whether the shard is the authoritative shard of the cluster */
+  authoritative: boolean;
+}
+export const PaginatedNekiShardDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    display_name: S.NullOr(S.String),
+    configuration_profile: S.String,
+    created_at: S.String,
+    ready: S.Boolean,
+    authoritative: S.Boolean,
+  }),
+).annotate({
+  identifier: "PaginatedNekiShardDataItem",
+}) as any as S.Schema<PaginatedNekiShardDataItem>;
+
+export type PaginatedNekiShardDataList = Array<PaginatedNekiShardDataItem>;
+export const PaginatedNekiShardDataList = /*@__PURE__*/ S.Array(
+  PaginatedNekiShardDataItem,
+) as any as S.Schema<PaginatedNekiShardDataList>;
+
+export interface PaginatedNekiShard {
+  /** The response type. Always "list" for paginated responses. */
+  type: string;
+  /** The current page number */
+  current_page: number;
+  /** The maximum number of results per page */
+  per_page: number;
+  /** The next page number, or null when this is the last page */
+  next_page: number | null;
+  /** The next page of results, or null when this is the last page */
+  next_page_url: string | null;
+  /** The previous page number, or null when this is the first page */
+  prev_page: number | null;
+  /** The previous page of results, or null when this is the first page */
+  prev_page_url: string | null;
+  /** The total number of matching results */
+  total_count: number;
+  /** The total number of pages of matching results */
+  total_pages: number;
+  data: PaginatedNekiShardDataList;
+}
+export const PaginatedNekiShard = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    current_page: S.Number,
+    per_page: S.Number,
+    next_page: S.NullOr(S.Number),
+    next_page_url: S.NullOr(S.String),
+    prev_page: S.NullOr(S.Number),
+    prev_page_url: S.NullOr(S.String),
+    total_count: S.Number,
+    total_pages: S.Number,
+    data: PaginatedNekiShardDataList,
+  }),
+).annotate({
+  identifier: "PaginatedNekiShard",
+}) as any as S.Schema<PaginatedNekiShard>;
+
+export interface ListShardsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+  /** Exclude shards in this shard configuration profile */
+  exclude_configuration_profile?: string;
+  /** Search shards by name, display name, or configuration profile */
+  q?: string;
+}
+export const ListShardsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    exclude_configuration_profile: S.optional(S.String.pipe(T.Query())),
+    q: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/shards",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListShardsRequest",
+}) as any as S.Schema<ListShardsRequest>;
+
+export type ListSidecarChangeRequestsRequestPeriod =
+  | "15m"
+  | "1h"
+  | "3h"
+  | "6h"
+  | "12h"
+  | "1d"
+  | "2d"
+  | "7d"
+  | "8d";
+export const ListSidecarChangeRequestsRequestPeriod = S.String;
+
+export interface ListSidecarChangeRequestsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** ID from `list_sidecars`, or the configuration profile name. */
+  sidecar: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+  /** Filter change requests by named period */
+  period?: ListSidecarChangeRequestsRequestPeriod | (string & {});
+  /** Filter change requests completed between two ISO 8601 timestamps */
+  completed_at?: string;
+}
+export const ListSidecarChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    sidecar: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    period: S.optional(ListSidecarChangeRequestsRequestPeriod.pipe(T.Query())),
+    completed_at: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/sidecars/{sidecar}/changes",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListSidecarChangeRequestsRequest",
+}) as any as S.Schema<ListSidecarChangeRequestsRequest>;
+
+export interface ListSidecarChangeRequestsResponse {}
+export const ListSidecarChangeRequestsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ListSidecarChangeRequestsResponse",
+}) as any as S.Schema<ListSidecarChangeRequestsResponse>;
+
+export interface ListSidecarParametersRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** ID from `list_sidecars`, or the configuration profile name. */
+  sidecar: string;
+}
+export const ListSidecarParametersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    sidecar: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/sidecars/{sidecar}/parameters",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListSidecarParametersRequest",
+}) as any as S.Schema<ListSidecarParametersRequest>;
+
+export type ListSidecarParametersResponseBodyList = Array<NekiParameter>;
+export const ListSidecarParametersResponseBodyList = /*@__PURE__*/ S.Array(
+  NekiParameter,
+) as any as S.Schema<ListSidecarParametersResponseBodyList>;
+
+export type ListSidecarParametersResponse =
+  ListSidecarParametersResponseBodyList;
+export const ListSidecarParametersResponse = /*@__PURE__*/ S.suspend(() =>
+  ListSidecarParametersResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListSidecarParametersResponse",
+}) as any as S.Schema<ListSidecarParametersResponse>;
+
+export interface ListSidecarsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const ListSidecarsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/sidecars",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListSidecarsRequest",
+}) as any as S.Schema<ListSidecarsRequest>;
+
+export type ListSidecarsResponseBodyList = Array<NekiSidecar>;
+export const ListSidecarsResponseBodyList = /*@__PURE__*/ S.Array(
+  NekiSidecar,
+) as any as S.Schema<ListSidecarsResponseBodyList>;
+
+export type ListSidecarsResponse = ListSidecarsResponseBodyList;
+export const ListSidecarsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListSidecarsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListSidecarsResponse",
+}) as any as S.Schema<ListSidecarsResponse>;
 
 export interface ListSwitchoversRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -19650,6 +22973,8 @@ export interface PaginatedDatabaseWebhookDataItem {
   url: string;
   /** The secret used to sign the webhook payloads */
   secret: Redacted.Redacted<string>;
+  /** Whether the webhook sends an Authorization header */
+  authorization_header_configured: boolean;
   /** Whether the webhook is enabled */
   enabled: boolean;
   /** The last result sent by the webhook */
@@ -19670,6 +22995,7 @@ export const PaginatedDatabaseWebhookDataItem = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     url: S.String,
     secret: S.String.pipe(T.SensitiveValue({})),
+    authorization_header_configured: S.Boolean,
     enabled: S.Boolean,
     last_sent_result: S.NullOr(S.String),
     last_sent_success: S.NullOr(S.Boolean),
@@ -20300,6 +23626,111 @@ export const RunBranchMaintenanceResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RunBranchMaintenanceResponse",
 }) as any as S.Schema<RunBranchMaintenanceResponse>;
 
+export interface RunShardConfigurationProfileMaintenanceRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+}
+export const RunShardConfigurationProfileMaintenanceRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/maintenance",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "RunShardConfigurationProfileMaintenanceRequest",
+  }) as any as S.Schema<RunShardConfigurationProfileMaintenanceRequest>;
+
+export interface RunShardConfigurationProfileMaintenanceResponse {}
+export const RunShardConfigurationProfileMaintenanceResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "RunShardConfigurationProfileMaintenanceResponse",
+  }) as any as S.Schema<RunShardConfigurationProfileMaintenanceResponse>;
+
+/** The names of the shard configuration profiles to maintain */
+export type RunShardConfigurationProfilesMaintenanceRequestConfigurationProfileNamesList =
+  Array<string>;
+export const RunShardConfigurationProfilesMaintenanceRequestConfigurationProfileNamesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<RunShardConfigurationProfilesMaintenanceRequestConfigurationProfileNamesList>;
+
+export interface RunShardConfigurationProfilesMaintenanceRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The names of the shard configuration profiles to maintain */
+  configuration_profile_names: RunShardConfigurationProfilesMaintenanceRequestConfigurationProfileNamesList;
+}
+export const RunShardConfigurationProfilesMaintenanceRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile_names:
+        RunShardConfigurationProfilesMaintenanceRequestConfigurationProfileNamesList,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/maintenance",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "RunShardConfigurationProfilesMaintenanceRequest",
+  }) as any as S.Schema<RunShardConfigurationProfilesMaintenanceRequest>;
+
+export interface RunShardConfigurationProfilesMaintenanceResponse {}
+export const RunShardConfigurationProfilesMaintenanceResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "RunShardConfigurationProfilesMaintenanceResponse",
+  }) as any as S.Schema<RunShardConfigurationProfilesMaintenanceResponse>;
+
+export interface SetDefaultShardConfigurationProfileRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The name of the shard configuration profile to make the default */
+  configuration_profile: string;
+}
+export const SetDefaultShardConfigurationProfileRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String,
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/default-configuration-profile",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "SetDefaultShardConfigurationProfileRequest",
+  }) as any as S.Schema<SetDefaultShardConfigurationProfileRequest>;
+
 export interface SkipRevertPeriodRequest {
   /** The name of the deploy request's organization */
   organization: string;
@@ -20354,6 +23785,45 @@ export const TestWebhookResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "TestWebhookResponse",
 }) as any as S.Schema<TestWebhookResponse>;
+
+/** Admin parameters nested by namespace (e.g., {"admin": {"recovery-poll-interval": "10s"}}) */
+export type UpdateAdminRequestParametersMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateAdminRequestParametersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UpdateAdminRequestParametersMap>;
+
+export interface UpdateAdminRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The admin size SKU, e.g. `NKA_0`. */
+  admin_size?: string;
+  /** Admin parameters nested by namespace (e.g., {"admin": {"recovery-poll-interval": "10s"}}) */
+  parameters?: UpdateAdminRequestParametersMap;
+}
+export const UpdateAdminRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    admin_size: S.optional(S.String),
+    parameters: S.optional(UpdateAdminRequestParametersMap),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/admin",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateAdminRequest",
+}) as any as S.Schema<UpdateAdminRequest>;
 
 export interface UpdateAutoApplyRequest {
   /** The name of the deploy request's organization */
@@ -20980,6 +24450,42 @@ export const UpdateDatabaseThrottlerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateDatabaseThrottlerRequest",
 }) as any as S.Schema<UpdateDatabaseThrottlerRequest>;
 
+/** The data topology JSON to set for the branch */
+export type UpdateDataTopologyRequestDataTopologyMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateDataTopologyRequestDataTopologyMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UpdateDataTopologyRequestDataTopologyMap>;
+
+export interface UpdateDataTopologyRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The data topology JSON to set for the branch */
+  data_topology: UpdateDataTopologyRequestDataTopologyMap;
+}
+export const UpdateDataTopologyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    data_topology: UpdateDataTopologyRequestDataTopologyMap,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/data-topology",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateDataTopologyRequest",
+}) as any as S.Schema<UpdateDataTopologyRequest>;
+
 /** If specifying throttler ratios per keyspace, an array of { "keyspace_name": "mykeyspace", "ratio": 10 }, one for each eligible keyspace */
 export type UpdateDeployRequestThrottlerRequestConfigurationsList =
   Array<string>;
@@ -21052,6 +24558,21 @@ export const UpdateKeyspaceRequestVreplicationFlags = /*@__PURE__*/ S.suspend(
   identifier: "UpdateKeyspaceRequestVreplicationFlags",
 }) as any as S.Schema<UpdateKeyspaceRequestVreplicationFlags>;
 
+export interface UpdateKeyspaceRequestThrottler {
+  /** Whether the keyspace throttler is enabled */
+  enabled?: boolean;
+  /** Replication lag in seconds that trips the throttler. Must be >= 0 */
+  threshold?: number;
+}
+export const UpdateKeyspaceRequestThrottler = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    threshold: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "UpdateKeyspaceRequestThrottler",
+}) as any as S.Schema<UpdateKeyspaceRequestThrottler>;
+
 export interface UpdateKeyspaceRequest {
   /** The name of the organization the branch belongs to */
   organization: string;
@@ -21063,6 +24584,9 @@ export interface UpdateKeyspaceRequest {
   keyspace: string;
   replication_durability_constraints?: UpdateKeyspaceRequestReplicationDurabilityConstraints;
   vreplication_flags?: UpdateKeyspaceRequestVreplicationFlags;
+  /** The maximum number of shards rolled out in parallel, from 1 to 32. Set to null to use the infrastructure default of 1. */
+  max_rollout?: number | null;
+  throttler?: UpdateKeyspaceRequestThrottler;
 }
 export const UpdateKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -21074,6 +24598,8 @@ export const UpdateKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
       UpdateKeyspaceRequestReplicationDurabilityConstraints,
     ),
     vreplication_flags: S.optional(UpdateKeyspaceRequestVreplicationFlags),
+    max_rollout: S.optional(S.NullOr(S.Number)),
+    throttler: S.optional(UpdateKeyspaceRequestThrottler),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -21084,6 +24610,42 @@ export const UpdateKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateKeyspaceRequest",
 }) as any as S.Schema<UpdateKeyspaceRequest>;
+
+export interface UpdateKeyspaceResizeRequestRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+  /** The name of the keyspace */
+  keyspace: string;
+  /** The size of the keyspace cluster: PS_10, PS_20,… */
+  cluster_size?: string;
+  /** The number of additional replicas beyond the included default */
+  extra_replicas?: number;
+  /** The percentage of the buffer pool allocated to vector indexes */
+  vector_pool_allocation?: number;
+}
+export const UpdateKeyspaceResizeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    keyspace: S.String.pipe(T.Label()),
+    cluster_size: S.optional(S.String),
+    extra_replicas: S.optional(S.Number),
+    vector_pool_allocation: S.optional(S.Number),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/resizes",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateKeyspaceResizeRequestRequest",
+}) as any as S.Schema<UpdateKeyspaceResizeRequestRequest>;
 
 export interface UpdateKeyspaceVschemaRequest {
   /** The name of the organization the branch belongs to */
@@ -21271,6 +24833,11 @@ export const UpdateReadOnlyReplicaRequestParametersMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<UpdateReadOnlyReplicaRequestParametersMap>;
 
+export type UpdateReadOnlyReplicaRequestStorage =
+  CreateReadOnlyReplicaRequestStorage;
+export const UpdateReadOnlyReplicaRequestStorage =
+  CreateReadOnlyReplicaRequestStorage;
+
 export interface UpdateReadOnlyReplicaRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
@@ -21286,6 +24853,7 @@ export interface UpdateReadOnlyReplicaRequest {
   cluster_size?: string;
   /** Configuration parameters nested by namespace (e.g., {"pgconf": {"max_connections": "300"}}). Values must be greater than or equal to the primary's. */
   parameters?: UpdateReadOnlyReplicaRequestParametersMap;
+  storage?: CreateReadOnlyReplicaRequestStorage;
 }
 export const UpdateReadOnlyReplicaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -21296,6 +24864,7 @@ export const UpdateReadOnlyReplicaRequest = /*@__PURE__*/ S.suspend(() =>
     replicas: S.optional(S.Number),
     cluster_size: S.optional(S.String),
     parameters: S.optional(UpdateReadOnlyReplicaRequestParametersMap),
+    storage: S.optional(CreateReadOnlyReplicaRequestStorage),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -21343,6 +24912,60 @@ export const UpdateRoleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateRoleRequest",
 }) as any as S.Schema<UpdateRoleRequest>;
 
+/** Router parameters nested by namespace (e.g., {"router": {"replication-lag-tolerable-max": "15m"}}) */
+export type UpdateRouterRequestParametersMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateRouterRequestParametersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UpdateRouterRequestParametersMap>;
+
+export interface UpdateRouterRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_routers`. */
+  router: string;
+  /** The new router size for the router */
+  router_size?: string;
+  /** The new number of replicas in each cell */
+  replicas_per_cell?: number;
+  /** Whether the router scales horizontally within each cell */
+  autoscaling?: boolean;
+  /** The maximum number of replicas in each cell when autoscaling */
+  max_replicas_per_cell?: number;
+  /** The target average CPU utilization percentage when autoscaling */
+  target_cpu_utilization?: number;
+  /** Router parameters nested by namespace (e.g., {"router": {"replication-lag-tolerable-max": "15m"}}) */
+  parameters?: UpdateRouterRequestParametersMap;
+}
+export const UpdateRouterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    router: S.String.pipe(T.Label()),
+    router_size: S.optional(S.String),
+    replicas_per_cell: S.optional(S.Number),
+    autoscaling: S.optional(S.Boolean),
+    max_replicas_per_cell: S.optional(S.Number),
+    target_cpu_utilization: S.optional(S.Number),
+    parameters: S.optional(UpdateRouterRequestParametersMap),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/routers/{router}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateRouterRequest",
+}) as any as S.Schema<UpdateRouterRequest>;
+
 export interface UpdateSafeMigrationsRequest {
   /** The name of the organization the branch belongs to */
   organization: string;
@@ -21369,6 +24992,191 @@ export const UpdateSafeMigrationsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateSafeMigrationsRequest",
 }) as any as S.Schema<UpdateSafeMigrationsRequest>;
+
+export interface UpdateShardRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The ID of the shard */
+  id: string;
+}
+export const UpdateShardRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/shards/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateShardRequest",
+}) as any as S.Schema<UpdateShardRequest>;
+
+export interface UpdateShardResponse {}
+export const UpdateShardResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateShardResponse",
+}) as any as S.Schema<UpdateShardResponse>;
+
+/** Extensions to enable. This replaces the current set; omit it to leave them unchanged. */
+export type UpdateShardConfigurationProfileRequestExtensionsList =
+  Array<string>;
+export const UpdateShardConfigurationProfileRequestExtensionsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateShardConfigurationProfileRequestExtensionsList>;
+
+/** Configuration profile parameters nested by namespace (e.g., {"pgconf": {"max_connections": "200"}}). */
+export type UpdateShardConfigurationProfileRequestParametersMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateShardConfigurationProfileRequestParametersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<UpdateShardConfigurationProfileRequestParametersMap>;
+
+export type UpdateShardConfigurationProfileRequestStorage =
+  CreateReadOnlyReplicaRequestStorage;
+export const UpdateShardConfigurationProfileRequestStorage =
+  CreateReadOnlyReplicaRequestStorage;
+
+export interface UpdateShardConfigurationProfileRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** The new name for the shard configuration profile */
+  name?: string;
+  /** The new cluster size for the shard configuration profile */
+  cluster_size?: string;
+  /** Extensions to enable. This replaces the current set; omit it to leave them unchanged. */
+  extensions?: UpdateShardConfigurationProfileRequestExtensionsList;
+  /** The new number of replicas for the shard configuration profile */
+  replicas?: number;
+  /** Configuration profile parameters nested by namespace (e.g., {"pgconf": {"max_connections": "200"}}). */
+  parameters?: UpdateShardConfigurationProfileRequestParametersMap;
+  /** The PostgreSQL major version for the shard configuration profile */
+  postgres_major_version?: string;
+  /** The PostgreSQL minor version for the shard configuration profile. Requires postgres_major_version when specified. */
+  postgres_minor_version?: string;
+  storage?: CreateReadOnlyReplicaRequestStorage;
+}
+export const UpdateShardConfigurationProfileRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      name: S.optional(S.String),
+      cluster_size: S.optional(S.String),
+      extensions: S.optional(
+        UpdateShardConfigurationProfileRequestExtensionsList,
+      ),
+      replicas: S.optional(S.Number),
+      parameters: S.optional(
+        UpdateShardConfigurationProfileRequestParametersMap,
+      ),
+      postgres_major_version: S.optional(S.String),
+      postgres_minor_version: S.optional(S.String),
+      storage: S.optional(CreateReadOnlyReplicaRequestStorage),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "UpdateShardConfigurationProfileRequest",
+}) as any as S.Schema<UpdateShardConfigurationProfileRequest>;
+
+export interface UpdateShardConfigurationProfileShardRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** Name from `list_shard_configuration_profiles`. */
+  configuration_profile: string;
+  /** The ID of the shard */
+  id: string;
+  /** The display name of the shard */
+  display_name?: string;
+}
+export const UpdateShardConfigurationProfileShardRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      organization: S.String.pipe(T.Label()),
+      database: S.String.pipe(T.Label()),
+      branch: S.String.pipe(T.Label()),
+      configuration_profile: S.String.pipe(T.Label()),
+      id: S.String.pipe(T.Label()),
+      display_name: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/organizations/{organization}/databases/{database}/branches/{branch}/configuration-profiles/{configuration_profile}/shards/{id}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "UpdateShardConfigurationProfileShardRequest",
+  }) as any as S.Schema<UpdateShardConfigurationProfileShardRequest>;
+
+/** Sidecar parameters nested by namespace (e.g., {"sidecar": {"pool-capacity": "100"}}) */
+export type UpdateSidecarRequestParametersMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateSidecarRequestParametersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UpdateSidecarRequestParametersMap>;
+
+export interface UpdateSidecarRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** ID from `list_sidecars`, or the configuration profile name. */
+  sidecar: string;
+  /** Sidecar parameters nested by namespace (e.g., {"sidecar": {"pool-capacity": "100"}}) */
+  parameters?: UpdateSidecarRequestParametersMap;
+}
+export const UpdateSidecarRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    sidecar: S.String.pipe(T.Label()),
+    parameters: S.optional(UpdateSidecarRequestParametersMap),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/sidecars/{sidecar}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateSidecarRequest",
+}) as any as S.Schema<UpdateSidecarRequest>;
 
 /** The mode of the traffic budget */
 export type UpdateTrafficBudgetRequestMode = "enforce" | "warn" | "off";
@@ -21446,6 +25254,8 @@ export interface UpdateWebhookRequest {
   id: string;
   /** The URL the webhook will send events to */
   url?: string;
+  /** The value to send in the Authorization header */
+  authorization_header?: string;
   /** Whether the webhook should be enabled */
   enabled?: boolean;
   /** The events this webhook should subscribe to */
@@ -21457,6 +25267,7 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     database: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     url: S.optional(S.String),
+    authorization_header: S.optional(S.String),
     enabled: S.optional(S.Boolean),
     events: S.optional(UpdateWebhookRequestEventsList),
   }).pipe(
@@ -21640,6 +25451,62 @@ export const addOrganizationTeamMember: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type AssignShardConfigurationProfileShardsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Assign shards to a Neki shard configuration profile */
+export const assignShardConfigurationProfileShards: API.OperationMethod<
+  AssignShardConfigurationProfileShardsRequest,
+  AssignShardConfigurationProfileShardsResponse,
+  AssignShardConfigurationProfileShardsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AssignShardConfigurationProfileShardsRequest,
+  output: AssignShardConfigurationProfileShardsResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BulkCreateShardConfigurationProfileShardsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Add shards to a Neki shard configuration profile */
+export const bulkCreateShardConfigurationProfileShards: API.OperationMethod<
+  BulkCreateShardConfigurationProfileShardsRequest,
+  BulkCreateShardConfigurationProfileShardsResponse,
+  BulkCreateShardConfigurationProfileShardsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BulkCreateShardConfigurationProfileShardsRequest,
+  output: BulkCreateShardConfigurationProfileShardsResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CancelAdminChangeRequestError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Cancel a change request for a Neki admin */
+export const cancelAdminChangeRequest: API.OperationMethod<
+  CancelAdminChangeRequestRequest,
+  CancelAdminChangeRequestResponse,
+  CancelAdminChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelAdminChangeRequestRequest,
+  output: CancelAdminChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CancelBouncerResizeRequestError =
   | Forbidden
   | NotFound
@@ -21699,7 +25566,7 @@ export type CancelKeyspaceResizeRequestError =
   | NotFound
   | UnprocessableEntity
   | PlanetScaleOpError;
-/** Cancel a queued keyspace resize request Cancels a queued resize of a branch keyspace. */
+/** Cancel a resize request */
 export const cancelKeyspaceResizeRequest: API.OperationMethod<
   CancelKeyspaceResizeRequestRequest,
   CancelKeyspaceResizeRequestResponse,
@@ -21709,6 +25576,79 @@ export const cancelKeyspaceResizeRequest: API.OperationMethod<
   input: CancelKeyspaceResizeRequestRequest,
   output: CancelKeyspaceResizeRequestResponse,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CancelNekiChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Cancel a change request for a Neki branch */
+export const cancelNekiChangeRequest: API.OperationMethod<
+  CancelNekiChangeRequestRequest,
+  CancelNekiChangeRequestResponse,
+  CancelNekiChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelNekiChangeRequestRequest,
+  output: CancelNekiChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CancelRouterChangeRequestError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Cancel a change request for a Neki router */
+export const cancelRouterChangeRequest: API.OperationMethod<
+  CancelRouterChangeRequestRequest,
+  CancelRouterChangeRequestResponse,
+  CancelRouterChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelRouterChangeRequestRequest,
+  output: CancelRouterChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CancelShardConfigurationProfileChangeRequestError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Cancel a change request for a Neki shard configuration profile */
+export const cancelShardConfigurationProfileChangeRequest: API.OperationMethod<
+  CancelShardConfigurationProfileChangeRequestRequest,
+  CancelShardConfigurationProfileChangeRequestResponse,
+  CancelShardConfigurationProfileChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelShardConfigurationProfileChangeRequestRequest,
+  output: CancelShardConfigurationProfileChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CancelSidecarChangeRequestError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Cancel a change request for a Neki sidecar */
+export const cancelSidecarChangeRequest: API.OperationMethod<
+  CancelSidecarChangeRequestRequest,
+  CancelSidecarChangeRequestResponse,
+  CancelSidecarChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelSidecarChangeRequestRequest,
+  output: CancelSidecarChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -21836,6 +25776,24 @@ export const createBranch: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateBranchLogSignatureError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Create a log signature Creates a signed token that can be used to access branch logs. */
+export const createBranchLogSignature: API.OperationMethod<
+  CreateBranchLogSignatureRequest,
+  CreateBranchLogSignatureResponse,
+  CreateBranchLogSignatureError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateBranchLogSignatureRequest,
+  output: CreateBranchLogSignatureResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateDatabaseError =
   | Forbidden
   | NotFound
@@ -21903,25 +25861,6 @@ export const createKeyspace: API.OperationMethod<
   input: CreateKeyspaceRequest,
   output: DatabaseBranchKeyspace,
   errors: [Forbidden, NotFound, UnknownPlanetScaleError],
-  protocol: PlanetScaleProtocol,
-  retry: Retry.Retry,
-}));
-
-export type CreateKeyspaceResizeRequestError =
-  | Forbidden
-  | NotFound
-  | UnprocessableEntity
-  | PlanetScaleOpError;
-/** Create a keyspace resize request Starts or queues an in-place resize of a branch keyspace's cluster size and/or replica count. Rejected with 422 while another resize is in progress or when the keyspace is already configured with the requested values. */
-export const createKeyspaceResizeRequest: API.OperationMethod<
-  CreateKeyspaceResizeRequestRequest,
-  KeyspaceResizeRequest,
-  CreateKeyspaceResizeRequestError,
-  PlanetScaleOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateKeyspaceResizeRequestRequest,
-  output: KeyspaceResizeRequest,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -22059,6 +25998,25 @@ export const createRole: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateRouterError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Create a router for a Neki branch */
+export const createRouter: API.OperationMethod<
+  CreateRouterRequest,
+  NekiRouter,
+  CreateRouterError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateRouterRequest,
+  output: NekiRouter,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateServiceTokenError = Forbidden | NotFound | PlanetScaleOpError;
 /** Create a service token Create a new service token for the organization. */
 export const createServiceToken: API.OperationMethod<
@@ -22070,6 +26028,59 @@ export const createServiceToken: API.OperationMethod<
   input: CreateServiceTokenRequest,
   output: ServiceToken,
   errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateShardError = Forbidden | NotFound | PlanetScaleOpError;
+/** Add shards to a Neki branch */
+export const createShard: API.OperationMethod<
+  CreateShardRequest,
+  CreateShardResponse,
+  CreateShardError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateShardRequest,
+  output: CreateShardResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateShardConfigurationProfileError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Create a shard configuration profile for a Neki branch */
+export const createShardConfigurationProfile: API.OperationMethod<
+  CreateShardConfigurationProfileRequest,
+  NekiShardConfigurationProfile,
+  CreateShardConfigurationProfileError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateShardConfigurationProfileRequest,
+  output: NekiShardConfigurationProfile,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateShardConfigurationProfileShardError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Add a shard to a Neki shard configuration profile */
+export const createShardConfigurationProfileShard: API.OperationMethod<
+  CreateShardConfigurationProfileShardRequest,
+  NekiShard,
+  CreateShardConfigurationProfileShardError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateShardConfigurationProfileShardRequest,
+  output: NekiShard,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -22423,6 +26434,25 @@ export const deleteRole: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteRouterError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Delete a router from a Neki branch */
+export const deleteRouter: API.OperationMethod<
+  DeleteRouterRequest,
+  DeleteRouterResponse,
+  DeleteRouterError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteRouterRequest,
+  output: DeleteRouterResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteServiceTokenError = Forbidden | NotFound | PlanetScaleOpError;
 /** Delete a service token Delete a service token from the organization. */
 export const deleteServiceToken: API.OperationMethod<
@@ -22434,6 +26464,78 @@ export const deleteServiceToken: API.OperationMethod<
   input: DeleteServiceTokenRequest,
   output: DeleteServiceTokenResponse,
   errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteShardError = Forbidden | NotFound | PlanetScaleOpError;
+/** Remove a shard from a Neki branch */
+export const deleteShard: API.OperationMethod<
+  DeleteShardRequest,
+  DeleteShardResponse,
+  DeleteShardError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteShardRequest,
+  output: DeleteShardResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteShardConfigurationProfileError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Delete a shard configuration profile for a Neki branch */
+export const deleteShardConfigurationProfile: API.OperationMethod<
+  DeleteShardConfigurationProfileRequest,
+  DeleteShardConfigurationProfileResponse,
+  DeleteShardConfigurationProfileError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteShardConfigurationProfileRequest,
+  output: DeleteShardConfigurationProfileResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteShardConfigurationProfileShardError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Remove a shard from a Neki shard configuration profile */
+export const deleteShardConfigurationProfileShard: API.OperationMethod<
+  DeleteShardConfigurationProfileShardRequest,
+  DeleteShardConfigurationProfileShardResponse,
+  DeleteShardConfigurationProfileShardError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteShardConfigurationProfileShardRequest,
+  output: DeleteShardConfigurationProfileShardResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteShardConfigurationProfileShardsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Remove shards from a Neki shard configuration profile */
+export const deleteShardConfigurationProfileShards: API.OperationMethod<
+  DeleteShardConfigurationProfileShardsRequest,
+  DeleteShardConfigurationProfileShardsResponse,
+  DeleteShardConfigurationProfileShardsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteShardConfigurationProfileShardsRequest,
+  output: DeleteShardConfigurationProfileShardsResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -22747,6 +26849,39 @@ export const enableSafeMigrations: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetAdminError = Forbidden | NotFound | PlanetScaleOpError;
+/** Get the admin for a Neki branch */
+export const getAdmin: API.OperationMethod<
+  GetAdminRequest,
+  NekiAdmin,
+  GetAdminError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAdminRequest,
+  output: NekiAdmin,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAdminChangeRequestError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Get a change request for a Neki admin */
+export const getAdminChangeRequest: API.OperationMethod<
+  GetAdminChangeRequestRequest,
+  GetAdminChangeRequestResponse,
+  GetAdminChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAdminChangeRequestRequest,
+  output: GetAdminChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetBackupError = Forbidden | NotFound | PlanetScaleOpError;
 /** Get a backup */
 export const getBackup: API.OperationMethod<
@@ -22863,15 +26998,15 @@ export type GetBranchMetricsError =
   | Forbidden
   | NotFound
   | PlanetScaleOpError;
-/** Get time-series metrics */
+/** Get time-series metrics Retrieve time-series metrics for a database branch. ```sh curl --get \ --header "Authorization: $PLANETSCALE_SERVICE_TOKEN" \ --data-urlencode "metrics=queries" \ --data-urlencode "period=15m" \ "https://api.planetscale.com/v1/organizations/acme/databases/app-db/branches/main/metrics" ``` Each series contains its metric name, display label, identifying labels, and sampled `[Unix timestamp, value]` points: ```json { "type": "MetricSeries", "start_date": "2026-09-09T17:00:00Z", "end_date": "2026-09-09T17:15:00Z", "interval": 60, "series": [ { "type": "TimeSeries", "metric": "queries", "label": "Queries", "labels": { "tablet_type": "primary" }, "points": [[1788973200, 42.0]] } ] } ``` */
 export const getBranchMetrics: API.OperationMethod<
   GetBranchMetricsRequest,
-  GetBranchMetricsResponse,
+  MetricSeries,
   GetBranchMetricsError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchMetricsRequest,
-  output: GetBranchMetricsResponse,
+  output: MetricSeries,
   errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
@@ -22928,12 +27063,12 @@ export type GetBranchQueryMetricsError =
 /** Get time-series metrics for SQL queries */
 export const getBranchQueryMetrics: API.OperationMethod<
   GetBranchQueryMetricsRequest,
-  GetBranchQueryMetricsResponse,
+  MetricSeries,
   GetBranchQueryMetricsError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchQueryMetricsRequest,
-  output: GetBranchQueryMetricsResponse,
+  output: MetricSeries,
   errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
@@ -23017,12 +27152,12 @@ export type GetBranchTagMetricsError =
 /** Get time-series metrics grouped by query tags */
 export const getBranchTagMetrics: API.OperationMethod<
   GetBranchTagMetricsRequest,
-  GetBranchTagMetricsResponse,
+  MetricSeries,
   GetBranchTagMetricsError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchTagMetricsRequest,
-  output: GetBranchTagMetricsResponse,
+  output: MetricSeries,
   errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
@@ -23095,6 +27230,21 @@ export const getDatabaseThrottler: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetDataTopologyError = Forbidden | NotFound | PlanetScaleOpError;
+/** Get the data topology for a Neki branch */
+export const getDataTopology: API.OperationMethod<
+  GetDataTopologyRequest,
+  NekiDataTopology,
+  GetDataTopologyError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetDataTopologyRequest,
+  output: NekiDataTopology,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetDefaultRoleError = Forbidden | NotFound | PlanetScaleOpError;
 /** Get the default postgres role */
 export const getDefaultRole: API.OperationMethod<
@@ -23105,6 +27255,24 @@ export const getDefaultRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDefaultRoleRequest,
   output: PostgresRole,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetDefaultShardConfigurationProfileError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Get the default shard configuration profile for a Neki branch */
+export const getDefaultShardConfigurationProfile: API.OperationMethod<
+  GetDefaultShardConfigurationProfileRequest,
+  GetDefaultShardConfigurationProfileResponse,
+  GetDefaultShardConfigurationProfileError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetDefaultShardConfigurationProfileRequest,
+  output: GetDefaultShardConfigurationProfileResponse,
   errors: [Forbidden, NotFound, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
@@ -23343,6 +27511,24 @@ export const getMaintenanceSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMaintenanceScheduleRequest,
   output: BranchMaintenanceSchedule,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetNekiChangeRequestError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Get a change request for a Neki branch */
+export const getNekiChangeRequest: API.OperationMethod<
+  GetNekiChangeRequestRequest,
+  NekiChangeRequest,
+  GetNekiChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetNekiChangeRequestRequest,
+  output: NekiChangeRequest,
   errors: [Forbidden, NotFound, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
@@ -23660,6 +27846,39 @@ export const getRole: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetRouterError = Forbidden | NotFound | PlanetScaleOpError;
+/** Get a router for a Neki branch */
+export const getRouter: API.OperationMethod<
+  GetRouterRequest,
+  NekiRouter,
+  GetRouterError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRouterRequest,
+  output: NekiRouter,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetRouterChangeRequestError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Get a change request for a Neki router */
+export const getRouterChangeRequest: API.OperationMethod<
+  GetRouterChangeRequestRequest,
+  GetRouterChangeRequestResponse,
+  GetRouterChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRouterChangeRequestRequest,
+  output: GetRouterChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetSchemaRecommendationError =
   | Forbidden
   | NotFound
@@ -23693,6 +27912,108 @@ export const getServiceToken: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetShardError = Forbidden | NotFound | PlanetScaleOpError;
+/** Get a shard for a Neki branch */
+export const getShard: API.OperationMethod<
+  GetShardRequest,
+  NekiShard,
+  GetShardError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetShardRequest,
+  output: NekiShard,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetShardConfigurationProfileError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Get a shard configuration profile for a Neki branch */
+export const getShardConfigurationProfile: API.OperationMethod<
+  GetShardConfigurationProfileRequest,
+  NekiShardConfigurationProfile,
+  GetShardConfigurationProfileError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetShardConfigurationProfileRequest,
+  output: NekiShardConfigurationProfile,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetShardConfigurationProfileChangeRequestError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Get a change request for a Neki shard configuration profile */
+export const getShardConfigurationProfileChangeRequest: API.OperationMethod<
+  GetShardConfigurationProfileChangeRequestRequest,
+  GetShardConfigurationProfileChangeRequestResponse,
+  GetShardConfigurationProfileChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetShardConfigurationProfileChangeRequestRequest,
+  output: GetShardConfigurationProfileChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetShardConfigurationProfileShardError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Get a shard in a Neki shard configuration profile */
+export const getShardConfigurationProfileShard: API.OperationMethod<
+  GetShardConfigurationProfileShardRequest,
+  NekiShard,
+  GetShardConfigurationProfileShardError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetShardConfigurationProfileShardRequest,
+  output: NekiShard,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSidecarError = Forbidden | NotFound | PlanetScaleOpError;
+/** Get a sidecar for a Neki branch */
+export const getSidecar: API.OperationMethod<
+  GetSidecarRequest,
+  NekiSidecar,
+  GetSidecarError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSidecarRequest,
+  output: NekiSidecar,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSidecarChangeRequestError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Get a change request for a Neki sidecar */
+export const getSidecarChangeRequest: API.OperationMethod<
+  GetSidecarChangeRequestRequest,
+  GetSidecarChangeRequestResponse,
+  GetSidecarChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSidecarChangeRequestRequest,
+  output: GetSidecarChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetSwitchoverError = Forbidden | NotFound | PlanetScaleOpError;
 /** Get a switchover */
 export const getSwitchover: API.OperationMethod<
@@ -23716,12 +28037,12 @@ export type GetTabletMetricsError =
 /** Get time-series tablet metrics */
 export const getTabletMetrics: API.OperationMethod<
   GetTabletMetricsRequest,
-  GetTabletMetricsResponse,
+  MetricSeries,
   GetTabletMetricsError,
   PlanetScaleOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTabletMetricsRequest,
-  output: GetTabletMetricsResponse,
+  output: MetricSeries,
   errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
@@ -23796,6 +28117,57 @@ export const lintBranchSchema: API.PaginatedOperationMethod<
   }),
   paginatePageNumber,
 ) as any;
+
+export type ListAdminChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List change requests for a Neki admin */
+export const listAdminChangeRequests: API.OperationMethod<
+  ListAdminChangeRequestsRequest,
+  ListAdminChangeRequestsResponse,
+  ListAdminChangeRequestsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAdminChangeRequestsRequest,
+  output: ListAdminChangeRequestsResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAdminParametersError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List parameters for a Neki admin */
+export const listAdminParameters: API.OperationMethod<
+  ListAdminParametersRequest,
+  ListAdminParametersResponse,
+  ListAdminParametersError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAdminParametersRequest,
+  output: ListAdminParametersResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAdminSizeSkusError = Forbidden | NotFound | PlanetScaleOpError;
+/** List admin size SKUs for a Neki branch */
+export const listAdminSizeSkus: API.OperationMethod<
+  ListAdminSizeSkusRequest,
+  ListAdminSizeSkusResponse,
+  ListAdminSizeSkusError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAdminSizeSkusRequest,
+  output: ListAdminSizeSkusResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
 
 export type ListAuditLogsError = Forbidden | NotFound | PlanetScaleOpError;
 /** List audit logs */
@@ -24410,13 +28782,13 @@ export type ListKeyspaceResizeRequestsError =
   | Forbidden
   | NotFound
   | PlanetScaleOpError;
-/** List keyspace resize requests Lists resize requests for a branch keyspace, most recent first. */
+/** Get keyspace resize requests */
 export const listKeyspaceResizeRequests: API.PaginatedOperationMethod<
   ListKeyspaceResizeRequestsRequest,
   PaginatedKeyspaceResizeRequest,
   ListKeyspaceResizeRequestsError,
   PlanetScaleOpContext,
-  KeyspaceResizeRequest
+  PaginatedKeyspaceResizeRequestDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: ListKeyspaceResizeRequestsRequest,
@@ -24502,6 +28874,34 @@ export const listMaintenanceWindows: API.PaginatedOperationMethod<
   () => ({
     input: ListMaintenanceWindowsRequest,
     output: PaginatedBranchMaintenanceWindow,
+    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    protocol: PlanetScaleProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "next_page",
+      items: "data",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
+
+export type ListNekiChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List change requests for a Neki branch */
+export const listNekiChangeRequests: API.PaginatedOperationMethod<
+  ListNekiChangeRequestsRequest,
+  PaginatedNekiChangeRequest,
+  ListNekiChangeRequestsError,
+  PlanetScaleOpContext,
+  PaginatedNekiChangeRequestDataItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListNekiChangeRequestsRequest,
+    output: PaginatedNekiChangeRequest,
     errors: [Forbidden, NotFound, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
@@ -24751,6 +29151,24 @@ export const listPasswords: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
+export type ListPostgresVersionsError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List available Postgres versions List the published Postgres versions available to the requested engine. */
+export const listPostgresVersions: API.OperationMethod<
+  ListPostgresVersionsRequest,
+  ListPostgresVersionsResponse,
+  ListPostgresVersionsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPostgresVersionsRequest,
+  output: ListPostgresVersionsResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListPublicRegionsError = Forbidden | NotFound | PlanetScaleOpError;
 /** List public regions Endpoint is available without authentication. */
 export const listPublicRegions: API.PaginatedOperationMethod<
@@ -24903,6 +29321,72 @@ export const listRoles: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
+export type ListRouterChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List change requests for a Neki router */
+export const listRouterChangeRequests: API.OperationMethod<
+  ListRouterChangeRequestsRequest,
+  ListRouterChangeRequestsResponse,
+  ListRouterChangeRequestsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListRouterChangeRequestsRequest,
+  output: ListRouterChangeRequestsResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListRouterParametersError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List parameters for a Neki router */
+export const listRouterParameters: API.OperationMethod<
+  ListRouterParametersRequest,
+  ListRouterParametersResponse,
+  ListRouterParametersError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListRouterParametersRequest,
+  output: ListRouterParametersResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListRoutersError = Forbidden | NotFound | PlanetScaleOpError;
+/** List routers for a Neki branch */
+export const listRouters: API.OperationMethod<
+  ListRoutersRequest,
+  ListRoutersResponse,
+  ListRoutersError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListRoutersRequest,
+  output: ListRoutersResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListRouterSizeSkusError = Forbidden | NotFound | PlanetScaleOpError;
+/** List router size SKUs for a Neki branch */
+export const listRouterSizeSkus: API.OperationMethod<
+  ListRouterSizeSkusRequest,
+  ListRouterSizeSkusResponse,
+  ListRouterSizeSkusError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListRouterSizeSkusRequest,
+  output: ListRouterSizeSkusResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListSchemaRecommendationsError =
   | Forbidden
   | NotFound
@@ -24955,6 +29439,182 @@ export const listServiceTokens: API.PaginatedOperationMethod<
   }),
   paginatePageNumber,
 ) as any;
+
+export type ListShardConfigurationProfileChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List change requests for a Neki shard configuration profile */
+export const listShardConfigurationProfileChangeRequests: API.OperationMethod<
+  ListShardConfigurationProfileChangeRequestsRequest,
+  ListShardConfigurationProfileChangeRequestsResponse,
+  ListShardConfigurationProfileChangeRequestsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListShardConfigurationProfileChangeRequestsRequest,
+  output: ListShardConfigurationProfileChangeRequestsResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListShardConfigurationProfileExtensionsError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List extensions for a Neki shard configuration profile */
+export const listShardConfigurationProfileExtensions: API.OperationMethod<
+  ListShardConfigurationProfileExtensionsRequest,
+  ListShardConfigurationProfileExtensionsResponse,
+  ListShardConfigurationProfileExtensionsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListShardConfigurationProfileExtensionsRequest,
+  output: ListShardConfigurationProfileExtensionsResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListShardConfigurationProfileParametersError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List parameters for a Neki shard configuration profile */
+export const listShardConfigurationProfileParameters: API.OperationMethod<
+  ListShardConfigurationProfileParametersRequest,
+  ListShardConfigurationProfileParametersResponse,
+  ListShardConfigurationProfileParametersError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListShardConfigurationProfileParametersRequest,
+  output: ListShardConfigurationProfileParametersResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListShardConfigurationProfilesError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List shard configuration profiles for a Neki branch */
+export const listShardConfigurationProfiles: API.OperationMethod<
+  ListShardConfigurationProfilesRequest,
+  ListShardConfigurationProfilesResponse,
+  ListShardConfigurationProfilesError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListShardConfigurationProfilesRequest,
+  output: ListShardConfigurationProfilesResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListShardConfigurationProfileShardsError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List shards for a Neki shard configuration profile */
+export const listShardConfigurationProfileShards: API.PaginatedOperationMethod<
+  ListShardConfigurationProfileShardsRequest,
+  PaginatedNekiShard,
+  ListShardConfigurationProfileShardsError,
+  PlanetScaleOpContext,
+  PaginatedNekiShardDataItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListShardConfigurationProfileShardsRequest,
+    output: PaginatedNekiShard,
+    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    protocol: PlanetScaleProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "next_page",
+      items: "data",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
+
+export type ListShardsError = Forbidden | NotFound | PlanetScaleOpError;
+/** List shards for a Neki branch */
+export const listShards: API.PaginatedOperationMethod<
+  ListShardsRequest,
+  PaginatedNekiShard,
+  ListShardsError,
+  PlanetScaleOpContext,
+  PaginatedNekiShardDataItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListShardsRequest,
+    output: PaginatedNekiShard,
+    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    protocol: PlanetScaleProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "next_page",
+      items: "data",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
+
+export type ListSidecarChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List change requests for a Neki sidecar */
+export const listSidecarChangeRequests: API.OperationMethod<
+  ListSidecarChangeRequestsRequest,
+  ListSidecarChangeRequestsResponse,
+  ListSidecarChangeRequestsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSidecarChangeRequestsRequest,
+  output: ListSidecarChangeRequestsResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSidecarParametersError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** List parameters for a Neki sidecar */
+export const listSidecarParameters: API.OperationMethod<
+  ListSidecarParametersRequest,
+  ListSidecarParametersResponse,
+  ListSidecarParametersError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSidecarParametersRequest,
+  output: ListSidecarParametersResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSidecarsError = Forbidden | NotFound | PlanetScaleOpError;
+/** List sidecars for a Neki branch */
+export const listSidecars: API.OperationMethod<
+  ListSidecarsRequest,
+  ListSidecarsResponse,
+  ListSidecarsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSidecarsRequest,
+  output: ListSidecarsResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
 
 export type ListSwitchoversError = Forbidden | NotFound | PlanetScaleOpError;
 /** List switchovers */
@@ -25255,6 +29915,62 @@ export const runBranchMaintenance: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type RunShardConfigurationProfileMaintenanceError =
+  | Forbidden
+  | NotFound
+  | PlanetScaleOpError;
+/** Run maintenance for a Neki shard configuration profile */
+export const runShardConfigurationProfileMaintenance: API.OperationMethod<
+  RunShardConfigurationProfileMaintenanceRequest,
+  RunShardConfigurationProfileMaintenanceResponse,
+  RunShardConfigurationProfileMaintenanceError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RunShardConfigurationProfileMaintenanceRequest,
+  output: RunShardConfigurationProfileMaintenanceResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RunShardConfigurationProfilesMaintenanceError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Run maintenance for selected Neki shard configuration profiles */
+export const runShardConfigurationProfilesMaintenance: API.OperationMethod<
+  RunShardConfigurationProfilesMaintenanceRequest,
+  RunShardConfigurationProfilesMaintenanceResponse,
+  RunShardConfigurationProfilesMaintenanceError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RunShardConfigurationProfilesMaintenanceRequest,
+  output: RunShardConfigurationProfilesMaintenanceResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetDefaultShardConfigurationProfileError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Set the default shard configuration profile for a Neki branch */
+export const setDefaultShardConfigurationProfile: API.OperationMethod<
+  SetDefaultShardConfigurationProfileRequest,
+  NekiShardConfigurationProfile,
+  SetDefaultShardConfigurationProfileError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetDefaultShardConfigurationProfileRequest,
+  output: NekiShardConfigurationProfile,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type SkipRevertPeriodError = Forbidden | NotFound | PlanetScaleOpError;
 /** Skip revert period Skips the revert period for a deploy request */
 export const skipRevertPeriod: API.OperationMethod<
@@ -25281,6 +29997,25 @@ export const testWebhook: API.OperationMethod<
   input: TestWebhookRequest,
   output: TestWebhookResponse,
   errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateAdminError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Update the admin for a Neki branch */
+export const updateAdmin: API.OperationMethod<
+  UpdateAdminRequest,
+  NekiAdmin,
+  UpdateAdminError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAdminRequest,
+  output: NekiAdmin,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25490,6 +30225,25 @@ export const updateDatabaseThrottler: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateDataTopologyError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Set the data topology for a Neki branch */
+export const updateDataTopology: API.OperationMethod<
+  UpdateDataTopologyRequest,
+  NekiDataTopology,
+  UpdateDataTopologyError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateDataTopologyRequest,
+  output: NekiDataTopology,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateDeployRequestThrottlerError =
   | Forbidden
   | NotFound
@@ -25519,6 +30273,25 @@ export const updateKeyspace: API.OperationMethod<
   input: UpdateKeyspaceRequest,
   output: DatabaseBranchKeyspace,
   errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateKeyspaceResizeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Upsert a resize request */
+export const updateKeyspaceResizeRequest: API.OperationMethod<
+  UpdateKeyspaceResizeRequestRequest,
+  KeyspaceResizeRequest,
+  UpdateKeyspaceResizeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateKeyspaceResizeRequestRequest,
+  output: KeyspaceResizeRequest,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25667,6 +30440,25 @@ export const updateRole: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateRouterError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Update a router for a Neki branch */
+export const updateRouter: API.OperationMethod<
+  UpdateRouterRequest,
+  NekiRouter,
+  UpdateRouterError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateRouterRequest,
+  output: NekiRouter,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateSafeMigrationsError =
   | Forbidden
   | NotFound
@@ -25681,6 +30473,78 @@ export const updateSafeMigrations: API.OperationMethod<
   input: UpdateSafeMigrationsRequest,
   output: DatabaseBranch,
   errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateShardError = Forbidden | NotFound | PlanetScaleOpError;
+/** Update a shard for a Neki branch */
+export const updateShard: API.OperationMethod<
+  UpdateShardRequest,
+  UpdateShardResponse,
+  UpdateShardError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateShardRequest,
+  output: UpdateShardResponse,
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateShardConfigurationProfileError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Update a shard configuration profile for a Neki branch */
+export const updateShardConfigurationProfile: API.OperationMethod<
+  UpdateShardConfigurationProfileRequest,
+  NekiShardConfigurationProfile,
+  UpdateShardConfigurationProfileError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateShardConfigurationProfileRequest,
+  output: NekiShardConfigurationProfile,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateShardConfigurationProfileShardError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Update a shard in a Neki shard configuration profile */
+export const updateShardConfigurationProfileShard: API.OperationMethod<
+  UpdateShardConfigurationProfileShardRequest,
+  NekiShard,
+  UpdateShardConfigurationProfileShardError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateShardConfigurationProfileShardRequest,
+  output: NekiShard,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateSidecarError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Update a sidecar for a Neki branch */
+export const updateSidecar: API.OperationMethod<
+  UpdateSidecarRequest,
+  NekiSidecar,
+  UpdateSidecarError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateSidecarRequest,
+  output: NekiSidecar,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25824,6 +30688,16 @@ export const workflowSwitchReplicas: API.OperationMethod<
 // `<Op>Input` / `<Op>Output`.
 export type AddOrganizationTeamMemberInput = AddOrganizationTeamMemberRequest;
 export type AddOrganizationTeamMemberOutput = OrganizationTeamMembership;
+export type AssignShardConfigurationProfileShardsInput =
+  AssignShardConfigurationProfileShardsRequest;
+export type AssignShardConfigurationProfileShardsOutput =
+  AssignShardConfigurationProfileShardsResponse;
+export type BulkCreateShardConfigurationProfileShardsInput =
+  BulkCreateShardConfigurationProfileShardsRequest;
+export type BulkCreateShardConfigurationProfileShardsOutput =
+  BulkCreateShardConfigurationProfileShardsResponse;
+export type CancelAdminChangeRequestInput = CancelAdminChangeRequestRequest;
+export type CancelAdminChangeRequestOutput = CancelAdminChangeRequestResponse;
 export type CancelBouncerResizeRequestInput = CancelBouncerResizeRequestRequest;
 export type CancelBouncerResizeRequestOutput =
   CancelBouncerResizeRequestResponse;
@@ -25835,6 +30709,17 @@ export type CancelKeyspaceResizeRequestInput =
   CancelKeyspaceResizeRequestRequest;
 export type CancelKeyspaceResizeRequestOutput =
   CancelKeyspaceResizeRequestResponse;
+export type CancelNekiChangeRequestInput = CancelNekiChangeRequestRequest;
+export type CancelNekiChangeRequestOutput = CancelNekiChangeRequestResponse;
+export type CancelRouterChangeRequestInput = CancelRouterChangeRequestRequest;
+export type CancelRouterChangeRequestOutput = CancelRouterChangeRequestResponse;
+export type CancelShardConfigurationProfileChangeRequestInput =
+  CancelShardConfigurationProfileChangeRequestRequest;
+export type CancelShardConfigurationProfileChangeRequestOutput =
+  CancelShardConfigurationProfileChangeRequestResponse;
+export type CancelSidecarChangeRequestInput = CancelSidecarChangeRequestRequest;
+export type CancelSidecarChangeRequestOutput =
+  CancelSidecarChangeRequestResponse;
 export type CancelWorkflowInput = CancelWorkflowRequest;
 export type CancelWorkflowOutput = Workflow;
 export type CompleteRevertInput = CompleteRevertRequest;
@@ -25851,6 +30736,8 @@ export type CreateBouncerInput = CreateBouncerRequest;
 export type CreateBouncerOutput = PostgresBouncer;
 export type CreateBranchInput = CreateBranchRequest;
 export type CreateBranchOutput = DatabaseBranch;
+export type CreateBranchLogSignatureInput = CreateBranchLogSignatureRequest;
+export type CreateBranchLogSignatureOutput = CreateBranchLogSignatureResponse;
 export type CreateDatabaseInput = CreateDatabaseRequest;
 export type CreateDatabaseOutput = Database;
 export type CreateDatabasePostgresCidrInput = CreateDatabasePostgresCidrRequest;
@@ -25859,9 +30746,6 @@ export type CreateDeployRequestInput = CreateDeployRequestRequest;
 export type CreateDeployRequestOutput = DatabaseDeployRequest;
 export type CreateKeyspaceInput = CreateKeyspaceRequest;
 export type CreateKeyspaceOutput = DatabaseBranchKeyspace;
-export type CreateKeyspaceResizeRequestInput =
-  CreateKeyspaceResizeRequestRequest;
-export type CreateKeyspaceResizeRequestOutput = KeyspaceResizeRequest;
 export type CreateOauthTokenInput = CreateOauthTokenRequest;
 export type CreateOauthTokenOutput = ServiceToken;
 export type CreateOrganizationSsoDomainInput =
@@ -25878,8 +30762,19 @@ export type CreateReadOnlyReplicaInput = CreateReadOnlyReplicaRequest;
 export type CreateReadOnlyReplicaOutput = PostgresReadOnlyReplica;
 export type CreateRoleInput = CreateRoleRequest;
 export type CreateRoleOutput = PostgresRole;
+export type CreateRouterInput = CreateRouterRequest;
+export type CreateRouterOutput = NekiRouter;
 export type CreateServiceTokenInput = CreateServiceTokenRequest;
 export type CreateServiceTokenOutput = ServiceToken;
+export type CreateShardInput = CreateShardRequest;
+export type CreateShardOutput = CreateShardResponse;
+export type CreateShardConfigurationProfileInput =
+  CreateShardConfigurationProfileRequest;
+export type CreateShardConfigurationProfileOutput =
+  NekiShardConfigurationProfile;
+export type CreateShardConfigurationProfileShardInput =
+  CreateShardConfigurationProfileShardRequest;
+export type CreateShardConfigurationProfileShardOutput = NekiShard;
 export type CreateSwitchoverInput = CreateSwitchoverRequest;
 export type CreateSwitchoverOutput = PostgresSwitchover;
 export type CreateTrafficBudgetInput = CreateTrafficBudgetRequest;
@@ -25925,8 +30820,24 @@ export type DeleteReadOnlyReplicaInput = DeleteReadOnlyReplicaRequest;
 export type DeleteReadOnlyReplicaOutput = DeleteReadOnlyReplicaResponse;
 export type DeleteRoleInput = DeleteRoleRequest;
 export type DeleteRoleOutput = DeleteRoleResponse;
+export type DeleteRouterInput = DeleteRouterRequest;
+export type DeleteRouterOutput = DeleteRouterResponse;
 export type DeleteServiceTokenInput = DeleteServiceTokenRequest;
 export type DeleteServiceTokenOutput = DeleteServiceTokenResponse;
+export type DeleteShardInput = DeleteShardRequest;
+export type DeleteShardOutput = DeleteShardResponse;
+export type DeleteShardConfigurationProfileInput =
+  DeleteShardConfigurationProfileRequest;
+export type DeleteShardConfigurationProfileOutput =
+  DeleteShardConfigurationProfileResponse;
+export type DeleteShardConfigurationProfileShardInput =
+  DeleteShardConfigurationProfileShardRequest;
+export type DeleteShardConfigurationProfileShardOutput =
+  DeleteShardConfigurationProfileShardResponse;
+export type DeleteShardConfigurationProfileShardsInput =
+  DeleteShardConfigurationProfileShardsRequest;
+export type DeleteShardConfigurationProfileShardsOutput =
+  DeleteShardConfigurationProfileShardsResponse;
 export type DeleteTrafficBudgetInput = DeleteTrafficBudgetRequest;
 export type DeleteTrafficBudgetOutput = DeleteTrafficBudgetResponse;
 export type DeleteTrafficRuleInput = DeleteTrafficRuleRequest;
@@ -25967,6 +30878,10 @@ export type EnableOrganizationSsoDirectoryOutput =
   EnableOrganizationSsoDirectoryResponse;
 export type EnableSafeMigrationsInput = EnableSafeMigrationsRequest;
 export type EnableSafeMigrationsOutput = DatabaseBranch;
+export type GetAdminInput = GetAdminRequest;
+export type GetAdminOutput = NekiAdmin;
+export type GetAdminChangeRequestInput = GetAdminChangeRequestRequest;
+export type GetAdminChangeRequestOutput = GetAdminChangeRequestResponse;
 export type GetBackupInput = GetBackupRequest;
 export type GetBackupOutput = Backup;
 export type GetBackupPolicyInput = GetBackupPolicyRequest;
@@ -25984,13 +30899,13 @@ export type GetBranchKeyspaceTableMetricsInput =
 export type GetBranchKeyspaceTableMetricsOutput =
   GetBranchKeyspaceTableMetricsResponse;
 export type GetBranchMetricsInput = GetBranchMetricsRequest;
-export type GetBranchMetricsOutput = GetBranchMetricsResponse;
+export type GetBranchMetricsOutput = MetricSeries;
 export type GetBranchQueryInput = GetBranchQueryRequest;
 export type GetBranchQueryOutput = Query;
 export type GetBranchQueryErrorInput = GetBranchQueryErrorRequest;
 export type GetBranchQueryErrorOutput = PaginatedQuery;
 export type GetBranchQueryMetricsInput = GetBranchQueryMetricsRequest;
-export type GetBranchQueryMetricsOutput = GetBranchQueryMetricsResponse;
+export type GetBranchQueryMetricsOutput = MetricSeries;
 export type GetBranchQueryTagInput = GetBranchQueryTagRequest;
 export type GetBranchQueryTagOutput = QueryTag;
 export type GetBranchResizeRequestInput = GetBranchResizeRequestRequest;
@@ -26000,7 +30915,7 @@ export type GetBranchSchemaOutput = GetBranchSchemaResponse;
 export type GetBranchTableMetricsInput = GetBranchTableMetricsRequest;
 export type GetBranchTableMetricsOutput = GetBranchTableMetricsResponse;
 export type GetBranchTagMetricsInput = GetBranchTagMetricsRequest;
-export type GetBranchTagMetricsOutput = GetBranchTagMetricsResponse;
+export type GetBranchTagMetricsOutput = MetricSeries;
 export type GetCurrentUserInput = GetCurrentUserRequest;
 export type GetCurrentUserOutput = User;
 export type GetDatabaseInput = GetDatabaseRequest;
@@ -26009,8 +30924,14 @@ export type GetDatabasePostgresCidrInput = GetDatabasePostgresCidrRequest;
 export type GetDatabasePostgresCidrOutput = PostgresClusterCidr;
 export type GetDatabaseThrottlerInput = GetDatabaseThrottlerRequest;
 export type GetDatabaseThrottlerOutput = ThrottlerConfigurations;
+export type GetDataTopologyInput = GetDataTopologyRequest;
+export type GetDataTopologyOutput = NekiDataTopology;
 export type GetDefaultRoleInput = GetDefaultRoleRequest;
 export type GetDefaultRoleOutput = PostgresRole;
+export type GetDefaultShardConfigurationProfileInput =
+  GetDefaultShardConfigurationProfileRequest;
+export type GetDefaultShardConfigurationProfileOutput =
+  GetDefaultShardConfigurationProfileResponse;
 export type GetDeploymentInput = GetDeploymentRequest;
 export type GetDeploymentOutput = Deployment;
 export type GetDeployQueueInput = GetDeployQueueRequest;
@@ -26037,6 +30958,8 @@ export type GetKeyspaceVschemaInput = GetKeyspaceVschemaRequest;
 export type GetKeyspaceVschemaOutput = GetKeyspaceVschemaResponse;
 export type GetMaintenanceScheduleInput = GetMaintenanceScheduleRequest;
 export type GetMaintenanceScheduleOutput = BranchMaintenanceSchedule;
+export type GetNekiChangeRequestInput = GetNekiChangeRequestRequest;
+export type GetNekiChangeRequestOutput = NekiChangeRequest;
 export type GetOauthApplicationInput = GetOauthApplicationRequest;
 export type GetOauthApplicationOutput = OauthApplication;
 export type GetOauthTokenInput = GetOauthTokenRequest;
@@ -26073,14 +30996,34 @@ export type GetReadOnlyReplicaInput = GetReadOnlyReplicaRequest;
 export type GetReadOnlyReplicaOutput = PostgresReadOnlyReplica;
 export type GetRoleInput = GetRoleRequest;
 export type GetRoleOutput = PostgresRole;
+export type GetRouterInput = GetRouterRequest;
+export type GetRouterOutput = NekiRouter;
+export type GetRouterChangeRequestInput = GetRouterChangeRequestRequest;
+export type GetRouterChangeRequestOutput = GetRouterChangeRequestResponse;
 export type GetSchemaRecommendationInput = GetSchemaRecommendationRequest;
 export type GetSchemaRecommendationOutput = SchemaRecommendation;
 export type GetServiceTokenInput = GetServiceTokenRequest;
 export type GetServiceTokenOutput = ServiceToken;
+export type GetShardInput = GetShardRequest;
+export type GetShardOutput = NekiShard;
+export type GetShardConfigurationProfileInput =
+  GetShardConfigurationProfileRequest;
+export type GetShardConfigurationProfileOutput = NekiShardConfigurationProfile;
+export type GetShardConfigurationProfileChangeRequestInput =
+  GetShardConfigurationProfileChangeRequestRequest;
+export type GetShardConfigurationProfileChangeRequestOutput =
+  GetShardConfigurationProfileChangeRequestResponse;
+export type GetShardConfigurationProfileShardInput =
+  GetShardConfigurationProfileShardRequest;
+export type GetShardConfigurationProfileShardOutput = NekiShard;
+export type GetSidecarInput = GetSidecarRequest;
+export type GetSidecarOutput = NekiSidecar;
+export type GetSidecarChangeRequestInput = GetSidecarChangeRequestRequest;
+export type GetSidecarChangeRequestOutput = GetSidecarChangeRequestResponse;
 export type GetSwitchoverInput = GetSwitchoverRequest;
 export type GetSwitchoverOutput = PostgresSwitchover;
 export type GetTabletMetricsInput = GetTabletMetricsRequest;
-export type GetTabletMetricsOutput = GetTabletMetricsResponse;
+export type GetTabletMetricsOutput = MetricSeries;
 export type GetTrafficBudgetInput = GetTrafficBudgetRequest;
 export type GetTrafficBudgetOutput = TrafficBudget;
 export type GetWebhookInput = GetWebhookRequest;
@@ -26089,6 +31032,12 @@ export type GetWorkflowInput = GetWorkflowRequest;
 export type GetWorkflowOutput = Workflow;
 export type LintBranchSchemaInput = LintBranchSchemaRequest;
 export type LintBranchSchemaOutput = PaginatedSchemaLintError;
+export type ListAdminChangeRequestsInput = ListAdminChangeRequestsRequest;
+export type ListAdminChangeRequestsOutput = ListAdminChangeRequestsResponse;
+export type ListAdminParametersInput = ListAdminParametersRequest;
+export type ListAdminParametersOutput = ListAdminParametersResponse;
+export type ListAdminSizeSkusInput = ListAdminSizeSkusRequest;
+export type ListAdminSizeSkusOutput = ListAdminSizeSkusResponse;
 export type ListAuditLogsInput = ListAuditLogsRequest;
 export type ListAuditLogsOutput = PaginatedAuditLogEvent;
 export type ListBackupPoliciesInput = ListBackupPoliciesRequest;
@@ -26152,6 +31101,8 @@ export type ListMaintenanceSchedulesInput = ListMaintenanceSchedulesRequest;
 export type ListMaintenanceSchedulesOutput = PaginatedBranchMaintenanceSchedule;
 export type ListMaintenanceWindowsInput = ListMaintenanceWindowsRequest;
 export type ListMaintenanceWindowsOutput = PaginatedBranchMaintenanceWindow;
+export type ListNekiChangeRequestsInput = ListNekiChangeRequestsRequest;
+export type ListNekiChangeRequestsOutput = PaginatedNekiChangeRequest;
 export type ListOauthApplicationsInput = ListOauthApplicationsRequest;
 export type ListOauthApplicationsOutput = PaginatedOauthApplication;
 export type ListOauthTokensInput = ListOauthTokensRequest;
@@ -26173,6 +31124,8 @@ export type ListParametersInput = ListParametersRequest;
 export type ListParametersOutput = ListParametersResponse;
 export type ListPasswordsInput = ListPasswordsRequest;
 export type ListPasswordsOutput = PaginatedDatabaseBranchPassword;
+export type ListPostgresVersionsInput = ListPostgresVersionsRequest;
+export type ListPostgresVersionsOutput = ListPostgresVersionsResponse;
 export type ListPublicRegionsInput = ListPublicRegionsRequest;
 export type ListPublicRegionsOutput =
   PaginatedPublicPlanetscaleRegionSerializer;
@@ -26188,10 +31141,45 @@ export type ListRegionsForOrganizationInput = ListRegionsForOrganizationRequest;
 export type ListRegionsForOrganizationOutput = PaginatedPlanetscaleRegion;
 export type ListRolesInput = ListRolesRequest;
 export type ListRolesOutput = PaginatedPostgresRole;
+export type ListRouterChangeRequestsInput = ListRouterChangeRequestsRequest;
+export type ListRouterChangeRequestsOutput = ListRouterChangeRequestsResponse;
+export type ListRouterParametersInput = ListRouterParametersRequest;
+export type ListRouterParametersOutput = ListRouterParametersResponse;
+export type ListRoutersInput = ListRoutersRequest;
+export type ListRoutersOutput = ListRoutersResponse;
+export type ListRouterSizeSkusInput = ListRouterSizeSkusRequest;
+export type ListRouterSizeSkusOutput = ListRouterSizeSkusResponse;
 export type ListSchemaRecommendationsInput = ListSchemaRecommendationsRequest;
 export type ListSchemaRecommendationsOutput = PaginatedSchemaRecommendation;
 export type ListServiceTokensInput = ListServiceTokensRequest;
 export type ListServiceTokensOutput = PaginatedServiceToken;
+export type ListShardConfigurationProfileChangeRequestsInput =
+  ListShardConfigurationProfileChangeRequestsRequest;
+export type ListShardConfigurationProfileChangeRequestsOutput =
+  ListShardConfigurationProfileChangeRequestsResponse;
+export type ListShardConfigurationProfileExtensionsInput =
+  ListShardConfigurationProfileExtensionsRequest;
+export type ListShardConfigurationProfileExtensionsOutput =
+  ListShardConfigurationProfileExtensionsResponse;
+export type ListShardConfigurationProfileParametersInput =
+  ListShardConfigurationProfileParametersRequest;
+export type ListShardConfigurationProfileParametersOutput =
+  ListShardConfigurationProfileParametersResponse;
+export type ListShardConfigurationProfilesInput =
+  ListShardConfigurationProfilesRequest;
+export type ListShardConfigurationProfilesOutput =
+  ListShardConfigurationProfilesResponse;
+export type ListShardConfigurationProfileShardsInput =
+  ListShardConfigurationProfileShardsRequest;
+export type ListShardConfigurationProfileShardsOutput = PaginatedNekiShard;
+export type ListShardsInput = ListShardsRequest;
+export type ListShardsOutput = PaginatedNekiShard;
+export type ListSidecarChangeRequestsInput = ListSidecarChangeRequestsRequest;
+export type ListSidecarChangeRequestsOutput = ListSidecarChangeRequestsResponse;
+export type ListSidecarParametersInput = ListSidecarParametersRequest;
+export type ListSidecarParametersOutput = ListSidecarParametersResponse;
+export type ListSidecarsInput = ListSidecarsRequest;
+export type ListSidecarsOutput = ListSidecarsResponse;
 export type ListSwitchoversInput = ListSwitchoversRequest;
 export type ListSwitchoversOutput = PaginatedPostgresSwitchover;
 export type ListTrafficBudgetsInput = ListTrafficBudgetsRequest;
@@ -26224,10 +31212,24 @@ export type RetryWorkflowInput = RetryWorkflowRequest;
 export type RetryWorkflowOutput = Workflow;
 export type RunBranchMaintenanceInput = RunBranchMaintenanceRequest;
 export type RunBranchMaintenanceOutput = RunBranchMaintenanceResponse;
+export type RunShardConfigurationProfileMaintenanceInput =
+  RunShardConfigurationProfileMaintenanceRequest;
+export type RunShardConfigurationProfileMaintenanceOutput =
+  RunShardConfigurationProfileMaintenanceResponse;
+export type RunShardConfigurationProfilesMaintenanceInput =
+  RunShardConfigurationProfilesMaintenanceRequest;
+export type RunShardConfigurationProfilesMaintenanceOutput =
+  RunShardConfigurationProfilesMaintenanceResponse;
+export type SetDefaultShardConfigurationProfileInput =
+  SetDefaultShardConfigurationProfileRequest;
+export type SetDefaultShardConfigurationProfileOutput =
+  NekiShardConfigurationProfile;
 export type SkipRevertPeriodInput = SkipRevertPeriodRequest;
 export type SkipRevertPeriodOutput = DatabaseDeployRequest;
 export type TestWebhookInput = TestWebhookRequest;
 export type TestWebhookOutput = TestWebhookResponse;
+export type UpdateAdminInput = UpdateAdminRequest;
+export type UpdateAdminOutput = NekiAdmin;
 export type UpdateAutoApplyInput = UpdateAutoApplyRequest;
 export type UpdateAutoApplyOutput = DatabaseDeployRequest;
 export type UpdateAutoDeleteBranchInput = UpdateAutoDeleteBranchRequest;
@@ -26252,11 +31254,16 @@ export type UpdateDatabaseSettingsInput = UpdateDatabaseSettingsRequest;
 export type UpdateDatabaseSettingsOutput = Database;
 export type UpdateDatabaseThrottlerInput = UpdateDatabaseThrottlerRequest;
 export type UpdateDatabaseThrottlerOutput = ThrottlerConfigurations;
+export type UpdateDataTopologyInput = UpdateDataTopologyRequest;
+export type UpdateDataTopologyOutput = NekiDataTopology;
 export type UpdateDeployRequestThrottlerInput =
   UpdateDeployRequestThrottlerRequest;
 export type UpdateDeployRequestThrottlerOutput = ThrottlerConfigurations;
 export type UpdateKeyspaceInput = UpdateKeyspaceRequest;
 export type UpdateKeyspaceOutput = DatabaseBranchKeyspace;
+export type UpdateKeyspaceResizeRequestInput =
+  UpdateKeyspaceResizeRequestRequest;
+export type UpdateKeyspaceResizeRequestOutput = KeyspaceResizeRequest;
 export type UpdateKeyspaceVschemaInput = UpdateKeyspaceVschemaRequest;
 export type UpdateKeyspaceVschemaOutput = UpdateKeyspaceVschemaResponse;
 export type UpdateOrganizationInput = UpdateOrganizationRequest;
@@ -26274,8 +31281,21 @@ export type UpdateReadOnlyReplicaInput = UpdateReadOnlyReplicaRequest;
 export type UpdateReadOnlyReplicaOutput = PostgresReadOnlyReplica;
 export type UpdateRoleInput = UpdateRoleRequest;
 export type UpdateRoleOutput = PostgresRole;
+export type UpdateRouterInput = UpdateRouterRequest;
+export type UpdateRouterOutput = NekiRouter;
 export type UpdateSafeMigrationsInput = UpdateSafeMigrationsRequest;
 export type UpdateSafeMigrationsOutput = DatabaseBranch;
+export type UpdateShardInput = UpdateShardRequest;
+export type UpdateShardOutput = UpdateShardResponse;
+export type UpdateShardConfigurationProfileInput =
+  UpdateShardConfigurationProfileRequest;
+export type UpdateShardConfigurationProfileOutput =
+  NekiShardConfigurationProfile;
+export type UpdateShardConfigurationProfileShardInput =
+  UpdateShardConfigurationProfileShardRequest;
+export type UpdateShardConfigurationProfileShardOutput = NekiShard;
+export type UpdateSidecarInput = UpdateSidecarRequest;
+export type UpdateSidecarOutput = NekiSidecar;
 export type UpdateTrafficBudgetInput = UpdateTrafficBudgetRequest;
 export type UpdateTrafficBudgetOutput = TrafficBudget;
 export type UpdateWebhookInput = UpdateWebhookRequest;

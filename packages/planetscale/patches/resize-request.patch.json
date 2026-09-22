@@ -1,5 +1,5 @@
 {
-  "description": "Fix PostgresClusterResizeRequest and PaginatedPostgresClusterResizeRequest schema: completed_at can be null, and restart is no longer returned (removed from PlanetScale's API and current spec)",
+  "description": "PostgresClusterResizeRequest: completed_at is listed required but null while in progress; restart was removed from the API; version/previous_version/confirm_shrink are not always returned.",
   "patches": [
     {
       "op": "replace",
@@ -38,11 +38,6 @@
       ]
     },
     {
-      "op": "add",
-      "path": "/definitions/PostgresClusterResizeRequest/properties/completed_at/x-nullable",
-      "value": true
-    },
-    {
       "op": "replace",
       "path": "/definitions/PaginatedPostgresClusterResizeRequest/properties/data/items/required",
       "value": [
@@ -77,11 +72,6 @@
         "previous_storage_iops",
         "previous_storage_throughput_mibs"
       ]
-    },
-    {
-      "op": "add",
-      "path": "/definitions/PaginatedPostgresClusterResizeRequest/properties/data/items/properties/completed_at/x-nullable",
-      "value": true
     }
   ]
 }

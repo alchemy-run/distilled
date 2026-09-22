@@ -1,5 +1,5 @@
 {
-  "description": "Fix DatabaseBranch and PaginatedDatabaseBranch schemas: make many fields optional that aren't always returned, and make nullable fields (deleted_at, restore_checklist_completed_at, cluster_iops, restored_from_branch, parent_branch)",
+  "description": "DatabaseBranch: Vitess-only fields (mysql_address, vtgate_*, shard_count, …) are not always returned (Postgres branches omit them). cluster_architecture is returned on the wire but missing from the spec.",
   "patches": [
     {
       "op": "replace",
@@ -34,40 +34,10 @@
     },
     {
       "op": "add",
-      "path": "/definitions/DatabaseBranch/properties/deleted_at/x-nullable",
-      "value": true
-    },
-    {
-      "op": "add",
-      "path": "/definitions/DatabaseBranch/properties/restore_checklist_completed_at/x-nullable",
-      "value": true
-    },
-    {
-      "op": "add",
-      "path": "/definitions/DatabaseBranch/properties/cluster_iops/x-nullable",
-      "value": true
-    },
-    {
-      "op": "add",
       "path": "/definitions/DatabaseBranch/properties/cluster_architecture",
       "value": {
         "type": "string"
       }
-    },
-    {
-      "op": "add",
-      "path": "/definitions/DatabaseBranch/properties/restored_from_branch/x-nullable",
-      "value": true
-    },
-    {
-      "op": "add",
-      "path": "/definitions/DatabaseBranch/properties/parent_branch/x-nullable",
-      "value": true
-    },
-    {
-      "op": "add",
-      "path": "/definitions/DatabaseBranch/properties/restored_from_branch/properties/deleted_at/x-nullable",
-      "value": true
     },
     {
       "op": "replace",
@@ -102,40 +72,10 @@
     },
     {
       "op": "add",
-      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/deleted_at/x-nullable",
-      "value": true
-    },
-    {
-      "op": "add",
-      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/restore_checklist_completed_at/x-nullable",
-      "value": true
-    },
-    {
-      "op": "add",
-      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/cluster_iops/x-nullable",
-      "value": true
-    },
-    {
-      "op": "add",
       "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/cluster_architecture",
       "value": {
         "type": "string"
       }
-    },
-    {
-      "op": "add",
-      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/restored_from_branch/x-nullable",
-      "value": true
-    },
-    {
-      "op": "add",
-      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/parent_branch/x-nullable",
-      "value": true
-    },
-    {
-      "op": "add",
-      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/restored_from_branch/properties/deleted_at/x-nullable",
-      "value": true
     }
   ]
 }

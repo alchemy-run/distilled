@@ -1,5 +1,5 @@
 {
-  "description": "Fix Organization schema: make has_past_due_invoices and sso_portal_url optional, change invoice_budget_amount to string",
+  "description": "Organization: has_past_due_invoices and sso_portal_url are not always returned; neki_router_replicas_per_cell_limit is new in the spec and not present on every org.",
   "patches": [
     {
       "op": "replace",
@@ -27,11 +27,6 @@
     },
     {
       "op": "replace",
-      "path": "/definitions/Organization/properties/invoice_budget_amount/type",
-      "value": "string"
-    },
-    {
-      "op": "replace",
       "path": "/definitions/PaginatedOrganization/properties/data/items/required",
       "value": [
         "id",
@@ -53,11 +48,6 @@
         "has_card",
         "payment_info_required"
       ]
-    },
-    {
-      "op": "replace",
-      "path": "/definitions/PaginatedOrganization/properties/data/items/properties/invoice_budget_amount/type",
-      "value": "string"
     }
   ]
 }

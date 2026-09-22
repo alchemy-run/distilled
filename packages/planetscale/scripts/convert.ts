@@ -6,8 +6,8 @@
  * Input:  specs/spec-mirror-planetscale/specs/openapi.json  (spec
  *         submodule; Swagger 2.0 — `/definitions`, `x-nullable`)
  *         patches/*.patch.json  (RFC-6902 patches to the Swagger document —
- *         ported verbatim from distilled v0; nullability fixes, observed
- *         error responses, and the x-sensitive vendor extensions)
+ *         observed error responses, required-field corrections, and the
+ *         x-sensitive mark on ServiceToken.token)
  * Output: .generated-specs/planetscale.json
  *
  * The OpenAPI→Smithy converter lives in
