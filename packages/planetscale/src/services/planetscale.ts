@@ -7400,7 +7400,7 @@ export interface PostgresClusterResizeRequest {
   /** The time the branch change request started */
   started_at: string | null;
   /** The time the branch change request completed */
-  completed_at?: string | null;
+  completed_at: string | null;
   /** The time the branch change request was created */
   created_at: string;
   /** The time the branch change request was last updated */
@@ -7415,7 +7415,7 @@ export interface PostgresClusterResizeRequest {
   /** The total number of replicas */
   replicas: number;
   /** The PostgreSQL version after the change */
-  version?: string;
+  version: string;
   /** The branch parameters */
   parameters: PostgresClusterResizeRequestParametersMap;
   /** The previous SKU representing the branch cluster */
@@ -7427,7 +7427,7 @@ export interface PostgresClusterResizeRequest {
   /** The previous total number of replicas */
   previous_replicas: number;
   /** The PostgreSQL version before the change */
-  previous_version?: string;
+  previous_version: string;
   /** The previous branch parameters */
   previous_parameters: PostgresClusterResizeRequestPreviousParametersMap;
   /** The minimum storage size in bytes */
@@ -7459,14 +7459,14 @@ export interface PostgresClusterResizeRequest {
   /** The previous storage throughput in MiB/s */
   previous_storage_throughput_mibs: number;
   /** Whether the change re-applies the current minimum disk size to shrink the provisioned disk */
-  confirm_shrink?: boolean;
+  confirm_shrink: boolean;
 }
 export const PostgresClusterResizeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     state: PostgresClusterResizeRequestState,
     started_at: S.NullOr(S.String),
-    completed_at: S.optional(S.NullOr(S.String)),
+    completed_at: S.NullOr(S.String),
     created_at: S.String,
     updated_at: S.String,
     actor: OrganizationTeamMembershipActor,
@@ -7474,13 +7474,13 @@ export const PostgresClusterResizeRequest = /*@__PURE__*/ S.suspend(() =>
     cluster_display_name: S.String,
     cluster_metal: S.Boolean,
     replicas: S.Number,
-    version: S.optional(S.String),
+    version: S.String,
     parameters: PostgresClusterResizeRequestParametersMap,
     previous_cluster_name: S.String,
     previous_cluster_display_name: S.String,
     previous_cluster_metal: S.Boolean,
     previous_replicas: S.Number,
-    previous_version: S.optional(S.String),
+    previous_version: S.String,
     previous_parameters: PostgresClusterResizeRequestPreviousParametersMap,
     minimum_storage_bytes: S.Number,
     maximum_storage_bytes: S.Number,
@@ -7496,7 +7496,7 @@ export const PostgresClusterResizeRequest = /*@__PURE__*/ S.suspend(() =>
     previous_storage_type: S.String,
     previous_storage_iops: S.Number,
     previous_storage_throughput_mibs: S.Number,
-    confirm_shrink: S.optional(S.Boolean),
+    confirm_shrink: S.Boolean,
   }),
 ).annotate({
   identifier: "PostgresClusterResizeRequest",
@@ -11293,7 +11293,7 @@ export interface Organization {
   /** The keyspace shard limit for the organization */
   keyspace_shard_limit: number;
   /** The Neki router replica limit per cell for the organization */
-  neki_router_replicas_per_cell_limit?: number;
+  neki_router_replicas_per_cell_limit: number;
   /** Whether or not the organization has a payment method on file */
   has_card: boolean;
   /** Whether or not the organization requires payment information */
@@ -11319,7 +11319,7 @@ export const Organization = /*@__PURE__*/ S.suspend(() =>
     idp_managed_roles: S.Boolean,
     invoice_budget_amount: S.String,
     keyspace_shard_limit: S.Number,
-    neki_router_replicas_per_cell_limit: S.optional(S.Number),
+    neki_router_replicas_per_cell_limit: S.Number,
     has_card: S.Boolean,
     payment_info_required: S.Boolean,
   }),
@@ -14416,7 +14416,7 @@ export interface PaginatedPostgresClusterResizeRequestDataItem {
   /** The time the branch change request started */
   started_at: string | null;
   /** The time the branch change request completed */
-  completed_at?: string | null;
+  completed_at: string | null;
   /** The time the branch change request was created */
   created_at: string;
   /** The time the branch change request was last updated */
@@ -14431,7 +14431,7 @@ export interface PaginatedPostgresClusterResizeRequestDataItem {
   /** The total number of replicas */
   replicas: number;
   /** The PostgreSQL version after the change */
-  version?: string;
+  version: string;
   /** The branch parameters */
   parameters: PaginatedPostgresClusterResizeRequestDataItemParametersMap;
   /** The previous SKU representing the branch cluster */
@@ -14443,7 +14443,7 @@ export interface PaginatedPostgresClusterResizeRequestDataItem {
   /** The previous total number of replicas */
   previous_replicas: number;
   /** The PostgreSQL version before the change */
-  previous_version?: string;
+  previous_version: string;
   /** The previous branch parameters */
   previous_parameters: PaginatedPostgresClusterResizeRequestDataItemPreviousParametersMap;
   /** The minimum storage size in bytes */
@@ -14475,7 +14475,7 @@ export interface PaginatedPostgresClusterResizeRequestDataItem {
   /** The previous storage throughput in MiB/s */
   previous_storage_throughput_mibs: number;
   /** Whether the change re-applies the current minimum disk size to shrink the provisioned disk */
-  confirm_shrink?: boolean;
+  confirm_shrink: boolean;
 }
 export const PaginatedPostgresClusterResizeRequestDataItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -14483,7 +14483,7 @@ export const PaginatedPostgresClusterResizeRequestDataItem =
       id: S.String,
       state: PaginatedPostgresClusterResizeRequestDataItemState,
       started_at: S.NullOr(S.String),
-      completed_at: S.optional(S.NullOr(S.String)),
+      completed_at: S.NullOr(S.String),
       created_at: S.String,
       updated_at: S.String,
       actor: OrganizationTeamMembershipActor,
@@ -14491,13 +14491,13 @@ export const PaginatedPostgresClusterResizeRequestDataItem =
       cluster_display_name: S.String,
       cluster_metal: S.Boolean,
       replicas: S.Number,
-      version: S.optional(S.String),
+      version: S.String,
       parameters: PaginatedPostgresClusterResizeRequestDataItemParametersMap,
       previous_cluster_name: S.String,
       previous_cluster_display_name: S.String,
       previous_cluster_metal: S.Boolean,
       previous_replicas: S.Number,
-      previous_version: S.optional(S.String),
+      previous_version: S.String,
       previous_parameters:
         PaginatedPostgresClusterResizeRequestDataItemPreviousParametersMap,
       minimum_storage_bytes: S.Number,
@@ -14514,7 +14514,7 @@ export const PaginatedPostgresClusterResizeRequestDataItem =
       previous_storage_type: S.String,
       previous_storage_iops: S.Number,
       previous_storage_throughput_mibs: S.Number,
-      confirm_shrink: S.optional(S.Boolean),
+      confirm_shrink: S.Boolean,
     }),
   ).annotate({
     identifier: "PaginatedPostgresClusterResizeRequestDataItem",
@@ -16183,7 +16183,7 @@ export interface ClusterSizeSku {
   /** Whether or not the cluster SKU is Metal */
   metal: boolean;
   /** Whether or not the cluster SKU is for an external keyspace */
-  external?: boolean;
+  external: boolean;
   /** Whether or not the cluster SKU is enabled for the organization */
   enabled: boolean;
   /** The provider of the cluster SKU (nil, AWS or GCP) */
@@ -16217,7 +16217,7 @@ export const ClusterSizeSku = /*@__PURE__*/ S.suspend(() =>
     storage: S.optional(S.NullOr(S.Number)),
     ram: S.Number,
     metal: S.Boolean,
-    external: S.optional(S.Boolean),
+    external: S.Boolean,
     enabled: S.Boolean,
     provider: S.optional(S.NullOr(S.String)),
     default_vtgate: S.String,
@@ -19757,7 +19757,7 @@ export interface PaginatedOrganizationDataItem {
   /** The keyspace shard limit for the organization */
   keyspace_shard_limit: number;
   /** The Neki router replica limit per cell for the organization */
-  neki_router_replicas_per_cell_limit?: number;
+  neki_router_replicas_per_cell_limit: number;
   /** Whether or not the organization has a payment method on file */
   has_card: boolean;
   /** Whether or not the organization requires payment information */
@@ -19783,7 +19783,7 @@ export const PaginatedOrganizationDataItem = /*@__PURE__*/ S.suspend(() =>
     idp_managed_roles: S.Boolean,
     invoice_budget_amount: S.String,
     keyspace_shard_limit: S.Number,
-    neki_router_replicas_per_cell_limit: S.optional(S.Number),
+    neki_router_replicas_per_cell_limit: S.Number,
     has_card: S.Boolean,
     payment_info_required: S.Boolean,
   }),

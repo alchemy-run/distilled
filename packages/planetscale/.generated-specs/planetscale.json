@@ -249,7 +249,8 @@
         "neki_router_replicas_per_cell_limit": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The Neki router replica limit per cell for the organization"
+            "smithy.api#documentation": "The Neki router replica limit per cell for the organization",
+            "smithy.api#required": {}
           }
         },
         "has_card": {
@@ -455,7 +456,8 @@
         "neki_router_replicas_per_cell_limit": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The Neki router replica limit per cell for the organization"
+            "smithy.api#documentation": "The Neki router replica limit per cell for the organization",
+            "smithy.api#required": {}
           }
         },
         "has_card": {
@@ -1314,7 +1316,8 @@
         "external": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether or not the cluster SKU is for an external keyspace"
+            "smithy.api#documentation": "Whether or not the cluster SKU is for an external keyspace",
+            "smithy.api#required": {}
           }
         },
         "enabled": {
@@ -10842,6 +10845,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The time the branch change request completed",
+            "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -10896,7 +10900,8 @@
         "version": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The PostgreSQL version after the change"
+            "smithy.api#documentation": "The PostgreSQL version after the change",
+            "smithy.api#required": {}
           }
         },
         "parameters": {
@@ -10937,7 +10942,8 @@
         "previous_version": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The PostgreSQL version before the change"
+            "smithy.api#documentation": "The PostgreSQL version before the change",
+            "smithy.api#required": {}
           }
         },
         "previous_parameters": {
@@ -11048,7 +11054,8 @@
         "confirm_shrink": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the change re-applies the current minimum disk size to shrink the provisioned disk"
+            "smithy.api#documentation": "Whether the change re-applies the current minimum disk size to shrink the provisioned disk",
+            "smithy.api#required": {}
           }
         }
       },
@@ -11228,6 +11235,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The time the branch change request completed",
+            "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -11282,7 +11290,8 @@
         "version": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The PostgreSQL version after the change"
+            "smithy.api#documentation": "The PostgreSQL version after the change",
+            "smithy.api#required": {}
           }
         },
         "parameters": {
@@ -11323,7 +11332,8 @@
         "previous_version": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The PostgreSQL version before the change"
+            "smithy.api#documentation": "The PostgreSQL version before the change",
+            "smithy.api#required": {}
           }
         },
         "previous_parameters": {
@@ -11434,7 +11444,8 @@
         "confirm_shrink": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the change re-applies the current minimum disk size to shrink the provisioned disk"
+            "smithy.api#documentation": "Whether the change re-applies the current minimum disk size to shrink the provisioned disk",
+            "smithy.api#required": {}
           }
         }
       },
