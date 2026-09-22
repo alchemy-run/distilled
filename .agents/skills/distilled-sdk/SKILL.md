@@ -245,30 +245,49 @@ The catalogue only lists packages that export at least one
 
 ## Step 8 — README, examples, and the PR
 
-A new SDK ships `packages/<pkg>/README.md` and a PR body that a caller can
-paste from. `listX({})` with no Layer, credentials, or HTTP client is not an
-example. Shape the README after [`packages/aws/README.md`](../../../packages/aws/README.md):
-install, a complete Effect program, then auth.
+Every provider package ships `packages/<pkg>/README.md`. Do not skip it.
+Shape it after [`packages/aws/README.md`](../../../packages/aws/README.md):
+install, a complete Effect program, then auth. `listX({})` with no Layer,
+credentials, or HTTP client is not an example.
 
 **README** (`packages/<pkg>/README.md`):
 
-```md
+````md
 # @distilled.cloud/<pkg>
 
 Effect-native <Name> SDK, generated from <spec URL>.
 
 ## Installation
 
+```bash
 npm install @distilled.cloud/<pkg> effect
+```
 
 ## Quick start
 
-<complete program — see below>
+```ts
+import { Effect, Layer } from "effect";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as Pkg from "@distilled.cloud/<pkg>";
+
+const program = Effect.gen(function* () {
+  const result = yield* Pkg.vms.createVm({ firewall: { rules: [] } });
+  return result;
+});
+
+const Live = Layer.mergeAll(
+  FetchHttpClient.layer,
+  Pkg.CredentialsFromEnv,
+  Pkg.PkgProtocol,
+);
+
+program.pipe(Effect.provide(Live), Effect.runPromise);
+```
 
 ## Auth
 
-<env vars the credentials layer actually reads, and the header they become>
-```
+`<ENV>` as `Authorization: Bearer`. Optional `<ENV>_API_BASE_URL`.
+````
 
 The quick-start program must compile against the generated names:
 
