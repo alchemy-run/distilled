@@ -63,6 +63,34 @@ describe("Railway Query SDK", () => {
     expect(requests[0]!.document).not.toContain("githubUsername");
   });
 
+  test("projects({ first }) maps nodes, not edges", async () => {
+    const { layer, requests } = harness({
+      me: { email: "ada@railway.app" },
+      projects: {
+        edges: [{ node: { name: "engine" } }, { node: { name: "bombe" } }],
+      },
+    });
+    const result = await run(
+      Query.fn(() => {
+        const me = Railway.me();
+        const page = Railway.projects({ first: 20 });
+        return {
+          email: me.email,
+          names: page.pipe(Query.map((project) => project.name)),
+        };
+      })(),
+      layer,
+    );
+    expect(result).toEqual({
+      email: "ada@railway.app",
+      names: ["engine", "bombe"],
+    });
+    expect(requests).toHaveLength(1);
+    expect(requests[0]!.document).toContain("edges");
+    expect(requests[0]!.document).toContain("node");
+    expect(requests[0]!.document).not.toContain("pageInfo");
+  });
+
   test("two project roots alias into one document", async () => {
     const { layer, requests } = harness({
       project: { id: "prod", name: "production" },

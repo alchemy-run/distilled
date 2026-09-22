@@ -173,8 +173,8 @@ program.«f:pipe»(
   «k:const» page = Railway.«f:projects»({ first: «c:20» })
   «k:return» {
     email: me.email,
-    names: page.edges.«f:pipe»(
-      Query.«f:map»((edge) => edge.node.name),
+    names: page.«f:pipe»(
+      Query.«f:map»((project) => project.name),
     ),
   }
 })
