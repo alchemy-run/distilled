@@ -17,7 +17,7 @@
  * `pageSize`, `totalPages`) on the TS surface, the spelling its own docs
  * and Go SDK use, so there is no memberName mapping. Module files are named
  * after the product slug (`postgres_flex.ts`) while the barrel exports them
- * camelCased (`Services.postgresFlex.listInstances`).
+ * camelCased (`postgresFlex.listInstances`).
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";

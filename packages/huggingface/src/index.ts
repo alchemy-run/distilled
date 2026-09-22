@@ -15,4 +15,4 @@ export {
   type HuggingFaceOpContext,
 } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";

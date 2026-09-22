@@ -17,7 +17,7 @@
  * `has_more`, `access_token`) on the TS surface, the spelling its own docs
  * and SDKs use, so there is no memberName mapping. Module files are named
  * after the tag slug (`access_tokens.ts`) while the barrel exports them
- * camelCased (`Services.accessTokens.listAccessTokens`).
+ * camelCased (`accessTokens.listAccessTokens`).
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";

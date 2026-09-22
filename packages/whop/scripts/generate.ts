@@ -18,7 +18,7 @@
  * `initial_price`, `page_info`) on the TS surface, matching its own
  * TypeScript/Python/Ruby SDKs and every example in the docs. Module files are
  * named after the tag slug (`checkout_configurations.ts`) while the barrel
- * exports them camelCased (`Services.checkoutConfigurations.createPlan`).
+ * exports them camelCased (`checkoutConfigurations.createPlan`).
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";

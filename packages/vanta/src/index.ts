@@ -9,7 +9,7 @@
  * ```ts
  * import * as Vanta from "@distilled.cloud/vanta";
  *
- * const frameworks = yield* Vanta.Services.manageVanta.listComplianceFrameworks({});
+ * const frameworks = yield* Vanta.manageVanta.listComplianceFrameworks({});
  * ```
  */
 export * from "./credentials.ts";
@@ -22,4 +22,4 @@ export {
 } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";
