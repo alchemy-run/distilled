@@ -1,6 +1,13 @@
 {
-  "description": "Add missing 422 responses observed on the wire but omitted from the spec: branch delete, role delete, and keyspace resize PUT/DELETE (resize already in progress, or keyspace already at the requested size).",
+  "description": "Add 422 responses observed on the wire but omitted from the spec: create database, branch delete, role delete, and keyspace resize PUT/DELETE (resize already in progress, or keyspace already at the requested size).",
   "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1organizations~1{organization}~1databases/post/responses/422",
+      "value": {
+        "description": "Unprocessable Entity"
+      }
+    },
     {
       "op": "add",
       "path": "/paths/~1organizations~1{organization}~1databases~1{database}~1branches~1{branch}/delete/responses/422",
