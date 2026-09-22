@@ -24,6 +24,8 @@ export const Default = Effect.serviceOption(Auth).pipe(
 );
 
 export interface AwsProfileConfig {
+  /** Set by `aws login`; the AWS CLI owns the console session. */
+  login_session?: string;
   sso_session?: string;
   sso_account_id?: string;
   sso_role_name?: string;

@@ -1,7 +1,9 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
+import * as Path from "effect/Path";
 import * as Redacted from "effect/Redacted";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
@@ -22,6 +24,7 @@ import { fromCognitoIdentity } from "./from-cognito-identity.ts";
 import { fromContainerMetadata } from "./from-container-metadata.ts";
 import { fromEnv } from "./from-env.ts";
 import { fromHttp } from "./from-http.node.ts";
+import { makeAuthService } from "../auth.ts";
 import { fromIni } from "./from-ini.ts";
 import { fromInstanceMetadata } from "./from-instance-metadata.node.ts";
 import { fromLoginCredentials } from "./from-login-credentials.ts";
@@ -1165,6 +1168,29 @@ login_session = ${loginSession}
     );
     expect(error.message).toContain("Your session has expired");
     expect(error.tryNextLink).toBe(false);
+  });
+
+  test("fromIni and Auth.loadProfileCredentials route a login_session profile here", async () => {
+    writeToken(inOneHour());
+    expect(await run(fromIni())).toMatchObject({
+      accessKeyId: "ASIA-cached",
+      accountId: "123456789012",
+    });
+    const resolved = await run(
+      Effect.flatMap(makeAuthService(), (auth) =>
+        auth.loadProfileCredentials("default"),
+      ).pipe(
+        Effect.provide(
+          Layer.mergeAll(
+            FileSystem.layerNoop({}),
+            Path.layer,
+            fakeHttp(() => undefined),
+          ),
+        ),
+      ),
+    );
+    expect(Redacted.value(resolved.accessKeyId)).toBe("ASIA-cached");
+    expect(resolved.region).toBe("eu-west-1");
   });
 
   test("a profile without login_session lets a chain continue", async () => {

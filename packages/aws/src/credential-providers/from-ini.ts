@@ -1,7 +1,8 @@
 /**
  * Credentials from the shared config and credentials files: static keys,
  * `role_arn` + `source_profile` / `credential_source` (assumed through
- * STS), `web_identity_token_file`, `credential_process`, and SSO profiles.
+ * STS), `web_identity_token_file`, `credential_process`, `aws login`
+ * console sessions (`login_session`), and SSO profiles.
  */
 import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
@@ -19,6 +20,7 @@ import { fromContainerMetadata } from "./from-container-metadata.ts";
 import { fromEnv } from "./from-env.ts";
 import { fromHttp } from "./from-http.node.ts";
 import { fromInstanceMetadata } from "./from-instance-metadata.node.ts";
+import { fromLoginCredentials } from "./from-login-credentials.ts";
 import { resolveProcessCredentials } from "./from-process.ts";
 import { fromTokenFile } from "./from-token-file.ts";
 import { withHttpClient } from "./http-client.ts";
@@ -70,6 +72,9 @@ const isWebIdentityProfile = (profile: Profile) =>
 
 const isProcessProfile = (profile: Profile) =>
   isString(profile.credential_process);
+
+/** Signed in with `aws login`; the token lives under `~/.aws/login`. */
+const isLoginProfile = (profile: Profile) => isString(profile.login_session);
 
 const isSsoProfile = (profile: Profile) =>
   isString(profile.sso_start_url) ||
@@ -195,6 +200,9 @@ const resolveProfileData = (
   }
   if (isProcessProfile(profile)) {
     return resolveProcessCredentials(profileName, profiles);
+  }
+  if (isLoginProfile(profile)) {
+    return fromLoginCredentials({ profile: profileName });
   }
   if (isSsoProfile(profile)) {
     return ssoCredentials(profileName);

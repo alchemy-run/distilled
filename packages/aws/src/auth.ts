@@ -12,9 +12,12 @@ import {
   type SsoProfileConfig,
   type SSOToken,
 } from "./auth.browser.ts";
+import { fromLoginCredentials } from "./credential-providers/from-login-credentials.ts";
 import {
+  AwsCredentialProviderError,
   ConflictingSSORegion,
   ConflictingSSOStartUrl,
+  fromAwsCredentialIdentity,
   ExpiredSSOToken,
   InvalidSSOProfile,
   InvalidSSOToken,
@@ -185,6 +188,10 @@ export const makeAuthService = () =>
         return profile as SsoProfileConfig;
       }
 
+      if (profile.login_session) {
+        return profile;
+      }
+
       return yield* new ProfileNotFound({
         message: `Profile ${profileName} not found`,
         profile: profileName,
@@ -203,6 +210,26 @@ export const makeAuthService = () =>
       // The environment is the last resort, for a profile carrying neither.
       const region =
         profile.region ?? profile.sso_region ?? (yield* regionFromEnv);
+
+      // `aws login` sessions have their own cache under `~/.aws/login`,
+      // refreshed by `fromLoginCredentials`; nothing to cache here.
+      if (profile.login_session) {
+        const identity = yield* fromLoginCredentials({
+          profile: profileName,
+          region,
+        }).pipe(
+          Effect.mapError(
+            (cause) =>
+              new AwsCredentialProviderError({
+                message: cause.message,
+                provider: "login",
+                cause,
+                hints: [`Run \`aws login --profile ${profileName}\`.`],
+              }),
+          ),
+        );
+        return fromAwsCredentialIdentity(identity, region);
+      }
 
       // Both SSO formats cache the access token under sha1 of the cache key: the
       // `sso_session` name (modern) or the `sso_start_url` (legacy inline format).
