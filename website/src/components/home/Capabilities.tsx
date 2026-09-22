@@ -171,19 +171,22 @@ program.«f:pipe»(
         <Cap
           index={5}
           title="Lazy GraphQL"
-          code={`«k:const» load = Query.«f:fn»(() => {
-  «k:const» me = Railway.«f:me»()
-  «k:return» {
-    email: me.email,
-    spaces: me.workspaces.«f:pipe»(
-      Query.«f:map»((w) => w.name),
-    ),
-  }
-})`}
+          code={`«m:// Query.fn is an Effect: one POST, then it pipes»
+«k:const» me = Query.«f:fn»(() => {
+  «k:const» user = Railway.«f:me»()
+  «k:return» { email: user.email, name: user.name }
+})
+
+me().«f:pipe»(
+  Effect.«f:flatMap»(({ email, name }) =>
+    S3.«f:putObject»({ Bucket, Key: email, Body: name }),
+  ),
+)`}
         >
-          GraphQL SDKs are lazy lenses, not baked documents.{" "}
-          <code>Query.fn</code> walks the plan you return and posts one
-          selection — only the fields you actually read.
+          Field reads stay lazy. <code>Query.fn</code> is the Effect — one
+          GraphQL POST for the fields you actually read — so{" "}
+          <code>Effect.flatMap</code>, retry, and layers work the same as they
+          do for <code>S3.getObject</code>.
         </Cap>
 
         <article
