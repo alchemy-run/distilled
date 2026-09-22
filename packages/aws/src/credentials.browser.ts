@@ -6,7 +6,37 @@ import * as Layer from "effect/Layer";
 import type { PlatformError } from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
 import type { HttpClientError } from "effect/unstable/http/HttpClientError";
-import * as Providers from "./credential-providers/shared.ts";
+import { regionFromId } from "./credential-providers/cognito-identity.ts";
+import {
+  chain,
+  type CredentialSource,
+} from "./credential-providers/credential-source.ts";
+import {
+  type FromCognitoIdentityPoolOptions,
+  fromCognitoIdentityPool as cognitoIdentityPoolSource,
+} from "./credential-providers/from-cognito-identity-pool.ts";
+import {
+  type FromCognitoIdentityOptions,
+  fromCognitoIdentity as cognitoIdentitySource,
+} from "./credential-providers/from-cognito-identity.ts";
+import { fromContainerMetadata as containerMetadataSource } from "./credential-providers/from-container-metadata.ts";
+import { fromEnv as envSource } from "./credential-providers/from-env.ts";
+import {
+  type FromHttpOptions,
+  fromHttp as httpSource,
+} from "./credential-providers/from-http.ts";
+import {
+  type FromInstanceMetadataOptions,
+  fromInstanceMetadata as instanceMetadataSource,
+} from "./credential-providers/from-instance-metadata.ts";
+import {
+  type FromTemporaryCredentialsOptions,
+  fromTemporaryCredentials as temporaryCredentialsSource,
+} from "./credential-providers/from-temporary-credentials.ts";
+import {
+  type FromWebTokenOptions,
+  fromWebToken as webTokenSource,
+} from "./credential-providers/from-web-token.ts";
 import { fromEnvironment as regionFromEnvironment } from "./region.ts";
 import type { RegionName } from "./region.ts";
 
@@ -121,14 +151,20 @@ export const regionFromEnv = regionFromEnvironment.pipe(
   ),
 );
 
-export type ProviderName =
+type ProviderName =
   | "env"
   | "ini"
   | "chain"
   | "container"
+  | "cognito-identity"
+  | "cognito-identity-pool"
   | "http"
+  | "instance-metadata"
+  | "login"
   | "process"
-  | "token-file";
+  | "temporary"
+  | "token-file"
+  | "web-token";
 
 export const providerHints = (
   provider: ProviderName,
@@ -147,15 +183,36 @@ export const providerHints = (
       ];
     case "container":
       return ["Ensure a container credential endpoint is available."];
+    case "cognito-identity":
+    case "cognito-identity-pool":
+      return [
+        "Check the identity pool id and that its unauthenticated (or logins) role is configured.",
+      ];
     case "http":
       return ["Ensure the configured credential endpoint is reachable."];
+    case "instance-metadata":
+      return [
+        "Ensure the EC2 instance metadata service is reachable and the instance has a role.",
+      ];
+    case "login":
+      return [
+        "Run `aws login` for the profile, and check that it has a login_session.",
+      ];
     case "process":
       return [
         "Set AWS_CREDENTIAL_PROCESS to a valid command and ensure it exits successfully.",
       ];
+    case "temporary":
+      return [
+        "Check that the source credentials are allowed to sts:AssumeRole the role.",
+      ];
     case "token-file":
       return [
         "Set AWS_WEB_IDENTITY_TOKEN_FILE and ensure the file is readable.",
+      ];
+    case "web-token":
+      return [
+        "Check that the web identity token is valid and trusted by the role's trust policy.",
       ];
     default:
       return;
@@ -198,7 +255,7 @@ export const createCachedCredentialsEffect = <E, R>(
  * Credentials are resolved on first access and cached based on their expiration time.
  */
 export const createLazyProvider = (
-  source: Providers.CredentialSource,
+  source: CredentialSource,
   providerName: ProviderName,
   /**
    * Where this provider's region comes from. Defaults to the environment;
@@ -241,7 +298,80 @@ export const fromCredentials = (
     ),
   );
 
-export const fromHttp = () => createLazyProvider(Providers.fromHttp(), "http");
+/** The region an option names, else the environment. */
+const regionOption = (
+  region: string | undefined,
+): Effect.Effect<RegionName, CredentialsError> =>
+  region === undefined ? regionFromEnv : Effect.succeed(region as RegionName);
+
+/** `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` and friends. */
+export const fromEnv = () => createLazyProvider(envSource, "env");
+
+/**
+ * The endpoint named by `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` or
+ * `AWS_CONTAINER_CREDENTIALS_FULL_URI` (ECS, EKS pod identity, local
+ * credential agents).
+ */
+export const fromHttp = (options: FromHttpOptions = {}) =>
+  createLazyProvider(httpSource(options), "http");
+
+/** The container credential endpoint, as the ECS agent serves it. */
+export const fromContainerMetadata = (
+  options: { timeout?: number; maxRetries?: number } = {},
+) => createLazyProvider(containerMetadataSource(options), "container");
+
+/** The EC2 instance role, from the instance metadata service. */
+export const fromInstanceMetadata = (
+  options: FromInstanceMetadataOptions = {},
+) => createLazyProvider(instanceMetadataSource(options), "instance-metadata");
+
+/** A role assumed with an OIDC or OAuth token the caller already holds. */
+export const fromWebToken = (options: FromWebTokenOptions) =>
+  createLazyProvider(
+    webTokenSource(options),
+    "web-token",
+    regionOption(options.region),
+  );
+
+/** A role assumed with another set of credentials. */
+export const fromTemporaryCredentials = (
+  options: FromTemporaryCredentialsOptions,
+) =>
+  createLazyProvider(
+    temporaryCredentialsSource(options),
+    "temporary",
+    regionOption(options.region),
+  );
+
+/** Credentials for a Cognito identity whose id the caller already has. */
+export const fromCognitoIdentity = (options: FromCognitoIdentityOptions) =>
+  createLazyProvider(
+    cognitoIdentitySource(options),
+    "cognito-identity",
+    regionOption(options.region ?? regionFromId(options.identityId)),
+  );
+
+/** Credentials for a Cognito identity pool, minting the identity id first. */
+export const fromCognitoIdentityPool = (
+  options: FromCognitoIdentityPoolOptions,
+) =>
+  createLazyProvider(
+    cognitoIdentityPoolSource(options),
+    "cognito-identity-pool",
+    regionOption(options.region ?? regionFromId(options.identityPoolId)),
+  );
+
+/**
+ * Try each source in turn, as `createCredentialChain` does: the first one
+ * to resolve wins, and a source whose failure is final (an MFA prompt that
+ * cannot be answered, say) stops the chain there.
+ */
+export const createCredentialChain = (
+  ...sources: ReadonlyArray<CredentialSource>
+) => createLazyProvider(chain(sources), "chain");
+
+/** {@link createCredentialChain}, under the AWS SDK's other name for it. */
+export { createCredentialChain as propertyProviderChain };
 
 export const ssoRegion = (region: string) => Layer.succeed(SsoRegion, region);
 
