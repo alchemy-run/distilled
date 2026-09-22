@@ -20,7 +20,7 @@ export const SAMPLES: ReadonlyArray<Sample> = [
 «k:const» «v:program» = S3.«f:getObject»({ Bucket, Key }).«f:pipe»(
   Effect.«f:catchTags»({
     «t:NoSuchKey»:    () => Effect.«f:succeed»(«c:null»),
-    «t:AccessDenied»: (e) => Effect.«f:fail»(«k:new» «t:Error»(e.message)),
+    «t:NoSuchBucket»: (e) => Effect.«f:fail»(«k:new» «t:Error»(e.message)),
   }),
 )
 
@@ -38,21 +38,22 @@ program.«f:pipe»(Effect.«f:provide»(AwsLive), Effect.runPromise)`,
     src: `«k:import» { Effect, Layer } «k:from» «s:"effect"»
 «k:import» { FetchHttpClient } «k:from» «s:"effect/unstable/http"»
 «k:import» * «k:as» Workers «k:from» «s:"@distilled.cloud/cloudflare/workers"»
-«k:import» { Credentials } «k:from» «s:"@distilled.cloud/cloudflare"»
+«k:import» { CredentialsFromEnv } «k:from»
+  «s:"@distilled.cloud/cloudflare/Credentials"»
 
 «k:const» «v:program» = Workers.«f:getScript»({
-  account_id: accountId,
-  script_name: «s:"api"»,
+  accountId,
+  scriptName: «s:"api"»,
 }).«f:pipe»(
   Effect.«f:catchTags»({
-    «t:WorkerNotFound»:        () => Effect.«f:succeed»(«c:null»),
-    «t:CloudflareRateLimited»: (e) => Effect.«f:fail»(e),
+    «t:WorkerNotFound»:      () => Effect.«f:succeed»(«c:null»),
+    «t:WorkerHasNoVersions»: () => Effect.«f:succeed»(«c:null»),
   }),
 )
 
 «k:const» «v:CfLive» = Layer.«f:mergeAll»(
   FetchHttpClient.layer,
-  Credentials.«f:fromEnv»(),   «m:// CLOUDFLARE_API_TOKEN»
+  CredentialsFromEnv,   «m:// CLOUDFLARE_API_TOKEN»
 )
 
 program.«f:pipe»(Effect.«f:provide»(CfLive), Effect.runPromise)`,
@@ -94,7 +95,7 @@ program.«f:pipe»(Effect.«f:provide»(GcpLive), Effect.runPromise)`,
 
 «k:const» «v:program» = PlanetScale.«f:getDatabase»({
   organization: «s:"acme"»,
-  name: «s:"orders"»,
+  database: «s:"orders"»,
 }).«f:pipe»(
   Effect.«f:catchTags»({
     «t:NotFound»:  () => Effect.«f:succeed»(«c:null»),
@@ -114,7 +115,7 @@ program.«f:pipe»(Effect.«f:provide»(PsLive), Effect.runPromise)`,
     file: "create-customer.ts",
     src: `«k:import» { Effect, Layer } «k:from» «s:"effect"»
 «k:import» { FetchHttpClient } «k:from» «s:"effect/unstable/http"»
-«k:import» * «k:as» Stripe «k:from» «s:"@distilled.cloud/stripe"»
+«k:import» * «k:as» Stripe «k:from» «s:"@distilled.cloud/stripe/stripe"»
 «k:import» { CredentialsFromEnv } «k:from»
   «s:"@distilled.cloud/stripe/Credentials"»
 
@@ -122,10 +123,9 @@ program.«f:pipe»(Effect.«f:provide»(PsLive), Effect.runPromise)`,
   email: «s:"ada@example.com"»,
   name: «s:"Ada Lovelace"»,
 }).«f:pipe»(
-  Effect.«f:catchTags»({
-    «t:InvalidRequestError»: (e) => Effect.«f:fail»(e),
-    «t:CardError»:           (e) => Effect.«f:fail»(e),
-  }),
+  Effect.«f:catchTag»(«s:"InvalidRequestError"», (e) =>
+    Effect.«f:fail»(«k:new» «t:Error»(e.message)),
+  ),
 )
 
 «k:const» «v:StripeLive» = Layer.«f:mergeAll»(

@@ -90,7 +90,7 @@ export const Problem = (props: { facts: ReadonlyArray<Fact> }) => (
       <Evidence
         tone="rose"
         tag="What Fly's spec declares"
-        src="POST /v1/apps/{app}/machines"
+        src="POST /v1/apps/{app_name}/machines"
         index={0}
         code={
           <>
@@ -122,7 +122,7 @@ export const Problem = (props: { facts: ReadonlyArray<Fact> }) => (
       <Evidence
         tone="teal"
         tag="What Distilled ships"
-        src="Fly.Machines.createMachine"
+        src="Fly.machines.createMachine"
         index={1}
         code={
           <>

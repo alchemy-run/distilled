@@ -66,8 +66,8 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
           title="Typed errors"
           code={`S3.«f:getObject»({ Bucket, Key }).«f:pipe»(
   Effect.«f:catchTags»({
-    «t:NoSuchKey»:     () => Effect.«f:succeed»(«c:null»),
-    «t:AccessDenied»:  (e) => Effect.«f:fail»(«k:new» «t:Forbidden»(e)),
+    «t:NoSuchKey»:          () => Effect.«f:succeed»(«c:null»),
+    «t:InvalidObjectState»: (e) => Effect.«f:fail»(«k:new» «t:Archived»(e)),
   }),
   Effect.«f:catchIf»(«f:isThrottlingError», () => backOff),
 )`}
