@@ -30,6 +30,12 @@ const fixture = {
           { name: "id", type: required(named("String", "SCALAR")) },
         ]),
         field("me", required(named("User"))),
+        field("projects", required(named("ProjectConnection")), [
+          {
+            name: "first",
+            type: named("Int", "SCALAR"),
+          },
+        ]),
       ],
     },
     {
@@ -55,8 +61,39 @@ const fixture = {
       fields: [
         field("email", required(named("String", "SCALAR"))),
         field("name", named("String", "SCALAR")),
+        field("projects", required(named("ProjectConnection")), [
+          { name: "first", type: named("Int", "SCALAR") },
+        ]),
       ],
     },
+    {
+      kind: "OBJECT",
+      name: "ProjectConnection",
+      fields: [
+        field(
+          "edges",
+          required({ kind: "LIST", ofType: named("ProjectEdge") }),
+        ),
+        field("pageInfo", required(named("PageInfo"))),
+      ],
+    },
+    {
+      kind: "OBJECT",
+      name: "ProjectEdge",
+      fields: [
+        field("cursor", required(named("String", "SCALAR"))),
+        field("node", required(named("Project"))),
+      ],
+    },
+    {
+      kind: "OBJECT",
+      name: "PageInfo",
+      fields: [
+        field("endCursor", named("String", "SCALAR")),
+        field("hasNextPage", required(named("Boolean", "SCALAR"))),
+      ],
+    },
+    { kind: "SCALAR", name: "Boolean" },
   ],
 };
 
@@ -79,6 +116,11 @@ describe("GraphQL Query SDK generator", () => {
     expect(output).toContain("export const Railway = {");
     expect(output).toContain('root("query", "me", User)');
     expect(output).toContain('root("query", "project", Project');
+    expect(output).toContain('rootConnection("query", "projects", Project');
+    expect(output).toContain("Query<ReadonlyArray<Project>>");
+    expect(output).toContain(
+      'connectionField("projects", Project, { first: "Int" })',
+    );
     expect(output).toContain('root("mutation", "projectCreate", Project');
     expect(output).toContain('from "@distilled.cloud/core/graphql"');
     expect(() =>

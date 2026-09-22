@@ -47,7 +47,7 @@ const project = Query.fn(() => {
     id: p.id,
     name: p.name,
     services: p.services({ first: 20 }).pipe(
-      Query.map((edge) => edge.node.name),
+      Query.map((service) => service.name),
     ),
   };
 });

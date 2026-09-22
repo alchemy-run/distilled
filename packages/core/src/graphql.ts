@@ -25,7 +25,9 @@
  * - `Query.of(x)` — a literal; never selected.
  * - `Query.map` on a list — callback receives `Query<Item>` so `p.name` is
  *   still a Query (selected). On a scalar, callback receives the value
- *   after extract (`stars => stars > 5`).
+ *   after extract (`stars => stars > 5`). Relay connections (`edges { node }`)
+ *   are lists of the node type, so `projects({ first: 20 }).pipe(Query.map)`
+ *   maps projects, not edges.
  * - `Query.filter` — predicate is `Query<Item> => Query<boolean>`; the
  *   boolean Query is walked for fields, then run per row after the POST.
  * - `Query.flatMap` — after extract, run `(value) => Effect | Query`.
@@ -59,7 +61,7 @@ export type ArgMeta = Record<string, string>;
 
 export type FieldMeta = {
   readonly name: string;
-  readonly kind: "scalar" | "object" | "list";
+  readonly kind: "scalar" | "object" | "list" | "connection";
   readonly of?: TypeMeta;
   readonly argTypes?: ArgMeta;
 };
@@ -88,6 +90,17 @@ export const listField = (
   of: itemType,
   argTypes,
 });
+/** Relay connection: GraphQL `edges { node }` presented as `Query<Item[]>`. */
+export const connectionField = (
+  name: string,
+  nodeType: TypeMeta,
+  argTypes?: ArgMeta,
+): FieldMeta => ({
+  name,
+  kind: "connection",
+  of: nodeType,
+  argTypes,
+});
 
 export type TypeRef =
   | { readonly tag: "scalar" }
@@ -104,7 +117,7 @@ const fieldResult = (parent: TypeRef, field: FieldMeta): TypeRef => {
   const inner = (): TypeRef => {
     if (field.kind === "scalar") return { tag: "scalar" };
     if (field.kind === "object") return objectRef(field.of!);
-    return listRef(objectRef(field.of!));
+    return listRef(objectRef(field.of!)); // list | connection
   };
   return parent.tag === "list"
     ? listRef(fieldResult(parent.of, field))
@@ -200,6 +213,8 @@ type RootExpr = {
   readonly args: Record<string, unknown> | undefined;
   readonly argTypes: ArgMeta | undefined;
   readonly type: TypeRef;
+  /** Relay connection: paint `edges { node }`, extract an array of nodes. */
+  readonly connection?: boolean;
 };
 
 type PropExpr = {
@@ -433,6 +448,24 @@ export const rootList = <Item>(
     type: listRef(objectRef(meta)),
   });
 
+/** Root Relay connection: typed as `Query<Item[]>`, document uses `edges { node }`. */
+export const rootConnection = <Item>(
+  op: "query" | "mutation",
+  field: string,
+  meta: TypeMeta,
+  args?: Record<string, unknown>,
+  argTypes?: ArgMeta,
+): Query<ReadonlyArray<Item>> =>
+  make({
+    _tag: "Root",
+    op,
+    field,
+    args,
+    argTypes,
+    type: listRef(objectRef(meta)),
+    connection: true,
+  });
+
 /** Root field whose GraphQL type is a scalar, enum, or list of those. */
 export const rootLeaf = <Value>(
   op: "query" | "mutation",
@@ -558,6 +591,12 @@ const ensureChild = (
 
 type Path = Array<string | "*">;
 
+const paintConnection = (forest: Forest, connection: SelNode): Path => {
+  const edges = ensureChild(forest, connection, "edges", { isList: true });
+  ensureChild(forest, edges, "node", {});
+  return ["edges", "node"];
+};
+
 const paintAbs = (forest: Forest, expr: Expr): Path => {
   switch (expr._tag) {
     case "Root": {
@@ -570,11 +609,11 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
       const node = ensureChild(forest, forest.roots, expr.field, {
         args: expr.args,
         argTypes: expr.argTypes,
-        isList: expr.type.tag === "list",
+        isList: expr.type.tag === "list" && !expr.connection,
       });
       const key = node.alias ?? node.field;
       forest.rootAlias.set(expr, key);
-      return [key];
+      return expr.connection ? [key, ...paintConnection(forest, node)] : [key];
     }
     case "Prop": {
       const parentPath = paintAbs(forest, expr.parent);
@@ -585,7 +624,10 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
         isScalar: expr.field.kind === "scalar",
         isList: expr.field.kind === "list",
       });
-      return [...parentPath, node.alias ?? node.field];
+      const path = [...parentPath, node.alias ?? node.field];
+      return expr.field.kind === "connection"
+        ? [...path, ...paintConnection(forest, node)]
+        : path;
     }
     default:
       throw new GqlError(`paintAbs: ${expr._tag}`);
@@ -607,6 +649,17 @@ const selAt = (roots: SelNode, path: Path): SelNode => {
   return current;
 };
 
+const connectionNodeSel = (connection: SelNode): SelNode => {
+  const edges = [...connection.children.values()].find(
+    (c) => c.field === "edges",
+  );
+  const node = edges
+    ? [...edges.children.values()].find((c) => c.field === "node")
+    : undefined;
+  if (!node) throw new GqlError("internal: connection missing edges.node");
+  return node;
+};
+
 const relSel = (expr: Expr, listSel: SelNode): SelNode => {
   switch (expr._tag) {
     case "Item":
@@ -619,7 +672,9 @@ const relSel = (expr: Expr, listSel: SelNode): SelNode => {
       if (!child) {
         throw new GqlError(`missing ${expr.field.name} in list selection`);
       }
-      return child;
+      return expr.field.kind === "connection"
+        ? connectionNodeSel(child)
+        : child;
     }
     default:
       return listSel;
@@ -631,15 +686,22 @@ const paintRel = (forest: Forest, expr: Expr, listSel: SelNode): void => {
     case "Item":
     case "Literal":
       return;
-    case "Prop":
+    case "Prop": {
       paintRel(forest, expr.parent, listSel);
-      ensureChild(forest, relSel(expr.parent, listSel), expr.field.name, {
-        args: expr.args,
-        argTypes: expr.field.argTypes,
-        isScalar: expr.field.kind === "scalar",
-        isList: expr.field.kind === "list",
-      });
+      const child = ensureChild(
+        forest,
+        relSel(expr.parent, listSel),
+        expr.field.name,
+        {
+          args: expr.args,
+          argTypes: expr.field.argTypes,
+          isScalar: expr.field.kind === "scalar",
+          isList: expr.field.kind === "list",
+        },
+      );
+      if (expr.field.kind === "connection") paintConnection(forest, child);
       return;
+    }
     case "MapValue":
     case "FlatMap":
       paintRel(forest, expr.parent, listSel);
@@ -797,28 +859,46 @@ type Compiled = CompiledOperation & {
   readonly rootAlias: WeakMap<object, string>;
 };
 
+const nodesFromConnection = (value: unknown): unknown => {
+  if (value == null) return value;
+  if (Array.isArray(value)) return value.map(nodesFromConnection);
+  const edges = (value as Record<string, unknown>).edges;
+  if (!Array.isArray(edges)) return [];
+  return edges.map((edge) =>
+    edge == null ? edge : (edge as Record<string, unknown>).node,
+  );
+};
+
+const readField = (parent: unknown, name: string): unknown => {
+  if (parent == null) return parent;
+  if (Array.isArray(parent)) {
+    return parent.map((item) =>
+      item == null ? item : (item as Record<string, unknown>)[name],
+    );
+  }
+  return (parent as Record<string, unknown>)[name];
+};
+
 const extractAbs = (
   expr: Expr,
   data: unknown,
   rootAlias: WeakMap<object, string>,
 ): unknown => {
   switch (expr._tag) {
-    case "Root":
-      return (data as Record<string, unknown>)[
+    case "Root": {
+      const raw = (data as Record<string, unknown>)[
         rootAlias.get(expr) ?? expr.field
       ];
+      return expr.connection ? nodesFromConnection(raw) : raw;
+    }
     case "Prop": {
-      const parent = extractAbs(expr.parent, data, rootAlias);
-      if (Array.isArray(parent)) {
-        return parent.map((item) =>
-          item == null
-            ? item
-            : (item as Record<string, unknown>)[expr.field.name],
-        );
-      }
-      return parent == null
-        ? parent
-        : (parent as Record<string, unknown>)[expr.field.name];
+      const value = readField(
+        extractAbs(expr.parent, data, rootAlias),
+        expr.field.name,
+      );
+      return expr.field.kind === "connection"
+        ? nodesFromConnection(value)
+        : value;
     }
     default:
       throw new GqlError(`extractAbs: ${expr._tag}`);
@@ -830,17 +910,10 @@ const extractRel = (expr: Expr, item: unknown): unknown => {
     case "Item":
       return item;
     case "Prop": {
-      const parent = extractRel(expr.parent, item);
-      if (Array.isArray(parent)) {
-        return parent.map((element) =>
-          element == null
-            ? element
-            : (element as Record<string, unknown>)[expr.field.name],
-        );
-      }
-      return parent == null
-        ? parent
-        : (parent as Record<string, unknown>)[expr.field.name];
+      const value = readField(extractRel(expr.parent, item), expr.field.name);
+      return expr.field.kind === "connection"
+        ? nodesFromConnection(value)
+        : value;
     }
     default:
       throw new GqlError(`extractRel: ${expr._tag}`);
