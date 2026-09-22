@@ -24,6 +24,8 @@ export const Default = Effect.serviceOption(Auth).pipe(
 );
 
 export interface AwsProfileConfig {
+  /** Set by `aws login`; names the cached console session. */
+  login_session?: string;
   sso_session?: string;
   sso_account_id?: string;
   sso_role_name?: string;

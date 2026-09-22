@@ -1,7 +1,9 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
+import * as Path from "effect/Path";
 import * as Redacted from "effect/Redacted";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
@@ -15,6 +17,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
+import * as Auth from "../auth.ts";
 import * as Credentials from "../credentials.ts";
 import { chain, CredentialSourceError } from "./credential-source.ts";
 import { fromCognitoIdentityPool } from "./from-cognito-identity-pool.ts";
@@ -30,6 +33,8 @@ import { fromProcess } from "./from-process.ts";
 import { fromTemporaryCredentials } from "./from-temporary-credentials.node.ts";
 import { fromTokenFile } from "./from-token-file.ts";
 import { fromWebToken } from "./from-web-token.ts";
+import { withHttpClient } from "./http-client.ts";
+import { nodeFileSystem } from "./node-file-system.ts";
 
 const ENV_KEYS = [
   "AWS_ACCESS_KEY_ID",
@@ -1190,6 +1195,51 @@ region = eu-west-1
     );
     expect(Redacted.value(resolved.accessKeyId)).toBe("ASIA-cached");
     expect(resolved.region).toBe("eu-west-1");
+  });
+
+  test("a login_session profile resolves through fromIni", async () => {
+    writeToken(inOneHour());
+    writeConfig(`
+[profile console]
+login_session = ${loginSession}
+region = us-west-2
+`);
+    expect(await run(fromIni({ profile: "console" }))).toEqual({
+      accessKeyId: "ASIA-cached",
+      secretAccessKey: "secret-cached",
+      sessionToken: "session-cached",
+      expiration: expect.any(Date),
+      accountId: "123456789012",
+    });
+  });
+
+  test("a login_session profile resolves through the default chain", async () => {
+    writeToken(inOneHour());
+    expect(await run(fromNodeProviderChain())).toEqual({
+      accessKeyId: "ASIA-cached",
+      secretAccessKey: "secret-cached",
+      sessionToken: "session-cached",
+      expiration: expect.any(Date),
+      accountId: "123456789012",
+    });
+  });
+
+  test("a login_session profile resolves through Auth.loadProfileCredentials", async () => {
+    writeToken(inOneHour());
+    writeConfig(`
+[profile console]
+login_session = ${loginSession}
+region = us-west-2
+`);
+    const resolved = await run(
+      Auth.loadProfileCredentials("console").pipe(
+        Effect.provideService(FileSystem.FileSystem, nodeFileSystem),
+        Effect.provide(Path.layer),
+        withHttpClient,
+      ),
+    );
+    expect(Redacted.value(resolved.accessKeyId)).toBe("ASIA-cached");
+    expect(resolved.region).toBe("us-west-2");
   });
 });
 
