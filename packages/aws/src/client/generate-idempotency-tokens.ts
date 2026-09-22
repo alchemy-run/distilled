@@ -7,7 +7,6 @@
 
 import * as S from "effect/Schema";
 import * as AST from "effect/SchemaAST";
-import * as crypto from "node:crypto";
 import { hasIdempotencyToken } from "../traits.ts";
 
 /**
@@ -73,6 +72,8 @@ export const fillIdempotencyTokens = (
       if (!result) {
         result = { ...inputObj };
       }
+      // `globalThis.crypto`, not `node:crypto`, so this stays on the browser
+      // graph that the Cognito and STS credential providers pull in.
       result[propName] = crypto.randomUUID();
       modified = true;
     }
