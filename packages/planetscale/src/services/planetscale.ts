@@ -25564,7 +25564,6 @@ export const cancelDeployRequest: API.OperationMethod<
 export type CancelKeyspaceResizeRequestError =
   | Forbidden
   | NotFound
-  | UnprocessableEntity
   | PlanetScaleOpError;
 /** Cancel a resize request */
 export const cancelKeyspaceResizeRequest: API.OperationMethod<
@@ -25575,7 +25574,7 @@ export const cancelKeyspaceResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelKeyspaceResizeRequestRequest,
   output: CancelKeyspaceResizeRequestResponse,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25731,7 +25730,11 @@ export const createBackup: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateBackupPolicyError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateBackupPolicyError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Create a backup policy */
 export const createBackupPolicy: API.OperationMethod<
   CreateBackupPolicyRequest,
@@ -25741,12 +25744,16 @@ export const createBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBackupPolicyRequest,
   output: BackupPolicy,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateBouncerError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateBouncerError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Create a bouncer */
 export const createBouncer: API.OperationMethod<
   CreateBouncerRequest,
@@ -25756,12 +25763,16 @@ export const createBouncer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBouncerRequest,
   output: PostgresBouncer,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateBranchError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateBranchError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Create a branch */
 export const createBranch: API.OperationMethod<
   CreateBranchRequest,
@@ -25771,7 +25782,7 @@ export const createBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBranchRequest,
   output: DatabaseBranch,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25835,6 +25846,7 @@ export const createDatabasePostgresCidr: API.OperationMethod<
 export type CreateDeployRequestError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** Create a deploy request */
 export const createDeployRequest: API.OperationMethod<
@@ -25845,12 +25857,16 @@ export const createDeployRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDeployRequestRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateKeyspaceError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateKeyspaceError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Create a keyspace */
 export const createKeyspace: API.OperationMethod<
   CreateKeyspaceRequest,
@@ -25860,7 +25876,7 @@ export const createKeyspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateKeyspaceRequest,
   output: DatabaseBranchKeyspace,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -26114,6 +26130,7 @@ export const createSwitchover: API.OperationMethod<
 export type CreateTrafficBudgetError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** Create a traffic budget */
 export const createTrafficBudget: API.OperationMethod<
@@ -26124,7 +26141,7 @@ export const createTrafficBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateTrafficBudgetRequest,
   output: TrafficBudget,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -26144,7 +26161,11 @@ export const createTrafficRule: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateWebhookError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateWebhookError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Create a webhook */
 export const createWebhook: API.OperationMethod<
   CreateWebhookRequest,
@@ -26154,7 +26175,7 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateWebhookRequest,
   output: DatabaseWebhook,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -26272,7 +26293,11 @@ export const deleteDatabasePostgresCidr: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteKeyspaceError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteKeyspaceError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Delete a keyspace */
 export const deleteKeyspace: API.OperationMethod<
   DeleteKeyspaceRequest,
@@ -26282,7 +26307,7 @@ export const deleteKeyspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteKeyspaceRequest,
   output: DeleteKeyspaceResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -26305,6 +26330,7 @@ export const deleteOauthToken: API.OperationMethod<
 export type DeleteOrganizationBillingPaymentMethodError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** Delete the current billing payment method Delete the current payment method for an organization */
 export const deleteOrganizationBillingPaymentMethod: API.OperationMethod<
@@ -26315,7 +26341,7 @@ export const deleteOrganizationBillingPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationBillingPaymentMethodRequest,
   output: DeleteOrganizationBillingPaymentMethodResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -26588,7 +26614,11 @@ export const deleteWebhook: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DemoteBranchError = Forbidden | NotFound | PlanetScaleOpError;
+export type DemoteBranchError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Demote a branch Demotes a branch from production to development */
 export const demoteBranch: API.OperationMethod<
   DemoteBranchRequest,
@@ -26598,7 +26628,7 @@ export const demoteBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DemoteBranchRequest,
   output: DatabaseBranch,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -29821,7 +29851,11 @@ export const removeOrganizationTeamMember: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type RenewPasswordError = Forbidden | NotFound | PlanetScaleOpError;
+export type RenewPasswordError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Renew a password */
 export const renewPassword: API.OperationMethod<
   RenewPasswordRequest,
@@ -29831,7 +29865,7 @@ export const renewPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RenewPasswordRequest,
   output: DatabaseBranchPasswordWithSecret,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -30101,7 +30135,11 @@ export const updateBouncerResizeRequest: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateBranchError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateBranchError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Update a branch */
 export const updateBranch: API.OperationMethod<
   UpdateBranchRequest,
@@ -30111,7 +30149,7 @@ export const updateBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBranchRequest,
   output: DatabaseBranch,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -30137,6 +30175,7 @@ export const updateBranchChangeRequest: API.OperationMethod<
 export type UpdateBranchClusterConfigError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** Change a branch cluster configuration */
 export const updateBranchClusterConfig: API.OperationMethod<
@@ -30147,7 +30186,7 @@ export const updateBranchClusterConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBranchClusterConfigRequest,
   output: UpdateBranchClusterConfigResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -30210,6 +30249,7 @@ export const updateDatabaseSettings: API.OperationMethod<
 export type UpdateDatabaseThrottlerError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** Update database throttler configurations */
 export const updateDatabaseThrottler: API.OperationMethod<
@@ -30220,7 +30260,7 @@ export const updateDatabaseThrottler: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDatabaseThrottlerRequest,
   output: ThrottlerConfigurations,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));

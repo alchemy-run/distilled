@@ -979,6 +979,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -3595,6 +3598,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -5375,6 +5381,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -5501,6 +5510,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -9811,6 +9823,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -11721,6 +11736,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -14703,6 +14721,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -21910,6 +21931,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -22175,6 +22199,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -22858,9 +22885,6 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
-        },
-        {
-          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -30235,6 +30259,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -39087,6 +39114,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -44870,6 +44900,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -50112,6 +50145,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -50804,6 +50840,9 @@
         },
         {
           "target": "com.planetscale.api#NotFound"
+        },
+        {
+          "target": "com.planetscale.api#UnprocessableEntity"
         }
       ],
       "traits": {
