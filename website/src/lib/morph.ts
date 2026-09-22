@@ -9,12 +9,15 @@ import { onCleanup } from "solid-js";
 type Controller = { update(text: string): void; destroy(): void };
 
 /**
- * torph segments with `Intl.Segmenter`, which returns a run of spaces as one
- * segment; inside its inline-block fragments that run collapses, so indented
- * code would lose its indentation. NBSP survives, and torph already uses it
- * for single spaces, so the rendering is otherwise unchanged.
+ * torph's first render segments with `Intl.Segmenter`, which returns a run of
+ * spaces as one segment that collapses inside its inline-block fragment, so
+ * indented code would lose its indentation. Every later update diffs against
+ * the previous segments instead: it splits words on single spaces and emits
+ * one NBSP per space, which keeps indentation and lets unchanged words keep
+ * their place. Text with a run of spaces therefore starts from a placeholder,
+ * so it never goes through the first-render path.
  */
-const keepSpaces = (text: string) => text.replace(/ /g, "\u00a0");
+const PLACEHOLDER = "\u200b";
 
 export interface Morph {
   /** Set the text, animating if the engine is ready. */
@@ -52,7 +55,8 @@ export const createMorph = (
         mo.observe(el, { childList: true, subtree: true, characterData: true });
         onCleanup(() => mo.disconnect());
       }
-      if (value) controller.update(keepSpaces(value));
+      if (/ {2}/.test(value)) controller.update(PLACEHOLDER);
+      if (value) controller.update(value);
       options.onReady?.();
     })
     .catch(() => {});
@@ -66,7 +70,7 @@ export const createMorph = (
     set(text) {
       value = text;
       el.dataset.value = text;
-      if (controller) controller.update(keepSpaces(text));
+      if (controller) controller.update(text);
       else el.textContent = text;
     },
     value: () => value,
