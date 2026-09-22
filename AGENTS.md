@@ -60,6 +60,7 @@ pnpm specs:check            # spec-mirror coherence; also a CI gate
 pnpm format                 # oxfmt, not prettier
 pnpm lint                   # oxlint
 pnpm generate [<pkg>…]      # convert + generate + format; all packages if no args
+pnpm patches:audit <pkg>    # which of packages/<pkg>/patches/ the spec no longer needs
 ```
 
 Package manager is pnpm 11 (`packageManager` pins it), Node 24
@@ -89,6 +90,9 @@ Package manager is pnpm 11 (`packageManager` pins it), Node 24
 
 - Adding a provider, sourcing a spec, or working on a mirror:
   the `distilled-sdk` skill in `.agents/skills/distilled-sdk/`.
+- Updating a provider to its latest spec and pruning patches it no longer
+  needs (`pnpm patches:audit <pkg>`): the `distilled-sdk-update` skill in
+  `.agents/skills/distilled-sdk-update/`.
 - How the mirrors are created and kept in shape:
   `stacks/distilled-submodules/README.md`.
 - Open work: `todo.md`.

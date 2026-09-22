@@ -11,6 +11,7 @@
     "specs:local": "bun scripts/specs.ts local",
     "specs:link": "bun scripts/specs.ts link",
     "specs:check": "bun scripts/specs.ts check",
+    "patches:audit": "bun scripts/patches.ts audit",
     "typecheck": "tsc -b",
     "bench": "pnpm bench:runtime && pnpm bench:bundle && pnpm bench:typecheck",
     "bench:runtime": "bun benches/runtime/run.ts",

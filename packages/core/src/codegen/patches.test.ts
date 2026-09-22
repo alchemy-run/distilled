@@ -1,11 +1,14 @@
-import { describe, expect, test } from "bun:test";
+import { afterEach, describe, expect, test } from "bun:test";
 import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
   FINALIZED_KEY,
+  SKIP_PATCHES_ENV,
+  applyRfc6902Files,
   danglingTargets,
   finalizeConvert,
+  listRfc6902PatchFiles,
   syncServiceOperations,
 } from "./patches.ts";
 
@@ -126,5 +129,67 @@ describe("syncServiceOperations", () => {
       { target: "ns#AppsList" },
       { target: "ns#Zed" },
     ]);
+  });
+});
+
+describe(SKIP_PATCHES_ENV, () => {
+  afterEach(() => {
+    delete process.env[SKIP_PATCHES_ENV];
+  });
+
+  const patchDir = () => {
+    const dir = mkdtempSync(join(tmpdir(), "skip-"));
+    mkdirSync(join(dir, "svc"));
+    writeFileSync(
+      join(dir, "svc", "a.json"),
+      JSON.stringify({
+        patches: [
+          { op: "add", path: "/x", value: 1 },
+          { op: "add", path: "/y", value: 2 },
+        ],
+      }),
+    );
+    writeFileSync(
+      join(dir, "svc", "b.json"),
+      JSON.stringify({ patches: [{ op: "add", path: "/z", value: 3 }] }),
+    );
+    return join(dir, "svc");
+  };
+
+  test("unset applies everything", async () => {
+    const target: Record<string, unknown> = {};
+    const files = await listRfc6902PatchFiles(patchDir());
+    expect(files.map((f) => f.split("/").pop())).toEqual(["a.json", "b.json"]);
+    expect((await applyRfc6902Files(target, files)).applied).toBe(3);
+    expect(target).toEqual({ x: 1, y: 2, z: 3 });
+  });
+
+  test("all lists no files", async () => {
+    process.env[SKIP_PATCHES_ENV] = "all";
+    expect(await listRfc6902PatchFiles(patchDir())).toEqual([]);
+  });
+
+  test("a basename or a path suffix drops that file", async () => {
+    const dir = patchDir();
+    process.env[SKIP_PATCHES_ENV] = "a.json";
+    expect(
+      (await listRfc6902PatchFiles(dir)).map((f) => f.split("/").pop()),
+    ).toEqual(["b.json"]);
+    process.env[SKIP_PATCHES_ENV] = "svc/b.json";
+    expect(
+      (await listRfc6902PatchFiles(dir)).map((f) => f.split("/").pop()),
+    ).toEqual(["a.json"]);
+    process.env[SKIP_PATCHES_ENV] = "other/b.json";
+    expect((await listRfc6902PatchFiles(dir)).length).toBe(2);
+  });
+
+  test("<file>:<index> drops one op and keeps the rest of the file", async () => {
+    const dir = patchDir();
+    const files = await listRfc6902PatchFiles(dir);
+    process.env[SKIP_PATCHES_ENV] = "a.json:1";
+    const target: Record<string, unknown> = {};
+    const result = await applyRfc6902Files(target, files);
+    expect(result.applied).toBe(2);
+    expect(target).toEqual({ x: 1, z: 3 });
   });
 });
