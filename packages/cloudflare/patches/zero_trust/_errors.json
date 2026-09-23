@@ -1096,49 +1096,6 @@
           ]
         }
       }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.zero_trust#SyncFailureDetails",
-      "value": {
-        "type": "structure",
-        "members": {
-          "cause": {
-            "target": "smithy.api#String"
-          },
-          "status_code": {
-            "target": "smithy.api#Integer"
-          },
-          "mcp_code": {
-            "target": "smithy.api#Integer"
-          },
-          "retryable": {
-            "target": "smithy.api#Boolean"
-          },
-          "is_upstream": {
-            "target": "smithy.api#Boolean"
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.zero_trust#SyncFailure",
-      "value": {
-        "type": "structure",
-        "members": {
-          "message": {
-            "target": "smithy.api#String"
-          },
-          "error_details": {
-            "target": "com.cloudflare.zero_trust#SyncFailureDetails"
-          }
-        },
-        "traits": {
-          "smithy.api#error": "client",
-          "com.cloudflare.protocols#syncFailure": {}
-        }
-      }
     }
   ]
 }

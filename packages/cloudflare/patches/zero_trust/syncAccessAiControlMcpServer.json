@@ -1,5 +1,5 @@
 {
-  "description": "Align MCP server sync and opt into structured SyncFailure decoding from result.status and result.error_details",
+  "description": "Align MCP server sync operation and its API errors",
   "patches": [
     {
       "op": "move",
@@ -35,9 +35,6 @@
         },
         {
           "target": "com.cloudflare.zero_trust#Forbidden"
-        },
-        {
-          "target": "com.cloudflare.zero_trust#SyncFailure"
         }
       ]
     }

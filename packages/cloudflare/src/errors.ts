@@ -23,23 +23,6 @@ import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/e
 import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
 
-/** A sync operation completed with an upstream discovery failure. */
-export class SyncFailure extends Schema.TaggedError<SyncFailure>()(
-  "SyncFailure",
-  {
-    message: Schema.String,
-    errorDetails: Schema.optional(
-      Schema.Struct({
-        cause: Schema.optional(Schema.NullOr(Schema.String)),
-        statusCode: Schema.optional(Schema.NullOr(Schema.Number)),
-        mcpCode: Schema.optional(Schema.NullOr(Schema.Number)),
-        retryable: Schema.optional(Schema.NullOr(Schema.Boolean)),
-        isUpstream: Schema.optional(Schema.NullOr(Schema.Boolean)),
-      }),
-    ),
-  },
-) {}
-
 // Schema parse error wrapper
 export class CloudflareParseError extends Schema.TaggedError<CloudflareParseError>()(
   "CloudflareParseError",
@@ -51,13 +34,14 @@ export class CloudflareParseError extends Schema.TaggedError<CloudflareParseErro
 
 /**
  * Unknown Cloudflare error - returned when an error code is not recognized.
- * Contains the raw error code for later cataloging.
+ * Contains the raw error code and response body for later cataloging.
  */
 export class UnknownCloudflareError extends Schema.TaggedError<UnknownCloudflareError>()(
   "UnknownCloudflareError",
   {
     code: Schema.optional(Schema.Number),
     message: Schema.String,
+    body: Schema.optional(Schema.Unknown),
   },
 ) {}
 
