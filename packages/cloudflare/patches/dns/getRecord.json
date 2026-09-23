@@ -1,5 +1,5 @@
 {
-  "description": "Align dns#RecordsGet with distilled cloudflare/dns getRecord",
+  "description": "Align dns#RecordsGet with distilled cloudflare/dns getRecord; classify DNS error 81044 (Record does not exist.) as RecordNotFound",
   "patches": [
     {
       "op": "move",
@@ -32,6 +32,9 @@
       "value": [
         {
           "target": "com.cloudflare.dns#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.dns#RecordNotFound"
         }
       ]
     }
