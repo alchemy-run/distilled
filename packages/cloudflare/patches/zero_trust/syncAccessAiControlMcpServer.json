@@ -1,5 +1,5 @@
 {
-  "description": "Align zero_trust#AccessAiControlsMcpServersSync with distilled cloudflare/zero-trust syncAccessAiControlMcpServer; classify failed HTTP 200 sync envelopes without an errors message as McpServerSyncFailed (read the server for discovery diagnostics)",
+  "description": "Align MCP server sync and opt into structured SyncFailure decoding from result.status and result.error_details",
   "patches": [
     {
       "op": "move",
@@ -37,7 +37,7 @@
           "target": "com.cloudflare.zero_trust#Forbidden"
         },
         {
-          "target": "com.cloudflare.zero_trust#McpServerSyncFailed"
+          "target": "com.cloudflare.zero_trust#SyncFailure"
         }
       ]
     }

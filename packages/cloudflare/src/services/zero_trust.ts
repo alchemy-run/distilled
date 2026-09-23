@@ -995,15 +995,6 @@ export class McpServerNotFound
     [{ status: 404 }],
   ) {}
 
-export class McpServerSyncFailed
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<McpServerSyncFailed>()("McpServerSyncFailed", {
-      code: S.Number,
-      message: S.String,
-    }),
-    [{ status: 200, message: "HTTP 200" }],
-  ) {}
-
 export class OrganizationAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<OrganizationAlreadyExists>()(
@@ -1061,6 +1052,8 @@ export class RiskScoringIntegrationNotFound
     [{ status: 404 }],
   ) {}
 
+import { SyncFailure } from "../errors.ts";
+export { SyncFailure };
 export class TargetNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<TargetNotFound>()("TargetNotFound", {
@@ -239640,7 +239633,7 @@ export const rotateSeedGatewayAuditSshSetting: API.OperationMethod<
 export type SyncAccessAiControlMcpServerError =
   | McpServerNotFound
   | Forbidden
-  | McpServerSyncFailed
+  | SyncFailure
   | CloudflareOpError;
 /** Syncs an MCP server's capabilities and returns the updated server state, including any connection errors. */
 export const syncAccessAiControlMcpServer: API.OperationMethod<
@@ -239654,7 +239647,7 @@ export const syncAccessAiControlMcpServer: API.OperationMethod<
   errors: [
     McpServerNotFound,
     Forbidden,
-    McpServerSyncFailed,
+    SyncFailure,
     CloudflareRateLimited,
     CloudflareError,
   ],

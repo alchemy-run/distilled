@@ -23,6 +23,23 @@ import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/e
 import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
 
+/** A sync operation completed with an upstream discovery failure. */
+export class SyncFailure extends Schema.TaggedError<SyncFailure>()(
+  "SyncFailure",
+  {
+    message: Schema.String,
+    errorDetails: Schema.optional(
+      Schema.Struct({
+        cause: Schema.optional(Schema.NullOr(Schema.String)),
+        statusCode: Schema.optional(Schema.NullOr(Schema.Number)),
+        mcpCode: Schema.optional(Schema.NullOr(Schema.Number)),
+        retryable: Schema.optional(Schema.NullOr(Schema.Boolean)),
+        isUpstream: Schema.optional(Schema.NullOr(Schema.Boolean)),
+      }),
+    ),
+  },
+) {}
+
 // Schema parse error wrapper
 export class CloudflareParseError extends Schema.TaggedError<CloudflareParseError>()(
   "CloudflareParseError",

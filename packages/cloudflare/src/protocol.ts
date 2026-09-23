@@ -23,6 +23,7 @@
  */
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
@@ -70,6 +71,7 @@ import {
   type CloudflareRateLimited,
   type DefaultErrors,
   InvalidRoute,
+  SyncFailure,
   UnknownCloudflareError,
 } from "./errors.ts";
 import {
@@ -279,6 +281,22 @@ const wantsNumber = (ast: AST.AST): boolean =>
   (ast._tag === "Union" &&
     (ast as { types?: readonly AST.AST[] }).types?.some(wantsNumber) === true);
 
+const syncFailureResult = Schema.Struct({
+  status: Schema.Literal("error"),
+  error: Schema.String,
+  error_details: Schema.optional(
+    Schema.NullOr(
+      Schema.Struct({
+        cause: Schema.optional(Schema.NullOr(Schema.String)),
+        status_code: Schema.optional(Schema.NullOr(Schema.Number)),
+        mcp_code: Schema.optional(Schema.NullOr(Schema.Number)),
+        retryable: Schema.optional(Schema.NullOr(Schema.Boolean)),
+        is_upstream: Schema.optional(Schema.NullOr(Schema.Boolean)),
+      }),
+    ),
+  ),
+});
+
 /**
  * Build a decode implementation. `resultInfo: true` (the paginated protocol)
  * additionally maps the envelope's top-level `result_info` onto the output
@@ -350,6 +368,37 @@ const makeDecode =
       }
       const status = response.status;
       const headers = response.headers as Record<string, string | undefined>;
+
+      // Only opted-in sync operations use result.status as a failure signal.
+      // API errors (HTTP failures or an errors array) retain normal routing.
+      // Do not infer retryability from HTTP 200 or attach retry categories:
+      // upstream credential failures can also advertise retryable: true.
+      if (
+        status >= 200 &&
+        status < 300 &&
+        json.success === false &&
+        (!Array.isArray(json.errors) || json.errors.length === 0) &&
+        errorClasses.includes(SyncFailure) &&
+        Schema.is(syncFailureResult)(json.result)
+      ) {
+        const result = json.result;
+        const details = result.error_details;
+        return yield* fail(
+          new SyncFailure({
+            message: result.error,
+            errorDetails:
+              details == null
+                ? undefined
+                : {
+                    cause: details.cause,
+                    statusCode: details.status_code,
+                    mcpCode: details.mcp_code,
+                    retryable: details.retryable,
+                    isUpstream: details.is_upstream,
+                  },
+          }),
+        );
+      }
 
       // Error envelope or non-2xx → typed error, matched like the distilled
       // cloudflare client: per-operation matchers, then global error codes,

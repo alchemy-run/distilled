@@ -47,6 +47,16 @@ const makeCfSpec = (
   // freely returns explicit nulls for absent optional fields.
   optionalsNullable: true,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
+  errors: {
+    // Structured sync failures use the shared decoder/class, not HTTP matchers.
+    override: ({ def, name }) =>
+      def.traits?.["com.cloudflare.protocols#syncFailure"] !== undefined
+        ? [
+            `import { ${name === "SyncFailure" ? name : `SyncFailure as ${name}`} } from "../errors.ts";`,
+            `export { ${name} };`,
+          ]
+        : undefined,
+  },
 
   extraBindings: [
     {
