@@ -1,5 +1,5 @@
 {
-  "description": "Canonical typed multipart Worker upload metadata, also used to generate workers_for_platforms/putDispatchNamespaceScript.manual.json by scripts/sync-worker-upload-patches.ts. Wire names verified against Cloudflare workers-sdk packages/workers-utils/src/types.ts (AssetConfigMetadata) and packages/deploy-helpers/src/deploy/helpers/create-worker-upload-form.ts: assets.config contains _headers and _redirects strings, and run_worker_first is boolean | string[]. Shapes originally transcribed from distilled v0. The version endpoint reuses these shapes; endpoint support for individual settings may differ.",
+  "description": "Hand-authored typed multipart Worker upload metadata. Keep shared metadata shapes manually synchronized with workers_for_platforms/putDispatchNamespaceScript.manual.json. Wire names verified against Cloudflare workers-sdk packages/workers-utils/src/types.ts (AssetConfigMetadata) and packages/deploy-helpers/src/deploy/helpers/create-worker-upload-form.ts: assets.config contains _headers and _redirects strings, and run_worker_first is boolean | string[]. Shapes originally transcribed from distilled v0. The version endpoint reuses these shapes; endpoint support for individual settings may differ.",
   "patches": [
     {
       "op": "add",

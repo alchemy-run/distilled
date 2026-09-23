@@ -47,7 +47,6 @@ import { Flag } from "effect/unstable/cli";
 import { Command } from "effect/unstable/cli";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { dedupeScopeTwins } from "./dedupe-scope-twins.ts";
-import { syncWorkerUploadPatches } from "./sync-worker-upload-patches.ts";
 
 // ============================================================================
 // Namespaces
@@ -2259,12 +2258,6 @@ const command = Command.make(
       const convertedResources = new Set(
         [...bags.keys()].map((top) => sanitizeNsSegment(top)),
       );
-      if (
-        convertedResources.has("workers") ||
-        convertedResources.has("workers_for_platforms")
-      ) {
-        yield* Effect.promise(syncWorkerUploadPatches);
-      }
       yield* Effect.promise(() =>
         finalizeConvert({
           root,
