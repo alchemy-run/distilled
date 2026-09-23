@@ -182,6 +182,15 @@ export class PeerNotFound
     [{ status: 404 }],
   ) {}
 
+export class RecordNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RecordNotFound>()("RecordNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 81044 }],
+  ) {}
+
 export class TsigNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<TsigNotFound>()("TsigNotFound", {
@@ -31254,7 +31263,7 @@ export const deleteDnssec: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteRecordError = CloudflareOpError;
+export type DeleteRecordError = RecordNotFound | CloudflareOpError;
 /** Permanently removes a DNS record from the zone. */
 export const deleteRecord: API.OperationMethod<
   DeleteRecordRequest,
@@ -31264,7 +31273,7 @@ export const deleteRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteRecordRequest,
   output: DeleteRecordResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [RecordNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -31490,7 +31499,7 @@ export const getDnssec: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetRecordError = Forbidden | CloudflareOpError;
+export type GetRecordError = Forbidden | RecordNotFound | CloudflareOpError;
 /** Retrieves details for a specific DNS record in the zone. */
 export const getRecord: API.OperationMethod<
   GetRecordRequest,
@@ -31500,7 +31509,7 @@ export const getRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRecordRequest,
   output: GetRecordResponse,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden, RecordNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
