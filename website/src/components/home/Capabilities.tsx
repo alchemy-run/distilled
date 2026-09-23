@@ -47,13 +47,12 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
           </>
         }
       >
-        Every operation returns an Effect, requests are made using Effect's
-        HttpClient, Effect's Schemas are used to define inputs and outputs.
-        Distilled's core maintains everything you want out of a true
-        Effect-First SDK: typed error categories, retry policies, pagination via
-        effect streams, a span per request; Each sdk is built on top of the same
-        core with the same naming patterns so if you've used one the rest should
-        feel familiar.
+        Every operation returns an Effect, requests go through Effect's
+        HttpClient, and inputs and outputs are Effect Schemas. Distilled's core
+        gives you everything you want from an Effect-first SDK: typed error
+        categories, retry policies, pagination as Effect Streams, and a span per
+        request. Every SDK is built on the same core with the same naming
+        patterns, so once you've used one, the rest feel familiar.
       </SectionHead>
 
       <div
@@ -66,19 +65,17 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
           title="Typed errors"
           code={`S3.«f:getObject»({ Bucket, Key }).«f:pipe»(
   Effect.«f:catchTags»({
-    «t:NoSuchKey»:     () => Effect.«f:succeed»(«c:null»),
-    «t:AccessDenied»:  (e) => Effect.«f:fail»(«k:new» «t:Forbidden»(e)),
+    «t:NoSuchKey»:          () => Effect.«f:succeed»(«c:null»),
+    «t:InvalidObjectState»: (e) => Effect.«f:fail»(«k:new» «t:Archived»(e)),
   }),
   Effect.«f:catchIf»(«f:isThrottlingError», () => backOff),
 )`}
         >
-          Match the exact error's or entire categories category with the
-          Effect's functions you're already familiar with like{" "}
-          <code>Effect.catchTags</code> and <code>Effect.catchIf</code>! We
-          patch in the generic errors and the details the api spec never
-          documents for each SDK we produce, so nothing comes back as{" "}
-          <code>unknown</code> and keeps your types actually safe, unlike
-          first-party typescript SDKs.
+          Match an exact error or a whole category with the Effect functions you
+          already know, like <code>Effect.catchTags</code> and{" "}
+          <code>Effect.catchIf</code>. Each SDK is patched with the errors and
+          details its API spec never documents, so nothing comes back as{" "}
+          <code>unknown</code> and your types stay accurate.
         </Cap>
 
         <Cap
@@ -98,8 +95,8 @@ write.«f:pipe»(Effect.«f:retry»({
   schedule: Schedule.«f:exponential»("250 millis"),
 }))`}
         >
-          The API's own <code>Retry-After</code> is respected, but you can
-          define your own retry policies, and even stack them!
+          The API's own <code>Retry-After</code> is respected, and you can
+          define your own retry policies and stack them.
         </Cap>
 
         <Cap
@@ -120,12 +117,12 @@ write.«f:pipe»(Effect.«f:retry»({
         >
           <p>
             Every paginated operation has <code>.items()</code> and{" "}
-            <code>.pages()</code>. No need to loop over pages just pull from the
-            Effect stream!
+            <code>.pages()</code>, so you pull items from an Effect Stream and
+            pages load as you go.
           </p>
           <p>
-            Large bodies binary bodies stream in and out without being held in
-            memory. Cancel the Effect and the requests stop.
+            Large binary bodies stream in and out without being held in memory.
+            Cancel the Effect and the requests stop.
           </p>
         </Cap>
 
@@ -146,10 +143,9 @@ write.«f:pipe»(Effect.«f:retry»({
 
 Effect.«f:all»([head, eu]).«f:pipe»(Effect.«f:provide»(AwsLive))`}
         >
-          Your code just calls <code>S3.headObject</code>; No need to pass
-          credentials and regions around or instantiate SDKs as globals. All
-          requiremnts are shoved into layers, so you can provide them once in
-          your root and override them as you see fit.
+          Your code just calls <code>S3.headObject</code>. Credentials and
+          regions come from layers: provide them once at the root of your
+          program and override them wherever you need to.
         </Cap>
 
         <Cap
@@ -164,8 +160,8 @@ program.«f:pipe»(
   })),
 )`}
         >
-          Operations are just effects, we piggyback on the same great otel
-          support Effect already provides!
+          Operations are ordinary Effects, so they get Effect's built-in
+          OpenTelemetry support.
         </Cap>
 
         <article
