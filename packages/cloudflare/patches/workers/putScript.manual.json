@@ -1,5 +1,5 @@
 {
-  "description": "Hand-authored: the Worker module upload is multipart/form-data with a JSON metadata part; the API docs only link out to the multipart-upload-metadata guide, so none of this is derivable from the docs. Shapes transcribed from distilled v0 (the naming/typing oracle).",
+  "description": "Hand-authored typed multipart Worker upload metadata. Keep shared metadata shapes manually synchronized with workers_for_platforms/putDispatchNamespaceScript.manual.json. Wire names verified against Cloudflare workers-sdk packages/workers-utils/src/types.ts (AssetConfigMetadata) and packages/deploy-helpers/src/deploy/helpers/create-worker-upload-form.ts: assets.config contains _headers and _redirects strings, and run_worker_first is boolean | string[]. Shapes originally transcribed from distilled v0. The version endpoint reuses these shapes; endpoint support for individual settings may differ.",
   "patches": [
     {
       "op": "add",
