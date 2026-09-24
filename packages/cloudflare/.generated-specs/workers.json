@@ -60775,7 +60775,10 @@
               "workersDev": "workers_dev",
               "workflowName": "workflow_name",
               "zoneId": "zone_id",
-              "zoneName": "zone_name"
+              "zoneName": "zone_name",
+              "renamedTo": "renamed_to",
+              "transferredTo": "transferred_to",
+              "transferFrom": "transfer_from"
             }
           }
         },
@@ -65022,7 +65025,10 @@
               "workersDev": "workers_dev",
               "workflowName": "workflow_name",
               "zoneId": "zone_id",
-              "zoneName": "zone_name"
+              "zoneName": "zone_name",
+              "renamedTo": "renamed_to",
+              "transferredTo": "transferred_to",
+              "transferFrom": "transfer_from"
             }
           }
         },
@@ -71541,7 +71547,104 @@
           "traits": {
             "com.cloudflare.protocols#nullable": {}
           }
+        },
+        "exports": {
+          "target": "com.cloudflare.workers#PutScriptMetadataExports",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {},
+            "smithy.api#documentation": "Per-export settings keyed by the verbatim export name (default for the default export)."
+          }
         }
+      }
+    },
+    "com.cloudflare.workers#PutScriptMetadataExportType": {
+      "type": "enum",
+      "members": {
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
+        },
+        "DURABLE_OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "durable-object"
+          }
+        }
+      }
+    },
+    "com.cloudflare.workers#PutScriptMetadataExportState": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        },
+        "RENAMED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "renamed"
+          }
+        },
+        "TRANSFERRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transferred"
+          }
+        },
+        "EXPECTING_TRANSFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expecting-transfer"
+          }
+        }
+      }
+    },
+    "com.cloudflare.workers#PutScriptMetadataExport": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.workers#PutScriptMetadataExportType"
+        },
+        "cache": {
+          "target": "com.cloudflare.workers#PutScriptMetadataCache"
+        },
+        "storage": {
+          "target": "smithy.api#String"
+        },
+        "container": {
+          "target": "smithy.api#String"
+        },
+        "state": {
+          "target": "com.cloudflare.workers#PutScriptMetadataExportState"
+        },
+        "renamed_to": {
+          "target": "smithy.api#String"
+        },
+        "transferred_to": {
+          "target": "smithy.api#String"
+        },
+        "transfer_from": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.workers#PutScriptMetadataExports": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.workers#PutScriptMetadataExport"
       }
     },
     "com.cloudflare.workers#ScriptsUpdateResponsePlacementCase8": {
