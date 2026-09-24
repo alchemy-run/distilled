@@ -3044,7 +3044,12 @@
         },
         "smithy.api#documentation": "Analyze repository for automatic configuration detection",
         "smithy.api#readonly": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.workers_builds#RepositoryConfigNotFound"
+        }
+      ]
     },
     "com.cloudflare.workers_builds#DeleteReposConnectionRequest": {
       "type": "structure",
@@ -5085,6 +5090,26 @@
         "com.cloudflare.protocols#v4Json": {},
         "smithy.api#title": "Cloudflare WorkersBuilds",
         "smithy.api#documentation": "Cloudflare API — workers_builds resource. Speaks the v4 JSON envelope protocol; operation outputs describe the unwrapped `result` payload."
+      }
+    },
+    "com.cloudflare.workers_builds#RepositoryConfigNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 404,
+            "code": 12000
+          }
+        ]
       }
     }
   }
