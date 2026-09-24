@@ -408,3 +408,8 @@
 	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/mailchimp/specs/spec-mirror-mailchimp"]
+	path = packages/mailchimp/specs/spec-mirror-mailchimp
+	url = https://github.com/distilled-mirror/spec-mirror-mailchimp.git
+	ignore = dirty
+	shallow = true
