@@ -65,6 +65,23 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** Agent Engine sandbox environments are not enabled for this project or region (HTTP 501 UNIMPLEMENTED: 'Operation is not implemented, or supported, or enabled.'). Not retryable. */
+export class SandboxEnvironmentsNotEnabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxEnvironmentsNotEnabled>()(
+      "SandboxEnvironmentsNotEnabled",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withServerError),
+    [{ status: 501 }],
+  ) {}
+
 /** Request message for ActivateOnlineEvaluator. */
 export interface GoogleCloudAiplatformV1ActivateOnlineEvaluatorRequest {}
 export const GoogleCloudAiplatformV1ActivateOnlineEvaluatorRequest =
@@ -54778,6 +54795,7 @@ export type AuthorizeAccessProjectsLocationsReasoningEnginesSandboxEnvironmentsE
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Checks whether the caller is authorized to access the sandbox environment. Authorization is performed entirely by the API infrastructure from the `method_policy` below; the handler is a no-op. A successful response means the caller holds `sandboxEnvironments.execute` on the named sandbox. Used by the sandbox data-plane proxy, which forwards the caller's credential and proxies traffic only on success. */
 export const authorizeAccessProjectsLocationsReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -54789,7 +54807,14 @@ export const authorizeAccessProjectsLocationsReasoningEnginesSandboxEnvironments
   input:
     AuthorizeAccessProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleCloudAiplatformV1AuthorizeSandboxEnvironmentAccessResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -54799,6 +54824,7 @@ export type AuthorizeAccessReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Checks whether the caller is authorized to access the sandbox environment. Authorization is performed entirely by the API infrastructure from the `method_policy` below; the handler is a no-op. A successful response means the caller holds `sandboxEnvironments.execute` on the named sandbox. Used by the sandbox data-plane proxy, which forwards the caller's credential and proxies traffic only on success. */
 export const authorizeAccessReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -54809,7 +54835,14 @@ export const authorizeAccessReasoningEnginesSandboxEnvironments: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: AuthorizeAccessReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleCloudAiplatformV1AuthorizeSandboxEnvironmentAccessResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -58582,6 +58615,7 @@ export type CreateProjectsLocationsReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Creates a SandboxEnvironment in a given reasoning engine. */
 export const createProjectsLocationsReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -58592,7 +58626,14 @@ export const createProjectsLocationsReasoningEnginesSandboxEnvironments: API.Ope
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -58602,6 +58643,7 @@ export type CreateProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesEr
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Creates a SandboxEnvironmentTemplate in a given reasoning engine. */
 export const createProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates: API.OperationMethod<
@@ -58613,7 +58655,14 @@ export const createProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates:
   input:
     CreateProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -58883,6 +58932,7 @@ export type CreateReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Creates a SandboxEnvironment in a given reasoning engine. */
 export const createReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -58893,7 +58943,14 @@ export const createReasoningEnginesSandboxEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -58903,6 +58960,7 @@ export type CreateReasoningEnginesSandboxEnvironmentTemplatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Creates a SandboxEnvironmentTemplate in a given reasoning engine. */
 export const createReasoningEnginesSandboxEnvironmentTemplates: API.OperationMethod<
@@ -58913,7 +58971,14 @@ export const createReasoningEnginesSandboxEnvironmentTemplates: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateReasoningEnginesSandboxEnvironmentTemplatesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -61405,6 +61470,7 @@ export type DeleteProjectsLocationsReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Deletes the specific SandboxEnvironment. */
 export const deleteProjectsLocationsReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -61415,7 +61481,14 @@ export const deleteProjectsLocationsReasoningEnginesSandboxEnvironments: API.Ope
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -61488,6 +61561,7 @@ export type DeleteProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesEr
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Deletes the specific SandboxEnvironmentTemplate. */
 export const deleteProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates: API.OperationMethod<
@@ -61499,7 +61573,14 @@ export const deleteProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates:
   input:
     DeleteProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -62151,6 +62232,7 @@ export type DeleteReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Deletes the specific SandboxEnvironment. */
 export const deleteReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -62161,7 +62243,14 @@ export const deleteReasoningEnginesSandboxEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -62231,6 +62320,7 @@ export type DeleteReasoningEnginesSandboxEnvironmentTemplatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Deletes the specific SandboxEnvironmentTemplate. */
 export const deleteReasoningEnginesSandboxEnvironmentTemplates: API.OperationMethod<
@@ -62241,7 +62331,14 @@ export const deleteReasoningEnginesSandboxEnvironmentTemplates: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteReasoningEnginesSandboxEnvironmentTemplatesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -62871,6 +62968,7 @@ export type ExecuteProjectsLocationsReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Executes using a sandbox environment. */
 export const executeProjectsLocationsReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -62881,7 +62979,14 @@ export const executeProjectsLocationsReasoningEnginesSandboxEnvironments: API.Op
 > = /*@__PURE__*/ API.make(() => ({
   input: ExecuteProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleCloudAiplatformV1ExecuteSandboxEnvironmentResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -62891,6 +62996,7 @@ export type ExecuteReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Executes using a sandbox environment. */
 export const executeReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -62901,7 +63007,14 @@ export const executeReasoningEnginesSandboxEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExecuteReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleCloudAiplatformV1ExecuteSandboxEnvironmentResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -65936,6 +66049,7 @@ export const getProjectsLocationsReasoningEnginesOperations: API.OperationMethod
 export type GetProjectsLocationsReasoningEnginesSandboxEnvironmentsError =
   | NotFound
   | Forbidden
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Gets details of the specific SandboxEnvironment. */
 export const getProjectsLocationsReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -65946,7 +66060,7 @@ export const getProjectsLocationsReasoningEnginesSandboxEnvironments: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleCloudAiplatformV1SandboxEnvironment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SandboxEnvironmentsNotEnabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -66010,6 +66124,7 @@ export const getProjectsLocationsReasoningEnginesSandboxEnvironmentsOperations: 
 export type GetProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesError =
   | NotFound
   | Forbidden
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Gets details of the specific SandboxEnvironmentTemplate. */
 export const getProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates: API.OperationMethod<
@@ -66020,7 +66135,7 @@ export const getProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates: AP
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesRequest,
   output: GoogleCloudAiplatformV1SandboxEnvironmentTemplate,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SandboxEnvironmentsNotEnabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -66651,6 +66766,7 @@ export const getReasoningEnginesOperations: API.OperationMethod<
 export type GetReasoningEnginesSandboxEnvironmentsError =
   | NotFound
   | Forbidden
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Gets details of the specific SandboxEnvironment. */
 export const getReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -66661,7 +66777,7 @@ export const getReasoningEnginesSandboxEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleCloudAiplatformV1SandboxEnvironment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SandboxEnvironmentsNotEnabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -66723,6 +66839,7 @@ export const getReasoningEnginesSandboxEnvironmentsOperations: API.OperationMeth
 export type GetReasoningEnginesSandboxEnvironmentTemplatesError =
   | NotFound
   | Forbidden
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Gets details of the specific SandboxEnvironmentTemplate. */
 export const getReasoningEnginesSandboxEnvironmentTemplates: API.OperationMethod<
@@ -66733,7 +66850,7 @@ export const getReasoningEnginesSandboxEnvironmentTemplates: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: GetReasoningEnginesSandboxEnvironmentTemplatesRequest,
   output: GoogleCloudAiplatformV1SandboxEnvironmentTemplate,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SandboxEnvironmentsNotEnabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -70094,6 +70211,7 @@ export const listProjectsLocationsReasoningEnginesOperations: API.PaginatedOpera
 export type ListProjectsLocationsReasoningEnginesSandboxEnvironmentsError =
   | NotFound
   | Forbidden
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Lists SandboxEnvironments in a given reasoning engine. */
 export const listProjectsLocationsReasoningEnginesSandboxEnvironments: API.PaginatedOperationMethod<
@@ -70105,7 +70223,7 @@ export const listProjectsLocationsReasoningEnginesSandboxEnvironments: API.Pagin
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleCloudAiplatformV1ListSandboxEnvironmentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SandboxEnvironmentsNotEnabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -70141,6 +70259,7 @@ export const listProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshots: A
 export type ListProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesError =
   | NotFound
   | Forbidden
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Lists SandboxEnvironmentTemplates in a given reasoning engine. */
 export const listProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates: API.PaginatedOperationMethod<
@@ -70153,7 +70272,7 @@ export const listProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates: A
   input:
     ListProjectsLocationsReasoningEnginesSandboxEnvironmentTemplatesRequest,
   output: GoogleCloudAiplatformV1ListSandboxEnvironmentTemplatesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SandboxEnvironmentsNotEnabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -70919,6 +71038,7 @@ export const listReasoningEnginesOperations: API.PaginatedOperationMethod<
 export type ListReasoningEnginesSandboxEnvironmentsError =
   | NotFound
   | Forbidden
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Lists SandboxEnvironments in a given reasoning engine. */
 export const listReasoningEnginesSandboxEnvironments: API.PaginatedOperationMethod<
@@ -70930,7 +71050,7 @@ export const listReasoningEnginesSandboxEnvironments: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleCloudAiplatformV1ListSandboxEnvironmentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SandboxEnvironmentsNotEnabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -70965,6 +71085,7 @@ export const listReasoningEnginesSandboxEnvironmentSnapshots: API.PaginatedOpera
 export type ListReasoningEnginesSandboxEnvironmentTemplatesError =
   | NotFound
   | Forbidden
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Lists SandboxEnvironmentTemplates in a given reasoning engine. */
 export const listReasoningEnginesSandboxEnvironmentTemplates: API.PaginatedOperationMethod<
@@ -70976,7 +71097,7 @@ export const listReasoningEnginesSandboxEnvironmentTemplates: API.PaginatedOpera
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReasoningEnginesSandboxEnvironmentTemplatesRequest,
   output: GoogleCloudAiplatformV1ListSandboxEnvironmentTemplatesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SandboxEnvironmentsNotEnabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -72385,6 +72506,7 @@ export type PauseProjectsLocationsReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Pauses the specific SandboxEnvironment. */
 export const pauseProjectsLocationsReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -72395,7 +72517,14 @@ export const pauseProjectsLocationsReasoningEnginesSandboxEnvironments: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: PauseProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -72425,6 +72554,7 @@ export type PauseReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Pauses the specific SandboxEnvironment. */
 export const pauseReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -72435,7 +72565,14 @@ export const pauseReasoningEnginesSandboxEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PauseReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -73186,6 +73323,7 @@ export type ResumeProjectsLocationsReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Resumes the specific SandboxEnvironment. */
 export const resumeProjectsLocationsReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -73196,7 +73334,14 @@ export const resumeProjectsLocationsReasoningEnginesSandboxEnvironments: API.Ope
 > = /*@__PURE__*/ API.make(() => ({
   input: ResumeProjectsLocationsReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -73226,6 +73371,7 @@ export type ResumeReasoningEnginesSandboxEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SandboxEnvironmentsNotEnabled
   | GcpOpError;
 /** Resumes the specific SandboxEnvironment. */
 export const resumeReasoningEnginesSandboxEnvironments: API.OperationMethod<
@@ -73236,7 +73382,14 @@ export const resumeReasoningEnginesSandboxEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResumeReasoningEnginesSandboxEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SandboxEnvironmentsNotEnabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
