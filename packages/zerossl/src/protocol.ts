@@ -112,9 +112,12 @@ const decode = ({
       const type = envelope.error?.type;
       const message = envelope.error?.info ?? type ?? `HTTP ${status}`;
       // Matchers key on `error.type` (as `message`) and `error.code` (as `code`).
-      const typed = matchTypedError(errorClasses, status, [
-        { code: envelope.error?.code, message: type ?? message },
-      ]);
+      const typed = matchTypedError(
+        errorClasses,
+        status,
+        [{ code: envelope.error?.code, message: type ?? message }],
+        { body: json === undefined ? text : json, headers },
+      );
       if (typed !== undefined) {
         if (
           typeof typed === "object" &&
