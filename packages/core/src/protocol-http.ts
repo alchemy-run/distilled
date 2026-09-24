@@ -711,8 +711,8 @@ const matcherSpecificity = (m: ErrorMatcher): number =>
   (m.code !== undefined ? 1 : 0) +
   (m.status !== undefined ? 1 : 0) +
   (m.message !== undefined ? 1 : 0) +
-  Object.keys(m.body ?? {}).length +
-  Object.keys(m.headers ?? {}).length;
+  (m.body === undefined ? 0 : Object.keys(m.body).length) +
+  (m.headers === undefined ? 0 : Object.keys(m.headers).length);
 
 /** Every supplied constraint must match; an unconstrained matcher matches nothing. */
 export const matchesExpression = (
@@ -722,24 +722,35 @@ export const matchesExpression = (
   message: string,
   response: ErrorResponse = {},
 ): boolean => {
-  if (matcherSpecificity(m) === 0) return false;
+  if (
+    m.code === undefined &&
+    m.status === undefined &&
+    m.message === undefined &&
+    matcherSpecificity(m) === 0
+  )
+    return false;
   if (m.code !== undefined && m.code !== code) return false;
   if (m.status !== undefined && m.status !== status) return false;
   if (m.message !== undefined && !matchesText(m.message, message)) return false;
-  for (const [pointer, expected] of Object.entries(m.body ?? {})) {
-    const actual = atPointer(response.body, pointer);
-    if (
-      typeof expected === "string" ||
-      (expected !== null && typeof expected === "object")
-    ) {
-      if (!matchesText(expected, actual)) return false;
-    } else if (actual !== expected) return false;
+  if (m.body !== undefined) {
+    for (const [pointer, expected] of Object.entries(m.body)) {
+      const actual = atPointer(response.body, pointer);
+      if (
+        typeof expected === "string" ||
+        (expected !== null && typeof expected === "object")
+      ) {
+        if (!matchesText(expected, actual)) return false;
+      } else if (actual !== expected) return false;
+    }
   }
-  for (const [name, expected] of Object.entries(m.headers ?? {})) {
-    const actual = Object.entries(response.headers ?? {}).find(
-      ([key]) => key.toLowerCase() === name.toLowerCase(),
-    )?.[1];
-    if (!matchesText(expected, actual)) return false;
+  if (m.headers !== undefined) {
+    for (const [name, expected] of Object.entries(m.headers)) {
+      if (response.headers === undefined) return false;
+      const actual = Object.entries(response.headers).find(
+        ([key]) => key.toLowerCase() === name.toLowerCase(),
+      )?.[1];
+      if (!matchesText(expected, actual)) return false;
+    }
   }
   return true;
 };
