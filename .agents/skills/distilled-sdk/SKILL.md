@@ -1,6 +1,6 @@
 ---
 name: distilled-sdk
-description: Build or update a distilled SDK for an API provider — sourcing its OpenAPI/Smithy/GraphQL/discovery description, adding the spec mirror that feeds it, generating packages/<provider>, listing it on distilled.cloud with a category and a logo, and regenerating an existing one. Use for "create a distilled SDK for <provider>", adding a provider, writing or fixing a fetch-specs.ts, giving a provider a catalogue group or brand mark, working on stacks/distilled-submodules or a spec-mirror-* repository, or anything about where a package's specs come from.
+description: Build or update a distilled SDK for an API provider — sourcing its OpenAPI/Smithy/GraphQL/discovery description, adding the spec mirror that feeds it, generating packages/<provider>, listing it on distilled.cloud with a category and a logo, writing a README with a complete Effect example, opening a GitHub PR whose body includes that same example, and regenerating an existing one. Use for "create a distilled SDK for <provider>", adding a provider, writing or fixing a fetch-specs.ts, giving a provider a catalogue group or brand mark, working on stacks/distilled-submodules or a spec-mirror-* repository, or anything about where a package's specs come from.
 ---
 
 # Building a distilled SDK
@@ -128,6 +128,12 @@ OpenAPI package gets it for free — just declare the mirror path.
 Then register the package: `pnpm-workspace.yaml` needs nothing (it globs
 `packages/*`), but add both tsconfig references to the root `tsconfig.json`.
 
+Public surface: re-export the generated barrel at the package root
+(`export * from "./services/index.ts"`) so callers write `Pkg.vms.createVm`,
+not `Pkg.Services.vms.createVm`. Do not add a `Services` namespace. A
+single-service package re-exports operations on the root (`Pkg.listX`) the
+same way.
+
 ## Step 5 — iterate
 
 ```sh
@@ -237,7 +243,73 @@ The catalogue only lists packages that export at least one
 `API.OperationMethod`, so a support package (`core`) never shows up and a
 `GROUPS` entry for one would be dead config.
 
-## Step 8 — check
+## Step 8 — README, examples, and the PR
+
+Every provider package ships `packages/<pkg>/README.md`. Do not skip it.
+Shape it after [`packages/aws/README.md`](../../../packages/aws/README.md):
+install, a complete Effect program, then auth. `listX({})` with no Layer,
+credentials, or HTTP client is not an example.
+
+**README** (`packages/<pkg>/README.md`):
+
+````md
+# @distilled.cloud/<pkg>
+
+Effect-native <Name> SDK, generated from <spec URL>.
+
+## Installation
+
+```bash
+npm install @distilled.cloud/<pkg> effect
+```
+
+## Quick start
+
+```ts
+import { Effect, Layer } from "effect";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as Pkg from "@distilled.cloud/<pkg>";
+
+const program = Effect.gen(function* () {
+  const result = yield* Pkg.vms.createVm({ firewall: { rules: [] } });
+  return result;
+});
+
+const Live = Layer.mergeAll(
+  FetchHttpClient.layer,
+  Pkg.CredentialsFromEnv,
+  Pkg.PkgProtocol,
+);
+
+program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Auth
+
+`<ENV>` as `Authorization: Bearer`. Optional `<ENV>_API_BASE_URL`.
+````
+
+The quick-start program must compile against the generated names:
+
+- `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv, <Pkg>Protocol)`
+- at least one real call (`Pkg.vms.createVm` / `Pkg.execVm` / `Pkg.getX`,
+  not `Pkg.Services.…` and not only `list*`)
+- `Effect.provide` + `Effect.runPromise`
+
+If a generated operation cannot work as REST — WebSocket `101`,
+`application/octet-stream` bodies, SSE — say so and show the hand-written
+helper (or omit that call), never the stub. Keep `src/index.ts`'s `@example`
+the same shortest program.
+
+When credentials exist, run that program live and mention the result in the
+PR (`execVm` status 0, PTY `sessionInfo`, …). Delete anything the example
+created.
+
+The job is not done until step 10 has opened a GitHub PR. npm trusted
+publishing (`npm-oidc-setup`) needs a logged-in `npm whoami`; skip it and
+say so in the PR when this environment is not.
+
+## Step 9 — check
 
 ```sh
 pnpm specs:check     # mirror manifest ↔ spec-repos/ ↔ .gitmodules ↔ packages/
@@ -248,7 +320,33 @@ pnpm format          # generated output is committed formatted
 `pnpm generate` formats at the end for a reason: **never diff regeneration
 results before formatting**, or every file looks changed.
 
-## Step 9 — after merge
+## Step 10 — open the PR
+
+A new SDK is not finished in the working tree. Open a GitHub PR. Stage
+explicit paths (never `git add -A`), commit, push, `gh pr create`.
+
+Title: `feat(<pkg>): add the <Name> SDK`.
+
+Body, in order:
+
+1. One sentence: Effect-native SDK for X, generated from [the spec URL].
+2. Bullets: operation count and service split; auth (env + header + default
+   host); pagination; non-JSON surfaces; wiring (SpecRepos, `.gitmodules`,
+   tsconfig, website, lockfile). Note that `spec-mirror-<pkg>` is created by
+   the distilled-submodules stack on merge to main.
+3. **The same complete example as the README** — `Layer.mergeAll`,
+   `CredentialsFromEnv`, `<Pkg>Protocol`, a real call, `Effect.runPromise`.
+   A PR whose only snippet is `listX({})` is incomplete; paste the README
+   quick start.
+4. `Checks: pnpm specs:check` green, `tsc -b packages/<pkg> --noCheck false`
+   green, `DISTILLED_SPECS_LOCAL=1 pnpm generate <pkg>` reproduces output.
+
+```sh
+git push -u origin HEAD
+gh pr create --title "feat(<pkg>): add the <Name> SDK" --body-file /tmp/pr.md
+```
+
+## Step 11 — after merge
 
 The stack deploys on push to `main` and creates `spec-mirror-<pkg>`, seeded
 with your fetch script and a workflow that refetches daily. Then, in a
