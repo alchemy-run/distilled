@@ -20,7 +20,9 @@
  *
  * under a real HTTP status, so they map by status too; `name` is kept in
  * the message (`Invalid_Key: Invalid API key`) because the core classes
- * carry nothing else.
+ * carry nothing else. Which statuses each route declares comes from the
+ * OpenAPI 3.1 document at convert time, so the operations are typed
+ * per route.
  */
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
@@ -30,7 +32,11 @@ import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as API from "@distilled.cloud/core/api";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type {
+  API_ERRORS,
+  ConfigError,
+  DefaultErrors,
+} from "@distilled.cloud/core/errors";
 import {
   Credentials,
   TransactionalCredentials,
@@ -108,8 +114,14 @@ export const MailchimpProtocol: Layer.Layer<API.Protocol> =
 
 // ───────────── Transactional ─────────────
 
+/**
+ * Only the always-possible failures. Each operation adds the classes its
+ * declared statuses map to (`NotFound`, `PaymentRequired`, …), so a status
+ * the document does not declare for a route still arrives as the shared
+ * class at runtime, outside that route's type.
+ */
 export type MailchimpTransactionalOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
+  | DefaultErrors
   | MailchimpTransactionalError
   | UnknownMailchimpError
   | ConfigError

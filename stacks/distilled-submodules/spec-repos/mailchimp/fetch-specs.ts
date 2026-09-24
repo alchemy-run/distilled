@@ -11,8 +11,9 @@
  *   bun run fetch-specs.ts
  *
  * Specs are saved to:
- *   ../specs/marketing.json       Marketing API (v3.0)
- *   ../specs/transactional.json   Transactional API (formerly Mandrill)
+ *   ../specs/marketing.json               Marketing API (v3.0), Swagger 2.0
+ *   ../specs/transactional.json           Transactional API (formerly
+ *   ../specs/transactional.openapi.json   Mandrill), Swagger 2.0 + OpenAPI 3.1
  */
 
 import { mkdirSync } from "fs";
@@ -31,12 +32,23 @@ interface SpecFile {
   readonly output: string;
 }
 
-// `spec/transactional.openapi.json` is the same 99 routes as OpenAPI 3.1; the
-// Swagger document is the one that carries the vendor's method names.
+// The two Transactional documents describe the same 99 routes. The Swagger
+// one carries the vendor's method names and the request/response shapes the
+// generator reads; the OpenAPI 3.1 one is the only place the per-route error
+// responses are declared.
 const FILES: readonly SpecFile[] = [
   { source: "spec/marketing.json", output: "marketing.json" },
   { source: "spec/transactional.json", output: "transactional.json" },
+  {
+    source: "spec/transactional.openapi.json",
+    output: "transactional.openapi.json",
+  },
 ];
+
+const isApiDocument = (spec: Record<string, unknown>): boolean =>
+  (spec.swagger === "2.0" || typeof spec.openapi === "string") &&
+  typeof spec.paths === "object" &&
+  spec.paths !== null;
 
 mkdirSync(SPECS_DIR, { recursive: true });
 
@@ -55,9 +67,9 @@ async function main() {
     const spec = (await response.json()) as Record<string, unknown>;
 
     // A rate-limit body or a gutted response is still valid JSON.
-    if (spec.swagger !== "2.0" || spec.paths === undefined) {
+    if (!isApiDocument(spec)) {
       throw new Error(
-        `${url} returned JSON without \`swagger: "2.0"\`/\`paths\` — not a Mailchimp API document`,
+        `${url} returned JSON without \`swagger\`/\`openapi\` and \`paths\` — not a Mailchimp API document`,
       );
     }
 
@@ -67,8 +79,12 @@ async function main() {
     // produces no diff.
     await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
 
+    const version =
+      typeof spec.openapi === "string"
+        ? `OpenAPI ${spec.openapi}`
+        : `Swagger ${spec.swagger}`;
     console.log(
-      `  ${file.output}: Swagger ${spec.swagger} — ${Object.keys(spec.paths as object).length} paths`,
+      `  ${file.output}: ${version} — ${Object.keys(spec.paths as object).length} paths`,
     );
   }
 

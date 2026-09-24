@@ -79,9 +79,13 @@ Required: `MAILCHIMP_TRANSACTIONAL_API_KEY` (`MANDRILL_API_KEY` is read as a
 fallback), or `fromTransactionalApiKey({ apiKey })`. The key is sent in each
 request body; it is never part of an operation's input. Failures arrive as
 `{ status: "error", code, name, message }` under a real HTTP status and map
-onto the same shared classes, with the vendor's `name` kept in the message
-(`Invalid_Key: Invalid API key`). A status outside the shared map becomes
-`MailchimpTransactionalError`, which carries `name` and `code`.
+onto the shared classes, with the vendor's `name` kept in the message
+(`Invalid_Key: Invalid API key`). Each operation's error channel lists only
+what Mailchimp declares for that route: `getTemplate` can fail with
+`NotFound`, `sendMessage` with `PaymentRequired` (a 402, with the vendor
+`code`) and `NotFound`, `ping` with the defaults alone. A status outside the
+shared map becomes `MailchimpTransactionalError`, which carries `name` and
+`code`.
 
 ## Notes
 

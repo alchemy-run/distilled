@@ -67,6 +67,11 @@
       "output": {
         "target": "com.mailchimp.transactional#AddAllowlistEntryResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -200,6 +205,11 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteAllowlistEntryResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -276,6 +286,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetExportResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -960,6 +975,11 @@
       "output": {
         "target": "com.mailchimp.transactional#CheckInboundDomainResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1018,6 +1038,11 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteInboundDomainResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1105,6 +1130,11 @@
       "output": {
         "target": "com.mailchimp.transactional#ListInboundRoutesResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1181,6 +1211,11 @@
       "output": {
         "target": "com.mailchimp.transactional#AddInboundRouteResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1251,6 +1286,11 @@
       "output": {
         "target": "com.mailchimp.transactional#UpdateInboundRouteResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1309,6 +1349,11 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteInboundRouteResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1424,6 +1469,11 @@
       "output": {
         "target": "com.mailchimp.transactional#SendRawInboundResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1739,6 +1789,14 @@
       "output": {
         "target": "com.mailchimp.transactional#ProvisionIpResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#PaymentRequired"
+        },
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1867,6 +1925,11 @@
       "output": {
         "target": "com.mailchimp.transactional#StartIpWarmupResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1995,6 +2058,11 @@
       "output": {
         "target": "com.mailchimp.transactional#CancelIpWarmupResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2136,6 +2204,14 @@
       "output": {
         "target": "com.mailchimp.transactional#SetIpPoolResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#BadRequest"
+        },
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2523,6 +2599,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetIpPoolResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2738,6 +2819,14 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteIpPoolResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#BadRequest"
+        },
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2797,6 +2886,11 @@
       "output": {
         "target": "com.mailchimp.transactional#CheckIpCustomDnsResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2932,6 +3026,14 @@
       "output": {
         "target": "com.mailchimp.transactional#SetIpCustomDnsResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#BadRequest"
+        },
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3071,6 +3173,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetMcTemplateResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3339,6 +3446,14 @@
       "output": {
         "target": "com.mailchimp.transactional#RenderMcTemplateResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        },
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3467,6 +3582,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetMcTemplateTimeSeriesResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3782,6 +3902,11 @@
       "output": {
         "target": "com.mailchimp.transactional#SendSmsResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -4572,6 +4697,14 @@
       "output": {
         "target": "com.mailchimp.transactional#SendMessageResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#PaymentRequired"
+        },
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -5399,6 +5532,14 @@
       "output": {
         "target": "com.mailchimp.transactional#SendTemplateResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#PaymentRequired"
+        },
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6216,6 +6357,14 @@
       "output": {
         "target": "com.mailchimp.transactional#SendMcTemplateResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#PaymentRequired"
+        },
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6996,6 +7145,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetMessageResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -7166,6 +7320,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetMessageContentResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -7365,6 +7524,11 @@
       "output": {
         "target": "com.mailchimp.transactional#ParseMessageResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -7678,6 +7842,14 @@
       "output": {
         "target": "com.mailchimp.transactional#SendRawMessageResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#PaymentRequired"
+        },
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -7877,6 +8049,11 @@
       "output": {
         "target": "com.mailchimp.transactional#CancelScheduledMessageResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -7984,6 +8161,11 @@
       "output": {
         "target": "com.mailchimp.transactional#RescheduleMessageResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8167,6 +8349,11 @@
       "output": {
         "target": "com.mailchimp.transactional#AddMetadataFieldResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8258,6 +8445,11 @@
       "output": {
         "target": "com.mailchimp.transactional#UpdateMetadataFieldResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8342,6 +8534,11 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteMetadataFieldResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8406,6 +8603,14 @@
       "output": {
         "target": "com.mailchimp.transactional#AddRejectResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        },
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8615,6 +8820,11 @@
       "output": {
         "target": "com.mailchimp.transactional#ListRejectsResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8679,6 +8889,14 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteRejectResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        },
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -9342,6 +9560,14 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteSenderDomainResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#Forbidden"
+        },
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -10089,6 +10315,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetSenderResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -10213,6 +10444,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetSenderTimeSeriesResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -10494,6 +10730,11 @@
       "output": {
         "target": "com.mailchimp.transactional#AddSubaccountResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -10706,6 +10947,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetSubaccountResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -10844,6 +11090,11 @@
       "output": {
         "target": "com.mailchimp.transactional#UpdateSubaccountResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -10964,6 +11215,11 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteSubaccountResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11084,6 +11340,11 @@
       "output": {
         "target": "com.mailchimp.transactional#PauseSubaccountResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11204,6 +11465,11 @@
       "output": {
         "target": "com.mailchimp.transactional#ResumeSubaccountResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11437,6 +11703,11 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteTagResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#BadRequest"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11915,6 +12186,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetTagResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#BadRequest"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -12045,6 +12321,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetTagTimeSeriesResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#BadRequest"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -12368,6 +12649,11 @@
       "output": {
         "target": "com.mailchimp.transactional#AddTemplateResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -12525,6 +12811,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetTemplateResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -12733,6 +13024,11 @@
       "output": {
         "target": "com.mailchimp.transactional#UpdateTemplateResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -12890,6 +13186,11 @@
       "output": {
         "target": "com.mailchimp.transactional#PublishTemplateResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -13047,6 +13348,11 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteTemplateResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -13351,6 +13657,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetTemplateTimeSeriesResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -13470,6 +13781,11 @@
       "output": {
         "target": "com.mailchimp.transactional#RenderTemplateResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -13671,6 +13987,11 @@
       "output": {
         "target": "com.mailchimp.transactional#AddTrackingDomainResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#BadRequest"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -13770,6 +14091,14 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteTrackingDomainResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#Forbidden"
+        },
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -13866,6 +14195,11 @@
       "output": {
         "target": "com.mailchimp.transactional#CheckTrackingDomainResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -15162,6 +15496,11 @@
       "output": {
         "target": "com.mailchimp.transactional#GetWebhookResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -15423,6 +15762,11 @@
       "output": {
         "target": "com.mailchimp.transactional#UpdateWebhookResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -15588,6 +15932,11 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteWebhookResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -15658,6 +16007,14 @@
       "output": {
         "target": "com.mailchimp.transactional#AddSmsRejectResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        },
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -15761,6 +16118,11 @@
       "output": {
         "target": "com.mailchimp.transactional#ListSmsRejectsResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -15825,6 +16187,14 @@
       "output": {
         "target": "com.mailchimp.transactional#DeleteSmsRejectResponse"
       },
+      "errors": [
+        {
+          "target": "com.mailchimp.transactional#NotFound"
+        },
+        {
+          "target": "com.mailchimp.transactional#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -15832,6 +16202,71 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete phone number from SMS denylist\n\nDeletes an SMS rejection. There is no limit to how many rejections you can remove from your denylist, but keep in mind that each deletion has an affect on your reputation."
+      }
+    },
+    "com.mailchimp.transactional#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.mailchimp.transactional#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.mailchimp.transactional#PaymentRequired": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 402,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 402
+          }
+        ]
+      }
+    },
+    "com.mailchimp.transactional#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.mailchimp.transactional#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
       }
     },
     "com.mailchimp.transactional#MailchimpTransactional": {

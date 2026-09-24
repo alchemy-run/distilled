@@ -10,8 +10,13 @@ import {
   TransactionalCredentialsFromEnv,
   fromTransactionalApiKey,
 } from "./credentials.ts";
+import { NotFound, PaymentRequired, Unauthorized } from "./errors.ts";
 import * as Retry from "./retry.ts";
 import {
+  type GetTemplateError,
+  type PingError,
+  addSubaccount,
+  getTag,
   getTemplate,
   listSubaccounts,
   ping,
@@ -167,11 +172,13 @@ describe("Mailchimp Transactional protocol", () => {
     expect(error.message).toBe("Invalid_Key: Invalid API key");
   });
 
-  test("maps a ValidationError 400 and an Unknown_Template 404", async () => {
+  test("maps a declared 404, 400 and 422 onto the shared classes", async () => {
     const { layer } = fake((call) =>
       call.url.pathname.endsWith("/templates/info")
         ? failure(404, "Unknown_Template", "No template named welcome")
-        : failure(400, "ValidationError", "You must specify a message"),
+        : call.url.pathname.endsWith("/tags/info")
+          ? failure(400, "Invalid_Tag_Name", "Tag names cannot be blank")
+          : failure(422, "ValidationError", "Validation error: id required"),
     );
 
     const notFound = await Effect.runPromise(
@@ -183,12 +190,56 @@ describe("Mailchimp Transactional protocol", () => {
     );
 
     const bad = await Effect.runPromise(
-      sendMessage({ message: {} }).pipe(Effect.provide(layer), Effect.flip),
+      getTag({ tag: "" }).pipe(Effect.provide(layer), Effect.flip),
     );
     expect(bad._tag).toBe("BadRequest");
+
+    const invalid = await Effect.runPromise(
+      addSubaccount({ id: "" }).pipe(Effect.provide(layer), Effect.flip),
+    );
+    expect(invalid._tag).toBe("UnprocessableEntity");
   });
 
-  test("surfaces an unmapped status as MailchimpTransactionalError", async () => {
+  test("types each operation by its declared statuses", () => {
+    // `/templates/info` declares 404; `/users/ping` declares nothing beyond
+    // the defaults. A wrong declaration fails to compile here.
+    const notFound: GetTemplateError = new NotFound({ message: "" });
+    const ping: PingError = new Unauthorized({ message: "" });
+    // @ts-expect-error NotFound is not in ping's error channel
+    const wrong: PingError = notFound;
+    expect([notFound, ping, wrong].length).toBe(3);
+  });
+
+  test("maps a declared 402 to PaymentRequired with the vendor code", async () => {
+    const { layer } = fake(() =>
+      json(
+        {
+          status: "error",
+          code: 10,
+          name: "PaymentRequired",
+          message:
+            "Email scheduling is only available for accounts with a positive balance.",
+        },
+        402,
+      ),
+    );
+
+    const recovered = await Effect.runPromise(
+      sendMessage({ message: {}, send_at: "2030-01-01 00:00:00" }).pipe(
+        Effect.catchTag("PaymentRequired", (e) => Effect.succeed(e)),
+        Effect.provide(layer),
+      ),
+    );
+
+    expect(recovered).toBeInstanceOf(PaymentRequired);
+    const error = recovered as PaymentRequired;
+    expect(error.code).toBe(10);
+    expect(error.message).toBe(
+      "PaymentRequired: Email scheduling is only available for accounts with a positive balance.",
+    );
+  });
+
+  test("surfaces an undeclared, unmapped status as MailchimpTransactionalError", async () => {
     const { layer } = fake(() =>
       failure(402, "PaymentRequired", "Your account is past due"),
     );

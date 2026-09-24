@@ -5,6 +5,7 @@ A git mirror of Mailchimp's [API specs](https://github.com/mailchimp/mailchimp-c
 
 - `specs/marketing.json` — `spec/marketing.json`, the Marketing API (Swagger 2.0)
 - `specs/transactional.json` — `spec/transactional.json`, the Transactional API (Swagger 2.0)
+- `specs/transactional.openapi.json` — `spec/transactional.openapi.json`, the same API as OpenAPI 3.1, read for its per-route error responses
 
 Nothing else from `mailchimp/mailchimp-client-lib-codegen` is mirrored, so this
 repository stays small enough to use as a git submodule — the upstream

@@ -8,8 +8,13 @@ import {
   type MailchimpTransactionalOpContext,
 } from "../protocol.ts";
 import {
+  BadRequest,
+  Forbidden,
   MailchimpTransactionalError,
+  NotFound,
+  PaymentRequired,
   UnknownMailchimpError,
+  UnprocessableEntity,
 } from "../errors.ts";
 import * as Retry from "../retry.ts";
 
@@ -7653,7 +7658,9 @@ export const VerifySenderDomainResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "VerifySenderDomainResponse",
 }) as any as S.Schema<VerifySenderDomainResponse>;
 
-export type AddAllowlistEntryError = MailchimpTransactionalOpError;
+export type AddAllowlistEntryError =
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Add email to allowlist Adds an email to your email rejection allowlist. If the address is currently on your denylist, that denylist entry will be removed automatically. */
 export const addAllowlistEntry: API.OperationMethod<
   AddAllowlistEntryRequest,
@@ -7663,7 +7670,11 @@ export const addAllowlistEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddAllowlistEntryRequest,
   output: AddAllowlistEntryResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -7683,7 +7694,7 @@ export const addInboundDomain: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type AddInboundRouteError = MailchimpTransactionalOpError;
+export type AddInboundRouteError = NotFound | MailchimpTransactionalOpError;
 /** Add route Add a new route to an inbound domain or SMS program. Provide either domain or phone (not both). */
 export const addInboundRoute: API.OperationMethod<
   AddInboundRouteRequest,
@@ -7693,12 +7704,14 @@ export const addInboundRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddInboundRouteRequest,
   output: AddInboundRouteResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type AddMetadataFieldError = MailchimpTransactionalOpError;
+export type AddMetadataFieldError =
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Add metadata field Add a new custom metadata field to be indexed for the account. */
 export const addMetadataField: API.OperationMethod<
   AddMetadataFieldRequest,
@@ -7708,12 +7721,19 @@ export const addMetadataField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddMetadataFieldRequest,
   output: AddMetadataFieldResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type AddRejectError = MailchimpTransactionalOpError;
+export type AddRejectError =
+  | NotFound
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Add email to denylist Adds an email to your email rejection denylist. Addresses that you add manually will never expire and there is no reputation penalty for removing them from your denylist. Attempting to denylist an address that has been added to the allowlist will have no effect. */
 export const addReject: API.OperationMethod<
   AddRejectRequest,
@@ -7723,7 +7743,12 @@ export const addReject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddRejectRequest,
   output: AddRejectResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -7743,7 +7768,10 @@ export const addSenderDomain: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type AddSmsRejectError = MailchimpTransactionalOpError;
+export type AddSmsRejectError =
+  | NotFound
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Add phone number to SMS denylist Adds a phone number to your SMS rejection denylist. Phone numbers that you add manually will never expire and there is no reputation penalty for removing them from your denylist. */
 export const addSmsReject: API.OperationMethod<
   AddSmsRejectRequest,
@@ -7753,12 +7781,19 @@ export const addSmsReject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddSmsRejectRequest,
   output: AddSmsRejectResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type AddSubaccountError = MailchimpTransactionalOpError;
+export type AddSubaccountError =
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Add subaccount Add a new subaccount. */
 export const addSubaccount: API.OperationMethod<
   AddSubaccountRequest,
@@ -7768,12 +7803,18 @@ export const addSubaccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddSubaccountRequest,
   output: AddSubaccountResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type AddTemplateError = MailchimpTransactionalOpError;
+export type AddTemplateError =
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Add template Add a new template. */
 export const addTemplate: API.OperationMethod<
   AddTemplateRequest,
@@ -7783,12 +7824,16 @@ export const addTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddTemplateRequest,
   output: AddTemplateResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type AddTrackingDomainError = MailchimpTransactionalOpError;
+export type AddTrackingDomainError = BadRequest | MailchimpTransactionalOpError;
 /** Add tracking domains Add a tracking domain to your account. */
 export const addTrackingDomain: API.OperationMethod<
   AddTrackingDomainRequest,
@@ -7798,7 +7843,7 @@ export const addTrackingDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddTrackingDomainRequest,
   output: AddTrackingDomainResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [BadRequest, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -7818,7 +7863,7 @@ export const addWebhook: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CancelIpWarmupError = MailchimpTransactionalOpError;
+export type CancelIpWarmupError = NotFound | MailchimpTransactionalOpError;
 /** Cancel ip warmup Cancels the warmup process for a dedicated IP. */
 export const cancelIpWarmup: API.OperationMethod<
   CancelIpWarmupRequest,
@@ -7828,12 +7873,14 @@ export const cancelIpWarmup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelIpWarmupRequest,
   output: CancelIpWarmupResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type CancelScheduledMessageError = MailchimpTransactionalOpError;
+export type CancelScheduledMessageError =
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Cancel scheduled email Cancels a scheduled email. */
 export const cancelScheduledMessage: API.OperationMethod<
   CancelScheduledMessageRequest,
@@ -7843,12 +7890,12 @@ export const cancelScheduledMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelScheduledMessageRequest,
   output: CancelScheduledMessageResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type CheckInboundDomainError = MailchimpTransactionalOpError;
+export type CheckInboundDomainError = NotFound | MailchimpTransactionalOpError;
 /** Check domain settings Check the MX settings for an inbound domain. The domain must have already been added with the add-domain call. */
 export const checkInboundDomain: API.OperationMethod<
   CheckInboundDomainRequest,
@@ -7858,12 +7905,12 @@ export const checkInboundDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CheckInboundDomainRequest,
   output: CheckInboundDomainResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type CheckIpCustomDnsError = MailchimpTransactionalOpError;
+export type CheckIpCustomDnsError = NotFound | MailchimpTransactionalOpError;
 /** Test custom dns Tests whether a domain name is valid for use as the custom reverse DNS for a dedicated IP. */
 export const checkIpCustomDns: API.OperationMethod<
   CheckIpCustomDnsRequest,
@@ -7873,7 +7920,7 @@ export const checkIpCustomDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CheckIpCustomDnsRequest,
   output: CheckIpCustomDnsResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -7893,7 +7940,7 @@ export const checkSenderDomain: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CheckTrackingDomainError = MailchimpTransactionalOpError;
+export type CheckTrackingDomainError = NotFound | MailchimpTransactionalOpError;
 /** Check cname settings Checks the CNAME settings for a tracking domain. The domain must have been added already with the add-tracking-domain call. */
 export const checkTrackingDomain: API.OperationMethod<
   CheckTrackingDomainRequest,
@@ -7903,7 +7950,7 @@ export const checkTrackingDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CheckTrackingDomainRequest,
   output: CheckTrackingDomainResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -7923,7 +7970,9 @@ export const createIpPool: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteAllowlistEntryError = MailchimpTransactionalOpError;
+export type DeleteAllowlistEntryError =
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Remove email from allowlist Removes an email address from the allowlist. */
 export const deleteAllowlistEntry: API.OperationMethod<
   DeleteAllowlistEntryRequest,
@@ -7933,12 +7982,16 @@ export const deleteAllowlistEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAllowlistEntryRequest,
   output: DeleteAllowlistEntryResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteInboundDomainError = MailchimpTransactionalOpError;
+export type DeleteInboundDomainError = NotFound | MailchimpTransactionalOpError;
 /** Delete inbound domain Delete an inbound domain from the account. All mail will stop routing for this domain immediately. */
 export const deleteInboundDomain: API.OperationMethod<
   DeleteInboundDomainRequest,
@@ -7948,12 +8001,12 @@ export const deleteInboundDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteInboundDomainRequest,
   output: DeleteInboundDomainResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteInboundRouteError = MailchimpTransactionalOpError;
+export type DeleteInboundRouteError = NotFound | MailchimpTransactionalOpError;
 /** Delete mailbox route Delete an existing inbound mailbox route. */
 export const deleteInboundRoute: API.OperationMethod<
   DeleteInboundRouteRequest,
@@ -7963,7 +8016,7 @@ export const deleteInboundRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteInboundRouteRequest,
   output: DeleteInboundRouteResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -7983,7 +8036,10 @@ export const deleteIp: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteIpPoolError = MailchimpTransactionalOpError;
+export type DeleteIpPoolError =
+  | BadRequest
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Delete ip pool Deletes a pool. A pool must be empty before you can delete it, and you cannot delete your default pool. */
 export const deleteIpPool: API.OperationMethod<
   DeleteIpPoolRequest,
@@ -7993,12 +8049,17 @@ export const deleteIpPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteIpPoolRequest,
   output: DeleteIpPoolResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    BadRequest,
+    NotFound,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteMetadataFieldError = MailchimpTransactionalOpError;
+export type DeleteMetadataFieldError = NotFound | MailchimpTransactionalOpError;
 /** Delete metadata field Delete an existing custom metadata field. Deletion isn't instataneous, and /metadata/list will continue to return the field until the asynchronous deletion process is complete. */
 export const deleteMetadataField: API.OperationMethod<
   DeleteMetadataFieldRequest,
@@ -8008,12 +8069,15 @@ export const deleteMetadataField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteMetadataFieldRequest,
   output: DeleteMetadataFieldResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteRejectError = MailchimpTransactionalOpError;
+export type DeleteRejectError =
+  | NotFound
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Delete email from denylist Deletes an email rejection. There is no limit to how many rejections you can remove from your denylist, but keep in mind that each deletion has an affect on your reputation. */
 export const deleteReject: API.OperationMethod<
   DeleteRejectRequest,
@@ -8023,12 +8087,20 @@ export const deleteReject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteRejectRequest,
   output: DeleteRejectResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteSenderDomainError = MailchimpTransactionalOpError;
+export type DeleteSenderDomainError =
+  | Forbidden
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Delete sender domain Deletes an unverified sender domain from your account. Verified domains cannot be deleted via API and require login confirmation. */
 export const deleteSenderDomain: API.OperationMethod<
   DeleteSenderDomainRequest,
@@ -8038,12 +8110,20 @@ export const deleteSenderDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSenderDomainRequest,
   output: DeleteSenderDomainResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    Forbidden,
+    NotFound,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteSmsRejectError = MailchimpTransactionalOpError;
+export type DeleteSmsRejectError =
+  | NotFound
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Delete phone number from SMS denylist Deletes an SMS rejection. There is no limit to how many rejections you can remove from your denylist, but keep in mind that each deletion has an affect on your reputation. */
 export const deleteSmsReject: API.OperationMethod<
   DeleteSmsRejectRequest,
@@ -8053,12 +8133,17 @@ export const deleteSmsReject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSmsRejectRequest,
   output: DeleteSmsRejectResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteSubaccountError = MailchimpTransactionalOpError;
+export type DeleteSubaccountError = NotFound | MailchimpTransactionalOpError;
 /** Delete subaccount Delete an existing subaccount. Any email related to the subaccount will be saved, but stats will be removed and any future sending calls to this subaccount will fail. */
 export const deleteSubaccount: API.OperationMethod<
   DeleteSubaccountRequest,
@@ -8068,12 +8153,12 @@ export const deleteSubaccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSubaccountRequest,
   output: DeleteSubaccountResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteTagError = MailchimpTransactionalOpError;
+export type DeleteTagError = BadRequest | MailchimpTransactionalOpError;
 /** Delete tag Deletes a tag permanently. Deleting a tag removes the tag from any messages that have been sent, and also deletes the tag's stats. There is no way to undo this operation, so use it carefully. */
 export const deleteTag: API.OperationMethod<
   DeleteTagRequest,
@@ -8083,12 +8168,12 @@ export const deleteTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteTagRequest,
   output: DeleteTagResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [BadRequest, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteTemplateError = MailchimpTransactionalOpError;
+export type DeleteTemplateError = NotFound | MailchimpTransactionalOpError;
 /** Delete template Delete a template. */
 export const deleteTemplate: API.OperationMethod<
   DeleteTemplateRequest,
@@ -8098,12 +8183,15 @@ export const deleteTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteTemplateRequest,
   output: DeleteTemplateResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteTrackingDomainError = MailchimpTransactionalOpError;
+export type DeleteTrackingDomainError =
+  | Forbidden
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Delete tracking domain Deletes an unverified tracking domain from your account. Valid tracking domains cannot be deleted via API and require login confirmation. */
 export const deleteTrackingDomain: API.OperationMethod<
   DeleteTrackingDomainRequest,
@@ -8113,12 +8201,17 @@ export const deleteTrackingDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteTrackingDomainRequest,
   output: DeleteTrackingDomainResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    Forbidden,
+    NotFound,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteWebhookError = MailchimpTransactionalOpError;
+export type DeleteWebhookError = NotFound | MailchimpTransactionalOpError;
 /** Delete webhook Delete an existing webhook. */
 export const deleteWebhook: API.OperationMethod<
   DeleteWebhookRequest,
@@ -8128,7 +8221,7 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteWebhookRequest,
   output: DeleteWebhookResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -8208,7 +8301,7 @@ export const getAllTagsTimeSeries: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetExportError = MailchimpTransactionalOpError;
+export type GetExportError = NotFound | MailchimpTransactionalOpError;
 /** View export info Returns information about an export job. If the export job's state is 'complete', the returned data will include a URL you can use to fetch the results. Every export job produces a zip archive, but the format of the archive is distinct for each job type. The api calls that initiate exports include more details about the output format for that job type. */
 export const getExport: API.OperationMethod<
   GetExportRequest,
@@ -8218,7 +8311,7 @@ export const getExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetExportRequest,
   output: GetExportResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -8238,7 +8331,7 @@ export const getIp: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetIpPoolError = MailchimpTransactionalOpError;
+export type GetIpPoolError = NotFound | MailchimpTransactionalOpError;
 /** Get ip pool info Describes a single dedicated IP pool. */
 export const getIpPool: API.OperationMethod<
   GetIpPoolRequest,
@@ -8248,12 +8341,12 @@ export const getIpPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIpPoolRequest,
   output: GetIpPoolResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetMcTemplateError = MailchimpTransactionalOpError;
+export type GetMcTemplateError = NotFound | MailchimpTransactionalOpError;
 /** Get Mailchimp Template info Get information about a Mailchimp Transactional template in your account. */
 export const getMcTemplate: API.OperationMethod<
   GetMcTemplateRequest,
@@ -8263,12 +8356,14 @@ export const getMcTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMcTemplateRequest,
   output: GetMcTemplateResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetMcTemplateTimeSeriesError = MailchimpTransactionalOpError;
+export type GetMcTemplateTimeSeriesError =
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Get Mailchimp Transactional Template Time Series Return the recent history (hourly stats for the last 30 days) for a Mailchimp Transactional template. Returns an empty array if the template exists but has never been used to send messages. */
 export const getMcTemplateTimeSeries: API.OperationMethod<
   GetMcTemplateTimeSeriesRequest,
@@ -8278,12 +8373,12 @@ export const getMcTemplateTimeSeries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMcTemplateTimeSeriesRequest,
   output: GetMcTemplateTimeSeriesResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetMessageError = MailchimpTransactionalOpError;
+export type GetMessageError = NotFound | MailchimpTransactionalOpError;
 /** Get message info Get the information for a single recently sent message. */
 export const getMessage: API.OperationMethod<
   GetMessageRequest,
@@ -8293,12 +8388,12 @@ export const getMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMessageRequest,
   output: GetMessageResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetMessageContentError = MailchimpTransactionalOpError;
+export type GetMessageContentError = NotFound | MailchimpTransactionalOpError;
 /** Get message content Get the full content of a recently sent message. */
 export const getMessageContent: API.OperationMethod<
   GetMessageContentRequest,
@@ -8308,12 +8403,12 @@ export const getMessageContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMessageContentRequest,
   output: GetMessageContentResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSenderError = MailchimpTransactionalOpError;
+export type GetSenderError = NotFound | MailchimpTransactionalOpError;
 /** Get sender info Return more detailed information about a single sender, including aggregates of recent stats. */
 export const getSender: API.OperationMethod<
   GetSenderRequest,
@@ -8323,12 +8418,12 @@ export const getSender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSenderRequest,
   output: GetSenderResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSenderTimeSeriesError = MailchimpTransactionalOpError;
+export type GetSenderTimeSeriesError = NotFound | MailchimpTransactionalOpError;
 /** View sender history Return the recent history (hourly stats for the last 30 days) for a sender. */
 export const getSenderTimeSeries: API.OperationMethod<
   GetSenderTimeSeriesRequest,
@@ -8338,12 +8433,12 @@ export const getSenderTimeSeries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSenderTimeSeriesRequest,
   output: GetSenderTimeSeriesResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSubaccountError = MailchimpTransactionalOpError;
+export type GetSubaccountError = NotFound | MailchimpTransactionalOpError;
 /** Get subaccount info Given the ID of an existing subaccount, return the data about it. */
 export const getSubaccount: API.OperationMethod<
   GetSubaccountRequest,
@@ -8353,12 +8448,12 @@ export const getSubaccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSubaccountRequest,
   output: GetSubaccountResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetTagError = MailchimpTransactionalOpError;
+export type GetTagError = BadRequest | MailchimpTransactionalOpError;
 /** Get tag info Return more detailed information about a single tag, including aggregates of recent stats. */
 export const getTag: API.OperationMethod<
   GetTagRequest,
@@ -8368,12 +8463,12 @@ export const getTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTagRequest,
   output: GetTagResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [BadRequest, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetTagTimeSeriesError = MailchimpTransactionalOpError;
+export type GetTagTimeSeriesError = BadRequest | MailchimpTransactionalOpError;
 /** View tag history Return the recent history (hourly stats for the last 30 days) for a tag. */
 export const getTagTimeSeries: API.OperationMethod<
   GetTagTimeSeriesRequest,
@@ -8383,12 +8478,12 @@ export const getTagTimeSeries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTagTimeSeriesRequest,
   output: GetTagTimeSeriesResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [BadRequest, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetTemplateError = MailchimpTransactionalOpError;
+export type GetTemplateError = NotFound | MailchimpTransactionalOpError;
 /** Get template info Get the information for an existing template. */
 export const getTemplate: API.OperationMethod<
   GetTemplateRequest,
@@ -8398,12 +8493,14 @@ export const getTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTemplateRequest,
   output: GetTemplateResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetTemplateTimeSeriesError = MailchimpTransactionalOpError;
+export type GetTemplateTimeSeriesError =
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Get template history Return the recent history (hourly stats for the last 30 days) for a template. */
 export const getTemplateTimeSeries: API.OperationMethod<
   GetTemplateTimeSeriesRequest,
@@ -8413,7 +8510,7 @@ export const getTemplateTimeSeries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTemplateTimeSeriesRequest,
   output: GetTemplateTimeSeriesResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -8433,7 +8530,7 @@ export const getUser: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetWebhookError = MailchimpTransactionalOpError;
+export type GetWebhookError = NotFound | MailchimpTransactionalOpError;
 /** Get webhook info Given the ID of an existing webhook, return the data about it. */
 export const getWebhook: API.OperationMethod<
   GetWebhookRequest,
@@ -8443,7 +8540,7 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWebhookRequest,
   output: GetWebhookResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -8493,7 +8590,7 @@ export const listInboundDomains: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListInboundRoutesError = MailchimpTransactionalOpError;
+export type ListInboundRoutesError = NotFound | MailchimpTransactionalOpError;
 /** List routes List the routes defined for an inbound domain or SMS program. Provide either domain or phone (not both). */
 export const listInboundRoutes: API.OperationMethod<
   ListInboundRoutesRequest,
@@ -8503,7 +8600,7 @@ export const listInboundRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListInboundRoutesRequest,
   output: ListInboundRoutesResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -8568,7 +8665,7 @@ export const listMetadataFields: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListRejectsError = MailchimpTransactionalOpError;
+export type ListRejectsError = NotFound | MailchimpTransactionalOpError;
 /** List denylisted emails Retrieves your email rejection denylist. You can provide an email address to limit the results. Returns up to 1000 results. By default, entries that have expired are excluded from the results; set include_expired to true to include them. */
 export const listRejects: API.OperationMethod<
   ListRejectsRequest,
@@ -8578,7 +8675,7 @@ export const listRejects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListRejectsRequest,
   output: ListRejectsResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -8628,7 +8725,9 @@ export const listSenders: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListSmsRejectsError = MailchimpTransactionalOpError;
+export type ListSmsRejectsError =
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** List SMS denylist entries Retrieves your SMS rejection denylist. You can provide a phone number to limit the results. Returns up to 1000 results. By default, entries that have expired are excluded from the results; set include_expired to true to include them. */
 export const listSmsRejects: API.OperationMethod<
   ListSmsRejectsRequest,
@@ -8638,7 +8737,11 @@ export const listSmsRejects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListSmsRejectsRequest,
   output: ListSmsRejectsResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -8733,7 +8836,9 @@ export const listWebhooks: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ParseMessageError = MailchimpTransactionalOpError;
+export type ParseMessageError =
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Parse mime document Parse the full MIME document for an email message, returning the content of the message broken into its constituent pieces. */
 export const parseMessage: API.OperationMethod<
   ParseMessageRequest,
@@ -8743,12 +8848,16 @@ export const parseMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ParseMessageRequest,
   output: ParseMessageResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type PauseSubaccountError = MailchimpTransactionalOpError;
+export type PauseSubaccountError = NotFound | MailchimpTransactionalOpError;
 /** Pause subaccount Pause a subaccount's sending. Any future emails delivered to this subaccount will be queued for a maximum of 3 days until the subaccount is resumed. */
 export const pauseSubaccount: API.OperationMethod<
   PauseSubaccountRequest,
@@ -8758,7 +8867,7 @@ export const pauseSubaccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PauseSubaccountRequest,
   output: PauseSubaccountResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -8793,7 +8902,10 @@ export const ping2: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ProvisionIpError = MailchimpTransactionalOpError;
+export type ProvisionIpError =
+  | PaymentRequired
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Request additional ip Requests an additional dedicated IP for your account. Accounts may have one outstanding request at any time, and provisioning requests are processed within 24 hours. */
 export const provisionIp: API.OperationMethod<
   ProvisionIpRequest,
@@ -8803,12 +8915,17 @@ export const provisionIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ProvisionIpRequest,
   output: ProvisionIpResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    PaymentRequired,
+    NotFound,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type PublishTemplateError = MailchimpTransactionalOpError;
+export type PublishTemplateError = NotFound | MailchimpTransactionalOpError;
 /** Publish template content Publish the content for the template. Any new messages sent using this template will start using the content that was previously in draft. */
 export const publishTemplate: API.OperationMethod<
   PublishTemplateRequest,
@@ -8818,12 +8935,15 @@ export const publishTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PublishTemplateRequest,
   output: PublishTemplateResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type RenderMcTemplateError = MailchimpTransactionalOpError;
+export type RenderMcTemplateError =
+  | NotFound
+  | UnprocessableEntity
+  | MailchimpTransactionalOpError;
 /** Render Mailchimp Transactional Template Render a Mailchimp Transactional template with optional merge variables. */
 export const renderMcTemplate: API.OperationMethod<
   RenderMcTemplateRequest,
@@ -8833,12 +8953,17 @@ export const renderMcTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RenderMcTemplateRequest,
   output: RenderMcTemplateResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type RenderTemplateError = MailchimpTransactionalOpError;
+export type RenderTemplateError = NotFound | MailchimpTransactionalOpError;
 /** Render html template Inject content and optionally merge fields into a template, returning the HTML that results. */
 export const renderTemplate: API.OperationMethod<
   RenderTemplateRequest,
@@ -8848,12 +8973,12 @@ export const renderTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RenderTemplateRequest,
   output: RenderTemplateResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type RescheduleMessageError = MailchimpTransactionalOpError;
+export type RescheduleMessageError = NotFound | MailchimpTransactionalOpError;
 /** Reschedule email Reschedules a scheduled email. */
 export const rescheduleMessage: API.OperationMethod<
   RescheduleMessageRequest,
@@ -8863,12 +8988,12 @@ export const rescheduleMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RescheduleMessageRequest,
   output: RescheduleMessageResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type ResumeSubaccountError = MailchimpTransactionalOpError;
+export type ResumeSubaccountError = NotFound | MailchimpTransactionalOpError;
 /** Resume subaccount Resume a paused subaccount's sending. */
 export const resumeSubaccount: API.OperationMethod<
   ResumeSubaccountRequest,
@@ -8878,7 +9003,7 @@ export const resumeSubaccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResumeSubaccountRequest,
   output: ResumeSubaccountResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
@@ -8913,7 +9038,10 @@ export const searchMessagesTimeSeries: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type SendMcTemplateError = MailchimpTransactionalOpError;
+export type SendMcTemplateError =
+  | PaymentRequired
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Send using Mailchimp template Send a new transactional message through Mandrill using a Mailchimp Transactional template. */
 export const sendMcTemplate: API.OperationMethod<
   SendMcTemplateRequest,
@@ -8923,12 +9051,20 @@ export const sendMcTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SendMcTemplateRequest,
   output: SendMcTemplateResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    PaymentRequired,
+    NotFound,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type SendMessageError = MailchimpTransactionalOpError;
+export type SendMessageError =
+  | PaymentRequired
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Send new message Send a new transactional message through the Transactional API. */
 export const sendMessage: API.OperationMethod<
   SendMessageRequest,
@@ -8938,12 +9074,17 @@ export const sendMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SendMessageRequest,
   output: SendMessageResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    PaymentRequired,
+    NotFound,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type SendRawInboundError = MailchimpTransactionalOpError;
+export type SendRawInboundError = NotFound | MailchimpTransactionalOpError;
 /** Send mime document Take a raw MIME document destined for a domain with inbound domains set up, and send it to the inbound hook exactly as if it had been sent over SMTP. */
 export const sendRawInbound: API.OperationMethod<
   SendRawInboundRequest,
@@ -8953,12 +9094,15 @@ export const sendRawInbound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SendRawInboundRequest,
   output: SendRawInboundResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type SendRawMessageError = MailchimpTransactionalOpError;
+export type SendRawMessageError =
+  | PaymentRequired
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Send mime document Take a raw MIME document for a message, and send it exactly as if it were sent through the Transactional API's SMTP servers. */
 export const sendRawMessage: API.OperationMethod<
   SendRawMessageRequest,
@@ -8968,12 +9112,17 @@ export const sendRawMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SendRawMessageRequest,
   output: SendRawMessageResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    PaymentRequired,
+    NotFound,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type SendSmsError = MailchimpTransactionalOpError;
+export type SendSmsError = NotFound | MailchimpTransactionalOpError;
 /** Send SMS message Send a new SMS message through Mandrill */
 export const sendSms: API.OperationMethod<
   SendSmsRequest,
@@ -8983,12 +9132,15 @@ export const sendSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SendSmsRequest,
   output: SendSmsResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type SendTemplateError = MailchimpTransactionalOpError;
+export type SendTemplateError =
+  | PaymentRequired
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Send using message template Send a new transactional message through the Transactional API using a template. */
 export const sendTemplate: API.OperationMethod<
   SendTemplateRequest,
@@ -8998,12 +9150,20 @@ export const sendTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SendTemplateRequest,
   output: SendTemplateResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    PaymentRequired,
+    NotFound,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type SetIpCustomDnsError = MailchimpTransactionalOpError;
+export type SetIpCustomDnsError =
+  | BadRequest
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Set custom dns Configures the custom DNS name for a dedicated IP. */
 export const setIpCustomDns: API.OperationMethod<
   SetIpCustomDnsRequest,
@@ -9013,12 +9173,20 @@ export const setIpCustomDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIpCustomDnsRequest,
   output: SetIpCustomDnsResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    BadRequest,
+    NotFound,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type SetIpPoolError = MailchimpTransactionalOpError;
+export type SetIpPoolError =
+  | BadRequest
+  | NotFound
+  | MailchimpTransactionalOpError;
 /** Move ip to different pool Moves a dedicated IP to a different pool. */
 export const setIpPool: API.OperationMethod<
   SetIpPoolRequest,
@@ -9028,12 +9196,17 @@ export const setIpPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIpPoolRequest,
   output: SetIpPoolResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [
+    BadRequest,
+    NotFound,
+    MailchimpTransactionalError,
+    UnknownMailchimpError,
+  ],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type StartIpWarmupError = MailchimpTransactionalOpError;
+export type StartIpWarmupError = NotFound | MailchimpTransactionalOpError;
 /** Start ip warmup Begins the warmup process for a dedicated IP. During the warmup process, the Transactional API will gradually increase the percentage of your mail that is sent over the warming-up IP, over a period of roughly 30 days. The rest of your mail will be sent over shared IPs or other dedicated IPs in the same pool. */
 export const startIpWarmup: API.OperationMethod<
   StartIpWarmupRequest,
@@ -9043,12 +9216,12 @@ export const startIpWarmup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartIpWarmupRequest,
   output: StartIpWarmupResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateInboundRouteError = MailchimpTransactionalOpError;
+export type UpdateInboundRouteError = NotFound | MailchimpTransactionalOpError;
 /** Update mailbox route Update the pattern or webhook of an existing inbound mailbox route. If null is provided for any fields, the values will remain unchanged. */
 export const updateInboundRoute: API.OperationMethod<
   UpdateInboundRouteRequest,
@@ -9058,12 +9231,12 @@ export const updateInboundRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateInboundRouteRequest,
   output: UpdateInboundRouteResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateMetadataFieldError = MailchimpTransactionalOpError;
+export type UpdateMetadataFieldError = NotFound | MailchimpTransactionalOpError;
 /** Update metadata field Update an existing custom metadata field. */
 export const updateMetadataField: API.OperationMethod<
   UpdateMetadataFieldRequest,
@@ -9073,12 +9246,12 @@ export const updateMetadataField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateMetadataFieldRequest,
   output: UpdateMetadataFieldResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateSubaccountError = MailchimpTransactionalOpError;
+export type UpdateSubaccountError = NotFound | MailchimpTransactionalOpError;
 /** Update subaccount Update an existing subaccount. */
 export const updateSubaccount: API.OperationMethod<
   UpdateSubaccountRequest,
@@ -9088,12 +9261,12 @@ export const updateSubaccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSubaccountRequest,
   output: UpdateSubaccountResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateTemplateError = MailchimpTransactionalOpError;
+export type UpdateTemplateError = NotFound | MailchimpTransactionalOpError;
 /** Update template Update the code for an existing template. If null is provided for any fields, the values will remain unchanged. */
 export const updateTemplate: API.OperationMethod<
   UpdateTemplateRequest,
@@ -9103,12 +9276,12 @@ export const updateTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateTemplateRequest,
   output: UpdateTemplateResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateWebhookError = MailchimpTransactionalOpError;
+export type UpdateWebhookError = NotFound | MailchimpTransactionalOpError;
 /** Update webhook Update an existing webhook. */
 export const updateWebhook: API.OperationMethod<
   UpdateWebhookRequest,
@@ -9118,7 +9291,7 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateWebhookRequest,
   output: UpdateWebhookResponse,
-  errors: [MailchimpTransactionalError, UnknownMailchimpError],
+  errors: [NotFound, MailchimpTransactionalError, UnknownMailchimpError],
   protocol: MailchimpTransactionalProtocol,
   retry: Retry.Retry,
 }));

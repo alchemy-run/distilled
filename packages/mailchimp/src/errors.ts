@@ -28,6 +28,7 @@ export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
 const ProblemFields = {
   status: Schema.Number,
@@ -69,3 +70,18 @@ export class MailchimpTransactionalError extends Schema.TaggedError<MailchimpTra
     body: Schema.Unknown,
   },
 ) {}
+
+/**
+ * Transactional 402: the account's plan or balance does not allow the call
+ * (scheduling, dedicated IPs, …). Core has no 402 class, so this one is
+ * matched by status for the operations that declare it; `code` is the
+ * vendor's (`10`).
+ */
+export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()(
+  "PaymentRequired",
+  {
+    code: Schema.optional(Schema.Int),
+    message: Schema.String,
+  },
+).pipe(Category.withQuotaError) {}
+applyErrorMatchers(PaymentRequired, [{ status: 402 }]);

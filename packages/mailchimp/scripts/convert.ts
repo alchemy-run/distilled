@@ -5,6 +5,8 @@
  * Input:  specs/spec-mirror-mailchimp/specs/marketing.json       (spec
  *         specs/spec-mirror-mailchimp/specs/transactional.json   submodule —
  *         the Swagger 2.0 documents Mailchimp generates its own clients from)
+ *         specs/spec-mirror-mailchimp/specs/transactional.openapi.json
+ *         (the same routes as OpenAPI 3.1; read only for its error responses)
  *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI documents)
  * Output: .generated-specs/marketing.json
  *         .generated-specs/transactional.json
@@ -13,8 +15,14 @@
  * `@distilled.cloud/core/codegen/openapi`; this script is Mailchimp's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
  */
+import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+
+const ROOT = path.resolve(import.meta.dir, "..");
+const TRANSACTIONAL_ERRORS_SPEC =
+  "specs/spec-mirror-mailchimp/specs/transactional.openapi.json";
 
 const METHODS = ["get", "put", "post", "patch", "delete"] as const;
 
@@ -196,6 +204,33 @@ const stripTransactionalKey = (spec: any): void => {
   }
 };
 
+/**
+ * The Swagger document declares only `200`; the OpenAPI 3.1 one declares each
+ * route's failures (`404` on `/templates/info`, `402` on `/messages/send`).
+ * Copying those statuses across is what gives every operation its own error
+ * list. The class is chosen per status, so two "not found" components on one
+ * status collapse onto `NotFound`; the vendor's name stays in the message.
+ */
+const declareTransactionalErrors = async (spec: any): Promise<void> => {
+  const source = JSON.parse(
+    await fs.readFile(resolveSpecPath(ROOT, TRANSACTIONAL_ERRORS_SPEC), "utf8"),
+  );
+  const components = source.components?.responses ?? {};
+  for (const [route, item] of Object.entries<any>(spec.paths ?? {})) {
+    const declared = source.paths?.[route]?.post?.responses;
+    if (declared === undefined) {
+      throw new Error(`${route}: not in transactional.openapi.json`);
+    }
+    for (const [status, response] of Object.entries<any>(declared)) {
+      if (!/^[45]\d\d$/.test(status)) continue;
+      const name = response.$ref?.split("/").pop();
+      const description =
+        components[name]?.description ?? response.description ?? name;
+      item.post.responses[status] = { description };
+    }
+  }
+};
+
 const collectVendorNames = (spec: any): void => {
   const found: { key: string; name: string }[] = [];
   for (const [route, item] of Object.entries<any>(spec.paths ?? {})) {
@@ -214,7 +249,7 @@ const collectVendorNames = (spec: any): void => {
 };
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: ROOT,
   specs: [
     {
       name: "marketing",
@@ -224,10 +259,21 @@ await runOpenApiConvert({
     {
       name: "transactional",
       specPath: "specs/spec-mirror-mailchimp/specs/transactional.json",
-      preprocess: stripTransactionalKey,
+      preprocess: async (spec) => {
+        stripTransactionalKey(spec);
+        await declareTransactionalErrors(spec);
+      },
       options: {
         namespace: "com.mailchimp.transactional",
         serviceName: "MailchimpTransactional",
+        statusToErrorClass: {
+          400: "BadRequest",
+          402: "PaymentRequired",
+          403: "Forbidden",
+          404: "NotFound",
+          422: "UnprocessableEntity",
+        },
+        defaultErrorStatuses: ["401", "429", "500", "502", "503", "504"],
         operationNames: (_id, ctx) => {
           const name =
             TRANSACTIONAL_NAMES[`${ctx.method.toUpperCase()} ${ctx.path}`];
