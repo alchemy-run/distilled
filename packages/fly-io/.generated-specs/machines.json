@@ -136,6 +136,12 @@
         "enable_subdomains": {
           "target": "smithy.api#Boolean"
         },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When set, makes a retry of this exact request safe: a\nsecond create with the same key and the same name (or no name) returns\nthe app the first request created, instead of erroring on a false name\nconflict or creating a duplicate. A second create with the same key\nbut a *different* name is rejected outright; it won't silently\nhand back the first app."
+          }
+        },
         "name": {
           "target": "smithy.api#String"
         },
@@ -150,13 +156,25 @@
         "smithy.api#input": {}
       }
     },
+    "com.flyio.machines#CreateAppResponse": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#Integer"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
     "com.flyio.machines#CreateApp": {
       "type": "operation",
       "input": {
         "target": "com.flyio.machines#CreateAppRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.flyio.machines#CreateAppResponse"
       },
       "errors": [
         {
@@ -1260,8 +1278,17 @@
         "created_at": {
           "target": "smithy.api#String"
         },
+        "egress": {
+          "target": "smithy.api#Boolean"
+        },
         "ip": {
           "target": "smithy.api#String"
+        },
+        "network": {
+          "target": "com.flyio.machines#IPAssignmentNetwork",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "region": {
           "target": "smithy.api#String"
@@ -1274,18 +1301,26 @@
         },
         "type": {
           "target": "smithy.api#String"
-        },
-        "egress": {
-          "target": "smithy.api#Boolean"
-        },
-        "network": {
-          "target": "com.flyio.machines#IPAssignmentNetwork",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
         }
       },
       "traits": {}
+    },
+    "com.flyio.machines#IPAssignmentNetwork": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Network name; empty for the organization's default network."
+          }
+        },
+        "org_slug": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The 6PN network a Flycast (private_v6) address belongs to. Null for all other IP types."
+      }
     },
     "com.flyio.machines#ListIPAssignmentsResponseIpsList": {
       "type": "list",
@@ -1319,6 +1354,56 @@
         "smithy.api#documentation": "List IP assignments for app"
       }
     },
+    "com.flyio.machines#IPAssignmentType": {
+      "type": "enum",
+      "members": {
+        "V4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v4"
+          }
+        },
+        "V6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v6"
+          }
+        },
+        "SHARED_V4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared_v4"
+          }
+        },
+        "PRIVATE_V6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private_v6"
+          }
+        },
+        "EGRESS_V4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egress_v4"
+          }
+        },
+        "EGRESS_V6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egress_v6"
+          }
+        },
+        "EGRESS_PAIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "egress_pair"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of IP address to allocate. \"egress-pair\" allocates both v4 and v6 egress IP addresses (recommended when using egress IPs)."
+      }
+    },
     "com.flyio.machines#CreateAppIPAssignmentRequest": {
       "type": "structure",
       "members": {
@@ -1349,6 +1434,54 @@
       "traits": {
         "smithy.api#input": {}
       }
+    },
+    "com.flyio.machines#AssignIPResponse": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "egress": {
+          "target": "smithy.api#Boolean"
+        },
+        "ip": {
+          "target": "smithy.api#String"
+        },
+        "ip_pair": {
+          "target": "com.flyio.machines#IPPair",
+          "traits": {
+            "smithy.api#documentation": "ip_pair is returned when \"egress-pair\" IP type is requested; in this case, ip is null."
+          }
+        },
+        "network": {
+          "target": "com.flyio.machines#IPAssignmentNetwork",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String"
+        },
+        "service_name": {
+          "target": "smithy.api#String"
+        },
+        "shared": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#IPPair": {
+      "type": "structure",
+      "members": {
+        "v4": {
+          "target": "smithy.api#String"
+        },
+        "v6": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
     },
     "com.flyio.machines#CreateAppIPAssignment": {
       "type": "operation",
@@ -1485,6 +1618,20 @@
             "smithy.api#httpQuery": "metadata.{key}",
             "smithy.api#documentation": "Filter by a machine metadata key and exact value. Replace {key} with the metadata key, for example metadata.foo=bar. Specify multiple metadata filters to require all matches."
           }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Value of the fly-next-cursor response header from the previous page. Requires limit."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The number of machines to fetch (must be between 1 and 1000). Providing a limit enables pagination. This limit is advisory; responses may be shorter, or even empty, even when more machines remain."
+          }
         }
       },
       "traits": {
@@ -1509,6 +1656,9 @@
         "events": {
           "target": "com.flyio.machines#MachineEventsList"
         },
+        "host_features": {
+          "target": "com.flyio.machines#MachineHostFeaturesList"
+        },
         "host_status": {
           "target": "com.flyio.machines#MachineHostStatus"
         },
@@ -1524,7 +1674,7 @@
         "instance_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "InstanceID is unique for each version of the machine"
+            "smithy.api#documentation": "InstanceID is the same value as `version`.\n\nDeprecated: use `version`."
           }
         },
         "lease": {
@@ -1553,6 +1703,12 @@
         },
         "updated_at": {
           "target": "smithy.api#String"
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version is unique for each version of the machine. Pass it as\n`current_version` when updating the Machine to reject the update if the\nMachine has changed since this version."
+          }
         }
       },
       "traits": {}
@@ -1902,7 +2058,7 @@
         "restart": {
           "target": "com.flyio.machines#FlyMachineRestart",
           "traits": {
-            "smithy.api#documentation": "Restart is used to define the restart policy for the container. NOTE: spot-price is not\nsupported for containers."
+            "smithy.api#documentation": "Restart is used to define the restart policy for the container."
           }
         },
         "secrets": {
@@ -2343,12 +2499,6 @@
     "com.flyio.machines#FlyMachineRestart": {
       "type": "structure",
       "members": {
-        "gpu_bid_price": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "GPU bid price for spot Machines."
-          }
-        },
         "max_retries": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -2358,7 +2508,7 @@
         "policy": {
           "target": "com.flyio.machines#FlyMachineRestartPolicy",
           "traits": {
-            "smithy.api#documentation": "* no - Never try to restart a Machine automatically when its main process exits, whether that’s on purpose or on a crash.\n* always - Always restart a Machine automatically and never let it enter a stopped state, even when the main process exits cleanly.\n* on-failure - Try up to MaxRetries times to automatically restart the Machine if it exits with a non-zero exit code. Default when no explicit policy is set, and for Machines with schedules.\n* spot-price - Starts the Machine only when there is capacity and the spot price is less than or equal to the bid price."
+            "smithy.api#documentation": "* no - Never try to restart a Machine automatically when its main process exits, whether that’s on purpose or on a crash.\n* always - Always restart a Machine automatically and never let it enter a stopped state, even when the main process exits cleanly.\n* on-failure - Try up to MaxRetries times to automatically restart the Machine if it exits with a non-zero exit code. Default when no explicit policy is set, and for Machines with schedules."
           }
         }
       },
@@ -2386,16 +2536,10 @@
           "traits": {
             "smithy.api#enumValue": "on-failure"
           }
-        },
-        "SPOT_PRICE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "spot-price"
-          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* no - Never try to restart a Machine automatically when its main process exits, whether that’s on purpose or on a crash.\n* always - Always restart a Machine automatically and never let it enter a stopped state, even when the main process exits cleanly.\n* on-failure - Try up to MaxRetries times to automatically restart the Machine if it exits with a non-zero exit code. Default when no explicit policy is set, and for Machines with schedules.\n* spot-price - Starts the Machine only when there is capacity and the spot price is less than or equal to the bid price."
+        "smithy.api#documentation": "* no - Never try to restart a Machine automatically when its main process exits, whether that’s on purpose or on a crash.\n* always - Always restart a Machine automatically and never let it enter a stopped state, even when the main process exits cleanly.\n* on-failure - Try up to MaxRetries times to automatically restart the Machine if it exits with a non-zero exit code. Default when no explicit policy is set, and for Machines with schedules."
       }
     },
     "com.flyio.machines#FlyMachineSecret": {
@@ -2626,6 +2770,9 @@
           "traits": {
             "smithy.api#documentation": "Deprecated: use MachineConfig.Rootfs instead"
           }
+        },
+        "required_host_features": {
+          "target": "com.flyio.machines#FlyMachineGuestRequiredHostFeaturesList"
         }
       },
       "traits": {}
@@ -2662,6 +2809,13 @@
       "traits": {
         "smithy.api#documentation": "Deprecated: use MachineConfig.Rootfs instead"
       }
+    },
+    "com.flyio.machines#FlyMachineGuestRequiredHostFeaturesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
     },
     "com.flyio.machines#FlyMachineInit": {
       "type": "structure",
@@ -2746,11 +2900,23 @@
         "add_size_gb": {
           "target": "smithy.api#Integer"
         },
+        "add_size_percent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "AddSizePercent grows by a percentage of the current size, rounded up to GiB.\nIt is mutually exclusive with AddSizeGb."
+          }
+        },
         "encrypted": {
           "target": "smithy.api#Boolean"
         },
         "extend_threshold_percent": {
           "target": "smithy.api#Integer"
+        },
+        "min_add_size_gb": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "MinAddSizeGb is the minimum proportional growth in GiB (default 1)."
+          }
         },
         "name": {
           "target": "smithy.api#String"
@@ -3322,6 +3488,13 @@
       },
       "traits": {}
     },
+    "com.flyio.machines#MachineHostFeaturesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.flyio.machines#MachineHostStatus": {
       "type": "enum",
       "members": {
@@ -3538,6 +3711,13 @@
             "smithy.api#documentation": "Machine ID"
           }
         },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version",
+            "smithy.api#documentation": "26-character Machine version ID; returns that version of the Machine instead of the current one"
+          }
+        },
         "include_leases": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -3601,7 +3781,10 @@
           }
         },
         "current_version": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CurrentVersion is an optional optimistic-concurrency guard: the Machine's\n`version`, as returned by create, get or a previous update. When set\nand it is no longer the Machine's current version, the update is rejected\nwith 409 Conflict and nothing changes. Omit it to update unconditionally."
+          }
         },
         "lease_ttl": {
           "target": "smithy.api#Integer"
@@ -4448,77 +4631,6 @@
         "smithy.api#documentation": "Get Metadata\n\nRetrieve metadata for a specific Machine within an app."
       }
     },
-    "com.flyio.machines#UpdateMachineMetadataRequestMetadataMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.flyio.machines#UpdateMachineMetadataRequest": {
-      "type": "structure",
-      "members": {
-        "app_name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Fly App Name"
-          }
-        },
-        "machine_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Machine ID"
-          }
-        },
-        "machine_version": {
-          "target": "smithy.api#String"
-        },
-        "metadata": {
-          "target": "com.flyio.machines#UpdateMachineMetadataRequestMetadataMap"
-        },
-        "updated_at": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.flyio.machines#UpdateMachineMetadata": {
-      "type": "operation",
-      "input": {
-        "target": "com.flyio.machines#UpdateMachineMetadataRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.flyio.machines#BadRequest"
-        },
-        {
-          "target": "com.flyio.machines#Forbidden"
-        },
-        {
-          "target": "com.flyio.machines#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/v1/apps/{app_name}/machines/{machine_id}/metadata",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update Metadata (set/remove multiple keys)\n\nUpdate multiple metadata keys at once. Null values and empty strings remove keys.\n+ If `machine_version` is provided and no longer matches the current machine version, returns 412 Precondition Failed."
-      }
-    },
     "com.flyio.machines#PatchMachineMetadataRequestMetadataMap": {
       "type": "map",
       "key": {
@@ -4573,6 +4685,12 @@
       "errors": [
         {
           "target": "com.flyio.machines#BadRequest"
+        },
+        {
+          "target": "com.flyio.machines#Forbidden"
+        },
+        {
+          "target": "com.flyio.machines#NotFound"
         }
       ],
       "traits": {
@@ -4581,7 +4699,7 @@
           "uri": "/v1/apps/{app_name}/machines/{machine_id}/metadata",
           "code": 200
         },
-        "smithy.api#documentation": "Update Metadata (set/remove multiple keys)\n\nUpdate multiple metadata keys at once. Null values and empty strings remove keys.\n+ If `machine_version` is provided and no longer matches the current machine version, returns 412 Precondition Failed."
+        "smithy.api#documentation": "Update Metadata (set/remove multiple keys)\n\nUpdate multiple metadata keys at once. Keys that are not in the request are left untouched. Null values and empty strings remove keys.\n+ If `machine_version` is provided and no longer matches the current machine version, returns 412 Precondition Failed."
       }
     },
     "com.flyio.machines#GetMachineMetadataKeyRequest": {
@@ -6843,6 +6961,9 @@
         "fstype": {
           "target": "smithy.api#String"
         },
+        "host_features": {
+          "target": "com.flyio.machines#VolumeHostFeaturesList"
+        },
         "host_status": {
           "target": "com.flyio.machines#VolumeHostStatus"
         },
@@ -6854,6 +6975,9 @@
         },
         "region": {
           "target": "smithy.api#String"
+        },
+        "required_host_features": {
+          "target": "com.flyio.machines#VolumeRequiredHostFeaturesList"
         },
         "size_gb": {
           "target": "smithy.api#Integer"
@@ -6870,6 +6994,13 @@
         "zone": {
           "target": "smithy.api#String"
         }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#VolumeHostFeaturesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -6894,6 +7025,13 @@
             "smithy.api#enumValue": "unreachable"
           }
         }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#VolumeRequiredHostFeaturesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -7750,6 +7888,9 @@
         "fstype": {
           "target": "smithy.api#String"
         },
+        "host_features": {
+          "target": "com.flyio.machines#OrgVolumeHostFeaturesList"
+        },
         "host_status": {
           "target": "com.flyio.machines#OrgVolumeHostStatus"
         },
@@ -7761,6 +7902,9 @@
         },
         "region": {
           "target": "smithy.api#String"
+        },
+        "required_host_features": {
+          "target": "com.flyio.machines#OrgVolumeRequiredHostFeaturesList"
         },
         "size_gb": {
           "target": "smithy.api#Integer"
@@ -7780,6 +7924,13 @@
         "zone": {
           "target": "smithy.api#String"
         }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#OrgVolumeHostFeaturesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -7804,6 +7955,13 @@
             "smithy.api#enumValue": "unreachable"
           }
         }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#OrgVolumeRequiredHostFeaturesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -8041,7 +8199,7 @@
           "traits": {
             "smithy.api#httpQuery": "org_slug",
             "smithy.api#required": {},
-            "smithy.api#documentation": "Fly Organization Slug"
+            "smithy.api#documentation": "Fly Organization Slug, or 'personal' for the caller's personal organization"
           }
         },
         "include_deleted": {
@@ -8239,6 +8397,9 @@
       },
       "errors": [
         {
+          "target": "com.flyio.machines#BadRequest"
+        },
+        {
           "target": "com.flyio.machines#NotFound"
         },
         {
@@ -8309,7 +8470,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Plan slug selecting CPU, memory, and disk sizing."
+        "smithy.api#documentation": "Plan slug selecting CPU, memory, and disk sizing. Matched case-insensitively."
       }
     },
     "com.flyio.machines#CreatePostgresRequestPoolMode": {
@@ -8350,7 +8511,7 @@
         "org_slug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Slug of the organization that will own the cluster.",
+            "smithy.api#documentation": "Slug of the organization that will own the cluster, or \"personal\" for the caller's personal organization.",
             "smithy.api#required": {}
           }
         },
@@ -8363,7 +8524,7 @@
         "plan": {
           "target": "com.flyio.machines#CreatePostgresRequestPlan",
           "traits": {
-            "smithy.api#documentation": "Plan slug selecting CPU, memory, and disk sizing.",
+            "smithy.api#documentation": "Plan slug selecting CPU, memory, and disk sizing. Matched case-insensitively.",
             "smithy.api#required": {}
           }
         },
@@ -8430,7 +8591,7 @@
         "disk_size_gb": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Disk size in gigabytes."
+            "smithy.api#documentation": "Disk size in gigabytes, for one replica."
           }
         },
         "endpoints": {
@@ -8494,6 +8655,20 @@
           "target": "com.flyio.machines#PostgresClusterStatus",
           "traits": {
             "smithy.api#documentation": "Current lifecycle status."
+          }
+        },
+        "storage_provisioned_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Storage provisioned, summed across the cluster's volumes and measured hourly.\nNull until first measured.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage_used_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Storage used, summed across the cluster's volumes and measured hourly. Null\nuntil first measured.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -8721,7 +8896,7 @@
           "uri": "/v1/postgres",
           "code": 200
         },
-        "smithy.api#documentation": "Create Postgres Cluster\n\nCreate a Managed Postgres cluster for the organization named in the request body. Provisioning is asynchronous, and a name is generated when one is not supplied."
+        "smithy.api#documentation": "Create Postgres Cluster\n\nCreate a Managed Postgres cluster for the organization named in the request body. Provisioning is asynchronous: poll `GET /v1/postgres/{id}` until `status == ready` before calling database, user, extension, or credential endpoints."
       }
     },
     "com.flyio.machines#GetPostgresRequest": {
@@ -8875,7 +9050,7 @@
           "uri": "/v1/postgres/{postgres_cluster_id}/attachments",
           "code": 200
         },
-        "smithy.api#documentation": "Attach Cluster to App\n\nAttach a specific cluster to a Fly app. The attachment is created if it does not already exist."
+        "smithy.api#documentation": "Attach Cluster to App\n\nRecord an attachment between a cluster and a Fly app. This endpoint records the relationship but does not set DATABASE_URL or other app secrets; configure the connection string separately. The attachment is created if it does not already exist."
       }
     },
     "com.flyio.machines#DeletePostgresAttachmentRequest": {
@@ -9200,7 +9375,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the database to create.",
+            "smithy.api#documentation": "Name of the database to create. Must start and end with an alphanumeric\ncharacter and may contain hyphens and underscores, up to 63 characters.",
             "smithy.api#required": {}
           }
         }
@@ -9344,9 +9519,10 @@
           }
         },
         "installed": {
-          "target": "com.flyio.machines#PostgresInstalledExtension",
+          "target": "com.flyio.machines#PostgresExtensionInstalled",
           "traits": {
-            "smithy.api#documentation": "Installation details, or null when the extension is not installed."
+            "smithy.api#documentation": "Installation details, or null when the extension is not installed.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "name": {
@@ -9364,7 +9540,7 @@
       },
       "traits": {}
     },
-    "com.flyio.machines#PostgresInstalledExtension": {
+    "com.flyio.machines#PostgresExtensionInstalled": {
       "type": "structure",
       "members": {
         "schema": {
@@ -9380,7 +9556,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Installation details, or null when the extension is not installed."
+      }
     },
     "com.flyio.machines#ListPostgresExtensionsResponseDataList": {
       "type": "list",
@@ -9608,6 +9786,261 @@
         "smithy.api#documentation": "Fork Cluster to New Cluster\n\nFork a ready Managed Postgres cluster into a new cluster that inherits the source's settings. The source cluster is left unchanged, and the fork is provisioned asynchronously."
       }
     },
+    "com.flyio.machines#PostgresQueriesActiveRequest": {
+      "type": "structure",
+      "members": {
+        "postgres_cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Managed Postgres Cluster ID"
+          }
+        },
+        "database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "database",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Database to inspect (must not be empty or whitespace-only)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.flyio.machines#ListPostgresActiveQueriesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.flyio.machines#ListPostgresActiveQueriesResponseDataList"
+        }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#PostgresActiveQuery": {
+      "type": "structure",
+      "members": {
+        "application_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application connected to the backend."
+          }
+        },
+        "client": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client address."
+          }
+        },
+        "database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Database name."
+          }
+        },
+        "duration_seconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Query duration in seconds."
+          }
+        },
+        "pid": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Process ID of the backend running the query."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full query text."
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current backend state."
+          }
+        },
+        "state_duration_seconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Time spent in the current state, in seconds."
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User running the query."
+          }
+        },
+        "wait_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event the backend is waiting for."
+          }
+        },
+        "wait_event_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of event the backend is waiting for."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#ListPostgresActiveQueriesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.flyio.machines#PostgresActiveQuery"
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#PostgresQueriesActive": {
+      "type": "operation",
+      "input": {
+        "target": "com.flyio.machines#PostgresQueriesActiveRequest"
+      },
+      "output": {
+        "target": "com.flyio.machines#ListPostgresActiveQueriesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.flyio.machines#NotFound"
+        },
+        {
+          "target": "com.flyio.machines#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/postgres/{postgres_cluster_id}/queries/active",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Active Queries\n\nList active queries in the supplied database. The database query parameter is required and must not be empty or whitespace-only. Returns full query text and durations in seconds."
+      }
+    },
+    "com.flyio.machines#PostgresQueriesSlowRequest": {
+      "type": "structure",
+      "members": {
+        "postgres_cluster_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Managed Postgres Cluster ID"
+          }
+        },
+        "range": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "range",
+            "smithy.api#documentation": "Metrics lookback in seconds"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.flyio.machines#ListPostgresSlowQueriesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.flyio.machines#ListPostgresSlowQueriesResponseDataList"
+        }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#PostgresSlowQuery": {
+      "type": "structure",
+      "members": {
+        "calls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Cumulative number of executions."
+          }
+        },
+        "database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Database name."
+          }
+        },
+        "max_exec_time_seconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Maximum execution time in seconds."
+          }
+        },
+        "mean_exec_time_seconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Mean execution time in seconds."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full query pattern."
+          }
+        },
+        "query_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Query identifier."
+          }
+        },
+        "total_exec_time_seconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Cumulative total execution time in seconds."
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User running the query."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#ListPostgresSlowQueriesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.flyio.machines#PostgresSlowQuery"
+      },
+      "traits": {}
+    },
+    "com.flyio.machines#PostgresQueriesSlow": {
+      "type": "operation",
+      "input": {
+        "target": "com.flyio.machines#PostgresQueriesSlowRequest"
+      },
+      "output": {
+        "target": "com.flyio.machines#ListPostgresSlowQueriesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.flyio.machines#NotFound"
+        },
+        {
+          "target": "com.flyio.machines#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/postgres/{postgres_cluster_id}/queries/slow",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Slow Queries\n\nList the top 20 queries by cumulative total execution time, excluding the postgres database. Uses the latest available metrics within the lookback range; statistics are cumulative PostgreSQL counters, not deltas over that range. Returns full query text and execution times in seconds."
+      }
+    },
     "com.flyio.machines#RestorePostgresRequest": {
       "type": "structure",
       "members": {
@@ -9815,7 +10248,7 @@
         "username": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name for the new user.",
+            "smithy.api#documentation": "Name for the new user. Must start and end with a lowercase alphanumeric\ncharacter and may contain hyphens and underscores, up to 63 characters.",
             "smithy.api#required": {}
           }
         }
@@ -10835,9 +11268,6 @@
           "target": "com.flyio.machines#GetMachineMetadata"
         },
         {
-          "target": "com.flyio.machines#UpdateMachineMetadata"
-        },
-        {
           "target": "com.flyio.machines#PatchMachineMetadata"
         },
         {
@@ -11000,6 +11430,12 @@
           "target": "com.flyio.machines#ForkPostgres"
         },
         {
+          "target": "com.flyio.machines#PostgresQueriesActive"
+        },
+        {
+          "target": "com.flyio.machines#PostgresQueriesSlow"
+        },
+        {
           "target": "com.flyio.machines#RestorePostgres"
         },
         {
@@ -11039,121 +11475,6 @@
       "traits": {
         "smithy.api#title": "Machines API",
         "smithy.api#documentation": "This site hosts documentation generated from the Fly.io Machines API OpenAPI specification. Visit our complete [Machines API docs](https://fly.io/docs/machines/api/) for how to get started, more information about each endpoint, parameter descriptions, and examples."
-      }
-    },
-    "com.flyio.machines#IPAssignmentType": {
-      "type": "enum",
-      "members": {
-        "V4": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "v4"
-          }
-        },
-        "V6": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "v6"
-          }
-        },
-        "SHARED_V4": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "shared_v4"
-          }
-        },
-        "PRIVATE_V6": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "private_v6"
-          }
-        },
-        "EGRESS_V4": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "egress_v4"
-          }
-        },
-        "EGRESS_V6": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "egress_v6"
-          }
-        },
-        "EGRESS_PAIR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "egress_pair"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Type of IP address to allocate. \"egress-pair\" allocates both v4 and v6 egress IP addresses (recommended when using egress IPs)."
-      }
-    },
-    "com.flyio.machines#AssignIPResponse": {
-      "type": "structure",
-      "members": {
-        "created_at": {
-          "target": "smithy.api#String"
-        },
-        "egress": {
-          "target": "smithy.api#Boolean"
-        },
-        "ip": {
-          "target": "smithy.api#String"
-        },
-        "ip_pair": {
-          "target": "com.flyio.machines#IPPair",
-          "traits": {
-            "smithy.api#documentation": "ip_pair is returned when \"egress-pair\" IP type is requested; in this case, ip is null."
-          }
-        },
-        "region": {
-          "target": "smithy.api#String"
-        },
-        "service_name": {
-          "target": "smithy.api#String"
-        },
-        "shared": {
-          "target": "smithy.api#Boolean"
-        },
-        "network": {
-          "target": "com.flyio.machines#IPAssignmentNetwork",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.flyio.machines#IPPair": {
-      "type": "structure",
-      "members": {
-        "v4": {
-          "target": "smithy.api#String"
-        },
-        "v6": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
-    "com.flyio.machines#IPAssignmentNetwork": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Private network name; empty for the organization's default network."
-          }
-        },
-        "org_slug": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Private network a Flycast (private_v6) address is reachable from. Null for public addresses."
       }
     },
     "com.flyio.machines#NetworkNotFound": {

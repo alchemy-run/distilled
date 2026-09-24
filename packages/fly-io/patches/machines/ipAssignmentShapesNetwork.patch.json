@@ -1,46 +1,15 @@
 {
-  "description": "Expose the private network on IP assignments and type the unknown-network rejection. Observed on the live API: private_v6 (Flycast) assignments return network {name, org_slug} (name is empty for the org default network) while public addresses return network null; allocating on a missing network returns HTTP 400 {\"error\": \"network not found\"}.",
+  "description": "Mark IP assignment network nullable (the spec omits nullable; public addresses return null) and type the unknown-network rejection. Observed on the live API: allocating on a missing network returns HTTP 400 {\"error\": \"network not found\"}.",
   "patches": [
     {
       "op": "add",
-      "path": "/shapes/com.flyio.machines#IPAssignmentNetwork",
-      "value": {
-        "type": "structure",
-        "members": {
-          "name": {
-            "target": "smithy.api#String",
-            "traits": {
-              "smithy.api#documentation": "Private network name; empty for the organization's default network."
-            }
-          },
-          "org_slug": {
-            "target": "smithy.api#String"
-          }
-        },
-        "traits": {
-          "smithy.api#documentation": "Private network a Flycast (private_v6) address is reachable from. Null for public addresses."
-        }
-      }
+      "path": "/shapes/com.flyio.machines#IPAssignment/members/network/traits",
+      "value": { "com.distilled.openapi#nullable": {} }
     },
     {
       "op": "add",
-      "path": "/shapes/com.flyio.machines#IPAssignment/members/network",
-      "value": {
-        "target": "com.flyio.machines#IPAssignmentNetwork",
-        "traits": {
-          "com.distilled.openapi#nullable": {}
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.flyio.machines#AssignIPResponse/members/network",
-      "value": {
-        "target": "com.flyio.machines#IPAssignmentNetwork",
-        "traits": {
-          "com.distilled.openapi#nullable": {}
-        }
-      }
+      "path": "/shapes/com.flyio.machines#AssignIPResponse/members/network/traits",
+      "value": { "com.distilled.openapi#nullable": {} }
     },
     {
       "op": "add",
