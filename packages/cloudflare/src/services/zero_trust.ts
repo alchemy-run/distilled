@@ -995,6 +995,20 @@ export class McpServerNotFound
     [{ status: 404 }],
   ) {}
 
+/** Upstream MCP discovery failed. The response body preserves the upstream error and error_details. */
+export class McpServerSyncFailure
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<McpServerSyncFailure>()(
+      "McpServerSyncFailure",
+      {
+        code: S.Number,
+        message: S.String,
+        body: S.Unknown,
+      },
+    ),
+    [{ status: 200, body: { "/success": false, "/result/status": "error" } }],
+  ) {}
+
 export class OrganizationAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<OrganizationAlreadyExists>()(
@@ -239631,6 +239645,7 @@ export const rotateSeedGatewayAuditSshSetting: API.OperationMethod<
 export type SyncAccessAiControlMcpServerError =
   | McpServerNotFound
   | Forbidden
+  | McpServerSyncFailure
   | CloudflareOpError;
 /** Syncs an MCP server's capabilities and returns the updated server state, including any connection errors. */
 export const syncAccessAiControlMcpServer: API.OperationMethod<
@@ -239644,6 +239659,7 @@ export const syncAccessAiControlMcpServer: API.OperationMethod<
   errors: [
     McpServerNotFound,
     Forbidden,
+    McpServerSyncFailure,
     CloudflareRateLimited,
     CloudflareError,
   ],

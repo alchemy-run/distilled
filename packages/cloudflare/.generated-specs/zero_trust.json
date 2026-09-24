@@ -119954,6 +119954,33 @@
         ]
       }
     },
+    "com.cloudflare.zero_trust#McpServerSyncFailure": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "body": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Upstream MCP discovery failed. The response body preserves the upstream error and error_details.",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 200,
+            "body": {
+              "/success": false,
+              "/result/status": "error"
+            }
+          }
+        ]
+      }
+    },
     "com.cloudflare.zero_trust#InlineAccessPolicy": {
       "type": "structure",
       "members": {
@@ -155291,6 +155318,9 @@
         },
         {
           "target": "com.cloudflare.zero_trust#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.zero_trust#McpServerSyncFailure"
         }
       ]
     },
