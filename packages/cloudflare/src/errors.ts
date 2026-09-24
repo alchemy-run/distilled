@@ -34,14 +34,13 @@ export class CloudflareParseError extends Schema.TaggedError<CloudflareParseErro
 
 /**
  * Unknown Cloudflare error - returned when an error code is not recognized.
- * Contains the raw error code and response body for later cataloging.
+ * Contains the raw error code for later cataloging.
  */
 export class UnknownCloudflareError extends Schema.TaggedError<UnknownCloudflareError>()(
   "UnknownCloudflareError",
   {
     code: Schema.optional(Schema.Number),
     message: Schema.String,
-    body: Schema.optional(Schema.Unknown),
   },
 ) {}
 

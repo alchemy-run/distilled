@@ -441,7 +441,6 @@ const makeDecode =
           new UnknownCloudflareError({
             code: errorCode,
             message: errorMessage,
-            body: nonJson ? text : json,
           }),
         );
       }
