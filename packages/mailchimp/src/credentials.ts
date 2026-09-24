@@ -99,3 +99,72 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
     Effect.flatMap(resolve),
   ),
 );
+
+// ───────────── Transactional ─────────────
+
+/**
+ * The document's `basePath` is `/api/1.3`; Mailchimp's own clients and docs
+ * call `/api/1.0`, and the versions answer identically.
+ */
+export const DEFAULT_TRANSACTIONAL_API_BASE_URL =
+  "https://mandrillapp.com/api/1.0";
+
+export interface TransactionalConfig {
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly apiBaseUrl: string;
+}
+
+/**
+ * The Transactional API (formerly Mandrill) has its own key, issued in the
+ * Transactional app, so it is a separate service from {@link Credentials}.
+ */
+export class TransactionalCredentials extends Context.Service<
+  TransactionalCredentials,
+  Effect.Effect<TransactionalConfig, ConfigError>
+>()("MailchimpTransactionalCredentials") {}
+
+const resolveTransactional = (config: {
+  readonly apiKey: string | Redacted.Redacted<string>;
+  readonly apiBaseUrl?: string | undefined;
+}): TransactionalConfig => ({
+  apiKey: Redacted.isRedacted(config.apiKey)
+    ? config.apiKey
+    : Redacted.make(config.apiKey),
+  apiBaseUrl: trimSlash(
+    config.apiBaseUrl ?? DEFAULT_TRANSACTIONAL_API_BASE_URL,
+  ),
+});
+
+/** Layer from a Transactional API key. */
+export const fromTransactionalApiKey = (config: {
+  readonly apiKey: string | Redacted.Redacted<string>;
+  readonly apiBaseUrl?: string;
+}): Layer.Layer<TransactionalCredentials> =>
+  Layer.succeed(
+    TransactionalCredentials,
+    Effect.succeed(resolveTransactional(config)),
+  );
+
+/**
+ * Reads `MAILCHIMP_TRANSACTIONAL_API_KEY` (or the older `MANDRILL_API_KEY`)
+ * through Effect `Config`.
+ */
+export const TransactionalCredentialsFromEnv: Layer.Layer<TransactionalCredentials> =
+  Layer.succeed(
+    TransactionalCredentials,
+    Effect.gen(function* () {
+      const apiKey = yield* EffectConfig.Redacted(
+        "MAILCHIMP_TRANSACTIONAL_API_KEY",
+      ).pipe(
+        EffectConfig.orElse(() => EffectConfig.Redacted("MANDRILL_API_KEY")),
+      );
+      return resolveTransactional({ apiKey });
+    }).pipe(
+      Effect.mapError(
+        (e) =>
+          new ConfigError({
+            message: `Mailchimp Transactional credentials require MAILCHIMP_TRANSACTIONAL_API_KEY: ${e.message}`,
+          }),
+      ),
+    ),
+  );

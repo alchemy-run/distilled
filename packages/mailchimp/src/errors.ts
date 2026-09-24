@@ -53,3 +53,19 @@ export class UnknownMailchimpError extends Schema.TaggedError<UnknownMailchimpEr
   "UnknownMailchimpError",
   ProblemFields,
 ).pipe(Category.withServerError) {}
+
+/**
+ * A Transactional API failure (`{ status: "error", code, name, message }`)
+ * on a status the core map does not cover, e.g. a 402 `PaymentRequired`.
+ * `name` is the vendor's discriminator (`Invalid_Key`, `Unknown_Template`).
+ */
+export class MailchimpTransactionalError extends Schema.TaggedError<MailchimpTransactionalError>()(
+  "MailchimpTransactionalError",
+  {
+    status: Schema.Number,
+    code: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.String),
+    message: Schema.String,
+    body: Schema.Unknown,
+  },
+) {}

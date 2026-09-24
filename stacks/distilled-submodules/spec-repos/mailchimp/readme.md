@@ -1,9 +1,10 @@
 # spec-mirror-mailchimp
 
-A git mirror of Mailchimp's [Marketing API spec](https://github.com/mailchimp/mailchimp-client-lib-codegen), reduced to exactly the file the
+A git mirror of Mailchimp's [API specs](https://github.com/mailchimp/mailchimp-client-lib-codegen), reduced to exactly the files the
 [`@distilled.cloud/mailchimp`](https://github.com/alchemy-run/distilled) generator reads:
 
-- `specs/marketing.json` — `spec/marketing.json` (Swagger 2.0)
+- `specs/marketing.json` — `spec/marketing.json`, the Marketing API (Swagger 2.0)
+- `specs/transactional.json` — `spec/transactional.json`, the Transactional API (Swagger 2.0)
 
 Nothing else from `mailchimp/mailchimp-client-lib-codegen` is mirrored, so this
 repository stays small enough to use as a git submodule — the upstream

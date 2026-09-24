@@ -1,11 +1,13 @@
 #!/usr/bin/env bun
 /**
- * convert — turn Mailchimp's Marketing API document into a Smithy 2.0 JSON model.
+ * convert — turn Mailchimp's API documents into Smithy 2.0 JSON models.
  *
- * Input:  specs/spec-mirror-mailchimp/specs/marketing.json  (spec submodule —
- *         the Swagger 2.0 document Mailchimp generates its own clients from)
- *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI document)
+ * Input:  specs/spec-mirror-mailchimp/specs/marketing.json       (spec
+ *         specs/spec-mirror-mailchimp/specs/transactional.json   submodule —
+ *         the Swagger 2.0 documents Mailchimp generates its own clients from)
+ *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI documents)
  * Output: .generated-specs/marketing.json
+ *         .generated-specs/transactional.json
  *
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/core/codegen/openapi`; this script is Mailchimp's pipeline
@@ -67,6 +69,133 @@ const OVERRIDES: Readonly<Record<string, string>> = {
   "PUT /sms-campaigns/{sms_campaign_id}/content": "setSmsCampaignContent",
 };
 
+/**
+ * Transactional names, by route. The document's `operationId`s restate the
+ * route (`postMessagesSend`) and its vendor names are bare verbs unique
+ * only within a tag (`send`, `info`, `list`), so every one is named here.
+ */
+const TRANSACTIONAL_NAMES: Readonly<Record<string, string>> = {
+  "POST /allowlists/add": "addAllowlistEntry",
+  "POST /allowlists/list": "listAllowlistEntries",
+  "POST /allowlists/delete": "deleteAllowlistEntry",
+  "POST /exports/info": "getExport",
+  "POST /exports/list": "listExports",
+  "POST /exports/rejects": "exportRejects",
+  "POST /exports/whitelist": "exportWhitelist",
+  "POST /exports/allowlist": "exportAllowlist",
+  "POST /exports/activity": "exportActivity",
+  "POST /inbound/domains": "listInboundDomains",
+  "POST /inbound/add-domain": "addInboundDomain",
+  "POST /inbound/check-domain": "checkInboundDomain",
+  "POST /inbound/delete-domain": "deleteInboundDomain",
+  "POST /inbound/routes": "listInboundRoutes",
+  "POST /inbound/add-route": "addInboundRoute",
+  "POST /inbound/update-route": "updateInboundRoute",
+  "POST /inbound/delete-route": "deleteInboundRoute",
+  "POST /inbound/send-raw": "sendRawInbound",
+  "POST /ips/list": "listIps",
+  "POST /ips/info": "getIp",
+  "POST /ips/provision": "provisionIp",
+  "POST /ips/start-warmup": "startIpWarmup",
+  "POST /ips/cancel-warmup": "cancelIpWarmup",
+  "POST /ips/set-pool": "setIpPool",
+  "POST /ips/delete": "deleteIp",
+  "POST /ips/list-pools": "listIpPools",
+  "POST /ips/pool-info": "getIpPool",
+  "POST /ips/create-pool": "createIpPool",
+  "POST /ips/delete-pool": "deleteIpPool",
+  "POST /ips/check-custom-dns": "checkIpCustomDns",
+  "POST /ips/set-custom-dns": "setIpCustomDns",
+  "POST /mctemplates/info": "getMcTemplate",
+  "POST /mctemplates/list": "listMcTemplates",
+  "POST /mctemplates/render": "renderMcTemplate",
+  "POST /mctemplates/time-series": "getMcTemplateTimeSeries",
+  "POST /messages/send-sms": "sendSms",
+  "POST /messages/send": "sendMessage",
+  "POST /messages/send-template": "sendTemplate",
+  "POST /messages/send-mc-template": "sendMcTemplate",
+  "POST /messages/search": "searchMessages",
+  "POST /messages/search-time-series": "searchMessagesTimeSeries",
+  "POST /messages/info": "getMessage",
+  "POST /messages/content": "getMessageContent",
+  "POST /messages/parse": "parseMessage",
+  "POST /messages/send-raw": "sendRawMessage",
+  "POST /messages/list-scheduled": "listScheduledMessages",
+  "POST /messages/cancel-scheduled": "cancelScheduledMessage",
+  "POST /messages/reschedule": "rescheduleMessage",
+  "POST /metadata/list": "listMetadataFields",
+  "POST /metadata/add": "addMetadataField",
+  "POST /metadata/update": "updateMetadataField",
+  "POST /metadata/delete": "deleteMetadataField",
+  "POST /rejects/add": "addReject",
+  "POST /rejects/list": "listRejects",
+  "POST /rejects/delete": "deleteReject",
+  "POST /rejects/add-sms": "addSmsReject",
+  "POST /rejects/list-sms": "listSmsRejects",
+  "POST /rejects/delete-sms": "deleteSmsReject",
+  "POST /senders/list": "listSenders",
+  "POST /senders/domains": "listSenderDomains",
+  "POST /senders/add-domain": "addSenderDomain",
+  "POST /senders/delete-domain": "deleteSenderDomain",
+  "POST /senders/check-domain": "checkSenderDomain",
+  "POST /senders/verify-domain": "verifySenderDomain",
+  "POST /senders/info": "getSender",
+  "POST /senders/time-series": "getSenderTimeSeries",
+  "POST /subaccounts/list": "listSubaccounts",
+  "POST /subaccounts/add": "addSubaccount",
+  "POST /subaccounts/info": "getSubaccount",
+  "POST /subaccounts/update": "updateSubaccount",
+  "POST /subaccounts/delete": "deleteSubaccount",
+  "POST /subaccounts/pause": "pauseSubaccount",
+  "POST /subaccounts/resume": "resumeSubaccount",
+  "POST /tags/list": "listTags",
+  "POST /tags/delete": "deleteTag",
+  "POST /tags/info": "getTag",
+  "POST /tags/time-series": "getTagTimeSeries",
+  "POST /tags/all-time-series": "getAllTagsTimeSeries",
+  "POST /templates/add": "addTemplate",
+  "POST /templates/info": "getTemplate",
+  "POST /templates/update": "updateTemplate",
+  "POST /templates/publish": "publishTemplate",
+  "POST /templates/delete": "deleteTemplate",
+  "POST /templates/list": "listTemplates",
+  "POST /templates/time-series": "getTemplateTimeSeries",
+  "POST /templates/render": "renderTemplate",
+  "POST /urls/tracking-domains": "listTrackingDomains",
+  "POST /urls/add-tracking-domain": "addTrackingDomain",
+  "POST /urls/delete-tracking-domain": "deleteTrackingDomain",
+  "POST /urls/check-tracking-domain": "checkTrackingDomain",
+  "POST /users/info": "getUser",
+  "POST /users/ping": "ping",
+  "POST /users/ping2": "ping2",
+  "POST /users/senders": "listUserSenders",
+  "POST /webhooks/list": "listWebhooks",
+  "POST /webhooks/add": "addWebhook",
+  "POST /webhooks/info": "getWebhook",
+  "POST /webhooks/update": "updateWebhook",
+  "POST /webhooks/delete": "deleteWebhook",
+};
+
+/**
+ * Every Transactional body carries `key` as a required member. The protocol
+ * sends it from the credentials, so it leaves the model here; a route this
+ * misses would make callers type the secret into every call.
+ */
+const stripTransactionalKey = (spec: any): void => {
+  for (const [route, item] of Object.entries<any>(spec.paths ?? {})) {
+    const body = item?.post?.parameters?.find((p: any) => p.in === "body");
+    const schema = body?.schema;
+    if (schema?.properties?.key === undefined) {
+      throw new Error(`${route}: expected a \`key\` body member`);
+    }
+    delete schema.properties.key;
+    schema.required = (schema.required ?? []).filter(
+      (name: string) => name !== "key",
+    );
+    if (schema.required.length === 0) delete schema.required;
+  }
+};
+
 const collectVendorNames = (spec: any): void => {
   const found: { key: string; name: string }[] = [];
   for (const [route, item] of Object.entries<any>(spec.paths ?? {})) {
@@ -91,6 +220,23 @@ await runOpenApiConvert({
       name: "marketing",
       specPath: "specs/spec-mirror-mailchimp/specs/marketing.json",
       preprocess: collectVendorNames,
+    },
+    {
+      name: "transactional",
+      specPath: "specs/spec-mirror-mailchimp/specs/transactional.json",
+      preprocess: stripTransactionalKey,
+      options: {
+        namespace: "com.mailchimp.transactional",
+        serviceName: "MailchimpTransactional",
+        operationNames: (_id, ctx) => {
+          const name =
+            TRANSACTIONAL_NAMES[`${ctx.method.toUpperCase()} ${ctx.path}`];
+          if (name === undefined) {
+            throw new Error(`unnamed Transactional route: ${ctx.path}`);
+          }
+          return name;
+        },
+      },
     },
   ],
   patchesDir: "patches",

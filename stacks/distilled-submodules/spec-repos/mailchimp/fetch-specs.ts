@@ -1,17 +1,18 @@
 #!/usr/bin/env bun
 /**
- * Mirrors the Mailchimp Marketing API spec into ../specs/.
+ * Mirrors Mailchimp's API documents into ../specs/.
  *
- * Mailchimp publishes the Swagger 2.0 document its own client libraries are
- * generated from in mailchimp/mailchimp-client-lib-codegen. Only that one
- * file is downloaded, straight from raw.githubusercontent.com — the
- * repository is never cloned.
+ * Mailchimp publishes the Swagger 2.0 documents its own client libraries are
+ * generated from in mailchimp/mailchimp-client-lib-codegen. Only those files
+ * are downloaded, straight from raw.githubusercontent.com — the repository
+ * is never cloned.
  *
  * Usage:
  *   bun run fetch-specs.ts
  *
- * The spec is saved to:
- *   ../specs/marketing.json
+ * Specs are saved to:
+ *   ../specs/marketing.json       Marketing API (v3.0)
+ *   ../specs/transactional.json   Transactional API (formerly Mandrill)
  */
 
 import { mkdirSync } from "fs";
@@ -20,41 +21,58 @@ import { mkdirSync } from "fs";
 const REPO = "mailchimp/mailchimp-client-lib-codegen";
 /** Branch (or tag/commit) to mirror. */
 const REF = "main";
-const SPEC_PATH = "spec/marketing.json";
 
 const SPECS_DIR = "../specs";
-const OUTPUT_PATH = `${SPECS_DIR}/marketing.json`;
+
+interface SpecFile {
+  /** Path within the upstream repository. */
+  readonly source: string;
+  /** Path within ../specs/ to write. */
+  readonly output: string;
+}
+
+// `spec/transactional.openapi.json` is the same 99 routes as OpenAPI 3.1; the
+// Swagger document is the one that carries the vendor's method names.
+const FILES: readonly SpecFile[] = [
+  { source: "spec/marketing.json", output: "marketing.json" },
+  { source: "spec/transactional.json", output: "transactional.json" },
+];
 
 mkdirSync(SPECS_DIR, { recursive: true });
 
 async function main() {
-  const url = `https://raw.githubusercontent.com/${REPO}/${REF}/${SPEC_PATH}`;
-  console.log(`Fetching ${url}...`);
+  for (const file of FILES) {
+    const url = `https://raw.githubusercontent.com/${REPO}/${REF}/${file.source}`;
+    console.log(`Fetching ${url}...`);
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const spec = (await response.json()) as Record<string, unknown>;
+
+    // A rate-limit body or a gutted response is still valid JSON.
+    if (spec.swagger !== "2.0" || spec.paths === undefined) {
+      throw new Error(
+        `${url} returned JSON without \`swagger: "2.0"\`/\`paths\` — not a Mailchimp API document`,
+      );
+    }
+
+    const outputPath = `${SPECS_DIR}/${file.output}`;
+    console.log(`Writing ${outputPath}...`);
+    // 2-space indent + trailing newline, so a whitespace-only change upstream
+    // produces no diff.
+    await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
+
+    console.log(
+      `  ${file.output}: Swagger ${spec.swagger} — ${Object.keys(spec.paths as object).length} paths`,
     );
   }
 
-  const spec = (await response.json()) as Record<string, unknown>;
-
-  // A rate-limit body or a gutted response is still valid JSON.
-  if (spec.swagger !== "2.0" || spec.paths === undefined) {
-    throw new Error(
-      `${url} returned JSON without \`swagger: "2.0"\`/\`paths\` — not the Marketing API document`,
-    );
-  }
-
-  console.log(`Writing ${OUTPUT_PATH}...`);
-  // 2-space indent + trailing newline, so a whitespace-only change upstream
-  // produces no diff.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
-
-  console.log(
-    `Done! Swagger ${spec.swagger} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log("Done!");
 }
 
 main().catch((err) => {

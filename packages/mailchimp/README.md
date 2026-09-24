@@ -1,6 +1,6 @@
 # @distilled.cloud/mailchimp
 
-Effect-native SDK for the [Mailchimp Marketing API](https://mailchimp.com/developer/marketing/api/) (v3.0).
+Effect-native SDK for the [Mailchimp Marketing API](https://mailchimp.com/developer/marketing/api/) (v3.0) and the [Mailchimp Transactional API](https://mailchimp.com/developer/transactional/api/) (formerly Mandrill).
 
 ## Installation
 
@@ -50,6 +50,38 @@ The data centre comes from the key's suffix: `…-us21` calls
 `https://us21.api.mailchimp.com/3.0`. Override it with
 `fromApiKey({ apiKey, serverPrefix: "us21" })` or a full `apiBaseUrl`. A key
 with no suffix and no override fails with `ConfigError`.
+
+## Transactional API
+
+The Transactional API has its own key, issued in the Transactional app, and
+lives under `Mailchimp.Transactional` (or `@distilled.cloud/mailchimp/transactional`).
+
+```ts
+import * as Mailchimp from "@distilled.cloud/mailchimp";
+
+const send = Mailchimp.Transactional.sendMessage({
+  message: {
+    from_email: "hello@example.com",
+    to: [{ email: "ada@example.com" }],
+    subject: "Welcome",
+    text: "Hi Ada",
+  },
+});
+
+send.pipe(
+  Effect.provide(Mailchimp.TransactionalCredentialsFromEnv),
+  Effect.provide(FetchHttpClient.layer),
+  Effect.runPromise,
+);
+```
+
+Required: `MAILCHIMP_TRANSACTIONAL_API_KEY` (`MANDRILL_API_KEY` is read as a
+fallback), or `fromTransactionalApiKey({ apiKey })`. The key is sent in each
+request body; it is never part of an operation's input. Failures arrive as
+`{ status: "error", code, name, message }` under a real HTTP status and map
+onto the same shared classes, with the vendor's `name` kept in the message
+(`Invalid_Key: Invalid API key`). A status outside the shared map becomes
+`MailchimpTransactionalError`, which carries `name` and `code`.
 
 ## Notes
 
