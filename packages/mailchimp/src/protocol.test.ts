@@ -18,7 +18,7 @@ import {
   getListMembersInfo,
   setListMember,
   updateListMemberTags,
-} from "./services/mailchimp.ts";
+} from "./services/marketing.ts";
 import { subscriberHash } from "./subscriber-hash.ts";
 
 const API_KEY = "test-api-key-us21";

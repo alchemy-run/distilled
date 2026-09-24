@@ -5,7 +5,7 @@
  * Input:  specs/spec-mirror-mailchimp/specs/marketing.json  (spec submodule —
  *         the Swagger 2.0 document Mailchimp generates its own clients from)
  *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI document)
- * Output: .generated-specs/mailchimp.json
+ * Output: .generated-specs/marketing.json
  *
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/core/codegen/openapi`; this script is Mailchimp's pipeline
@@ -88,7 +88,7 @@ await runOpenApiConvert({
   root: path.resolve(import.meta.dir, ".."),
   specs: [
     {
-      name: "mailchimp",
+      name: "marketing",
       specPath: "specs/spec-mirror-mailchimp/specs/marketing.json",
       preprocess: collectVendorNames,
     },

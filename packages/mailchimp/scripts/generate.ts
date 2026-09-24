@@ -3,8 +3,8 @@
  * generate — turn the Smithy JSON model in .generated-specs into the Mailchimp
  * Effect SDK.
  *
- * Input:  .generated-specs/mailchimp.json  (written by scripts/convert.ts)
- * Output: src/services/mailchimp.ts  +  src/services/index.ts
+ * Input:  .generated-specs/marketing.json  (written by scripts/convert.ts)
+ * Output: src/services/marketing.ts  +  src/services/index.ts
  *
  * PAGINATION. Mailchimp pages with `count`/`offset` in and
  * `{ <collection>: [...], total_items }` out, where the collection member is

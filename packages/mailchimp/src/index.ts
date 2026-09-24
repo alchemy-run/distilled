@@ -33,4 +33,4 @@ export * from "./errors.ts";
 export { paginateOffset } from "./pagination.ts";
 export { md5, subscriberHash } from "./subscriber-hash.ts";
 export * as Services from "./services/index.ts";
-export * from "./services/mailchimp.ts";
+export * from "./services/marketing.ts";
