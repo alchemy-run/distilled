@@ -41,11 +41,88 @@ const exists = async (p: string): Promise<boolean> => {
 };
 
 /**
+ * Leave patches out of one convert run (dev-time only; the seam
+ * `scripts/patches.ts audit` uses to find patches the spec no longer
+ * needs). Comma-separated entries:
+ *
+ *   all                    skip every patch file
+ *   <file>                 skip a file — its basename, or a path suffix
+ *                          (`svc/a.json`) when basenames repeat
+ *   <file>:<index>         skip one op of a file, by its index in `patches`
+ *
+ * Like `DISTILLED_SPECS_LOCAL`, it lives in one command's environment: a
+ * model written under it is announced on stderr and must not be committed.
+ */
+export const SKIP_PATCHES_ENV = "DISTILLED_SKIP_PATCHES";
+
+interface SkipList {
+  readonly all: boolean;
+  readonly files: readonly string[];
+  readonly ops: ReadonlyMap<string, ReadonlySet<number>>;
+}
+
+const parseSkipList = (): SkipList | undefined => {
+  const raw = (process.env[SKIP_PATCHES_ENV] ?? "").trim();
+  if (raw === "") return undefined;
+  const files: string[] = [];
+  const ops = new Map<string, Set<number>>();
+  for (const entry of raw.split(",")) {
+    const item = entry.trim();
+    if (item === "") continue;
+    if (item === "all") return { all: true, files: [], ops: new Map() };
+    const at = item.lastIndexOf(":");
+    const index = at === -1 ? NaN : Number(item.slice(at + 1));
+    if (Number.isInteger(index) && index >= 0) {
+      const file = item.slice(0, at);
+      ops.set(file, (ops.get(file) ?? new Set()).add(index));
+    } else {
+      files.push(item);
+    }
+  }
+  return { all: false, files, ops };
+};
+
+const skipMatches = (file: string, entry: string): boolean =>
+  path.basename(file) === entry || file.endsWith(path.sep + entry);
+
+let skipAnnounced = false;
+
+const skipList = (): SkipList | undefined => {
+  const list = parseSkipList();
+  if (list && !skipAnnounced) {
+    skipAnnounced = true;
+    // stderr for the same reason as the DISTILLED_SPECS_LOCAL notice.
+    console.error(
+      `⚠  ${SKIP_PATCHES_ENV}=${process.env[SKIP_PATCHES_ENV]} — this model is missing patches; do not commit it.`,
+    );
+  }
+  return list;
+};
+
+const skipsFile = (list: SkipList | undefined, file: string): boolean =>
+  list !== undefined &&
+  (list.all || list.files.some((entry) => skipMatches(file, entry)));
+
+const skipsOp = (
+  list: SkipList | undefined,
+  file: string,
+  index: number,
+): boolean => {
+  if (list === undefined) return false;
+  for (const [entry, indices] of list.ops) {
+    if (indices.has(index) && skipMatches(file, entry)) return true;
+  }
+  return false;
+};
+
+/**
  * RFC-6902 files in `dir`: every `*.json`, `*.manual.json` last (those
- * usually target post-rename shape names). Missing dir → `[]`.
+ * usually target post-rename shape names). Missing dir → `[]`. Files named
+ * by {@link SKIP_PATCHES_ENV} are left out.
  */
 export const listRfc6902PatchFiles = async (dir: string): Promise<string[]> => {
   if (!(await exists(dir))) return [];
+  const skip = skipList();
   return (await fs.readdir(dir))
     .filter((f) => f.endsWith(".json"))
     .sort(
@@ -53,7 +130,8 @@ export const listRfc6902PatchFiles = async (dir: string): Promise<string[]> => {
         Number(a.endsWith(".manual.json")) -
           Number(b.endsWith(".manual.json")) || a.localeCompare(b),
     )
-    .map((f) => path.join(dir, f));
+    .map((f) => path.join(dir, f))
+    .filter((f) => !skipsFile(skip, f));
 };
 
 export const applyRfc6902Files = async (
@@ -73,12 +151,14 @@ export const applyRfc6902Files = async (
     stale: 0,
     errors: [],
   };
+  const skip = skipList();
   for (const file of files) {
+    if (skipsFile(skip, file)) continue;
     const parsed = JSON.parse(await fs.readFile(file, "utf8")) as PatchFile;
     const label = opts.label?.(file) ?? path.basename(file);
     result.files++;
-    for (const patchOp of parsed.patches ?? []) {
-      if (!include(patchOp)) continue;
+    for (const [index, patchOp] of (parsed.patches ?? []).entries()) {
+      if (!include(patchOp) || skipsOp(skip, file, index)) continue;
       try {
         applyOperation(target, patchOp);
         result.applied++;

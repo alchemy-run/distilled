@@ -279,6 +279,10 @@ To iterate on a mirror's fetch script — or to regenerate against today's
 upstream without touching submodules — use `pnpm specs:local <pkg>` and
 `DISTILLED_SPECS_LOCAL=1`, exactly as above.
 
+Moving a package to a newer spec and pruning the patches it no longer
+needs is the `distilled-sdk-update` skill
+([`.agents/skills/distilled-sdk-update/SKILL.md`](../distilled-sdk-update/SKILL.md)).
+
 # Rules CI enforces
 
 - **No committed file may reference `specs/.local`.** A package that reads
