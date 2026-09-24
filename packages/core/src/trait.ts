@@ -237,19 +237,37 @@ export const errorMatchersSymbol = Symbol.for(
   "@distilled.cloud/core/error-matchers",
 );
 
+/** Exact text, or the conjunction of substring and regular-expression constraints. */
+export type ErrorTextMatcher =
+  | string
+  | { readonly includes?: string; readonly matches?: string };
+
 /**
- * One wire-matching rule for a typed error class. A matcher matches a wire
- * failure when every present field matches: `code` equals the wire error's
- * code, `status` equals the HTTP status, and `message` either equals the
- * error message (string form) or satisfies `includes` (substring) /
- * `matches` (regex). A matcher with no fields matches nothing.
+ * One wire-matching rule. All supplied constraints must match; separate
+ * matchers on a class are alternatives. Empty matchers match nothing.
+ *
+ * `body` maps RFC 6901 JSON Pointers to scalar constraints. For example,
+ * `{ "/success": false, "/result/status": "error" }`. Strings also accept
+ * `includes` / `matches`. Missing fields never match, including against null.
+ * The empty pointer addresses the entire body; array indices are supported.
+ * Header names are case-insensitive; their value constraints are case-sensitive.
+ * Each body path and header adds one specificity point, like code/status/message.
+ * Protocols evaluate these rules only after identifying a failed response.
+ *
+ * @example
+ * ```ts
+ * { status: 200, body: { "/success": false, "/result/status": "error" } }
+ * { status: 409, headers: { "x-error-type": { includes: "Conflict" } } }
+ * ```
  */
 export interface ErrorMatcher {
   readonly code?: number;
   readonly status?: number;
-  readonly message?:
-    | string
-    | { readonly includes?: string; readonly matches?: string };
+  readonly message?: ErrorTextMatcher;
+  readonly body?: Readonly<
+    Record<string, ErrorTextMatcher | number | boolean | null>
+  >;
+  readonly headers?: Readonly<Record<string, ErrorTextMatcher>>;
 }
 
 /**

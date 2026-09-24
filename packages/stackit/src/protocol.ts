@@ -172,12 +172,17 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
             env.message ??
             (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
 
-          const typed = matchTypedError(errorClasses, status, [
-            {
-              code: typeof env.code === "number" ? env.code : undefined,
-              message,
-            },
-          ]);
+          const typed = matchTypedError(
+            errorClasses,
+            status,
+            [
+              {
+                code: typeof env.code === "number" ? env.code : undefined,
+                message,
+              },
+            ],
+            { body: nonJson ? text : json, headers },
+          );
           if (typed !== undefined) return yield* fail(typed);
 
           const StatusErrorClass = (

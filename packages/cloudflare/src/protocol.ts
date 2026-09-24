@@ -389,9 +389,12 @@ const makeDecode =
           isTransientAuthBlip ? tagRetryable(error) : error;
 
         // 1. Per-operation typed error (matcher metadata on the class).
-        const typed = matchTypedError(errorClasses, status, [
-          { code: errorCode, message: errorMessage },
-        ]);
+        const typed = matchTypedError(
+          errorClasses,
+          status,
+          [{ code: errorCode, message: errorMessage }],
+          { body: nonJson ? text : json, headers },
+        );
         if (typed !== undefined) {
           return yield* Effect.fail(tagBlip(typed)) as Effect.Effect<never>;
         }
