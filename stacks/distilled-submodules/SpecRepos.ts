@@ -83,6 +83,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "intercom" },
   { package: "kubernetes" },
   { package: "launchdarkly" },
+  { package: "mailchimp" },
   { package: "meilisearch" },
   { package: "mercury" },
   { package: "metabase" },
