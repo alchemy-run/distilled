@@ -52,6 +52,23 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The `locations/-` wildcard parent is not supported for this list call (HTTP 501 UNIMPLEMENTED). List each location instead. Not retryable. */
+export class LocationWildcardUnsupported
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<LocationWildcardUnsupported>()(
+      "LocationWildcardUnsupported",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withServerError),
+    [{ status: 501 }],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -5259,6 +5276,7 @@ export const listProjectsLocationsServicesRevisions: API.PaginatedOperationMetho
 export type ListProjectsLocationsWorkerPoolsError =
   | NotFound
   | Forbidden
+  | LocationWildcardUnsupported
   | GcpOpError;
 /** Lists WorkerPools. Results are sorted by creation time, descending. */
 export const listProjectsLocationsWorkerPools: API.PaginatedOperationMethod<
@@ -5270,7 +5288,7 @@ export const listProjectsLocationsWorkerPools: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsWorkerPoolsRequest,
   output: GoogleCloudRunV2ListWorkerPoolsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, LocationWildcardUnsupported, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {

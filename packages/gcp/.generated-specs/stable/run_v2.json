@@ -4045,7 +4045,7 @@
         "repositoryLocation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. Location of the Artifact Registry repository. i.e. us-east1 Defaults to the build’s location."
+            "smithy.api#documentation": "Optional. Location of the Artifact Registry repository. i.e. us-east1 Defaults to the build\u2019s location."
           }
         },
         "repositoryName": {
@@ -8514,6 +8514,9 @@
         },
         {
           "target": "com.gcp.run_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.run_v2#LocationWildcardUnsupported"
         }
       ],
       "traits": {
@@ -10974,6 +10977,20 @@
           "uri": "v2/{+resource}:getIamPolicy"
         },
         "smithy.api#documentation": "Gets the IAM Access Control policy currently in effect for the given Instance. This result does not include any inherited policies."
+      }
+    },
+    "com.gcp.run_v2#LocationWildcardUnsupported": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 501,
+        "smithy.api#documentation": "The `locations/-` wildcard parent is not supported for this list call (HTTP 501 UNIMPLEMENTED). List each location instead. Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 501
+          }
+        ]
       }
     }
   }

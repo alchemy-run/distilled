@@ -9809,13 +9809,13 @@
         "minReplicaCount": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. min replicas in the node pool, must be ≤ replica_count and < max_replica_count or will throw error. For autoscaling enabled Ray-on-Vertex, we allow min_replica_count of a resource_pool to be 0 to match the OSS Ray behavior(https://docs.ray.io/en/latest/cluster/vms/user-guides/configuring-autoscaling.html#cluster-config-parameters). As for Persistent Resource, the min_replica_count must be > 0, we added a corresponding validation inside CreatePersistentResourceRequestValidator.java."
+            "smithy.api#documentation": "Optional. min replicas in the node pool, must be \u2264 replica_count and < max_replica_count or will throw error. For autoscaling enabled Ray-on-Vertex, we allow min_replica_count of a resource_pool to be 0 to match the OSS Ray behavior(https://docs.ray.io/en/latest/cluster/vms/user-guides/configuring-autoscaling.html#cluster-config-parameters). As for Persistent Resource, the min_replica_count must be > 0, we added a corresponding validation inside CreatePersistentResourceRequestValidator.java."
           }
         },
         "maxReplicaCount": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. max replicas in the node pool, must be ≥ replica_count and > min_replica_count or will throw error"
+            "smithy.api#documentation": "Optional. max replicas in the node pool, must be \u2265 replica_count and > min_replica_count or will throw error"
           }
         }
       },
@@ -15005,7 +15005,7 @@
         "value": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Specify a threshold value that can trigger the alert. 1. For categorical feature, the distribution distance is calculated by L-inifinity norm. 2. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature."
+            "smithy.api#documentation": "Specify a threshold value that can trigger the alert. 1. For categorical feature, the distribution distance is calculated by L-inifinity norm. 2. For numerical feature, the distribution distance is calculated by Jensen\u2013Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature."
           }
         }
       },
@@ -23818,7 +23818,7 @@
         "value": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Specify a threshold value that can trigger the alert. If this threshold config is for feature distribution distance: 1. For categorical feature, the distribution distance is calculated by L-inifinity norm. 2. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature."
+            "smithy.api#documentation": "Specify a threshold value that can trigger the alert. If this threshold config is for feature distribution distance: 1. For categorical feature, the distribution distance is calculated by L-inifinity norm. 2. For numerical feature, the distribution distance is calculated by Jensen\u2013Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature."
           }
         }
       },
@@ -32126,7 +32126,7 @@
         "distributionDeviation": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Deviation from the current stats to baseline stats. 1. For categorical feature, the distribution distance is calculated by L-inifinity norm. 2. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence."
+            "smithy.api#documentation": "Deviation from the current stats to baseline stats. 1. For categorical feature, the distribution distance is calculated by L-inifinity norm. 2. For numerical feature, the distribution distance is calculated by Jensen\u2013Shannon divergence."
           }
         }
       },
@@ -47844,7 +47844,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Represents a color in the RGBA color space. This representation is designed for simplicity of conversion to and from color representations in various languages over compactness. For example, the fields of this representation can be trivially provided to the constructor of `java.awt.Color` in Java; it can also be trivially provided to UIColor's `+colorWithRed:green:blue:alpha` method in iOS; and, with just a little work, it can be easily formatted into a CSS `rgba()` string in JavaScript. This reference page doesn't have information about the absolute color space that should be used to interpret the RGB value—for example, sRGB, Adobe RGB, DCI-P3, and BT.2020. By default, applications should assume the sRGB color space. When color equality needs to be decided, implementations, unless documented otherwise, treat two colors as equal if all their red, green, blue, and alpha values each differ by at most `1e-5`. Example (Java): import com.google.type.Color; // ... public static java.awt.Color fromProto(Color protocolor) { float alpha = protocolor.hasAlpha() ? protocolor.getAlpha().getValue() : 1.0; return new java.awt.Color( protocolor.getRed(), protocolor.getGreen(), protocolor.getBlue(), alpha); } public static Color toProto(java.awt.Color color) { float red = (float) color.getRed(); float green = (float) color.getGreen(); float blue = (float) color.getBlue(); float denominator = 255.0; Color.Builder resultBuilder = Color .newBuilder() .setRed(red / denominator) .setGreen(green / denominator) .setBlue(blue / denominator); int alpha = color.getAlpha(); if (alpha != 255) { result.setAlpha( FloatValue .newBuilder() .setValue(((float) alpha) / denominator) .build()); } return resultBuilder.build(); } // ... Example (iOS / Obj-C): // ... static UIColor* fromProto(Color* protocolor) { float red = [protocolor red]; float green = [protocolor green]; float blue = [protocolor blue]; FloatValue* alpha_wrapper = [protocolor alpha]; float alpha = 1.0; if (alpha_wrapper != nil) { alpha = [alpha_wrapper value]; } return [UIColor colorWithRed:red green:green blue:blue alpha:alpha]; } static Color* toProto(UIColor* color) { CGFloat red, green, blue, alpha; if (![color getRed:&red green:&green blue:&blue alpha:&alpha]) { return nil; } Color* result = [[Color alloc] init]; [result setRed:red]; [result setGreen:green]; [result setBlue:blue]; if (alpha <= 0.9999) { [result setAlpha:floatWrapperWithValue(alpha)]; } [result autorelease]; return result; } // ... Example (JavaScript): // ... var protoToCssColor = function(rgb_color) { var redFrac = rgb_color.red || 0.0; var greenFrac = rgb_color.green || 0.0; var blueFrac = rgb_color.blue || 0.0; var red = Math.floor(redFrac * 255); var green = Math.floor(greenFrac * 255); var blue = Math.floor(blueFrac * 255); if (!('alpha' in rgb_color)) { return rgbToCssColor(red, green, blue); } var alphaFrac = rgb_color.alpha.value || 0.0; var rgbParams = [red, green, blue].join(','); return ['rgba(', rgbParams, ',', alphaFrac, ')'].join(''); }; var rgbToCssColor = function(red, green, blue) { var rgbNumber = new Number((red << 16) | (green << 8) | blue); var hexString = rgbNumber.toString(16); var missingZeros = 6 - hexString.length; var resultBuilder = ['#']; for (var i = 0; i < missingZeros; i++) { resultBuilder.push('0'); } resultBuilder.push(hexString); return resultBuilder.join(''); }; // ..."
+        "smithy.api#documentation": "Represents a color in the RGBA color space. This representation is designed for simplicity of conversion to and from color representations in various languages over compactness. For example, the fields of this representation can be trivially provided to the constructor of `java.awt.Color` in Java; it can also be trivially provided to UIColor's `+colorWithRed:green:blue:alpha` method in iOS; and, with just a little work, it can be easily formatted into a CSS `rgba()` string in JavaScript. This reference page doesn't have information about the absolute color space that should be used to interpret the RGB value\u2014for example, sRGB, Adobe RGB, DCI-P3, and BT.2020. By default, applications should assume the sRGB color space. When color equality needs to be decided, implementations, unless documented otherwise, treat two colors as equal if all their red, green, blue, and alpha values each differ by at most `1e-5`. Example (Java): import com.google.type.Color; // ... public static java.awt.Color fromProto(Color protocolor) { float alpha = protocolor.hasAlpha() ? protocolor.getAlpha().getValue() : 1.0; return new java.awt.Color( protocolor.getRed(), protocolor.getGreen(), protocolor.getBlue(), alpha); } public static Color toProto(java.awt.Color color) { float red = (float) color.getRed(); float green = (float) color.getGreen(); float blue = (float) color.getBlue(); float denominator = 255.0; Color.Builder resultBuilder = Color .newBuilder() .setRed(red / denominator) .setGreen(green / denominator) .setBlue(blue / denominator); int alpha = color.getAlpha(); if (alpha != 255) { result.setAlpha( FloatValue .newBuilder() .setValue(((float) alpha) / denominator) .build()); } return resultBuilder.build(); } // ... Example (iOS / Obj-C): // ... static UIColor* fromProto(Color* protocolor) { float red = [protocolor red]; float green = [protocolor green]; float blue = [protocolor blue]; FloatValue* alpha_wrapper = [protocolor alpha]; float alpha = 1.0; if (alpha_wrapper != nil) { alpha = [alpha_wrapper value]; } return [UIColor colorWithRed:red green:green blue:blue alpha:alpha]; } static Color* toProto(UIColor* color) { CGFloat red, green, blue, alpha; if (![color getRed:&red green:&green blue:&blue alpha:&alpha]) { return nil; } Color* result = [[Color alloc] init]; [result setRed:red]; [result setGreen:green]; [result setBlue:blue]; if (alpha <= 0.9999) { [result setAlpha:floatWrapperWithValue(alpha)]; } [result autorelease]; return result; } // ... Example (JavaScript): // ... var protoToCssColor = function(rgb_color) { var redFrac = rgb_color.red || 0.0; var greenFrac = rgb_color.green || 0.0; var blueFrac = rgb_color.blue || 0.0; var red = Math.floor(redFrac * 255); var green = Math.floor(greenFrac * 255); var blue = Math.floor(blueFrac * 255); if (!('alpha' in rgb_color)) { return rgbToCssColor(red, green, blue); } var alphaFrac = rgb_color.alpha.value || 0.0; var rgbParams = [red, green, blue].join(','); return ['rgba(', rgbParams, ',', alphaFrac, ')'].join(''); }; var rgbToCssColor = function(red, green, blue) { var rgbNumber = new Number((red << 16) | (green << 8) | blue); var hexString = rgbNumber.toString(16); var missingZeros = 6 - hexString.length; var resultBuilder = ['#']; for (var i = 0; i < missingZeros; i++) { resultBuilder.push('0'); } resultBuilder.push(hexString); return resultBuilder.join(''); }; // ..."
       }
     },
     "com.gcp.aiplatform_v1#GoogleCloudAiplatformV1PipelineTemplateMetadata": {
@@ -84614,6 +84614,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -84664,6 +84667,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -84722,6 +84728,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -84769,6 +84778,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -85000,6 +85012,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -85054,6 +85069,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -85091,6 +85109,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -85134,6 +85155,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -85184,6 +85208,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -85284,6 +85311,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -85334,6 +85364,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -85384,6 +85417,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -90053,6 +90089,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -90103,6 +90142,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -90211,6 +90253,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -90265,6 +90310,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -90302,6 +90350,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -90352,6 +90403,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -90402,6 +90456,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -90445,6 +90502,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -91567,6 +91627,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -91610,6 +91673,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -91668,6 +91734,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -91709,6 +91778,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
         }
       ],
       "traits": {
@@ -104196,6 +104268,20 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`."
+      }
+    },
+    "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 501,
+        "smithy.api#documentation": "Agent Engine sandbox environments are not enabled for this project or region (HTTP 501 UNIMPLEMENTED: 'Operation is not implemented, or supported, or enabled.'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 501
+          }
+        ]
       }
     }
   }
