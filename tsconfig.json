@@ -345,6 +345,12 @@
       "path": "./packages/launchdarkly/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/mailchimp/tsconfig.json"
+    },
+    {
+      "path": "./packages/mailchimp/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/meilisearch/tsconfig.json"
     },
     {
