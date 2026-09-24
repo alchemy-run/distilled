@@ -408,3 +408,8 @@
 	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/freestyle/specs/spec-mirror-freestyle"]
+	path = packages/freestyle/specs/spec-mirror-freestyle
+	url = https://github.com/distilled-mirror/spec-mirror-freestyle.git
+	ignore = dirty
+	shallow = true

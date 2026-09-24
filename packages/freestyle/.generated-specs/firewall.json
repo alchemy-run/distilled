@@ -1,0 +1,661 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.freestyle.firewall#TrafficParty": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The address in use, when there is one — what `cidr` rules are tested against.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "platform": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Freestyle's own ingress — the web proxy serving a mapped domain, or the\nSSH proxy. Always allowed, whatever the rules say."
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether that address is publicly routable — what `public: true` matches."
+          }
+        },
+        "tunnelId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vmId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcIds": {
+          "target": "com.freestyle.firewall#TrafficPartyVpcIdsList",
+          "traits": {
+            "smithy.api#documentation": "Every private network this party is on; a rule naming one of them matches."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One end of a connection to ask about: everything true about the party, not\na pattern."
+      }
+    },
+    "com.freestyle.firewall#TrafficPartyVpcIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every private network this party is on; a rule naming one of them matches."
+      }
+    },
+    "com.freestyle.firewall#FirewallProtocol": {
+      "type": "enum",
+      "members": {
+        "TCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tcp"
+          }
+        },
+        "UDP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "udp"
+          }
+        },
+        "ICMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "icmp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The transport a matcher is restricted to."
+      }
+    },
+    "com.freestyle.firewall#EvaluateFirewallRequest": {
+      "type": "structure",
+      "members": {
+        "destination": {
+          "target": "com.freestyle.firewall#TrafficParty",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "protocol": {
+          "target": "com.freestyle.firewall#FirewallProtocol",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.freestyle.firewall#TrafficParty",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.firewall#FirewallDecision": {
+      "type": "structure",
+      "members": {
+        "outcome": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Which platform policy closed it, on `deniedByPlatform`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The rule that matched, on `allowedByRule`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "side": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Which end was Freestyle's ingress, on `allowedByPlatform`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Why a connection would be allowed, or that it would not.\n\n`outcome` is `allowedByPlatform` (Freestyle's own ingress, e.g. a mapped\ndomain — no rule involved), `allowedByRule` (with the `ruleId` that\nmatched), `deniedByPlatform` (with the `reason`, e.g. `outboundMail`, that\nno rule can override), or `denied`."
+      }
+    },
+    "com.freestyle.firewall#EvaluateFirewall": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.firewall#EvaluateFirewallRequest"
+      },
+      "output": {
+        "target": "com.freestyle.firewall#FirewallDecision"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.firewall#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/firewall/evaluate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Ask whether a connection would be allowed by your rules, without changing anything. Useful for checking a rule set before you rely on it. Traffic Freestyle itself delivers — a mapped domain, the SSH proxy — answers `allowedByPlatform`: it is allowed whatever your rules say, and no rule can block it. Outbound mail answers `deniedByPlatform`: a connection to a mail port on the public Internet is closed whatever your rules say, and goes through an `smtp` TLS rule instead."
+      }
+    },
+    "com.freestyle.firewall#ListFirewallRulesRequest": {
+      "type": "structure",
+      "members": {
+        "vmId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "vmId",
+            "smithy.api#documentation": "Rules that apply to this VM: those naming it, plus those naming a\nprivate network it is attached to. Its id, or your slug for it."
+          }
+        },
+        "vpcId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "vpcId",
+            "smithy.api#documentation": "Rules naming this private network. Its id, or your slug for it."
+          }
+        },
+        "tunnelId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "tunnelId",
+            "smithy.api#documentation": "Rules naming this tunnel, by its id."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.firewall#ListFirewallRulesResponse": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.freestyle.firewall#ListFirewallRulesResponseRulesList",
+          "traits": {
+            "smithy.api#documentation": "Newest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.firewall#FirewallRule": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.freestyle.firewall#FirewallAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dependencies": {
+          "target": "com.freestyle.firewall#FirewallRuleDependenciesList",
+          "traits": {
+            "smithy.api#documentation": "What this rule depends on. Deleting any of them deletes this rule, so\nno rule is ever left pointing at something that no longer exists."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination": {
+          "target": "com.freestyle.firewall#FirewallEndpoint",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.freestyle.firewall#FirewallEndpoint",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An allowed path through the network, as intent: traffic matching `source`\nmay reach `destination`."
+      }
+    },
+    "com.freestyle.firewall#FirewallAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What a rule does with the traffic it matches.\n\nOnly `allow` exists today, and it is required on every rule rather than\ndefaulted: a default would mean that the day `deny` arrives, every rule\nwritten before it silently acquires an action it never stated."
+      }
+    },
+    "com.freestyle.firewall#FirewallDependency": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your label for the named resource, under the same rules as `slug`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource's id.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`vm`, `vpc`, or `tunnel` today. New selectors add new kinds.",
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your handle for the named resource, when it has one — so a rule says\nwhat it points at without a lookup per id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A resource a rule cannot outlive: deleting it deletes the rule."
+      }
+    },
+    "com.freestyle.firewall#FirewallRuleDependenciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.firewall#FirewallDependency"
+      },
+      "traits": {
+        "smithy.api#documentation": "What this rule depends on. Deleting any of them deletes this rule, so\nno rule is ever left pointing at something that no longer exists."
+      }
+    },
+    "com.freestyle.firewall#FirewallEndpoint": {
+      "type": "structure",
+      "members": {
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An address range, IPv4 or IPv6, in canonical `network/prefix` form.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "A single port, 1–65535. Requires `protocol`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protocol": {
+          "target": "com.freestyle.firewall#FirewallProtocol",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Every publicly routable address, whoever owns it — including another\nFreestyle VM reached at its public address. Only `true` is meaningful;\nomit the field otherwise. Not combined with `vmId` or `vpcId`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tunnelId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whatever is on the far side of one tunnel — the client that dials it,\nand any remote range routed over it. Tunnels have no slug, so this is a\ntunnel id: `tun-…`, or `wg-…` for one carried over from the per-VPC VPN\nrecords tunnels replaced.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vmId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A single VM, by id or by your slug for it. Answers hold its id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Everything on one private network, by id or by your slug for it.\nAnswers hold its id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One end of a rule: which traffic this side matches.\n\nFields intersect — `{ vpcId, port, protocol }` is \"traffic in that network,\non that port, over that protocol\". `vmId`/`vpcId`/`tunnelId` select by\nidentity (the VM however it is addressed); `cidr`/`public` select by\naddress. Unknown fields\nare rejected rather than ignored: a matcher is a security statement, and a\ntypo'd `porrt: 22` that quietly became \"every port\" is the wrong failure."
+      }
+    },
+    "com.freestyle.firewall#ListFirewallRulesResponseRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.firewall#FirewallRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Newest first."
+      }
+    },
+    "com.freestyle.firewall#ListFirewallRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.firewall#ListFirewallRulesRequest"
+      },
+      "output": {
+        "target": "com.freestyle.firewall#ListFirewallRulesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.firewall#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/firewall/rules",
+          "code": 200
+        },
+        "smithy.api#documentation": "List your firewall rules, newest first. Filter by `vmId` to get the rules that apply to one VM — those naming it, plus those naming a private network it is attached to — or by `vpcId`/`tunnelId` for the rules naming one of those.",
+        "smithy.api#paginated": {
+          "inputToken": "offset",
+          "outputToken": "totalCount",
+          "items": "rules",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.freestyle.firewall#CreateFirewallRuleRequest": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.freestyle.firewall#FirewallAction",
+          "traits": {
+            "smithy.api#documentation": "Required, and `allow` is the only accepted value.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A free-form note, up to 1024 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination": {
+          "target": "com.freestyle.firewall#FirewallEndpoint",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.freestyle.firewall#FirewallEndpoint",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.firewall#CreateFirewallRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.firewall#CreateFirewallRuleRequest"
+      },
+      "output": {
+        "target": "com.freestyle.firewall#FirewallRule"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.firewall#BadRequest"
+        },
+        {
+          "target": "com.freestyle.firewall#NotFound"
+        },
+        {
+          "target": "com.freestyle.firewall#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/firewall/rules",
+          "code": 200
+        },
+        "smithy.api#documentation": "Allow traffic from one place to another. Both `source` and `destination` are matchers whose fields intersect; use `public: true` for the public Internet. A rule naming a VM, a private network, or a tunnel is deleted automatically when that resource is."
+      }
+    },
+    "com.freestyle.firewall#GetFirewallRuleRequest": {
+      "type": "structure",
+      "members": {
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Firewall rule id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.firewall#GetFirewallRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.firewall#GetFirewallRuleRequest"
+      },
+      "output": {
+        "target": "com.freestyle.firewall#FirewallRule"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.firewall#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/firewall/rules/{ruleId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch one firewall rule."
+      }
+    },
+    "com.freestyle.firewall#DeleteFirewallRuleRequest": {
+      "type": "structure",
+      "members": {
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Firewall rule id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.firewall#DeleteFirewallRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.firewall#DeleteFirewallRuleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.firewall#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v5/firewall/rules/{ruleId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a firewall rule. The resources it named are untouched — the dependency runs one way."
+      }
+    },
+    "com.freestyle.firewall#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.freestyle.firewall#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.freestyle.firewall#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.freestyle.firewall#Firewall": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.freestyle.firewall#EvaluateFirewall"
+        },
+        {
+          "target": "com.freestyle.firewall#ListFirewallRules"
+        },
+        {
+          "target": "com.freestyle.firewall#CreateFirewallRule"
+        },
+        {
+          "target": "com.freestyle.firewall#GetFirewallRule"
+        },
+        {
+          "target": "com.freestyle.firewall#DeleteFirewallRule"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Freestyle",
+        "smithy.api#documentation": "# Powerful Virtual Machines\n\nDocumentation: [freestyle.sh/docs](https://freestyle.sh/docs)\n\nFreestyle VMs are full Linux virtual machines designed for long running, complex tasks.\n\n## Key Features\n\n- **Instant Startup**: Freestyle VMs provision in milliseconds, with p99s under 400ms.\n- **Persistence**: Freestyle VMs can run forever, they can be hibernated with their exact memory in place and come back to life weeks later instantly, in that exact state.\n- **Powerful**: Freestyle VMs go up to 64GB of RAM for public tiers and much further for enterprise. Freestyle does high quality hardware virtualization supporting nested virtualization, FUSE, eBPF, full Linux networking and more. If it can run in an EC2, it can run in a Freestyle VM.\n- **Cheaply Snapshottable and Branchable**: Freestyle VMs are instantly and cheaply snapshottable (sub 1ms interruption, sub 50ms to snapshot ready). These snapshots can be used to create new VMs in the exact state of the original VM (memory and disk). This enables powerful workflows like branching, cloning, and rapid recovery from failures.\n\n## When to use Freestyle\n\n- **Long Running Agent Tasks**: When you have tasks that take hours, days, weeks or months to run, Freestyle VMs provide a persistent and powerful environment that your agent can work in to completion.\n- **Failure Prone/Experimental Exploration**: When your tasks involve branching, cloning or need time travel Freestyle VMs are ideal because of their cheap snapshottability and power that makes them great for experiments.\n- **Complex Coding Problems**: When you are tackling advanced coding problems in research or production codebases, poor virtualization and small sandboxes will not cut it. Freestyle VMs provide the necessary resources and environment to handle these challenges effectively.\n- **Multi Tenant Usage Patterns**: Freestyle VMs are intentionally built to be used by agent builders with multiple customers. The slug system allows for keying VMs by their user, the identity system allows for granular acccess control and permissioning, and the VPC system allows for multi-tenant network isolation. \n\n## When not to use it\n\n- **\"Run AI Code\"**: If your exclusively executing short lived Python scripts or other ephemeral tasks the benefits above aren't relevant. Freestyle VMs should still be benchmarked but there may be alternatives better suited.\n- **CPU Intensive CI/CD**: Freestyle VMs run on bare metal on data center CPUs. We also oversubscribe host resources. For workloads that require sustained high CPU usage like building the Linux Kernel or mining crypto prefer cloud providers that offer consumer CPU performance.\n- **Short Lived Tasks**: If your tasks are extremely short lived and do not benefit from persistence or powerful hardware. If your average task takes less than 15 minutes to complete then they are likely cheaply retryable and don't require the reliability and persistence that Freestyle VMs provide.\n- **Sole Application Hosting**: Freestyle VMs are designed as workbenches for development, experimentation and task execution. Not for hosting production applications. Hosting a minecraft server for some friends will work great on Freestyle, but we do not offer autoscaling, load balancers or CDNs and we don't plan to.\n\n## Emerging Use Cases\n\n- **RL Environments**: Freestyle VMs are well-suited for running reinforcement learning environments that require persistent state and complex setups. The ability to snapshot and branch VMs allows researchers to experiment with different strategies and record environment states efficiently.\n- **Auto Research Climbing**: Freestyle VMs are great for auto research as the snapshotting and fan out allows research agents to explore multiple strategies, review past results and iterate efficiently without ever losing progress.\n- **Environments for Development, Testing, Security and Pentesting**: Freestyle VMs are the only sandbox provider that offers full private VPC and networking which allows simulating full applications in production like staging environments. This can be used for testing, iteration, security assesments and penetration testing in a controlled and isolated environment.\n- **Connecting Agents to Production VPCs**: Freestyle VMs VPC system allows for connections to private production VPCs through secure Wireguard tunnels. If you want sandboxed agents to work on your/your users production infrastructure and they have requirements about not going through the public internet, Freestyle VMs provide a secure and compliant solution.\n\n## Private Offers (Enterprise)\n\n- **GPU Sandboxes**: Freestyle offers private GPU sandboxes for enterprise customers, providing direct access to frontier GPU hardware for high performance computing, machine learning and generally the above **Emerging Use Cases**.\n- **Colocated Bare Metal**: For users wanting sandboxes that work with especially weird requirements Freestyle can offer space in our racks for your dedicated bare metal servers. This can be useful for custom GPUs, video processing, or any other specialized hardware needs.\n- **Custom Pricing**: Freestyle can offer spot access, CPU Time billing, node based pricing and more. These deals can be tailored to the specific needs and usage patterns of enterprise customers.\n- **Custom Sandboxing**: Freestyle builds and maintains its own custom virtualization solutions which allows us to virtualize and sandbox workloads in ways that are not possible with standard options. This enables highly specialized and optimized environments for enterprise customers.\n- **Dedicated Support**: Enterprise customers can receive dedicated support from the Freestyle team, ensuring that any issues or custom requirements are addressed promptly and effectively.\n\nFor more information on Enterprise offerings contact our [sales team](https://cal.com/freestyle/enterprise-onboarding?overlayCalendar=true)\n\n### Relevant Links\n\n- [Freestyle Documentation](https://freestyle.sh/docs)\n- [Freestyle Dashboard](https://dash.freestyle.sh) — manage your account and API keys.\n\nAI agents can create their own API key with `npx -y freestyle@latest tokens create \"agent work\" --output json` using an existing CLI login. Run `npx -y freestyle@latest login` first if needed, then use the returned `token` as `FREESTYLE_API_KEY`."
+      }
+    }
+  }
+}

@@ -1,0 +1,2587 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.freestyle.vms#VmState": {
+      "type": "enum",
+      "members": {
+        "STARTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "starting"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "PAUSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pausing"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#ListVmsRequest": {
+      "type": "structure",
+      "members": {
+        "state": {
+          "target": "com.freestyle.vms#VmState",
+          "traits": {
+            "smithy.api#httpQuery": "state",
+            "smithy.api#documentation": "Only VMs in this state."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "Exact slug match."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search"
+          }
+        },
+        "snapshotId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "snapshotId",
+            "smithy.api#documentation": "Only VMs booted from this snapshot."
+          }
+        },
+        "vpc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "vpc",
+            "smithy.api#documentation": "Only VMs attached to this network (id, or your slug for it)."
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "metadata",
+            "smithy.api#documentation": "Comma-separated `key:value` pairs, e.g. `env:prod,region:us-west`."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#ListVmsResponse": {
+      "type": "structure",
+      "members": {
+        "pausedCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pausingCount": {
+          "target": "smithy.api#Integer"
+        },
+        "runningCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "startingCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "stoppedCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "vms": {
+          "target": "com.freestyle.vms#ListVmsResponseVmsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#Vm": {
+      "type": "structure",
+      "members": {
+        "autoDeleteFromPlan": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `autoDeleteSeconds` above is your plan's doing rather than\nyours. A window your plan set goes away by itself if you move to a plan\nthat does not reclaim unused VMs; one you set is yours and stays."
+          }
+        },
+        "autoDeleteSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Delete the VM once it has gone this long without running. Absent means\nnever; 0 means the VM is ephemeral — deleted the moment it stops. Note\nthat this may be set for you: some plans cap how long an unused VM is\nkept, and the cap shows up here.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "automaticRestart": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the VM is booted again when it stops without being asked to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpuTimeSeconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total CPU time consumed, seconds.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "egressIpv4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public IPv4 address the VM's outbound traffic is seen as coming\nfrom. It belongs to your account rather than to this VM: every VM you\nown shares it, and it survives restarts and moves between machines.\n\nOptional, and worth reading as optional even though a VM in service\nhas one: nothing promises an account keeps a single outbound address,\nso allow for it being absent rather than depending on it being there.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "egressIpv6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public IPv6 address the VM's outbound traffic is seen as coming\nfrom. Today it is the VM's own `publicIpv6` — it appears from the\naddress it answers on — but read it as its own field: where a VM\nanswers and where it appears from are two questions, and `egressIpv4`\nabove already answers them differently.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "idleTimeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The image the VM booted from, when it booted from one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lastNetworkActivity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxRunSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Pause the VM once one run has lasted this long, however busy it is.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxRunTotalSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The VM's lifetime runtime budget in seconds. Spending it pauses the VM\nand makes every later start a 409 until you raise this.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.freestyle.vms#VmMetadataMap"
+        },
+        "networks": {
+          "target": "com.freestyle.vms#VmNetworksList",
+          "traits": {
+            "smithy.api#documentation": "Deprecated: the same list as `vpcs`, kept for old readers."
+          }
+        },
+        "placement": {
+          "target": "com.freestyle.vms#VmPlacement",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "publicIpv6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The VM's stable public IPv6 address — assigned at create and kept for\nthe VM's life, across restarts and moves between machines.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resources": {
+          "target": "com.freestyle.vms#VmResources",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL-safe identifier, unique within the account; usable anywhere an id is.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sourceSnapshotDisplayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The snapshot's display name now, under the same rules.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sourceSnapshotSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What that snapshot is called *now* — its own slug, unqualified. Absent\nwhen it has no slug and when it is gone, so read against\n`sourceSnapshotSlugAtCreate` a renamed origin tells apart from a\ndeleted one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sourceSnapshotSlugAtCreate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What that snapshot was called when the VM was created, qualified\n`{owner}/{slug}` when it belongs to another account. A name, not a\npointer: slugs move, so boot from `snapshotId`, not from this.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "com.freestyle.vms#VmState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalRunSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Seconds this VM has spent running, across every run it has ever had.\nWhat `maxRunTotalSeconds` is measured against."
+          }
+        },
+        "ttlSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Delete the VM this long after it was created, whatever it is doing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A VM as the owning account sees it. Placement and topology internals\n(hosting manager, VXLAN ids, node-local network allocation) are not part of\nthis contract."
+      }
+    },
+    "com.freestyle.vms#VmMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#VmNetwork": {
+      "type": "structure",
+      "members": {
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network's CIDR, alongside `ipv4`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cidrV6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network's IPv6 CIDR, alongside `ipv6`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipv4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The VM's IPv4 address inside the network; absent when the member opted\nout of IPv4, or the network has no IPv4 CIDR.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipv6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The VM's IPv6 address, when the network has an IPv6 CIDR.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "routes": {
+          "target": "com.freestyle.vms#VmNetworkRoutesList"
+        },
+        "vpc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated: the network's id under its old name. Read `vpcId`.",
+            "smithy.api#required": {}
+          }
+        },
+        "vpcDisplayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network's display name now, under the same rules.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the network is called *now*. Absent when it has no slug and when\nit is gone, so read against `vpcSlugAtAttach` a renamed network tells\napart from a deleted one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcSlugAtAttach": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your slug for the network when the VM was attached to it, if it had one.\n\nA convenience for reading an answer back — `vpc` is the id, and the id is\nwhat to store or compare. It keeps naming what the VM was attached by\nafter a rename, so this is not a way to find the network again.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A VM's place on a private network."
+      }
+    },
+    "com.freestyle.vms#NetworkRoute": {
+      "type": "structure",
+      "members": {
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metric": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Route priority, as `ip route`'s `metric`. Omit for the platform\ndefault. Several routes to the same `cidr` at the same metric are one\nmultipath route — the guest spreads flows across their gateways —\nwhile different metrics make a primary and a backup.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "via": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An in-guest static route: reach `cidr` via the gateway `via`, which must be\nan address inside the network's CIDR."
+      }
+    },
+    "com.freestyle.vms#VmNetworkRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#NetworkRoute"
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#VmNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#VmNetwork"
+      },
+      "traits": {
+        "smithy.api#documentation": "Deprecated: the same list as `vpcs`, kept for old readers."
+      }
+    },
+    "com.freestyle.vms#VmPlacement": {
+      "type": "structure",
+      "members": {
+        "antiAffinity": {
+          "target": "com.freestyle.vms#VmPlacementAntiAffinityList",
+          "traits": {
+            "smithy.api#documentation": "Hard rules: the VM will not land on a topology domain already hosting\na VM matched by any rule's selector."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Placement constraints for a VM, fixed at create time and honored again\nwhenever the platform relocates the VM."
+      }
+    },
+    "com.freestyle.vms#VmAntiAffinityRule": {
+      "type": "structure",
+      "members": {
+        "selector": {
+          "target": "com.freestyle.vms#VmLabelSelector",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "topology": {
+          "target": "com.freestyle.vms#VmPlacementTopology",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One anti-affinity rule: \"not on the same `topology` domain as any VM\nmatching `selector`\". At most 8 rules per VM."
+      }
+    },
+    "com.freestyle.vms#VmLabelSelector": {
+      "type": "structure",
+      "members": {
+        "matchLabels": {
+          "target": "com.freestyle.vms#VmLabelSelectorMatchLabelsMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Selects VMs by their metadata: a VM matches when its metadata contains\nevery `matchLabels` entry. At least 1 and at most 8 entries; keys and\nvalues are limited to 63 characters, like the metadata they match."
+      }
+    },
+    "com.freestyle.vms#VmLabelSelectorMatchLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#VmPlacementTopology": {
+      "type": "enum",
+      "members": {
+        "NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The topology domain an anti-affinity rule spreads across. `node` — the\nonly domain today — means \"not on the same host machine\"."
+      }
+    },
+    "com.freestyle.vms#VmPlacementAntiAffinityList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#VmAntiAffinityRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Hard rules: the VM will not land on a topology domain already hosting\na VM matched by any rule's selector."
+      }
+    },
+    "com.freestyle.vms#VmResources": {
+      "type": "structure",
+      "members": {
+        "cpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "vCPU count.",
+            "smithy.api#required": {}
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory, MiB.",
+            "smithy.api#required": {}
+          }
+        },
+        "storage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Disk, MiB.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#ListVmsResponseVmsList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#Vm"
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#ListVms": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#ListVmsRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#ListVmsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/vms",
+          "code": 200
+        },
+        "smithy.api#documentation": "List your VMs.",
+        "smithy.api#paginated": {
+          "inputToken": "offset",
+          "outputToken": "totalCount",
+          "items": "vms",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.freestyle.vms#FirewallSpec": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.freestyle.vms#FirewallSpecRulesList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The `firewall` block of a create: rules created with the resource and\ndeleted with it. Inside it, an endpoint with no identity means the resource\nbeing created — which is how a rule names something whose id does not exist\nyet."
+      }
+    },
+    "com.freestyle.vms#CreateFirewallRuleRequest": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.freestyle.vms#FirewallAction",
+          "traits": {
+            "smithy.api#documentation": "Required, and `allow` is the only accepted value.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A free-form note, up to 1024 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination": {
+          "target": "com.freestyle.vms#FirewallEndpoint",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.freestyle.vms#FirewallEndpoint",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#FirewallAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What a rule does with the traffic it matches.\n\nOnly `allow` exists today, and it is required on every rule rather than\ndefaulted: a default would mean that the day `deny` arrives, every rule\nwritten before it silently acquires an action it never stated."
+      }
+    },
+    "com.freestyle.vms#FirewallEndpoint": {
+      "type": "structure",
+      "members": {
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An address range, IPv4 or IPv6, in canonical `network/prefix` form.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "A single port, 1–65535. Requires `protocol`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protocol": {
+          "target": "com.freestyle.vms#FirewallProtocol",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Every publicly routable address, whoever owns it — including another\nFreestyle VM reached at its public address. Only `true` is meaningful;\nomit the field otherwise. Not combined with `vmId` or `vpcId`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tunnelId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whatever is on the far side of one tunnel — the client that dials it,\nand any remote range routed over it. Tunnels have no slug, so this is a\ntunnel id: `tun-…`, or `wg-…` for one carried over from the per-VPC VPN\nrecords tunnels replaced.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vmId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A single VM, by id or by your slug for it. Answers hold its id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Everything on one private network, by id or by your slug for it.\nAnswers hold its id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One end of a rule: which traffic this side matches.\n\nFields intersect — `{ vpcId, port, protocol }` is \"traffic in that network,\non that port, over that protocol\". `vmId`/`vpcId`/`tunnelId` select by\nidentity (the VM however it is addressed); `cidr`/`public` select by\naddress. Unknown fields\nare rejected rather than ignored: a matcher is a security statement, and a\ntypo'd `porrt: 22` that quietly became \"every port\" is the wrong failure."
+      }
+    },
+    "com.freestyle.vms#FirewallProtocol": {
+      "type": "enum",
+      "members": {
+        "TCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tcp"
+          }
+        },
+        "UDP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "udp"
+          }
+        },
+        "ICMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "icmp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The transport a matcher is restricted to."
+      }
+    },
+    "com.freestyle.vms#FirewallSpecRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#CreateFirewallRuleRequest"
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#CreateVmRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 64 metadata entries; keys and values are limited to 63 characters."
+      }
+    },
+    "com.freestyle.vms#AttachNetwork": {
+      "type": "structure",
+      "members": {
+        "ipv4": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The IPv4 address to take inside the network: an explicit address,\n`true` to auto-allocate, or `false` to opt out. Omitted = allocate one\n(networks are dual-stack), except on a network with no IPv4 CIDR,\nwhere the VM simply joins over IPv6."
+          }
+        },
+        "ipv6": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The IPv6 address to take: an explicit address, `true` to auto-allocate\n(the default), or `false` to opt out. Every network has an IPv6 CIDR."
+          }
+        },
+        "routes": {
+          "target": "com.freestyle.vms#AttachNetworkRoutesList",
+          "traits": {
+            "smithy.api#documentation": "Static routes to install in the guest."
+          }
+        },
+        "vpc": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network to join, by id or by your slug for it. Also accepted as\n`vpcId`, the name the rest of the API uses.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Attach a VM to one of your private networks. A VM may be on at most one."
+      }
+    },
+    "com.freestyle.vms#AttachNetworkRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#NetworkRoute"
+      },
+      "traits": {
+        "smithy.api#documentation": "Static routes to install in the guest."
+      }
+    },
+    "com.freestyle.vms#CreateVmRequestNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#AttachNetwork"
+      },
+      "traits": {
+        "smithy.api#documentation": "Put the VM on your private networks. Omit to leave it off them. At most\none network is accepted today. Also accepted as `vpcs`, the name the\nrest of the API uses."
+      }
+    },
+    "com.freestyle.vms#TlsSpec": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.freestyle.vms#TlsSpecRulesList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The `tls` block of a VM create: rules created with the VM and deleted with\nit. Inside it, an endpoint with no identity means the VM being created —\nwhich is how a rule names a VM whose id does not exist yet."
+      }
+    },
+    "com.freestyle.vms#CreateTlsRuleRequest": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.freestyle.vms#TlsAction",
+          "traits": {
+            "smithy.api#documentation": "Required, and `allow` is the only accepted value.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A free-form note, up to 1024 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination": {
+          "target": "com.freestyle.vms#TlsEndpoint"
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name the session is addressed to: exact, `*.suffix`, or `*`.",
+            "smithy.api#required": {}
+          }
+        },
+        "forwardAuth": {
+          "target": "com.freestyle.vms#TlsForwardAuthReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "match": {
+          "target": "com.freestyle.vms#HttpRequestMatch",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protocol": {
+          "target": "com.freestyle.vms#TlsProtocolDocumented",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.freestyle.vms#TlsEndpoint"
+        },
+        "transform": {
+          "target": "com.freestyle.vms#CreateTlsRuleRequestTransformList",
+          "traits": {
+            "smithy.api#documentation": "Rewrites applied in flight, in order. Secrets here are write-only."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#TlsAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What a rule does with the named session it matches.\n\nOnly `allow` exists today, and it is required on every rule rather than\ndefaulted: a default would mean that the day `deny` arrives, every rule\nwritten before it silently acquires an action it never stated."
+      }
+    },
+    "com.freestyle.vms#TlsEndpoint": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "**Destination only.** Pin the session to this host instead of resolving\nthe domain, while still presenting `domain` as the SNI.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "**Destination only.** The port the session lands on. Required with a\n`vmId` or `host` destination; defaults to 443 for a `public` origin.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "On a source, every publicly routable client — the open Internet dials the\nname. On a destination, the domain's own public origin. Only `true` is\nmeaningful; omit the field otherwise.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vmId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A single VM, by id or by your slug for it. On a source, the VM that may\nopen the session; on a destination, the VM it lands on. Answers hold its id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Everything on one private network, by id or by your slug for it. **Source\nonly** — a landing is one place, so a network cannot be a destination.\nAnswers hold its id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One end of a rule: which session this side matches.\n\nA `source` says *who* may open the session (`vmId`/`vpcId`/`public: true`); a\n`destination` says *where it lands* (`vmId`+`port`, `host`+`port`, or\n`public: true` for the domain's own origin). Unknown fields are rejected\nrather than ignored: a rule is a security statement, and a typo that quietly\nwidened it is the wrong failure."
+      }
+    },
+    "com.freestyle.vms#TlsForwardAuthReference": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The configuration id returned by `POST /v5/tls/forward-auth`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A reusable authorization check attached to public HTTP ingress."
+      }
+    },
+    "com.freestyle.vms#HttpRequestMatch": {
+      "type": "structure",
+      "members": {
+        "method": {
+          "target": "com.freestyle.vms#HttpRequestMatchMethodList",
+          "traits": {
+            "smithy.api#documentation": "Case-sensitive HTTP method tokens. Omitted matches any; an empty list matches none.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "path": {
+          "target": "com.freestyle.vms#HttpPathMatch",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Select which HTTP egress requests receive a rule's transforms.\nIncluded dimensions are ANDed; methods are ORed. An empty object matches all.\nA non-match skips every transform, without denying access to the origin.\nSee <https://vercel.com/docs/sandbox/concepts/firewall#matchers>."
+      }
+    },
+    "com.freestyle.vms#HttpRequestMatchMethodList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Case-sensitive HTTP method tokens. Omitted matches any; an empty list matches none."
+      }
+    },
+    "com.freestyle.vms#HttpPathMatch": {
+      "type": "structure",
+      "members": {
+        "exact": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Exact request path. Prefix and regex matching are not supported yet."
+      }
+    },
+    "com.freestyle.vms#TlsProtocolDocumented": {
+      "type": "enum",
+      "members": {
+        "TCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tcp"
+          }
+        },
+        "HTTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "http"
+          }
+        },
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgres"
+          }
+        },
+        "MINECRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minecraft"
+          }
+        },
+        "IMAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "imap"
+          }
+        },
+        "IMAPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "imaps"
+          }
+        },
+        "SOCKS5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "socks5"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the edge treats the session's bytes, and therefore which of its front\ndoors serves the rule.\n\n`http` (443) and `postgres` (5432) terminate the session, so each pairs with\nthe transform kind that speaks it and each needs a certificate for the name.\n`minecraft` (25565) routes on the server address in the client's handshake\nand then splices — no TLS, so no certificate and no transform.\n\nThe other two doors carry a terminating protocol and a splicing one at once,\nand a rule picks which it is. `tcp` shares 443 with `http`: match on SNI,\nsplice the bytes, terminate nothing, so your VM's own certificate answers the\nhandshake. `imap` and `imaps` share 993 for mail clients — `imap` terminates\non a certificate issued for the name and forwards plain IMAP to the port your\nserver listens on (143 by default), `imaps` splices to a server holding its\nown certificate on 993. All three splicing shapes are public ingress only.\n\n`socks5` (1080) goes the other way and is the only egress-only protocol. Your\nVM opens SOCKS5 to the platform edge with no authentication, names its own\ndestination inside the request, and the edge opens the session onward through\nyour proxy provider using the credentials a `socks5` transform carries — so\nthe workload can use the subscription without ever holding it. Nothing is\nterminated: your TLS runs end to end to the real origin. The rule's `domain`\nis an allow-list of destinations rather than a name anything resolves, which\nis why `*` is allowed here and refused everywhere else."
+      }
+    },
+    "com.freestyle.vms#TlsTransformDocumented": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.freestyle.vms#TlsTransformDocumentedCase0"
+        },
+        "Case1": {
+          "target": "com.freestyle.vms#TlsTransformDocumentedCase1"
+        },
+        "Case2": {
+          "target": "com.freestyle.vms#TlsTransformDocumentedCase2"
+        },
+        "Case3": {
+          "target": "com.freestyle.vms#TlsTransformDocumentedCase3"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The rewrites a rule applies, in order."
+      }
+    },
+    "com.freestyle.vms#TlsTransformDocumentedCase0HeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Set request headers on an `http` session. Header names are preserved\n(they are not secret); values are write-only."
+      }
+    },
+    "com.freestyle.vms#TlsTransformDocumentedCase0": {
+      "type": "structure",
+      "members": {
+        "headers": {
+          "target": "com.freestyle.vms#TlsTransformDocumentedCase0HeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Set request headers on an `http` session. Header names are preserved\n(they are not secret); values are write-only.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set request headers on an `http` session. Header names are preserved\n(they are not secret); values are write-only."
+      }
+    },
+    "com.freestyle.vms#JsonPatch": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#PatchOperation"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered RFC 6902 operations. Values are write-only and read back as `\"***\"`.\nA rule accepts one patch, with at most 128 operations and 64 KiB of configuration."
+      }
+    },
+    "com.freestyle.vms#PatchOperation": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.freestyle.vms#PatchOperationCase0"
+        },
+        "Case1": {
+          "target": "com.freestyle.vms#PatchOperationCase1"
+        },
+        "Case2": {
+          "target": "com.freestyle.vms#PatchOperationCase2"
+        },
+        "Case3": {
+          "target": "com.freestyle.vms#PatchOperationCase3"
+        },
+        "Case4": {
+          "target": "com.freestyle.vms#PatchOperationCase4"
+        },
+        "Case5": {
+          "target": "com.freestyle.vms#PatchOperationCase5"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "JSON Patch single patch operation"
+      }
+    },
+    "com.freestyle.vms#PatchOperationCase0Op": {
+      "type": "enum",
+      "members": {
+        "ADD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#PatchOperationCase0": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Value to add to the target location.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.vms#PatchOperationCase0Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'add' operation"
+      }
+    },
+    "com.freestyle.vms#PatchOperationCase1Op": {
+      "type": "enum",
+      "members": {
+        "REMOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "remove"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#PatchOperationCase1": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.vms#PatchOperationCase1Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'remove' operation"
+      }
+    },
+    "com.freestyle.vms#PatchOperationCase2Op": {
+      "type": "enum",
+      "members": {
+        "REPLACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "replace"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#PatchOperationCase2": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Value to replace with.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.vms#PatchOperationCase2Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'replace' operation"
+      }
+    },
+    "com.freestyle.vms#PatchOperationCase3Op": {
+      "type": "enum",
+      "members": {
+        "MOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "move"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#PatchOperationCase3": {
+      "type": "structure",
+      "members": {
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nto move value from.",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.vms#PatchOperationCase3Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'move' operation"
+      }
+    },
+    "com.freestyle.vms#PatchOperationCase4Op": {
+      "type": "enum",
+      "members": {
+        "COPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "copy"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#PatchOperationCase4": {
+      "type": "structure",
+      "members": {
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nto copy value from.",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.vms#PatchOperationCase4Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'copy' operation"
+      }
+    },
+    "com.freestyle.vms#PatchOperationCase5Op": {
+      "type": "enum",
+      "members": {
+        "TEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "test"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#PatchOperationCase5": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Value to test against.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.vms#PatchOperationCase5Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'test' operation"
+      }
+    },
+    "com.freestyle.vms#TlsTransformDocumentedCase1": {
+      "type": "structure",
+      "members": {
+        "jsonPatch": {
+          "target": "com.freestyle.vms#JsonPatch",
+          "traits": {
+            "smithy.api#documentation": "Apply RFC 6902 operations to JSON HTTP egress request bodies.\nValues are write-only; operation names and JSON Pointer paths remain visible.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Apply RFC 6902 operations to JSON HTTP egress request bodies.\nValues are write-only; operation names and JSON Pointer paths remain visible."
+      }
+    },
+    "com.freestyle.vms#PostgresTransform": {
+      "type": "structure",
+      "members": {
+        "database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database to select. Optional: omitted leaves the guest's choice.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The upstream password. Write-only: sealed at rest, read back as `\"***\"`.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The upstream role to authenticate as.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Credentials injected into a Postgres startup handshake. The guest connects\nwith no password; the edge completes the real handshake upstream."
+      }
+    },
+    "com.freestyle.vms#TlsTransformDocumentedCase2": {
+      "type": "structure",
+      "members": {
+        "postgres": {
+          "target": "com.freestyle.vms#PostgresTransform",
+          "traits": {
+            "smithy.api#documentation": "Inject credentials into a `postgres` handshake.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Inject credentials into a `postgres` handshake."
+      }
+    },
+    "com.freestyle.vms#Socks5Transform": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The password to present to the upstream proxy. Write-only: sealed at\nrest, read back as `\"***\"`.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username to present to the upstream proxy.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Credentials presented to an upstream SOCKS5 proxy. Your VM connects to the\nplatform's SOCKS5 front with no authentication at all; the edge authenticates\nto your provider on its behalf, so the subscription is never inside the VM."
+      }
+    },
+    "com.freestyle.vms#TlsTransformDocumentedCase3": {
+      "type": "structure",
+      "members": {
+        "socks5": {
+          "target": "com.freestyle.vms#Socks5Transform",
+          "traits": {
+            "smithy.api#documentation": "Authenticate a `socks5` session to your upstream proxy provider.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Authenticate a `socks5` session to your upstream proxy provider."
+      }
+    },
+    "com.freestyle.vms#CreateTlsRuleRequestTransformList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#TlsTransformDocumented"
+      },
+      "traits": {
+        "smithy.api#documentation": "Rewrites applied in flight, in order. Secrets here are write-only."
+      }
+    },
+    "com.freestyle.vms#TlsSpecRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#CreateTlsRuleRequest"
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#CreateVmRequest": {
+      "type": "structure",
+      "members": {
+        "autoDeleteSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Delete the VM once it has gone this many seconds without running.\nEvery start resets the clock; a running VM is never deleted for this.\n-1 (or omitting this) means never; 0 makes the VM ephemeral — deleted\nthe moment it stops.\n\nSome plans cap how long an unused VM is kept. On those, omitting this\n(or sending -1) gets you the cap rather than \"keep forever\", and asking\nfor longer than the cap is a 400.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "automaticRestart": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boot the VM again if it stops without you asking it to — the VMM\ncrashes, the guest kernel panics, the machine it runs on loses power.\nDefaults to `true`.\n\nIt never fights you: shutting the VM down, pausing it, running\n`poweroff` inside it, or hitting an idle timeout all leave it off. This\nonly decides who gets the last word when a *failure* stops it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "firewall": {
+          "target": "com.freestyle.vms#FirewallSpec",
+          "traits": {
+            "smithy.api#documentation": "Firewall rules to create with the VM, and delete with it. An endpoint\nwith no identity means the VM being created, so `{ \"source\": { \"public\":\ntrue }, \"destination\": { \"port\": 443, \"protocol\": \"tcp\" } }` opens\ninbound HTTPS to it.\n\n**Required.** A VM gets nothing implicitly — no outbound Internet, no\ninbound — so a caller that wants either says so here. `{\"rules\": []}` is\na legitimate answer: a VM reachable only through a mapped domain or SSH.",
+            "smithy.api#required": {}
+          }
+        },
+        "idleTimeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Pause the VM after this many seconds without network activity.\n-1 (or omitting this) means never pause for idleness.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxRunSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Pause the VM once a single run has lasted this many seconds, however\nbusy it is. Starting it again gives it a fresh budget — unlike\n`maxRunTotalSeconds`, which never resets. -1 (or omitting this) means\nno cap.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxRunTotalSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many seconds this VM may run in total, ever. Spending the budget\npauses the VM, and every later start is a 409 until you raise this.\n-1 (or omitting this) means no budget.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.freestyle.vms#CreateVmRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Up to 64 metadata entries; keys and values are limited to 63 characters."
+          }
+        },
+        "networks": {
+          "target": "com.freestyle.vms#CreateVmRequestNetworksList",
+          "traits": {
+            "smithy.api#documentation": "Put the VM on your private networks. Omit to leave it off them. At most\none network is accepted today. Also accepted as `vpcs`, the name the\nrest of the API uses."
+          }
+        },
+        "reassignSlug": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Take `slug` even if another VM in this account already holds it. The\nslug moves atomically: the current holder keeps running, stays\naddressable by id, and just loses its slug. Without this flag a taken\nslug is a 409 CONFLICT. Requires `slug`."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL-safe identifier, unique within your account: 1–63 chars of\n`[a-z0-9-]`, no leading, trailing, or repeated hyphens.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "snapshotId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Boot from this snapshot: its id, your slug for it, or a public\n`{owner}/{slug}`. Omit for the platform default.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tls": {
+          "target": "com.freestyle.vms#TlsSpec",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ttlSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Delete the VM this many seconds after it is created, whatever it is\ndoing at the time. A deadline, not an idle window: nothing resets it.\n-1 (or omitting this) means no deadline.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#CreateVm": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#CreateVmRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#Vm"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#BadRequest"
+        },
+        {
+          "target": "com.freestyle.vms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/vms",
+          "code": 200
+        },
+        "smithy.api#documentation": "Boot a new VM."
+      }
+    },
+    "com.freestyle.vms#GetVmRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#GetVm": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#GetVmRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#Vm"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/vms/{vmIdOrSlug}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch a VM by its id or its slug."
+      }
+    },
+    "com.freestyle.vms#UpdateVmRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata merged into the VM. Only the keys you send are touched; send an\nempty value to remove one."
+      }
+    },
+    "com.freestyle.vms#UpdateVmRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        },
+        "autoDeleteSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Seconds of not running before the VM is deleted; -1 removes the window\n(on a plan that caps it, -1 puts you back on the cap rather than off\nit), and 0 makes the VM ephemeral — deleted the moment it stops, or\nright away if it is already stopped.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "automaticRestart": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Turn automatic restart on or off. Applies to the next failure: this\nneither boots a stopped VM nor stops a running one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Change the display label; an empty string clears it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "idleTimeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Seconds of network idleness before pause; -1 removes the timeout.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxRunSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Seconds one run may last before the VM is paused; -1 removes the cap.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maxRunTotalSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The lifetime runtime budget in seconds; -1 removes it. Raising this\npast `totalRunSeconds` is how you start a VM that spent its budget.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.freestyle.vms#UpdateVmRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Metadata merged into the VM. Only the keys you send are touched; send an\nempty value to remove one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reassignSlug": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Take `slug` even if another VM in this account already holds it. The\nslug moves atomically: the current holder keeps running, stays\naddressable by id, and just loses its slug. Without this flag a taken\nslug is a 409 CONFLICT. Requires a non-empty `slug`."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Change the slug; an empty string clears it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ttlSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Seconds from creation — not from now — before the VM is deleted; -1\nremoves the deadline. A value already in the past deletes it shortly.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#UpdateVm": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#UpdateVmRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#Vm"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#BadRequest"
+        },
+        {
+          "target": "com.freestyle.vms#NotFound"
+        },
+        {
+          "target": "com.freestyle.vms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v5/vms/{vmIdOrSlug}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rename a VM, change its slug or idle timeout, or merge in metadata."
+      }
+    },
+    "com.freestyle.vms#DeleteVmRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#DeleteVm": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#DeleteVmRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v5/vms/{vmIdOrSlug}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Permanently destroy the VM."
+      }
+    },
+    "com.freestyle.vms#ExecVmRequestEnvMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Extra environment variables. Keys must be valid POSIX names."
+      }
+    },
+    "com.freestyle.vms#ExecVmRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        },
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The command line, run through the guest's shell.",
+            "smithy.api#required": {}
+          }
+        },
+        "env": {
+          "target": "com.freestyle.vms#ExecVmRequestEnvMap",
+          "traits": {
+            "smithy.api#documentation": "Extra environment variables. Keys must be valid POSIX names."
+          }
+        },
+        "linuxUser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stdin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base64-encoded stdin, up to 1 MiB decoded.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timeoutMs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Wall-clock limit, milliseconds. 1–300000; defaults to 30000 (30 s).\nThe guest kills the command at the deadline.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#ExecResponse": {
+      "type": "structure",
+      "members": {
+        "statusCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The command's exit status; absent if it was killed by the timeout.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stderr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stdout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#ExecVm": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#ExecVmRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#ExecResponse"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#BadRequest"
+        },
+        {
+          "target": "com.freestyle.vms#Forbidden"
+        },
+        {
+          "target": "com.freestyle.vms#NotFound"
+        },
+        {
+          "target": "com.freestyle.vms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/vms/{vmIdOrSlug}/exec-await",
+          "code": 200
+        },
+        "smithy.api#documentation": "Run a command in the guest and wait for it to finish. A non-zero exit status is still a 200. Read `statusCode`, which is null if the command was killed by its timeout."
+      }
+    },
+    "com.freestyle.vms#UpdateVmNetworksRequestNetworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#AttachNetwork"
+      },
+      "traits": {
+        "smithy.api#documentation": "At most one network is accepted today. An empty list detaches the VM.\nAlso accepted as `vpcs`, the name the rest of the API uses."
+      }
+    },
+    "com.freestyle.vms#UpdateVmNetworksRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        },
+        "networks": {
+          "target": "com.freestyle.vms#UpdateVmNetworksRequestNetworksList",
+          "traits": {
+            "smithy.api#documentation": "At most one network is accepted today. An empty list detaches the VM.\nAlso accepted as `vpcs`, the name the rest of the API uses."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#UpdateVmNetworks": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#UpdateVmNetworksRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#Vm"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#BadRequest"
+        },
+        {
+          "target": "com.freestyle.vms#NotFound"
+        },
+        {
+          "target": "com.freestyle.vms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v5/vms/{vmIdOrSlug}/networks",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the VM's private networks — attach, update, or detach in one declarative call (an empty list detaches). Works while the VM is stopped, running, or paused: a stopped VM picks the change up on its next start, a running VM is reconfigured live, and a paused VM applies it on resume. At most one network is accepted today. The VM keeps its address while it stays in the same network; moving networks (or naming a different address) renumbers it."
+      }
+    },
+    "com.freestyle.vms#PauseVmRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#PauseVm": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#PauseVmRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#Vm"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#NotFound"
+        },
+        {
+          "target": "com.freestyle.vms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/vms/{vmIdOrSlug}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Freeze a running VM, keeping its memory so a later start resumes it exactly."
+      }
+    },
+    "com.freestyle.vms#OpenPtyRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        },
+        "exec": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "exec",
+            "smithy.api#documentation": "Command to run; omit for a login shell"
+          }
+        },
+        "cols": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "cols",
+            "smithy.api#documentation": "Initial width in columns (default 80)"
+          }
+        },
+        "rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "rows",
+            "smithy.api#documentation": "Initial height in rows (default 24)"
+          }
+        },
+        "linuxUser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "linuxUser",
+            "smithy.api#documentation": "Guest Linux user to run as; omit for the guest's default user (uid 1000, else root)"
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "Name this session so you can reattach to it later without storing the id we mint. If a session already has this name you get that one back — alive, or exited with its final output and exit code still readable — and `exec` is NOT run; the `sessionInfo` frame's `created` says which happened. Starting over is DELETE then open again. Must not be all digits: session ids are bare integers, so an all-digit name could not be told apart from one."
+          }
+        },
+        "replaceOnExit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "replaceOnExit",
+            "smithy.api#documentation": "Respawn the shell in place when it exits, keeping this session's id, name and scrollback — for a terminal that should outlive whatever runs in it. A command that dies at startup is not respawned forever; after a few exits in quick succession the session is left dead so the error is readable. Leave this off if you are waiting on a command's exit code: a session that comes back to life reports `running` again."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#OpenPty": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#OpenPtyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#BadRequest"
+        },
+        {
+          "target": "com.freestyle.vms#NotFound"
+        },
+        {
+          "target": "com.freestyle.vms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/vms/{vmIdOrSlug}/pty",
+          "code": 200
+        },
+        "smithy.api#documentation": "Open an interactive terminal on the VM over a WebSocket. The session outlives this connection: closing the socket only detaches, so it can be reattached or listed later. It also outlives the host that serves it — a host restart reattaches this socket to the same session and replays its scrollback behind a terminal reset, with no break in the stream."
+      }
+    },
+    "com.freestyle.vms#ListPtySessionsRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        },
+        "linuxUser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "linuxUser",
+            "smithy.api#documentation": "Only sessions owned by this guest Linux user; omit for all of them"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#ListPtySessionsResponse": {
+      "type": "structure",
+      "members": {
+        "sessions": {
+          "target": "com.freestyle.vms#ListPtySessionsResponseSessionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#PtySession": {
+      "type": "structure",
+      "members": {
+        "cols": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Last-known terminal width, in columns.",
+            "smithy.api#required": {}
+          }
+        },
+        "createdUnix": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp, in seconds, when the session was opened.",
+            "smithy.api#required": {}
+          }
+        },
+        "exitCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exit code, present only once the session has exited.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "linuxUser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Linux user the session runs as. Absent means the guest default, root.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Last-known terminal height, in rows.",
+            "smithy.api#required": {}
+          }
+        },
+        "sessionId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Per-VM session id, for attaching or closing this session.",
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name this session was opened with, while it still answers to it.\nReleased as soon as the shell exits, so an exited session reports none\nand is addressable only by `sessionId`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`running` while the shell is alive, `exited` once it has terminated.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One interactive terminal session. Sessions are owned by the guest agent and\noutlive the connection that opened them: dropping the WebSocket only\ndetaches, so the shell keeps running and a later client can reattach. An\nexited session stays listable and attachable briefly, so a client can still\nread the final output and exit code."
+      }
+    },
+    "com.freestyle.vms#ListPtySessionsResponseSessionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vms#PtySession"
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#ListPtySessions": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#ListPtySessionsRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#ListPtySessionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/vms/{vmIdOrSlug}/pty/sessions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the VM's terminal sessions, running and recently exited. Scoped to one Linux user when the request names one, otherwise every session on the VM."
+      }
+    },
+    "com.freestyle.vms#AttachPtyRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        },
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Session id, or the slug the session was opened with"
+          }
+        },
+        "linuxUser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "linuxUser",
+            "smithy.api#documentation": "Guest Linux user that must own the session"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#AttachPty": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#AttachPtyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#BadRequest"
+        },
+        {
+          "target": "com.freestyle.vms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/vms/{vmIdOrSlug}/pty/sessions/{sessionId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reattach to an existing terminal session over a WebSocket, addressed by id or by the slug it was opened with. The retained scrollback replays first, then live output follows."
+      }
+    },
+    "com.freestyle.vms#ClosePtySessionRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        },
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Session id, or the slug the session was opened with"
+          }
+        },
+        "linuxUser": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "linuxUser",
+            "smithy.api#documentation": "Guest Linux user that must own the session"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#ClosePtySessionResponse": {
+      "type": "structure",
+      "members": {
+        "exitCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exit code if the session had already exited. Absent when it was still\nrunning: it is sent `SIGHUP` and torn down asynchronously.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sessionId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vms#ClosePtySession": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#ClosePtySessionRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#ClosePtySessionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v5/vms/{vmIdOrSlug}/pty/sessions/{sessionId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Kill a terminal session and remove it, addressed by id or by the slug it was opened with."
+      }
+    },
+    "com.freestyle.vms#ResizeVmRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory, MiB.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Disk, MiB. Disks can only grow.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#ResizeVm": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#ResizeVmRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#Vm"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#BadRequest"
+        },
+        {
+          "target": "com.freestyle.vms#NotFound"
+        },
+        {
+          "target": "com.freestyle.vms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/vms/{vmIdOrSlug}/resize",
+          "code": 200
+        },
+        "smithy.api#documentation": "Change a VM's vCPU, memory, or disk. Resizing is grow-only on every axis: each can go up but never down. Omitted fields keep their current value. vCPU and memory apply live to a running VM, apply on resume for a paused one, and apply at the next boot for a stopped one. Growing the disk needs a running VM, since it grows a live block device and then its filesystem."
+      }
+    },
+    "com.freestyle.vms#StartVmRequest": {
+      "type": "structure",
+      "members": {
+        "vmIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VM id, or your slug for it"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vms#StartVm": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vms#StartVmRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vms#Vm"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vms#NotFound"
+        },
+        {
+          "target": "com.freestyle.vms#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/vms/{vmIdOrSlug}/start",
+          "code": 200
+        },
+        "smithy.api#documentation": "Boot a stopped VM, or resume a paused one."
+      }
+    },
+    "com.freestyle.vms#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.freestyle.vms#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.freestyle.vms#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.freestyle.vms#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.freestyle.vms#Vms": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.freestyle.vms#ListVms"
+        },
+        {
+          "target": "com.freestyle.vms#CreateVm"
+        },
+        {
+          "target": "com.freestyle.vms#GetVm"
+        },
+        {
+          "target": "com.freestyle.vms#UpdateVm"
+        },
+        {
+          "target": "com.freestyle.vms#DeleteVm"
+        },
+        {
+          "target": "com.freestyle.vms#ExecVm"
+        },
+        {
+          "target": "com.freestyle.vms#UpdateVmNetworks"
+        },
+        {
+          "target": "com.freestyle.vms#PauseVm"
+        },
+        {
+          "target": "com.freestyle.vms#OpenPty"
+        },
+        {
+          "target": "com.freestyle.vms#ListPtySessions"
+        },
+        {
+          "target": "com.freestyle.vms#AttachPty"
+        },
+        {
+          "target": "com.freestyle.vms#ClosePtySession"
+        },
+        {
+          "target": "com.freestyle.vms#ResizeVm"
+        },
+        {
+          "target": "com.freestyle.vms#StartVm"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Freestyle",
+        "smithy.api#documentation": "# Powerful Virtual Machines\n\nDocumentation: [freestyle.sh/docs](https://freestyle.sh/docs)\n\nFreestyle VMs are full Linux virtual machines designed for long running, complex tasks.\n\n## Key Features\n\n- **Instant Startup**: Freestyle VMs provision in milliseconds, with p99s under 400ms.\n- **Persistence**: Freestyle VMs can run forever, they can be hibernated with their exact memory in place and come back to life weeks later instantly, in that exact state.\n- **Powerful**: Freestyle VMs go up to 64GB of RAM for public tiers and much further for enterprise. Freestyle does high quality hardware virtualization supporting nested virtualization, FUSE, eBPF, full Linux networking and more. If it can run in an EC2, it can run in a Freestyle VM.\n- **Cheaply Snapshottable and Branchable**: Freestyle VMs are instantly and cheaply snapshottable (sub 1ms interruption, sub 50ms to snapshot ready). These snapshots can be used to create new VMs in the exact state of the original VM (memory and disk). This enables powerful workflows like branching, cloning, and rapid recovery from failures.\n\n## When to use Freestyle\n\n- **Long Running Agent Tasks**: When you have tasks that take hours, days, weeks or months to run, Freestyle VMs provide a persistent and powerful environment that your agent can work in to completion.\n- **Failure Prone/Experimental Exploration**: When your tasks involve branching, cloning or need time travel Freestyle VMs are ideal because of their cheap snapshottability and power that makes them great for experiments.\n- **Complex Coding Problems**: When you are tackling advanced coding problems in research or production codebases, poor virtualization and small sandboxes will not cut it. Freestyle VMs provide the necessary resources and environment to handle these challenges effectively.\n- **Multi Tenant Usage Patterns**: Freestyle VMs are intentionally built to be used by agent builders with multiple customers. The slug system allows for keying VMs by their user, the identity system allows for granular acccess control and permissioning, and the VPC system allows for multi-tenant network isolation. \n\n## When not to use it\n\n- **\"Run AI Code\"**: If your exclusively executing short lived Python scripts or other ephemeral tasks the benefits above aren't relevant. Freestyle VMs should still be benchmarked but there may be alternatives better suited.\n- **CPU Intensive CI/CD**: Freestyle VMs run on bare metal on data center CPUs. We also oversubscribe host resources. For workloads that require sustained high CPU usage like building the Linux Kernel or mining crypto prefer cloud providers that offer consumer CPU performance.\n- **Short Lived Tasks**: If your tasks are extremely short lived and do not benefit from persistence or powerful hardware. If your average task takes less than 15 minutes to complete then they are likely cheaply retryable and don't require the reliability and persistence that Freestyle VMs provide.\n- **Sole Application Hosting**: Freestyle VMs are designed as workbenches for development, experimentation and task execution. Not for hosting production applications. Hosting a minecraft server for some friends will work great on Freestyle, but we do not offer autoscaling, load balancers or CDNs and we don't plan to.\n\n## Emerging Use Cases\n\n- **RL Environments**: Freestyle VMs are well-suited for running reinforcement learning environments that require persistent state and complex setups. The ability to snapshot and branch VMs allows researchers to experiment with different strategies and record environment states efficiently.\n- **Auto Research Climbing**: Freestyle VMs are great for auto research as the snapshotting and fan out allows research agents to explore multiple strategies, review past results and iterate efficiently without ever losing progress.\n- **Environments for Development, Testing, Security and Pentesting**: Freestyle VMs are the only sandbox provider that offers full private VPC and networking which allows simulating full applications in production like staging environments. This can be used for testing, iteration, security assesments and penetration testing in a controlled and isolated environment.\n- **Connecting Agents to Production VPCs**: Freestyle VMs VPC system allows for connections to private production VPCs through secure Wireguard tunnels. If you want sandboxed agents to work on your/your users production infrastructure and they have requirements about not going through the public internet, Freestyle VMs provide a secure and compliant solution.\n\n## Private Offers (Enterprise)\n\n- **GPU Sandboxes**: Freestyle offers private GPU sandboxes for enterprise customers, providing direct access to frontier GPU hardware for high performance computing, machine learning and generally the above **Emerging Use Cases**.\n- **Colocated Bare Metal**: For users wanting sandboxes that work with especially weird requirements Freestyle can offer space in our racks for your dedicated bare metal servers. This can be useful for custom GPUs, video processing, or any other specialized hardware needs.\n- **Custom Pricing**: Freestyle can offer spot access, CPU Time billing, node based pricing and more. These deals can be tailored to the specific needs and usage patterns of enterprise customers.\n- **Custom Sandboxing**: Freestyle builds and maintains its own custom virtualization solutions which allows us to virtualize and sandbox workloads in ways that are not possible with standard options. This enables highly specialized and optimized environments for enterprise customers.\n- **Dedicated Support**: Enterprise customers can receive dedicated support from the Freestyle team, ensuring that any issues or custom requirements are addressed promptly and effectively.\n\nFor more information on Enterprise offerings contact our [sales team](https://cal.com/freestyle/enterprise-onboarding?overlayCalendar=true)\n\n### Relevant Links\n\n- [Freestyle Documentation](https://freestyle.sh/docs)\n- [Freestyle Dashboard](https://dash.freestyle.sh) — manage your account and API keys.\n\nAI agents can create their own API key with `npx -y freestyle@latest tokens create \"agent work\" --output json` using an existing CLI login. Run `npx -y freestyle@latest login` first if needed, then use the returned `token` as `FREESTYLE_API_KEY`."
+      }
+    }
+  }
+}
