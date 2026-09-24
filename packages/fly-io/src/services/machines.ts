@@ -574,6 +574,8 @@ export const CordonMachineResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateAppRequest {
   enable_subdomains?: boolean;
+  /** When set, makes a retry of this exact request safe: a second create with the same key and the same name (or no name) returns the app the first request created, instead of erroring on a false name conflict or creating a duplicate. A second create with the same key but a *different* name is rejected outright; it won't silently hand back the first app. */
+  idempotency_key?: string;
   name?: string;
   network?: string;
   org_slug?: string;
@@ -581,6 +583,7 @@ export interface CreateAppRequest {
 export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enable_subdomains: S.optional(S.Boolean),
+    idempotency_key: S.optional(S.String),
     name: S.optional(S.String),
     network: S.optional(S.String),
     org_slug: S.optional(S.String),
@@ -589,9 +592,15 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAppRequest",
 }) as any as S.Schema<CreateAppRequest>;
 
-export interface CreateAppResponse {}
+export interface CreateAppResponse {
+  created_at?: number;
+  id?: string;
+}
 export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    created_at: S.optional(S.Number),
+    id: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "CreateAppResponse",
 }) as any as S.Schema<CreateAppResponse>;
@@ -761,9 +770,9 @@ export const IPPair = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "IPPair" }) as any as S.Schema<IPPair>;
 
-/** Private network a Flycast (private_v6) address is reachable from. Null for public addresses. */
+/** The 6PN network a Flycast (private_v6) address belongs to. Null for all other IP types. */
 export interface IPAssignmentNetwork {
-  /** Private network name; empty for the organization's default network. */
+  /** Network name; empty for the organization's default network. */
   name?: string;
   org_slug?: string;
 }
@@ -782,10 +791,10 @@ export interface AssignIPResponse {
   ip?: string;
   /** ip_pair is returned when "egress-pair" IP type is requested; in this case, ip is null. */
   ip_pair?: IPPair;
+  network?: IPAssignmentNetwork | null;
   region?: string;
   service_name?: string;
   shared?: boolean;
-  network?: IPAssignmentNetwork | null;
 }
 export const AssignIPResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -793,10 +802,10 @@ export const AssignIPResponse = /*@__PURE__*/ S.suspend(() =>
     egress: S.optional(S.Boolean),
     ip: S.optional(S.String),
     ip_pair: S.optional(IPPair),
+    network: S.optional(S.NullOr(IPAssignmentNetwork)),
     region: S.optional(S.String),
     service_name: S.optional(S.String),
     shared: S.optional(S.Boolean),
-    network: S.optional(S.NullOr(IPAssignmentNetwork)),
   }),
 ).annotate({
   identifier: "AssignIPResponse",
@@ -1126,26 +1135,19 @@ export const FlyContainerConfigHealthchecksList = /*@__PURE__*/ S.Array(
   FlyContainerHealthcheck,
 ) as any as S.Schema<FlyContainerConfigHealthchecksList>;
 
-/** * no - Never try to restart a Machine automatically when its main process exits, whether that’s on purpose or on a crash. * always - Always restart a Machine automatically and never let it enter a stopped state, even when the main process exits cleanly. * on-failure - Try up to MaxRetries times to automatically restart the Machine if it exits with a non-zero exit code. Default when no explicit policy is set, and for Machines with schedules. * spot-price - Starts the Machine only when there is capacity and the spot price is less than or equal to the bid price. */
-export type FlyMachineRestartPolicy =
-  | "no"
-  | "always"
-  | "on-failure"
-  | "spot-price";
+/** * no - Never try to restart a Machine automatically when its main process exits, whether that’s on purpose or on a crash. * always - Always restart a Machine automatically and never let it enter a stopped state, even when the main process exits cleanly. * on-failure - Try up to MaxRetries times to automatically restart the Machine if it exits with a non-zero exit code. Default when no explicit policy is set, and for Machines with schedules. */
+export type FlyMachineRestartPolicy = "no" | "always" | "on-failure";
 export const FlyMachineRestartPolicy = S.String;
 
 /** The Machine restart policy defines whether and how flyd restarts a Machine after its main process exits. See https://fly.io/docs/machines/guides-examples/machine-restart-policy/. */
 export interface FlyMachineRestart {
-  /** GPU bid price for spot Machines. */
-  gpu_bid_price?: number;
   /** When policy is on-failure, the maximum number of times to attempt to restart the Machine before letting it stop. */
   max_retries?: number;
-  /** * no - Never try to restart a Machine automatically when its main process exits, whether that’s on purpose or on a crash. * always - Always restart a Machine automatically and never let it enter a stopped state, even when the main process exits cleanly. * on-failure - Try up to MaxRetries times to automatically restart the Machine if it exits with a non-zero exit code. Default when no explicit policy is set, and for Machines with schedules. * spot-price - Starts the Machine only when there is capacity and the spot price is less than or equal to the bid price. */
+  /** * no - Never try to restart a Machine automatically when its main process exits, whether that’s on purpose or on a crash. * always - Always restart a Machine automatically and never let it enter a stopped state, even when the main process exits cleanly. * on-failure - Try up to MaxRetries times to automatically restart the Machine if it exits with a non-zero exit code. Default when no explicit policy is set, and for Machines with schedules. */
   policy?: FlyMachineRestartPolicy | (string & {});
 }
 export const FlyMachineRestart = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gpu_bid_price: S.optional(S.Number),
     max_retries: S.optional(S.Number),
     policy: S.optional(FlyMachineRestartPolicy),
   }),
@@ -1217,7 +1219,7 @@ export interface FlyContainerConfig {
   image?: string;
   /** Name is used to identify the container in the machine. */
   name?: string;
-  /** Restart is used to define the restart policy for the container. NOTE: spot-price is not supported for containers. */
+  /** Restart is used to define the restart policy for the container. */
   restart?: FlyMachineRestart;
   /** Secrets can be provided at the process level to explicitly indicate which secrets should be used for the process. If not provided, the secrets provided at the machine level will be used. */
   secrets?: FlyContainerConfigSecretsList;
@@ -1339,6 +1341,11 @@ export const FlyMachineGuestKernelArgsList = /*@__PURE__*/ S.Array(
 export type FlyMachineGuestPersistRootfs = "never" | "always" | "restart";
 export const FlyMachineGuestPersistRootfs = S.String;
 
+export type FlyMachineGuestRequiredHostFeaturesList = Array<string>;
+export const FlyMachineGuestRequiredHostFeaturesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<FlyMachineGuestRequiredHostFeaturesList>;
+
 export interface FlyMachineGuest {
   cpu_kind?: string;
   cpus?: number;
@@ -1350,6 +1357,7 @@ export interface FlyMachineGuest {
   memory_mb?: number;
   /** Deprecated: use MachineConfig.Rootfs instead */
   persist_rootfs?: FlyMachineGuestPersistRootfs | (string & {});
+  required_host_features?: FlyMachineGuestRequiredHostFeaturesList;
 }
 export const FlyMachineGuest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1362,6 +1370,7 @@ export const FlyMachineGuest = /*@__PURE__*/ S.suspend(() =>
     max_memory_mb: S.optional(S.Number),
     memory_mb: S.optional(S.Number),
     persist_rootfs: S.optional(FlyMachineGuestPersistRootfs),
+    required_host_features: S.optional(FlyMachineGuestRequiredHostFeaturesList),
   }),
 ).annotate({
   identifier: "FlyMachineGuest",
@@ -1429,8 +1438,12 @@ export const FlyMachineMetrics = /*@__PURE__*/ S.suspend(() =>
 
 export interface FlyMachineMount {
   add_size_gb?: number;
+  /** AddSizePercent grows by a percentage of the current size, rounded up to GiB. It is mutually exclusive with AddSizeGb. */
+  add_size_percent?: number;
   encrypted?: boolean;
   extend_threshold_percent?: number;
+  /** MinAddSizeGb is the minimum proportional growth in GiB (default 1). */
+  min_add_size_gb?: number;
   name?: string;
   path?: string;
   size_gb?: number;
@@ -1440,8 +1453,10 @@ export interface FlyMachineMount {
 export const FlyMachineMount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     add_size_gb: S.optional(S.Number),
+    add_size_percent: S.optional(S.Number),
     encrypted: S.optional(S.Boolean),
     extend_threshold_percent: S.optional(S.Number),
+    min_add_size_gb: S.optional(S.Number),
     name: S.optional(S.String),
     path: S.optional(S.String),
     size_gb: S.optional(S.Number),
@@ -1967,6 +1982,11 @@ export const MachineEventsList = /*@__PURE__*/ S.Array(
   MachineEvent,
 ) as any as S.Schema<MachineEventsList>;
 
+export type MachineHostFeaturesList = Array<string>;
+export const MachineHostFeaturesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<MachineHostFeaturesList>;
+
 export type MachineHostStatus = "ok" | "unknown" | "unreachable";
 export const MachineHostStatus = S.String;
 
@@ -2012,11 +2032,12 @@ export interface Machine {
   cordoned?: boolean;
   created_at?: string;
   events?: MachineEventsList;
+  host_features?: MachineHostFeaturesList;
   host_status?: MachineHostStatus;
   id?: string;
   image_ref?: ImageRef;
   incomplete_config?: FlyMachineConfig;
-  /** InstanceID is unique for each version of the machine */
+  /** InstanceID is the same value as `version`. Deprecated: use `version`. */
   instance_id?: string;
   lease?: StrippedLease;
   name?: string;
@@ -2027,6 +2048,8 @@ export interface Machine {
   region?: string;
   state?: string;
   updated_at?: string;
+  /** Version is unique for each version of the machine. Pass it as `current_version` when updating the Machine to reject the update if the Machine has changed since this version. */
+  version?: string;
 }
 export const Machine = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2035,6 +2058,7 @@ export const Machine = /*@__PURE__*/ S.suspend(() =>
     cordoned: S.optional(S.Boolean),
     created_at: S.optional(S.String),
     events: S.optional(MachineEventsList),
+    host_features: S.optional(MachineHostFeaturesList),
     host_status: S.optional(MachineHostStatus),
     id: S.optional(S.String),
     image_ref: S.optional(ImageRef),
@@ -2047,6 +2071,7 @@ export const Machine = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     state: S.optional(S.String),
     updated_at: S.optional(S.String),
+    version: S.optional(S.String),
   }),
 ).annotate({ identifier: "Machine" }) as any as S.Schema<Machine>;
 
@@ -2116,7 +2141,7 @@ export const MachineLease = /*@__PURE__*/ S.suspend(() =>
 export type CreatePostgresRequestPgMajorVersion = "16" | "17";
 export const CreatePostgresRequestPgMajorVersion = S.String;
 
-/** Plan slug selecting CPU, memory, and disk sizing. */
+/** Plan slug selecting CPU, memory, and disk sizing. Matched case-insensitively. */
 export type CreatePostgresRequestPlan =
   | "basic"
   | "starter"
@@ -2134,11 +2159,11 @@ export interface CreatePostgresRequest {
   disk_size_gb?: number;
   /** Name for the cluster. A name is generated when omitted. */
   name?: string;
-  /** Slug of the organization that will own the cluster. */
+  /** Slug of the organization that will own the cluster, or "personal" for the caller's personal organization. */
   org_slug: string;
   /** Postgres major version. */
   pg_major_version?: CreatePostgresRequestPgMajorVersion | (string & {});
-  /** Plan slug selecting CPU, memory, and disk sizing. */
+  /** Plan slug selecting CPU, memory, and disk sizing. Matched case-insensitively. */
   plan: CreatePostgresRequestPlan | (string & {});
   /** Connection pooler mode. */
   pool_mode?: CreatePostgresRequestPoolMode | (string & {});
@@ -2273,7 +2298,7 @@ export interface PostgresCluster {
   cpus?: number;
   /** RFC 3339 creation timestamp. */
   created_at?: string;
-  /** Disk size in gigabytes. */
+  /** Disk size in gigabytes, for one replica. */
   disk_size_gb?: number;
   /** Connection endpoints. Populated once the cluster is ready. */
   endpoints?: PostgresClusterEndpoints;
@@ -2296,6 +2321,10 @@ export interface PostgresCluster {
   replicas?: number;
   /** Current lifecycle status. */
   status?: PostgresClusterStatus;
+  /** Storage provisioned, summed across the cluster's volumes and measured hourly. Null until first measured. */
+  storage_provisioned_bytes?: number | null;
+  /** Storage used, summed across the cluster's volumes and measured hourly. Null until first measured. */
+  storage_used_bytes?: number | null;
 }
 export const PostgresCluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2315,6 +2344,8 @@ export const PostgresCluster = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     replicas: S.optional(S.Number),
     status: S.optional(PostgresClusterStatus),
+    storage_provisioned_bytes: S.optional(S.NullOr(S.Number)),
+    storage_used_bytes: S.optional(S.NullOr(S.Number)),
   }),
 ).annotate({
   identifier: "PostgresCluster",
@@ -2416,7 +2447,7 @@ export const CreatePostgresBackupResponse = /*@__PURE__*/ S.suspend(() =>
 export interface CreatePostgresDatabaseRequest {
   /** Managed Postgres Cluster ID */
   postgres_cluster_id: string;
-  /** Name of the database to create. */
+  /** Name of the database to create. Must start and end with an alphanumeric character and may contain hyphens and underscores, up to 63 characters. */
   name: string;
 }
 export const CreatePostgresDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2469,7 +2500,7 @@ export interface CreatePostgresUserRequest {
   postgres_cluster_id: string;
   /** Role to grant the user. */
   role: CreatePostgresUserRequestRole | (string & {});
-  /** Name for the new user. */
+  /** Name for the new user. Must start and end with a lowercase alphanumeric character and may contain hyphens and underscores, up to 63 characters. */
   username: string;
 }
 export const CreatePostgresUserRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2606,8 +2637,18 @@ export const CreateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateVolumeRequest",
 }) as any as S.Schema<CreateVolumeRequest>;
 
+export type VolumeHostFeaturesList = Array<string>;
+export const VolumeHostFeaturesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<VolumeHostFeaturesList>;
+
 export type VolumeHostStatus = "ok" | "unknown" | "unreachable";
 export const VolumeHostStatus = S.String;
+
+export type VolumeRequiredHostFeaturesList = Array<string>;
+export const VolumeRequiredHostFeaturesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<VolumeRequiredHostFeaturesList>;
 
 export type VolumeType = "local" | "cache";
 export const VolumeType = S.String;
@@ -2625,10 +2666,12 @@ export interface Volume {
   created_at?: string;
   encrypted?: boolean;
   fstype?: string;
+  host_features?: VolumeHostFeaturesList;
   host_status?: VolumeHostStatus;
   id?: string;
   name?: string;
   region?: string;
+  required_host_features?: VolumeRequiredHostFeaturesList;
   size_gb?: number;
   snapshot_retention?: number;
   state?: string;
@@ -2649,10 +2692,12 @@ export const Volume = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     encrypted: S.optional(S.Boolean),
     fstype: S.optional(S.String),
+    host_features: S.optional(VolumeHostFeaturesList),
     host_status: S.optional(VolumeHostStatus),
     id: S.optional(S.String),
     name: S.optional(S.String),
     region: S.optional(S.String),
+    required_host_features: S.optional(VolumeRequiredHostFeaturesList),
     size_gb: S.optional(S.Number),
     snapshot_retention: S.optional(S.Number),
     state: S.optional(S.String),
@@ -3557,6 +3602,8 @@ export interface GetMachineRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
+  /** 26-character Machine version ID; returns that version of the Machine instead of the current one */
+  version?: string;
   /** Include machine lease */
   include_leases?: boolean;
 }
@@ -3564,6 +3611,7 @@ export const GetMachineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_name: S.String.pipe(T.Label()),
     machine_id: S.String.pipe(T.Label()),
+    version: S.optional(S.String.pipe(T.Query())),
     include_leases: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -4048,24 +4096,24 @@ export const ListAppIPAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface IPAssignment {
   created_at?: string;
+  egress?: boolean;
   ip?: string;
+  network?: IPAssignmentNetwork | null;
   region?: string;
   service_name?: string;
   shared?: boolean;
   type?: string;
-  egress?: boolean;
-  network?: IPAssignmentNetwork | null;
 }
 export const IPAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     created_at: S.optional(S.String),
+    egress: S.optional(S.Boolean),
     ip: S.optional(S.String),
+    network: S.optional(S.NullOr(IPAssignmentNetwork)),
     region: S.optional(S.String),
     service_name: S.optional(S.String),
     shared: S.optional(S.Boolean),
     type: S.optional(S.String),
-    egress: S.optional(S.Boolean),
-    network: S.optional(S.NullOr(IPAssignmentNetwork)),
   }),
 ).annotate({ identifier: "IPAssignment" }) as any as S.Schema<IPAssignment>;
 
@@ -4247,6 +4295,10 @@ export interface ListMachinesRequest {
   summary?: boolean;
   /** Filter by a machine metadata key and exact value. Replace {key} with the metadata key, for example metadata.foo=bar. Specify multiple metadata filters to require all matches. */
   metadata__key_?: string;
+  /** Value of the fly-next-cursor response header from the previous page. Requires limit. */
+  cursor?: string;
+  /** The number of machines to fetch (must be between 1 and 1000). Providing a limit enables pagination. This limit is advisory; responses may be shorter, or even empty, even when more machines remain. */
+  limit?: number;
 }
 export const ListMachinesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4257,6 +4309,8 @@ export const ListMachinesRequest = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.String.pipe(T.Query())),
     summary: S.optional(S.Boolean.pipe(T.Query())),
     metadata__key_: S.optional(S.String.pipe(T.Query("metadata.{key}"))),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines", code: 200 }),
   ),
@@ -4435,7 +4489,7 @@ export const ListMachineVersionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListMachineVersionsResponse>;
 
 export interface ListPostgresRequest {
-  /** Fly Organization Slug */
+  /** Fly Organization Slug, or 'personal' for the caller's personal organization */
   org_slug: string;
   /** Include deleted clusters */
   include_deleted?: boolean;
@@ -4642,20 +4696,21 @@ export const ListPostgresExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListPostgresExtensionsRequest",
 }) as any as S.Schema<ListPostgresExtensionsRequest>;
 
-export interface PostgresInstalledExtension {
+/** Installation details, or null when the extension is not installed. */
+export interface PostgresExtensionInstalled {
   /** Schema the extension is installed into. */
   schema?: string;
   /** Installed version. */
   version?: string;
 }
-export const PostgresInstalledExtension = /*@__PURE__*/ S.suspend(() =>
+export const PostgresExtensionInstalled = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     schema: S.optional(S.String),
     version: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "PostgresInstalledExtension",
-}) as any as S.Schema<PostgresInstalledExtension>;
+  identifier: "PostgresExtensionInstalled",
+}) as any as S.Schema<PostgresExtensionInstalled>;
 
 export interface PostgresExtension {
   /** Default version installed when enabled. */
@@ -4663,7 +4718,7 @@ export interface PostgresExtension {
   /** Human-readable description. */
   description?: string;
   /** Installation details, or null when the extension is not installed. */
-  installed?: PostgresInstalledExtension;
+  installed?: PostgresExtensionInstalled | null;
   /** Extension name. */
   name?: string;
   /** Whether this is a system extension that cannot be disabled. */
@@ -4673,7 +4728,7 @@ export const PostgresExtension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     default_version: S.optional(S.String),
     description: S.optional(S.String),
-    installed: S.optional(PostgresInstalledExtension),
+    installed: S.optional(S.NullOr(PostgresExtensionInstalled)),
     name: S.optional(S.String),
     system: S.optional(S.Boolean),
   }),
@@ -4917,8 +4972,18 @@ export const ListVolumesOrgRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListVolumesOrgRequest",
 }) as any as S.Schema<ListVolumesOrgRequest>;
 
+export type OrgVolumeHostFeaturesList = Array<string>;
+export const OrgVolumeHostFeaturesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<OrgVolumeHostFeaturesList>;
+
 export type OrgVolumeHostStatus = "ok" | "unknown" | "unreachable";
 export const OrgVolumeHostStatus = S.String;
+
+export type OrgVolumeRequiredHostFeaturesList = Array<string>;
+export const OrgVolumeRequiredHostFeaturesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<OrgVolumeRequiredHostFeaturesList>;
 
 export type OrgVolumeType = "local" | "cache";
 export const OrgVolumeType = S.String;
@@ -4937,10 +5002,12 @@ export interface OrgVolume {
   created_at?: string;
   encrypted?: boolean;
   fstype?: string;
+  host_features?: OrgVolumeHostFeaturesList;
   host_status?: OrgVolumeHostStatus;
   id?: string;
   name?: string;
   region?: string;
+  required_host_features?: OrgVolumeRequiredHostFeaturesList;
   size_gb?: number;
   snapshot_retention?: number;
   state?: string;
@@ -4963,10 +5030,12 @@ export const OrgVolume = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     encrypted: S.optional(S.Boolean),
     fstype: S.optional(S.String),
+    host_features: S.optional(OrgVolumeHostFeaturesList),
     host_status: S.optional(OrgVolumeHostStatus),
     id: S.optional(S.String),
     name: S.optional(S.String),
     region: S.optional(S.String),
+    required_host_features: S.optional(OrgVolumeRequiredHostFeaturesList),
     size_gb: S.optional(S.Number),
     snapshot_retention: S.optional(S.Number),
     state: S.optional(S.String),
@@ -5070,6 +5139,156 @@ export const PatchMachineMetadataResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PatchMachineMetadataResponse",
 }) as any as S.Schema<PatchMachineMetadataResponse>;
+
+export interface PostgresQueriesActiveRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Database to inspect (must not be empty or whitespace-only) */
+  database: string;
+}
+export const PostgresQueriesActiveRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Query()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/postgres/{postgres_cluster_id}/queries/active",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PostgresQueriesActiveRequest",
+}) as any as S.Schema<PostgresQueriesActiveRequest>;
+
+export interface PostgresActiveQuery {
+  /** Application connected to the backend. */
+  application_name?: string;
+  /** Client address. */
+  client?: string;
+  /** Database name. */
+  database?: string;
+  /** Query duration in seconds. */
+  duration_seconds?: number;
+  /** Process ID of the backend running the query. */
+  pid?: number;
+  /** Full query text. */
+  query?: string;
+  /** Current backend state. */
+  state?: string;
+  /** Time spent in the current state, in seconds. */
+  state_duration_seconds?: number;
+  /** User running the query. */
+  user?: string;
+  /** Event the backend is waiting for. */
+  wait_event?: string;
+  /** Type of event the backend is waiting for. */
+  wait_event_type?: string;
+}
+export const PostgresActiveQuery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    application_name: S.optional(S.String),
+    client: S.optional(S.String),
+    database: S.optional(S.String),
+    duration_seconds: S.optional(S.Number),
+    pid: S.optional(S.Number),
+    query: S.optional(S.String),
+    state: S.optional(S.String),
+    state_duration_seconds: S.optional(S.Number),
+    user: S.optional(S.String),
+    wait_event: S.optional(S.String),
+    wait_event_type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PostgresActiveQuery",
+}) as any as S.Schema<PostgresActiveQuery>;
+
+export type ListPostgresActiveQueriesResponseDataList =
+  Array<PostgresActiveQuery>;
+export const ListPostgresActiveQueriesResponseDataList = /*@__PURE__*/ S.Array(
+  PostgresActiveQuery,
+) as any as S.Schema<ListPostgresActiveQueriesResponseDataList>;
+
+export interface ListPostgresActiveQueriesResponse {
+  data?: ListPostgresActiveQueriesResponseDataList;
+}
+export const ListPostgresActiveQueriesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(ListPostgresActiveQueriesResponseDataList),
+  }),
+).annotate({
+  identifier: "ListPostgresActiveQueriesResponse",
+}) as any as S.Schema<ListPostgresActiveQueriesResponse>;
+
+export interface PostgresQueriesSlowRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Metrics lookback in seconds */
+  range?: number;
+}
+export const PostgresQueriesSlowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postgres_cluster_id: S.String.pipe(T.Label()),
+    range: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/postgres/{postgres_cluster_id}/queries/slow",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "PostgresQueriesSlowRequest",
+}) as any as S.Schema<PostgresQueriesSlowRequest>;
+
+export interface PostgresSlowQuery {
+  /** Cumulative number of executions. */
+  calls?: number;
+  /** Database name. */
+  database?: string;
+  /** Maximum execution time in seconds. */
+  max_exec_time_seconds?: number;
+  /** Mean execution time in seconds. */
+  mean_exec_time_seconds?: number;
+  /** Full query pattern. */
+  query?: string;
+  /** Query identifier. */
+  query_id?: string;
+  /** Cumulative total execution time in seconds. */
+  total_exec_time_seconds?: number;
+  /** User running the query. */
+  user?: string;
+}
+export const PostgresSlowQuery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    calls: S.optional(S.Number),
+    database: S.optional(S.String),
+    max_exec_time_seconds: S.optional(S.Number),
+    mean_exec_time_seconds: S.optional(S.Number),
+    query: S.optional(S.String),
+    query_id: S.optional(S.String),
+    total_exec_time_seconds: S.optional(S.Number),
+    user: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PostgresSlowQuery",
+}) as any as S.Schema<PostgresSlowQuery>;
+
+export type ListPostgresSlowQueriesResponseDataList = Array<PostgresSlowQuery>;
+export const ListPostgresSlowQueriesResponseDataList = /*@__PURE__*/ S.Array(
+  PostgresSlowQuery,
+) as any as S.Schema<ListPostgresSlowQueriesResponseDataList>;
+
+export interface ListPostgresSlowQueriesResponse {
+  data?: ListPostgresSlowQueriesResponseDataList;
+}
+export const ListPostgresSlowQueriesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(ListPostgresSlowQueriesResponseDataList),
+  }),
+).annotate({
+  identifier: "ListPostgresSlowQueriesResponse",
+}) as any as S.Schema<ListPostgresSlowQueriesResponse>;
 
 export interface PostgresUsersCredentialsRequest {
   /** Managed Postgres Cluster ID */
@@ -5574,6 +5793,7 @@ export interface UpdateMachineRequest {
   machine_id: string;
   /** An object defining the Machine configuration */
   config?: FlyMachineConfig;
+  /** CurrentVersion is an optional optimistic-concurrency guard: the Machine's `version`, as returned by create, get or a previous update. When set and it is no longer the Machine's current version, the update is rejected with 409 Conflict and nothing changes. Omit it to update unconditionally. */
   current_version?: string;
   lease_ttl?: number;
   min_secrets_version?: number;
@@ -5610,48 +5830,6 @@ export const UpdateMachineRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateMachineRequest",
 }) as any as S.Schema<UpdateMachineRequest>;
-
-export type UpdateMachineMetadataRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
-export const UpdateMachineMetadataRequestMetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<UpdateMachineMetadataRequestMetadataMap>;
-
-export interface UpdateMachineMetadataRequest {
-  /** Fly App Name */
-  app_name: string;
-  /** Machine ID */
-  machine_id: string;
-  machine_version?: string;
-  metadata?: UpdateMachineMetadataRequestMetadataMap;
-  updated_at?: string;
-}
-export const UpdateMachineMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    app_name: S.String.pipe(T.Label()),
-    machine_id: S.String.pipe(T.Label()),
-    machine_version: S.optional(S.String),
-    metadata: S.optional(UpdateMachineMetadataRequestMetadataMap),
-    updated_at: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/apps/{app_name}/machines/{machine_id}/metadata",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateMachineMetadataRequest",
-}) as any as S.Schema<UpdateMachineMetadataRequest>;
-
-export interface UpdateMachineMetadataResponse {}
-export const UpdateMachineMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateMachineMetadataResponse",
-}) as any as S.Schema<UpdateMachineMetadataResponse>;
 
 /** New role for the user. */
 export type UpdatePostgresUserRoleRequestRole =
@@ -6110,7 +6288,7 @@ export type CreatePostgresError =
   | NotFound
   | UnprocessableEntity
   | FlyIoOpError;
-/** Create Postgres Cluster Create a Managed Postgres cluster for the organization named in the request body. Provisioning is asynchronous, and a name is generated when one is not supplied. */
+/** Create Postgres Cluster Create a Managed Postgres cluster for the organization named in the request body. Provisioning is asynchronous: poll `GET /v1/postgres/{id}` until `status == ready` before calling database, user, extension, or credential endpoints. */
 export const createPostgres: API.OperationMethod<
   CreatePostgresRequest,
   ShowPostgresClusterResponse,
@@ -6125,7 +6303,7 @@ export const createPostgres: API.OperationMethod<
 }));
 
 export type CreatePostgresAttachmentError = NotFound | FlyIoOpError;
-/** Attach Cluster to App Attach a specific cluster to a Fly app. The attachment is created if it does not already exist. */
+/** Attach Cluster to App Record an attachment between a cluster and a Fly app. This endpoint records the relationship but does not set DATABASE_URL or other app secrets; configure the connection string separately. The attachment is created if it does not already exist. */
 export const createPostgresAttachment: API.OperationMethod<
   CreatePostgresAttachmentRequest,
   CreatePostgresAttachmentResponse,
@@ -6961,7 +7139,11 @@ export const listMachineVersions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListPostgresError = NotFound | UnprocessableEntity | FlyIoOpError;
+export type ListPostgresError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | FlyIoOpError;
 /** List Postgres Clusters List Managed Postgres clusters for an organization. */
 export const listPostgres: API.OperationMethod<
   ListPostgresRequest,
@@ -6971,7 +7153,7 @@ export const listPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListPostgresRequest,
   output: ListPostgresClustersResponse,
-  errors: [NotFound, UnprocessableEntity],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -7126,8 +7308,12 @@ export const machinesReleaseLease: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type PatchMachineMetadataError = BadRequest | FlyIoOpError;
-/** Update Metadata (set/remove multiple keys) Update multiple metadata keys at once. Null values and empty strings remove keys. + If `machine_version` is provided and no longer matches the current machine version, returns 412 Precondition Failed. */
+export type PatchMachineMetadataError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | FlyIoOpError;
+/** Update Metadata (set/remove multiple keys) Update multiple metadata keys at once. Keys that are not in the request are left untouched. Null values and empty strings remove keys. + If `machine_version` is provided and no longer matches the current machine version, returns 412 Precondition Failed. */
 export const patchMachineMetadata: API.OperationMethod<
   PatchMachineMetadataRequest,
   PatchMachineMetadataResponse,
@@ -7136,7 +7322,43 @@ export const patchMachineMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchMachineMetadataRequest,
   output: PatchMachineMetadataResponse,
-  errors: [BadRequest],
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PostgresQueriesActiveError =
+  | NotFound
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** List Active Queries List active queries in the supplied database. The database query parameter is required and must not be empty or whitespace-only. Returns full query text and durations in seconds. */
+export const postgresQueriesActive: API.OperationMethod<
+  PostgresQueriesActiveRequest,
+  ListPostgresActiveQueriesResponse,
+  PostgresQueriesActiveError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PostgresQueriesActiveRequest,
+  output: ListPostgresActiveQueriesResponse,
+  errors: [NotFound, UnprocessableEntity],
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PostgresQueriesSlowError =
+  | NotFound
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** List Slow Queries List the top 20 queries by cumulative total execution time, excluding the postgres database. Uses the latest available metrics within the lookback range; statistics are cumulative PostgreSQL counters, not deltas over that range. Returns full query text and execution times in seconds. */
+export const postgresQueriesSlow: API.OperationMethod<
+  PostgresQueriesSlowRequest,
+  ListPostgresSlowQueriesResponse,
+  PostgresQueriesSlowError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PostgresQueriesSlowRequest,
+  output: ListPostgresSlowQueriesResponse,
+  errors: [NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -7456,25 +7678,6 @@ export const updateMachine: API.OperationMethod<
   input: UpdateMachineRequest,
   output: Machine,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
-  protocol: FlyIoProtocol,
-  retry: Retry.Retry,
-}));
-
-export type UpdateMachineMetadataError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | FlyIoOpError;
-/** Update Metadata (set/remove multiple keys) Update multiple metadata keys at once. Null values and empty strings remove keys. + If `machine_version` is provided and no longer matches the current machine version, returns 412 Precondition Failed. */
-export const updateMachineMetadata: API.OperationMethod<
-  UpdateMachineMetadataRequest,
-  UpdateMachineMetadataResponse,
-  UpdateMachineMetadataError,
-  FlyIoOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: UpdateMachineMetadataRequest,
-  output: UpdateMachineMetadataResponse,
-  errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
