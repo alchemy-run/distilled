@@ -794,6 +794,29 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#McpServerNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.cloudflare.zero_trust#OrganizationAlreadyExists",
       "value": {
         "type": "structure",
@@ -1043,6 +1066,63 @@
           "com.cloudflare.protocols#errorMatchers": [
             {
               "code": 1046
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#McpServerInvalidId",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "String must contain at most 32 character(s)"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#McpServerSyncFailure",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          },
+          "body": {
+            "target": "smithy.api#Document"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Upstream MCP discovery failed. The response body preserves the upstream error and error_details.",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 200,
+              "body": {
+                "/success": false,
+                "/result/status": "error"
+              }
             }
           ]
         }

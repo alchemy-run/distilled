@@ -36,6 +36,15 @@
         "items": "result",
         "pageSize": "perPage"
       }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zero_trust#ListAccessAiControlMcpServers/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.zero_trust#Forbidden"
+        }
+      ]
     }
   ]
 }
