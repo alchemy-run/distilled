@@ -408,3 +408,8 @@
 	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/temporal-cloud/specs/spec-mirror-temporal-cloud"]
+	path = packages/temporal-cloud/specs/spec-mirror-temporal-cloud
+	url = https://github.com/distilled-mirror/spec-mirror-temporal-cloud.git
+	ignore = dirty
+	shallow = true

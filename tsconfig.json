@@ -405,6 +405,12 @@
       "path": "./packages/temporal/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/temporal-cloud/tsconfig.json"
+    },
+    {
+      "path": "./packages/temporal-cloud/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/trigger-dev/tsconfig.json"
     },
     {
