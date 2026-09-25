@@ -463,7 +463,6 @@
       "serverAlias": "server_alias",
       "serverDescription": "server_description",
       "serverId": "server_id",
-      "serviceAuth_401Redirect": "service_auth_401_redirect",
       "serviceModeV2": "service_mode_v2",
       "serviceToken": "service_token",
       "serviceTokenId": "service_token_id",
@@ -10184,6 +10183,9 @@
           "traits": {
             "smithy.api#documentation": "The RDP-specific rules that define clipboard behavior for RDP connections."
           }
+        },
+        "ssh": {
+          "target": "com.cloudflare.zero_trust#AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh"
         }
       }
     },
@@ -11900,6 +11902,9 @@
           "traits": {
             "smithy.api#documentation": "The RDP-specific rules that define clipboard behavior for RDP connections."
           }
+        },
+        "ssh": {
+          "target": "com.cloudflare.zero_trust#AccessPoliciesResponseConnectionRulesSsh"
         }
       }
     },
@@ -14422,6 +14427,9 @@
           "traits": {
             "smithy.api#documentation": "The RDP-specific rules that define clipboard behavior for RDP connections."
           }
+        },
+        "ssh": {
+          "target": "com.cloudflare.zero_trust#AccessPoliciesResponseConnectionRulesSsh"
         }
       }
     },
@@ -16944,6 +16952,9 @@
           "traits": {
             "smithy.api#documentation": "The RDP-specific rules that define clipboard behavior for RDP connections."
           }
+        },
+        "ssh": {
+          "target": "com.cloudflare.zero_trust#AccessPoliciesResponseConnectionRulesSsh"
         }
       }
     },
@@ -20388,6 +20399,9 @@
           "traits": {
             "smithy.api#documentation": "The RDP-specific rules that define clipboard behavior for RDP connections."
           }
+        },
+        "ssh": {
+          "target": "com.cloudflare.zero_trust#AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh"
         }
       }
     },
@@ -22104,6 +22118,9 @@
           "traits": {
             "smithy.api#documentation": "The RDP-specific rules that define clipboard behavior for RDP connections."
           }
+        },
+        "ssh": {
+          "target": "com.cloudflare.zero_trust#AccessPoliciesResponseConnectionRulesSsh"
         }
       }
     },
@@ -160925,6 +160942,17 @@
       "traits": {
         "smithy.api#output": {},
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.zero_trust#AccessPoliciesResponseConnectionRulesSsh": {
+      "type": "structure",
+      "members": {
+        "usernames": {
+          "target": "com.cloudflare.zero_trust#AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSshUsernamesList"
+        },
+        "allow_email_alias": {
+          "target": "smithy.api#Boolean"
+        }
       }
     },
     "com.cloudflare.zero_trust#CreateGatewayProxyEndpointRequestIpsList": {
@@ -410985,6 +411013,18 @@
           "traits": {
             "smithy.api#documentation": "The application type."
           }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+          }
+        },
+        "session_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+          }
         }
       }
     },
@@ -412588,6 +412628,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsListResultItemSaaSApplicationType",
           "traits": {
             "smithy.api#documentation": "The application type."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+          }
+        },
+        "session_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
           }
         }
       }
@@ -414193,6 +414245,18 @@
           "traits": {
             "smithy.api#documentation": "The application type."
           }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+          }
+        },
+        "session_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+          }
         }
       }
     },
@@ -415796,6 +415860,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsCreateResultSaaSApplicationType",
           "traits": {
             "smithy.api#documentation": "The application type."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+          }
+        },
+        "session_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
           }
         }
       }
