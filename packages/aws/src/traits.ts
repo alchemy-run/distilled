@@ -16,6 +16,7 @@ import { ec2QueryProtocol } from "./protocols/ec2-query.ts";
 import { restJson1Protocol } from "./protocols/rest-json.ts";
 import { restXmlProtocol } from "./protocols/rest-xml.ts";
 import type { RuleSetObject } from "./rules-engine/expression.ts";
+import { toBase64 } from "./util/base64.ts";
 
 import {
   all,
@@ -612,7 +613,7 @@ export const Blob = S.String.pipe(
         Uint8Array.from(atob(s), (c) =>
           c.charCodeAt(0),
         ) as any as Uint8Array<ArrayBufferLike>,
-      encode: (u) => btoa(String.fromCharCode(...u)),
+      encode: toBase64,
     }),
   ),
 ).annotate({ identifier: "Blob" });
