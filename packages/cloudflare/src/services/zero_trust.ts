@@ -468,7 +468,6 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   serverAlias: "server_alias",
   serverDescription: "server_description",
   serverId: "server_id",
-  serviceAuth_401Redirect: "service_auth_401_redirect",
   serviceModeV2: "service_mode_v2",
   serviceToken: "service_token",
   serviceTokenId: "service_token_id",
@@ -43028,11 +43027,15 @@ export const AccessPoliciesCreateRequestConnectionRulesRdp =
 export interface AccessPoliciesCreateRequestConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesCreateRequestConnectionRulesRdp;
+  ssh?: AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh;
 }
 export const AccessPoliciesCreateRequestConnectionRules =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rdp: S.optional(AccessPoliciesCreateRequestConnectionRulesRdp),
+      ssh: S.optional(
+        AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh,
+      ),
     }),
   ).annotate({
     identifier: "AccessPoliciesCreateRequestConnectionRules",
@@ -43240,14 +43243,36 @@ export const AccessPoliciesCreateResponseConnectionRulesRdp =
     identifier: "AccessPoliciesCreateResponseConnectionRulesRdp",
   }) as any as S.Schema<AccessPoliciesCreateResponseConnectionRulesRdp>;
 
+export interface AccessPoliciesResponseConnectionRulesSsh {
+  usernames?: AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSshUsernamesList | null;
+  allowEmailAlias?: boolean | null;
+}
+export const AccessPoliciesResponseConnectionRulesSsh = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      usernames: S.optional(
+        S.NullOr(
+          AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSshUsernamesList,
+        ),
+      ),
+      allowEmailAlias: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("allow_email_alias")),
+      ),
+    }),
+).annotate({
+  identifier: "AccessPoliciesResponseConnectionRulesSsh",
+}) as any as S.Schema<AccessPoliciesResponseConnectionRulesSsh>;
+
 export interface AccessPoliciesCreateResponseConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesCreateResponseConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesCreateResponseConnectionRules =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rdp: S.optional(S.NullOr(AccessPoliciesCreateResponseConnectionRulesRdp)),
+      ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
     }),
   ).annotate({
     identifier: "AccessPoliciesCreateResponseConnectionRules",
@@ -95159,11 +95184,13 @@ export const AccessPoliciesGetResponseConnectionRulesRdp =
 export interface AccessPoliciesGetResponseConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesGetResponseConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesGetResponseConnectionRules = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rdp: S.optional(S.NullOr(AccessPoliciesGetResponseConnectionRulesRdp)),
+      ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
     }),
 ).annotate({
   identifier: "AccessPoliciesGetResponseConnectionRules",
@@ -149870,11 +149897,13 @@ export const AccessPoliciesListResultItemConnectionRulesRdp =
 export interface AccessPoliciesListResultItemConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesListResultItemConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesListResultItemConnectionRules =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rdp: S.optional(S.NullOr(AccessPoliciesListResultItemConnectionRulesRdp)),
+      ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
     }),
   ).annotate({
     identifier: "AccessPoliciesListResultItemConnectionRules",
@@ -217173,11 +217202,15 @@ export const AccessPoliciesUpdateRequestConnectionRulesRdp =
 export interface AccessPoliciesUpdateRequestConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesUpdateRequestConnectionRulesRdp;
+  ssh?: AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh;
 }
 export const AccessPoliciesUpdateRequestConnectionRules =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rdp: S.optional(AccessPoliciesUpdateRequestConnectionRulesRdp),
+      ssh: S.optional(
+        AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh,
+      ),
     }),
   ).annotate({
     identifier: "AccessPoliciesUpdateRequestConnectionRules",
@@ -217391,11 +217424,13 @@ export const AccessPoliciesUpdateResponseConnectionRulesRdp =
 export interface AccessPoliciesUpdateResponseConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesUpdateResponseConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesUpdateResponseConnectionRules =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rdp: S.optional(S.NullOr(AccessPoliciesUpdateResponseConnectionRulesRdp)),
+      ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
     }),
   ).annotate({
     identifier: "AccessPoliciesUpdateResponseConnectionRules",
