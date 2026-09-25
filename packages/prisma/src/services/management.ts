@@ -121,6 +121,8 @@ export interface CreateBucketRequest {
   branchId?: string;
   /** Git name of the branch to associate the bucket with. Mutually exclusive with branchId. */
   branchGitName?: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
+  logicalId?: string;
 }
 export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -128,6 +130,7 @@ export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     branchId: S.optional(S.String),
     branchGitName: S.optional(S.String),
+    logicalId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/buckets", code: 200 })),
 ).annotate({
   identifier: "CreateBucketRequest",
@@ -158,6 +161,7 @@ export interface CreateBucketResponseData {
   createdAt: string;
   project: CreateBucketResponseDataProject;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const CreateBucketResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -170,6 +174,7 @@ export const CreateBucketResponseData = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.String,
     project: CreateBucketResponseDataProject,
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "CreateBucketResponseData",
@@ -619,7 +624,7 @@ export const CreateConnectionRotateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateConnectionRotateResponse",
 }) as any as S.Schema<CreateConnectionRotateResponse>;
 
-/** Region for the database. Use "inherit" to use the project default database region. */
+/** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
 export type CreateDatabaseRequestRegion =
   | "us-east-1"
   | "us-west-1"
@@ -688,7 +693,7 @@ export const CreateDatabaseRequestSource = /*@__PURE__*/ S.suspend(() =>
 export interface CreateDatabaseRequest {
   /** ID of the project to create the database in */
   projectId: string;
-  /** Region for the database. Use "inherit" to use the project default database region. */
+  /** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
   region?: CreateDatabaseRequestRegion | (string & {});
   /** Display name for the database */
   name?: string;
@@ -700,6 +705,8 @@ export interface CreateDatabaseRequest {
   branchId?: string | null;
   /** Git name of the Branch to attach the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Omit to attach to the project's default Branch. Every database belongs to a Branch, so null is rejected. */
   branchGitName?: string | null;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
+  logicalId?: string;
 }
 export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -710,6 +717,7 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(CreateDatabaseRequestSource),
     branchId: S.optional(S.NullOr(S.String)),
     branchGitName: S.optional(S.NullOr(S.String)),
+    logicalId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/databases", code: 200 })),
 ).annotate({
   identifier: "CreateDatabaseRequest",
@@ -902,6 +910,7 @@ export interface CreateDatabaseResponseData {
   region: CreateDatabaseResponseDataRegion | null;
   source: CreateDatabaseResponseDataSource | null;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const CreateDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -918,6 +927,7 @@ export const CreateDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: S.NullOr(CreateDatabaseResponseDataSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "CreateDatabaseResponseData",
@@ -1215,6 +1225,7 @@ export interface CreateDatabaseRestoreResponseData {
   region: CreateDatabaseResponseDataRegion | null;
   source: CreateDatabaseRestoreResponseDataSource;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const CreateDatabaseRestoreResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1231,6 +1242,7 @@ export const CreateDatabaseRestoreResponseData = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: CreateDatabaseRestoreResponseDataSource,
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "CreateDatabaseRestoreResponseData",
@@ -1500,6 +1512,7 @@ export interface CreateProjectRequest {
   name?: string;
   region?: CreateProjectRequestRegion | (string & {});
   logicalId?: string;
+  workspaceId?: string;
 }
 export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1507,6 +1520,7 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     region: S.optional(CreateProjectRequestRegion),
     logicalId: S.optional(S.String),
+    workspaceId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/projects", code: 200 })),
 ).annotate({
   identifier: "CreateProjectRequest",
@@ -1717,6 +1731,7 @@ export interface CreateProjectResponseDataDatabase {
   region: CreateDatabaseResponseDataRegion;
   source: CreateProjectResponseDataDatabaseSource | null;
   branchId: string | null;
+  logicalId: string | null;
   /** Deprecated: use `connections[]` instead. */
   apiKeys: CreateProjectResponseDataDatabaseApiKeysList;
   /** Deprecated: use `connections[].endpoints.direct.connectionString` or `connections[].endpoints.pooled.connectionString`. */
@@ -1738,6 +1753,7 @@ export const CreateProjectResponseDataDatabase = /*@__PURE__*/ S.suspend(() =>
     region: CreateDatabaseResponseDataRegion,
     source: S.NullOr(CreateProjectResponseDataDatabaseSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
     apiKeys: CreateProjectResponseDataDatabaseApiKeysList,
     connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
     directConnection: S.NullOr(CreateConnectionResponseDataDirectConnection),
@@ -1913,6 +1929,7 @@ export const CreateProjectBranchAlchemyStateLeaseResponse =
     identifier: "CreateProjectBranchAlchemyStateLeaseResponse",
   }) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseResponse>;
 
+/** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
 export type CreateProjectDatabaseRequestRegion =
   | "us-east-1"
   | "us-west-1"
@@ -1926,7 +1943,6 @@ export const CreateProjectDatabaseRequestRegion = S.String;
 /** Deprecated: use `source` instead. */
 export interface CreateProjectDatabaseRequestFromDatabase {
   id: string;
-  /** The unique identifier for this backup */
   backupId?: string;
 }
 export const CreateProjectDatabaseRequestFromDatabase = /*@__PURE__*/ S.suspend(
@@ -1968,6 +1984,7 @@ export const CreateProjectDatabaseRequestSource = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateProjectDatabaseRequest {
   projectId: string;
+  /** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
   region?: CreateProjectDatabaseRequestRegion | (string & {});
   name?: string;
   isDefault?: boolean;
@@ -2200,6 +2217,7 @@ export interface CreateProjectDatabaseResponseData {
   region: CreateDatabaseResponseDataRegion;
   source: CreateProjectDatabaseResponseDataSource | null;
   branchId: string | null;
+  logicalId: string | null;
   /** Deprecated: use `connections[]` instead. */
   apiKeys: CreateProjectDatabaseResponseDataApiKeysList;
   /** Deprecated: use `connections[].endpoints.direct.connectionString` or `connections[].endpoints.pooled.connectionString`. */
@@ -2222,6 +2240,7 @@ export const CreateProjectDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
     region: CreateDatabaseResponseDataRegion,
     source: S.NullOr(CreateProjectDatabaseResponseDataSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
     apiKeys: CreateProjectDatabaseResponseDataApiKeysList,
     connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
     directConnection: S.NullOr(CreateConnectionResponseDataDirectConnection),
@@ -2269,12 +2288,14 @@ export const CreateScmInstallationsInstallIntentRequestProvider = S.String;
 export interface CreateScmInstallationsInstallIntentRequest {
   provider: CreateScmInstallationsInstallIntentRequestProvider | (string & {});
   workspaceId: string;
+  repository?: string;
 }
 export const CreateScmInstallationsInstallIntentRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       provider: CreateScmInstallationsInstallIntentRequestProvider,
       workspaceId: S.String,
+      repository: S.optional(S.String),
     }).pipe(
       T.Http({
         method: "POST",
@@ -2294,6 +2315,9 @@ export interface CreateScmInstallationsInstallIntentResponseData {
   provider: CreateScmInstallationsInstallIntentResponseDataProvider;
   workspaceId: string;
   installUrl: string;
+  alreadyLinked?: boolean;
+  accountLogin?: string;
+  hint?: string;
 }
 export const CreateScmInstallationsInstallIntentResponseData =
   /*@__PURE__*/ S.suspend(() =>
@@ -2302,6 +2326,9 @@ export const CreateScmInstallationsInstallIntentResponseData =
       provider: CreateScmInstallationsInstallIntentResponseDataProvider,
       workspaceId: S.String,
       installUrl: S.String,
+      alreadyLinked: S.optional(S.Boolean),
+      accountLogin: S.optional(S.String),
+      hint: S.optional(S.String),
     }),
   ).annotate({
     identifier: "CreateScmInstallationsInstallIntentResponseData",
@@ -2334,6 +2361,8 @@ export interface CreateServiceRequest {
   branchId?: string | null;
   branchGitName?: string | null;
   projectId: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
+  logicalId?: string;
 }
 export const CreateServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2342,6 +2371,7 @@ export const CreateServiceRequest = /*@__PURE__*/ S.suspend(() =>
     branchId: S.optional(S.NullOr(S.String)),
     branchGitName: S.optional(S.NullOr(S.String)),
     projectId: S.String,
+    logicalId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/services", code: 200 })),
 ).annotate({
   identifier: "CreateServiceRequest",
@@ -2361,6 +2391,7 @@ export interface CreateServiceResponseData {
   latestDeploymentId: string | null;
   appEndpointDomain: string;
   createdAt: string;
+  logicalId: string | null;
 }
 export const CreateServiceResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2374,6 +2405,7 @@ export const CreateServiceResponseData = /*@__PURE__*/ S.suspend(() =>
     latestDeploymentId: S.NullOr(S.String),
     appEndpointDomain: S.String,
     createdAt: S.String,
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "CreateServiceResponseData",
@@ -2697,14 +2729,57 @@ export const CreateSourceRepositoryResponseData = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateSourceRepositoryResponse {
   data: CreateSourceRepositoryResponseData;
+  hint?: string;
 }
 export const CreateSourceRepositoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateSourceRepositoryResponseData,
+    hint: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreateSourceRepositoryResponse",
 }) as any as S.Schema<CreateSourceRepositoryResponse>;
+
+export interface CreateWorkspaceRequest {
+  displayName?: string;
+}
+export const CreateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/workspaces", code: 200 })),
+).annotate({
+  identifier: "CreateWorkspaceRequest",
+}) as any as S.Schema<CreateWorkspaceRequest>;
+
+export interface CreateWorkspaceResponseData {
+  id: string;
+  type: string;
+  url: string;
+  name: string;
+  createdAt: string;
+}
+export const CreateWorkspaceResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: S.String,
+    url: S.String,
+    name: S.String,
+    createdAt: S.String,
+  }),
+).annotate({
+  identifier: "CreateWorkspaceResponseData",
+}) as any as S.Schema<CreateWorkspaceResponseData>;
+
+export interface CreateWorkspaceResponse {
+  data: CreateWorkspaceResponseData;
+}
+export const CreateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: CreateWorkspaceResponseData,
+  }),
+).annotate({
+  identifier: "CreateWorkspaceResponse",
+}) as any as S.Schema<CreateWorkspaceResponse>;
 
 export interface CreateWorkspaceServiceTokenRequest {
   workspaceId: string;
@@ -3156,6 +3231,53 @@ export const DeleteWorkspaceServiceTokenResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWorkspaceServiceTokenResponse",
 }) as any as S.Schema<DeleteWorkspaceServiceTokenResponse>;
 
+export interface GetAgentApprovalRequest {
+  approvalId: string;
+}
+export const GetAgentApprovalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    approvalId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/agent-approvals/{approvalId}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetAgentApprovalRequest",
+}) as any as S.Schema<GetAgentApprovalRequest>;
+
+export type GetAgentApprovalResponseStatus =
+  | "pending"
+  | "approved"
+  | "approved_window"
+  | "denied"
+  | "expired"
+  | "consumed";
+export const GetAgentApprovalResponseStatus = S.String;
+
+export interface GetAgentApprovalResponse {
+  id: string;
+  status: GetAgentApprovalResponseStatus;
+  expiresAt: string;
+  windowExpiresAt: string | null;
+  decidedAt: string | null;
+  hint?: string;
+}
+export const GetAgentApprovalResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    status: GetAgentApprovalResponseStatus,
+    expiresAt: S.String,
+    windowExpiresAt: S.NullOr(S.String),
+    decidedAt: S.NullOr(S.String),
+    hint: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetAgentApprovalResponse",
+}) as any as S.Schema<GetAgentApprovalResponse>;
+
 export interface GetBranchRequest {
   branchId: string;
 }
@@ -3320,6 +3442,7 @@ export interface GetBucketsRequest {
   cursor?: string;
   limit?: number;
   projectId?: string;
+  logicalId?: string;
   branchId?: string;
   branchGitName?: string;
 }
@@ -3328,6 +3451,7 @@ export const GetBucketsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     projectId: S.optional(S.String.pipe(T.Query())),
+    logicalId: S.optional(S.String.pipe(T.Query())),
     branchId: S.optional(S.String.pipe(T.Query())),
     branchGitName: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/buckets", code: 200 })),
@@ -3956,6 +4080,7 @@ export interface GetDatabaseResponseData {
   region: CreateDatabaseResponseDataRegion | null;
   source: GetDatabaseResponseDataSource | null;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const GetDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3972,6 +4097,7 @@ export const GetDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: S.NullOr(GetDatabaseResponseDataSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "GetDatabaseResponseData",
@@ -4007,14 +4133,12 @@ export const GetDatabaseBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDatabaseBackupsRequest",
 }) as any as S.Schema<GetDatabaseBackupsRequest>;
 
-/** Type of backup */
 export type GetDatabaseBackupsResponseDataItemBackupType =
   | "full"
   | "incremental"
   | "differential";
 export const GetDatabaseBackupsResponseDataItemBackupType = S.String;
 
-/** Status of backup instance */
 export type GetDatabaseBackupsResponseDataItemStatus =
   | "running"
   | "completed"
@@ -4023,15 +4147,10 @@ export type GetDatabaseBackupsResponseDataItemStatus =
 export const GetDatabaseBackupsResponseDataItemStatus = S.String;
 
 export interface GetDatabaseBackupsResponseDataItem {
-  /** The unique identifier for this backup */
   id: string;
-  /** Type of backup */
   backupType: GetDatabaseBackupsResponseDataItemBackupType;
-  /** Timestamp when the backup was created */
   createdAt: string;
-  /** Total file size (in MiB) of gzipped backup files */
   size?: number;
-  /** Status of backup instance */
   status: GetDatabaseBackupsResponseDataItemStatus;
   type?: string;
 }
@@ -4210,6 +4329,7 @@ export interface GetDatabasesRequest {
   cursor?: string;
   limit?: number;
   projectId?: string;
+  logicalId?: string;
   branchId?: string;
   branchGitName?: string;
 }
@@ -4218,6 +4338,7 @@ export const GetDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     projectId: S.optional(S.String.pipe(T.Query())),
+    logicalId: S.optional(S.String.pipe(T.Query())),
     branchId: S.optional(S.String.pipe(T.Query())),
     branchGitName: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/databases", code: 200 })),
@@ -4357,6 +4478,7 @@ export interface GetDatabasesResponseDataItem {
   region: CreateDatabaseResponseDataRegion | null;
   source: GetDatabasesResponseDataItemSource | null;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const GetDatabasesResponseDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4373,6 +4495,7 @@ export const GetDatabasesResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: S.NullOr(GetDatabasesResponseDataItemSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "GetDatabasesResponseDataItem",
@@ -4998,20 +5121,14 @@ export const GetMeResponseDataUser = /*@__PURE__*/ S.suspend(() =>
 export type GetMeResponseDataWorkspace = CreateDatabaseResponseDataRegion;
 export const GetMeResponseDataWorkspace = CreateDatabaseResponseDataRegion;
 
-export type GetMeResponseDataCredentialType =
-  | "oauth"
-  | "service_token"
-  | "management_token";
-export const GetMeResponseDataCredentialType = S.String;
-
 export interface GetMeResponseDataCredential {
-  type: GetMeResponseDataCredentialType;
+  type: string;
   id: string | null;
   name: string | null;
 }
 export const GetMeResponseDataCredential = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: GetMeResponseDataCredentialType,
+    type: S.String,
     id: S.NullOr(S.String),
     name: S.NullOr(S.String),
   }),
@@ -5796,6 +5913,7 @@ export interface GetProjectDatabasesResponseDataItem {
   region: CreateDatabaseResponseDataRegion | null;
   source: GetProjectDatabasesResponseDataItemSource | null;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const GetProjectDatabasesResponseDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5812,6 +5930,7 @@ export const GetProjectDatabasesResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: S.NullOr(GetProjectDatabasesResponseDataItemSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "GetProjectDatabasesResponseDataItem",
@@ -6104,12 +6223,14 @@ export interface GetScmInstallationsRequest {
   cursor?: string;
   limit?: number;
   workspaceId: string;
+  repository?: string;
 }
 export const GetScmInstallationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     workspaceId: S.String.pipe(T.Query()),
+    repository: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/scm-installations", code: 200 })),
 ).annotate({
   identifier: "GetScmInstallationsRequest",
@@ -6170,11 +6291,13 @@ export const GetScmInstallationsResponsePagination =
 export interface GetScmInstallationsResponse {
   data: GetScmInstallationsResponseDataList;
   pagination: GetBucketKeysResponsePagination;
+  hint?: string;
 }
 export const GetScmInstallationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetScmInstallationsResponseDataList,
     pagination: GetBucketKeysResponsePagination,
+    hint: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetScmInstallationsResponse",
@@ -6397,6 +6520,7 @@ export interface GetServicesRequest {
   cursor?: string;
   limit?: number;
   projectId?: string;
+  logicalId?: string;
   branchId?: string;
   branchGitName?: string;
 }
@@ -6405,6 +6529,7 @@ export const GetServicesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     projectId: S.optional(S.String.pipe(T.Query())),
+    logicalId: S.optional(S.String.pipe(T.Query())),
     branchId: S.optional(S.String.pipe(T.Query())),
     branchGitName: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/services", code: 200 })),
@@ -6578,10 +6703,12 @@ export const GetSourceRepositoryResponseData = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetSourceRepositoryResponse {
   data: GetSourceRepositoryResponseData;
+  hint?: string;
 }
 export const GetSourceRepositoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetSourceRepositoryResponseData,
+    hint: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetSourceRepositoryResponse",
@@ -6598,31 +6725,15 @@ export const GetWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetWorkspaceRequest",
 }) as any as S.Schema<GetWorkspaceRequest>;
 
-export interface GetWorkspaceResponseData {
-  id: string;
-  type: string;
-  url: string;
-  name: string;
-  createdAt: string;
-}
-export const GetWorkspaceResponseData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    type: S.String,
-    url: S.String,
-    name: S.String,
-    createdAt: S.String,
-  }),
-).annotate({
-  identifier: "GetWorkspaceResponseData",
-}) as any as S.Schema<GetWorkspaceResponseData>;
+export type GetWorkspaceResponseData = CreateWorkspaceResponseData;
+export const GetWorkspaceResponseData = CreateWorkspaceResponseData;
 
 export interface GetWorkspaceResponse {
-  data: GetWorkspaceResponseData;
+  data: CreateWorkspaceResponseData;
 }
 export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: GetWorkspaceResponseData,
+    data: CreateWorkspaceResponseData,
   }),
 ).annotate({
   identifier: "GetWorkspaceResponse",
@@ -6724,12 +6835,12 @@ export const GetWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetWorkspacesRequest",
 }) as any as S.Schema<GetWorkspacesRequest>;
 
-export type GetWorkspacesResponseDataItem = GetWorkspaceResponseData;
-export const GetWorkspacesResponseDataItem = GetWorkspaceResponseData;
+export type GetWorkspacesResponseDataItem = CreateWorkspaceResponseData;
+export const GetWorkspacesResponseDataItem = CreateWorkspaceResponseData;
 
-export type GetWorkspacesResponseDataList = Array<GetWorkspaceResponseData>;
+export type GetWorkspacesResponseDataList = Array<CreateWorkspaceResponseData>;
 export const GetWorkspacesResponseDataList = /*@__PURE__*/ S.Array(
-  GetWorkspaceResponseData,
+  CreateWorkspaceResponseData,
 ) as any as S.Schema<GetWorkspacesResponseDataList>;
 
 export type GetWorkspacesResponsePagination = GetBucketKeysResponsePagination;
@@ -7380,6 +7491,48 @@ export const UpdateBranchResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateBranchResponse",
 }) as any as S.Schema<UpdateBranchResponse>;
 
+export interface UpdateBucketRequest {
+  bucketId: string;
+  /** New display name for the bucket. A label only: the provider bucket name does not change. */
+  displayName?: string;
+  /** ID of the branch to move the bucket to. Mutually exclusive with branchGitName. */
+  branchId?: string;
+  /** Git name of the branch to move the bucket to; the branch is created when it does not exist. Mutually exclusive with branchId. */
+  branchGitName?: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
+  logicalId?: string;
+}
+export const UpdateBucketRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bucketId: S.String.pipe(T.Label()),
+    displayName: S.optional(S.String),
+    branchId: S.optional(S.String),
+    branchGitName: S.optional(S.String),
+    logicalId: S.optional(S.String),
+  }).pipe(
+    T.Http({ method: "PATCH", uri: "/v1/buckets/{bucketId}", code: 200 }),
+  ),
+).annotate({
+  identifier: "UpdateBucketRequest",
+}) as any as S.Schema<UpdateBucketRequest>;
+
+export type UpdateBucketResponseDataProject = CreateBucketResponseDataProject;
+export const UpdateBucketResponseDataProject = CreateBucketResponseDataProject;
+
+export type UpdateBucketResponseData = CreateBucketResponseData;
+export const UpdateBucketResponseData = CreateBucketResponseData;
+
+export interface UpdateBucketResponse {
+  data: CreateBucketResponseData;
+}
+export const UpdateBucketResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: CreateBucketResponseData,
+  }),
+).annotate({
+  identifier: "UpdateBucketResponse",
+}) as any as S.Schema<UpdateBucketResponse>;
+
 /** How far the run has got. */
 export type UpdateBuildRequestPhase = "queued" | "build" | "deploy";
 export const UpdateBuildRequestPhase = S.String;
@@ -7401,13 +7554,13 @@ export interface UpdateBuildRequest {
   failingStep?: string;
   errorMessage?: string;
   externalLogUrl?: string;
-  /** Project the build targets. Fill-only: a reporter that learns the project partway through a deploy may set it, but a value already recorded cannot be changed. */
+  /** Project the build targets. Can be set once and never changed: a reporter that learns the project partway through a deploy may set it, but a value already recorded cannot be changed. */
   projectId?: string;
-  /** Branch the build targets. Fill-only, like `projectId`. */
+  /** Branch the build targets. Can be set once and never changed, like `projectId`. */
   branchId?: string;
-  /** Where the deployed app can be reached. Fill-only, like the anchors. */
+  /** Where the deployed app can be reached. Can be set once and never changed, like `projectId`. */
   deployedUrl?: string;
-  /** Content hash of the application topology this run deploys, as submitted to the application-topology endpoint. A value match, never a reference: equal hashes identify the same graph. Fill-only, like the anchors. */
+  /** Content hash of the application topology this run deploys, as submitted to the application-topology endpoint. A value match, never a reference: equal hashes identify the same graph. Can be set once and never changed, like `projectId`. */
   applicationTopologyContentHash?: string;
 }
 export const UpdateBuildRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7511,6 +7664,8 @@ export interface UpdateDatabaseRequest {
   branchId?: string | null;
   /** Git name of the Branch to move the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Every database belongs to a Branch, so null (detach) is rejected. */
   branchGitName?: string | null;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
+  logicalId?: string;
 }
 export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7518,6 +7673,7 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     branchId: S.optional(S.NullOr(S.String)),
     branchGitName: S.optional(S.NullOr(S.String)),
+    logicalId: S.optional(S.String),
   }).pipe(
     T.Http({ method: "PATCH", uri: "/v1/databases/{databaseId}", code: 200 }),
   ),
@@ -7654,6 +7810,7 @@ export interface UpdateDatabaseResponseData {
   region: CreateDatabaseResponseDataRegion | null;
   source: UpdateDatabaseResponseDataSource | null;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const UpdateDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7670,6 +7827,7 @@ export const UpdateDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: S.NullOr(UpdateDatabaseResponseDataSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "UpdateDatabaseResponseData",
@@ -7838,6 +7996,8 @@ export const UpdateProjectBranchAlchemyStateLeaseResponse =
 export interface UpdateServiceRequest {
   serviceId: string;
   displayName?: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
+  logicalId?: string;
   branchId?: string | null;
   branchGitName?: string | null;
 }
@@ -7845,6 +8005,7 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     displayName: S.optional(S.String),
+    logicalId: S.optional(S.String),
     branchId: S.optional(S.NullOr(S.String)),
     branchGitName: S.optional(S.NullOr(S.String)),
   }).pipe(
@@ -7890,6 +8051,7 @@ export type CreateBucketError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | PrismaOpError;
 /** Create bucket Creates a new object-store bucket in the specified project. */
 export const createBucket: API.OperationMethod<
@@ -7900,7 +8062,7 @@ export const createBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBucketRequest,
   output: CreateBucketResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
 }));
@@ -7976,7 +8138,7 @@ export type CreateDatabaseError =
   | Conflict
   | UnprocessableEntity
   | PrismaOpError;
-/** Create database Creates a new database in the specified project. */
+/** Create database Creates a new database in the specified project. `logicalId` cannot be combined with `branchGitName`; pass `branchId` instead. */
 export const createDatabase: API.OperationMethod<
   CreateDatabaseRequest,
   CreateDatabaseResponse,
@@ -8214,7 +8376,7 @@ export type CreateScmInstallationsInstallIntentError =
   | NotFound
   | UnprocessableEntity
   | PrismaOpError;
-/** Create an SCM App installation intent ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Creates an installation intent for the given workspace and returns a provider-specific URL that the user opens to install the SCM app. Currently only `github` is supported. */
+/** Create an SCM App installation intent ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Creates an installation intent for the given workspace. If an existing installation can be proven to belong to the caller it is linked immediately (`alreadyLinked`); otherwise the response carries a URL the user opens to install the SCM app. Pass `repository` (owner/name) so an installation that already covers it but cannot be linked automatically is detected and explained in `hint`. Currently only `github` is supported. */
 export const createScmInstallationsInstallIntent: API.OperationMethod<
   CreateScmInstallationsInstallIntentRequest,
   CreateScmInstallationsInstallIntentResponse,
@@ -8234,7 +8396,7 @@ export type CreateServiceError =
   | Conflict
   | UnprocessableEntity
   | PrismaOpError;
-/** Create service ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Creates a new service under the specified project. The `projectId` is required in the request body. The service is placed in the given region, or the project's default region if omitted (falling back to us-east-1). Returns `409 Conflict` with the existing service's id, name, and branch if a service with the same name already exists on the resolved branch. */
+/** Create service ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Creates a new service under the specified project. The `projectId` is required in the request body. The service is placed in the given region, or the project's default region if omitted (falling back to us-east-1). Returns `409 Conflict` when a service already occupies the slot on the resolved branch, either by name or by `logicalId`; the body includes the existing service's id, name, branch, and logical id, and `conflict` says which attribute clashed. The name is checked first. `logicalId` cannot be combined with `branchGitName`; pass `branchId` instead. */
 export const createService: API.OperationMethod<
   CreateServiceRequest,
   CreateServiceResponse,
@@ -8375,6 +8537,21 @@ export const createSourceRepository: API.OperationMethod<
     UnprocessableEntity,
     UnknownPrismaError,
   ],
+  protocol: PrismaProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateWorkspaceError = Forbidden | PrismaOpError;
+/** Create a workspace ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Creates a new free-plan workspace owned by the authenticated user. For agent tokens the workspace is created for the agent's sponsor, and the agent's permission policy treats this as an admin action — under the default policy the sponsor approves it first. */
+export const createWorkspace: API.OperationMethod<
+  CreateWorkspaceRequest,
+  CreateWorkspaceResponse,
+  CreateWorkspaceError,
+  PrismaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateWorkspaceRequest,
+  output: CreateWorkspaceResponse,
+  errors: [Forbidden, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
 }));
@@ -8694,6 +8871,21 @@ export const deleteWorkspaceServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteWorkspaceServiceTokenRequest,
   output: DeleteWorkspaceServiceTokenResponse,
+  errors: [NotFound, UnknownPrismaError],
+  protocol: PrismaProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAgentApprovalError = NotFound | PrismaOpError;
+/** Poll an approval Reports where an approval stands, so an agent holding an approval_required response can wait for the sponsor's decision and retry. Only the agent the approval belongs to can read it. */
+export const getAgentApproval: API.OperationMethod<
+  GetAgentApprovalRequest,
+  GetAgentApprovalResponse,
+  GetAgentApprovalError,
+  PrismaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAgentApprovalRequest,
+  output: GetAgentApprovalResponse,
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -9587,8 +9779,27 @@ export const updateBranch: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateBucketError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | PrismaOpError;
+/** Update bucket Updates the display name, logical id, or branch of the bucket with the given ID. The display name is a label only: the provider bucket name, the objects, and the access keys do not change. `logicalId` cannot be combined with `branchId` or `branchGitName` in one request; move the bucket first, then set its `logicalId`. */
+export const updateBucket: API.OperationMethod<
+  UpdateBucketRequest,
+  UpdateBucketResponse,
+  UpdateBucketError,
+  PrismaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateBucketRequest,
+  output: UpdateBucketResponse,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  protocol: PrismaProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateBuildError = NotFound | Conflict | PrismaOpError;
-/** Update a build ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Records progress on a build. Any holder of the workspace token may patch any field — the webhook, the CI run and Composer each report the part of a deploy they can see, and the token is the boundary. Reaching `running` stamps `startedAt` and reaching a terminal state stamps `finishedAt`, both only if unset, so re-reporting the same state does not move the clock. `projectId`, `branchId`, `deployedUrl` and `applicationTopologyContentHash` are fill-only: a reporter that resolves them partway through a deploy sets them here, but a value already recorded cannot be changed and the attempt is a conflict. Sending the value already recorded is accepted and changes nothing. An anchor must belong to the caller's workspace and agree with the anchors the build already carries, so a branch from another project is refused. */
+/** Update a build ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Records progress on a build. Any holder of the workspace token may patch any field — the webhook, the CI run and Composer each report the part of a deploy they can see, and the token is the boundary. Reaching `running` stamps `startedAt` and reaching a terminal state stamps `finishedAt`, both only if unset, so re-reporting the same state does not move the clock. Once a build has finished, its state no longer changes: a later report updates the other fields and leaves the state as the finishing report set it. `projectId`, `branchId`, `deployedUrl` and `applicationTopologyContentHash` can each be set once and never changed: a reporter that resolves them partway through a deploy sets them here, but a value already recorded cannot be changed and the attempt is a conflict. Sending the value already recorded is accepted and changes nothing. `projectId` and `branchId` must belong to the caller's workspace, and a branch must belong to the build's project, so a branch from another project is refused. */
 export const updateBuild: API.OperationMethod<
   UpdateBuildRequest,
   UpdateBuildResponse,
@@ -9605,9 +9816,10 @@ export const updateBuild: API.OperationMethod<
 export type UpdateDatabaseError =
   | Forbidden
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | PrismaOpError;
-/** Update database Updates the database with the given ID. */
+/** Update database Updates the database with the given ID. `logicalId` cannot be combined with `branchId` or `branchGitName` in one request; move the database first, then set its `logicalId`. */
 export const updateDatabase: API.OperationMethod<
   UpdateDatabaseRequest,
   UpdateDatabaseResponse,
@@ -9616,7 +9828,13 @@ export const updateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDatabaseRequest,
   output: UpdateDatabaseResponse,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [
+    Forbidden,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    UnknownPrismaError,
+  ],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
 }));
@@ -9678,9 +9896,10 @@ export const updateProjectBranchAlchemyStateLease: API.OperationMethod<
 export type UpdateServiceError =
   | Forbidden
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | PrismaOpError;
-/** Update service ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Updates the display name of a service. */
+/** Update service ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Updates the display name, logical id, or branch of a service. `logicalId` cannot be combined with `branchId` or `branchGitName` in one request; move the service first, then set its `logicalId`. */
 export const updateService: API.OperationMethod<
   UpdateServiceRequest,
   UpdateServiceResponse,
@@ -9689,7 +9908,13 @@ export const updateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateServiceRequest,
   output: UpdateServiceResponse,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [
+    Forbidden,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    UnknownPrismaError,
+  ],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
 }));
