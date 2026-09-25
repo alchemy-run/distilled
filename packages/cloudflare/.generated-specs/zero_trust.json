@@ -423384,6 +423384,18 @@
           "traits": {
             "smithy.api#documentation": "The application type."
           }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+          }
+        },
+        "session_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+          }
         }
       }
     },
@@ -424987,6 +424999,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsListResultItemSaaSApplicationType",
           "traits": {
             "smithy.api#documentation": "The application type."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+          }
+        },
+        "session_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
           }
         }
       }
@@ -426592,6 +426616,18 @@
           "traits": {
             "smithy.api#documentation": "The application type."
           }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+          }
+        },
+        "session_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
+          }
         }
       }
     },
@@ -428195,6 +428231,18 @@
           "target": "com.cloudflare.zero_trust#AccessApplicationsCreateResultSaaSApplicationType",
           "traits": {
             "smithy.api#documentation": "The application type."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`."
+          }
+        },
+        "session_duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of time that tokens issued for this application will be valid."
           }
         }
       }

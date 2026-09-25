@@ -14970,6 +14970,10 @@ export interface AccessApplicationsCreateResultSaaSApplication {
   tags?: AccessApplicationsCreateResultSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsCreateResultSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
 }
 export const AccessApplicationsCreateResultSaaSApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15000,6 +15004,8 @@ export const AccessApplicationsCreateResultSaaSApplication = /*@__PURE__*/ S.sus
     ),
     tags: S.optional(S.NullOr(AccessApplicationsCreateResultSaaSApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsCreateResultSaaSApplicationType)),
+    domain: S.optional(S.NullOr(S.String)),
+    sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsCreateResultSaaSApplication",
@@ -35728,6 +35734,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
     ],
     [
       "domain",
@@ -68966,6 +68974,10 @@ export interface AccessApplicationsGetResultSaaSApplication {
   tags?: AccessApplicationsGetResultSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsGetResultSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
 }
 export const AccessApplicationsGetResultSaaSApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -68996,6 +69008,8 @@ export const AccessApplicationsGetResultSaaSApplication = /*@__PURE__*/ S.suspen
     ),
     tags: S.optional(S.NullOr(AccessApplicationsGetResultSaaSApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsGetResultSaaSApplicationType)),
+    domain: S.optional(S.NullOr(S.String)),
+    sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsGetResultSaaSApplication",
@@ -89655,6 +89669,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
     ],
     [
       "domain",
@@ -123766,6 +123782,10 @@ export interface AccessApplicationsListResultItemSaaSApplication {
   tags?: AccessApplicationsListResultItemSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsListResultItemSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
 }
 export const AccessApplicationsListResultItemSaaSApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -123798,6 +123818,8 @@ export const AccessApplicationsListResultItemSaaSApplication = /*@__PURE__*/ S.s
     ),
     tags: S.optional(S.NullOr(AccessApplicationsListResultItemSaaSApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsListResultItemSaaSApplicationType)),
+    domain: S.optional(S.NullOr(S.String)),
+    sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsListResultItemSaaSApplication",
@@ -144561,6 +144583,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
     ],
     [
       "domain",
@@ -184721,6 +184745,10 @@ export interface AccessApplicationsUpdateResultSaaSApplication {
   tags?: AccessApplicationsUpdateResultSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsUpdateResultSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
 }
 export const AccessApplicationsUpdateResultSaaSApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -184751,6 +184779,8 @@ export const AccessApplicationsUpdateResultSaaSApplication = /*@__PURE__*/ S.sus
     ),
     tags: S.optional(S.NullOr(AccessApplicationsUpdateResultSaaSApplicationTagsList)),
     type: S.optional(S.NullOr(AccessApplicationsUpdateResultSaaSApplicationType)),
+    domain: S.optional(S.NullOr(S.String)),
+    sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
   }),
 ).annotate({
   identifier: "AccessApplicationsUpdateResultSaaSApplication",
@@ -205459,6 +205489,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
     ],
     [
       "domain",
