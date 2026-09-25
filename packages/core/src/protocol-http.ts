@@ -471,6 +471,9 @@ export const buildRequest = ({
   let uri = http.uri;
   const consumed = new Set<string>();
   let hasBodyMembers = false;
+  // A modeled Content-Type header member (e.g. R2 putObject's contentType)
+  // names the media type of a raw body; `bodyMediaType` is only the default.
+  let memberContentType: string | undefined;
 
   for (const prop of getProps(inputAst)) {
     const key = String(prop.name);
@@ -491,6 +494,7 @@ export const buildRequest = ({
       const hName = nameOf(prop, headerSymbol).toLowerCase();
       const hVal = String(value);
       headers[hName] = mapMemberHeader ? mapMemberHeader(hName, hVal) : hVal;
+      if (hName === "content-type") memberContentType = headers[hName];
     } else if (hasPropAnn(prop, querySymbol)) {
       appendQuery(query, nameOf(prop, querySymbol), value);
     } else if (hasPropAnn(prop, deepQuerySymbol)) {
@@ -614,6 +618,9 @@ export const buildRequest = ({
       ),
     );
   } else if (rawBody !== undefined && !BODYLESS.has(http.method)) {
+    // setBody overwrites the Content-Type header with the body's media type,
+    // so the body carries the modeled header when one was bound.
+    const rawMediaType = memberContentType ?? http.bodyMediaType;
     // Whole-body member (raw arrays/scalars) — sent as the body itself.
     // Binary payloads (Blob / ArrayBuffer / Uint8Array) send verbatim
     // (raw object uploads — the Content-Type header member, when modeled,
@@ -628,21 +635,19 @@ export const buildRequest = ({
       // untouched (a modeled Content-Type header member rides alongside).
       request = request.pipe(
         HttpClientRequest.setBody(
-          HttpBody.raw(rawBody, { contentType: http.bodyMediaType }),
+          HttpBody.raw(rawBody, { contentType: rawMediaType }),
         ),
       );
     } else if (rawBody instanceof Uint8Array) {
       request = request.pipe(
-        HttpClientRequest.setBody(
-          HttpBody.uint8Array(rawBody, http.bodyMediaType),
-        ),
+        HttpClientRequest.setBody(HttpBody.uint8Array(rawBody, rawMediaType)),
       );
     } else if (http.bodyMediaType) {
       request = request.pipe(
         HttpClientRequest.setBody(
           typeof rawBody === "string"
-            ? HttpBody.text(rawBody, http.bodyMediaType)
-            : HttpBody.uint8Array(rawBody as Uint8Array, http.bodyMediaType),
+            ? HttpBody.text(rawBody, rawMediaType)
+            : HttpBody.uint8Array(rawBody as Uint8Array, rawMediaType),
         ),
       );
     } else {
