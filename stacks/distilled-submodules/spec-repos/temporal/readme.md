@@ -1,12 +1,13 @@
 # spec-mirror-temporal
 
-A git mirror of Temporal's first-party [WorkflowService OpenAPI spec](https://github.com/temporalio/api/blob/master/openapi/openapiv3.yaml), reduced to exactly the file the
+A git mirror of Temporal's first-party [WorkflowService OpenAPI spec](https://github.com/temporalio/api/blob/master/openapi/openapiv3.yaml) and [Cloud Ops API OpenAPI spec](https://saas-api.tmprl.cloud/spec.json), reduced to exactly the files the
 [`@distilled.cloud/temporal`](https://github.com/alchemy-run/distilled) generator reads:
 
 - `specs/openapi.json` — `openapi/openapiv3.yaml` parsed to deterministic JSON
+- `specs/cloud-openapi.json` — the Cloud Ops API spec served at `saas-api.tmprl.cloud`
 - `specs/docs/` — snapshots of vendor docs used at generate time
 
-Nothing else from `temporalio/api` is mirrored, so this repository stays small
+Nothing else from `temporalio/api` or `temporalio/api-cloud` is mirrored, so this repository stays small
 enough to use as a git submodule — the upstream repository is never cloned.
 
 The mirror is updated every 24 hours by

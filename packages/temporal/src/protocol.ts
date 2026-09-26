@@ -5,10 +5,13 @@
  * transcoding, no response envelope), so the whole protocol is one
  * `makeRestProtocol` call from `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL
- *             (default http://localhost:7243), resolved from the
- *             calling fiber on every request. Spec paths already include
- *             `/api/v1`.
+ *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL,
+ *             resolved from the calling fiber on every request. Cloud Ops
+ *             routes (`/cloud/…`) go to `cloudApiBaseUrl` (default
+ *             https://saas-api.tmprl.cloud) with the optional
+ *             `temporal-cloud-api-version` header; WorkflowService routes
+ *             (`/api/v1/…`) go to `apiBaseUrl` (default
+ *             http://localhost:7243).
  *
  *   response: 2xx JSON is the payload (sensitive members delivered as
  *             `Redacted`); non-2xx `{ code?, message }` bodies map to the
@@ -49,9 +52,14 @@ export const TemporalProtocol: Layer.Layer<API.Protocol> =
       const resolve = yield* Credentials;
       return yield* resolve;
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
+    baseUrl: (creds, { uri }) =>
+      uri.startsWith("/cloud/") ? creds.cloudApiBaseUrl : creds.apiBaseUrl,
     headers: (creds) => ({
       Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      // Only the Cloud Ops API reads it; the WorkflowService ignores it.
+      ...(creds.cloudApiVersion
+        ? { "temporal-cloud-api-version": creds.cloudApiVersion }
+        : {}),
     }),
     // Temporal's google.rpc.Status error body is `{ code?, message, details? }`
     // — the factory's default lenient envelope covers it.
