@@ -216,7 +216,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   customerio: "email messaging",
   intercom: "support chat",
   zendesk: "support tickets",
-  temporal: "workflows",
+  temporal: "workflows cloud namespaces",
   inngest: "workflows queues",
   "trigger-dev": "jobs workflows",
   huggingface: "ai models",
