@@ -221,12 +221,17 @@ function adjustRequestPath(
       const value = input[propName];
       if (typeof value !== "string") continue;
 
-      // Check if the hostname starts with this value (virtual-hosted style)
-      // e.g., "mybucket.s3.us-east-1.amazonaws.com" starts with "mybucket."
-      if (hostname.startsWith(`${value}.`)) {
-        // The HTTP label would have been serialized as "/{value}" in the path
-        const pathPrefix = `/${encodeURIComponent(value)}`;
+      // The HTTP label would have been serialized as "/{value}" in the path
+      const pathPrefix = `/${encodeURIComponent(value)}`;
 
+      // The endpoint already carries the value either in the hostname
+      // (virtual-hosted, e.g. "mybucket.s3.us-east-1.amazonaws.com") or at
+      // the end of its path (path-style, which the rules pick for names that
+      // cannot be virtual-hosted, e.g. "s3.us-east-1.amazonaws.com/my.bucket").
+      if (
+        hostname.startsWith(`${value}.`) ||
+        url.pathname.replace(/\/$/, "").endsWith(pathPrefix)
+      ) {
         if (request.path.startsWith(pathPrefix)) {
           let adjustedPath = request.path.slice(pathPrefix.length);
           // Normalize empty path
