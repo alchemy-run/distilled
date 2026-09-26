@@ -471,6 +471,7 @@ export const buildRequest = ({
   let uri = http.uri;
   const consumed = new Set<string>();
   let hasBodyMembers = false;
+  let memberContentType: string | undefined; // bound Content-Type header member
 
   for (const prop of getProps(inputAst)) {
     const key = String(prop.name);
@@ -491,6 +492,7 @@ export const buildRequest = ({
       const hName = nameOf(prop, headerSymbol).toLowerCase();
       const hVal = String(value);
       headers[hName] = mapMemberHeader ? mapMemberHeader(hName, hVal) : hVal;
+      if (hName === "content-type") memberContentType = headers[hName];
     } else if (hasPropAnn(prop, querySymbol)) {
       appendQuery(query, nameOf(prop, querySymbol), value);
     } else if (hasPropAnn(prop, deepQuerySymbol)) {
@@ -616,33 +618,35 @@ export const buildRequest = ({
   } else if (rawBody !== undefined && !BODYLESS.has(http.method)) {
     // Whole-body member (raw arrays/scalars) — sent as the body itself.
     // Binary payloads (Blob / ArrayBuffer / Uint8Array) send verbatim
-    // (raw object uploads — the Content-Type header member, when modeled,
-    // rides alongside). With a bodyMediaType, the member is a
+    // (raw object uploads). With a bodyMediaType, the member is a
     // preserialized payload (string / bytes) sent verbatim under that
     // media type (e.g. application/x-ndjson for Vectorize
     // insert/upsert); otherwise it's JSON.
+    //
+    // setBody replaces the Content-Type header with the body's media type,
+    // so a bound Content-Type header member (R2 putObject's contentType)
+    // becomes the body's media type, and bodyMediaType is the fallback.
+    const rawMediaType = memberContentType ?? http.bodyMediaType;
     if (rawBody instanceof Blob || rawBody instanceof ArrayBuffer) {
       // Honor the declared media type (e.g. application/x-ndjson for
       // Vectorize insert/upsert) — without it the server may fall back to
-      // JSON parsing. When no bodyMediaType is modeled the header is left
-      // untouched (a modeled Content-Type header member rides alongside).
+      // JSON parsing. With neither a Content-Type member nor a
+      // bodyMediaType, the header is left untouched.
       request = request.pipe(
         HttpClientRequest.setBody(
-          HttpBody.raw(rawBody, { contentType: http.bodyMediaType }),
+          HttpBody.raw(rawBody, { contentType: rawMediaType }),
         ),
       );
     } else if (rawBody instanceof Uint8Array) {
       request = request.pipe(
-        HttpClientRequest.setBody(
-          HttpBody.uint8Array(rawBody, http.bodyMediaType),
-        ),
+        HttpClientRequest.setBody(HttpBody.uint8Array(rawBody, rawMediaType)),
       );
     } else if (http.bodyMediaType) {
       request = request.pipe(
         HttpClientRequest.setBody(
           typeof rawBody === "string"
-            ? HttpBody.text(rawBody, http.bodyMediaType)
-            : HttpBody.uint8Array(rawBody as Uint8Array, http.bodyMediaType),
+            ? HttpBody.text(rawBody, rawMediaType)
+            : HttpBody.uint8Array(rawBody as Uint8Array, rawMediaType),
         ),
       );
     } else {

@@ -117,6 +117,45 @@ describe("multipart binary parts", () => {
   });
 });
 
+describe("raw bodies with a modeled Content-Type header", () => {
+  const schema = S.Struct({
+    body: S.optional(S.String.pipe(T.HttpBody())),
+    contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/objects",
+      bodyMediaType: "application/octet-stream",
+    }),
+  );
+
+  const contentTypeOf = (input: unknown) =>
+    buildRequest({
+      input,
+      inputAst: schema.ast,
+      baseUrl: "https://example.test",
+    }).headers["content-type"];
+
+  test("sends the modeled Content-Type instead of bodyMediaType", () => {
+    for (const body of [
+      new Uint8Array([1, 2]),
+      new Uint8Array([1, 2]).buffer,
+      new Blob([new Uint8Array([1, 2])]),
+      "#EXTM3U",
+    ]) {
+      expect(contentTypeOf({ body, contentType: "video/mp4" })).toBe(
+        "video/mp4",
+      );
+    }
+  });
+
+  test("falls back to bodyMediaType without a modeled Content-Type", () => {
+    expect(contentTypeOf({ body: new Uint8Array([1]) })).toBe(
+      "application/octet-stream",
+    );
+  });
+});
+
 describe("sensitive union responses", () => {
   const schema = S.suspend(() =>
     S.Union([
