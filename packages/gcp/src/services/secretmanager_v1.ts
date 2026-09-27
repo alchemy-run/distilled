@@ -65,6 +65,26 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The secret version is DISABLED or DESTROYED, so its payload cannot be accessed (HTTP 400 FAILED_PRECONDITION: 'Secret Version [...] is in DISABLED state.'). Not retryable. */
+export class SecretVersionNotEnabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SecretVersionNotEnabled>()(
+      "SecretVersionNotEnabled",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [
+      { status: 400, message: { includes: "is in DISABLED state" } },
+      { status: 400, message: { includes: "is in DESTROYED state" } },
+    ],
+  ) {}
+
 export interface AccessProjectsLocationsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. `projects/*\/secrets/*\/versions/latest` or `projects/*\/locations/*\/secrets/*\/versions/latest` is an alias to the most recently created SecretVersion. */
   name: string;
@@ -1579,6 +1599,7 @@ export const TestIamPermissionsProjectsSecretsRequest = /*@__PURE__*/ S.suspend(
 export type AccessProjectsLocationsSecretsVersionsError =
   | NotFound
   | Forbidden
+  | SecretVersionNotEnabled
   | GcpOpError;
 /** Accesses a SecretVersion. This call returns the secret data. `projects/*\/secrets/*\/versions/latest` is an alias to the most recently created SecretVersion. */
 export const accessProjectsLocationsSecretsVersions: API.OperationMethod<
@@ -1589,7 +1610,7 @@ export const accessProjectsLocationsSecretsVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AccessProjectsLocationsSecretsVersionsRequest,
   output: AccessSecretVersionResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SecretVersionNotEnabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1597,6 +1618,7 @@ export const accessProjectsLocationsSecretsVersions: API.OperationMethod<
 export type AccessProjectsSecretsVersionsError =
   | NotFound
   | Forbidden
+  | SecretVersionNotEnabled
   | GcpOpError;
 /** Accesses a SecretVersion. This call returns the secret data. `projects/*\/secrets/*\/versions/latest` is an alias to the most recently created SecretVersion. */
 export const accessProjectsSecretsVersions: API.OperationMethod<
@@ -1607,7 +1629,7 @@ export const accessProjectsSecretsVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AccessProjectsSecretsVersionsRequest,
   output: AccessSecretVersionResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SecretVersionNotEnabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
