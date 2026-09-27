@@ -174,7 +174,9 @@ PATCH that share an upstream id need the path key. Cases live in
 `packages/core/src/codegen/rewrite-operation-ids.test.ts` (`bun test`); add
 one before changing the heuristic. Do not RFC-6902-patch
 `/paths/~1foo/get/operationId`; those break when upstream adds a prefix.
-Patch the spec, not the generated TypeScript.
+Patch the spec, not the generated TypeScript. Writing and checking a
+patch is the `distilled-sdk-patch` skill
+([`.agents/skills/distilled-sdk-patch/SKILL.md`](../distilled-sdk-patch/SKILL.md)).
 
 ## Step 6 — wire the submodule
 

@@ -80,7 +80,8 @@ Two things the audit cannot judge:
   live API. With credentials, probe: create throwaway resources, hit the
   mutating routes with invalid bodies, record the statuses, tear down
   promptly. Add only what you observed; a probe that never reached
-  validation (401/404 on a dummy slug) proves nothing.
+  validation (401/404 on a dummy slug) proves nothing. Writing the patch
+  that records it is the `distilled-sdk-patch` skill.
 
 While slimming, keep each file's `description` true to what is left, and
 fold files of the same kind together when they shrink to a few ops (two

@@ -93,6 +93,9 @@ Package manager is pnpm 11 (`packageManager` pins it), Node 24
 - Updating a provider to its latest spec and pruning patches it no longer
   needs (`pnpm patches:audit <pkg>`): the `distilled-sdk-update` skill in
   `.agents/skills/distilled-sdk-update/`.
+- Correcting a spec with a patch (typed errors, nullability, sensitive
+  fields, response shapes): the `distilled-sdk-patch` skill in
+  `.agents/skills/distilled-sdk-patch/`.
 - How the mirrors are created and kept in shape:
   `stacks/distilled-submodules/README.md`.
 - Open work: `todo.md`.
