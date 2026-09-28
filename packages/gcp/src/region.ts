@@ -7,8 +7,8 @@
  * DEFAULT location callers use when they create or list regional
  * resources; it never changes which host a request goes to.
  *
- * Like AWS, credentials carry a region (`Credentials` `region`: profile,
- * `GOOGLE_CLOUD_REGION`) and {@link Region} is the OVERRIDE on top — an
+ * Credentials carry a region (`Credentials` `region`, e.g. from a
+ * profile) and {@link Region} is the OVERRIDE on top — an
  * optional service generated operations do not list in their
  * requirements. {@link current} reads the override, then the
  * credentials' region.
@@ -23,7 +23,6 @@
  *   data-residency mode (TLS terminates in the region).
  * - `"never"`: always use the global host.
  */
-import * as Config from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -39,20 +38,11 @@ export class Region extends Context.Service<
   Effect.Effect<RegionName | undefined>
 >()("GCP::Region") {}
 
-/**
- * `GOOGLE_CLOUD_REGION`, then `CLOUDSDK_COMPUTE_REGION` (what `gcloud`
- * reads), then `GOOGLE_REGION`. Resolves `undefined` when none is set.
+/*
+ * There is deliberately no environment source: Google's SDKs have no
+ * default-region variable (the location is part of each resource name),
+ * and GCP runtimes learn their region from the metadata server.
  */
-export const fromEnvironment = Config.String("GOOGLE_CLOUD_REGION").pipe(
-  Config.orElse(() => Config.String("CLOUDSDK_COMPUTE_REGION")),
-  Config.orElse(() => Config.String("GOOGLE_REGION")),
-  Config.option,
-  Effect.map(Option.getOrUndefined),
-);
-
-/** Default region from the environment, if any. */
-export const fromEnv = () =>
-  Layer.succeed(Region, fromEnvironment.pipe(Effect.orDie));
 
 /** Default region for a scope, e.g. `Region.of("europe-west1")`. */
 export const of = (region: RegionName) =>
