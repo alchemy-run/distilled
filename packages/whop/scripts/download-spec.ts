@@ -42,7 +42,7 @@ import { BunRuntime, BunServices } from "@effect/platform-bun";
 import { Console, Data, Effect } from "effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
-import { Command, Flag } from "effect/unstable/cli";
+import { Command, Flag } from "effect/cli";
 
 const ORIGIN = "https://docs.whop.com";
 

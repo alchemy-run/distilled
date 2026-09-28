@@ -18,8 +18,8 @@
  *             HTTP-status classes (with retryAfter on retryable statuses),
  *             falling back to `UnknownPosthogError`.
  */
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Effect from "effect/Effect";
 import type * as Layer from "effect/Layer";
 import type * as API from "@distilled.cloud/core/api";

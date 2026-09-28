@@ -12,7 +12,7 @@ npm install @distilled.cloud/datadog effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Datadog from "@distilled.cloud/datadog";
 
 const program = Effect.gen(function* () {

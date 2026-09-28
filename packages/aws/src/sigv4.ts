@@ -13,7 +13,7 @@ import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
-import * as Encoding from "effect/Encoding";
+import { Hex } from "effect/encoding";
 import * as Exit from "effect/Exit";
 import * as Redacted from "effect/Redacted";
 
@@ -139,7 +139,7 @@ const sha256 = (
   });
 
 const hex = (buffer: ArrayBuffer): string =>
-  Encoding.encodeHex(new Uint8Array(buffer));
+  Hex.encode(new Uint8Array(buffer));
 
 /** Percent-encode the characters `encodeURIComponent` leaves alone but RFC 3986 reserves. */
 const encodeRfc3986 = (encoded: string): string =>

@@ -5,7 +5,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type { PlatformError } from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
-import type { HttpClientError } from "effect/unstable/http/HttpClientError";
+import type { HttpClientError } from "effect/http/HttpClientError";
 import * as Providers from "./credential-providers/shared.ts";
 import { fromEnvironment as regionFromEnvironment } from "./region.ts";
 import type { RegionName } from "./region.ts";

@@ -12,7 +12,7 @@ npm install @distilled.cloud/prisma effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Prisma from "@distilled.cloud/prisma";
 
 const program = Effect.gen(function* () {

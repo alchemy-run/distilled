@@ -12,7 +12,7 @@ npm install @distilled.cloud/trigger-dev effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as TriggerDev from "@distilled.cloud/trigger-dev";
 
 const program = Effect.gen(function* () {

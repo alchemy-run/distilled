@@ -6,7 +6,7 @@ needs. The client generates GraphQL documents and variables from typed
 
 ```ts
 import * as Effect from "effect/Effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import { CredentialsFromEnv } from "@distilled.cloud/railway";
 import * as Railway from "@distilled.cloud/railway";
 

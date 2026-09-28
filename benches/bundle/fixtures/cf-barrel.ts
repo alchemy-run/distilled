@@ -5,7 +5,7 @@ import * as CF from "@distilled.cloud/cloudflare";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
 const layer = Layer.mergeAll(
   CF.fromApiToken({ apiToken: "bench-token" }),

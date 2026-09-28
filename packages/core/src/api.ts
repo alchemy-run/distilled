@@ -11,10 +11,10 @@ import type * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
 import * as Pagination from "./pagination.ts";
 import { makeDefault, type Policy as RetryPolicy } from "./retry.ts";
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
+import * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
+import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 
 //#region Protocol
 

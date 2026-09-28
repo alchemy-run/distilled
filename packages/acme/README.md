@@ -7,7 +7,7 @@ with Effect and WebCrypto. Install it alongside `effect`, save this as
 ```ts
 import * as Acme from "@distilled.cloud/acme";
 import * as Effect from "effect/Effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
 const program = Effect.gen(function* () {
   const accountKey = yield* Acme.Jose.generateAccountKey();
