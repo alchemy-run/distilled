@@ -26,6 +26,7 @@
  */
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
@@ -52,6 +53,8 @@ import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import type { DefaultErrors } from "@distilled.cloud/core/errors";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
+import * as Endpoint from "./endpoint.ts";
+import * as Region from "./region.ts";
 import { GCPParseError, UnknownGCPError } from "./errors.ts";
 import type { GcpHttpTrait } from "./traits.ts";
 
@@ -217,7 +220,21 @@ const encode = ({
     }
 
     const qs = query.toString();
-    const url = `${http.baseUrl}${uri}${qs ? `?${qs}` : ""}`;
+    // Optional overrides, read from the calling fiber like Credentials but
+    // never listed in an operation's requirements.
+    const endpointOverride = yield* Effect.serviceOption(Endpoint.Endpoint);
+    const override = Option.isSome(endpointOverride)
+      ? yield* endpointOverride.value
+      : undefined;
+    const mode = Option.getOrElse(
+      yield* Effect.serviceOption(Region.RegionalEndpoints),
+      () => "required" as const,
+    );
+    const baseUrl =
+      override !== undefined
+        ? Endpoint.withEndpoint(http.baseUrl, override)
+        : Region.endpointFor(http.baseUrl, uri, mode);
+    const url = `${baseUrl}${uri}${qs ? `?${qs}` : ""}`;
     if (process.env.DISTILLED_DEBUG_HTTP) {
       console.error(`[distilled] ${http.method} ${url}`);
     }
