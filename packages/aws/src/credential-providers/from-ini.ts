@@ -11,18 +11,19 @@ import * as Path from "effect/Path";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as Auth from "../auth.ts";
+import { createLazyProvider } from "../credentials-service.ts";
 import {
   chain,
   type CredentialSource,
   CredentialSourceError,
 } from "./credential-source.ts";
-import { fromContainerMetadata } from "./from-container-metadata.ts";
-import { fromEnv } from "./from-env.ts";
-import { fromHttp } from "./from-http.node.ts";
-import { fromInstanceMetadata } from "./from-instance-metadata.node.ts";
-import { fromLoginCredentials } from "./from-login-credentials.ts";
+import { containerMetadataSource } from "./from-container-metadata.ts";
+import { envSource } from "./from-env.ts";
+import { httpSource } from "./from-http.node.ts";
+import { instanceMetadataSource } from "./from-instance-metadata.node.ts";
+import { loginCredentialsSource } from "./from-login-credentials.ts";
 import { resolveProcessCredentials } from "./from-process.ts";
-import { fromTokenFile } from "./from-token-file.ts";
+import { tokenFileSource } from "./from-token-file.ts";
 import { withHttpClient } from "./http-client.ts";
 import { nodeFileSystem } from "./node-file-system.ts";
 import {
@@ -30,6 +31,7 @@ import {
   loadProfiles,
   type Profile,
   type Profiles,
+  profileRegion,
   profileStsRegion,
 } from "./profile.ts";
 import {
@@ -103,11 +105,11 @@ const credentialSource = (
 ): CredentialSource => {
   switch (source) {
     case "EcsContainer":
-      return chain([fromHttp(), fromContainerMetadata()]);
+      return chain([httpSource(), containerMetadataSource()]);
     case "Ec2InstanceMetadata":
-      return fromInstanceMetadata({ profile: profileName });
+      return instanceMetadataSource({ profile: profileName });
     case "Environment":
-      return fromEnv;
+      return envSource;
     default:
       return Effect.fail(
         new CredentialSourceError({
@@ -191,7 +193,7 @@ const resolveProfileData = (
     return Effect.succeed(staticCredentials(profile));
   }
   if (isWebIdentityProfile(profile)) {
-    return fromTokenFile({
+    return tokenFileSource({
       webIdentityTokenFile: profile.web_identity_token_file,
       roleArn: profile.role_arn,
       roleSessionName: profile.role_session_name,
@@ -202,7 +204,7 @@ const resolveProfileData = (
     return resolveProcessCredentials(profileName, profiles);
   }
   if (isLoginProfile(profile)) {
-    return fromLoginCredentials({ profile: profileName });
+    return loginCredentialsSource({ profile: profileName });
   }
   if (isSsoProfile(profile)) {
     return ssoCredentials(profileName);
@@ -270,7 +272,7 @@ const resolveAssumeRoleCredentials = (
  * STS), `web_identity_token_file`, `credential_process`, `aws login`
  * console sessions (`login_session`), and SSO profiles.
  */
-export const fromIni = (options: FromIniOptions = {}): CredentialSource =>
+export const iniSource = (options: FromIniOptions = {}): CredentialSource =>
   Effect.flatMap(loadProfiles(), (profiles) =>
     resolveProfileData(
       getProfileName(options.profile),
@@ -278,4 +280,15 @@ export const fromIni = (options: FromIniOptions = {}): CredentialSource =>
       options,
       new Set(),
     ),
+  );
+
+const hints = ["Check ~/.aws/credentials and ~/.aws/config for the profile."];
+
+/** The shared config and credentials files. */
+export const fromIni = (options: FromIniOptions = {}) =>
+  createLazyProvider(
+    iniSource(options),
+    "ini",
+    hints,
+    profileRegion(undefined, options.profile),
   );

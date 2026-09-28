@@ -13,7 +13,7 @@ import * as Redacted from "effect/Redacted";
 import {
   Credentials,
   fromAwsCredentialIdentity,
-} from "../credentials.browser.ts";
+} from "../credentials-service.ts";
 import * as Region from "../region.ts";
 import type {
   AssumeRoleRequest,

@@ -3,6 +3,7 @@
  * serves it.
  */
 import * as Effect from "effect/Effect";
+import { createLazyProvider } from "../credentials-service.ts";
 import {
   type CredentialSource,
   CredentialSourceError,
@@ -25,7 +26,7 @@ import {
  * from `fromHttp` in accepting only the link-local or loopback hosts,
  * reading the token from the environment only, and not retrying by default.
  */
-export const fromContainerMetadata = (
+export const containerMetadataSource = (
   options: { timeout?: number; maxRetries?: number } = {},
 ): CredentialSource =>
   retry(
@@ -81,3 +82,10 @@ export const fromContainerMetadata = (
     }),
     options.maxRetries ?? 0,
   );
+
+const hints = ["Ensure a container credential endpoint is available."];
+
+/** The container credential endpoint, as the ECS agent serves it. */
+export const fromContainerMetadata = (
+  options: { timeout?: number; maxRetries?: number } = {},
+) => createLazyProvider(containerMetadataSource(options), "container", hints);

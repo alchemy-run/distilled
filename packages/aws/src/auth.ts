@@ -12,7 +12,7 @@ import {
   type SsoProfileConfig,
   type SSOToken,
 } from "./auth.browser.ts";
-import { fromLoginCredentials } from "./credential-providers/from-login-credentials.ts";
+import { loginCredentialsSource } from "./credential-providers/from-login-credentials.ts";
 import {
   AwsCredentialProviderError,
   ConflictingSSORegion,
@@ -27,7 +27,7 @@ import {
   SsoRegion,
   SsoStartUrl,
   type ResolvedCredentials,
-} from "./credentials.ts";
+} from "./credentials-service.ts";
 import { parseIni, parseSSOSessionData } from "./util/parse-ini.ts";
 import { getHomeDir, parseKnownFiles } from "./util/shared-config.ts";
 
@@ -214,7 +214,7 @@ export const makeAuthService = () =>
       // `aws login` keeps its own cache under `~/.aws/login/cache` and
       // renews the session itself, so nothing is cached here.
       if (profile.login_session) {
-        const identity = yield* fromLoginCredentials({
+        const identity = yield* loginCredentialsSource({
           profile: profileName,
           region,
         }).pipe(

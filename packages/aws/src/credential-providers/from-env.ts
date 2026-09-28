@@ -3,6 +3,7 @@
  */
 import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
+import { createLazyProvider } from "../credentials-service.ts";
 import {
   type CredentialSource,
   CredentialSourceError,
@@ -17,7 +18,7 @@ const ENV_CREDENTIAL_SCOPE = "AWS_CREDENTIAL_SCOPE";
 const ENV_ACCOUNT_ID = "AWS_ACCOUNT_ID";
 
 /** `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` and friends. */
-export const fromEnv: CredentialSource = Effect.suspend(() => {
+export const envSource: CredentialSource = Effect.suspend(() => {
   const accessKeyId = env(ENV_KEY);
   const secretAccessKey = env(ENV_SECRET);
   const sessionToken = env(ENV_SESSION);
@@ -40,3 +41,10 @@ export const fromEnv: CredentialSource = Effect.suspend(() => {
     }),
   );
 });
+
+const hints = [
+  "Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY (and AWS_SESSION_TOKEN if needed).",
+];
+
+/** `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` and friends. */
+export const fromEnv = () => createLazyProvider(envSource, "env", hints);

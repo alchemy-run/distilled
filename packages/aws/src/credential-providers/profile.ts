@@ -6,6 +6,11 @@
  * uses, so both agree on which files and which profile name apply.
  */
 import * as Effect from "effect/Effect";
+import {
+  type CredentialsError,
+  MissingRegion,
+  regionFromEnv,
+} from "../credentials-service.ts";
 import type * as Region from "../region.ts";
 import {
   loadSharedConfigFiles,
@@ -66,3 +71,45 @@ export const profileStsRegion = (
     profileRegion,
     Effect.map(loadConfigProfile(profile), (config) => config?.region),
   );
+
+/**
+ * The region a profile-reading provider authenticated against: the one the
+ * caller named, else the environment, else the profile's own `region`.
+ * The profile is only consulted when the environment is silent, so
+ * `AWS_REGION` still wins for a one-off override without editing config.
+ */
+export const profileRegion = (
+  region: string | undefined,
+  profile?: string,
+): Effect.Effect<Region.RegionName, CredentialsError> =>
+  region !== undefined
+    ? Effect.succeed(region as Region.RegionName)
+    : regionFromEnv.pipe(
+        Effect.catchTag("Alchemy::AWS::MissingRegion", (missing) =>
+          Effect.flatMap(
+            Effect.tryPromise({
+              try: () => loadSharedConfigFiles(),
+              catch: () => missing,
+            }),
+            (files) => {
+              const profileName =
+                profile ??
+                env(ENV_PROFILE) ??
+                env("AWS_DEFAULT_PROFILE") ??
+                DEFAULT_PROFILE;
+              const configured = files.configFile?.[profileName]?.region;
+              return configured === undefined
+                ? Effect.fail(
+                    new MissingRegion({
+                      message: missing.message,
+                      hints: [
+                        ...(missing.hints ?? []),
+                        `Or set \`region\` on the [profile ${profileName}] section of ~/.aws/config.`,
+                      ],
+                    }),
+                  )
+                : Effect.succeed(configured as Region.RegionName);
+            },
+          ),
+        ),
+      );

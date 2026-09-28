@@ -3,13 +3,14 @@
  * service accounts.
  */
 import * as Effect from "effect/Effect";
+import { createLazyProvider } from "../credentials-service.ts";
 import {
   type CredentialSource,
   CredentialSourceError,
   env,
 } from "./credential-source.ts";
 import { readFileString } from "./node-file-system.ts";
-import { profileStsRegion } from "./profile.ts";
+import { profileRegion, profileStsRegion } from "./profile.ts";
 import { assumeRoleWithWebIdentity } from "./sts.ts";
 
 const ENV_TOKEN_FILE = "AWS_WEB_IDENTITY_TOKEN_FILE";
@@ -30,7 +31,7 @@ export interface FromTokenFileOptions {
  * `AWS_WEB_IDENTITY_TOKEN_FILE` and the role in `AWS_ROLE_ARN` (or the
  * options).
  */
-export const fromTokenFile = (
+export const tokenFileSource = (
   options: FromTokenFileOptions = {},
 ): CredentialSource =>
   Effect.gen(function* () {
@@ -63,3 +64,20 @@ export const fromTokenFile = (
       region,
     );
   });
+
+const hints = [
+  "Set AWS_WEB_IDENTITY_TOKEN_FILE and ensure the file is readable.",
+];
+
+/**
+ * `sts:AssumeRoleWithWebIdentity` with the token in
+ * `AWS_WEB_IDENTITY_TOKEN_FILE`, as on EKS with IAM roles for service
+ * accounts.
+ */
+export const fromTokenFile = (options: FromTokenFileOptions = {}) =>
+  createLazyProvider(
+    tokenFileSource(options),
+    "token-file",
+    hints,
+    profileRegion(options.region, options.profile),
+  );

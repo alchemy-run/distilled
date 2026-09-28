@@ -4,11 +4,14 @@
  */
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
+import { createLazyProvider, regionFromEnv } from "../credentials-service.ts";
+import type { RegionName } from "../region.ts";
 import {
   cognitoFailure,
   cognitoRegion,
   getCredentialsForIdentity,
   type Logins,
+  regionFromId,
   resolveLogins,
   unsigned,
 } from "./cognito-identity.ts";
@@ -79,7 +82,7 @@ export interface FromCognitoIdentityPoolOptions {
  * `GetCredentialsForIdentity`. The identity id is cached, and a cached id
  * the pool no longer knows is discarded and re-fetched once.
  */
-export const fromCognitoIdentityPool = (
+export const cognitoIdentityPoolSource = (
   options: FromCognitoIdentityPoolOptions,
 ): CredentialSource =>
   Effect.gen(function* () {
@@ -128,3 +131,20 @@ export const fromCognitoIdentityPool = (
     const identityId = yield* getId;
     return yield* getCredentialsForIdentity(identityId, region, options);
   });
+
+const hints = [
+  "Check the identity pool id and that its unauthenticated (or logins) role is configured.",
+];
+
+/** Credentials for a Cognito identity pool, minting the identity id first. */
+export const fromCognitoIdentityPool = (
+  options: FromCognitoIdentityPoolOptions,
+) => {
+  const region = options.region ?? regionFromId(options.identityPoolId);
+  return createLazyProvider(
+    cognitoIdentityPoolSource(options),
+    "cognito-identity-pool",
+    hints,
+    region === undefined ? regionFromEnv : Effect.succeed(region as RegionName),
+  );
+};

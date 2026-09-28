@@ -3,12 +3,18 @@
  */
 import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
+import { createLazyProvider } from "../credentials-service.ts";
 import { exec } from "node:child_process";
 import {
   type CredentialSource,
   CredentialSourceError,
 } from "./credential-source.ts";
-import { getProfileName, loadProfiles, type Profiles } from "./profile.ts";
+import {
+  getProfileName,
+  loadProfiles,
+  type Profiles,
+  profileRegion,
+} from "./profile.ts";
 
 /** Run a shell command and return its stdout; interrupt kills the child. */
 const execCommand = (
@@ -98,10 +104,22 @@ export const resolveProcessCredentials = (
   );
 };
 
-/** Credentials from the profile's `credential_process` command. */
-export const fromProcess = (
+export const processSource = (
   options: { profile?: string } = {},
 ): CredentialSource =>
   Effect.flatMap(loadProfiles(), (profiles) =>
     resolveProcessCredentials(getProfileName(options.profile), profiles),
+  );
+
+const hints = [
+  "Set AWS_CREDENTIAL_PROCESS to a valid command and ensure it exits successfully.",
+];
+
+/** The profile's `credential_process` command. */
+export const fromProcess = (options: { profile?: string } = {}) =>
+  createLazyProvider(
+    processSource(options),
+    "process",
+    hints,
+    profileRegion(undefined, options.profile),
   );

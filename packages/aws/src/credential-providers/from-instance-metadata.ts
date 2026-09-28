@@ -5,6 +5,7 @@ import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
+import { createLazyProvider } from "../credentials-service.ts";
 import {
   type CredentialSource,
   CredentialSourceError,
@@ -95,7 +96,7 @@ const extendCredentials = (
  * Each call to `fromInstanceMetadata` owns its own state: whether v1 is in
  * use and the last credentials served, for static stability.
  */
-export const fromInstanceMetadata = (
+export const instanceMetadataSource = (
   options: FromInstanceMetadataOptions = {},
 ): CredentialSource => {
   const timeoutMs = options.timeout ?? DEFAULT_TIMEOUT_MS;
@@ -256,3 +257,17 @@ export const fromInstanceMetadata = (
     }),
   );
 };
+
+const hints = [
+  "Ensure the EC2 instance metadata service is reachable and the instance has a role.",
+];
+
+/** The EC2 instance role, from the instance metadata service. */
+export const fromInstanceMetadata = (
+  options: FromInstanceMetadataOptions = {},
+) =>
+  createLazyProvider(
+    instanceMetadataSource(options),
+    "instance-metadata",
+    hints,
+  );

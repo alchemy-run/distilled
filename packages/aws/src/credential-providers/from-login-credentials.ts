@@ -24,9 +24,10 @@ import {
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import {
+  createLazyProvider,
   Credentials,
   fromAwsCredentialIdentity,
-} from "../credentials.browser.ts";
+} from "../credentials-service.ts";
 import type * as Region from "../region.ts";
 import { getHomeDir } from "../util/shared-config.ts";
 import {
@@ -35,7 +36,7 @@ import {
   env,
 } from "./credential-source.ts";
 import { withHttpClient } from "./http-client.ts";
-import { getProfileName, loadProfiles } from "./profile.ts";
+import { getProfileName, loadProfiles, profileRegion } from "./profile.ts";
 import { stsRegion } from "./sts.ts";
 
 /** Credentials this close to expiring are renewed rather than returned. */
@@ -373,7 +374,7 @@ export interface FromLoginCredentialsOptions {
  * `login_session`, renewed through the signin service when they are within
  * five minutes of expiring.
  */
-export const fromLoginCredentials = (
+export const loginCredentialsSource = (
   options: FromLoginCredentialsOptions = {},
 ): CredentialSource =>
   Effect.gen(function* () {
@@ -393,3 +394,18 @@ export const fromLoginCredentials = (
     const region = yield* stsRegion(options.region ?? profile.region);
     return yield* refresh(loginSession, token, region);
   });
+
+const hints = [
+  "Run `aws login` for the profile, and check that it has a login_session.",
+];
+
+/** The token `aws login` cached for the profile's `login_session`. */
+export const fromLoginCredentials = (
+  options: FromLoginCredentialsOptions = {},
+) =>
+  createLazyProvider(
+    loginCredentialsSource(options),
+    "login",
+    hints,
+    profileRegion(options.region, options.profile),
+  );

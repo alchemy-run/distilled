@@ -5,6 +5,7 @@
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Schedule from "effect/Schedule";
+import { createLazyProvider } from "../credentials-service.ts";
 import {
   type CredentialSource,
   CredentialSourceError,
@@ -92,7 +93,7 @@ let httpWarningsEmitted = false;
  * link-local host) or `AWS_CONTAINER_CREDENTIALS_FULL_URI`, optionally with
  * an `Authorization` token from `AWS_CONTAINER_AUTHORIZATION_TOKEN[_FILE]`.
  */
-export const fromHttp = (options: FromHttpOptions = {}): CredentialSource =>
+export const httpSource = (options: FromHttpOptions = {}): CredentialSource =>
   Effect.suspend(() => {
     const relative = env(ENV_CMDS_RELATIVE_URI);
     const full = env(ENV_CMDS_FULL_URI);
@@ -173,3 +174,13 @@ Set ${ENV_CMDS_FULL_URI} or ${ENV_CMDS_RELATIVE_URI}.`,
         })
       : attempt;
   });
+
+const hints = ["Ensure the configured credential endpoint is reachable."];
+
+/**
+ * The endpoint named by `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` or
+ * `AWS_CONTAINER_CREDENTIALS_FULL_URI` (ECS, EKS pod identity, local
+ * credential agents).
+ */
+export const fromHttp = (options: FromHttpOptions = {}) =>
+  createLazyProvider(httpSource(options), "http", hints);

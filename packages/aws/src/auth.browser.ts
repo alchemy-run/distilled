@@ -4,7 +4,7 @@ import * as Option from "effect/Option";
 import type {
   CredentialsError,
   ResolvedCredentials,
-} from "./credentials.browser.ts";
+} from "./credentials-service.ts";
 
 export class Auth extends Context.Service<
   Auth,

@@ -2,6 +2,8 @@
  * Credentials for a role assumed with an OIDC or OAuth token.
  */
 import * as Effect from "effect/Effect";
+import { createLazyProvider, regionFromEnv } from "../credentials-service.ts";
+import type { RegionName } from "../region.ts";
 import type { CredentialSource } from "./credential-source.ts";
 import {
   type AssumeRoleWithWebIdentityParams,
@@ -26,7 +28,9 @@ export interface FromWebTokenOptions {
  * already holds — the same exchange `fromTokenFile` performs, without the
  * token having to come from a file.
  */
-export const fromWebToken = (options: FromWebTokenOptions): CredentialSource =>
+export const webTokenSource = (
+  options: FromWebTokenOptions,
+): CredentialSource =>
   Effect.gen(function* () {
     const region = yield* stsRegion(options.region);
     return yield* assumeRoleWithWebIdentity(
@@ -45,3 +49,18 @@ export const fromWebToken = (options: FromWebTokenOptions): CredentialSource =>
       region,
     );
   });
+
+const hints = [
+  "Check that the web identity token is valid and trusted by the role's trust policy.",
+];
+
+/** A role assumed with an OIDC or OAuth token the caller already holds. */
+export const fromWebToken = (options: FromWebTokenOptions) =>
+  createLazyProvider(
+    webTokenSource(options),
+    "web-token",
+    hints,
+    options.region === undefined
+      ? regionFromEnv
+      : Effect.succeed(options.region as RegionName),
+  );

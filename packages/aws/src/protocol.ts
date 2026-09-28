@@ -41,7 +41,7 @@ import type { Operation } from "./client/operation.ts";
 import { makeRequestBuilder } from "./client/request-builder.ts";
 import type { Request } from "./client/request.ts";
 import { makeResponseParser } from "./client/response-parser.ts";
-import * as Credentials from "./credentials.browser.ts";
+import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";

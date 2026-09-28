@@ -2,8 +2,10 @@
  * Credentials for a role assumed with another set of credentials.
  */
 import * as Effect from "effect/Effect";
+import { createLazyProvider, regionFromEnv } from "../credentials-service.ts";
+import type { RegionName } from "../region.ts";
 import type { CredentialSource } from "./credential-source.ts";
-import { fromEnv } from "./from-env.ts";
+import { envSource } from "./from-env.ts";
 import {
   type AssumeRoleParams,
   assumeRole,
@@ -31,7 +33,7 @@ export interface FromTemporaryCredentialsOptions {
  * Credentials for a role assumed with another set of credentials, the
  * programmatic form of a `role_arn` + `source_profile` profile.
  */
-export const fromTemporaryCredentials = (
+export const temporaryCredentialsSource = (
   options: FromTemporaryCredentialsOptions,
 ): CredentialSource =>
   Effect.gen(function* () {
@@ -47,7 +49,24 @@ export const fromTemporaryCredentials = (
         options.mfaCodeProvider,
       );
     }
-    const sourceCredentials = yield* options.masterCredentials ?? fromEnv;
+    const sourceCredentials = yield* options.masterCredentials ?? envSource;
     const region = yield* stsRegion(options.region);
     return yield* assumeRole(sourceCredentials, params, region);
   });
+
+const hints = [
+  "Check that the source credentials are allowed to sts:AssumeRole the role.",
+];
+
+/** A role assumed with another set of credentials. */
+export const fromTemporaryCredentials = (
+  options: FromTemporaryCredentialsOptions,
+) =>
+  createLazyProvider(
+    temporaryCredentialsSource(options),
+    "temporary",
+    hints,
+    options.region === undefined
+      ? regionFromEnv
+      : Effect.succeed(options.region as RegionName),
+  );
