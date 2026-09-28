@@ -240,7 +240,10 @@ const decode = ({
       //    error codes are string slugs, and matcher `code`s are numeric —
       //    a patch-declared class matches on `status`/`message` instead
       //    (`message` is the slug when the envelope carries no detail).
-      const typed = matchTypedError(errorClasses, status, [{ message }]);
+      const typed = matchTypedError(errorClasses, status, [{ message }], {
+        body: json === undefined ? text : json,
+        headers,
+      });
       if (typed !== undefined) return yield* fail(typed);
 
       // 2. Throttling — the 429 or its envelope spellings.

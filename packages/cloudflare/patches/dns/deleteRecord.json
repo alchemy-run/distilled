@@ -1,5 +1,5 @@
 {
-  "description": "Align dns#RecordsDelete with distilled cloudflare/dns deleteRecord",
+  "description": "Align dns#RecordsDelete with distilled cloudflare/dns deleteRecord; classify DNS error 81044 (Record does not exist.) as RecordNotFound",
   "patches": [
     {
       "op": "move",
@@ -25,6 +25,15 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.dns#DeleteRecord/output/target",
       "value": "com.cloudflare.dns#DeleteRecordResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.dns#DeleteRecord/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.dns#RecordNotFound"
+        }
+      ]
     }
   ]
 }

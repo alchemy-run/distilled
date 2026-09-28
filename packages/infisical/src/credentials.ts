@@ -16,7 +16,8 @@ import { ConfigError } from "@distilled.cloud/core/errors";
 export const DEFAULT_API_BASE_URL = "https://us.infisical.com";
 
 export interface Config {
-  readonly apiKey: Redacted.Redacted<string>;
+  /** Absent for the unauthenticated login endpoints (see {@link anonymous}). */
+  readonly apiKey?: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }
 
@@ -34,6 +35,23 @@ export const fromApiKey = (config: {
     Credentials,
     Effect.succeed({
       apiKey: Redacted.make(config.apiKey),
+      apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
+    }),
+  );
+
+/**
+ * Layer for the unauthenticated endpoints, such as the machine-identity
+ * login operations that mint an access token. No Authorization header is
+ * sent.
+ */
+export const anonymous = (
+  config: {
+    readonly apiBaseUrl?: string;
+  } = {},
+): Layer.Layer<Credentials> =>
+  Layer.succeed(
+    Credentials,
+    Effect.succeed({
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

@@ -16,7 +16,7 @@
  * Vercel keeps its wire member names verbatim (camelCase — `projectId`,
  * `teamId`, `createdAt`) on the TS surface. Module files are named after the
  * tag slug (`access_groups.ts`) while the barrel exports them camelCased
- * (`Services.accessGroups.listAccessGroups`), the spelling Vercel's own SDK
+ * (`accessGroups.listAccessGroups`), the spelling Vercel's own SDK
  * uses.
  *
  * No pagination profiles are emitted. Vercel paginates with `limit` plus a

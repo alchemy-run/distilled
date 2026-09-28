@@ -4,7 +4,7 @@
  * The `Credentials` service resolves `{ token, accountBaseUrl, basin,
  * basinBaseUrl }` per request; the protocol layer formats the
  * `Authorization: Bearer <token>` header from it. The token is an S2 access
- * token, issued per account via `Services.accessTokens.issueAccessToken` or
+ * token, issued per account via `accessTokens.issueAccessToken` or
  * the S2 dashboard.
  *
  * S2 speaks from TWO endpoints: account-level operations (basins, access

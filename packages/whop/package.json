@@ -57,12 +57,6 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
-    "./Services": {
-      "types": "./lib/services/index.d.ts",
-      "bun": "./src/services/index.ts",
-      "worker": "./src/services/index.ts",
-      "default": "./lib/services/index.js"
-    },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",

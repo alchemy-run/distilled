@@ -19,7 +19,7 @@
  * ```ts
  * import * as S2 from "@distilled.cloud/s2";
  *
- * const { streams } = yield* S2.Services.streams.listStreams({});
+ * const { streams } = yield* S2.streams.listStreams({});
  * ```
  */
 export * from "./credentials.ts";
@@ -28,4 +28,4 @@ export * as T from "./traits.ts";
 export { S2Protocol, type S2OpError, type S2OpContext } from "./protocol.ts";
 export { paginateStartAfter } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";

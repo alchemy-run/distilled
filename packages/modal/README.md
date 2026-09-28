@@ -23,3 +23,37 @@ Modal and may change without notice.
 Set `MODAL_TOKEN_ID` and `MODAL_TOKEN_SECRET` (the same variables the official
 clients use). Optionally `MODAL_SERVER_URL` to override
 `https://api.modal.com`.
+
+
+## Usage
+
+## Installation
+
+```bash
+npm install @distilled.cloud/modal effect
+```
+
+## Quick start
+
+```ts
+import { Effect, Layer } from "effect";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as Modal from "@distilled.cloud/modal";
+
+const program = Effect.gen(function* () {
+  const result = yield* Modal.sandbox.listSandbox({});
+  return result;
+});
+
+const Live = Layer.mergeAll(
+  FetchHttpClient.layer,
+  Modal.CredentialsFromEnv,
+  Modal.ModalProtocol,
+);
+
+program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Auth
+
+Required: `MODAL_TOKEN_ID`, `MODAL_TOKEN_SECRET`. Optional: `MODAL_API_URL`, `MODAL_SERVER_URL`.

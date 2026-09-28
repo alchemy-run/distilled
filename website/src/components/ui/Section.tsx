@@ -18,7 +18,7 @@ export const Page = (props: {
 
 /** Eyebrow + heading + optional lede, capped to a comfortable measure. */
 export const SectionHead = (props: {
-  eyebrow: string;
+  eyebrow?: string;
   id: string;
   title: JSX.Element;
   children?: JSX.Element;
@@ -29,10 +29,14 @@ export const SectionHead = (props: {
   const lede = children(() => props.children);
   return (
     <div class={`max-w-measure ${props.class ?? "mb-10"}`}>
-      <p class="eyebrow">{props.eyebrow}</p>
+      <Show when={props.eyebrow}>
+        <p class="eyebrow">{props.eyebrow}</p>
+      </Show>
       <h2 id={props.id}>{props.title}</h2>
       <Show when={lede.toArray().length > 0}>
-        <p class="mt-4 max-w-measure text-[1.05rem] text-fg-2">{lede()}</p>
+        <p class="mt-4 max-w-measure text-[1.05rem] text-fg-2 [&_a]:text-accent">
+          {lede()}
+        </p>
       </Show>
     </div>
   );

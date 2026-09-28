@@ -537,12 +537,17 @@ const decodeSpritesResponse = ({
       ) {
         return yield* fail(new SpritesNotEnabled({ message }));
       }
-      const typed = matchTypedError(errorClasses, status, [
-        {
-          code: typeof env.code === "number" ? env.code : undefined,
-          message,
-        },
-      ]);
+      const typed = matchTypedError(
+        errorClasses,
+        status,
+        [
+          {
+            code: typeof env.code === "number" ? env.code : undefined,
+            message,
+          },
+        ],
+        { body: nonJson ? text : json, headers },
+      );
       if (typed !== undefined) return yield* fail(typed);
 
       const StatusErrorClass = (HTTP_STATUS_MAP as Record<number, unknown>)[
@@ -629,7 +634,10 @@ const matchGraphqlError = (
   if (envelope._tag === "Some" && envelope.value.errors?.length) {
     const first = envelope.value.errors[0]!;
     const message = first.message;
-    const typed = matchTypedError(errorClasses, status, [{ message }]);
+    const typed = matchTypedError(errorClasses, status, [{ message }], {
+      body: errorBody,
+      headers,
+    });
     if (typed !== undefined) return fail(typed);
     if (
       /not authorized to access this createextensiontosagreement/i.test(message)

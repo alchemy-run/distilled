@@ -37954,6 +37954,25 @@
         ]
       }
     },
+    "com.cloudflare.dns#RecordNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 81044
+          }
+        ]
+      }
+    },
     "com.cloudflare.dns#BatchRecord": {
       "type": "operation",
       "input": {
@@ -38827,7 +38846,12 @@
         },
         "smithy.api#documentation": "Permanently removes a DNS record from the zone.",
         "smithy.api#idempotent": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.dns#RecordNotFound"
+        }
+      ]
     },
     "com.cloudflare.dns#DeleteRecordRequest": {
       "type": "structure",
@@ -39835,6 +39859,9 @@
       "errors": [
         {
           "target": "com.cloudflare.dns#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.dns#RecordNotFound"
         }
       ]
     },

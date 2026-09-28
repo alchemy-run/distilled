@@ -64,6 +64,14 @@ export class MachineWaitTimeout
     ],
   ) {}
 
+export class NetworkNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NetworkNotFound>()("NetworkNotFound", {
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "network not found" } }],
+  ) {}
+
 export class VolumeAttached
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VolumeAttached>()("VolumeAttached", {
@@ -753,6 +761,21 @@ export const IPPair = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "IPPair" }) as any as S.Schema<IPPair>;
 
+/** Private network a Flycast (private_v6) address is reachable from. Null for public addresses. */
+export interface IPAssignmentNetwork {
+  /** Private network name; empty for the organization's default network. */
+  name?: string;
+  org_slug?: string;
+}
+export const IPAssignmentNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    org_slug: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IPAssignmentNetwork",
+}) as any as S.Schema<IPAssignmentNetwork>;
+
 export interface AssignIPResponse {
   created_at?: string;
   egress?: boolean;
@@ -762,6 +785,7 @@ export interface AssignIPResponse {
   region?: string;
   service_name?: string;
   shared?: boolean;
+  network?: IPAssignmentNetwork | null;
 }
 export const AssignIPResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -772,6 +796,7 @@ export const AssignIPResponse = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     service_name: S.optional(S.String),
     shared: S.optional(S.Boolean),
+    network: S.optional(S.NullOr(IPAssignmentNetwork)),
   }),
 ).annotate({
   identifier: "AssignIPResponse",
@@ -4029,6 +4054,7 @@ export interface IPAssignment {
   shared?: boolean;
   type?: string;
   egress?: boolean;
+  network?: IPAssignmentNetwork | null;
 }
 export const IPAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4039,6 +4065,7 @@ export const IPAssignment = /*@__PURE__*/ S.suspend(() =>
     shared: S.optional(S.Boolean),
     type: S.optional(S.String),
     egress: S.optional(S.Boolean),
+    network: S.optional(S.NullOr(IPAssignmentNetwork)),
   }),
 ).annotate({ identifier: "IPAssignment" }) as any as S.Schema<IPAssignment>;
 
@@ -6022,6 +6049,7 @@ export type CreateAppIPAssignmentError =
   | Forbidden
   | NotFound
   | Conflict
+  | NetworkNotFound
   | FlyIoOpError;
 /** Assign new IP address to app */
 export const createAppIPAssignment: API.OperationMethod<
@@ -6032,7 +6060,7 @@ export const createAppIPAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAppIPAssignmentRequest,
   output: AssignIPResponse,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, NetworkNotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));

@@ -189,9 +189,12 @@ const decode = ({
       const effectiveStatus = status === 406 ? 404 : status;
 
       // 2. Per-operation typed error (matcher metadata on the class).
-      const typed = matchTypedError(errorClasses, effectiveStatus, [
-        { message },
-      ]);
+      const typed = matchTypedError(
+        errorClasses,
+        effectiveStatus,
+        [{ message }],
+        { body: nonJson ? text : json, headers },
+      );
       if (typed !== undefined) return yield* fail(typed);
 
       // 3. HTTP-status classes from the shared core map (retryAfter only

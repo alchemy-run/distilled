@@ -52,6 +52,9 @@ export const DopplerProtocol: Layer.Layer<API.Protocol> =
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => ({
       Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      // Download negotiates its default format from Accept; without it the
+      // API returns 415 unless the caller explicitly supplies format=json.
+      Accept: "application/json",
     }),
     // Doppler's error body is `{ messages?: string[], message?: string,
     // success?: boolean }`. The factory's default envelope covers `message`;
@@ -87,5 +90,20 @@ export const DopplerProtocol: Layer.Layer<API.Protocol> =
               : undefined,
         message,
         body,
+      }),
+  });
+
+/** Unauthenticated browser-login operations never resolve or send credentials. */
+export type DopplerPublicOpContext = HttpClient.HttpClient;
+export const DopplerPublicProtocol: Layer.Layer<API.Protocol> =
+  makeRestProtocol({
+    credentials: Effect.succeed(undefined),
+    baseUrl: () => "https://api.doppler.com",
+    headers: () => ({ Accept: "application/json" }),
+    unknownError: ({ code, message }) =>
+      new UnknownDopplerError({
+        code: code === undefined ? undefined : String(code),
+        message,
+        body: undefined,
       }),
   });

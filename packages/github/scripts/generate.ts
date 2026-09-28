@@ -15,7 +15,7 @@
  *
  * GitHub keeps its wire member names verbatim (snake_case) on the TS surface.
  * Module files are named after the tag slug (`code_scanning.ts`) while the
- * barrel exports them camelCased (`Services.codeScanning.listAlertsForRepo`),
+ * barrel exports them camelCased (`codeScanning.listAlertsForRepo`),
  * the spelling GitHub's own clients use.
  *
  * No pagination profiles are emitted: GitHub paginates with `page`/`per_page`

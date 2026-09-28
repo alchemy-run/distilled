@@ -15,7 +15,7 @@
  * ```ts
  * import * as Stackit from "@distilled.cloud/stackit";
  *
- * const { zones } = yield* Stackit.Services.dns.listZones({
+ * const { zones } = yield* Stackit.dns.listZones({
  *   projectId: "...",
  * });
  * ```
@@ -31,4 +31,4 @@ export {
 } from "./protocol.ts";
 export { paginateByTotalPages } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";

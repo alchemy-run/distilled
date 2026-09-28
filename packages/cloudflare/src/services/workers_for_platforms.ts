@@ -11129,1114 +11129,1667 @@ export const PatchDispatchNamespaceScriptSettingResponse =
 export type DispatchNamespacesScriptsUpdateRequestBindingsInherit = "strict";
 export const DispatchNamespacesScriptsUpdateRequestBindingsInherit = S.String;
 
+export interface PutDispatchNamespaceScriptMetadataAnnotations {
+  workersMessage?: string;
+  workersTag?: string;
+  /** Alias to point at this version (e.g. for gradual deployments). */
+  workersAlias?: string;
+}
+export const PutDispatchNamespaceScriptMetadataAnnotations =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      workersMessage: S.optional(S.String.pipe(T.Body("workers/message"))),
+      workersTag: S.optional(S.String.pipe(T.Body("workers/tag"))),
+      workersAlias: S.optional(S.String.pipe(T.Body("workers/alias"))),
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptMetadataAnnotations",
+  }) as any as S.Schema<PutDispatchNamespaceScriptMetadataAnnotations>;
+
+export type PutDispatchNamespaceScriptAssetsConfigHtmlHandling =
+  | "auto-trailing-slash"
+  | "force-trailing-slash"
+  | "drop-trailing-slash"
+  | "none";
+export const PutDispatchNamespaceScriptAssetsConfigHtmlHandling = S.String;
+
+export type PutDispatchNamespaceScriptAssetsConfigNotFoundHandling =
+  | "none"
+  | "404-page"
+  | "single-page-application";
+export const PutDispatchNamespaceScriptAssetsConfigNotFoundHandling = S.String;
+
 export type PutDispatchNamespaceScriptMetadataStringList = Array<string>;
 export const PutDispatchNamespaceScriptMetadataStringList =
   /*@__PURE__*/ S.Array(
     S.String,
   ) as any as S.Schema<PutDispatchNamespaceScriptMetadataStringList>;
 
-/** JSON-encoded metadata about the uploaded parts and Worker configuration. See https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/. */
+export type PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst =
+  | PutDispatchNamespaceScriptMetadataStringList
+  | boolean;
+export const PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
+
+export interface PutDispatchNamespaceScriptAssetsConfig {
+  htmlHandling?:
+    | PutDispatchNamespaceScriptAssetsConfigHtmlHandling
+    | (string & {});
+  notFoundHandling?:
+    | PutDispatchNamespaceScriptAssetsConfigNotFoundHandling
+    | (string & {});
+  runWorkerFirst?: PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst;
+  serveDirectly?: boolean;
+  headers?: string;
+  redirects?: string;
+}
+export const PutDispatchNamespaceScriptAssetsConfig = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      htmlHandling: S.optional(
+        PutDispatchNamespaceScriptAssetsConfigHtmlHandling.pipe(
+          T.Body("html_handling"),
+        ),
+      ),
+      notFoundHandling: S.optional(
+        PutDispatchNamespaceScriptAssetsConfigNotFoundHandling.pipe(
+          T.Body("not_found_handling"),
+        ),
+      ),
+      runWorkerFirst: S.optional(
+        PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst.pipe(
+          T.Body("run_worker_first"),
+        ),
+      ),
+      serveDirectly: S.optional(S.Boolean.pipe(T.Body("serve_directly"))),
+      headers: S.optional(S.String.pipe(T.Body("_headers"))),
+      redirects: S.optional(S.String.pipe(T.Body("_redirects"))),
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptAssetsConfig",
+}) as any as S.Schema<PutDispatchNamespaceScriptAssetsConfig>;
+
+export interface PutDispatchNamespaceScriptMetadataAssets {
+  config?: PutDispatchNamespaceScriptAssetsConfig;
+  jwt?: string;
+}
+export const PutDispatchNamespaceScriptMetadataAssets = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      config: S.optional(PutDispatchNamespaceScriptAssetsConfig),
+      jwt: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptMetadataAssets",
+}) as any as S.Schema<PutDispatchNamespaceScriptMetadataAssets>;
+
+export type PutDispatchNamespaceScriptBindingAiType = "ai";
+export const PutDispatchNamespaceScriptBindingAiType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingAi {
+  name: string;
+  type: PutDispatchNamespaceScriptBindingAiType;
+}
+export const PutDispatchNamespaceScriptBindingAi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: PutDispatchNamespaceScriptBindingAiType,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingAi",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingAi>;
+
+export type PutDispatchNamespaceScriptBindingAiSearchType = "ai_search";
+export const PutDispatchNamespaceScriptBindingAiSearchType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingAiSearch {
+  instanceName: string;
+  name: string;
+  namespace?: string;
+  type: PutDispatchNamespaceScriptBindingAiSearchType;
+}
+export const PutDispatchNamespaceScriptBindingAiSearch =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      instanceName: S.String.pipe(T.Body("instance_name")),
+      name: S.String,
+      namespace: S.optional(S.String),
+      type: PutDispatchNamespaceScriptBindingAiSearchType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingAiSearch",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingAiSearch>;
+
+export type PutDispatchNamespaceScriptBindingAiSearchNamespaceType =
+  "ai_search_namespace";
+export const PutDispatchNamespaceScriptBindingAiSearchNamespaceType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingAiSearchNamespace {
+  name: string;
+  namespace: string;
+  type: PutDispatchNamespaceScriptBindingAiSearchNamespaceType;
+}
+export const PutDispatchNamespaceScriptBindingAiSearchNamespace =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: PutDispatchNamespaceScriptBindingAiSearchNamespaceType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingAiSearchNamespace",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingAiSearchNamespace>;
+
+export type PutDispatchNamespaceScriptBindingAnalyticsEngineType =
+  "analytics_engine";
+export const PutDispatchNamespaceScriptBindingAnalyticsEngineType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingAnalyticsEngine {
+  dataset: string;
+  name: string;
+  type: PutDispatchNamespaceScriptBindingAnalyticsEngineType;
+}
+export const PutDispatchNamespaceScriptBindingAnalyticsEngine =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      dataset: S.String,
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingAnalyticsEngineType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingAnalyticsEngine",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingAnalyticsEngine>;
+
+export type PutDispatchNamespaceScriptBindingAssetsType = "assets";
+export const PutDispatchNamespaceScriptBindingAssetsType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingAssets {
+  name: string;
+  type: PutDispatchNamespaceScriptBindingAssetsType;
+}
+export const PutDispatchNamespaceScriptBindingAssets = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingAssetsType,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingAssets",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingAssets>;
+
+export type PutDispatchNamespaceScriptBindingBrowserType = "browser";
+export const PutDispatchNamespaceScriptBindingBrowserType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingBrowser {
+  name: string;
+  type: PutDispatchNamespaceScriptBindingBrowserType;
+}
+export const PutDispatchNamespaceScriptBindingBrowser = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingBrowserType,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingBrowser",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingBrowser>;
+
+export type PutDispatchNamespaceScriptBindingD1Type = "d1";
+export const PutDispatchNamespaceScriptBindingD1Type = S.String;
+
+export interface PutDispatchNamespaceScriptBindingD1 {
+  databaseId: string;
+  name: string;
+  id?: string;
+  type: PutDispatchNamespaceScriptBindingD1Type;
+}
+export const PutDispatchNamespaceScriptBindingD1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    databaseId: S.String.pipe(T.Body("database_id")),
+    name: S.String,
+    id: S.optional(S.String),
+    type: PutDispatchNamespaceScriptBindingD1Type,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingD1",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingD1>;
+
+export type PutDispatchNamespaceScriptBindingDataBlobType = "data_blob";
+export const PutDispatchNamespaceScriptBindingDataBlobType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingDataBlob {
+  name: string;
+  part: string;
+  type: PutDispatchNamespaceScriptBindingDataBlobType;
+}
+export const PutDispatchNamespaceScriptBindingDataBlob =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      part: S.String,
+      type: PutDispatchNamespaceScriptBindingDataBlobType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingDataBlob",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingDataBlob>;
+
+export interface PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam {
+  name: string;
+}
+export const PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam>;
+
+export type PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList =
+  Array<PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam>;
+export const PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList =
+  /*@__PURE__*/ S.Array(
+    PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam,
+  ) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList>;
+
+export interface PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker {
+  entrypoint?: string;
+  environment?: string;
+  service?: string;
+}
+export const PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      entrypoint: S.optional(S.String),
+      environment: S.optional(S.String),
+      service: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker>;
+
+export interface PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound {
+  params?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList;
+  worker?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker;
+}
+export const PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      params: S.optional(
+        PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList,
+      ),
+      worker: S.optional(
+        PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker,
+      ),
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound>;
+
+export type PutDispatchNamespaceScriptBindingDispatchNamespaceType =
+  "dispatch_namespace";
+export const PutDispatchNamespaceScriptBindingDispatchNamespaceType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingDispatchNamespace {
+  name: string;
+  namespace: string;
+  outbound?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound;
+  type: PutDispatchNamespaceScriptBindingDispatchNamespaceType;
+}
+export const PutDispatchNamespaceScriptBindingDispatchNamespace =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      outbound: S.optional(
+        PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound,
+      ),
+      type: PutDispatchNamespaceScriptBindingDispatchNamespaceType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingDispatchNamespace",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingDispatchNamespace>;
+
+export type PutDispatchNamespaceScriptBindingDurableObjectNamespaceType =
+  "durable_object_namespace";
+export const PutDispatchNamespaceScriptBindingDurableObjectNamespaceType =
+  S.String;
+
+export interface PutDispatchNamespaceScriptBindingDurableObjectNamespace {
+  name: string;
+  className: string;
+  dispatchNamespace?: string;
+  environment?: string;
+  namespaceId?: string;
+  scriptName?: string;
+  type: PutDispatchNamespaceScriptBindingDurableObjectNamespaceType;
+}
+export const PutDispatchNamespaceScriptBindingDurableObjectNamespace =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      className: S.String.pipe(T.Body("class_name")),
+      dispatchNamespace: S.optional(
+        S.String.pipe(T.Body("dispatch_namespace")),
+      ),
+      environment: S.optional(S.String),
+      namespaceId: S.optional(S.String.pipe(T.Body("namespace_id"))),
+      scriptName: S.optional(S.String.pipe(T.Body("script_name"))),
+      type: PutDispatchNamespaceScriptBindingDurableObjectNamespaceType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingDurableObjectNamespace",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingDurableObjectNamespace>;
+
+export type PutDispatchNamespaceScriptBindingHyperdriveType = "hyperdrive";
+export const PutDispatchNamespaceScriptBindingHyperdriveType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingHyperdrive {
+  id: string;
+  name: string;
+  type: PutDispatchNamespaceScriptBindingHyperdriveType;
+}
+export const PutDispatchNamespaceScriptBindingHyperdrive =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.String,
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingHyperdriveType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingHyperdrive",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingHyperdrive>;
+
+export type PutDispatchNamespaceScriptBindingInheritType = "inherit";
+export const PutDispatchNamespaceScriptBindingInheritType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingInherit {
+  name: string;
+  oldName?: string;
+  versionId?: string;
+  type: PutDispatchNamespaceScriptBindingInheritType;
+}
+export const PutDispatchNamespaceScriptBindingInherit = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      oldName: S.optional(S.String.pipe(T.Body("old_name"))),
+      versionId: S.optional(S.String.pipe(T.Body("version_id"))),
+      type: PutDispatchNamespaceScriptBindingInheritType,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingInherit",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingInherit>;
+
+export type PutDispatchNamespaceScriptBindingImagesType = "images";
+export const PutDispatchNamespaceScriptBindingImagesType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingImages {
+  name: string;
+  type: PutDispatchNamespaceScriptBindingImagesType;
+}
+export const PutDispatchNamespaceScriptBindingImages = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingImagesType,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingImages",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingImages>;
+
+export type PutDispatchNamespaceScriptBindingJsonType = "json";
+export const PutDispatchNamespaceScriptBindingJsonType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingJson {
+  json: unknown;
+  name: string;
+  type: PutDispatchNamespaceScriptBindingJsonType;
+}
+export const PutDispatchNamespaceScriptBindingJson = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      json: S.Unknown,
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingJsonType,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingJson",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingJson>;
+
+export type PutDispatchNamespaceScriptBindingKvNamespaceType = "kv_namespace";
+export const PutDispatchNamespaceScriptBindingKvNamespaceType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingKvNamespace {
+  name: string;
+  namespaceId: string;
+  type: PutDispatchNamespaceScriptBindingKvNamespaceType;
+}
+export const PutDispatchNamespaceScriptBindingKvNamespace =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespaceId: S.String.pipe(T.Body("namespace_id")),
+      type: PutDispatchNamespaceScriptBindingKvNamespaceType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingKvNamespace",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingKvNamespace>;
+
+export type PutDispatchNamespaceScriptBindingMediaType = "media";
+export const PutDispatchNamespaceScriptBindingMediaType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingMedia {
+  name: string;
+  type: PutDispatchNamespaceScriptBindingMediaType;
+}
+export const PutDispatchNamespaceScriptBindingMedia = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingMediaType,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingMedia",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingMedia>;
+
+export type PutDispatchNamespaceScriptBindingMtlsCertificateType =
+  "mtls_certificate";
+export const PutDispatchNamespaceScriptBindingMtlsCertificateType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingMtlsCertificate {
+  certificateId: string;
+  name: string;
+  type: PutDispatchNamespaceScriptBindingMtlsCertificateType;
+}
+export const PutDispatchNamespaceScriptBindingMtlsCertificate =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      certificateId: S.String.pipe(T.Body("certificate_id")),
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingMtlsCertificateType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingMtlsCertificate",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingMtlsCertificate>;
+
+export type PutDispatchNamespaceScriptBindingPlainTextType = "plain_text";
+export const PutDispatchNamespaceScriptBindingPlainTextType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingPlainText {
+  name: string;
+  text: string;
+  type: PutDispatchNamespaceScriptBindingPlainTextType;
+}
+export const PutDispatchNamespaceScriptBindingPlainText =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      text: S.String,
+      type: PutDispatchNamespaceScriptBindingPlainTextType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingPlainText",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingPlainText>;
+
+export type PutDispatchNamespaceScriptBindingPipelinesType = "pipelines";
+export const PutDispatchNamespaceScriptBindingPipelinesType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingPipelines {
+  name: string;
+  pipeline: string;
+  type: PutDispatchNamespaceScriptBindingPipelinesType;
+}
+export const PutDispatchNamespaceScriptBindingPipelines =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      pipeline: S.String,
+      type: PutDispatchNamespaceScriptBindingPipelinesType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingPipelines",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingPipelines>;
+
+export type PutDispatchNamespaceScriptBindingQueueType = "queue";
+export const PutDispatchNamespaceScriptBindingQueueType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingQueue {
+  name: string;
+  queueName: string;
+  type: PutDispatchNamespaceScriptBindingQueueType;
+}
+export const PutDispatchNamespaceScriptBindingQueue = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      queueName: S.String.pipe(T.Body("queue_name")),
+      type: PutDispatchNamespaceScriptBindingQueueType,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingQueue",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingQueue>;
+
+export interface PutDispatchNamespaceScriptBindingRatelimitSimple {
+  limit: number;
+  period: number;
+  mitigationTimeout?: number;
+}
+export const PutDispatchNamespaceScriptBindingRatelimitSimple =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      limit: S.Number,
+      period: S.Number,
+      mitigationTimeout: S.optional(
+        S.Number.pipe(T.Body("mitigation_timeout")),
+      ),
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingRatelimitSimple",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingRatelimitSimple>;
+
+export type PutDispatchNamespaceScriptBindingRatelimitType = "ratelimit";
+export const PutDispatchNamespaceScriptBindingRatelimitType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingRatelimit {
+  name: string;
+  namespaceId: string;
+  simple: PutDispatchNamespaceScriptBindingRatelimitSimple;
+  type: PutDispatchNamespaceScriptBindingRatelimitType;
+}
+export const PutDispatchNamespaceScriptBindingRatelimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespaceId: S.String.pipe(T.Body("namespace_id")),
+      simple: PutDispatchNamespaceScriptBindingRatelimitSimple,
+      type: PutDispatchNamespaceScriptBindingRatelimitType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingRatelimit",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingRatelimit>;
+
+export type PutDispatchNamespaceScriptBindingR2BucketJurisdiction =
+  | "eu"
+  | "fedramp"
+  | "fedramp-high";
+export const PutDispatchNamespaceScriptBindingR2BucketJurisdiction = S.String;
+
+export type PutDispatchNamespaceScriptBindingR2BucketType = "r2_bucket";
+export const PutDispatchNamespaceScriptBindingR2BucketType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingR2Bucket {
+  bucketName: string;
+  name: string;
+  jurisdiction?:
+    | PutDispatchNamespaceScriptBindingR2BucketJurisdiction
+    | (string & {});
+  type: PutDispatchNamespaceScriptBindingR2BucketType;
+}
+export const PutDispatchNamespaceScriptBindingR2Bucket =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      bucketName: S.String.pipe(T.Body("bucket_name")),
+      name: S.String,
+      jurisdiction: S.optional(
+        PutDispatchNamespaceScriptBindingR2BucketJurisdiction,
+      ),
+      type: PutDispatchNamespaceScriptBindingR2BucketType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingR2Bucket",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingR2Bucket>;
+
+export type PutDispatchNamespaceScriptBindingSecretTextType = "secret_text";
+export const PutDispatchNamespaceScriptBindingSecretTextType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingSecretText {
+  name: string;
+  text: string;
+  type: PutDispatchNamespaceScriptBindingSecretTextType;
+}
+export const PutDispatchNamespaceScriptBindingSecretText =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      text: S.String,
+      type: PutDispatchNamespaceScriptBindingSecretTextType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingSecretText",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretText>;
+
+export type PutDispatchNamespaceScriptBindingSendEmailType = "send_email";
+export const PutDispatchNamespaceScriptBindingSendEmailType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingSendEmail {
+  name: string;
+  allowedDestinationAddresses?: PutDispatchNamespaceScriptMetadataStringList;
+  allowedSenderAddresses?: PutDispatchNamespaceScriptMetadataStringList;
+  destinationAddress?: string;
+  type: PutDispatchNamespaceScriptBindingSendEmailType;
+}
+export const PutDispatchNamespaceScriptBindingSendEmail =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      allowedDestinationAddresses: S.optional(
+        PutDispatchNamespaceScriptMetadataStringList.pipe(
+          T.Body("allowed_destination_addresses"),
+        ),
+      ),
+      allowedSenderAddresses: S.optional(
+        PutDispatchNamespaceScriptMetadataStringList.pipe(
+          T.Body("allowed_sender_addresses"),
+        ),
+      ),
+      destinationAddress: S.optional(
+        S.String.pipe(T.Body("destination_address")),
+      ),
+      type: PutDispatchNamespaceScriptBindingSendEmailType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingSendEmail",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingSendEmail>;
+
+export type PutDispatchNamespaceScriptBindingServiceType = "service";
+export const PutDispatchNamespaceScriptBindingServiceType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingService {
+  name: string;
+  service: string;
+  entrypoint?: string;
+  environment?: string;
+  type: PutDispatchNamespaceScriptBindingServiceType;
+}
+export const PutDispatchNamespaceScriptBindingService = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      service: S.String,
+      entrypoint: S.optional(S.String),
+      environment: S.optional(S.String),
+      type: PutDispatchNamespaceScriptBindingServiceType,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingService",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingService>;
+
+export type PutDispatchNamespaceScriptBindingTextBlobType = "text_blob";
+export const PutDispatchNamespaceScriptBindingTextBlobType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingTextBlob {
+  name: string;
+  part: string;
+  type: PutDispatchNamespaceScriptBindingTextBlobType;
+}
+export const PutDispatchNamespaceScriptBindingTextBlob =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      part: S.String,
+      type: PutDispatchNamespaceScriptBindingTextBlobType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingTextBlob",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingTextBlob>;
+
+export type PutDispatchNamespaceScriptBindingVectorizeType = "vectorize";
+export const PutDispatchNamespaceScriptBindingVectorizeType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingVectorize {
+  indexName: string;
+  name: string;
+  type: PutDispatchNamespaceScriptBindingVectorizeType;
+}
+export const PutDispatchNamespaceScriptBindingVectorize =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      indexName: S.String.pipe(T.Body("index_name")),
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingVectorizeType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingVectorize",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingVectorize>;
+
+export type PutDispatchNamespaceScriptBindingVersionMetadataType =
+  "version_metadata";
+export const PutDispatchNamespaceScriptBindingVersionMetadataType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingVersionMetadata {
+  name: string;
+  type: PutDispatchNamespaceScriptBindingVersionMetadataType;
+}
+export const PutDispatchNamespaceScriptBindingVersionMetadata =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingVersionMetadataType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingVersionMetadata",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingVersionMetadata>;
+
+export type PutDispatchNamespaceScriptBindingSecretsStoreSecretType =
+  "secrets_store_secret";
+export const PutDispatchNamespaceScriptBindingSecretsStoreSecretType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingSecretsStoreSecret {
+  name: string;
+  secretName: string;
+  storeId: string;
+  type: PutDispatchNamespaceScriptBindingSecretsStoreSecretType;
+}
+export const PutDispatchNamespaceScriptBindingSecretsStoreSecret =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      secretName: S.String.pipe(T.Body("secret_name")),
+      storeId: S.String.pipe(T.Body("store_id")),
+      type: PutDispatchNamespaceScriptBindingSecretsStoreSecretType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingSecretsStoreSecret",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretsStoreSecret>;
+
+export type PutDispatchNamespaceScriptBindingFlagshipType = "flagship";
+export const PutDispatchNamespaceScriptBindingFlagshipType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingFlagship {
+  appId: string;
+  name: string;
+  type: PutDispatchNamespaceScriptBindingFlagshipType;
+}
+export const PutDispatchNamespaceScriptBindingFlagship =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      appId: S.String.pipe(T.Body("app_id")),
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingFlagshipType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingFlagship",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingFlagship>;
+
+export type PutDispatchNamespaceScriptBindingSecretKeyFormat =
+  | "raw"
+  | "pkcs8"
+  | "spki"
+  | "jwk";
+export const PutDispatchNamespaceScriptBindingSecretKeyFormat = S.String;
+
+export type PutDispatchNamespaceScriptBindingSecretKeyUsage =
+  | "encrypt"
+  | "decrypt"
+  | "sign"
+  | "verify"
+  | "deriveKey"
+  | "deriveBits"
+  | "wrapKey"
+  | "unwrapKey";
+export const PutDispatchNamespaceScriptBindingSecretKeyUsage = S.String;
+
+export type PutDispatchNamespaceScriptBindingSecretKeyUsagesList = Array<
+  PutDispatchNamespaceScriptBindingSecretKeyUsage | (string & {})
+>;
+export const PutDispatchNamespaceScriptBindingSecretKeyUsagesList =
+  /*@__PURE__*/ S.Array(
+    PutDispatchNamespaceScriptBindingSecretKeyUsage,
+  ) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretKeyUsagesList>;
+
+export type PutDispatchNamespaceScriptBindingSecretKeyType = "secret_key";
+export const PutDispatchNamespaceScriptBindingSecretKeyType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingSecretKey {
+  algorithm: unknown;
+  format: PutDispatchNamespaceScriptBindingSecretKeyFormat | (string & {});
+  name: string;
+  usages: PutDispatchNamespaceScriptBindingSecretKeyUsagesList;
+  keyBase64?: string;
+  keyJwk?: unknown;
+  type: PutDispatchNamespaceScriptBindingSecretKeyType;
+}
+export const PutDispatchNamespaceScriptBindingSecretKey =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      algorithm: S.Unknown,
+      format: PutDispatchNamespaceScriptBindingSecretKeyFormat,
+      name: S.String,
+      usages: PutDispatchNamespaceScriptBindingSecretKeyUsagesList,
+      keyBase64: S.optional(S.String.pipe(T.Body("key_base64"))),
+      keyJwk: S.optional(S.Unknown.pipe(T.Body("key_jwk"))),
+      type: PutDispatchNamespaceScriptBindingSecretKeyType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingSecretKey",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingSecretKey>;
+
+export type PutDispatchNamespaceScriptBindingWorkflowType = "workflow";
+export const PutDispatchNamespaceScriptBindingWorkflowType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingWorkflow {
+  name: string;
+  workflowName: string;
+  className: string;
+  scriptName?: string;
+  type: PutDispatchNamespaceScriptBindingWorkflowType;
+}
+export const PutDispatchNamespaceScriptBindingWorkflow =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      workflowName: S.String.pipe(T.Body("workflow_name")),
+      className: S.String.pipe(T.Body("class_name")),
+      scriptName: S.optional(S.String.pipe(T.Body("script_name"))),
+      type: PutDispatchNamespaceScriptBindingWorkflowType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingWorkflow",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingWorkflow>;
+
+export type PutDispatchNamespaceScriptBindingWasmModuleType = "wasm_module";
+export const PutDispatchNamespaceScriptBindingWasmModuleType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingWasmModule {
+  name: string;
+  part: string;
+  type: PutDispatchNamespaceScriptBindingWasmModuleType;
+}
+export const PutDispatchNamespaceScriptBindingWasmModule =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      part: S.String,
+      type: PutDispatchNamespaceScriptBindingWasmModuleType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingWasmModule",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingWasmModule>;
+
+export type PutDispatchNamespaceScriptBindingVpcServiceType = "vpc_service";
+export const PutDispatchNamespaceScriptBindingVpcServiceType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingVpcService {
+  name: string;
+  serviceId: string;
+  type: PutDispatchNamespaceScriptBindingVpcServiceType;
+}
+export const PutDispatchNamespaceScriptBindingVpcService =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      serviceId: S.String.pipe(T.Body("service_id")),
+      type: PutDispatchNamespaceScriptBindingVpcServiceType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingVpcService",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingVpcService>;
+
+export type PutDispatchNamespaceScriptBindingVpcNetworkType = "vpc_network";
+export const PutDispatchNamespaceScriptBindingVpcNetworkType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingVpcNetwork {
+  name: string;
+  networkId?: string;
+  tunnelId?: string;
+  type: PutDispatchNamespaceScriptBindingVpcNetworkType;
+}
+export const PutDispatchNamespaceScriptBindingVpcNetwork =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      networkId: S.optional(S.String.pipe(T.Body("network_id"))),
+      tunnelId: S.optional(S.String.pipe(T.Body("tunnel_id"))),
+      type: PutDispatchNamespaceScriptBindingVpcNetworkType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingVpcNetwork",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingVpcNetwork>;
+
+export type PutDispatchNamespaceScriptBindingWorkerLoaderType = "worker_loader";
+export const PutDispatchNamespaceScriptBindingWorkerLoaderType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingWorkerLoader {
+  name: string;
+  type: PutDispatchNamespaceScriptBindingWorkerLoaderType;
+}
+export const PutDispatchNamespaceScriptBindingWorkerLoader =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingWorkerLoaderType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingWorkerLoader",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingWorkerLoader>;
+
+export type PutDispatchNamespaceScriptBindingArtifactsType = "artifacts";
+export const PutDispatchNamespaceScriptBindingArtifactsType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingArtifacts {
+  name: string;
+  namespace: string;
+  type: PutDispatchNamespaceScriptBindingArtifactsType;
+}
+export const PutDispatchNamespaceScriptBindingArtifacts =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      namespace: S.String,
+      type: PutDispatchNamespaceScriptBindingArtifactsType,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptBindingArtifacts",
+  }) as any as S.Schema<PutDispatchNamespaceScriptBindingArtifacts>;
+
+export type PutDispatchNamespaceScriptBindingStreamType = "stream";
+export const PutDispatchNamespaceScriptBindingStreamType = S.String;
+
+export interface PutDispatchNamespaceScriptBindingStream {
+  name: string;
+  type: PutDispatchNamespaceScriptBindingStreamType;
+}
+export const PutDispatchNamespaceScriptBindingStream = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      type: PutDispatchNamespaceScriptBindingStreamType,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingStream",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingStream>;
+
+export type PutDispatchNamespaceScriptBinding =
+  | PutDispatchNamespaceScriptBindingAi
+  | PutDispatchNamespaceScriptBindingAiSearch
+  | PutDispatchNamespaceScriptBindingAiSearchNamespace
+  | PutDispatchNamespaceScriptBindingAnalyticsEngine
+  | PutDispatchNamespaceScriptBindingAssets
+  | PutDispatchNamespaceScriptBindingBrowser
+  | PutDispatchNamespaceScriptBindingD1
+  | PutDispatchNamespaceScriptBindingDataBlob
+  | PutDispatchNamespaceScriptBindingDispatchNamespace
+  | PutDispatchNamespaceScriptBindingDurableObjectNamespace
+  | PutDispatchNamespaceScriptBindingHyperdrive
+  | PutDispatchNamespaceScriptBindingInherit
+  | PutDispatchNamespaceScriptBindingImages
+  | PutDispatchNamespaceScriptBindingJson
+  | PutDispatchNamespaceScriptBindingKvNamespace
+  | PutDispatchNamespaceScriptBindingMedia
+  | PutDispatchNamespaceScriptBindingMtlsCertificate
+  | PutDispatchNamespaceScriptBindingPlainText
+  | PutDispatchNamespaceScriptBindingPipelines
+  | PutDispatchNamespaceScriptBindingQueue
+  | PutDispatchNamespaceScriptBindingRatelimit
+  | PutDispatchNamespaceScriptBindingR2Bucket
+  | PutDispatchNamespaceScriptBindingSecretText
+  | PutDispatchNamespaceScriptBindingSendEmail
+  | PutDispatchNamespaceScriptBindingService
+  | PutDispatchNamespaceScriptBindingTextBlob
+  | PutDispatchNamespaceScriptBindingVectorize
+  | PutDispatchNamespaceScriptBindingVersionMetadata
+  | PutDispatchNamespaceScriptBindingSecretsStoreSecret
+  | PutDispatchNamespaceScriptBindingFlagship
+  | PutDispatchNamespaceScriptBindingSecretKey
+  | PutDispatchNamespaceScriptBindingWorkflow
+  | PutDispatchNamespaceScriptBindingWasmModule
+  | PutDispatchNamespaceScriptBindingVpcService
+  | PutDispatchNamespaceScriptBindingVpcNetwork
+  | PutDispatchNamespaceScriptBindingWorkerLoader
+  | PutDispatchNamespaceScriptBindingArtifacts
+  | PutDispatchNamespaceScriptBindingStream;
+export const PutDispatchNamespaceScriptBinding = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases(
+    [
+      ["name", "type"],
+      ["instanceName", "name", "namespace", "type"],
+      ["name", "namespace", "type"],
+      ["dataset", "name", "type"],
+      ["name", "type"],
+      ["name", "type"],
+      ["databaseId", "name", "id", "type"],
+      ["name", "part", "type"],
+      ["name", "namespace", "outbound", "type"],
+      [
+        "name",
+        "className",
+        "dispatchNamespace",
+        "environment",
+        "namespaceId",
+        "scriptName",
+        "type",
+      ],
+      ["id", "name", "type"],
+      ["name", "oldName", "versionId", "type"],
+      ["name", "type"],
+      ["json", "name", "type"],
+      ["name", "namespaceId", "type"],
+      ["name", "type"],
+      ["certificateId", "name", "type"],
+      ["name", "text", "type"],
+      ["name", "pipeline", "type"],
+      ["name", "queueName", "type"],
+      ["name", "namespaceId", "simple", "type"],
+      ["bucketName", "name", "jurisdiction", "type"],
+      ["name", "text", "type"],
+      [
+        "name",
+        "allowedDestinationAddresses",
+        "allowedSenderAddresses",
+        "destinationAddress",
+        "type",
+      ],
+      ["name", "service", "entrypoint", "environment", "type"],
+      ["name", "part", "type"],
+      ["indexName", "name", "type"],
+      ["name", "type"],
+      ["name", "secretName", "storeId", "type"],
+      ["appId", "name", "type"],
+      ["algorithm", "format", "name", "usages", "keyBase64", "keyJwk", "type"],
+      ["name", "workflowName", "className", "scriptName", "type"],
+      ["name", "part", "type"],
+      ["name", "serviceId", "type"],
+      ["name", "networkId", "tunnelId", "type"],
+      ["name", "type"],
+      ["name", "namespace", "type"],
+      ["name", "type"],
+    ],
+    {
+      key: "type",
+      values: [
+        "ai",
+        "ai_search",
+        "ai_search_namespace",
+        "analytics_engine",
+        "assets",
+        "browser",
+        "d1",
+        "data_blob",
+        "dispatch_namespace",
+        "durable_object_namespace",
+        "hyperdrive",
+        "inherit",
+        "images",
+        "json",
+        "kv_namespace",
+        "media",
+        "mtls_certificate",
+        "plain_text",
+        "pipelines",
+        "queue",
+        "ratelimit",
+        "r2_bucket",
+        "secret_text",
+        "send_email",
+        "service",
+        "text_blob",
+        "vectorize",
+        "version_metadata",
+        "secrets_store_secret",
+        "flagship",
+        "secret_key",
+        "workflow",
+        "wasm_module",
+        "vpc_service",
+        "vpc_network",
+        "worker_loader",
+        "artifacts",
+        "stream",
+      ],
+    },
+  ),
+);
+
+export type PutDispatchNamespaceScriptMetadataBindingsList =
+  Array<PutDispatchNamespaceScriptBinding>;
+export const PutDispatchNamespaceScriptMetadataBindingsList =
+  /*@__PURE__*/ S.Array(
+    PutDispatchNamespaceScriptBinding,
+  ) as any as S.Schema<PutDispatchNamespaceScriptMetadataBindingsList>;
+
+export interface PutDispatchNamespaceScriptContainer {
+  className: string;
+}
+export const PutDispatchNamespaceScriptContainer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    className: S.String.pipe(T.Body("class_name")),
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptContainer",
+}) as any as S.Schema<PutDispatchNamespaceScriptContainer>;
+
+export type PutDispatchNamespaceScriptMetadataContainersList =
+  Array<PutDispatchNamespaceScriptContainer>;
+export const PutDispatchNamespaceScriptMetadataContainersList =
+  /*@__PURE__*/ S.Array(
+    PutDispatchNamespaceScriptContainer,
+  ) as any as S.Schema<PutDispatchNamespaceScriptMetadataContainersList>;
+
+export interface PutDispatchNamespaceScriptMetadataLimits {
+  cpuMs?: number;
+  subrequests?: number;
+}
+export const PutDispatchNamespaceScriptMetadataLimits = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      cpuMs: S.optional(S.Number.pipe(T.Body("cpu_ms"))),
+      subrequests: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptMetadataLimits",
+}) as any as S.Schema<PutDispatchNamespaceScriptMetadataLimits>;
+
+export type PutDispatchNamespaceScriptMigrationRenamedClass =
+  DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesItem;
+export const PutDispatchNamespaceScriptMigrationRenamedClass =
+  DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesItem;
+
+export type PutDispatchNamespaceScriptMigrationRenamedClassesList =
+  Array<DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesItem>;
+export const PutDispatchNamespaceScriptMigrationRenamedClassesList =
+  /*@__PURE__*/ S.Array(
+    DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesItem,
+  ) as any as S.Schema<PutDispatchNamespaceScriptMigrationRenamedClassesList>;
+
+export type PutDispatchNamespaceScriptMigrationTransferredClass =
+  DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem;
+export const PutDispatchNamespaceScriptMigrationTransferredClass =
+  DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem;
+
+export type PutDispatchNamespaceScriptMigrationTransferredClassesList =
+  Array<DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem>;
+export const PutDispatchNamespaceScriptMigrationTransferredClassesList =
+  /*@__PURE__*/ S.Array(
+    DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem,
+  ) as any as S.Schema<PutDispatchNamespaceScriptMigrationTransferredClassesList>;
+
+export interface PutDispatchNamespaceScriptSingleStepMigration {
+  deletedClasses?: PutDispatchNamespaceScriptMetadataStringList;
+  newClasses?: PutDispatchNamespaceScriptMetadataStringList;
+  newSqliteClasses?: PutDispatchNamespaceScriptMetadataStringList;
+  newTag?: string;
+  oldTag?: string;
+  renamedClasses?: PutDispatchNamespaceScriptMigrationRenamedClassesList;
+  transferredClasses?: PutDispatchNamespaceScriptMigrationTransferredClassesList;
+}
+export const PutDispatchNamespaceScriptSingleStepMigration =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      deletedClasses: S.optional(
+        PutDispatchNamespaceScriptMetadataStringList.pipe(
+          T.Body("deleted_classes"),
+        ),
+      ),
+      newClasses: S.optional(
+        PutDispatchNamespaceScriptMetadataStringList.pipe(
+          T.Body("new_classes"),
+        ),
+      ),
+      newSqliteClasses: S.optional(
+        PutDispatchNamespaceScriptMetadataStringList.pipe(
+          T.Body("new_sqlite_classes"),
+        ),
+      ),
+      newTag: S.optional(S.String.pipe(T.Body("new_tag"))),
+      oldTag: S.optional(S.String.pipe(T.Body("old_tag"))),
+      renamedClasses: S.optional(
+        PutDispatchNamespaceScriptMigrationRenamedClassesList.pipe(
+          T.Body("renamed_classes"),
+        ),
+      ),
+      transferredClasses: S.optional(
+        PutDispatchNamespaceScriptMigrationTransferredClassesList.pipe(
+          T.Body("transferred_classes"),
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptSingleStepMigration",
+  }) as any as S.Schema<PutDispatchNamespaceScriptSingleStepMigration>;
+
+export interface PutDispatchNamespaceScriptMigrationStep {
+  deletedClasses?: PutDispatchNamespaceScriptMetadataStringList;
+  newClasses?: PutDispatchNamespaceScriptMetadataStringList;
+  newSqliteClasses?: PutDispatchNamespaceScriptMetadataStringList;
+  renamedClasses?: PutDispatchNamespaceScriptMigrationRenamedClassesList;
+  transferredClasses?: PutDispatchNamespaceScriptMigrationTransferredClassesList;
+}
+export const PutDispatchNamespaceScriptMigrationStep = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      deletedClasses: S.optional(
+        PutDispatchNamespaceScriptMetadataStringList.pipe(
+          T.Body("deleted_classes"),
+        ),
+      ),
+      newClasses: S.optional(
+        PutDispatchNamespaceScriptMetadataStringList.pipe(
+          T.Body("new_classes"),
+        ),
+      ),
+      newSqliteClasses: S.optional(
+        PutDispatchNamespaceScriptMetadataStringList.pipe(
+          T.Body("new_sqlite_classes"),
+        ),
+      ),
+      renamedClasses: S.optional(
+        PutDispatchNamespaceScriptMigrationRenamedClassesList.pipe(
+          T.Body("renamed_classes"),
+        ),
+      ),
+      transferredClasses: S.optional(
+        PutDispatchNamespaceScriptMigrationTransferredClassesList.pipe(
+          T.Body("transferred_classes"),
+        ),
+      ),
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptMigrationStep",
+}) as any as S.Schema<PutDispatchNamespaceScriptMigrationStep>;
+
+export type PutDispatchNamespaceScriptMigrationStepsList =
+  Array<PutDispatchNamespaceScriptMigrationStep>;
+export const PutDispatchNamespaceScriptMigrationStepsList =
+  /*@__PURE__*/ S.Array(
+    PutDispatchNamespaceScriptMigrationStep,
+  ) as any as S.Schema<PutDispatchNamespaceScriptMigrationStepsList>;
+
+export interface PutDispatchNamespaceScriptMultipleStepMigrations {
+  newTag?: string;
+  oldTag?: string;
+  steps?: PutDispatchNamespaceScriptMigrationStepsList;
+}
+export const PutDispatchNamespaceScriptMultipleStepMigrations =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      newTag: S.optional(S.String.pipe(T.Body("new_tag"))),
+      oldTag: S.optional(S.String.pipe(T.Body("old_tag"))),
+      steps: S.optional(PutDispatchNamespaceScriptMigrationStepsList),
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptMultipleStepMigrations",
+  }) as any as S.Schema<PutDispatchNamespaceScriptMultipleStepMigrations>;
+
+export type PutDispatchNamespaceScriptMetadataMigrations =
+  | PutDispatchNamespaceScriptSingleStepMigration
+  | PutDispatchNamespaceScriptMultipleStepMigrations;
+export const PutDispatchNamespaceScriptMetadataMigrations =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      [
+        "deletedClasses",
+        "newClasses",
+        "newSqliteClasses",
+        "newTag",
+        "oldTag",
+        "renamedClasses",
+        "transferredClasses",
+      ],
+      ["newTag", "oldTag", "steps"],
+    ]),
+  );
+
+export interface PutDispatchNamespaceScriptObservabilityLogs {
+  enabled: boolean;
+  invocationLogs: boolean;
+  destinations?: PutDispatchNamespaceScriptMetadataStringList;
+  headSamplingRate?: number | null;
+  persist?: boolean;
+}
+export const PutDispatchNamespaceScriptObservabilityLogs =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enabled: S.Boolean,
+      invocationLogs: S.Boolean.pipe(T.Body("invocation_logs")),
+      destinations: S.optional(PutDispatchNamespaceScriptMetadataStringList),
+      headSamplingRate: S.optional(
+        S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
+      ),
+      persist: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptObservabilityLogs",
+  }) as any as S.Schema<PutDispatchNamespaceScriptObservabilityLogs>;
+
+export type PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy =
+  | "authenticated"
+  | "accept";
+export const PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy =
+  S.String;
+
+export interface PutDispatchNamespaceScriptObservabilityTraces {
+  destinations?: PutDispatchNamespaceScriptMetadataStringList;
+  enabled?: boolean;
+  headSamplingRate?: number | null;
+  persist?: boolean;
+  propagationPolicy?:
+    | PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy
+    | (string & {});
+}
+export const PutDispatchNamespaceScriptObservabilityTraces =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      destinations: S.optional(PutDispatchNamespaceScriptMetadataStringList),
+      enabled: S.optional(S.Boolean),
+      headSamplingRate: S.optional(
+        S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
+      ),
+      persist: S.optional(S.Boolean),
+      propagationPolicy: S.optional(
+        PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy.pipe(
+          T.Body("propagation_policy"),
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptObservabilityTraces",
+  }) as any as S.Schema<PutDispatchNamespaceScriptObservabilityTraces>;
+
+export interface PutDispatchNamespaceScriptMetadataObservability {
+  enabled: boolean;
+  headSamplingRate?: number | null;
+  logs?: PutDispatchNamespaceScriptObservabilityLogs | null;
+  traces?: PutDispatchNamespaceScriptObservabilityTraces | null;
+}
+export const PutDispatchNamespaceScriptMetadataObservability =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enabled: S.Boolean,
+      headSamplingRate: S.optional(
+        S.NullOr(S.Number).pipe(T.Body("head_sampling_rate")),
+      ),
+      logs: S.optional(S.NullOr(PutDispatchNamespaceScriptObservabilityLogs)),
+      traces: S.optional(
+        S.NullOr(PutDispatchNamespaceScriptObservabilityTraces),
+      ),
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptMetadataObservability",
+  }) as any as S.Schema<PutDispatchNamespaceScriptMetadataObservability>;
+
+export type PutDispatchNamespaceScriptPlacementSmartMode = "smart";
+export const PutDispatchNamespaceScriptPlacementSmartMode = S.String;
+
+export interface PutDispatchNamespaceScriptPlacementSmart {
+  mode: PutDispatchNamespaceScriptPlacementSmartMode;
+}
+export const PutDispatchNamespaceScriptPlacementSmart = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      mode: PutDispatchNamespaceScriptPlacementSmartMode,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptPlacementSmart",
+}) as any as S.Schema<PutDispatchNamespaceScriptPlacementSmart>;
+
+export interface PutDispatchNamespaceScriptPlacementRegion {
+  region: string;
+}
+export const PutDispatchNamespaceScriptPlacementRegion =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      region: S.String,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptPlacementRegion",
+  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementRegion>;
+
+export interface PutDispatchNamespaceScriptPlacementHostname {
+  hostname: string;
+}
+export const PutDispatchNamespaceScriptPlacementHostname =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      hostname: S.String,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptPlacementHostname",
+  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementHostname>;
+
+export interface PutDispatchNamespaceScriptPlacementHost {
+  host: string;
+}
+export const PutDispatchNamespaceScriptPlacementHost = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      host: S.String,
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptPlacementHost",
+}) as any as S.Schema<PutDispatchNamespaceScriptPlacementHost>;
+
+export type PutDispatchNamespaceScriptPlacementTargetedMode = "targeted";
+export const PutDispatchNamespaceScriptPlacementTargetedMode = S.String;
+
+export interface PutDispatchNamespaceScriptPlacementTargetedRegion {
+  mode: PutDispatchNamespaceScriptPlacementTargetedMode;
+  region: string;
+}
+export const PutDispatchNamespaceScriptPlacementTargetedRegion =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      mode: PutDispatchNamespaceScriptPlacementTargetedMode,
+      region: S.String,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptPlacementTargetedRegion",
+  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedRegion>;
+
+export interface PutDispatchNamespaceScriptPlacementTargetedHostname {
+  hostname: string;
+  mode: PutDispatchNamespaceScriptPlacementTargetedMode;
+}
+export const PutDispatchNamespaceScriptPlacementTargetedHostname =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      hostname: S.String,
+      mode: PutDispatchNamespaceScriptPlacementTargetedMode,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptPlacementTargetedHostname",
+  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedHostname>;
+
+export interface PutDispatchNamespaceScriptPlacementTargetedHost {
+  host: string;
+  mode: PutDispatchNamespaceScriptPlacementTargetedMode;
+}
+export const PutDispatchNamespaceScriptPlacementTargetedHost =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      host: S.String,
+      mode: PutDispatchNamespaceScriptPlacementTargetedMode,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptPlacementTargetedHost",
+  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedHost>;
+
+export type PutDispatchNamespaceScriptPlacementTargetRegion =
+  PutDispatchNamespaceScriptPlacementRegion;
+export const PutDispatchNamespaceScriptPlacementTargetRegion =
+  PutDispatchNamespaceScriptPlacementRegion;
+
+export type PutDispatchNamespaceScriptPlacementTargetHostname =
+  PutDispatchNamespaceScriptPlacementHostname;
+export const PutDispatchNamespaceScriptPlacementTargetHostname =
+  PutDispatchNamespaceScriptPlacementHostname;
+
+export type PutDispatchNamespaceScriptPlacementTargetHost =
+  PutDispatchNamespaceScriptPlacementHost;
+export const PutDispatchNamespaceScriptPlacementTargetHost =
+  PutDispatchNamespaceScriptPlacementHost;
+
+export type PutDispatchNamespaceScriptPlacementTarget =
+  | PutDispatchNamespaceScriptPlacementRegion
+  | PutDispatchNamespaceScriptPlacementHostname
+  | PutDispatchNamespaceScriptPlacementHost;
+export const PutDispatchNamespaceScriptPlacementTarget =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([["region"], ["hostname"], ["host"]]),
+  );
+
+export type PutDispatchNamespaceScriptPlacementTargetsList =
+  Array<PutDispatchNamespaceScriptPlacementTarget>;
+export const PutDispatchNamespaceScriptPlacementTargetsList =
+  /*@__PURE__*/ S.Array(
+    PutDispatchNamespaceScriptPlacementTarget,
+  ) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetsList>;
+
+export interface PutDispatchNamespaceScriptPlacementTargetedList {
+  mode: PutDispatchNamespaceScriptPlacementTargetedMode;
+  target: PutDispatchNamespaceScriptPlacementTargetsList;
+}
+export const PutDispatchNamespaceScriptPlacementTargetedList =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      mode: PutDispatchNamespaceScriptPlacementTargetedMode,
+      target: PutDispatchNamespaceScriptPlacementTargetsList,
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptPlacementTargetedList",
+  }) as any as S.Schema<PutDispatchNamespaceScriptPlacementTargetedList>;
+
+export type PutDispatchNamespaceScriptMetadataPlacement =
+  | PutDispatchNamespaceScriptPlacementSmart
+  | PutDispatchNamespaceScriptPlacementRegion
+  | PutDispatchNamespaceScriptPlacementHostname
+  | PutDispatchNamespaceScriptPlacementHost
+  | PutDispatchNamespaceScriptPlacementTargetedRegion
+  | PutDispatchNamespaceScriptPlacementTargetedHostname
+  | PutDispatchNamespaceScriptPlacementTargetedHost
+  | PutDispatchNamespaceScriptPlacementTargetedList;
+export const PutDispatchNamespaceScriptMetadataPlacement =
+  /*@__PURE__*/ S.Unknown.pipe(
+    T.UnionCases([
+      ["mode"],
+      ["region"],
+      ["hostname"],
+      ["host"],
+      ["mode", "region"],
+      ["hostname", "mode"],
+      ["host", "mode"],
+      ["mode", "target"],
+    ]),
+  );
+
+export interface PutDispatchNamespaceScriptTailConsumer {
+  service: string;
+  environment?: string;
+  namespace?: string;
+}
+export const PutDispatchNamespaceScriptTailConsumer = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      service: S.String,
+      environment: S.optional(S.String),
+      namespace: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptTailConsumer",
+}) as any as S.Schema<PutDispatchNamespaceScriptTailConsumer>;
+
+export type PutDispatchNamespaceScriptMetadataTailConsumersList =
+  Array<PutDispatchNamespaceScriptTailConsumer>;
+export const PutDispatchNamespaceScriptMetadataTailConsumersList =
+  /*@__PURE__*/ S.Array(
+    PutDispatchNamespaceScriptTailConsumer,
+  ) as any as S.Schema<PutDispatchNamespaceScriptMetadataTailConsumersList>;
+
+export type PutDispatchNamespaceScriptMetadataUsageModel =
+  | "standard"
+  | "bundled"
+  | "unbound";
+export const PutDispatchNamespaceScriptMetadataUsageModel = S.String;
+
+export interface PutDispatchNamespaceScriptMetadataCache {
+  enabled?: boolean;
+  crossVersionCache?: boolean;
+}
+export const PutDispatchNamespaceScriptMetadataCache = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      enabled: S.optional(S.Boolean),
+      crossVersionCache: S.optional(
+        S.Boolean.pipe(T.Body("cross_version_cache")),
+      ),
+    }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptMetadataCache",
+}) as any as S.Schema<PutDispatchNamespaceScriptMetadataCache>;
+
+export type PutDispatchNamespaceScriptMetadataStreamingTailConsumersList =
+  Array<PutDispatchNamespaceScriptTailConsumer>;
+export const PutDispatchNamespaceScriptMetadataStreamingTailConsumersList =
+  /*@__PURE__*/ S.Array(
+    PutDispatchNamespaceScriptTailConsumer,
+  ) as any as S.Schema<PutDispatchNamespaceScriptMetadataStreamingTailConsumersList>;
+
 export interface PutDispatchNamespaceScriptMetadata {
-  annotations?: unknown;
-  assets?: unknown;
-  bindings?: unknown;
+  annotations?: PutDispatchNamespaceScriptMetadataAnnotations;
+  assets?: PutDispatchNamespaceScriptMetadataAssets;
+  bindings?: PutDispatchNamespaceScriptMetadataBindingsList;
   bodyPart?: string;
-  cache?: unknown;
   compatibilityDate?: string;
   compatibilityFlags?: PutDispatchNamespaceScriptMetadataStringList;
-  containers?: unknown;
+  containers?: PutDispatchNamespaceScriptMetadataContainersList;
   keepAssets?: boolean;
   keepBindings?: PutDispatchNamespaceScriptMetadataStringList;
-  limits?: unknown;
+  limits?: PutDispatchNamespaceScriptMetadataLimits;
   logpush?: boolean;
   mainModule?: string;
-  migrations?: unknown;
-  observability?: unknown;
-  placement?: unknown;
+  migrations?: PutDispatchNamespaceScriptMetadataMigrations;
+  observability?: PutDispatchNamespaceScriptMetadataObservability;
+  placement?: PutDispatchNamespaceScriptMetadataPlacement;
   tags?: PutDispatchNamespaceScriptMetadataStringList;
-  tailConsumers?: unknown;
-  usageModel?: string;
+  tailConsumers?: PutDispatchNamespaceScriptMetadataTailConsumersList | null;
+  usageModel?: PutDispatchNamespaceScriptMetadataUsageModel | (string & {});
+  cacheOptions?: PutDispatchNamespaceScriptMetadataCache;
+  streamingTailConsumers?: PutDispatchNamespaceScriptMetadataStreamingTailConsumersList | null;
 }
 export const PutDispatchNamespaceScriptMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    annotations: S.optional(
-      S.Unknown.pipe(
-        T.KeyDictionary({
-          abrLevel: "abr_level",
-          allowedDestinationAddresses: "allowed_destination_addresses",
-          allowedSenderAddresses: "allowed_sender_addresses",
-          appId: "app_id",
-          authorEmail: "author_email",
-          authorId: "author_id",
-          bodyPart: "body_part",
-          bucketName: "bucket_name",
-          bytesRead: "bytes_read",
-          cache: "cache_options",
-          capnpSchema: "capnp_schema",
-          certId: "cert_id",
-          certificateId: "certificate_id",
-          className: "class_name",
-          compatibilityDate: "compatibility_date",
-          compatibilityFlags: "compatibility_flags",
-          contentBase64: "content_base64",
-          contentType: "content_type",
-          cpuMs: "cpu_ms",
-          createdOn: "created_on",
-          crossAccountGrant: "cross_account_grant",
-          crossVersionCache: "cross_version_cache",
-          databaseId: "database_id",
-          defaultUsageModel: "default_usage_model",
-          deletedClasses: "deleted_classes",
-          deliveryDelay: "delivery_delay",
-          destinationAddress: "destination_address",
-          destinationConf: "destination_conf",
-          dispatchNamespace: "dispatch_namespace",
-          documentationUrl: "documentation_url",
-          enableTimer: "enable_timer",
-          entryPoint: "entry_point",
-          environmentIsDefault: "environment_is_default",
-          environmentName: "environment_name",
-          errorMessage: "error_message",
-          exchangeUrl: "exchange_url",
-          expiresAt: "expires_at",
-          fromScript: "from_script",
-          greenCompute: "green_compute",
-          hasAssets: "has_assets",
-          hasModules: "has_modules",
-          headSamplingRate: "head_sampling_rate",
-          htmlHandling: "html_handling",
-          indexName: "index_name",
-          instanceName: "instance_name",
-          invocationLogs: "invocation_logs",
-          keepAssets: "keep_assets",
-          keepBindings: "keep_bindings",
-          keyBase64: "key_base64",
-          keyJwk: "key_jwk",
-          lastAnalyzedAt: "last_analyzed_at",
-          lastComplete: "last_complete",
-          lastDeployedFrom: "last_deployed_from",
-          lastError: "last_error",
-          mainModule: "main_module",
-          migrationTag: "migration_tag",
-          minimalMode: "minimal_mode",
-          mitigationTimeout: "mitigation_timeout",
-          modifiedOn: "modified_on",
-          namedHandlers: "named_handlers",
-          namespaceId: "namespace_id",
-          networkId: "network_id",
-          newClasses: "new_classes",
-          newSqliteClasses: "new_sqlite_classes",
-          newTag: "new_tag",
-          notFoundHandling: "not_found_handling",
-          oldName: "old_name",
-          oldTag: "old_tag",
-          perPage: "per_page",
-          placementMode: "placement_mode",
-          placementStatus: "placement_status",
-          previewToken: "preview_token",
-          previewsEnabled: "previews_enabled",
-          propagationPolicy: "propagation_policy",
-          queueName: "queue_name",
-          renamedClasses: "renamed_classes",
-          resultInfo: "result_info",
-          rowsRead: "rows_read",
-          runWorkerFirst: "run_worker_first",
-          scriptName: "script_name",
-          scriptRuntime: "script_runtime",
-          secretName: "secret_name",
-          serveDirectly: "serve_directly",
-          serviceId: "service_id",
-          serviceName: "service_name",
-          startupTimeMs: "startup_time_ms",
-          storeId: "store_id",
-          streamingTailConsumers: "streaming_tail_consumers",
-          tailConsumers: "tail_consumers",
-          tailUrl: "tail_url",
-          totalCount: "total_count",
-          transferredClasses: "transferred_classes",
-          tunnelId: "tunnel_id",
-          usageModel: "usage_model",
-          versionId: "version_id",
-          versionTags: "version_tags",
-          workersDev: "workers_dev",
-          workflowName: "workflow_name",
-          zoneId: "zone_id",
-          zoneName: "zone_name",
-        }),
-      ),
-    ),
-    assets: S.optional(
-      S.Unknown.pipe(
-        T.KeyDictionary({
-          abrLevel: "abr_level",
-          allowedDestinationAddresses: "allowed_destination_addresses",
-          allowedSenderAddresses: "allowed_sender_addresses",
-          appId: "app_id",
-          authorEmail: "author_email",
-          authorId: "author_id",
-          bodyPart: "body_part",
-          bucketName: "bucket_name",
-          bytesRead: "bytes_read",
-          cache: "cache_options",
-          capnpSchema: "capnp_schema",
-          certId: "cert_id",
-          certificateId: "certificate_id",
-          className: "class_name",
-          compatibilityDate: "compatibility_date",
-          compatibilityFlags: "compatibility_flags",
-          contentBase64: "content_base64",
-          contentType: "content_type",
-          cpuMs: "cpu_ms",
-          createdOn: "created_on",
-          crossAccountGrant: "cross_account_grant",
-          crossVersionCache: "cross_version_cache",
-          databaseId: "database_id",
-          defaultUsageModel: "default_usage_model",
-          deletedClasses: "deleted_classes",
-          deliveryDelay: "delivery_delay",
-          destinationAddress: "destination_address",
-          destinationConf: "destination_conf",
-          dispatchNamespace: "dispatch_namespace",
-          documentationUrl: "documentation_url",
-          enableTimer: "enable_timer",
-          entryPoint: "entry_point",
-          environmentIsDefault: "environment_is_default",
-          environmentName: "environment_name",
-          errorMessage: "error_message",
-          exchangeUrl: "exchange_url",
-          expiresAt: "expires_at",
-          fromScript: "from_script",
-          greenCompute: "green_compute",
-          hasAssets: "has_assets",
-          hasModules: "has_modules",
-          headSamplingRate: "head_sampling_rate",
-          htmlHandling: "html_handling",
-          indexName: "index_name",
-          instanceName: "instance_name",
-          invocationLogs: "invocation_logs",
-          keepAssets: "keep_assets",
-          keepBindings: "keep_bindings",
-          keyBase64: "key_base64",
-          keyJwk: "key_jwk",
-          lastAnalyzedAt: "last_analyzed_at",
-          lastComplete: "last_complete",
-          lastDeployedFrom: "last_deployed_from",
-          lastError: "last_error",
-          mainModule: "main_module",
-          migrationTag: "migration_tag",
-          minimalMode: "minimal_mode",
-          mitigationTimeout: "mitigation_timeout",
-          modifiedOn: "modified_on",
-          namedHandlers: "named_handlers",
-          namespaceId: "namespace_id",
-          networkId: "network_id",
-          newClasses: "new_classes",
-          newSqliteClasses: "new_sqlite_classes",
-          newTag: "new_tag",
-          notFoundHandling: "not_found_handling",
-          oldName: "old_name",
-          oldTag: "old_tag",
-          perPage: "per_page",
-          placementMode: "placement_mode",
-          placementStatus: "placement_status",
-          previewToken: "preview_token",
-          previewsEnabled: "previews_enabled",
-          propagationPolicy: "propagation_policy",
-          queueName: "queue_name",
-          renamedClasses: "renamed_classes",
-          resultInfo: "result_info",
-          rowsRead: "rows_read",
-          runWorkerFirst: "run_worker_first",
-          scriptName: "script_name",
-          scriptRuntime: "script_runtime",
-          secretName: "secret_name",
-          serveDirectly: "serve_directly",
-          serviceId: "service_id",
-          serviceName: "service_name",
-          startupTimeMs: "startup_time_ms",
-          storeId: "store_id",
-          streamingTailConsumers: "streaming_tail_consumers",
-          tailConsumers: "tail_consumers",
-          tailUrl: "tail_url",
-          totalCount: "total_count",
-          transferredClasses: "transferred_classes",
-          tunnelId: "tunnel_id",
-          usageModel: "usage_model",
-          versionId: "version_id",
-          versionTags: "version_tags",
-          workersDev: "workers_dev",
-          workflowName: "workflow_name",
-          zoneId: "zone_id",
-          zoneName: "zone_name",
-        }),
-      ),
-    ),
-    bindings: S.optional(
-      S.Unknown.pipe(
-        T.KeyDictionary({
-          abrLevel: "abr_level",
-          allowedDestinationAddresses: "allowed_destination_addresses",
-          allowedSenderAddresses: "allowed_sender_addresses",
-          appId: "app_id",
-          authorEmail: "author_email",
-          authorId: "author_id",
-          bodyPart: "body_part",
-          bucketName: "bucket_name",
-          bytesRead: "bytes_read",
-          cache: "cache_options",
-          capnpSchema: "capnp_schema",
-          certId: "cert_id",
-          certificateId: "certificate_id",
-          className: "class_name",
-          compatibilityDate: "compatibility_date",
-          compatibilityFlags: "compatibility_flags",
-          contentBase64: "content_base64",
-          contentType: "content_type",
-          cpuMs: "cpu_ms",
-          createdOn: "created_on",
-          crossAccountGrant: "cross_account_grant",
-          crossVersionCache: "cross_version_cache",
-          databaseId: "database_id",
-          defaultUsageModel: "default_usage_model",
-          deletedClasses: "deleted_classes",
-          deliveryDelay: "delivery_delay",
-          destinationAddress: "destination_address",
-          destinationConf: "destination_conf",
-          dispatchNamespace: "dispatch_namespace",
-          documentationUrl: "documentation_url",
-          enableTimer: "enable_timer",
-          entryPoint: "entry_point",
-          environmentIsDefault: "environment_is_default",
-          environmentName: "environment_name",
-          errorMessage: "error_message",
-          exchangeUrl: "exchange_url",
-          expiresAt: "expires_at",
-          fromScript: "from_script",
-          greenCompute: "green_compute",
-          hasAssets: "has_assets",
-          hasModules: "has_modules",
-          headSamplingRate: "head_sampling_rate",
-          htmlHandling: "html_handling",
-          indexName: "index_name",
-          instanceName: "instance_name",
-          invocationLogs: "invocation_logs",
-          keepAssets: "keep_assets",
-          keepBindings: "keep_bindings",
-          keyBase64: "key_base64",
-          keyJwk: "key_jwk",
-          lastAnalyzedAt: "last_analyzed_at",
-          lastComplete: "last_complete",
-          lastDeployedFrom: "last_deployed_from",
-          lastError: "last_error",
-          mainModule: "main_module",
-          migrationTag: "migration_tag",
-          minimalMode: "minimal_mode",
-          mitigationTimeout: "mitigation_timeout",
-          modifiedOn: "modified_on",
-          namedHandlers: "named_handlers",
-          namespaceId: "namespace_id",
-          networkId: "network_id",
-          newClasses: "new_classes",
-          newSqliteClasses: "new_sqlite_classes",
-          newTag: "new_tag",
-          notFoundHandling: "not_found_handling",
-          oldName: "old_name",
-          oldTag: "old_tag",
-          perPage: "per_page",
-          placementMode: "placement_mode",
-          placementStatus: "placement_status",
-          previewToken: "preview_token",
-          previewsEnabled: "previews_enabled",
-          propagationPolicy: "propagation_policy",
-          queueName: "queue_name",
-          renamedClasses: "renamed_classes",
-          resultInfo: "result_info",
-          rowsRead: "rows_read",
-          runWorkerFirst: "run_worker_first",
-          scriptName: "script_name",
-          scriptRuntime: "script_runtime",
-          secretName: "secret_name",
-          serveDirectly: "serve_directly",
-          serviceId: "service_id",
-          serviceName: "service_name",
-          startupTimeMs: "startup_time_ms",
-          storeId: "store_id",
-          streamingTailConsumers: "streaming_tail_consumers",
-          tailConsumers: "tail_consumers",
-          tailUrl: "tail_url",
-          totalCount: "total_count",
-          transferredClasses: "transferred_classes",
-          tunnelId: "tunnel_id",
-          usageModel: "usage_model",
-          versionId: "version_id",
-          versionTags: "version_tags",
-          workersDev: "workers_dev",
-          workflowName: "workflow_name",
-          zoneId: "zone_id",
-          zoneName: "zone_name",
-        }),
-      ),
-    ),
+    annotations: S.optional(PutDispatchNamespaceScriptMetadataAnnotations),
+    assets: S.optional(PutDispatchNamespaceScriptMetadataAssets),
+    bindings: S.optional(PutDispatchNamespaceScriptMetadataBindingsList),
     bodyPart: S.optional(S.String.pipe(T.Body("body_part"))),
-    cache: S.optional(
-      S.Unknown.pipe(
-        T.KeyDictionary({
-          abrLevel: "abr_level",
-          allowedDestinationAddresses: "allowed_destination_addresses",
-          allowedSenderAddresses: "allowed_sender_addresses",
-          appId: "app_id",
-          authorEmail: "author_email",
-          authorId: "author_id",
-          bodyPart: "body_part",
-          bucketName: "bucket_name",
-          bytesRead: "bytes_read",
-          cache: "cache_options",
-          capnpSchema: "capnp_schema",
-          certId: "cert_id",
-          certificateId: "certificate_id",
-          className: "class_name",
-          compatibilityDate: "compatibility_date",
-          compatibilityFlags: "compatibility_flags",
-          contentBase64: "content_base64",
-          contentType: "content_type",
-          cpuMs: "cpu_ms",
-          createdOn: "created_on",
-          crossAccountGrant: "cross_account_grant",
-          crossVersionCache: "cross_version_cache",
-          databaseId: "database_id",
-          defaultUsageModel: "default_usage_model",
-          deletedClasses: "deleted_classes",
-          deliveryDelay: "delivery_delay",
-          destinationAddress: "destination_address",
-          destinationConf: "destination_conf",
-          dispatchNamespace: "dispatch_namespace",
-          documentationUrl: "documentation_url",
-          enableTimer: "enable_timer",
-          entryPoint: "entry_point",
-          environmentIsDefault: "environment_is_default",
-          environmentName: "environment_name",
-          errorMessage: "error_message",
-          exchangeUrl: "exchange_url",
-          expiresAt: "expires_at",
-          fromScript: "from_script",
-          greenCompute: "green_compute",
-          hasAssets: "has_assets",
-          hasModules: "has_modules",
-          headSamplingRate: "head_sampling_rate",
-          htmlHandling: "html_handling",
-          indexName: "index_name",
-          instanceName: "instance_name",
-          invocationLogs: "invocation_logs",
-          keepAssets: "keep_assets",
-          keepBindings: "keep_bindings",
-          keyBase64: "key_base64",
-          keyJwk: "key_jwk",
-          lastAnalyzedAt: "last_analyzed_at",
-          lastComplete: "last_complete",
-          lastDeployedFrom: "last_deployed_from",
-          lastError: "last_error",
-          mainModule: "main_module",
-          migrationTag: "migration_tag",
-          minimalMode: "minimal_mode",
-          mitigationTimeout: "mitigation_timeout",
-          modifiedOn: "modified_on",
-          namedHandlers: "named_handlers",
-          namespaceId: "namespace_id",
-          networkId: "network_id",
-          newClasses: "new_classes",
-          newSqliteClasses: "new_sqlite_classes",
-          newTag: "new_tag",
-          notFoundHandling: "not_found_handling",
-          oldName: "old_name",
-          oldTag: "old_tag",
-          perPage: "per_page",
-          placementMode: "placement_mode",
-          placementStatus: "placement_status",
-          previewToken: "preview_token",
-          previewsEnabled: "previews_enabled",
-          propagationPolicy: "propagation_policy",
-          queueName: "queue_name",
-          renamedClasses: "renamed_classes",
-          resultInfo: "result_info",
-          rowsRead: "rows_read",
-          runWorkerFirst: "run_worker_first",
-          scriptName: "script_name",
-          scriptRuntime: "script_runtime",
-          secretName: "secret_name",
-          serveDirectly: "serve_directly",
-          serviceId: "service_id",
-          serviceName: "service_name",
-          startupTimeMs: "startup_time_ms",
-          storeId: "store_id",
-          streamingTailConsumers: "streaming_tail_consumers",
-          tailConsumers: "tail_consumers",
-          tailUrl: "tail_url",
-          totalCount: "total_count",
-          transferredClasses: "transferred_classes",
-          tunnelId: "tunnel_id",
-          usageModel: "usage_model",
-          versionId: "version_id",
-          versionTags: "version_tags",
-          workersDev: "workers_dev",
-          workflowName: "workflow_name",
-          zoneId: "zone_id",
-          zoneName: "zone_name",
-        }),
-      ),
-    ),
     compatibilityDate: S.optional(S.String.pipe(T.Body("compatibility_date"))),
     compatibilityFlags: S.optional(
       PutDispatchNamespaceScriptMetadataStringList.pipe(
         T.Body("compatibility_flags"),
       ),
     ),
-    containers: S.optional(
-      S.Unknown.pipe(
-        T.KeyDictionary({
-          abrLevel: "abr_level",
-          allowedDestinationAddresses: "allowed_destination_addresses",
-          allowedSenderAddresses: "allowed_sender_addresses",
-          appId: "app_id",
-          authorEmail: "author_email",
-          authorId: "author_id",
-          bodyPart: "body_part",
-          bucketName: "bucket_name",
-          bytesRead: "bytes_read",
-          cache: "cache_options",
-          capnpSchema: "capnp_schema",
-          certId: "cert_id",
-          certificateId: "certificate_id",
-          className: "class_name",
-          compatibilityDate: "compatibility_date",
-          compatibilityFlags: "compatibility_flags",
-          contentBase64: "content_base64",
-          contentType: "content_type",
-          cpuMs: "cpu_ms",
-          createdOn: "created_on",
-          crossAccountGrant: "cross_account_grant",
-          crossVersionCache: "cross_version_cache",
-          databaseId: "database_id",
-          defaultUsageModel: "default_usage_model",
-          deletedClasses: "deleted_classes",
-          deliveryDelay: "delivery_delay",
-          destinationAddress: "destination_address",
-          destinationConf: "destination_conf",
-          dispatchNamespace: "dispatch_namespace",
-          documentationUrl: "documentation_url",
-          enableTimer: "enable_timer",
-          entryPoint: "entry_point",
-          environmentIsDefault: "environment_is_default",
-          environmentName: "environment_name",
-          errorMessage: "error_message",
-          exchangeUrl: "exchange_url",
-          expiresAt: "expires_at",
-          fromScript: "from_script",
-          greenCompute: "green_compute",
-          hasAssets: "has_assets",
-          hasModules: "has_modules",
-          headSamplingRate: "head_sampling_rate",
-          htmlHandling: "html_handling",
-          indexName: "index_name",
-          instanceName: "instance_name",
-          invocationLogs: "invocation_logs",
-          keepAssets: "keep_assets",
-          keepBindings: "keep_bindings",
-          keyBase64: "key_base64",
-          keyJwk: "key_jwk",
-          lastAnalyzedAt: "last_analyzed_at",
-          lastComplete: "last_complete",
-          lastDeployedFrom: "last_deployed_from",
-          lastError: "last_error",
-          mainModule: "main_module",
-          migrationTag: "migration_tag",
-          minimalMode: "minimal_mode",
-          mitigationTimeout: "mitigation_timeout",
-          modifiedOn: "modified_on",
-          namedHandlers: "named_handlers",
-          namespaceId: "namespace_id",
-          networkId: "network_id",
-          newClasses: "new_classes",
-          newSqliteClasses: "new_sqlite_classes",
-          newTag: "new_tag",
-          notFoundHandling: "not_found_handling",
-          oldName: "old_name",
-          oldTag: "old_tag",
-          perPage: "per_page",
-          placementMode: "placement_mode",
-          placementStatus: "placement_status",
-          previewToken: "preview_token",
-          previewsEnabled: "previews_enabled",
-          propagationPolicy: "propagation_policy",
-          queueName: "queue_name",
-          renamedClasses: "renamed_classes",
-          resultInfo: "result_info",
-          rowsRead: "rows_read",
-          runWorkerFirst: "run_worker_first",
-          scriptName: "script_name",
-          scriptRuntime: "script_runtime",
-          secretName: "secret_name",
-          serveDirectly: "serve_directly",
-          serviceId: "service_id",
-          serviceName: "service_name",
-          startupTimeMs: "startup_time_ms",
-          storeId: "store_id",
-          streamingTailConsumers: "streaming_tail_consumers",
-          tailConsumers: "tail_consumers",
-          tailUrl: "tail_url",
-          totalCount: "total_count",
-          transferredClasses: "transferred_classes",
-          tunnelId: "tunnel_id",
-          usageModel: "usage_model",
-          versionId: "version_id",
-          versionTags: "version_tags",
-          workersDev: "workers_dev",
-          workflowName: "workflow_name",
-          zoneId: "zone_id",
-          zoneName: "zone_name",
-        }),
-      ),
-    ),
+    containers: S.optional(PutDispatchNamespaceScriptMetadataContainersList),
     keepAssets: S.optional(S.Boolean.pipe(T.Body("keep_assets"))),
     keepBindings: S.optional(
       PutDispatchNamespaceScriptMetadataStringList.pipe(
         T.Body("keep_bindings"),
       ),
     ),
-    limits: S.optional(
-      S.Unknown.pipe(
-        T.KeyDictionary({
-          abrLevel: "abr_level",
-          allowedDestinationAddresses: "allowed_destination_addresses",
-          allowedSenderAddresses: "allowed_sender_addresses",
-          appId: "app_id",
-          authorEmail: "author_email",
-          authorId: "author_id",
-          bodyPart: "body_part",
-          bucketName: "bucket_name",
-          bytesRead: "bytes_read",
-          cache: "cache_options",
-          capnpSchema: "capnp_schema",
-          certId: "cert_id",
-          certificateId: "certificate_id",
-          className: "class_name",
-          compatibilityDate: "compatibility_date",
-          compatibilityFlags: "compatibility_flags",
-          contentBase64: "content_base64",
-          contentType: "content_type",
-          cpuMs: "cpu_ms",
-          createdOn: "created_on",
-          crossAccountGrant: "cross_account_grant",
-          crossVersionCache: "cross_version_cache",
-          databaseId: "database_id",
-          defaultUsageModel: "default_usage_model",
-          deletedClasses: "deleted_classes",
-          deliveryDelay: "delivery_delay",
-          destinationAddress: "destination_address",
-          destinationConf: "destination_conf",
-          dispatchNamespace: "dispatch_namespace",
-          documentationUrl: "documentation_url",
-          enableTimer: "enable_timer",
-          entryPoint: "entry_point",
-          environmentIsDefault: "environment_is_default",
-          environmentName: "environment_name",
-          errorMessage: "error_message",
-          exchangeUrl: "exchange_url",
-          expiresAt: "expires_at",
-          fromScript: "from_script",
-          greenCompute: "green_compute",
-          hasAssets: "has_assets",
-          hasModules: "has_modules",
-          headSamplingRate: "head_sampling_rate",
-          htmlHandling: "html_handling",
-          indexName: "index_name",
-          instanceName: "instance_name",
-          invocationLogs: "invocation_logs",
-          keepAssets: "keep_assets",
-          keepBindings: "keep_bindings",
-          keyBase64: "key_base64",
-          keyJwk: "key_jwk",
-          lastAnalyzedAt: "last_analyzed_at",
-          lastComplete: "last_complete",
-          lastDeployedFrom: "last_deployed_from",
-          lastError: "last_error",
-          mainModule: "main_module",
-          migrationTag: "migration_tag",
-          minimalMode: "minimal_mode",
-          mitigationTimeout: "mitigation_timeout",
-          modifiedOn: "modified_on",
-          namedHandlers: "named_handlers",
-          namespaceId: "namespace_id",
-          networkId: "network_id",
-          newClasses: "new_classes",
-          newSqliteClasses: "new_sqlite_classes",
-          newTag: "new_tag",
-          notFoundHandling: "not_found_handling",
-          oldName: "old_name",
-          oldTag: "old_tag",
-          perPage: "per_page",
-          placementMode: "placement_mode",
-          placementStatus: "placement_status",
-          previewToken: "preview_token",
-          previewsEnabled: "previews_enabled",
-          propagationPolicy: "propagation_policy",
-          queueName: "queue_name",
-          renamedClasses: "renamed_classes",
-          resultInfo: "result_info",
-          rowsRead: "rows_read",
-          runWorkerFirst: "run_worker_first",
-          scriptName: "script_name",
-          scriptRuntime: "script_runtime",
-          secretName: "secret_name",
-          serveDirectly: "serve_directly",
-          serviceId: "service_id",
-          serviceName: "service_name",
-          startupTimeMs: "startup_time_ms",
-          storeId: "store_id",
-          streamingTailConsumers: "streaming_tail_consumers",
-          tailConsumers: "tail_consumers",
-          tailUrl: "tail_url",
-          totalCount: "total_count",
-          transferredClasses: "transferred_classes",
-          tunnelId: "tunnel_id",
-          usageModel: "usage_model",
-          versionId: "version_id",
-          versionTags: "version_tags",
-          workersDev: "workers_dev",
-          workflowName: "workflow_name",
-          zoneId: "zone_id",
-          zoneName: "zone_name",
-        }),
-      ),
-    ),
+    limits: S.optional(PutDispatchNamespaceScriptMetadataLimits),
     logpush: S.optional(S.Boolean),
     mainModule: S.optional(S.String.pipe(T.Body("main_module"))),
-    migrations: S.optional(
-      S.Unknown.pipe(
-        T.KeyDictionary({
-          abrLevel: "abr_level",
-          allowedDestinationAddresses: "allowed_destination_addresses",
-          allowedSenderAddresses: "allowed_sender_addresses",
-          appId: "app_id",
-          authorEmail: "author_email",
-          authorId: "author_id",
-          bodyPart: "body_part",
-          bucketName: "bucket_name",
-          bytesRead: "bytes_read",
-          cache: "cache_options",
-          capnpSchema: "capnp_schema",
-          certId: "cert_id",
-          certificateId: "certificate_id",
-          className: "class_name",
-          compatibilityDate: "compatibility_date",
-          compatibilityFlags: "compatibility_flags",
-          contentBase64: "content_base64",
-          contentType: "content_type",
-          cpuMs: "cpu_ms",
-          createdOn: "created_on",
-          crossAccountGrant: "cross_account_grant",
-          crossVersionCache: "cross_version_cache",
-          databaseId: "database_id",
-          defaultUsageModel: "default_usage_model",
-          deletedClasses: "deleted_classes",
-          deliveryDelay: "delivery_delay",
-          destinationAddress: "destination_address",
-          destinationConf: "destination_conf",
-          dispatchNamespace: "dispatch_namespace",
-          documentationUrl: "documentation_url",
-          enableTimer: "enable_timer",
-          entryPoint: "entry_point",
-          environmentIsDefault: "environment_is_default",
-          environmentName: "environment_name",
-          errorMessage: "error_message",
-          exchangeUrl: "exchange_url",
-          expiresAt: "expires_at",
-          fromScript: "from_script",
-          greenCompute: "green_compute",
-          hasAssets: "has_assets",
-          hasModules: "has_modules",
-          headSamplingRate: "head_sampling_rate",
-          htmlHandling: "html_handling",
-          indexName: "index_name",
-          instanceName: "instance_name",
-          invocationLogs: "invocation_logs",
-          keepAssets: "keep_assets",
-          keepBindings: "keep_bindings",
-          keyBase64: "key_base64",
-          keyJwk: "key_jwk",
-          lastAnalyzedAt: "last_analyzed_at",
-          lastComplete: "last_complete",
-          lastDeployedFrom: "last_deployed_from",
-          lastError: "last_error",
-          mainModule: "main_module",
-          migrationTag: "migration_tag",
-          minimalMode: "minimal_mode",
-          mitigationTimeout: "mitigation_timeout",
-          modifiedOn: "modified_on",
-          namedHandlers: "named_handlers",
-          namespaceId: "namespace_id",
-          networkId: "network_id",
-          newClasses: "new_classes",
-          newSqliteClasses: "new_sqlite_classes",
-          newTag: "new_tag",
-          notFoundHandling: "not_found_handling",
-          oldName: "old_name",
-          oldTag: "old_tag",
-          perPage: "per_page",
-          placementMode: "placement_mode",
-          placementStatus: "placement_status",
-          previewToken: "preview_token",
-          previewsEnabled: "previews_enabled",
-          propagationPolicy: "propagation_policy",
-          queueName: "queue_name",
-          renamedClasses: "renamed_classes",
-          resultInfo: "result_info",
-          rowsRead: "rows_read",
-          runWorkerFirst: "run_worker_first",
-          scriptName: "script_name",
-          scriptRuntime: "script_runtime",
-          secretName: "secret_name",
-          serveDirectly: "serve_directly",
-          serviceId: "service_id",
-          serviceName: "service_name",
-          startupTimeMs: "startup_time_ms",
-          storeId: "store_id",
-          streamingTailConsumers: "streaming_tail_consumers",
-          tailConsumers: "tail_consumers",
-          tailUrl: "tail_url",
-          totalCount: "total_count",
-          transferredClasses: "transferred_classes",
-          tunnelId: "tunnel_id",
-          usageModel: "usage_model",
-          versionId: "version_id",
-          versionTags: "version_tags",
-          workersDev: "workers_dev",
-          workflowName: "workflow_name",
-          zoneId: "zone_id",
-          zoneName: "zone_name",
-        }),
-      ),
-    ),
-    observability: S.optional(
-      S.Unknown.pipe(
-        T.KeyDictionary({
-          abrLevel: "abr_level",
-          allowedDestinationAddresses: "allowed_destination_addresses",
-          allowedSenderAddresses: "allowed_sender_addresses",
-          appId: "app_id",
-          authorEmail: "author_email",
-          authorId: "author_id",
-          bodyPart: "body_part",
-          bucketName: "bucket_name",
-          bytesRead: "bytes_read",
-          cache: "cache_options",
-          capnpSchema: "capnp_schema",
-          certId: "cert_id",
-          certificateId: "certificate_id",
-          className: "class_name",
-          compatibilityDate: "compatibility_date",
-          compatibilityFlags: "compatibility_flags",
-          contentBase64: "content_base64",
-          contentType: "content_type",
-          cpuMs: "cpu_ms",
-          createdOn: "created_on",
-          crossAccountGrant: "cross_account_grant",
-          crossVersionCache: "cross_version_cache",
-          databaseId: "database_id",
-          defaultUsageModel: "default_usage_model",
-          deletedClasses: "deleted_classes",
-          deliveryDelay: "delivery_delay",
-          destinationAddress: "destination_address",
-          destinationConf: "destination_conf",
-          dispatchNamespace: "dispatch_namespace",
-          documentationUrl: "documentation_url",
-          enableTimer: "enable_timer",
-          entryPoint: "entry_point",
-          environmentIsDefault: "environment_is_default",
-          environmentName: "environment_name",
-          errorMessage: "error_message",
-          exchangeUrl: "exchange_url",
-          expiresAt: "expires_at",
-          fromScript: "from_script",
-          greenCompute: "green_compute",
-          hasAssets: "has_assets",
-          hasModules: "has_modules",
-          headSamplingRate: "head_sampling_rate",
-          htmlHandling: "html_handling",
-          indexName: "index_name",
-          instanceName: "instance_name",
-          invocationLogs: "invocation_logs",
-          keepAssets: "keep_assets",
-          keepBindings: "keep_bindings",
-          keyBase64: "key_base64",
-          keyJwk: "key_jwk",
-          lastAnalyzedAt: "last_analyzed_at",
-          lastComplete: "last_complete",
-          lastDeployedFrom: "last_deployed_from",
-          lastError: "last_error",
-          mainModule: "main_module",
-          migrationTag: "migration_tag",
-          minimalMode: "minimal_mode",
-          mitigationTimeout: "mitigation_timeout",
-          modifiedOn: "modified_on",
-          namedHandlers: "named_handlers",
-          namespaceId: "namespace_id",
-          networkId: "network_id",
-          newClasses: "new_classes",
-          newSqliteClasses: "new_sqlite_classes",
-          newTag: "new_tag",
-          notFoundHandling: "not_found_handling",
-          oldName: "old_name",
-          oldTag: "old_tag",
-          perPage: "per_page",
-          placementMode: "placement_mode",
-          placementStatus: "placement_status",
-          previewToken: "preview_token",
-          previewsEnabled: "previews_enabled",
-          propagationPolicy: "propagation_policy",
-          queueName: "queue_name",
-          renamedClasses: "renamed_classes",
-          resultInfo: "result_info",
-          rowsRead: "rows_read",
-          runWorkerFirst: "run_worker_first",
-          scriptName: "script_name",
-          scriptRuntime: "script_runtime",
-          secretName: "secret_name",
-          serveDirectly: "serve_directly",
-          serviceId: "service_id",
-          serviceName: "service_name",
-          startupTimeMs: "startup_time_ms",
-          storeId: "store_id",
-          streamingTailConsumers: "streaming_tail_consumers",
-          tailConsumers: "tail_consumers",
-          tailUrl: "tail_url",
-          totalCount: "total_count",
-          transferredClasses: "transferred_classes",
-          tunnelId: "tunnel_id",
-          usageModel: "usage_model",
-          versionId: "version_id",
-          versionTags: "version_tags",
-          workersDev: "workers_dev",
-          workflowName: "workflow_name",
-          zoneId: "zone_id",
-          zoneName: "zone_name",
-        }),
-      ),
-    ),
-    placement: S.optional(
-      S.Unknown.pipe(
-        T.KeyDictionary({
-          abrLevel: "abr_level",
-          allowedDestinationAddresses: "allowed_destination_addresses",
-          allowedSenderAddresses: "allowed_sender_addresses",
-          appId: "app_id",
-          authorEmail: "author_email",
-          authorId: "author_id",
-          bodyPart: "body_part",
-          bucketName: "bucket_name",
-          bytesRead: "bytes_read",
-          cache: "cache_options",
-          capnpSchema: "capnp_schema",
-          certId: "cert_id",
-          certificateId: "certificate_id",
-          className: "class_name",
-          compatibilityDate: "compatibility_date",
-          compatibilityFlags: "compatibility_flags",
-          contentBase64: "content_base64",
-          contentType: "content_type",
-          cpuMs: "cpu_ms",
-          createdOn: "created_on",
-          crossAccountGrant: "cross_account_grant",
-          crossVersionCache: "cross_version_cache",
-          databaseId: "database_id",
-          defaultUsageModel: "default_usage_model",
-          deletedClasses: "deleted_classes",
-          deliveryDelay: "delivery_delay",
-          destinationAddress: "destination_address",
-          destinationConf: "destination_conf",
-          dispatchNamespace: "dispatch_namespace",
-          documentationUrl: "documentation_url",
-          enableTimer: "enable_timer",
-          entryPoint: "entry_point",
-          environmentIsDefault: "environment_is_default",
-          environmentName: "environment_name",
-          errorMessage: "error_message",
-          exchangeUrl: "exchange_url",
-          expiresAt: "expires_at",
-          fromScript: "from_script",
-          greenCompute: "green_compute",
-          hasAssets: "has_assets",
-          hasModules: "has_modules",
-          headSamplingRate: "head_sampling_rate",
-          htmlHandling: "html_handling",
-          indexName: "index_name",
-          instanceName: "instance_name",
-          invocationLogs: "invocation_logs",
-          keepAssets: "keep_assets",
-          keepBindings: "keep_bindings",
-          keyBase64: "key_base64",
-          keyJwk: "key_jwk",
-          lastAnalyzedAt: "last_analyzed_at",
-          lastComplete: "last_complete",
-          lastDeployedFrom: "last_deployed_from",
-          lastError: "last_error",
-          mainModule: "main_module",
-          migrationTag: "migration_tag",
-          minimalMode: "minimal_mode",
-          mitigationTimeout: "mitigation_timeout",
-          modifiedOn: "modified_on",
-          namedHandlers: "named_handlers",
-          namespaceId: "namespace_id",
-          networkId: "network_id",
-          newClasses: "new_classes",
-          newSqliteClasses: "new_sqlite_classes",
-          newTag: "new_tag",
-          notFoundHandling: "not_found_handling",
-          oldName: "old_name",
-          oldTag: "old_tag",
-          perPage: "per_page",
-          placementMode: "placement_mode",
-          placementStatus: "placement_status",
-          previewToken: "preview_token",
-          previewsEnabled: "previews_enabled",
-          propagationPolicy: "propagation_policy",
-          queueName: "queue_name",
-          renamedClasses: "renamed_classes",
-          resultInfo: "result_info",
-          rowsRead: "rows_read",
-          runWorkerFirst: "run_worker_first",
-          scriptName: "script_name",
-          scriptRuntime: "script_runtime",
-          secretName: "secret_name",
-          serveDirectly: "serve_directly",
-          serviceId: "service_id",
-          serviceName: "service_name",
-          startupTimeMs: "startup_time_ms",
-          storeId: "store_id",
-          streamingTailConsumers: "streaming_tail_consumers",
-          tailConsumers: "tail_consumers",
-          tailUrl: "tail_url",
-          totalCount: "total_count",
-          transferredClasses: "transferred_classes",
-          tunnelId: "tunnel_id",
-          usageModel: "usage_model",
-          versionId: "version_id",
-          versionTags: "version_tags",
-          workersDev: "workers_dev",
-          workflowName: "workflow_name",
-          zoneId: "zone_id",
-          zoneName: "zone_name",
-        }),
-      ),
-    ),
+    migrations: S.optional(PutDispatchNamespaceScriptMetadataMigrations),
+    observability: S.optional(PutDispatchNamespaceScriptMetadataObservability),
+    placement: S.optional(PutDispatchNamespaceScriptMetadataPlacement),
     tags: S.optional(PutDispatchNamespaceScriptMetadataStringList),
     tailConsumers: S.optional(
-      S.Unknown.pipe(
+      S.NullOr(PutDispatchNamespaceScriptMetadataTailConsumersList).pipe(
         T.Body("tail_consumers"),
-        T.KeyDictionary({
-          abrLevel: "abr_level",
-          allowedDestinationAddresses: "allowed_destination_addresses",
-          allowedSenderAddresses: "allowed_sender_addresses",
-          appId: "app_id",
-          authorEmail: "author_email",
-          authorId: "author_id",
-          bodyPart: "body_part",
-          bucketName: "bucket_name",
-          bytesRead: "bytes_read",
-          cache: "cache_options",
-          capnpSchema: "capnp_schema",
-          certId: "cert_id",
-          certificateId: "certificate_id",
-          className: "class_name",
-          compatibilityDate: "compatibility_date",
-          compatibilityFlags: "compatibility_flags",
-          contentBase64: "content_base64",
-          contentType: "content_type",
-          cpuMs: "cpu_ms",
-          createdOn: "created_on",
-          crossAccountGrant: "cross_account_grant",
-          crossVersionCache: "cross_version_cache",
-          databaseId: "database_id",
-          defaultUsageModel: "default_usage_model",
-          deletedClasses: "deleted_classes",
-          deliveryDelay: "delivery_delay",
-          destinationAddress: "destination_address",
-          destinationConf: "destination_conf",
-          dispatchNamespace: "dispatch_namespace",
-          documentationUrl: "documentation_url",
-          enableTimer: "enable_timer",
-          entryPoint: "entry_point",
-          environmentIsDefault: "environment_is_default",
-          environmentName: "environment_name",
-          errorMessage: "error_message",
-          exchangeUrl: "exchange_url",
-          expiresAt: "expires_at",
-          fromScript: "from_script",
-          greenCompute: "green_compute",
-          hasAssets: "has_assets",
-          hasModules: "has_modules",
-          headSamplingRate: "head_sampling_rate",
-          htmlHandling: "html_handling",
-          indexName: "index_name",
-          instanceName: "instance_name",
-          invocationLogs: "invocation_logs",
-          keepAssets: "keep_assets",
-          keepBindings: "keep_bindings",
-          keyBase64: "key_base64",
-          keyJwk: "key_jwk",
-          lastAnalyzedAt: "last_analyzed_at",
-          lastComplete: "last_complete",
-          lastDeployedFrom: "last_deployed_from",
-          lastError: "last_error",
-          mainModule: "main_module",
-          migrationTag: "migration_tag",
-          minimalMode: "minimal_mode",
-          mitigationTimeout: "mitigation_timeout",
-          modifiedOn: "modified_on",
-          namedHandlers: "named_handlers",
-          namespaceId: "namespace_id",
-          networkId: "network_id",
-          newClasses: "new_classes",
-          newSqliteClasses: "new_sqlite_classes",
-          newTag: "new_tag",
-          notFoundHandling: "not_found_handling",
-          oldName: "old_name",
-          oldTag: "old_tag",
-          perPage: "per_page",
-          placementMode: "placement_mode",
-          placementStatus: "placement_status",
-          previewToken: "preview_token",
-          previewsEnabled: "previews_enabled",
-          propagationPolicy: "propagation_policy",
-          queueName: "queue_name",
-          renamedClasses: "renamed_classes",
-          resultInfo: "result_info",
-          rowsRead: "rows_read",
-          runWorkerFirst: "run_worker_first",
-          scriptName: "script_name",
-          scriptRuntime: "script_runtime",
-          secretName: "secret_name",
-          serveDirectly: "serve_directly",
-          serviceId: "service_id",
-          serviceName: "service_name",
-          startupTimeMs: "startup_time_ms",
-          storeId: "store_id",
-          streamingTailConsumers: "streaming_tail_consumers",
-          tailConsumers: "tail_consumers",
-          tailUrl: "tail_url",
-          totalCount: "total_count",
-          transferredClasses: "transferred_classes",
-          tunnelId: "tunnel_id",
-          usageModel: "usage_model",
-          versionId: "version_id",
-          versionTags: "version_tags",
-          workersDev: "workers_dev",
-          workflowName: "workflow_name",
-          zoneId: "zone_id",
-          zoneName: "zone_name",
-        }),
       ),
     ),
-    usageModel: S.optional(S.String.pipe(T.Body("usage_model"))),
+    usageModel: S.optional(
+      PutDispatchNamespaceScriptMetadataUsageModel.pipe(T.Body("usage_model")),
+    ),
+    cacheOptions: S.optional(
+      PutDispatchNamespaceScriptMetadataCache.pipe(T.Body("cache_options")),
+    ),
+    streamingTailConsumers: S.optional(
+      S.NullOr(
+        PutDispatchNamespaceScriptMetadataStreamingTailConsumersList,
+      ).pipe(T.Body("streaming_tail_consumers")),
+    ),
   }),
 ).annotate({
   identifier: "PutDispatchNamespaceScriptMetadata",

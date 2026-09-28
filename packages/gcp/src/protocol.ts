@@ -276,9 +276,12 @@ const decode = ({
       //    message-or-status matcher (e.g. IAM ServiceAccountQuotaExceeded)
       //    has to win over the generic HTTP_STATUS_MAP class, or quota
       //    lands as UnknownGCPError / TooManyRequests with no catchable tag.
-      const typed = matchTypedError(errors, status, [
-        { code: envelope.code, message },
-      ]);
+      const typed = matchTypedError(
+        errors,
+        status,
+        [{ code: envelope.code, message }],
+        { body: nonJson ? text : json, headers },
+      );
       if (typed !== undefined) {
         return yield* fail(tackEnvelope(typed, envelope));
       }

@@ -576,7 +576,10 @@ const decode = ({
       const message =
         stripeErrorMessage(errorBody) ??
         (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
-      const typed = matchTypedError(errorClasses, status, [{ message }]);
+      const typed = matchTypedError(errorClasses, status, [{ message }], {
+        body: nonJson ? text : json,
+        headers,
+      });
       if (typed !== undefined) return yield* fail(typed);
       return yield* fail(matchStripeError(status, errorBody, headers));
     }

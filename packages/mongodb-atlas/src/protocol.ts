@@ -167,7 +167,10 @@ const decode = ({
         (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
 
       // 1. Per-operation typed error (matcher metadata on the class).
-      const typed = matchTypedError(errorClasses, status, [{ message }]);
+      const typed = matchTypedError(errorClasses, status, [{ message }], {
+        body: nonJson ? text : json,
+        headers,
+      });
       if (typed !== undefined) return yield* fail(typed);
 
       // 2. Status-mapped class (retryAfter only stamps on retryable

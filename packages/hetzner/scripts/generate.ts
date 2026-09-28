@@ -18,7 +18,7 @@
  * docs, CLI and Terraform provider use, so there is no memberName mapping.
  * Module files are named after the tag slug (`floating_ip_actions.ts`) while
  * the barrel exports them camelCased
- * (`Services.floatingIpActions.assignFloatingIp`).
+ * (`floatingIpActions.assignFloatingIp`).
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";

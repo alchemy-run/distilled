@@ -59,3 +59,37 @@ The real fix is to mirror the one file we consume into
 `alchemy-run/distilled-spec-github`, the pattern `neon` / `gcp` / `supabase`
 already use, which removes the sharp edge entirely. Tracked in
 [`todo.md`](../../todo.md).
+
+
+## Usage
+
+## Installation
+
+```bash
+npm install @distilled.cloud/github effect
+```
+
+## Quick start
+
+```ts
+import { Effect, Layer } from "effect";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as Github from "@distilled.cloud/github";
+
+const program = Effect.gen(function* () {
+  const result = yield* Github.repos.get({ owner: "acme", repo: "api" });
+  return result;
+});
+
+const Live = Layer.mergeAll(
+  FetchHttpClient.layer,
+  Github.CredentialsFromEnv,
+  Github.GithubProtocol,
+);
+
+program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Auth
+
+Required: `GH_TOKEN`, `GITHUB_TOKEN`. Optional: `GITHUB_API_URL`, `GITHUB_USER_AGENT`. Sent as `Authorization: Bearer`.

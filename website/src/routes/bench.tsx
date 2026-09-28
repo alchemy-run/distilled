@@ -89,7 +89,7 @@ export default function Bench() {
           <li>
             <strong>Runtime.</strong> The <code>HttpClient</code> is replaced by
             one that returns a canned response, so what remains is the SDK's own
-            work: schema encode, request build (including SigV4 for AWS),
+            work: schema encode, request build (including signing for AWS),
             response parse, envelope decode, retry wrapper. Numbers are per
             call, measured with{" "}
             <a href="https://github.com/evanwashere/mitata" rel="noopener">

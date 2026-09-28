@@ -54,6 +54,37 @@ const spec: SdkSpec = {
   },
 };
 
+describe("operation protocol overrides", () => {
+  for (const retry of [undefined, "Retry.Retry"]) {
+    for (const overridden of [false, true]) {
+      test(`${overridden ? "overridden" : "default"} protocol with ${retry ? "configured" : "disabled"} retries`, () => {
+        const { code } = generateService(primitiveUnionModel("enum", false), {
+          ...spec,
+          operationDecl: {
+            contextType: "ExampleContext",
+            commonErrorType: "ExampleError",
+            commonErrorClasses: [],
+            protocol: "ExampleProtocol",
+            retry,
+            overrides: () =>
+              overridden
+                ? { contextType: "PublicContext", protocol: "PublicProtocol" }
+                : undefined,
+          },
+        });
+        expect(code).toContain(
+          `  protocol: ${overridden ? "PublicProtocol" : "ExampleProtocol"},`,
+        );
+        expect(code).toContain(
+          `  ${overridden ? "PublicContext" : "ExampleContext"}\n>`,
+        );
+        if (retry) expect(code).toContain(`  retry: ${retry},`);
+        else expect(code).not.toContain("  retry:");
+      });
+    }
+  }
+});
+
 describe("primitive union generation", () => {
   for (const kind of ["enum", "intEnum"] as const) {
     for (const request of [false, true]) {

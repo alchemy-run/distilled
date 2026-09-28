@@ -15,4 +15,4 @@ export {
 } from "./protocol.ts";
 export { cloudflarePaginate, ResultInfo } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";

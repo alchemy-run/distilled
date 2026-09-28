@@ -1277,6 +1277,12 @@
         },
         "egress": {
           "target": "smithy.api#Boolean"
+        },
+        "network": {
+          "target": "com.flyio.machines#IPAssignmentNetwork",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -1364,6 +1370,9 @@
         },
         {
           "target": "com.flyio.machines#Conflict"
+        },
+        {
+          "target": "com.flyio.machines#NetworkNotFound"
         }
       ],
       "traits": {
@@ -11108,6 +11117,12 @@
         },
         "shared": {
           "target": "smithy.api#Boolean"
+        },
+        "network": {
+          "target": "com.flyio.machines#IPAssignmentNetwork",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -11123,6 +11138,42 @@
         }
       },
       "traits": {}
+    },
+    "com.flyio.machines#IPAssignmentNetwork": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Private network name; empty for the organization's default network."
+          }
+        },
+        "org_slug": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Private network a Flycast (private_v6) address is reachable from. Null for public addresses."
+      }
+    },
+    "com.flyio.machines#NetworkNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "network not found"
+            }
+          }
+        ]
+      }
     },
     "com.flyio.machines#FlyMachineServiceAutostopMode": {
       "type": "enum",

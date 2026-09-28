@@ -13,7 +13,7 @@
  * ```ts
  * import * as Forgejo from "@distilled.cloud/forgejo";
  *
- * const repo = yield* Forgejo.Services.repository.repoGet({
+ * const repo = yield* Forgejo.repository.repoGet({
  *   owner: "acme",
  *   repo: "api",
  * });
@@ -28,4 +28,4 @@ export {
   type ForgejoOpContext,
 } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * as Services from "./services/index.ts";
+export * from "./services/index.ts";
