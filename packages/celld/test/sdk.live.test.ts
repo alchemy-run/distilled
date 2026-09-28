@@ -61,7 +61,7 @@ const signed = <T extends object>(schema: Schema.Top, input: T) =>
   });
 
 test.skipIf(!endpoint)(
-  "generated operations against the disposable Celld v0.5.0 fixture",
+  "generated operations against the disposable Celld v0.6.0 fixture",
   () => {
     if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(endpoint!))
       throw new Error("Use only the disposable loopback node");
@@ -69,6 +69,11 @@ test.skipIf(!endpoint)(
       Effect.gen(function* () {
         const state = yield* Node.getNodeState({});
         expect(state.deployment?.version).toBeDefined();
+        expect(
+          state.deployment?.isolates.stateless.live,
+        ).toBeGreaterThanOrEqual(0);
+        expect(state.allocator).not.toBeUndefined();
+        expect(state.libc_malloc).not.toBeUndefined();
         expect((yield* Node.pauseRebalancing({})).rebalance_paused).toBe(true);
         expect((yield* Node.resumeRebalancing({})).rebalance_paused).toBe(
           false,

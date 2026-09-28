@@ -70,6 +70,74 @@ describe("generated Celld SDK", () => {
       }),
     ));
 
+  test("decodes v0.6.0 allocator and deployment isolate census fields", () => {
+    const pool: Node.PoolCensus = {
+      live: 2,
+      live_empty: 1,
+      retiring: 0,
+      freed: 3,
+      cells: 1,
+      requests: 0,
+      turns: 0,
+      heap_bytes: 4096,
+      external_bytes: 1024,
+    };
+    const isolates = {
+      stateless: pool,
+      services: { api: pool },
+      cells: { worker: pool },
+    };
+    const state: Node.NodeState = {
+      allocator: {
+        allocated_bytes: 1024,
+        active_bytes: 2048,
+        resident_bytes: 4096,
+        mapped_bytes: 8192,
+        retained_bytes: 512,
+      },
+      libc_malloc: {
+        in_use_bytes: 1024,
+        free_bytes: 512,
+        mmap_bytes: 4096,
+        arena_bytes: 8192,
+      },
+      deployment: {
+        generation: 2,
+        version: "current",
+        prefix: "deploy/test/current",
+        draining: [{ generation: 1, version: "previous", isolates }],
+        swapping: 0,
+        cells: {},
+        isolates,
+      },
+    };
+    expect(
+      Schema.decodeUnknownSync(Schema.toType(Node.NodeState))(state),
+    ).toEqual(state);
+    return run(
+      Node.getNodeState({}).pipe(
+        Effect.tap((response) =>
+          Effect.sync(() => expect(response).toEqual(state)),
+        ),
+      ),
+      mock(() => Response.json(state)),
+    );
+  });
+
+  test("permits unavailable allocator and cgroup counters and stopped actors", () => {
+    const decode = Schema.decodeUnknownSync(Schema.toType(Node.NodeState));
+    const unavailable = {
+      allocator: null,
+      libc_malloc: null,
+      cgroup_current_bytes: null,
+      cgroup_working_set_bytes: null,
+    };
+    expect(decode(unavailable)).toEqual(unavailable);
+    expect(decode({ error: "actor_stopped" })).toEqual({
+      error: "actor_stopped",
+    });
+  });
+
   test("resolves the endpoint on each call rather than caching the first endpoint", () => {
     const urls: string[] = [];
     return run(
@@ -104,6 +172,7 @@ describe("generated Celld SDK", () => {
           peer.peer_body_sha256,
         );
         expect(request.headers["x-cells-peer-target"]).toBe("node-test");
+        expect(request.headers["x-cells-peer-version"]).toBe("5");
         expect(bodyOf(request)).toEqual({
           op: "put",
           key: "test",
@@ -268,6 +337,78 @@ describe("generated Celld SDK", () => {
       mock(() => new Response("this node publishes no lease", { status: 409 })),
     ));
 
+  for (const [kind, reason, status, tag] of [
+    ["refused", "node_unavailable", 503, "EvictionRefused"],
+    ["refused", "cell_active", 409, "EvictionRefused"],
+    ["refused", "cell_transitioning", 409, "EvictionRefused"],
+    ["refused", "alarm_imminent", 409, "EvictionRefused"],
+    ["refused", "alarm_uncovered", 409, "EvictionRefused"],
+    ["refused", "eviction_limit", 503, "EvictionRefused"],
+    ["cancelled", "new_activity", 409, "EvictionCancelled"],
+    ["cancelled", "alarm_activity", 409, "EvictionCancelled"],
+    ["cancelled", "node_fenced", 409, "EvictionCancelled"],
+    ["failed", "durability_failed", 500, "EvictionFailed"],
+    ["failed", "durability_timeout", 500, "EvictionFailed"],
+    ["failed", "runtime_stop_failed", 500, "EvictionFailed"],
+    ["failed", "actor_unavailable", 503, "EvictionFailed"],
+    ["failed", "reply_lost", 500, "EvictionFailed"],
+  ] as const) {
+    test(`decodes eviction ${kind}: ${reason} without retrying`, () => {
+      let calls = 0;
+      return run(
+        Node.evictCell({ scope: "Example:abc" }).pipe(
+          Effect.result,
+          Effect.tap((result) =>
+            Effect.sync(() => {
+              expect(calls).toBe(1);
+              expect(Result.isFailure(result)).toBe(true);
+              if (Result.isFailure(result)) {
+                expect(result.failure._tag).toBe(tag);
+                expect(result.failure.message).toBe(`${kind}: ${reason}`);
+              }
+            }),
+          ),
+        ),
+        mock(() => {
+          calls++;
+          return Response.json(
+            { ok: false, error: { kind, reason } },
+            { status },
+          );
+        }),
+      );
+    });
+  }
+
+  test("keeps unstructured service failures distinct from eviction failures", () =>
+    run(
+      Node.evictCell({ scope: "Example:abc" }).pipe(
+        Effect.result,
+        Effect.tap((result) =>
+          Effect.sync(() => {
+            expect(Result.isFailure(result)).toBe(true);
+            if (Result.isFailure(result))
+              expect(result.failure._tag).toBe("ServiceUnavailable");
+          }),
+        ),
+      ),
+      mock(() => new Response("proxy unavailable", { status: 503 })),
+    ));
+
+  test("accepts completed and already-absent evictions", () =>
+    run(
+      Node.evictCell({ scope: "Example:abc" }).pipe(
+        Effect.tap((response) =>
+          Effect.sync(() => expect(response.ok).toBe(true)),
+        ),
+      ),
+      mock((request) => {
+        expect(request.method).toBe("POST");
+        expect(request.url).toBe("https://celld.test/evict/Example:abc");
+        return Response.json({ ok: true });
+      }),
+    ));
+
   test("decodes a failed reload's actual 422 response", () =>
     run(
       Node.reloadDeployment({}).pipe(
@@ -301,6 +442,7 @@ describe("generated Celld SDK", () => {
     expect(decode(true)).toBe(true);
     expect(decode(false)).toBe(false);
     expect(decode(["/api/*"])).toEqual(["/api/*"]);
+    expect(decode(["/"])).toEqual(["/"]);
     for (const invalid of [42, {}, [false], ["/api/*", 1]]) {
       expect(() => decode(invalid)).toThrow();
       expect(() =>
@@ -346,9 +488,17 @@ describe("generated Celld SDK", () => {
     expect(Node.QueueConsumerAttachment).toBeDefined();
   });
 
-  test("retains v0.5.0 provenance and all fifteen operator body variants", () => {
+  test("retains v0.6.0 provenance and all fifteen operator body variants", () => {
+    expect(nodeSpec.metadata.celld.version).toBe("0.6.0");
+    expect(nodeSpec.shapes["com.celld.node#Celld"].version).toBe("0.6.0");
+    expect(runtimeSpec.shapes["com.celld.runtime#Runtime"].version).toBe(
+      "0.6.0",
+    );
+    expect(runtimeSpec.metadata.source.paths).toContain(
+      "crates/celld/js/services/kv.js",
+    );
     expect(nodeSpec.metadata.celld.revision).toBe(
-      "12d5b6333fe52717325addcfe1e99e9fd4f77bcd",
+      "bad4649d01f0db84cdc9093527e72e64ca7a14bf",
     );
     expect(runtimeSpec.metadata.source.revision).toBe(
       nodeSpec.metadata.celld.revision,

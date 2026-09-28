@@ -2,15 +2,19 @@
   "smithy": "2.0",
   "metadata": {
     "celld": {
-      "version": "0.5.0",
+      "version": "0.6.0",
       "repository": "https://github.com/denoland/celld",
-      "revision": "12d5b6333fe52717325addcfe1e99e9fd4f77bcd",
+      "revision": "bad4649d01f0db84cdc9093527e72e64ca7a14bf",
       "sourceDerived": true,
       "sources": {
-        "crates/celld/main.rs": "d7fa87db3b6213dc7fb1ad86b81f124c8e786d8e17d2555a4760d59766c91123",
-        "crates/celld/actor.rs": "d3850b358fd9965124a02aca127bd2c134a5f91129a0f867aec7b6db8365af14",
+        "crates/celld/main.rs": "df060c326f96496a7d0ef66097a74780ea93f7ca09fa9cde4834dd7e87c63337",
+        "crates/celld/actor.rs": "70f90595d68fde6e06efad38fea5d72ea1f14d0371d47a0a59d34014efc90362",
         "crates/celld/protocol.rs": "cbcb469eeedda0bf932d2c8523910d6b72f4d58c3b5c15ab894f8fe5d9263704",
-        "crates/celld/container.rs": "f901db47ff4de3dbae348bac49faa6d7b220cfd235319092f89911bf7f92935e"
+        "crates/celld/container.rs": "f901db47ff4de3dbae348bac49faa6d7b220cfd235319092f89911bf7f92935e",
+        "crates/celld/memory.rs": "fc03f9dc96d7c4f8dc0d28ce136c771ef149458c7ac98a847dd0bb3b42052377",
+        "crates/celld/generation.rs": "dc06800ceeb9a6a50abe83b92c731f6cafc400b5b4021ba0c782356e01fd9425",
+        "crates/celld/engine_api.rs": "999d0b550576e08dcc518e636db118a23c5c4f1a51077049591d7ec58ce0c68f",
+        "crates/logic/types.rs": "0ce5e71dd0871f4fb4edc40ae02a447c2e653e81a5363ac0d019a3a8bcaa0dbf"
       }
     },
     "extraRoots": [
@@ -87,6 +91,12 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "isolates": {
+          "target": "com.celld.node#IsolateCensus",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       }
     },
@@ -131,6 +141,12 @@
         },
         "cells": {
           "target": "com.celld.node#LongMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isolates": {
+          "target": "com.celld.node#IsolateCensus",
           "traits": {
             "smithy.api#required": {}
           }
@@ -192,10 +208,16 @@
           "target": "smithy.api#Long"
         },
         "cgroup_current_bytes": {
-          "target": "smithy.api#Long"
+          "target": "smithy.api#Long",
+          "traits": {
+            "com.distilled.openapi#nullable": true
+          }
         },
         "cgroup_working_set_bytes": {
-          "target": "smithy.api#Long"
+          "target": "smithy.api#Long",
+          "traits": {
+            "com.distilled.openapi#nullable": true
+          }
         },
         "in_use_bytes": {
           "target": "smithy.api#Long"
@@ -229,6 +251,18 @@
         },
         "error": {
           "target": "smithy.api#String"
+        },
+        "allocator": {
+          "target": "com.celld.node#AllocatorStats",
+          "traits": {
+            "com.distilled.openapi#nullable": true
+          }
+        },
+        "libc_malloc": {
+          "target": "com.celld.node#LibcMallocStats",
+          "traits": {
+            "com.distilled.openapi#nullable": true
+          }
         }
       },
       "traits": {
@@ -570,6 +604,15 @@
       "errors": [
         {
           "target": "com.celld.node#MalformedScope"
+        },
+        {
+          "target": "com.celld.node#EvictionRefused"
+        },
+        {
+          "target": "com.celld.node#EvictionCancelled"
+        },
+        {
+          "target": "com.celld.node#EvictionFailed"
         }
       ],
       "traits": {
@@ -577,7 +620,8 @@
           "method": "POST",
           "uri": "/evict/{scope}",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Wait for cell eviction to complete. Refusal or cancellation returns 409, unavailable admission or actor returns 503, and other failures return 500. Failure bodies contain {ok:false,error:{kind,reason}}. Use only a trusted internal listener."
       }
     },
     "com.celld.node#ModuleKind": {
@@ -972,7 +1016,7 @@
     },
     "com.celld.node#Celld": {
       "type": "service",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "operations": [
         {
           "target": "com.celld.node#GetNodeState"
@@ -996,6 +1040,254 @@
           "target": "com.celld.node#EvictCell"
         }
       ]
+    },
+    "com.celld.node#AllocatorStats": {
+      "type": "structure",
+      "members": {
+        "allocated_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "active_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "resident_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "mapped_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "retained_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Jemalloc memory counters from the node snapshot, in bytes."
+      }
+    },
+    "com.celld.node#LibcMallocStats": {
+      "type": "structure",
+      "members": {
+        "in_use_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "free_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "mmap_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arena_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "System allocator memory counters, in bytes. The node reports null when unavailable."
+      }
+    },
+    "com.celld.node#PoolCensus": {
+      "type": "structure",
+      "members": {
+        "live": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "live_empty": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "retiring": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "freed": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cells": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "requests": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "turns": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "heap_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "external_bytes": {
+          "target": "smithy.api#Long",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Isolate pool census. heap_bytes and external_bytes sample isolates not held by a turn."
+      }
+    },
+    "com.celld.node#PoolCensuses": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.celld.node#PoolCensus"
+      }
+    },
+    "com.celld.node#IsolateCensus": {
+      "type": "structure",
+      "members": {
+        "stateless": {
+          "target": "com.celld.node#PoolCensus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "services": {
+          "target": "com.celld.node#PoolCensuses",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cells": {
+          "target": "com.celld.node#PoolCensuses",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current or draining deployment isolate pools, keyed by service or Worker script."
+      }
+    },
+    "com.celld.node#EvictionRefused": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Eviction was refused before admission. The message preserves refused: <reason> from the node error envelope.",
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409,
+            "message": {
+              "matches": "^refused: "
+            }
+          },
+          {
+            "status": 503,
+            "message": {
+              "matches": "^refused: "
+            }
+          }
+        ]
+      }
+    },
+    "com.celld.node#EvictionCancelled": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An accepted eviction was interrupted by activity, an alarm, or node fencing. The message preserves cancelled: <reason>.",
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409,
+            "message": {
+              "matches": "^cancelled: "
+            }
+          }
+        ]
+      }
+    },
+    "com.celld.node#EvictionFailed": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Eviction completion could not be established. The message preserves failed: <reason>; this does not authorize automatic replay.",
+        "smithy.api#error": "server",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 500,
+            "message": {
+              "matches": "^failed: "
+            }
+          },
+          {
+            "status": 503,
+            "message": {
+              "matches": "^failed: "
+            }
+          }
+        ]
+      }
     }
   }
 }

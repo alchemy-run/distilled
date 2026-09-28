@@ -3,14 +3,15 @@
   "metadata": {
     "source": {
       "repository": "https://github.com/denoland/celld",
-      "revision": "12d5b6333fe52717325addcfe1e99e9fd4f77bcd",
+      "revision": "bad4649d01f0db84cdc9093527e72e64ca7a14bf",
       "paths": [
         "crates/celld/peer_auth.rs",
         "crates/celld/operator_cell.rs",
         "crates/celld/d1_cli.rs",
         "crates/celld/kv_cli.rs",
         "crates/celld/queue_cli.rs",
-        "crates/celld/js/harness.js"
+        "crates/celld/js/harness.js",
+        "crates/celld/js/services/kv.js"
       ]
     },
     "limitations": [
@@ -24,7 +25,7 @@
   "shapes": {
     "com.celld.runtime#Runtime": {
       "type": "service",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "traits": {
         "smithy.api#documentation": "Reserved D1, KV and Queue operator requests. All operations use POST /runtime/{scope}; the reserved scope and JSON body select the operation. Peer authentication protocol version is 5."
       },

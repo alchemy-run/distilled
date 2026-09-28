@@ -1,6 +1,6 @@
 # @distilled.cloud/celld
 
-Effect SDK generated from a source-derived Smithy description of Celld v0.5.0.
+Effect SDK generated from a source-derived Smithy description of Celld v0.6.0.
 
 ```ts
 import { getNodeState } from "@distilled.cloud/celld/node";
@@ -24,7 +24,7 @@ listener.
 
 Celld does not publish a machine-readable API description. The models in
 `specs/` describe the implementation at
-[`12d5b6333fe52717325addcfe1e99e9fd4f77bcd`](https://github.com/denoland/celld/tree/12d5b6333fe52717325addcfe1e99e9fd4f77bcd).
+[`bad4649d01f0db84cdc9093527e72e64ca7a14bf`](https://github.com/denoland/celld/tree/bad4649d01f0db84cdc9093527e72e64ca7a14bf).
 These are Distilled-maintained contracts, not an official Celld specification.
 
 ## Scope
@@ -84,18 +84,33 @@ pnpm exec tsc -p packages/celld/tsconfig.test.json
 ```
 
 See [the local integration fixture](test/README.md) to exercise the generated
-clients against a real v0.5.0 server. Live tests skip unless explicitly enabled.
+clients against a real v0.6.0 server. Live tests skip unless explicitly enabled.
 
 ## Compatibility
 
-This package targets v0.5.0, not arbitrary future Celld releases. Celld's
+This package targets v0.6.0, not arbitrary future Celld releases. Celld's
 administrative protocol is alpha. Review upstream route handlers, request/reply
 structures, and authentication rules before changing the pinned contract.
 
+The v0.6.0 update adds allocator and isolate census fields to node state and
+models completed eviction outcomes. `evictCell` can fail with `EvictionRefused`,
+`EvictionCancelled`, or `EvictionFailed`; their messages retain the server's
+`kind: reason`. HTTP 503 alone does not identify an eviction failure. Peer
+signing remains protocol version 5, and deployment manifests, pointers, and
+queue attachments retain their existing object-store formats.
+
+For persistent fleets, upstream requires stopping the entire fleet before
+upgrading from v0.5.1 to v0.6.0 with fleet durability. Bucket durability permits
+a rolling update. S3-backed storage does not imply bucket durability: the node
+defaults to fleet durability. The release notes do not certify a direct
+v0.5.0-to-v0.6.0 rolling upgrade. Existing facets migrate on first open; do not
+discard node storage, recreate the bucket, or rotate the fleet peer secret as
+an upgrade step. This SDK does not orchestrate node upgrades or storage migrations.
+
 Authoritative upstream sources include:
 
-- [`main.rs`](https://github.com/denoland/celld/blob/v0.5.0/crates/celld/main.rs): HTTP routes.
-- [`peer_auth.rs`](https://github.com/denoland/celld/blob/v0.5.0/crates/celld/peer_auth.rs): authentication headers and signing contract.
-- [`operator_cell.rs`](https://github.com/denoland/celld/blob/v0.5.0/crates/celld/operator_cell.rs): reserved-resource operator transport.
-- [`protocol.rs`](https://github.com/denoland/celld/blob/v0.5.0/crates/celld/protocol.rs): deployment artifacts.
-- [`deploy.rs`](https://github.com/denoland/celld/blob/v0.5.0/crates/celld/deploy.rs): deployment normalization and publication.
+- [`main.rs`](https://github.com/denoland/celld/blob/v0.6.0/crates/celld/main.rs): HTTP routes.
+- [`peer_auth.rs`](https://github.com/denoland/celld/blob/v0.6.0/crates/celld/peer_auth.rs): authentication headers and signing contract.
+- [`operator_cell.rs`](https://github.com/denoland/celld/blob/v0.6.0/crates/celld/operator_cell.rs): reserved-resource operator transport.
+- [`protocol.rs`](https://github.com/denoland/celld/blob/v0.6.0/crates/celld/protocol.rs): deployment artifacts.
+- [`deploy.rs`](https://github.com/denoland/celld/blob/v0.6.0/crates/celld/deploy.rs): deployment normalization and publication.
